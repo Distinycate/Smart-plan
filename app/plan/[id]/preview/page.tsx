@@ -141,9 +141,9 @@ export default function PlanPreview() {
             <tr>
               <td style={{ width: '12%', fontWeight: 'bold' }}>ชื่อ-นามสกุล</td>
               <td style={{ width: '28%' }}>{plan.teacherName}</td>
-              <td style={{ width: '10%', fontWeight: 'bold', textAlign: 'center' }}>โรงเรียน</td>
+              <td style={{ width: '10%', fontWeight: 'bold' }}>โรงเรียน</td>
               <td style={{ width: '25%' }}>{plan.schoolName}</td>
-              <td style={{ width: '8%', fontWeight: 'bold', textAlign: 'center' }}>สังกัด</td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>สังกัด</td>
               <td style={{ width: '17%' }}>{plan.organization}</td>
             </tr>
           </tbody>
@@ -153,7 +153,7 @@ export default function PlanPreview() {
             <tr>
               <td style={{ width: '18%', fontWeight: 'bold' }}>กลุ่มสาระการเรียนรู้</td>
               <td style={{ width: '57%' }}>{plan.headerLearningArea}</td>
-              <td style={{ width: '8%', fontWeight: 'bold', textAlign: 'center' }}>ระดับชั้น</td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>ระดับชั้น</td>
               <td style={{ width: '17%' }}>{plan.headerGradeLevel}</td>
             </tr>
           </tbody>
@@ -163,7 +163,7 @@ export default function PlanPreview() {
             <tr>
               <td style={{ width: '18%', fontWeight: 'bold' }}>ชื่อหน่วยการเรียนรู้</td>
               <td style={{ width: '57%' }}>{plan.unitName}</td>
-              <td style={{ width: '8%', fontWeight: 'bold', textAlign: 'center' }}>เวลา</td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>เวลา</td>
               <td style={{ width: '17%' }}>{plan.totalHours} ชั่วโมง</td>
             </tr>
           </tbody>
@@ -173,7 +173,7 @@ export default function PlanPreview() {
             <tr>
               <td style={{ width: '22%', fontWeight: 'bold' }}>แผนการจัดการเรียนรู้ที่</td>
               <td style={{ width: '18%' }}></td>
-              <td style={{ width: '8%', fontWeight: 'bold', textAlign: 'center' }}>เรื่อง</td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>เรื่อง</td>
               <td style={{ width: '52%' }}>{plan.lessonTopic}</td>
             </tr>
           </tbody>

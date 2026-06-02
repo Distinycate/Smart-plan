@@ -185,47 +185,47 @@ export async function GET(
     <div class="doc-title">แผนการจัดการเรียนรู้</div>
 
     <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
-      <tbody>
-        <tr style="height: 22px;">
-          <td style="width: 12%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อ-นามสกุล</td>
-          <td style="width: 28%; padding: 0px; font-size: 16pt;">${cleanVal(plan.teacherName)}</td>
-          <td style="width: 10%; font-weight: bold; text-align: center; padding: 0px; font-size: 16pt;">โรงเรียน</td>
-          <td style="width: 25%; padding: 0px; font-size: 16pt;">${cleanVal(plan.schoolName)}</td>
-          <td style="width: 8%; font-weight: bold; text-align: center; padding: 0px; font-size: 16pt;">สังกัด</td>
-          <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.organization)}</td>
-        </tr>
-      </tbody>
-    </table>
-    <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
-      <tbody>
-        <tr style="height: 22px;">
-          <td style="width: 18%; font-weight: bold; padding: 0px; font-size: 16pt;">กลุ่มสาระการเรียนรู้</td>
-          <td style="width: 57%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerLearningArea)}</td>
-          <td style="width: 8%; font-weight: bold; text-align: center; padding: 0px; font-size: 16pt;">ระดับชั้น</td>
-          <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerGradeLevel)}</td>
-        </tr>
-      </tbody>
-    </table>
-    <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
-      <tbody>
-        <tr style="height: 22px;">
-          <td style="width: 18%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อหน่วยการเรียนรู้</td>
-          <td style="width: 57%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
-          <td style="width: 8%; font-weight: bold; text-align: center; padding: 0px; font-size: 16pt;">เวลา</td>
-          <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
-        </tr>
-      </tbody>
-    </table>
-    <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 15px; line-height: 1.0;">
-      <tbody>
-        <tr style="height: 22px;">
-          <td style="width: 22%; font-weight: bold; padding: 0px; font-size: 16pt;">แผนการจัดการเรียนรู้ที่</td>
-          <td style="width: 18%; padding: 0px; font-size: 16pt;"></td>
-          <td style="width: 8%; font-weight: bold; text-align: center; padding: 0px; font-size: 16pt;">เรื่อง</td>
-          <td style="width: 52%; padding: 0px; font-size: 16pt;">${cleanVal(plan.lessonTopic)}</td>
-        </tr>
-      </tbody>
-    </table>
+       <tbody>
+         <tr style="height: 22px;">
+           <td style="width: 12%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อ-นามสกุล</td>
+           <td style="width: 28%; padding: 0px; font-size: 16pt;">${cleanVal(plan.teacherName)}</td>
+           <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 16pt;">โรงเรียน</td>
+           <td style="width: 25%; padding: 0px; font-size: 16pt;">${cleanVal(plan.schoolName)}</td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">สังกัด</td>
+           <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.organization)}</td>
+         </tr>
+       </tbody>
+     </table>
+     <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
+       <tbody>
+         <tr style="height: 22px;">
+           <td style="width: 18%; font-weight: bold; padding: 0px; font-size: 16pt;">กลุ่มสาระการเรียนรู้</td>
+           <td style="width: 57%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerLearningArea)}</td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">ระดับชั้น</td>
+           <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerGradeLevel)}</td>
+         </tr>
+       </tbody>
+     </table>
+     <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
+       <tbody>
+         <tr style="height: 22px;">
+           <td style="width: 18%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อหน่วยการเรียนรู้</td>
+           <td style="width: 57%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เวลา</td>
+           <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
+         </tr>
+       </tbody>
+     </table>
+     <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 15px; line-height: 1.0;">
+       <tbody>
+         <tr style="height: 22px;">
+           <td style="width: 22%; font-weight: bold; padding: 0px; font-size: 16pt;">แผนการจัดการเรียนรู้ที่</td>
+           <td style="width: 18%; padding: 0px; font-size: 16pt;"></td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เรื่อง</td>
+           <td style="width: 52%; padding: 0px; font-size: 16pt;">${cleanVal(plan.lessonTopic)}</td>
+         </tr>
+       </tbody>
+     </table>
 
     <div class="section">
       <div class="section-title">1. สาระสำคัญ</div>
