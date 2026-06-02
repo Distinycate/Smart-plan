@@ -22,8 +22,8 @@ const renderListWord = (val: any) => {
   
   if (lines.length === 0) return '';
   
-  return `<div style="margin: 4px 0; margin-left: 15pt;">` + lines.map((line, idx) => {
-    return `<div style="text-indent: -15pt; padding-left: 15pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${line}</div>`;
+  return `<div style="margin: 4px 0;">` + lines.map((line, idx) => {
+    return `<div style="margin-left: 35pt; text-indent: -15pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${line}</div>`;
   }).join('') + `</div>`;
 };
 

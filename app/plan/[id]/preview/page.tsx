@@ -515,11 +515,10 @@ export default function PlanPreview() {
         .list-wrapper {
           padding-left: 0;
           margin: 4px 0;
-          margin-left: 0.5cm;
         }
         .list-item {
+          margin-left: 1.25cm;
           text-indent: -0.5cm;
-          padding-left: 0.5cm;
           margin-bottom: 4px;
           text-align: left;
         }
