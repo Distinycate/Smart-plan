@@ -53,7 +53,22 @@ export default function PlanPreview() {
     );
   }
 
+  // Format standard body text paragraph indentation
   const cleanVal = (val: any) => {
+    if (val === undefined || val === null) return '';
+    return String(val)
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .map((line, idx) => (
+        <p key={idx} className="indent-p">
+          {line}
+        </p>
+      ));
+  };
+
+  // Format table cells without indent
+  const cleanTableCellVal = (val: any) => {
     if (val === undefined || val === null) return '';
     return String(val).split('\n').map((line, idx) => (
       <React.Fragment key={idx}>
@@ -61,6 +76,31 @@ export default function PlanPreview() {
         <br />
       </React.Fragment>
     ));
+  };
+
+  // Clean list formatting (e.g. - chips to 1) 2) 3))
+  const renderList = (val: any) => {
+    if (!val) return '';
+    const lines = String(val)
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .map(line => {
+        // remove leading bullet points like -, *, •, or numbers like 1., 1)
+        return line.replace(/^([-*•]|\d+[\s.)])\s*/, '');
+      });
+    
+    if (lines.length === 0) return '';
+    
+    return (
+      <div className="list-wrapper">
+        {lines.map((line, idx) => (
+          <div key={idx} className="list-item">
+            {idx + 1}) {line}
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -85,22 +125,22 @@ export default function PlanPreview() {
         <table className="info-table">
           <tbody>
             <tr>
-              <td style={{ width: '40%' }}><span className="label">ชื่อ-นามสกุล:</span> {plan.teacherName}</td>
-              <td style={{ width: '35%' }}><span className="label">โรงเรียน:</span> {plan.schoolName}</td>
-              <td style={{ width: '25%' }}><span className="label">สังกัด:</span> {plan.organization}</td>
+              <td style={{ width: '40%' }}><span className="label">ชื่อ-นามสกุล</span> <span className="value-dotted">{plan.teacherName}</span></td>
+              <td style={{ width: '35%' }}><span className="label">โรงเรียน</span> <span className="value-dotted">{plan.schoolName}</span></td>
+              <td style={{ width: '25%' }}><span className="label">สังกัด</span> <span className="value-dotted">{plan.organization}</span></td>
             </tr>
             <tr>
-              <td><span className="label">กลุ่มสาระการเรียนรู้:</span> {plan.headerLearningArea}</td>
-              <td colSpan={2}><span className="label">ระดับชั้น:</span> {plan.headerGradeLevel}</td>
+              <td colSpan={2}><span className="label">กลุ่มสาระการเรียนรู้</span> <span className="value-dotted">{plan.headerLearningArea}</span></td>
+              <td><span className="label">ระดับชั้น</span> <span className="value-dotted">{plan.headerGradeLevel}</span></td>
             </tr>
             <tr>
-              <td><span className="label">ชื่อหน่วยการเรียนรู้:</span> {plan.unitName}</td>
-              <td colSpan={2}><span className="label">เวลา:</span> {plan.totalHours} ชั่วโมง</td>
+              <td colSpan={2}><span className="label">ชื่อหน่วยการเรียนรู้</span> <span className="value-dotted">{plan.unitName}</span></td>
+              <td><span className="label">เวลา</span> <span className="value-dotted">{plan.totalHours} ชั่วโมง</span></td>
             </tr>
             <tr>
-              <td><span className="label">แผนการจัดการเรียนรู้ที่:</span> .......</td>
-              <td><span className="label">เรื่อง:</span> {plan.lessonTopic}</td>
-              <td><span className="label">เวลา:</span> {plan.totalHours} ชั่วโมง</td>
+              <td><span className="label">แผนการจัดการเรียนรู้ที่</span> <span className="value-dotted">....................</span></td>
+              <td><span className="label">เรื่อง</span> <span className="value-dotted">{plan.lessonTopic}</span></td>
+              <td><span className="label">เวลา</span> <span className="value-dotted">{plan.totalHours} ชั่วโมง</span></td>
             </tr>
           </tbody>
         </table>
@@ -113,29 +153,29 @@ export default function PlanPreview() {
         <div className="section">
           <div className="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
           <div className="section-content">
-            <p style={{ fontWeight: 'bold', margin: '4px 0' }}>ตัวชี้วัดระหว่างทาง</p>
-            <div style={{ paddingLeft: '15px' }}>{cleanVal(plan.indicatorDuring)}</div>
-            <p style={{ fontWeight: 'bold', margin: '8px 0 4px' }}>ตัวชี้วัดปลายทาง</p>
-            <div style={{ paddingLeft: '15px' }}>{cleanVal(plan.indicatorFinal)}</div>
+            <p style={{ fontWeight: 'bold', margin: '4px 0 2px 0' }}>ตัวชี้วัดระหว่างทาง</p>
+            <div style={{ textIndent: '1.25cm' }}>{cleanTableCellVal(plan.indicatorDuring)}</div>
+            <p style={{ fontWeight: 'bold', margin: '8px 0 2px 0' }}>ตัวชี้วัดปลายทาง</p>
+            <div style={{ textIndent: '1.25cm' }}>{cleanTableCellVal(plan.indicatorFinal)}</div>
           </div>
         </div>
 
         <div className="section">
           <div className="section-title">3. สมรรถนะสำคัญของผู้เรียน</div>
-          <div className="section-content">{cleanVal(plan.competencies)}</div>
+          <div className="section-content-list">{renderList(plan.competencies)}</div>
         </div>
 
         <div className="section">
           <div className="section-title">4. คุณลักษณะอันพึงประสงค์</div>
-          <div className="section-content">{cleanVal(plan.desiredAttributes)}</div>
+          <div className="section-content-list">{renderList(plan.desiredAttributes)}</div>
         </div>
 
         <div className="section">
           <div className="section-title">5. จุดประสงค์การเรียนรู้</div>
           <div className="section-content">
-            <p><span className="label">ด้านความรู้ (K):</span><br />{cleanVal(plan.objectiveK)}</p>
-            <p><span className="label">ด้านทักษะกระบวนการ (P):</span><br />{cleanVal(plan.objectiveP)}</p>
-            <p><span className="label">ด้านคุณลักษณะ (A):</span><br />{cleanVal(plan.objectiveA)}</p>
+            <p><span className="label">ด้านความรู้ (K):</span><br />{cleanTableCellVal(plan.objectiveK)}</p>
+            <p><span className="label">ด้านทักษะกระบวนการ (P):</span><br />{cleanTableCellVal(plan.objectiveP)}</p>
+            <p><span className="label">ด้านคุณลักษณะ (A):</span><br />{cleanTableCellVal(plan.objectiveA)}</p>
           </div>
         </div>
 
@@ -147,8 +187,10 @@ export default function PlanPreview() {
         <div className="section">
           <div className="section-title">7. สื่อและแหล่งการเรียนรู้</div>
           <div className="section-content">
-            <p><span className="label">สื่อการเรียนรู้:</span><br />{cleanVal(plan.learningMedia)}</p>
-            <p><span className="label">แหล่งเรียนรู้:</span><br />{cleanVal(plan.learningSources)}</p>
+            <div className="list-wrapper">
+              <div className="list-item">1) สื่อการเรียนรู้: {plan.learningMedia || '..................................................'}</div>
+              <div className="list-item">2) แหล่งเรียนรู้: {plan.learningSources || '..................................................'}</div>
+            </div>
           </div>
         </div>
 
@@ -170,37 +212,46 @@ export default function PlanPreview() {
             </thead>
             <tbody>
               <tr>
-                <td><strong>ด้านความรู้ (K)</strong><br />{cleanVal(plan.objectiveK)}</td>
-                <td>{cleanVal(plan.methodK)}</td>
-                <td>{cleanVal(plan.toolK)}</td>
-                <td>{cleanVal(plan.criteriaK)}</td>
+                <td><strong>ด้านความรู้ (K)</strong><br />{cleanTableCellVal(plan.objectiveK)}</td>
+                <td>{cleanTableCellVal(plan.methodK)}</td>
+                <td>{cleanTableCellVal(plan.toolK)}</td>
+                <td>{cleanTableCellVal(plan.criteriaK)}</td>
               </tr>
               <tr>
-                <td><strong>ด้านทักษะกระบวนการ (P)</strong><br />{cleanVal(plan.objectiveP)}</td>
-                <td>{cleanVal(plan.methodP)}</td>
-                <td>{cleanVal(plan.toolP)}</td>
-                <td>{cleanVal(plan.criteriaP)}</td>
+                <td><strong>ด้านทักษะกระบวนการ (P)</strong><br />{cleanTableCellVal(plan.objectiveP)}</td>
+                <td>{cleanTableCellVal(plan.methodP)}</td>
+                <td>{cleanTableCellVal(plan.toolP)}</td>
+                <td>{cleanTableCellVal(plan.criteriaP)}</td>
               </tr>
               <tr>
-                <td><strong>ด้านคุณลักษณะ (A)</strong><br />{cleanVal(plan.objectiveA)}</td>
-                <td>{cleanVal(plan.methodA)}</td>
-                <td>{cleanVal(plan.toolA)}</td>
-                <td>{cleanVal(plan.criteriaA)}</td>
+                <td><strong>ด้านคุณลักษณะ (A)</strong><br />{cleanTableCellVal(plan.objectiveA)}</td>
+                <td>{cleanTableCellVal(plan.methodA)}</td>
+                <td>{cleanTableCellVal(plan.toolA)}</td>
+                <td>{cleanTableCellVal(plan.criteriaA)}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div className="section">
+        <div className="section" style={{ pageBreakInside: 'avoid' }}>
           <div className="section-title">10. บันทึกหลังการสอน</div>
           <div className="section-content">
-            <p><span className="label">1) ผลการจัดการเรียนรู้:</span><br />
-               - ด้านความรู้ (K): {cleanVal(plan.resultK)}<br />
-               - ด้านทักษะกระบวนการ (P): {cleanVal(plan.resultP)}<br />
-               - ด้านคุณลักษณะ (A): {cleanVal(plan.resultA)}
-            </p>
-            <p><span className="label">2) ปัญหา/อุปสรรค:</span><br />{cleanVal(plan.problems)}</p>
-            <p><span className="label">3) ข้อเสนอแนะ/แนวทางแก้ไข:</span><br />{cleanVal(plan.solutions)}</p>
+            <div style={{ textIndent: '-0.8cm', paddingLeft: '0.8cm', marginBottom: '6px' }}>
+              1) ผลการจัดการเรียนรู้
+              <div style={{ paddingLeft: '0.8cm', textIndent: '0', marginTop: '3px' }}>
+                - ด้านความรู้ (K): {cleanTableCellVal(plan.resultK)}
+                - ด้านทักษะกระบวนการ (P): {cleanTableCellVal(plan.resultP)}
+                - ด้านคุณลักษณะ (A): {cleanTableCellVal(plan.resultA)}
+              </div>
+            </div>
+            <div style={{ textIndent: '-0.8cm', paddingLeft: '0.8cm', marginBottom: '6px' }}>
+              2) ปัญหา/อุปสรรค<br />
+              <div style={{ paddingLeft: '0.8cm', textIndent: '0', marginTop: '3px' }}>{cleanTableCellVal(plan.problems)}</div>
+            </div>
+            <div style={{ textIndent: '-0.8cm', paddingLeft: '0.8cm', marginBottom: '6px' }}>
+              3) ข้อเสนอแนะ/แนวทางแก้ไข<br />
+              <div style={{ paddingLeft: '0.8cm', textIndent: '0', marginTop: '3px' }}>{cleanTableCellVal(plan.solutions)}</div>
+            </div>
           </div>
         </div>
 
@@ -327,8 +378,8 @@ export default function PlanPreview() {
           box-shadow: 0 0 15px rgba(0,0,0,0.5);
           box-sizing: border-box;
           color: #000;
-          line-height: 1.45;
-          font-size: 15.5pt;
+          line-height: 1.25;
+          font-size: 16pt;
         }
         .doc-title {
           text-align: center;
@@ -343,32 +394,58 @@ export default function PlanPreview() {
         }
         .info-table td {
           padding: 4px 0;
-          font-size: 15pt;
+          font-size: 16pt;
           vertical-align: middle;
           border: none;
         }
         .label {
           font-weight: bold;
         }
+        .value-dotted {
+          border-bottom: 1px dotted #333;
+          display: inline-block;
+          min-width: 120px;
+          padding: 0 4px;
+          text-indent: 0;
+        }
         .section {
           margin-top: 14px;
         }
         .section-title {
           font-weight: bold;
-          font-size: 16.5pt;
+          font-size: 16pt;
           margin-bottom: 4px;
         }
         .section-content {
-          margin-left: 20px;
-          font-size: 15pt;
+          margin-left: 1.25cm;
+          font-size: 16pt;
           text-align: justify;
         }
+        .section-content-list {
+          margin-left: 1.25cm;
+          font-size: 16pt;
+        }
+        .indent-p {
+          margin: 2px 0 4px 0;
+          text-indent: 1.25cm;
+        }
+        
+        .list-wrapper {
+          padding-left: 0;
+          margin: 4px 0;
+        }
+        .list-item {
+          text-indent: -0.8cm;
+          padding-left: 0.8cm;
+          margin-bottom: 4px;
+        }
+
         .assessment-table {
           width: 100%;
           border-collapse: collapse;
           margin-top: 8px;
           margin-bottom: 12px;
-          font-size: 14.5pt;
+          font-size: 15pt;
         }
         .assessment-table th,
         .assessment-table td {
@@ -379,7 +456,7 @@ export default function PlanPreview() {
         .assessment-table th {
           font-weight: bold;
           text-align: center;
-          background: #e2f1ff;
+          background: #ffffff;
         }
         
         /* Signature Approval Styles */
@@ -392,8 +469,6 @@ export default function PlanPreview() {
           font-size: 16pt;
           margin-top: 20px;
           text-align: left;
-          border-bottom: 2px solid #000;
-          padding-bottom: 4px;
           margin-bottom: 15px;
         }
         .comment-block {
@@ -420,7 +495,7 @@ export default function PlanPreview() {
         }
         .sig-cell {
           text-align: center;
-          font-size: 14.5pt;
+          font-size: 15pt;
           line-height: 1.7;
         }
 

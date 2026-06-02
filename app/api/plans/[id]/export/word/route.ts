@@ -9,6 +9,37 @@ const cleanVal = (val: any) => {
     .replace(/\r/g, '');
 };
 
+// Clean HTML list formatting (e.g. - chips to 1) 2) 3)) for Word
+const renderListWord = (val: any) => {
+  if (!val) return '';
+  const lines = String(val)
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      return line.replace(/^([-*•]|\d+[\s.)])\s*/, '');
+    });
+  
+  if (lines.length === 0) return '';
+  
+  return `<div style="margin: 4px 0;">` + lines.map((line, idx) => {
+    return `<div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 4px;">${idx + 1}) ${line}</div>`;
+  }).join('') + `</div>`;
+};
+
+// Clean paragraph elements with indents for Word
+const cleanParagraphsWord = (val: any) => {
+  if (val === undefined || val === null) return '';
+  return String(val)
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      return `<p style="margin: 2px 0 4px 0; text-indent: 36pt;">${line}</p>`;
+    })
+    .join('');
+};
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -37,14 +68,14 @@ export async function GET(
     body {
       font-family: "TH Sarabun New", "Sarabun", "Arial", sans-serif;
       font-size: 16pt;
-      line-height: 1.5;
+      line-height: 1.25;
       color: #000;
     }
     .doc-title {
       text-align: center;
       font-size: 20pt;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
     .info-table {
       width: 100%;
@@ -53,20 +84,27 @@ export async function GET(
     }
     .info-table td {
       padding: 4px 0;
-      font-size: 15pt;
+      font-size: 16pt;
       vertical-align: middle;
       border: none;
     }
     .label { font-weight: bold; }
-    .section { margin-top: 15px; }
-    .section-title { font-weight: bold; font-size: 16.5pt; margin-bottom: 5px; }
-    .section-content { margin-left: 20px; font-size: 15pt; }
+    .value-dotted {
+      border-bottom: 1px dotted #333;
+      display: inline-block;
+      min-width: 120px;
+      padding: 0 4px;
+    }
+    .section { margin-top: 14px; }
+    .section-title { font-weight: bold; font-size: 16pt; margin-bottom: 4px; }
+    .section-content { margin-left: 36pt; font-size: 16pt; text-align: justify; }
+    .section-content-list { margin-left: 36pt; font-size: 16pt; }
     .assessment-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
       margin-bottom: 15px;
-      font-size: 14.5pt;
+      font-size: 15pt;
     }
     .assessment-table th,
     .assessment-table td {
@@ -77,7 +115,7 @@ export async function GET(
     .assessment-table th {
       font-weight: bold;
       text-align: center;
-      background: #e2f1ff;
+      background: #ffffff;
     }
     
     /* Signature Approval Styles */
@@ -89,8 +127,6 @@ export async function GET(
       font-size: 16pt;
       margin-top: 25px;
       text-align: left;
-      border-bottom: 2px solid #000;
-      padding-bottom: 4px;
       margin-bottom: 15px;
     }
     .comment-block {
@@ -116,10 +152,10 @@ export async function GET(
     }
     .sig-cell {
       text-align: center;
-      font-size: 14.5pt;
+      font-size: 15pt;
       line-height: 1.7;
     }
-    p { margin: 4px 0 8px; }
+    p { margin: 3px 0 6px; }
   </style>
 </head>
 <body>
@@ -129,49 +165,49 @@ export async function GET(
   <table class="info-table">
     <tbody>
       <tr>
-        <td style="width: 40%"><span class="label">ชื่อ-นามสกุล:</span> ${cleanVal(plan.teacherName)}</td>
-        <td style="width: 35%"><span class="label">โรงเรียน:</span> ${cleanVal(plan.schoolName)}</td>
-        <td style="width: 25%"><span class="label">สังกัด:</span> ${cleanVal(plan.organization)}</td>
+        <td style="width: 40%"><span class="label">ชื่อ-นามสกุล</span> <span class="value-dotted">${cleanVal(plan.teacherName)}</span></td>
+        <td style="width: 35%"><span class="label">โรงเรียน</span> <span class="value-dotted">${cleanVal(plan.schoolName)}</span></td>
+        <td style="width: 25%"><span class="label">สังกัด</span> <span class="value-dotted">${cleanVal(plan.organization)}</span></td>
       </tr>
       <tr>
-        <td><span class="label">กลุ่มสาระการเรียนรู้:</span> ${cleanVal(plan.headerLearningArea)}</td>
-        <td colspan="2"><span class="label">ระดับชั้น:</span> ${cleanVal(plan.headerGradeLevel)}</td>
+        <td colspan="2"><span class="label">กลุ่มสาระการเรียนรู้</span> <span class="value-dotted">${cleanVal(plan.headerLearningArea)}</span></td>
+        <td><span class="label">ระดับชั้น</span> <span class="value-dotted">${cleanVal(plan.headerGradeLevel)}</span></td>
       </tr>
       <tr>
-        <td><span class="label">ชื่อหน่วยการเรียนรู้:</span> ${cleanVal(plan.unitName)}</td>
-        <td colspan="2"><span class="label">เวลา:</span> ${cleanVal(plan.totalHours)} ชั่วโมง</td>
+        <td colspan="2"><span class="label">ชื่อหน่วยการเรียนรู้</span> <span class="value-dotted">${cleanVal(plan.unitName)}</span></td>
+        <td><span class="label">เวลา</span> <span class="value-dotted">${cleanVal(plan.totalHours)} ชั่วโมง</span></td>
       </tr>
       <tr>
-        <td><span class="label">แผนการจัดการเรียนรู้ที่:</span> .......</td>
-        <td><span class="label">เรื่อง:</span> ${cleanVal(plan.lessonTopic)}</td>
-        <td><span class="label">เวลา:</span> ${cleanVal(plan.totalHours)} ชั่วโมง</td>
+        <td><span class="label">แผนการจัดการเรียนรู้ที่</span> <span class="value-dotted">....................</span></td>
+        <td><span class="label">เรื่อง</span> <span class="value-dotted">${cleanVal(plan.lessonTopic)}</span></td>
+        <td><span class="label">เวลา</span> <span class="value-dotted">${cleanVal(plan.totalHours)} ชั่วโมง</span></td>
       </tr>
     </tbody>
   </table>
 
   <div class="section">
     <div class="section-title">1. สาระสำคัญ</div>
-    <div class="section-content">${cleanVal(plan.essentialConcept)}</div>
+    <div class="section-content">${cleanParagraphsWord(plan.essentialConcept)}</div>
   </div>
 
   <div class="section">
     <div class="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
     <div class="section-content">
-      <p style="font-weight: bold; margin: 4px 0;">ตัวชี้วัดระหว่างทาง</p>
-      <div style="padding-left: 15px;">${cleanVal(plan.indicatorDuring)}</div>
-      <p style="font-weight: bold; margin: 8px 0 4px;">ตัวชี้วัดปลายทาง</p>
-      <div style="padding-left: 15px;">${cleanVal(plan.indicatorFinal)}</div>
+      <p style="font-weight: bold; margin: 4px 0 2px 0;">ตัวชี้วัดระหว่างทาง</p>
+      <div style="text-indent: 36pt;">${cleanVal(plan.indicatorDuring)}</div>
+      <p style="font-weight: bold; margin: 8px 0 2px 0;">ตัวชี้วัดปลายทาง</p>
+      <div style="text-indent: 36pt;">${cleanVal(plan.indicatorFinal)}</div>
     </div>
   </div>
 
   <div class="section">
     <div class="section-title">3. สมรรถนะสำคัญของผู้เรียน</div>
-    <div class="section-content">${cleanVal(plan.competencies)}</div>
+    <div class="section-content-list">${renderListWord(plan.competencies)}</div>
   </div>
 
   <div class="section">
     <div class="section-title">4. คุณลักษณะอันพึงประสงค์</div>
-    <div class="section-content">${cleanVal(plan.desiredAttributes)}</div>
+    <div class="section-content-list">${renderListWord(plan.desiredAttributes)}</div>
   </div>
 
   <div class="section">
@@ -185,20 +221,22 @@ export async function GET(
 
   <div class="section">
     <div class="section-title">6. เนื้อหาสาระ</div>
-    <div class="section-content">${cleanVal(plan.learningContent)}</div>
+    <div class="section-content">${cleanParagraphsWord(plan.learningContent)}</div>
   </div>
 
   <div class="section">
     <div class="section-title">7. สื่อและแหล่งการเรียนรู้</div>
     <div class="section-content">
-      <p><span class="label">สื่อการเรียนรู้:</span><br>${cleanVal(plan.learningMedia)}</p>
-      <p><span class="label">แหล่งเรียนรู้:</span><br>${cleanVal(plan.learningSources)}</p>
+      <div style="margin: 4px 0;">
+        <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 4px;">1) สื่อการเรียนรู้: ${cleanVal(plan.learningMedia) || '..................................................'}</div>
+        <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 4px;">2) แหล่งเรียนรู้: ${cleanVal(plan.learningSources) || '..................................................'}</div>
+      </div>
     </div>
   </div>
 
   <div class="section">
     <div class="section-title">8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning (แนวคิด/รูปแบบการสอน/วิธีการสอน : ${cleanVal(plan.subjectName)})</div>
-    <div class="section-content">${cleanVal(plan.learningProcess)}</div>
+    <div class="section-content">${cleanParagraphsWord(plan.learningProcess)}</div>
   </div>
 
   <div class="section">
@@ -238,13 +276,22 @@ export async function GET(
   <div class="section">
     <div class="section-title">10. บันทึกหลังการสอน</div>
     <div class="section-content">
-      <p><span class="label">1) ผลการจัดการเรียนรู้:</span><br>
-         - ด้านความรู้ (K): ${cleanVal(plan.resultK)}<br>
-         - ด้านทักษะกระบวนการ (P): ${cleanVal(plan.resultP)}<br>
-         - ด้านคุณลักษณะ (A): ${cleanVal(plan.resultA)}
-      </p>
-      <p><span class="label">2) ปัญหา/อุปสรรค:</span><br>${cleanVal(plan.problems)}</p>
-      <p><span class="label">3) ข้อเสนอแนะ/แนวทางแก้ไข:</span><br>${cleanVal(plan.solutions)}</p>
+      <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 6px;">
+        1) ผลการจัดการเรียนรู้
+        <div style="padding-left: 20pt; text-indent: 0; margin-top: 3px;">
+          - ด้านความรู้ (K): ${cleanVal(plan.resultK)}
+          - ด้านทักษะกระบวนการ (P): ${cleanVal(plan.resultP)}
+          - ด้านคุณลักษณะ (A): ${cleanVal(plan.resultA)}
+        </div>
+      </div>
+      <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 6px;">
+        2) ปัญหา/อุปสรรค<br>
+        <div style="padding-left: 20pt; text-indent: 0; margin-top: 3px;">${cleanVal(plan.problems)}</div>
+      </div>
+      <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 6px;">
+        3) ข้อเสนอแนะ/แนวทางแก้ไข<br>
+        <div style="padding-left: 20pt; text-indent: 0; margin-top: 3px;">${cleanVal(plan.solutions)}</div>
+      </div>
     </div>
   </div>
 
