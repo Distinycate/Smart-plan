@@ -211,16 +211,42 @@ export default function PlanForm({ planId }: PlanFormProps) {
           const planJson = await planRes.json();
           if (planJson.success) {
             const planData = planJson.data;
-            const cleanedData: Record<string, any> = { ...planData };
+            const cleanedData: Record<string, any> = {};
             const bulletFields = ['competencies', 'desiredAttributes', 'skills21', 'learningMedia', 'learningSources', 'tasks'];
             
-            Object.keys(cleanedData).forEach(key => {
-              if (typeof cleanedData[key] === 'string') {
+            const FIELD_KEYS = [
+              'planStatus', 'teacherName', 'schoolName', 'organization', 'headerLearningArea', 'headerGradeLevel',
+              'subjectId', 'subjectName', 'subjectCode', 'learningArea', 'gradeLevel', 'semester', 'academicYear', 'totalHours',
+              'unitId', 'unitName', 'topicId', 'lessonTopic',
+              'learningStandard', 'indicatorDuring', 'indicatorFinal', 'indicatorSelectedIds', 'essentialConcept',
+              'objectiveK', 'objectiveP', 'objectiveA', 'learningContent', 'competencies', 'desiredAttributes', 'skills21', 'learningProcess',
+              'measureK', 'methodK', 'toolK', 'criteriaK', 'rubricK',
+              'measureP', 'methodP', 'toolP', 'criteriaP', 'rubricP',
+              'measureA', 'methodA', 'toolA', 'criteriaA', 'rubricA',
+              'learningMedia', 'learningSources', 'tasks',
+              'resultK', 'resultP', 'resultA', 'problems', 'solutions'
+            ];
+
+            // Merge loaded data with defaults, converting nulls/undefineds to safe default values
+            FIELD_KEYS.forEach(key => {
+              const val = planData[key];
+              if (val === undefined || val === null) {
+                if (key === 'criteriaK') cleanedData[key] = 'ผ่านเกณฑ์ร้อยละ 60 ขึ้นไป';
+                else if (key === 'criteriaP' || key === 'criteriaA') cleanedData[key] = 'ผ่านเกณฑ์ระดับคุณภาพระดับดีขึ้นไป';
+                else if (key === 'learningArea' || key === 'headerLearningArea') cleanedData[key] = 'ภาษาต่างประเทศ';
+                else if (key === 'semester') cleanedData[key] = '1';
+                else if (key === 'academicYear') cleanedData[key] = '2569';
+                else if (key === 'totalHours') cleanedData[key] = 2;
+                else if (key === 'planStatus') cleanedData[key] = 'draft';
+                else cleanedData[key] = '';
+              } else if (typeof val === 'string') {
                 if (bulletFields.includes(key)) {
-                  cleanedData[key] = ensureBulletString(cleanedData[key]);
+                  cleanedData[key] = ensureBulletString(val);
                 } else {
-                  cleanedData[key] = cleanJSONString(cleanedData[key]);
+                  cleanedData[key] = cleanJSONString(val);
                 }
+              } else {
+                cleanedData[key] = val;
               }
             });
             setFields(cleanedData);
@@ -281,9 +307,13 @@ export default function PlanForm({ planId }: PlanFormProps) {
     }
   };
 
-  // 2. Select Unit Handler (Automaps indicators associated with this unit)
-  const handleUnitChange = (unitId: string) => {
-    const selected = units.find((u: any) => u.unitId === unitId);
+  // 2. Select / Type Unit Handler (Automaps indicators associated with this unit if matched)
+  const handleUnitNameChange = (typedName: string) => {
+    const selected = units.find((u: any) => 
+      u.unitName === typedName || 
+      `หน่วยที่ ${u.unitNumber}: ${u.unitName}` === typedName
+    );
+
     if (selected) {
       // Find indicators matching the mapped IDs in unit
       const associatedIds = selected.indicatorIds ? selected.indicatorIds.split(',') : [];
@@ -295,7 +325,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
 
       setFields(prev => ({
         ...prev,
-        unitId,
+        unitId: selected.unitId,
         unitName: selected.unitName,
         indicatorSelectedIds: selected.indicatorIds || '',
         indicatorDuring: duringList,
@@ -306,18 +336,36 @@ export default function PlanForm({ planId }: PlanFormProps) {
         lessonTopic: '',
         totalHours: 2
       }));
+    } else {
+      // Custom unit name typed by teacher
+      setFields(prev => ({
+        ...prev,
+        unitId: '',
+        unitName: typedName
+      }));
     }
   };
 
-  // 3. Select Topic Handler
-  const handleTopicChange = (topicId: string) => {
-    const selected = topics.find((t: any) => t.topicId === topicId);
+  // 3. Select / Type Topic Handler
+  const handleTopicNameChange = (typedTopic: string) => {
+    const selected = topics.find((t: any) => 
+      t.lessonTopic === typedTopic || 
+      `${t.topicNumber}. ${t.lessonTopic}` === typedTopic
+    );
+
     if (selected) {
       setFields(prev => ({
         ...prev,
-        topicId,
+        topicId: selected.topicId,
         lessonTopic: selected.lessonTopic,
         totalHours: selected.defaultHours || 2
+      }));
+    } else {
+      // Custom topic name typed by teacher
+      setFields(prev => ({
+        ...prev,
+        topicId: '',
+        lessonTopic: typedTopic
       }));
     }
   };
@@ -691,35 +739,37 @@ export default function PlanForm({ planId }: PlanFormProps) {
 
             <div className="g3" style={{ marginTop: '12px' }}>
               <label className="field">
-                เลือกหน่วยการเรียนรู้
-                <select 
-                  value={fields.unitId} 
-                  onChange={e => handleUnitChange(e.target.value)}
+                ระบุหน่วยการเรียนรู้ (พิมพ์เอง หรือ เลือกแนะนำ)
+                <input 
+                  type="text"
+                  list="units-datalist" 
+                  value={fields.unitName || ''} 
+                  onChange={e => handleUnitNameChange(e.target.value)}
                   disabled={!fields.subjectId}
-                >
-                  <option value="">{fields.subjectId ? '-- กรุณาเลือกหน่วย --' : 'กรุณาเลือกรายวิชาก่อน'}</option>
+                  placeholder={fields.subjectId ? "พิมพ์ชื่อหน่วย หรือเลือกจากรายการ..." : "กรุณาเลือกรายวิชาก่อน"}
+                />
+                <datalist id="units-datalist">
                   {filteredUnits.map((u: any) => (
-                    <option key={u.unitId} value={u.unitId}>
-                      หน่วยที่ {u.unitNumber}: {u.unitName}
-                    </option>
+                    <option key={u.unitId} value={`หน่วยที่ ${u.unitNumber}: ${u.unitName}`} />
                   ))}
-                </select>
+                </datalist>
               </label>
 
               <label className="field">
-                เลือกหัวเรื่อง/หัวข้อย่อย
-                <select 
-                  value={fields.topicId} 
-                  onChange={e => handleTopicChange(e.target.value)}
-                  disabled={!fields.unitId}
-                >
-                  <option value="">{fields.unitId ? '-- กรุณาเลือกเรื่องที่สอน --' : 'กรุณาเลือกหน่วยการเรียนรู้ก่อน'}</option>
+                ระบุเรื่องที่สอน (พิมพ์เอง หรือ เลือกแนะนำ)
+                <input 
+                  type="text"
+                  list="topics-datalist" 
+                  value={fields.lessonTopic || ''} 
+                  onChange={e => handleTopicNameChange(e.target.value)}
+                  disabled={!fields.unitName}
+                  placeholder={fields.unitName ? "พิมพ์ชื่อเรื่อง หรือเลือกจากรายการ..." : "กรุณากรอกชื่อหน่วยการเรียนรู้ก่อน"}
+                />
+                <datalist id="topics-datalist">
                   {filteredTopics.map((t: any) => (
-                    <option key={t.topicId} value={t.topicId}>
-                      {t.topicNumber}. {t.lessonTopic} ({t.defaultHours} ชม.)
-                    </option>
+                    <option key={t.topicId} value={`${t.topicNumber}. ${t.lessonTopic}`} />
                   ))}
-                </select>
+                </datalist>
               </label>
 
               <label className="field">
