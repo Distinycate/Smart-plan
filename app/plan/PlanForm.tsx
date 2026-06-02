@@ -618,50 +618,121 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 <textarea className="lg" value={fields.learningStandard} onChange={e => setFields({ ...fields, learningStandard: e.target.value })} placeholder="เช่น มาตรฐาน ต 1.1 เข้าใจและตีความ..." />
               </label>
 
-              {/* Checkboxes indicator panel */}
-              {fields.gradeLevel && (
-                <div className="ind-panel">
-                  <div className="ind-header">
-                    <span className="ind-header-text">แผงตัวชี้วัดแนะนำระดับชั้น {fields.gradeLevel} ({filteredIndicators.length} รายการ)</span>
-                  </div>
-                  <div className="ind-list">
-                    {filteredIndicators.map((ind: any) => {
-                      const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
-                      const isChecked = selectedArr.includes(ind.indicatorId);
-                      return (
-                        <div 
-                          key={ind.indicatorId} 
-                          className="ind-item"
-                          onClick={() => handleIndicatorCheck(ind.indicatorId, !isChecked)}
-                        >
-                          <input 
-                            type="checkbox" 
-                            checked={isChecked} 
-                            onChange={() => {}} // Handled by div onClick
-                          />
-                          <div className="ind-text">
-                            <span className="ind-code">{ind.indicatorCode}</span>
-                            {ind.indicatorText}
-                            <span className={`ind-type ${ind.indicatorType}`}>
-                              {ind.indicatorType === 'during' ? 'ระหว่างทาง' : 'ปลายทาง'}
-                            </span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+              {/* Standards Repository Panel */}
+              <div className="chip-wrap" style={{ marginTop: '4px', marginBottom: '14px' }}>
+                <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>คลังมาตรฐานการเรียนรู้แนะนำ (คลิกเพื่อเลือกมาตรฐาน)</span>
+                <div className="chip-list">
+                  {options.standard?.map((opt: any) => {
+                    const standardText = `${opt.optionName} ${opt.optionText}`;
+                    const hasIt = (fields.learningStandard || '').includes(opt.optionName);
+                    return (
+                      <div 
+                        key={opt.optionId} 
+                        className={`chip ${hasIt ? 'on' : ''}`} 
+                        onClick={() => {
+                          const currentVal = fields.learningStandard || '';
+                          const currentItems = currentVal.split('\n').map((i: string) => i.trim()).filter(Boolean);
+                          if (hasIt) {
+                            // Find and remove standard text line
+                            const filtered = currentItems.filter((i: string) => !i.includes(opt.optionName));
+                            setFields(prev => ({ ...prev, learningStandard: filtered.join('\n') }));
+                          } else {
+                            currentItems.push(standardText);
+                            setFields(prev => ({ ...prev, learningStandard: currentItems.join('\n') }));
+                          }
+                        }}
+                      >
+                        {opt.optionName}
+                      </div>
+                    );
+                  })}
                 </div>
-              )}
+              </div>
 
-              <div className="g2" style={{ marginTop: '12px' }}>
+              {/* During Indicators Section */}
+              <div className="g1" style={{ marginTop: '12px' }}>
                 <label className="field">
                   ตัวชี้วัดระหว่างทาง (Indicator During)
-                  <textarea className="lg" value={fields.indicatorDuring} onChange={e => setFields({ ...fields, indicatorDuring: e.target.value })} />
+                  <textarea className="lg" value={fields.indicatorDuring} onChange={e => setFields({ ...fields, indicatorDuring: e.target.value })} placeholder="คลิกเลือกตัวชี้วัดระหว่างทางด้านล่าง..." />
                 </label>
+                
+                {fields.gradeLevel && (
+                  <div className="ind-panel" style={{ marginTop: '4px', marginBottom: '14px' }}>
+                    <div className="ind-header" style={{ background: '#eff6ff', borderBottomColor: '#bfdbfe' }}>
+                      <span className="ind-header-text" style={{ color: '#1e40af' }}>คลังตัวชี้วัดระหว่างทางแนะนำ ({fields.gradeLevel})</span>
+                    </div>
+                    <div className="ind-list">
+                      {filteredIndicators.filter((ind: any) => ind.indicatorType === 'during').map((ind: any) => {
+                        const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
+                        const isChecked = selectedArr.includes(ind.indicatorId);
+                        return (
+                          <div 
+                            key={ind.indicatorId} 
+                            className="ind-item"
+                            onClick={() => handleIndicatorCheck(ind.indicatorId, !isChecked)}
+                          >
+                            <input 
+                              type="checkbox" 
+                              checked={isChecked} 
+                              onChange={() => {}}
+                            />
+                            <div className="ind-text">
+                              <span className="ind-code">{ind.indicatorCode}</span>
+                              {ind.indicatorText}
+                              <span className="ind-type during">ระหว่างทาง</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {filteredIndicators.filter((ind: any) => ind.indicatorType === 'during').length === 0 && (
+                        <div className="ind-empty">ไม่มีตัวชี้วัดระหว่างทางสำหรับระดับชั้นนี้</div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Final Indicators Section */}
+              <div className="g1" style={{ marginTop: '12px' }}>
                 <label className="field">
                   ตัวชี้วัดปลายทาง (Indicator Final)
-                  <textarea className="lg" value={fields.indicatorFinal} onChange={e => setFields({ ...fields, indicatorFinal: e.target.value })} />
+                  <textarea className="lg" value={fields.indicatorFinal} onChange={e => setFields({ ...fields, indicatorFinal: e.target.value })} placeholder="คลิกเลือกตัวชี้วัดปลายทางด้านล่าง..." />
                 </label>
+
+                {fields.gradeLevel && (
+                  <div className="ind-panel" style={{ marginTop: '4px', marginBottom: '14px' }}>
+                    <div className="ind-header" style={{ background: '#ecfdf5', borderBottomColor: '#a7f3d0' }}>
+                      <span className="ind-header-text" style={{ color: '#065f46' }}>คลังตัวชี้วัดปลายทางแนะนำ ({fields.gradeLevel})</span>
+                    </div>
+                    <div className="ind-list">
+                      {filteredIndicators.filter((ind: any) => ind.indicatorType === 'final').map((ind: any) => {
+                        const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
+                        const isChecked = selectedArr.includes(ind.indicatorId);
+                        return (
+                          <div 
+                            key={ind.indicatorId} 
+                            className="ind-item"
+                            onClick={() => handleIndicatorCheck(ind.indicatorId, !isChecked)}
+                          >
+                            <input 
+                              type="checkbox" 
+                              checked={isChecked} 
+                              onChange={() => {}}
+                            />
+                            <div className="ind-text">
+                              <span className="ind-code">{ind.indicatorCode}</span>
+                              {ind.indicatorText}
+                              <span className="ind-type final">ปลายทาง</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {filteredIndicators.filter((ind: any) => ind.indicatorType === 'final').length === 0 && (
+                        <div className="ind-empty">ไม่มีตัวชี้วัดปลายทางสำหรับระดับชั้นนี้</div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <hr className="divider" />
