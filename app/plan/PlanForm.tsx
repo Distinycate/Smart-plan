@@ -271,6 +271,87 @@ export default function PlanForm({ planId }: PlanFormProps) {
     }
   };
 
+  // Helper to clean JSON syntax, brackets, braces, and quotes from string values
+  const cleanJSONString = (val: any): string => {
+    if (!val) return '';
+    let strVal = typeof val === 'string' ? val : JSON.stringify(val);
+    strVal = strVal.trim();
+    if (strVal.startsWith('[') || strVal.startsWith('{')) {
+      try {
+        const parsed = JSON.parse(strVal);
+        if (Array.isArray(parsed)) {
+          return parsed.map(x => cleanJSONString(x)).join('\n');
+        }
+        if (typeof parsed === 'object') {
+          if (parsed.measure) return cleanJSONString(parsed.measure);
+          if (parsed.optionText) return cleanJSONString(parsed.optionText);
+          if (parsed.text) return cleanJSONString(parsed.text);
+          return Object.values(parsed).map(x => cleanJSONString(x)).join('\n');
+        }
+      } catch (e) {
+        // fallback
+      }
+    }
+    // Remove typical JSON syntax brackets, double-quotes, braces and escaped quotes
+    return strVal.replace(/[{}|[\]"]/g, '').trim();
+  };
+
+  // Helper to format values as clean, newline-separated bullet points
+  const ensureBulletString = (val: any): string => {
+    if (!val) return '';
+    
+    if (Array.isArray(val)) {
+      return val
+        .map(item => {
+          let cleaned = cleanJSONString(item);
+          if (cleaned && !cleaned.startsWith('-') && !cleaned.startsWith('*')) {
+            cleaned = `- ${cleaned}`;
+          }
+          return cleaned;
+        })
+        .filter(Boolean)
+        .join('\n');
+    }
+    
+    let strVal = String(val).trim();
+    if (strVal.startsWith('[') || strVal.startsWith('{')) {
+      try {
+        const parsed = JSON.parse(strVal);
+        return ensureBulletString(parsed);
+      } catch (e) {
+        // not valid JSON, proceed as regular string
+      }
+    }
+    
+    return strVal
+      .split('\n')
+      .map(line => {
+        let cleaned = cleanJSONString(line);
+        if (cleaned && !cleaned.startsWith('-') && !cleaned.startsWith('*')) {
+          cleaned = `- ${cleaned}`;
+        }
+        return cleaned;
+      })
+      .filter(Boolean)
+      .join('\n');
+  };
+
+  const getCleanedPayload = (fieldsObj: any) => {
+    const cleanedFields: Record<string, any> = {};
+    Object.keys(fieldsObj).forEach(key => {
+      if (typeof fieldsObj[key] === 'string') {
+        if (['competencies', 'desiredAttributes', 'skills21', 'learningMedia', 'learningSources', 'tasks'].includes(key)) {
+          cleanedFields[key] = ensureBulletString(fieldsObj[key]);
+        } else {
+          cleanedFields[key] = cleanJSONString(fieldsObj[key]);
+        }
+      } else {
+        cleanedFields[key] = fieldsObj[key];
+      }
+    });
+    return cleanedFields;
+  };
+
   // 6. Gemini AI Magic Autofill Handler
   const handleAIMagicFill = async () => {
     if (!fields.gradeLevel || !fields.subjectName || !fields.lessonTopic) {
@@ -298,42 +379,42 @@ export default function PlanForm({ planId }: PlanFormProps) {
       if (json.success && json.data) {
         const ai = json.data;
         
-        // Auto populate all generated 19 fields
+        // Auto populate all generated 19 fields, sanitizing JSON characters and formatting lists
         setFields(prev => ({
           ...prev,
-          learningStandard: ai.learningStandard || prev.learningStandard,
-          indicatorDuring: ai.indicatorDuring || prev.indicatorDuring,
-          indicatorFinal: ai.indicatorFinal || prev.indicatorFinal,
-          essentialConcept: ai.essentialConcept || prev.essentialConcept,
-          objectiveK: ai.objectiveK || prev.objectiveK,
-          objectiveP: ai.objectiveP || prev.objectiveP,
-          objectiveA: ai.objectiveA || prev.objectiveA,
-          learningContent: ai.learningContent || prev.learningContent,
-          competencies: ai.competencies || prev.competencies,
-          desiredAttributes: ai.desiredAttributes || prev.desiredAttributes,
-          skills21: ai.skills21 || prev.skills21,
-          learningMedia: ai.learningMedia || prev.learningMedia,
-          learningSources: ai.learningSources || prev.learningSources,
-          tasks: ai.tasks || prev.tasks,
-          learningProcess: ai.learningProcess || prev.learningProcess,
+          learningStandard: cleanJSONString(ai.learningStandard) || prev.learningStandard,
+          indicatorDuring: cleanJSONString(ai.indicatorDuring) || prev.indicatorDuring,
+          indicatorFinal: cleanJSONString(ai.indicatorFinal) || prev.indicatorFinal,
+          essentialConcept: cleanJSONString(ai.essentialConcept) || prev.essentialConcept,
+          objectiveK: cleanJSONString(ai.objectiveK) || prev.objectiveK,
+          objectiveP: cleanJSONString(ai.objectiveP) || prev.objectiveP,
+          objectiveA: cleanJSONString(ai.objectiveA) || prev.objectiveA,
+          learningContent: cleanJSONString(ai.learningContent) || prev.learningContent,
+          competencies: ensureBulletString(ai.competencies) || prev.competencies,
+          desiredAttributes: ensureBulletString(ai.desiredAttributes) || prev.desiredAttributes,
+          skills21: ensureBulletString(ai.skills21) || prev.skills21,
+          learningMedia: ensureBulletString(ai.learningMedia) || prev.learningMedia,
+          learningSources: ensureBulletString(ai.learningSources) || prev.learningSources,
+          tasks: ensureBulletString(ai.tasks) || prev.tasks,
+          learningProcess: cleanJSONString(ai.learningProcess) || prev.learningProcess,
           
-          methodK: ai.methodK || prev.methodK,
-          toolK: ai.toolK || prev.toolK,
-          criteriaK: ai.criteriaK || prev.criteriaK,
+          methodK: cleanJSONString(ai.methodK) || prev.methodK,
+          toolK: cleanJSONString(ai.toolK) || prev.toolK,
+          criteriaK: cleanJSONString(ai.criteriaK) || prev.criteriaK,
           
-          methodP: ai.methodP || prev.methodP,
-          toolP: ai.toolP || prev.toolP,
-          criteriaP: ai.criteriaP || prev.criteriaP,
+          methodP: cleanJSONString(ai.methodP) || prev.methodP,
+          toolP: cleanJSONString(ai.toolP) || prev.toolP,
+          criteriaP: cleanJSONString(ai.criteriaP) || prev.criteriaP,
           
-          methodA: ai.methodA || prev.methodA,
-          toolA: ai.toolA || prev.toolA,
-          criteriaA: ai.criteriaA || prev.criteriaA,
+          methodA: cleanJSONString(ai.methodA) || prev.methodA,
+          toolA: cleanJSONString(ai.toolA) || prev.toolA,
+          criteriaA: cleanJSONString(ai.criteriaA) || prev.criteriaA,
           
-          resultK: ai.resultK || prev.resultK,
-          resultP: ai.resultP || prev.resultP,
-          resultA: ai.resultA || prev.resultA,
-          problems: ai.problems || prev.problems,
-          solutions: ai.solutions || prev.solutions
+          resultK: cleanJSONString(ai.resultK) || prev.resultK,
+          resultP: cleanJSONString(ai.resultP) || prev.resultP,
+          resultA: cleanJSONString(ai.resultA) || prev.resultA,
+          problems: cleanJSONString(ai.problems) || prev.problems,
+          solutions: cleanJSONString(ai.solutions) || prev.solutions
         }));
 
         triggerToast('AI ทำร่างแผนการสอนเสร็จสมบูรณ์แล้ว!', 'success');
@@ -365,7 +446,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
       setSaving(true);
       try {
         const payload = {
-          ...fields,
+          ...getCleanedPayload(fields),
           planStatus: status
         };
         const res = await fetch('/api/plans', {
@@ -397,7 +478,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
     
     try {
       const payload = {
-        ...fields,
+        ...getCleanedPayload(fields),
         backupReason: backupReasonText
       };
       
@@ -447,6 +528,17 @@ export default function PlanForm({ planId }: PlanFormProps) {
           <ArrowLeft size={14} /> กลับหน้าแดชบอร์ด
         </button>
         <div style={{ display: 'flex', gap: '8px' }}>
+          {isEdit && (
+            <button 
+              type="button" 
+              className="btn btn-ghost" 
+              onClick={() => window.open(`/plan/${planId}/preview`, '_blank')}
+              title="ดูตัวอย่างแผน"
+              style={{ borderColor: 'var(--c-primary)', color: 'var(--c-primary)' }}
+            >
+              👁️ ดูตัวอย่างแผน (Preview)
+            </button>
+          )}
           <button 
             type="button" 
             className="btn btn-success" 

@@ -292,6 +292,14 @@ export default function TeacherDashboard() {
                       <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end' }}>
                         <button 
                           className="btn btn-ghost btn-sm"
+                          onClick={() => window.open(`/plan/${plan.planId}/preview`, '_blank')}
+                          title="ดูตัวอย่างแผน"
+                          style={{ borderColor: 'var(--c-primary)', color: 'var(--c-primary)' }}
+                        >
+                          👁️ ดูตัวอย่าง
+                        </button>
+                        <button 
+                          className="btn btn-ghost btn-sm"
                           onClick={() => router.push(`/plan/${plan.planId}`)}
                           title="แก้ไขแผนการสอน"
                         >

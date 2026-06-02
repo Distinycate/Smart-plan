@@ -96,20 +96,46 @@ export default function PlanPreview() {
   // Clean list formatting (e.g. - chips to 1) 2) 3)) with 0.75cm indent
   const renderList = (val: any) => {
     if (!val) return '';
-    const lines = String(val)
-      .split('\n')
-      .map(line => line.trim())
-      .filter(Boolean)
+    
+    let rawStr = String(val).trim();
+    let items: string[] = [];
+    
+    // Check if it's a JSON array or object
+    if (rawStr.startsWith('[') || rawStr.startsWith('{')) {
+      try {
+        const parsed = JSON.parse(rawStr);
+        if (Array.isArray(parsed)) {
+          items = parsed.map(x => String(x).trim());
+        } else if (typeof parsed === 'object') {
+          items = Object.values(parsed).map(x => String(x).trim());
+        }
+      } catch (e) {
+        // fallback
+      }
+    }
+    
+    if (items.length === 0) {
+      items = rawStr
+        .split('\n')
+        .map(line => line.trim())
+        .filter(Boolean);
+    }
+    
+    const cleanedLines = items
       .map(line => {
         // remove leading bullet points like -, *, •, or numbers like 1., 1)
-        return line.replace(/^([-*•]|\d+[\s.)])\s*/, '');
-      });
+        let cleaned = line.replace(/^([-*•]|\d+[\s.)])\s*/, '');
+        // remove residual JSON brackets, quotes, braces
+        cleaned = cleaned.replace(/[{}|[\]"]/g, '').trim();
+        return cleaned;
+      })
+      .filter(Boolean);
     
-    if (lines.length === 0) return '';
+    if (cleanedLines.length === 0) return '';
     
     return (
       <div className="list-wrapper">
-        {lines.map((line, idx) => (
+        {cleanedLines.map((line, idx) => (
           <div key={idx} className="list-item">
             {idx + 1}) {line}
           </div>
@@ -185,7 +211,7 @@ export default function PlanPreview() {
         <table className="info-table">
           <tbody>
             <tr>
-              <td style={{ width: '15%', fontWeight: 'bold' }}>หน่วยที่</td>
+              <td style={{ width: '15%', fontWeight: 'bold' }}>ชื่อหน่วย</td>
               <td style={{ width: '53%' }}>{plan.unitName}</td>
               <td style={{ width: '8%', fontWeight: 'bold' }}>เวลา</td>
               <td style={{ width: '24%' }}>{plan.totalHours} ชั่วโมง</td>

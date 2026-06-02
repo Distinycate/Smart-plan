@@ -12,17 +12,44 @@ const cleanVal = (val: any) => {
 // Clean HTML list formatting (e.g. - chips to 1) 2) 3)) for Word (with 20pt left margin)
 const renderListWord = (val: any) => {
   if (!val) return '';
-  const lines = String(val)
-    .split('\n')
-    .map(line => line.trim())
-    .filter(Boolean)
+  
+  let rawStr = String(val).trim();
+  let items: string[] = [];
+  
+  // Check if it's a JSON array or object
+  if (rawStr.startsWith('[') || rawStr.startsWith('{')) {
+    try {
+      const parsed = JSON.parse(rawStr);
+      if (Array.isArray(parsed)) {
+        items = parsed.map(x => String(x).trim());
+      } else if (typeof parsed === 'object') {
+        items = Object.values(parsed).map(x => String(x).trim());
+      }
+    } catch (e) {
+      // fallback
+    }
+  }
+  
+  if (items.length === 0) {
+    items = rawStr
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean);
+  }
+  
+  const cleanedLines = items
     .map(line => {
-      return line.replace(/^([-*•]|\d+[\s.)])\s*/, '');
-    });
+      // remove leading bullet points like -, *, •, or numbers like 1., 1)
+      let cleaned = line.replace(/^([-*•]|\d+[\s.)])\s*/, '');
+      // remove residual JSON brackets, quotes, braces
+      cleaned = cleaned.replace(/[{}|[\]"]/g, '').trim();
+      return cleaned;
+    })
+    .filter(Boolean);
   
-  if (lines.length === 0) return '';
+  if (cleanedLines.length === 0) return '';
   
-  return `<div style="margin: 4px 0;">` + lines.map((line, idx) => {
+  return `<div style="margin: 4px 0;">` + cleanedLines.map((line, idx) => {
     return `<div style="margin-left: 35pt; text-indent: -15pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${line}</div>`;
   }).join('') + `</div>`;
 };
@@ -206,16 +233,16 @@ export async function GET(
          </tr>
        </tbody>
      </table>
-     <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
-       <tbody>
-         <tr style="height: 22px;">
-           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">หน่วยที่</td>
-           <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เวลา</td>
-           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
-         </tr>
-       </tbody>
-     </table>
+      <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
+        <tbody>
+          <tr style="height: 22px;">
+            <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อหน่วย</td>
+            <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
+            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เวลา</td>
+            <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
+          </tr>
+        </tbody>
+      </table>
      <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 15px; line-height: 1.0;">
         <tbody>
           <tr style="height: 22px;">
