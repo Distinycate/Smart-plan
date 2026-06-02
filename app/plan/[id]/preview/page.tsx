@@ -78,6 +78,20 @@ export default function PlanPreview() {
     ));
   };
 
+  // Render multiple indicators line by line, ensuring same left indentation
+  const renderIndicators = (val: any) => {
+    if (!val) return '';
+    return String(val)
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .map((line, idx) => (
+        <div key={idx} className="indicator-line">
+          {line}
+        </div>
+      ));
+  };
+
   // Clean list formatting (e.g. - chips to 1) 2) 3))
   const renderList = (val: any) => {
     if (!val) return '';
@@ -120,7 +134,7 @@ export default function PlanPreview() {
 
       {/* Main A4 Document Sheet */}
       <div className="a4-sheet">
-        <div className="doc-title">แบบฟอร์มแผนการจัดการเรียนรู้</div>
+        <div className="doc-title">แผนการจัดการเรียนรู้</div>
         
         <table className="info-table">
           <tbody>
@@ -139,8 +153,7 @@ export default function PlanPreview() {
             </tr>
             <tr>
               <td><span className="label">แผนการจัดการเรียนรู้ที่</span> <span className="value-dotted">....................</span></td>
-              <td><span className="label">เรื่อง</span> <span className="value-dotted">{plan.lessonTopic}</span></td>
-              <td><span className="label">เวลา</span> <span className="value-dotted">{plan.totalHours} ชั่วโมง</span></td>
+              <td colSpan={2}><span className="label">เรื่อง</span> <span className="value-dotted">{plan.lessonTopic}</span></td>
             </tr>
           </tbody>
         </table>
@@ -153,10 +166,10 @@ export default function PlanPreview() {
         <div className="section">
           <div className="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
           <div className="section-content">
-            <p style={{ fontWeight: 'bold', margin: '4px 0 2px 0' }}>ตัวชี้วัดระหว่างทาง</p>
-            <div style={{ textIndent: '1.25cm' }}>{cleanTableCellVal(plan.indicatorDuring)}</div>
-            <p style={{ fontWeight: 'bold', margin: '8px 0 2px 0' }}>ตัวชี้วัดปลายทาง</p>
-            <div style={{ textIndent: '1.25cm' }}>{cleanTableCellVal(plan.indicatorFinal)}</div>
+            <div className="sub-heading">ตัวชี้วัดระหว่างทาง</div>
+            <div className="sub-content">{renderIndicators(plan.indicatorDuring)}</div>
+            <div className="sub-heading" style={{ marginTop: '6px' }}>ตัวชี้วัดปลายทาง</div>
+            <div className="sub-content">{renderIndicators(plan.indicatorFinal)}</div>
           </div>
         </div>
 
@@ -173,9 +186,14 @@ export default function PlanPreview() {
         <div className="section">
           <div className="section-title">5. จุดประสงค์การเรียนรู้</div>
           <div className="section-content">
-            <p><span className="label">ด้านความรู้ (K):</span><br />{cleanTableCellVal(plan.objectiveK)}</p>
-            <p><span className="label">ด้านทักษะกระบวนการ (P):</span><br />{cleanTableCellVal(plan.objectiveP)}</p>
-            <p><span className="label">ด้านคุณลักษณะ (A):</span><br />{cleanTableCellVal(plan.objectiveA)}</p>
+            <div className="sub-heading">ด้านความรู้ (K):</div>
+            <div className="sub-content">{cleanTableCellVal(plan.objectiveK)}</div>
+            
+            <div className="sub-heading" style={{ marginTop: '6px' }}>ด้านทักษะกระบวนการ (P):</div>
+            <div className="sub-content">{cleanTableCellVal(plan.objectiveP)}</div>
+            
+            <div className="sub-heading" style={{ marginTop: '6px' }}>ด้านคุณลักษณะ (A):</div>
+            <div className="sub-content">{cleanTableCellVal(plan.objectiveA)}</div>
           </div>
         </div>
 
@@ -187,10 +205,10 @@ export default function PlanPreview() {
         <div className="section">
           <div className="section-title">7. สื่อและแหล่งการเรียนรู้</div>
           <div className="section-content">
-            <div className="list-wrapper">
-              <div className="list-item">1) สื่อการเรียนรู้: {plan.learningMedia || '..................................................'}</div>
-              <div className="list-item">2) แหล่งเรียนรู้: {plan.learningSources || '..................................................'}</div>
-            </div>
+            <div className="sub-heading">1) สื่อการเรียนรู้:</div>
+            <div className="sub-content">{cleanTableCellVal(plan.learningMedia) || '..................................................'}</div>
+            <div className="sub-heading" style={{ marginTop: '6px' }}>2) แหล่งเรียนรู้:</div>
+            <div className="sub-content">{cleanTableCellVal(plan.learningSources) || '..................................................'}</div>
           </div>
         </div>
 
@@ -236,24 +254,23 @@ export default function PlanPreview() {
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
           <div className="section-title">10. บันทึกหลังการสอน</div>
           <div className="section-content">
-            <div style={{ textIndent: '-0.8cm', paddingLeft: '0.8cm', marginBottom: '6px' }}>
-              1) ผลการจัดการเรียนรู้
-              <div style={{ paddingLeft: '0.8cm', textIndent: '0', marginTop: '3px' }}>
-                - ด้านความรู้ (K): {cleanTableCellVal(plan.resultK)}
-                - ด้านทักษะกระบวนการ (P): {cleanTableCellVal(plan.resultP)}
-                - ด้านคุณลักษณะ (A): {cleanTableCellVal(plan.resultA)}
-              </div>
+            <div className="sub-heading">1) ผลการจัดการเรียนรู้</div>
+            <div className="sub-content" style={{ marginTop: '2px' }}>
+              - ด้านความรู้ (K): {cleanTableCellVal(plan.resultK)}
+              - ด้านทักษะกระบวนการ (P): {cleanTableCellVal(plan.resultP)}
+              - ด้านคุณลักษณะ (A): {cleanTableCellVal(plan.resultA)}
             </div>
-            <div style={{ textIndent: '-0.8cm', paddingLeft: '0.8cm', marginBottom: '6px' }}>
-              2) ปัญหา/อุปสรรค<br />
-              <div style={{ paddingLeft: '0.8cm', textIndent: '0', marginTop: '3px' }}>{cleanTableCellVal(plan.problems)}</div>
-            </div>
-            <div style={{ textIndent: '-0.8cm', paddingLeft: '0.8cm', marginBottom: '6px' }}>
-              3) ข้อเสนอแนะ/แนวทางแก้ไข<br />
-              <div style={{ paddingLeft: '0.8cm', textIndent: '0', marginTop: '3px' }}>{cleanTableCellVal(plan.solutions)}</div>
-            </div>
+            
+            <div className="sub-heading" style={{ marginTop: '6px' }}>2) ปัญหา/อุปสรรค</div>
+            <div className="sub-content" style={{ marginTop: '2px' }}>{cleanTableCellVal(plan.problems)}</div>
+            
+            <div className="sub-heading" style={{ marginTop: '6px' }}>3) ข้อเสนอแนะ/แนวทางแก้ไข</div>
+            <div className="sub-content" style={{ marginTop: '2px' }}>{cleanTableCellVal(plan.solutions)}</div>
           </div>
         </div>
+
+        {/* Page Break for Permission Section */}
+        <div style={{ pageBreakBefore: 'always' }}></div>
 
         {/* Permission Request Section */}
         <div className="sig-section">
@@ -378,7 +395,7 @@ export default function PlanPreview() {
           box-shadow: 0 0 15px rgba(0,0,0,0.5);
           box-sizing: border-box;
           color: #000;
-          line-height: 1.25;
+          line-height: 1.0;
           font-size: 16pt;
         }
         .doc-title {
@@ -391,9 +408,10 @@ export default function PlanPreview() {
           width: 100%;
           border-collapse: collapse;
           margin-bottom: 20px;
+          line-height: 1.0;
         }
         .info-table td {
-          padding: 4px 0;
+          padding: 1px 0;
           font-size: 16pt;
           vertical-align: middle;
           border: none;
@@ -415,21 +433,45 @@ export default function PlanPreview() {
           font-weight: bold;
           font-size: 16pt;
           margin-bottom: 4px;
+          text-align: left;
+          margin-left: 0;
+          padding-left: 0;
         }
         .section-content {
           margin-left: 1.25cm;
           font-size: 16pt;
-          text-align: justify;
+          text-align: left;
+          line-height: 1.0;
         }
         .section-content-list {
           margin-left: 1.25cm;
           font-size: 16pt;
+          line-height: 1.0;
         }
         .indent-p {
           margin: 2px 0 4px 0;
           text-indent: 1.25cm;
+          text-align: left;
         }
         
+        .sub-heading {
+          font-weight: bold;
+          margin-left: 1.25cm;
+          margin-top: 4px;
+          margin-bottom: 2px;
+          font-size: 16pt;
+        }
+        .sub-content {
+          margin-left: 2.5cm;
+          font-size: 16pt;
+          text-align: left;
+        }
+        .indicator-line {
+          text-indent: 0;
+          margin-bottom: 2px;
+          text-align: left;
+        }
+
         .list-wrapper {
           padding-left: 0;
           margin: 4px 0;
@@ -438,6 +480,7 @@ export default function PlanPreview() {
           text-indent: -0.8cm;
           padding-left: 0.8cm;
           margin-bottom: 4px;
+          text-align: left;
         }
 
         .assessment-table {
@@ -445,13 +488,16 @@ export default function PlanPreview() {
           border-collapse: collapse;
           margin-top: 8px;
           margin-bottom: 12px;
-          font-size: 15pt;
+          font-size: 14pt;
         }
         .assessment-table th,
         .assessment-table td {
           border: 1px solid #000;
           padding: 6px 10px;
           vertical-align: top;
+          font-size: 14pt;
+          text-align: left;
+          line-height: 1.1;
         }
         .assessment-table th {
           font-weight: bold;
@@ -462,7 +508,7 @@ export default function PlanPreview() {
         /* Signature Approval Styles */
         .sig-section {
           margin-top: 30px;
-          page-break-inside: avoid;
+          page-break-before: always;
         }
         .sig-title {
           font-weight: bold;

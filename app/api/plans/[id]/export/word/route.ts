@@ -23,7 +23,7 @@ const renderListWord = (val: any) => {
   if (lines.length === 0) return '';
   
   return `<div style="margin: 4px 0;">` + lines.map((line, idx) => {
-    return `<div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 4px;">${idx + 1}) ${line}</div>`;
+    return `<div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${line}</div>`;
   }).join('') + `</div>`;
 };
 
@@ -35,7 +35,20 @@ const cleanParagraphsWord = (val: any) => {
     .map(line => line.trim())
     .filter(Boolean)
     .map(line => {
-      return `<p style="margin: 2px 0 4px 0; text-indent: 36pt;">${line}</p>`;
+      return `<p style="margin: 2px 0 4px 0; text-indent: 36pt; text-align: left;">${line}</p>`;
+    })
+    .join('');
+};
+
+// Format multiple indicators with consistent indentation (72pt)
+const renderIndicatorsWord = (val: any) => {
+  if (!val) return '';
+  return String(val)
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      return `<div style="margin-left: 72pt; text-indent: 0; margin-bottom: 2px; text-align: left;">${line}</div>`;
     })
     .join('');
 };
@@ -68,7 +81,7 @@ export async function GET(
     body {
       font-family: "TH Sarabun New", "Sarabun", "Arial", sans-serif;
       font-size: 16pt;
-      line-height: 1.25;
+      line-height: 1.0;
       color: #000;
     }
     .doc-title {
@@ -81,9 +94,10 @@ export async function GET(
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 20px;
+      line-height: 1.0;
     }
     .info-table td {
-      padding: 4px 0;
+      padding: 1px 0;
       font-size: 16pt;
       vertical-align: middle;
       border: none;
@@ -96,21 +110,26 @@ export async function GET(
       padding: 0 4px;
     }
     .section { margin-top: 14px; }
-    .section-title { font-weight: bold; font-size: 16pt; margin-bottom: 4px; }
-    .section-content { margin-left: 36pt; font-size: 16pt; text-align: justify; }
+    .section-title { font-weight: bold; font-size: 16pt; margin-bottom: 4px; text-align: left; }
+    .section-content { margin-left: 36pt; font-size: 16pt; text-align: left; }
     .section-content-list { margin-left: 36pt; font-size: 16pt; }
+    .sub-heading { font-weight: bold; margin-left: 36pt; margin-top: 4px; margin-bottom: 2px; font-size: 16pt; }
+    .sub-content { margin-left: 72pt; font-size: 16pt; text-align: left; }
     .assessment-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
       margin-bottom: 15px;
-      font-size: 15pt;
+      font-size: 14pt;
     }
     .assessment-table th,
     .assessment-table td {
       border: 1px solid #000;
       padding: 6px 10px;
       vertical-align: top;
+      font-size: 14pt;
+      text-align: left;
+      line-height: 1.1;
     }
     .assessment-table th {
       font-weight: bold;
@@ -160,7 +179,7 @@ export async function GET(
 </head>
 <body>
 
-  <div class="doc-title">แบบฟอร์มแผนการจัดการเรียนรู้</div>
+  <div class="doc-title">แผนการจัดการเรียนรู้</div>
 
   <table class="info-table">
     <tbody>
@@ -179,8 +198,7 @@ export async function GET(
       </tr>
       <tr>
         <td><span class="label">แผนการจัดการเรียนรู้ที่</span> <span class="value-dotted">....................</span></td>
-        <td><span class="label">เรื่อง</span> <span class="value-dotted">${cleanVal(plan.lessonTopic)}</span></td>
-        <td><span class="label">เวลา</span> <span class="value-dotted">${cleanVal(plan.totalHours)} ชั่วโมง</span></td>
+        <td colspan="2"><span class="label">เรื่อง</span> <span class="value-dotted">${cleanVal(plan.lessonTopic)}</span></td>
       </tr>
     </tbody>
   </table>
@@ -193,10 +211,10 @@ export async function GET(
   <div class="section">
     <div class="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
     <div class="section-content">
-      <p style="font-weight: bold; margin: 4px 0 2px 0;">ตัวชี้วัดระหว่างทาง</p>
-      <div style="text-indent: 36pt;">${cleanVal(plan.indicatorDuring)}</div>
-      <p style="font-weight: bold; margin: 8px 0 2px 0;">ตัวชี้วัดปลายทาง</p>
-      <div style="text-indent: 36pt;">${cleanVal(plan.indicatorFinal)}</div>
+      <div class="sub-heading">ตัวชี้วัดระหว่างทาง</div>
+      <div class="sub-content">${renderIndicatorsWord(plan.indicatorDuring)}</div>
+      <div class="sub-heading" style="margin-top: 6px;">ตัวชี้วัดปลายทาง</div>
+      <div class="sub-content">${renderIndicatorsWord(plan.indicatorFinal)}</div>
     </div>
   </div>
 
@@ -213,9 +231,14 @@ export async function GET(
   <div class="section">
     <div class="section-title">5. จุดประสงค์การเรียนรู้</div>
     <div class="section-content">
-      <p><span class="label">ด้านความรู้ (K):</span><br>${cleanVal(plan.objectiveK)}</p>
-      <p><span class="label">ด้านทักษะกระบวนการ (P):</span><br>${cleanVal(plan.objectiveP)}</p>
-      <p><span class="label">ด้านคุณลักษณะ (A):</span><br>${cleanVal(plan.objectiveA)}</p>
+      <div class="sub-heading">ด้านความรู้ (K):</div>
+      <div class="sub-content">${cleanVal(plan.objectiveK)}</div>
+      
+      <div class="sub-heading" style="margin-top: 6px;">ด้านทักษะกระบวนการ (P):</div>
+      <div class="sub-content">${cleanVal(plan.objectiveP)}</div>
+      
+      <div class="sub-heading" style="margin-top: 6px;">ด้านคุณลักษณะ (A):</div>
+      <div class="sub-content">${cleanVal(plan.objectiveA)}</div>
     </div>
   </div>
 
@@ -227,10 +250,10 @@ export async function GET(
   <div class="section">
     <div class="section-title">7. สื่อและแหล่งการเรียนรู้</div>
     <div class="section-content">
-      <div style="margin: 4px 0;">
-        <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 4px;">1) สื่อการเรียนรู้: ${cleanVal(plan.learningMedia) || '..................................................'}</div>
-        <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 4px;">2) แหล่งเรียนรู้: ${cleanVal(plan.learningSources) || '..................................................'}</div>
-      </div>
+      <div class="sub-heading">1) สื่อการเรียนรู้:</div>
+      <div class="sub-content">${cleanVal(plan.learningMedia) || '..................................................'}</div>
+      <div class="sub-heading" style="margin-top: 6px;">2) แหล่งเรียนรู้:</div>
+      <div class="sub-content">${cleanVal(plan.learningSources) || '..................................................'}</div>
     </div>
   </div>
 
@@ -276,24 +299,23 @@ export async function GET(
   <div class="section">
     <div class="section-title">10. บันทึกหลังการสอน</div>
     <div class="section-content">
-      <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 6px;">
-        1) ผลการจัดการเรียนรู้
-        <div style="padding-left: 20pt; text-indent: 0; margin-top: 3px;">
-          - ด้านความรู้ (K): ${cleanVal(plan.resultK)}
-          - ด้านทักษะกระบวนการ (P): ${cleanVal(plan.resultP)}
-          - ด้านคุณลักษณะ (A): ${cleanVal(plan.resultA)}
-        </div>
+      <div class="sub-heading">1) ผลการจัดการเรียนรู้</div>
+      <div class="sub-content" style="margin-top: 2px;">
+        - ด้านความรู้ (K): ${cleanVal(plan.resultK)}
+        - ด้านทักษะกระบวนการ (P): ${cleanVal(plan.resultP)}
+        - ด้านคุณลักษณะ (A): ${cleanVal(plan.resultA)}
       </div>
-      <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 6px;">
-        2) ปัญหา/อุปสรรค<br>
-        <div style="padding-left: 20pt; text-indent: 0; margin-top: 3px;">${cleanVal(plan.problems)}</div>
-      </div>
-      <div style="text-indent: -20pt; padding-left: 20pt; margin-bottom: 6px;">
-        3) ข้อเสนอแนะ/แนวทางแก้ไข<br>
-        <div style="padding-left: 20pt; text-indent: 0; margin-top: 3px;">${cleanVal(plan.solutions)}</div>
-      </div>
+      
+      <div class="sub-heading" style="margin-top: 6px;">2) ปัญหา/อุปสรรค</div>
+      <div class="sub-content" style="margin-top: 2px;">${cleanVal(plan.problems)}</div>
+      
+      <div class="sub-heading" style="margin-top: 6px;">3) ข้อเสนอแนะ/แนวทางแก้ไข</div>
+      <div class="sub-content" style="margin-top: 2px;">${cleanVal(plan.solutions)}</div>
     </div>
   </div>
+
+  <!-- Page Break for Permission Section -->
+  <div style="page-break-before: always;"></div>
 
   <!-- Permission Request Section -->
   <div class="sig-section">
