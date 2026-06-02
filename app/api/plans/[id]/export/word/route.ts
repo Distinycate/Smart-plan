@@ -169,19 +169,41 @@ export async function GET(
       font-weight: bold;
       margin-bottom: 18px;
     }
-    .info-table {
+    .top-grid {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 2px;
-      line-height: 1.0;
+      border: 1px solid #555;
+      margin-bottom: 12px;
+      line-height: 1.5;
     }
-    .info-table td {
-      padding: 0px !important;
-      margin: 0px !important;
+    .top-grid td {
+      width: 50%;
+      padding: 4px 10px !important;
+      vertical-align: top;
+      border-bottom: 1px solid #bbb;
       font-size: 16pt;
-      vertical-align: middle;
-      border: none;
-      height: 22px;
+    }
+    .top-grid tr:last-child td { border-bottom: none; }
+    .top-grid td:first-child { border-right: 1px solid #bbb; }
+
+    .sig-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      page-break-inside: avoid;
+    }
+    .sig-table td {
+      width: 50%;
+      text-align: center;
+      padding: 6px 12px;
+      font-size: 15pt;
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    .sig-line {
+      border-top: 1px solid #333;
+      margin: 28px auto 4px;
+      width: 72%;
     }
     .label { font-weight: bold; }
     .section { margin-top: 10px; }
@@ -253,110 +275,85 @@ export async function GET(
   <div class="Section1">
     <div class="doc-title">แผนการจัดการเรียนรู้</div>
 
-    <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
+    <table class="top-grid">
        <tbody>
-         <tr style="height: 22px;">
-           <td style="width: 12%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อ-นามสกุล</td>
-           <td style="width: 28%; padding: 0px; font-size: 16pt;">${cleanVal(plan.teacherName)}</td>
-           <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 16pt;">โรงเรียน</td>
-           <td style="width: 18%; padding: 0px; font-size: 16pt;">${cleanVal(plan.schoolName)}</td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">สังกัด</td>
-           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.organization)}</td>
+         <tr>
+           <td><span class="label">ชื่อ-นามสกุลครูผู้สอน:</span> ${cleanVal(plan.teacherName)}</td>
+           <td><span class="label">โรงเรียน:</span> ${cleanVal(plan.schoolName)}</td>
+         </tr>
+         <tr>
+           <td><span class="label">สังกัด:</span> ${cleanVal(plan.organization)}</td>
+           <td><span class="label">กลุ่มสาระการเรียนรู้:</span> ${cleanVal(plan.headerLearningArea)}</td>
+         </tr>
+         <tr>
+           <td><span class="label">ระดับชั้น:</span> ${cleanVal(plan.headerGradeLevel)}</td>
+           <td><span class="label">ปีการศึกษา:</span> ${cleanVal(plan.academicYear)}</td>
+         </tr>
+         <tr>
+           <td><span class="label">รายวิชา:</span> ${cleanVal(plan.subjectName)}</td>
+           <td><span class="label">รหัสวิชา:</span> ${cleanVal(plan.subjectCode)}</td>
+         </tr>
+         <tr>
+           <td><span class="label">ภาคเรียนที่:</span> ${cleanVal(plan.semester)}</td>
+           <td><span class="label">เวลาเรียน:</span> ${cleanVal(plan.totalHours)} ชั่วโมง</td>
+         </tr>
+         <tr>
+           <td><span class="label">หน่วยการเรียนรู้:</span> ${cleanVal(plan.unitName)}</td>
+           <td><span class="label">เรื่องที่สอน:</span> ${cleanVal(plan.lessonTopic)}</td>
          </tr>
        </tbody>
      </table>
-     <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
-       <tbody>
-         <tr style="height: 22px;">
-           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">กลุ่มสาระ</td>
-           <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerLearningArea)}</td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">ระดับชั้น</td>
-           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerGradeLevel)}</td>
-         </tr>
-       </tbody>
-     </table>
-      <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
-        <tbody>
-          <tr style="height: 22px;">
-            <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อหน่วย</td>
-            <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
-            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เวลา</td>
-            <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
-          </tr>
-        </tbody>
-      </table>
-     <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 15px; line-height: 1.0;">
-        <tbody>
-          <tr style="height: 22px;">
-            <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 16pt;">วันที่สอน</td>
-            <td style="width: 30%; padding: 0px; font-size: 16pt;"></td>
-            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เรื่อง</td>
-            <td style="width: 52%; padding: 0px; font-size: 16pt;">${cleanVal(plan.lessonTopic)}</td>
-          </tr>
-        </tbody>
-      </table>
 
     <div class="section">
-      <div class="section-title">1. สาระสำคัญ</div>
+      <div class="section-title">1. มาตรฐานการเรียนรู้ / ตัวชี้วัด</div>
+      <div class="section-content" style="margin-left: 0;">
+        <p><span class="label">มาตรฐานการเรียนรู้:</span><br>${renderIndicatorsWord(plan.learningStandard)}</p>
+        <p style="margin-top: 6px;"><span class="label">ตัวชี้วัดระหว่างทาง:</span><br>${renderIndicatorsWord(plan.indicatorDuring)}</p>
+        <p style="margin-top: 6px;"><span class="label">ตัวชี้วัดปลายทาง:</span><br>${renderIndicatorsWord(plan.indicatorFinal)}</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">2. สาระสำคัญ (Concept)</div>
       <div class="section-content">${cleanParagraphsWord(plan.essentialConcept)}</div>
     </div>
 
     <div class="section">
-      <div class="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
+      <div class="section-title">3. จุดประสงค์การเรียนรู้</div>
       <div class="section-content" style="margin-left: 0;">
-        <div class="sub-heading">ตัวชี้วัดระหว่างทาง</div>
-        <div class="sub-content">${renderIndicatorsWord(plan.indicatorDuring)}</div>
-        <div class="sub-heading" style="margin-top: 6px;">ตัวชี้วัดปลายทาง</div>
-        <div class="sub-content">${renderIndicatorsWord(plan.indicatorFinal)}</div>
+        <p><span class="label">ด้านความรู้ (K):</span><br>${cleanParagraphsWord(plan.objectiveK)}</p>
+        <p style="margin-top: 6px;"><span class="label">ด้านทักษะกระบวนการ (P):</span><br>${cleanParagraphsWord(plan.objectiveP)}</p>
+        <p style="margin-top: 6px;"><span class="label">ด้านคุณลักษณะ (A):</span><br>${cleanParagraphsWord(plan.objectiveA)}</p>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title">3. สมรรถนะสำคัญของผู้เรียน</div>
-      <div class="section-content-list">${renderListWord(plan.competencies)}</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">4. คุณลักษณะอันพึงประสงค์</div>
-      <div class="section-content-list">${renderListWord(plan.desiredAttributes)}</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">5. จุดประสงค์การเรียนรู้</div>
-      <div class="section-content" style="margin-left: 0;">
-        <div class="sub-heading">ด้านความรู้ (K):</div>
-        <div class="sub-content">${cleanVal(plan.objectiveK)}</div>
-        
-        <div class="sub-heading" style="margin-top: 6px;">ด้านทักษะกระบวนการ (P):</div>
-        <div class="sub-content">${cleanVal(plan.objectiveP)}</div>
-        
-        <div class="sub-heading" style="margin-top: 6px;">ด้านคุณลักษณะ (A):</div>
-        <div class="sub-content">${cleanVal(plan.objectiveA)}</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">6. เนื้อหาสาระ</div>
+      <div class="section-title">4. สาระการเรียนรู้</div>
       <div class="section-content">${cleanParagraphsWord(plan.learningContent)}</div>
     </div>
 
     <div class="section">
-      <div class="section-title">7. สื่อและแหล่งการเรียนรู้</div>
-      <div class="section-content" style="margin-left: 0;">
-        <div class="sub-heading">1) สื่อการเรียนรู้:</div>
-        <div class="sub-content">${cleanVal(plan.learningMedia) || '..................................................'}</div>
-        <div class="sub-heading" style="margin-top: 6px;">2) แหล่งเรียนรู้:</div>
-        <div class="sub-content">${cleanVal(plan.learningSources) || '..................................................'}</div>
-      </div>
+      <div class="section-title">5. สมรรถนะสำคัญของผู้เรียน</div>
+      <div class="section-content-list">${renderListWord(plan.competencies)}</div>
     </div>
 
     <div class="section">
-      <div class="section-title">8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning (แนวคิด/รูปแบบการสอน/วิธีการสอน : ${cleanVal(plan.subjectName)})</div>
+      <div class="section-title">6. คุณลักษณะอันพึงประสงค์</div>
+      <div class="section-content-list">${renderListWord(plan.desiredAttributes)}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">7. ทักษะที่จำเป็นในศตวรรษที่ 21</div>
+      <div class="section-content-list">${renderListWord(plan.skills21)}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">8. กระบวนการจัดการเรียนรู้</div>
       <div class="section-content" style="margin-left: 0;">${renderLearningProcessWord(plan.learningProcess)}</div>
     </div>
 
     <div class="section">
-      <div class="section-title">9. การวัดและการประเมินผล</div>
+      <div class="section-title">9. การวัดและประเมินผลการเรียนรู้</div>
       <table class="assessment-table">
         <thead>
           <tr>
@@ -412,7 +409,22 @@ export async function GET(
     </div>
 
     <div class="section">
-      <div class="section-title">10. บันทึกหลังการสอน</div>
+      <div class="section-title">10. สื่อการเรียนรู้</div>
+      <div class="section-content">${cleanParagraphsWord(plan.learningMedia) || '..................................................'}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">11. แหล่งเรียนรู้</div>
+      <div class="section-content">${cleanParagraphsWord(plan.learningSources) || '..................................................'}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">12. ชิ้นงาน / ภาระงาน</div>
+      <div class="section-content">${cleanParagraphsWord(plan.tasks) || '..................................................'}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">13. บันทึกหลังการจัดกระบวนการเรียนรู้</div>
       <div class="section-content" style="margin-left: 0;">
         <div class="sub-heading">1) ผลการจัดการเรียนรู้</div>
         <div class="sub-content" style="margin-top: 2px;">
@@ -428,6 +440,34 @@ export async function GET(
         ${cleanSubContentWord(plan.solutions)}
       </div>
     </div>
+
+    <!-- Lesson Plan Signatures Block -->
+    <table class="sig-table">
+      <tbody>
+        <tr>
+          <td>
+            <div class="sig-line"></div>
+            <p>(${cleanVal(plan.teacherName)})</p>
+            <p>ครูผู้สอน</p>
+            <p>วันที่ ........../........../..........</p>
+          </td>
+          <td>
+            <div class="sig-line"></div>
+            <p>(...................................)</p>
+            <p>หัวหน้ากลุ่มสาระการเรียนรู้</p>
+            <p>วันที่ ........../........../..........</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:center; padding-top:16px;">
+            <div class="sig-line" style="width:40%; margin:24px auto 4px;"></div>
+            <p>(...................................)</p>
+            <p>รองผู้อำนวยการฝ่ายวิชาการ / ผู้อำนวยการโรงเรียน</p>
+            <p>วันที่ ........../........../..........</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <!-- Page Break for Permission Section -->
     <div style="page-break-before: always;"></div>
