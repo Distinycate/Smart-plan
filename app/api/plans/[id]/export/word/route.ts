@@ -537,16 +537,16 @@ export async function GET(
        <div class="section-title">9.1 เกณฑ์การประเมินผลการเรียนรู้ (Rubrics)</div>
        <div class="section-content" style="margin-left: 0;">
          ${plan.rubricK ? `
-           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt;">เกณฑ์ประเมินด้านความรู้ (K):</div>
-           ${cleanSubContentWord(plan.rubricK)}
+           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านความรู้ (K):</div>
+           ${renderRubricTableWord(plan.rubricK)}
          ` : ''}
          ${plan.rubricP ? `
-           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 8pt;">เกณฑ์ประเมินด้านทักษะกระบวนการ (P):</div>
-           ${cleanSubContentWord(plan.rubricP)}
+           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 12pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านทักษะกระบวนการ (P):</div>
+           ${renderRubricTableWord(plan.rubricP)}
          ` : ''}
          ${plan.rubricA ? `
-           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 8pt;">เกณฑ์ประเมินด้านคุณลักษณะ (A):</div>
-           ${cleanSubContentWord(plan.rubricA)}
+           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 12pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านคุณลักษณะ (A):</div>
+           ${renderRubricTableWord(plan.rubricA)}
          ` : ''}
        </div>
      </div>
