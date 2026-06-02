@@ -142,29 +142,29 @@ export default function PlanPreview() {
               <td style={{ width: '12%', fontWeight: 'bold' }}>ชื่อ-นามสกุล</td>
               <td style={{ width: '28%' }}>{plan.teacherName}</td>
               <td style={{ width: '10%', fontWeight: 'bold' }}>โรงเรียน</td>
-              <td style={{ width: '25%' }}>{plan.schoolName}</td>
+              <td style={{ width: '18%' }}>{plan.schoolName}</td>
               <td style={{ width: '8%', fontWeight: 'bold' }}>สังกัด</td>
-              <td style={{ width: '17%' }}>{plan.organization}</td>
+              <td style={{ width: '24%' }}>{plan.organization}</td>
             </tr>
           </tbody>
         </table>
         <table className="info-table">
           <tbody>
             <tr>
-              <td style={{ width: '18%', fontWeight: 'bold' }}>กลุ่มสาระการเรียนรู้</td>
-              <td style={{ width: '57%' }}>{plan.headerLearningArea}</td>
+              <td style={{ width: '15%', fontWeight: 'bold' }}>กลุ่มสาระ</td>
+              <td style={{ width: '53%' }}>{plan.headerLearningArea}</td>
               <td style={{ width: '8%', fontWeight: 'bold' }}>ระดับชั้น</td>
-              <td style={{ width: '17%' }}>{plan.headerGradeLevel}</td>
+              <td style={{ width: '24%' }}>{plan.headerGradeLevel}</td>
             </tr>
           </tbody>
         </table>
         <table className="info-table">
           <tbody>
             <tr>
-              <td style={{ width: '18%', fontWeight: 'bold' }}>ชื่อหน่วยการเรียนรู้</td>
-              <td style={{ width: '57%' }}>{plan.unitName}</td>
+              <td style={{ width: '15%', fontWeight: 'bold' }}>ชื่อหน่วยการเรียนรู้</td>
+              <td style={{ width: '53%' }}>{plan.unitName}</td>
               <td style={{ width: '8%', fontWeight: 'bold' }}>เวลา</td>
-              <td style={{ width: '17%' }}>{plan.totalHours} ชั่วโมง</td>
+              <td style={{ width: '24%' }}>{plan.totalHours} ชั่วโมง</td>
             </tr>
           </tbody>
         </table>
@@ -491,10 +491,11 @@ export default function PlanPreview() {
         .list-wrapper {
           padding-left: 0;
           margin: 4px 0;
+          margin-left: 0.5cm;
         }
         .list-item {
-          text-indent: -0.6cm;
-          padding-left: 0.6cm;
+          text-indent: -0.5cm;
+          padding-left: 0.5cm;
           margin-bottom: 4px;
           text-align: left;
         }

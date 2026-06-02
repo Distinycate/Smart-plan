@@ -22,8 +22,8 @@ const renderListWord = (val: any) => {
   
   if (lines.length === 0) return '';
   
-  return `<div style="margin: 4px 0;">` + lines.map((line, idx) => {
-    return `<div style="text-indent: -18pt; padding-left: 18pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${line}</div>`;
+  return `<div style="margin: 4px 0; margin-left: 15pt;">` + lines.map((line, idx) => {
+    return `<div style="text-indent: -15pt; padding-left: 15pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${line}</div>`;
   }).join('') + `</div>`;
 };
 
@@ -190,29 +190,29 @@ export async function GET(
            <td style="width: 12%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อ-นามสกุล</td>
            <td style="width: 28%; padding: 0px; font-size: 16pt;">${cleanVal(plan.teacherName)}</td>
            <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 16pt;">โรงเรียน</td>
-           <td style="width: 25%; padding: 0px; font-size: 16pt;">${cleanVal(plan.schoolName)}</td>
+           <td style="width: 18%; padding: 0px; font-size: 16pt;">${cleanVal(plan.schoolName)}</td>
            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">สังกัด</td>
-           <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.organization)}</td>
+           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.organization)}</td>
          </tr>
        </tbody>
      </table>
      <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
        <tbody>
          <tr style="height: 22px;">
-           <td style="width: 18%; font-weight: bold; padding: 0px; font-size: 16pt;">กลุ่มสาระการเรียนรู้</td>
-           <td style="width: 57%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerLearningArea)}</td>
+           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">กลุ่มสาระ</td>
+           <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerLearningArea)}</td>
            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">ระดับชั้น</td>
-           <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerGradeLevel)}</td>
+           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerGradeLevel)}</td>
          </tr>
        </tbody>
      </table>
      <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
        <tbody>
          <tr style="height: 22px;">
-           <td style="width: 18%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อหน่วยการเรียนรู้</td>
-           <td style="width: 57%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
+           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อหน่วยการเรียนรู้</td>
+           <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เวลา</td>
-           <td style="width: 17%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
+           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
          </tr>
        </tbody>
      </table>
