@@ -37,106 +37,145 @@ export async function GET(
     body {
       font-family: "TH Sarabun New", "Sarabun", "Arial", sans-serif;
       font-size: 16pt;
-      line-height: 1.65;
+      line-height: 1.5;
       color: #000;
     }
     .doc-title {
       text-align: center;
       font-size: 20pt;
       font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .top-grid {
-      width: 100%;
-      border-collapse: collapse;
-      border: 1px solid #555;
       margin-bottom: 15px;
     }
-    .top-grid td {
-      width: 50%;
-      padding: 6px 10px;
-      vertical-align: top;
-      border-bottom: 1px solid #bbb;
-      font-size: 15pt;
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
     }
-    .top-grid td:first-child { border-right: 1px solid #bbb; }
+    .info-table td {
+      padding: 4px 0;
+      font-size: 15pt;
+      vertical-align: middle;
+      border: none;
+    }
     .label { font-weight: bold; }
-    .section { margin-top: 10px; }
-    .section-title { font-weight: bold; font-size: 16pt; margin-bottom: 4px; }
+    .section { margin-top: 15px; }
+    .section-title { font-weight: bold; font-size: 16.5pt; margin-bottom: 5px; }
     .section-content { margin-left: 20px; font-size: 15pt; }
     .assessment-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
       margin-bottom: 15px;
-      font-size: 14pt;
+      font-size: 14.5pt;
     }
     .assessment-table th,
     .assessment-table td {
-      border: 1px solid #333;
-      padding: 6px 8px;
+      border: 1px solid #000;
+      padding: 6px 10px;
       vertical-align: top;
     }
     .assessment-table th {
       font-weight: bold;
       text-align: center;
-      background: #e8e8e8;
+      background: #e2f1ff;
     }
-    .domain-cell { text-align: center; font-weight: bold; }
-    .sig-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-    .sig-table td { width: 50%; text-align: center; padding: 10px; font-size: 15pt; }
-    .sig-line { border-top: 1px solid #333; margin: 30px auto 4px; width: 75%; }
-    hr.divider { border: none; border-top: 1px solid #aaa; margin: 15px 0; }
+    
+    /* Signature Approval Styles */
+    .sig-section {
+      margin-top: 35px;
+    }
+    .sig-title {
+      font-weight: bold;
+      font-size: 16pt;
+      margin-top: 25px;
+      text-align: left;
+      border-bottom: 2px solid #000;
+      padding-bottom: 4px;
+      margin-bottom: 15px;
+    }
+    .comment-block {
+      margin-top: 18px;
+    }
+    .comment-heading {
+      font-weight: bold;
+      font-size: 15pt;
+      margin-bottom: 4px;
+    }
+    .comment-line {
+      border-bottom: 1px dotted #555;
+      height: 28px;
+    }
+    .sig-layout-table {
+      width: 100%;
+      border: none;
+      margin-top: 10px;
+    }
+    .sig-layout-table td {
+      border: none;
+      padding: 0;
+    }
+    .sig-cell {
+      text-align: center;
+      font-size: 14.5pt;
+      line-height: 1.7;
+    }
     p { margin: 4px 0 8px; }
   </style>
 </head>
 <body>
 
-  <div class="doc-title">แผนการจัดการเรียนรู้</div>
+  <div class="doc-title">แบบฟอร์มแผนการจัดการเรียนรู้</div>
 
-  <table class="top-grid">
-    <tr>
-      <td><span class="label">ชื่อ-นามสกุลครูผู้สอน:</span>&nbsp;${cleanVal(plan.teacherName)}</td>
-      <td><span class="label">โรงเรียน:</span>&nbsp;${cleanVal(plan.schoolName)}</td>
-    </tr>
-    <tr>
-      <td><span class="label">สังกัด:</span>&nbsp;${cleanVal(plan.organization)}</td>
-      <td><span class="label">กลุ่มสาระการเรียนรู้:</span>&nbsp;${cleanVal(plan.headerLearningArea)}</td>
-    </tr>
-    <tr>
-      <td><span class="label">ระดับชั้น:</span>&nbsp;${cleanVal(plan.headerGradeLevel)}</td>
-      <td><span class="label">ปีการศึกษา:</span>&nbsp;${cleanVal(plan.academicYear)}</td>
-    </tr>
-    <tr>
-      <td><span class="label">รายวิชา:</span>&nbsp;${cleanVal(plan.subjectName)}</td>
-      <td><span class="label">รหัสวิชา:</span>&nbsp;${cleanVal(plan.subjectCode)}</td>
-    </tr>
-    <tr>
-      <td><span class="label">ภาคเรียนที่:</span>&nbsp;${cleanVal(plan.semester)}</td>
-      <td><span class="label">เวลาเรียน:</span>&nbsp;${cleanVal(plan.totalHours)}&nbsp;ชั่วโมง</td>
-    </tr>
-    <tr>
-      <td><span class="label">หน่วยการเรียนรู้:</span>&nbsp;${cleanVal(plan.unitName)}</td>
-      <td><span class="label">เรื่องที่สอน:</span>&nbsp;${cleanVal(plan.lessonTopic)}</td>
-    </tr>
+  <table class="info-table">
+    <tbody>
+      <tr>
+        <td style="width: 40%"><span class="label">ชื่อ-นามสกุล:</span> ${cleanVal(plan.teacherName)}</td>
+        <td style="width: 35%"><span class="label">โรงเรียน:</span> ${cleanVal(plan.schoolName)}</td>
+        <td style="width: 25%"><span class="label">สังกัด:</span> ${cleanVal(plan.organization)}</td>
+      </tr>
+      <tr>
+        <td><span class="label">กลุ่มสาระการเรียนรู้:</span> ${cleanVal(plan.headerLearningArea)}</td>
+        <td colspan="2"><span class="label">ระดับชั้น:</span> ${cleanVal(plan.headerGradeLevel)}</td>
+      </tr>
+      <tr>
+        <td><span class="label">ชื่อหน่วยการเรียนรู้:</span> ${cleanVal(plan.unitName)}</td>
+        <td colspan="2"><span class="label">เวลา:</span> ${cleanVal(plan.totalHours)} ชั่วโมง</td>
+      </tr>
+      <tr>
+        <td><span class="label">แผนการจัดการเรียนรู้ที่:</span> .......</td>
+        <td><span class="label">เรื่อง:</span> ${cleanVal(plan.lessonTopic)}</td>
+        <td><span class="label">เวลา:</span> ${cleanVal(plan.totalHours)} ชั่วโมง</td>
+      </tr>
+    </tbody>
   </table>
 
   <div class="section">
-    <div class="section-title">1. มาตรฐานการเรียนรู้ / ตัวชี้วัด</div>
-    <div class="section-content">
-      <p><span class="label">มาตรฐานการเรียนรู้:</span><br>${cleanVal(plan.learningStandard)}</p>
-      <p><span class="label">ตัวชี้วัดระหว่างทาง:</span><br>${cleanVal(plan.indicatorDuring)}</p>
-      <p><span class="label">ตัวชี้วัดปลายทาง:</span><br>${cleanVal(plan.indicatorFinal)}</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">2. สาระสำคัญ (Concept)</div>
+    <div class="section-title">1. สาระสำคัญ</div>
     <div class="section-content">${cleanVal(plan.essentialConcept)}</div>
   </div>
 
   <div class="section">
-    <div class="section-title">3. จุดประสงค์การเรียนรู้</div>
+    <div class="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
+    <div class="section-content">
+      <p style="font-weight: bold; margin: 4px 0;">ตัวชี้วัดระหว่างทาง</p>
+      <div style="padding-left: 15px;">${cleanVal(plan.indicatorDuring)}</div>
+      <p style="font-weight: bold; margin: 8px 0 4px;">ตัวชี้วัดปลายทาง</p>
+      <div style="padding-left: 15px;">${cleanVal(plan.indicatorFinal)}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. สมรรถนะสำคัญของผู้เรียน</div>
+    <div class="section-content">${cleanVal(plan.competencies)}</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. คุณลักษณะอันพึงประสงค์</div>
+    <div class="section-content">${cleanVal(plan.desiredAttributes)}</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. จุดประสงค์การเรียนรู้</div>
     <div class="section-content">
       <p><span class="label">ด้านความรู้ (K):</span><br>${cleanVal(plan.objectiveK)}</p>
       <p><span class="label">ด้านทักษะกระบวนการ (P):</span><br>${cleanVal(plan.objectiveP)}</p>
@@ -145,60 +184,49 @@ export async function GET(
   </div>
 
   <div class="section">
-    <div class="section-title">4. สาระการเรียนรู้</div>
+    <div class="section-title">6. เนื้อหาสาระ</div>
     <div class="section-content">${cleanVal(plan.learningContent)}</div>
   </div>
 
   <div class="section">
-    <div class="section-title">5. สมรรถนะสำคัญของผู้เรียน</div>
-    <div class="section-content">${cleanVal(plan.competencies)}</div>
+    <div class="section-title">7. สื่อและแหล่งการเรียนรู้</div>
+    <div class="section-content">
+      <p><span class="label">สื่อการเรียนรู้:</span><br>${cleanVal(plan.learningMedia)}</p>
+      <p><span class="label">แหล่งเรียนรู้:</span><br>${cleanVal(plan.learningSources)}</p>
+    </div>
   </div>
 
   <div class="section">
-    <div class="section-title">6. คุณลักษณะอันพึงประสงค์</div>
-    <div class="section-content">${cleanVal(plan.desiredAttributes)}</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">7. ทักษะที่จำเป็นในศตวรรษที่ 21</div>
-    <div class="section-content">${cleanVal(plan.skills21)}</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">8. กระบวนการจัดการเรียนรู้</div>
+    <div class="section-title">8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning (แนวคิด/รูปแบบการสอน/วิธีการสอน : ${cleanVal(plan.subjectName)})</div>
     <div class="section-content">${cleanVal(plan.learningProcess)}</div>
   </div>
 
   <div class="section">
-    <div class="section-title">9. การวัดและประเมินผลการเรียนรู้</div>
+    <div class="section-title">9. การวัดและการประเมินผล</div>
     <table class="assessment-table">
       <thead>
         <tr>
-          <th style="width:10%">ด้าน</th>
-          <th style="width:25%">สิ่งที่ต้องการวัดและประเมินผล</th>
-          <th style="width:20%">วิธีการวัดผล</th>
-          <th style="width:25%">เครื่องมือวัดผล</th>
-          <th style="width:20%">เกณฑ์การประเมิน</th>
+          <th style="width:25%">รายการวัด</th>
+          <th style="width:25%">วิธีวัด</th>
+          <th style="width:25%">เครื่องมือ</th>
+          <th style="width:25%">เกณฑ์การประเมิน</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="domain-cell">ความรู้<br>(K)</td>
-          <td>${cleanVal(plan.objectiveK)}</td>
+          <td><strong>ด้านความรู้ (K)</strong><br>${cleanVal(plan.objectiveK)}</td>
           <td>${cleanVal(plan.methodK)}</td>
           <td>${cleanVal(plan.toolK)}</td>
           <td>${cleanVal(plan.criteriaK)}</td>
         </tr>
         <tr>
-          <td class="domain-cell">ทักษะ<br>(P)</td>
-          <td>${cleanVal(plan.objectiveP)}</td>
+          <td><strong>ด้านทักษะกระบวนการ (P)</strong><br>${cleanVal(plan.objectiveP)}</td>
           <td>${cleanVal(plan.methodP)}</td>
           <td>${cleanVal(plan.toolP)}</td>
           <td>${cleanVal(plan.criteriaP)}</td>
         </tr>
         <tr>
-          <td class="domain-cell">คุณลักษณะ<br>(A)</td>
-          <td>${cleanVal(plan.objectiveA)}</td>
+          <td><strong>ด้านคุณลักษณะ (A)</strong><br>${cleanVal(plan.objectiveA)}</td>
           <td>${cleanVal(plan.methodA)}</td>
           <td>${cleanVal(plan.toolA)}</td>
           <td>${cleanVal(plan.criteriaA)}</td>
@@ -208,57 +236,76 @@ export async function GET(
   </div>
 
   <div class="section">
-    <div class="section-title">10. สื่อการเรียนรู้</div>
-    <div class="section-content">${cleanVal(plan.learningMedia)}</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">11. แหล่งเรียนรู้</div>
-    <div class="section-content">${cleanVal(plan.learningSources)}</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">12. ชิ้นงาน / ภาระงาน</div>
-    <div class="section-content">${cleanVal(plan.tasks)}</div>
-  </div>
-
-  <hr class="divider">
-
-  <div class="section">
-    <div class="section-title">13. บันทึกหลังการจัดการเรียนรู้</div>
+    <div class="section-title">10. บันทึกหลังการสอน</div>
     <div class="section-content">
-      <p><span class="label">ผลการสอนด้านความรู้ (K):</span><br>${cleanVal(plan.resultK)}</p>
-      <p><span class="label">ผลการสอนด้านทักษะ (P):</span><br>${cleanVal(plan.resultP)}</p>
-      <p><span class="label">ผลการสอนด้านคุณลักษณะ (A):</span><br>${cleanVal(plan.resultA)}</p>
-      <p><span class="label">ปัญหาและอุปสรรคที่พบ:</span><br>${cleanVal(plan.problems)}</p>
-      <p><span class="label">แนวทางแก้ไขและพัฒนา:</span><br>${cleanVal(plan.solutions)}</p>
+      <p><span class="label">1) ผลการจัดการเรียนรู้:</span><br>
+         - ด้านความรู้ (K): ${cleanVal(plan.resultK)}<br>
+         - ด้านทักษะกระบวนการ (P): ${cleanVal(plan.resultP)}<br>
+         - ด้านคุณลักษณะ (A): ${cleanVal(plan.resultA)}
+      </p>
+      <p><span class="label">2) ปัญหา/อุปสรรค:</span><br>${cleanVal(plan.problems)}</p>
+      <p><span class="label">3) ข้อเสนอแนะ/แนวทางแก้ไข:</span><br>${cleanVal(plan.solutions)}</p>
     </div>
   </div>
 
-  <table class="sig-table">
-    <tr>
-      <td>
-        <div class="sig-line"></div>
-        <p>(${cleanVal(plan.teacherName)})</p>
-        <p>ครูผู้สอน</p>
-        <p>วันที่ ........../........../..........</p>
-      </td>
-      <td>
-        <div class="sig-line"></div>
-        <p>(...................................)</p>
-        <p>หัวหน้ากลุ่มสาระการเรียนรู้</p>
-        <p>วันที่ ........../........../..........</p>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2" style="text-align:center;">
-        <div class="sig-line" style="width:40%; margin-top: 35px;"></div>
-        <p>(...................................)</p>
-        <p>รองผู้อำนวยการฝ่ายวิชาการ / ผู้อำนวยการโรงเรียน</p>
-        <p>วันที่ ........../........../..........</p>
-      </td>
-    </tr>
-  </table>
+  <!-- Permission Request Section -->
+  <div class="sig-section">
+    <div class="sig-title">การขออนุญาตใช้แผนการจัดการเรียนรู้</div>
+    
+    <div class="comment-block">
+      <div class="comment-heading">ความเห็น / ข้อเสนอแนะของหัวหน้างานวิชาการ</div>
+      <div class="comment-line"></div>
+      <div class="comment-line"></div>
+      <table class="sig-layout-table">
+        <tbody>
+          <tr>
+            <td style="width: 45%"></td>
+            <td class="sig-cell">
+              (ลงชื่อ) ............................................................<br>
+              (....................................................)<br>
+              หัวหน้างานวิชาการ.................................
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="comment-block">
+      <div class="comment-heading">ความเห็น / ข้อเสนอแนะของรองผู้อำนวยการบริหารงานวิชาการ (ถ้ามี)</div>
+      <div class="comment-line"></div>
+      <div class="comment-line"></div>
+      <table class="sig-layout-table">
+        <tbody>
+          <tr>
+            <td style="width: 45%"></td>
+            <td class="sig-cell">
+              (ลงชื่อ) ............................................................<br>
+              (....................................................)<br>
+              รองผู้อำนวยการ.......................................
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="comment-block">
+      <div class="comment-heading">ความเห็น / ข้อเสนอแนะของผู้อำนวยการ</div>
+      <div class="comment-line"></div>
+      <div class="comment-line"></div>
+      <table class="sig-layout-table">
+        <tbody>
+          <tr>
+            <td style="width: 45%"></td>
+            <td class="sig-cell">
+              (ลงชื่อ) ............................................................<br>
+              (....................................................)<br>
+              ผู้อำนวยการ............................................
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 </body>
 </html>
