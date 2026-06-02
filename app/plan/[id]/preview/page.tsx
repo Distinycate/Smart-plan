@@ -78,7 +78,7 @@ export default function PlanPreview() {
     ));
   };
 
-  // Render multiple indicators line by line, ensuring same left indentation
+  // Render multiple indicators line by line, ensuring same left indentation (1.25cm)
   const renderIndicators = (val: any) => {
     if (!val) return '';
     return String(val)
@@ -92,7 +92,7 @@ export default function PlanPreview() {
       ));
   };
 
-  // Clean list formatting (e.g. - chips to 1) 2) 3))
+  // Clean list formatting (e.g. - chips to 1) 2) 3)) with 0.75cm indent
   const renderList = (val: any) => {
     if (!val) return '';
     const lines = String(val)
@@ -139,21 +139,30 @@ export default function PlanPreview() {
         <table className="info-table">
           <tbody>
             <tr>
-              <td style={{ width: '40%' }}><span className="label">ชื่อ-นามสกุล</span> <span className="value-dotted">{plan.teacherName}</span></td>
-              <td style={{ width: '35%' }}><span className="label">โรงเรียน</span> <span className="value-dotted">{plan.schoolName}</span></td>
-              <td style={{ width: '25%' }}><span className="label">สังกัด</span> <span className="value-dotted">{plan.organization}</span></td>
+              <td style={{ width: '12%', fontWeight: 'bold' }}>ชื่อ-นามสกุล</td>
+              <td style={{ width: '28%', borderBottom: '1px dotted #000' }}>{plan.teacherName}</td>
+              <td style={{ width: '10%', fontWeight: 'bold', textAlign: 'center' }}>โรงเรียน</td>
+              <td style={{ width: '25%', borderBottom: '1px dotted #000' }}>{plan.schoolName}</td>
+              <td style={{ width: '8%', fontWeight: 'bold', textAlign: 'center' }}>สังกัด</td>
+              <td style={{ width: '17%', borderBottom: '1px dotted #000' }}>{plan.organization}</td>
             </tr>
             <tr>
-              <td colSpan={2}><span className="label">กลุ่มสาระการเรียนรู้</span> <span className="value-dotted">{plan.headerLearningArea}</span></td>
-              <td><span className="label">ระดับชั้น</span> <span className="value-dotted">{plan.headerGradeLevel}</span></td>
+              <td style={{ fontWeight: 'bold' }}>กลุ่มสาระการเรียนรู้</td>
+              <td colSpan={3} style={{ borderBottom: '1px dotted #000' }}>{plan.headerLearningArea}</td>
+              <td style={{ fontWeight: 'bold', textAlign: 'center' }}>ระดับชั้น</td>
+              <td style={{ borderBottom: '1px dotted #000' }}>{plan.headerGradeLevel}</td>
             </tr>
             <tr>
-              <td colSpan={2}><span className="label">ชื่อหน่วยการเรียนรู้</span> <span className="value-dotted">{plan.unitName}</span></td>
-              <td><span className="label">เวลา</span> <span className="value-dotted">{plan.totalHours} ชั่วโมง</span></td>
+              <td style={{ fontWeight: 'bold' }}>ชื่อหน่วยการเรียนรู้</td>
+              <td colSpan={3} style={{ borderBottom: '1px dotted #000' }}>{plan.unitName}</td>
+              <td style={{ fontWeight: 'bold', textAlign: 'center' }}>เวลา</td>
+              <td style={{ borderBottom: '1px dotted #000' }}>{plan.totalHours} ชั่วโมง</td>
             </tr>
             <tr>
-              <td><span className="label">แผนการจัดการเรียนรู้ที่</span> <span className="value-dotted">....................</span></td>
-              <td colSpan={2}><span className="label">เรื่อง</span> <span className="value-dotted">{plan.lessonTopic}</span></td>
+              <td style={{ fontWeight: 'bold' }}>แผนการจัดการเรียนรู้ที่</td>
+              <td style={{ borderBottom: '1px dotted #000' }}>................</td>
+              <td style={{ fontWeight: 'bold', textAlign: 'center' }}>เรื่อง</td>
+              <td colSpan={3} style={{ borderBottom: '1px dotted #000' }}>{plan.lessonTopic}</td>
             </tr>
           </tbody>
         </table>
@@ -165,7 +174,7 @@ export default function PlanPreview() {
 
         <div className="section">
           <div className="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
-          <div className="section-content">
+          <div className="section-content" style={{ marginLeft: '0' }}>
             <div className="sub-heading">ตัวชี้วัดระหว่างทาง</div>
             <div className="sub-content">{renderIndicators(plan.indicatorDuring)}</div>
             <div className="sub-heading" style={{ marginTop: '6px' }}>ตัวชี้วัดปลายทาง</div>
@@ -185,7 +194,7 @@ export default function PlanPreview() {
 
         <div className="section">
           <div className="section-title">5. จุดประสงค์การเรียนรู้</div>
-          <div className="section-content">
+          <div className="section-content" style={{ marginLeft: '0' }}>
             <div className="sub-heading">ด้านความรู้ (K):</div>
             <div className="sub-content">{cleanTableCellVal(plan.objectiveK)}</div>
             
@@ -204,7 +213,7 @@ export default function PlanPreview() {
 
         <div className="section">
           <div className="section-title">7. สื่อและแหล่งการเรียนรู้</div>
-          <div className="section-content">
+          <div className="section-content" style={{ marginLeft: '0' }}>
             <div className="sub-heading">1) สื่อการเรียนรู้:</div>
             <div className="sub-content">{cleanTableCellVal(plan.learningMedia) || '..................................................'}</div>
             <div className="sub-heading" style={{ marginTop: '6px' }}>2) แหล่งเรียนรู้:</div>
@@ -253,7 +262,7 @@ export default function PlanPreview() {
 
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
           <div className="section-title">10. บันทึกหลังการสอน</div>
-          <div className="section-content">
+          <div className="section-content" style={{ marginLeft: '0' }}>
             <div className="sub-heading">1) ผลการจัดการเรียนรู้</div>
             <div className="sub-content" style={{ marginTop: '2px' }}>
               - ด้านความรู้ (K): {cleanTableCellVal(plan.resultK)}
@@ -278,8 +287,8 @@ export default function PlanPreview() {
           
           <div className="comment-block">
             <div className="comment-heading">ความเห็น / ข้อเสนอแนะของหัวหน้างานวิชาการ</div>
-            <div className="comment-line"></div>
-            <div className="comment-line"></div>
+            <div className="comment-line">............................................................................................................................................................................................</div>
+            <div className="comment-line">............................................................................................................................................................................................</div>
             <table className="sig-layout-table">
               <tbody>
                 <tr>
@@ -296,8 +305,8 @@ export default function PlanPreview() {
 
           <div className="comment-block">
             <div className="comment-heading">ความเห็น / ข้อเสนอแนะของรองผู้อำนวยการบริหารงานวิชาการ (ถ้ามี)</div>
-            <div className="comment-line"></div>
-            <div className="comment-line"></div>
+            <div className="comment-line">............................................................................................................................................................................................</div>
+            <div className="comment-line">............................................................................................................................................................................................</div>
             <table className="sig-layout-table">
               <tbody>
                 <tr>
@@ -314,8 +323,8 @@ export default function PlanPreview() {
 
           <div className="comment-block">
             <div className="comment-heading">ความเห็น / ข้อเสนอแนะของผู้อำนวยการ</div>
-            <div className="comment-line"></div>
-            <div className="comment-line"></div>
+            <div className="comment-line">............................................................................................................................................................................................</div>
+            <div className="comment-line">............................................................................................................................................................................................</div>
             <table className="sig-layout-table">
               <tbody>
                 <tr>
@@ -402,32 +411,27 @@ export default function PlanPreview() {
           text-align: center;
           font-size: 20pt;
           font-weight: bold;
-          margin-bottom: 18px;
+          margin-bottom: 15px;
         }
         .info-table {
           width: 100%;
           border-collapse: collapse;
-          margin-bottom: 20px;
+          margin-bottom: 15px;
           line-height: 1.0;
         }
         .info-table td {
-          padding: 1px 0;
+          padding: 0px !important;
+          margin: 0px !important;
           font-size: 16pt;
           vertical-align: middle;
           border: none;
+          height: 22px;
         }
         .label {
           font-weight: bold;
         }
-        .value-dotted {
-          border-bottom: 1px dotted #333;
-          display: inline-block;
-          min-width: 120px;
-          padding: 0 4px;
-          text-indent: 0;
-        }
         .section {
-          margin-top: 14px;
+          margin-top: 10px;
         }
         .section-title {
           font-weight: bold;
@@ -438,31 +442,31 @@ export default function PlanPreview() {
           padding-left: 0;
         }
         .section-content {
-          margin-left: 1.25cm;
+          margin-left: 0.75cm;
           font-size: 16pt;
           text-align: left;
           line-height: 1.0;
         }
         .section-content-list {
-          margin-left: 1.25cm;
+          margin-left: 0.75cm;
           font-size: 16pt;
           line-height: 1.0;
         }
         .indent-p {
           margin: 2px 0 4px 0;
-          text-indent: 1.25cm;
+          text-indent: 0.5cm;
           text-align: left;
         }
         
         .sub-heading {
           font-weight: bold;
-          margin-left: 1.25cm;
+          margin-left: 0.75cm;
           margin-top: 4px;
           margin-bottom: 2px;
           font-size: 16pt;
         }
         .sub-content {
-          margin-left: 2.5cm;
+          margin-left: 1.25cm;
           font-size: 16pt;
           text-align: left;
         }
@@ -477,8 +481,8 @@ export default function PlanPreview() {
           margin: 4px 0;
         }
         .list-item {
-          text-indent: -0.8cm;
-          padding-left: 0.8cm;
+          text-indent: -0.6cm;
+          padding-left: 0.6cm;
           margin-bottom: 4px;
           text-align: left;
         }
@@ -493,7 +497,7 @@ export default function PlanPreview() {
         .assessment-table th,
         .assessment-table td {
           border: 1px solid #000;
-          padding: 6px 10px;
+          padding: 4px 8px;
           vertical-align: top;
           font-size: 14pt;
           text-align: left;
@@ -518,22 +522,25 @@ export default function PlanPreview() {
           margin-bottom: 15px;
         }
         .comment-block {
-          margin-top: 16px;
+          margin-top: 12px;
           page-break-inside: avoid;
         }
         .comment-heading {
           font-weight: bold;
           font-size: 15pt;
-          margin-bottom: 4px;
+          margin-bottom: 2px;
         }
         .comment-line {
-          border-bottom: 1px dotted #555;
-          height: 28px;
+          color: #333;
+          font-size: 15pt;
+          line-height: 1.2;
+          margin-bottom: 2px;
+          letter-spacing: 1px;
         }
         .sig-layout-table {
           width: 100%;
           border: none;
-          margin-top: 10px;
+          margin-top: 6px;
         }
         .sig-layout-table td {
           border: none;
@@ -542,14 +549,18 @@ export default function PlanPreview() {
         .sig-cell {
           text-align: center;
           font-size: 15pt;
-          line-height: 1.7;
+          line-height: 1.6;
         }
 
         p {
-          margin: 3px 0 6px;
+          margin: 2px 0 4px;
         }
 
         @media print {
+          @page {
+            size: A4;
+            margin: 20mm 20mm 20mm 25mm;
+          }
           body {
             background: #fff;
           }
@@ -560,10 +571,10 @@ export default function PlanPreview() {
             padding-top: 0;
           }
           .a4-sheet {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            box-shadow: none;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
           }
         }
       `}</style>
