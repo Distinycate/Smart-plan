@@ -3,29 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
-  FileText, 
-  FileEdit, 
-  Plus, 
-  Search, 
-  Filter, 
-  Sparkles, 
-  CheckCircle2, 
-  Clock,
-  BookOpen,
-  Download,
-  Eye,
-  Trash2,
-  RefreshCw,
-  GraduationCap,
-  BarChart3,
-  ChevronRight,
-  Star,
-  Zap,
-  FileDown,
-  Printer,
-  PenLine,
-  Calendar,
-  Layers
+  FileText, FileEdit, Plus, Search, Filter, Sparkles,
+  CheckCircle2, Clock, Download, Eye, Trash2, RefreshCw,
+  GraduationCap, BarChart3, FileDown, Printer, PenLine, 
+  Calendar, Layers, BookOpen, Zap, TrendingUp, Star
 } from 'lucide-react';
 
 export default function TeacherDashboard() {
@@ -33,35 +14,28 @@ export default function TeacherDashboard() {
   
   const [plans, setPlans] = useState<any[]>([]);
   const [initialData, setInitialData] = useState<any>(null);
-  
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
   
-  // Filter States
   const [filterGrade, setFilterGrade] = useState('');
   const [filterSubject, setFilterSubject] = useState('');
   const [filterSemester, setFilterSemester] = useState('');
-  const [filterYear, setFilterYear] = useState('');
-  const [filterKeyword, setFilterKeyword] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+  const [filterKeyword, setFilterKeyword] = useState('');
 
   const loadData = async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
-    
     try {
       const [plansRes, initRes] = await Promise.all([
         fetch('/api/plans'),
         fetch('/api/initial-data')
       ]);
-      
       const plansJson = await plansRes.json();
       const initJson = await initRes.json();
-      
       if (plansJson.success) setPlans(plansJson.data || []);
       if (initJson.success) setInitialData(initJson.data);
-      
     } catch (err: any) {
       setError(err.message || 'เกิดข้อผิดพลาดในการโหลดข้อมูล');
     } finally {
@@ -70,283 +44,309 @@ export default function TeacherDashboard() {
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useEffect(() => { loadData(); }, []);
 
-  // Filter Logic
   const filteredPlans = plans.filter(p => {
     if (filterGrade && p.gradeLevel !== filterGrade) return false;
     if (filterSubject && p.subjectName !== filterSubject) return false;
     if (filterSemester && String(p.semester) !== filterSemester) return false;
-    if (filterYear && String(p.academicYear) !== filterYear) return false;
     if (filterStatus && p.planStatus !== filterStatus) return false;
-    
     if (filterKeyword) {
       const kw = filterKeyword.toLowerCase();
-      const topic = String(p.lessonTopic || '').toLowerCase();
-      const unit = String(p.unitName || '').toLowerCase();
-      const code = String(p.subjectCode || '').toLowerCase();
-      return topic.includes(kw) || unit.includes(kw) || code.includes(kw);
+      return (
+        String(p.lessonTopic || '').toLowerCase().includes(kw) ||
+        String(p.unitName || '').toLowerCase().includes(kw) ||
+        String(p.subjectCode || '').toLowerCase().includes(kw)
+      );
     }
-    
     return true;
   });
 
-  // Export Document Helpers
-  const handleExportWord = (planId: string) => {
-    window.open(`/api/plans/${planId}/export/word`, '_blank');
-  };
-
+  const handleExportWord = (planId: string) => window.open(`/api/plans/${planId}/export/word`, '_blank');
   const handleExportPdf = async (planId: string) => {
     try {
       const res = await fetch(`/api/plans/${planId}/export/pdf`, { method: 'POST' });
       const json = await res.json();
-      if (json.success) {
-        window.open(json.pdfUrl, '_blank');
-      } else {
-        alert('เกิดข้อผิดพลาด: ' + json.error);
-      }
-    } catch (err: any) {
-      alert('เกิดข้อผิดพลาด: ' + err.message);
-    }
+      if (json.success) window.open(json.pdfUrl, '_blank');
+      else alert('เกิดข้อผิดพลาด: ' + json.error);
+    } catch (err: any) { alert('เกิดข้อผิดพลาด: ' + err.message); }
   };
-
   const handleDeletePlan = async (planId: string, topic: string) => {
-    const confirmed = window.confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบแผนการสอน "${topic || 'ไม่มีชื่อหัวข้อ'}"? การดำเนินการนี้จะไม่สามารถย้อนกลับได้`);
-    if (!confirmed) return;
-
+    if (!window.confirm(`ลบแผนการสอน "${topic || 'ไม่มีชื่อ'}"?\nการดำเนินการนี้ไม่สามารถย้อนกลับได้`)) return;
     try {
       const res = await fetch(`/api/plans/${planId}`, { method: 'DELETE' });
       const json = await res.json();
-      if (json.success) {
-        loadData(true);
-      } else {
-        alert('เกิดข้อผิดพลาด: ' + json.error);
-      }
-    } catch (err: any) {
-      alert('เกิดข้อผิดพลาด: ' + err.message);
-    }
+      if (json.success) loadData(true);
+      else alert('เกิดข้อผิดพลาด: ' + json.error);
+    } catch (err: any) { alert('เกิดข้อผิดพลาด: ' + err.message); }
   };
 
-  // Stats
   const totalPlans = plans.length;
   const draftPlans = plans.filter(p => p.planStatus === 'draft').length;
   const completedPlans = plans.filter(p => p.planStatus === 'complete').length;
+  const successRate = totalPlans > 0 ? Math.round((completedPlans / totalPlans) * 100) : 0;
 
-  // Extract master lists for filter dropdowns
-  const gradeLevels = initialData?.subjects 
-    ? Array.from(new Set(initialData.subjects.map((s: any) => s.gradeLevel))) 
-    : [];
-  const subjectNames = initialData?.subjects 
-    ? Array.from(new Set(initialData.subjects.map((s: any) => s.subjectName))) 
-    : [];
+  const gradeLevels: any[] = initialData?.subjects 
+    ? Array.from(new Set(initialData.subjects.map((s: any) => s.gradeLevel))) : [];
+  const subjectNames: any[] = initialData?.subjects 
+    ? Array.from(new Set(initialData.subjects.map((s: any) => s.subjectName))) : [];
 
-  const formatDate = (dateStr: string) => {
-    if (!dateStr) return '—';
-    try {
-      return new Date(dateStr).toLocaleDateString('th-TH', { 
-        day: 'numeric', month: 'short', year: 'numeric' 
-      });
-    } catch { return '—'; }
+  const hasFilter = filterGrade || filterSubject || filterSemester || filterKeyword || filterStatus;
+
+  const formatDate = (d: string) => {
+    if (!d) return '—';
+    try { return new Date(d).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit' }); }
+    catch { return '—'; }
   };
 
   return (
-    <div className="db-page">
+    <div className="page">
 
-      {/* ═══════════════════════════════════════════ HERO ═══ */}
-      <div className="db-hero">
-        <div className="db-hero-bg" />
-        <div className="db-hero-inner">
-          <div className="db-hero-left">
-            <div className="db-hero-badge">
-              <Sparkles size={13} />
+      {/* ══════════════════════ HERO ══════════════════════ */}
+      <div className="hero-wrap">
+        <div className="hero-content">
+          <div className="hero-text">
+            <div className="home-hero-badge">
+              <Sparkles size={12} />
               <span>ขับเคลื่อนด้วย Gemini 2.5 Flash AI</span>
             </div>
-            <h1 className="db-hero-title">
-              ระบบจัดทำ<br />
-              <span className="db-hero-highlight">แผนการเรียนรู้</span>
-              <br />อัจฉริยะ
-            </h1>
-            <p className="db-hero-sub">
-              วิเคราะห์มาตรฐาน ตัวชี้วัด จุดประสงค์ KPA ครบ 19 ฟิลด์อัตโนมัติ<br />
-              ส่งออก Word และ PDF ได้ทันที พร้อมระบบสำรองข้อมูลอัตโนมัติ
+            <h2 className="hero-title">
+              สร้างแผนการสอน<br />
+              <span className="hero-accent">อัจฉริยะ</span> ใน&nbsp;3&nbsp;นาที
+            </h2>
+            <p className="hero-desc">
+              วิเคราะห์มาตรฐานตัวชี้วัด KPA ครบ 19 ฟิลด์อัตโนมัติ<br/>
+              ส่งออก Word · PDF ได้ทันที สำรองข้อมูลอัตโนมัติ
             </p>
-            <div className="db-hero-actions">
-              <button className="db-btn-primary" onClick={() => router.push('/plan/new')}>
-                <Plus size={16} />
-                สร้างแผนการสอนใหม่
+            <div className="hero-pills">
+              <span className="h-pill">✅ มาตรฐานการเรียนรู้</span>
+              <span className="h-pill">✅ ตัวชี้วัด K/P/A</span>
+              <span className="h-pill">✅ Rubric 5 ระดับ</span>
+              <span className="h-pill">✅ Active Learning</span>
+            </div>
+            <div className="home-hero-actions">
+              <button className="btn btn-hero" onClick={() => router.push('/plan/new')}>
+                <Plus size={15} /> สร้างแผนการสอนใหม่
               </button>
-              <button className="db-btn-ghost" onClick={() => loadData(true)} disabled={refreshing}>
-                <RefreshCw size={15} className={refreshing ? 'spin' : ''} />
-                {refreshing ? 'กำลังรีเฟรช...' : 'รีเฟรชข้อมูล'}
+              <button className="btn btn-hero-outline" onClick={() => loadData(true)} disabled={refreshing}>
+                <RefreshCw size={14} className={refreshing ? 'spin-icon' : ''} />
+                {refreshing ? 'กำลังรีเฟรช...' : 'รีเฟรช'}
               </button>
             </div>
           </div>
-          <div className="db-hero-right">
-            <div className="db-hero-icon-wrap">
-              <GraduationCap size={80} strokeWidth={1.2} className="db-hero-icon" />
-            </div>
+          <div className="hero-img-wrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/hero-illustration.png" alt="illustration" className="hero-img" />
+          </div>
+        </div>
+
+        {/* Floating mini-stats inside hero */}
+        <div className="hero-ministats">
+          <div className="hero-ministat">
+            <Layers size={16} className="ms-icon blue-i" />
+            <strong>{totalPlans}</strong>
+            <span>แผนทั้งหมด</span>
+          </div>
+          <div className="hero-ministat-divider" />
+          <div className="hero-ministat">
+            <CheckCircle2 size={16} className="ms-icon green-i" />
+            <strong>{completedPlans}</strong>
+            <span>สำเร็จแล้ว</span>
+          </div>
+          <div className="hero-ministat-divider" />
+          <div className="hero-ministat">
+            <Clock size={16} className="ms-icon amber-i" />
+            <strong>{draftPlans}</strong>
+            <span>ยังไม่เสร็จ</span>
+          </div>
+          <div className="hero-ministat-divider" />
+          <div className="hero-ministat">
+            <TrendingUp size={16} className="ms-icon purple-i" />
+            <strong>{successRate}%</strong>
+            <span>ความสำเร็จ</span>
           </div>
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════ STAT CARDS ═══ */}
-      <div className="db-stats">
-        <div className="db-stat-card blue">
-          <div className="db-stat-icon">
-            <Layers size={22} />
+      {/* ══════════════════════ STAT CARDS ══════════════════════ */}
+      <div className="stat-grid-4">
+        <div className="scard scard-blue">
+          <div className="scard-left">
+            <div className="scard-num">{totalPlans}</div>
+            <div className="scard-label">แผนการสอนทั้งหมด</div>
+            <div className="scard-sub">ในระบบทั้งหมด</div>
           </div>
-          <div className="db-stat-body">
-            <div className="db-stat-num">{totalPlans}</div>
-            <div className="db-stat-label">แผนการสอนทั้งหมด</div>
-          </div>
-          <div className="db-stat-bg-icon"><Layers size={60} /></div>
+          <div className="scard-icon"><Layers size={32} /></div>
         </div>
-        <div className="db-stat-card green">
-          <div className="db-stat-icon">
-            <CheckCircle2 size={22} />
+        <div className="scard scard-green">
+          <div className="scard-left">
+            <div className="scard-num">{completedPlans}</div>
+            <div className="scard-label">แผนที่สมบูรณ์</div>
+            <div className="scard-sub">พร้อมส่งออก Word/PDF</div>
           </div>
-          <div className="db-stat-body">
-            <div className="db-stat-num">{completedPlans}</div>
-            <div className="db-stat-label">แผนที่สมบูรณ์แล้ว</div>
-          </div>
-          <div className="db-stat-bg-icon"><CheckCircle2 size={60} /></div>
+          <div className="scard-icon"><CheckCircle2 size={32} /></div>
         </div>
-        <div className="db-stat-card amber">
-          <div className="db-stat-icon">
-            <Clock size={22} />
+        <div className="scard scard-amber">
+          <div className="scard-left">
+            <div className="scard-num">{draftPlans}</div>
+            <div className="scard-label">ร่างแผนค้างอยู่</div>
+            <div className="scard-sub">รอการแก้ไขให้สมบูรณ์</div>
           </div>
-          <div className="db-stat-body">
-            <div className="db-stat-num">{draftPlans}</div>
-            <div className="db-stat-label">ร่างที่ยังไม่เสร็จ</div>
-          </div>
-          <div className="db-stat-bg-icon"><Clock size={60} /></div>
+          <div className="scard-icon"><Clock size={32} /></div>
         </div>
-        <div className="db-stat-card purple">
-          <div className="db-stat-icon">
-            <Zap size={22} />
+        <div className="scard scard-violet">
+          <div className="scard-left">
+            <div className="scard-num">{successRate}%</div>
+            <div className="scard-label">อัตราความสำเร็จ</div>
+            <div className="scard-sub">แผนสมบูรณ์ / ทั้งหมด</div>
           </div>
-          <div className="db-stat-body">
-            <div className="db-stat-num">{totalPlans > 0 ? Math.round((completedPlans / totalPlans) * 100) : 0}%</div>
-            <div className="db-stat-label">อัตราความสำเร็จ</div>
-          </div>
-          <div className="db-stat-bg-icon"><BarChart3 size={60} /></div>
+          <div className="scard-icon"><BarChart3 size={32} /></div>
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════ FILTER ═══ */}
-      <div className="db-section-card">
-        <div className="db-section-header">
-          <Filter size={16} />
-          <span>ค้นหาและคัดกรองแผนการสอน</span>
-        </div>
-
-        <div className="db-filter-row">
-          <div className="db-filter-search">
-            <Search size={15} className="db-filter-icon" />
-            <input 
-              className="db-filter-input" 
-              placeholder="ค้นหา รหัสวิชา / ชื่อหน่วย / หัวเรื่องที่สอน..." 
+      {/* ══════════════════════ FILTER ══════════════════════ */}
+      <div className="card">
+        <h3><Filter size={15} /> ค้นหาและกรองแผนการสอน</h3>
+        <div className="filter-search-row">
+          <div style={{ position: 'relative', flex: 1 }}>
+            <Search size={15} style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', color: 'var(--c-gray-400)', pointerEvents: 'none' }} />
+            <input
+              placeholder="ค้นหา รหัสวิชา / ชื่อหน่วย / หัวเรื่องที่สอน..."
               value={filterKeyword}
               onChange={e => setFilterKeyword(e.target.value)}
+              style={{ paddingLeft: 38 }}
             />
           </div>
-          <div className="db-filter-chips">
-            <select className="db-sel" value={filterGrade} onChange={e => setFilterGrade(e.target.value)}>
-              <option value="">ทุกระดับชั้น</option>
+        </div>
+        <div className="g3" style={{ marginTop: 12 }}>
+          <label className="field">
+            ระดับชั้น
+            <select value={filterGrade} onChange={e => setFilterGrade(e.target.value)}>
+              <option value="">ทั้งหมด</option>
               {gradeLevels.map((g: any) => <option key={g} value={g}>{g}</option>)}
             </select>
-            <select className="db-sel" value={filterSubject} onChange={e => setFilterSubject(e.target.value)}>
-              <option value="">ทุกรายวิชา</option>
+          </label>
+          <label className="field">
+            รายวิชา
+            <select value={filterSubject} onChange={e => setFilterSubject(e.target.value)}>
+              <option value="">ทั้งหมด</option>
               {subjectNames.map((s: any) => <option key={s} value={s}>{s}</option>)}
             </select>
-            <select className="db-sel" value={filterSemester} onChange={e => setFilterSemester(e.target.value)}>
-              <option value="">ทุกภาคเรียน</option>
-              <option value="1">ภาคเรียนที่ 1</option>
-              <option value="2">ภาคเรียนที่ 2</option>
-            </select>
-            <select className="db-sel" value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
-              <option value="">ทุกสถานะ</option>
-              <option value="complete">สมบูรณ์</option>
-              <option value="draft">ร่างแผน</option>
-            </select>
-            {(filterGrade || filterSubject || filterSemester || filterKeyword || filterStatus) && (
-              <button className="db-clear-btn" onClick={() => { setFilterGrade(''); setFilterSubject(''); setFilterSemester(''); setFilterKeyword(''); setFilterStatus(''); }}>
-                ล้างตัวกรอง ✕
-              </button>
-            )}
+          </label>
+          <div className="g2">
+            <label className="field">
+              ภาคเรียน
+              <select value={filterSemester} onChange={e => setFilterSemester(e.target.value)}>
+                <option value="">ทั้งหมด</option>
+                <option value="1">ภาค 1</option>
+                <option value="2">ภาค 2</option>
+              </select>
+            </label>
+            <label className="field">
+              สถานะ
+              <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+                <option value="">ทั้งหมด</option>
+                <option value="complete">✅ สมบูรณ์</option>
+                <option value="draft">📝 ร่างแผน</option>
+              </select>
+            </label>
           </div>
         </div>
+        {hasFilter && (
+          <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 12.5, color: 'var(--c-gray-500)' }}>
+              แสดง <strong style={{ color: 'var(--c-primary)' }}>{filteredPlans.length}</strong> / {totalPlans} รายการ
+            </span>
+            <button
+              className="btn btn-danger btn-sm"
+              style={{ padding: '4px 12px', fontSize: 12 }}
+              onClick={() => { setFilterGrade(''); setFilterSubject(''); setFilterSemester(''); setFilterKeyword(''); setFilterStatus(''); }}
+            >
+              ล้างตัวกรอง ✕
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* ═══════════════════════════════════════ PLAN CARDS ═══ */}
-      <div className="db-section-card">
-        <div className="db-section-header" style={{ borderBottom: 'none', marginBottom: 0 }}>
-          <FileText size={16} />
-          <span>รายการแผนการจัดการเรียนรู้</span>
-          <span className="db-count-badge">{filteredPlans.length} รายการ</span>
+      {/* ══════════════════════ PLAN CARDS GRID ══════════════════════ */}
+      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div className="plans-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <FileText size={16} color="var(--c-primary)" />
+            <span style={{ fontWeight: 700, fontSize: 15, color: 'var(--c-gray-900)' }}>
+              รายการแผนการจัดการเรียนรู้
+            </span>
+            <span className="plans-count">{filteredPlans.length}</span>
+          </div>
+          <button className="btn btn-hero btn-sm" style={{ background: 'var(--c-primary)', color: '#fff' }} onClick={() => router.push('/plan/new')}>
+            <Plus size={13} /> สร้างแผนใหม่
+          </button>
         </div>
 
         {loading ? (
-          <div className="db-loading">
-            <div className="db-spinner" />
-            <span>กำลังโหลดข้อมูลแผนการสอน...</span>
+          <div style={{ padding: '60px 24px', textAlign: 'center', color: 'var(--c-gray-400)' }}>
+            <div className="spinner" style={{ width: 36, height: 36, margin: '0 auto 14px', border: '4px solid var(--c-gray-100)', borderTopColor: 'var(--c-primary)', borderRadius: '50%', animation: 'spin .8s linear infinite' }} />
+            <p style={{ margin: 0, fontSize: 14 }}>กำลังโหลดข้อมูลแผนการสอน...</p>
           </div>
         ) : filteredPlans.length === 0 ? (
-          <div className="db-empty">
-            <div className="db-empty-icon"><BookOpen size={48} strokeWidth={1} /></div>
-            <h3>ยังไม่มีแผนการสอนในระบบ</h3>
-            <p>กดปุ่มด้านล่างเพื่อสร้างแผนการสอนแรกของคุณ</p>
-            <button className="db-btn-primary" style={{ marginTop: '16px' }} onClick={() => router.push('/plan/new')}>
-              <Plus size={15} /> สร้างแผนการสอนใหม่
+          <div style={{ padding: '70px 24px', textAlign: 'center' }}>
+            <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--c-gray-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <BookOpen size={36} color="var(--c-gray-300)" strokeWidth={1.2} />
+            </div>
+            <h3 style={{ margin: '0 0 8px', fontSize: 17, color: 'var(--c-gray-700)' }}>ยังไม่มีแผนการสอนในระบบ</h3>
+            <p style={{ margin: '0 0 20px', fontSize: 14, color: 'var(--c-gray-400)' }}>กดปุ่มด้านล่างเพื่อสร้างแผนการสอนแรกของคุณ</p>
+            <button className="btn btn-primary" onClick={() => router.push('/plan/new')}>
+              <Plus size={14} /> สร้างแผนการสอนใหม่
             </button>
           </div>
         ) : (
-          <div className="db-plan-grid">
+          <div className="plan-cards-grid">
             {filteredPlans.map((plan, idx) => (
-              <div key={plan.planId} className="db-plan-card" style={{ animationDelay: `${idx * 40}ms` }}>
-                {/* Card Top Bar */}
-                <div className="db-plan-card-top">
-                  <div className="db-plan-code-wrap">
-                    <span className="db-plan-code">{plan.subjectCode}</span>
-                    <span className={`db-plan-status ${plan.planStatus}`}>
-                      {plan.planStatus === 'complete' ? <><CheckCircle2 size={11} /> สมบูรณ์</> : <><Clock size={11} /> ร่างแผน</>}
+              <div key={plan.planId} className="plan-card" style={{ animationDelay: `${Math.min(idx * 50, 400)}ms` }}>
+                {/* Top bar */}
+                <div className="plan-card-top">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+                    <span className="plan-code">{plan.subjectCode}</span>
+                    <span className={`ps-badge ${plan.planStatus}`}>
+                      {plan.planStatus === 'complete' ? '✅ สมบูรณ์' : '📝 ร่างแผน'}
                     </span>
                   </div>
-                  <span className="db-plan-grade">{plan.gradeLevel}</span>
+                  <span className="plan-grade-badge">{plan.gradeLevel}</span>
                 </div>
 
-                {/* Card Content */}
-                <div className="db-plan-card-body">
-                  <div className="db-plan-subject">{plan.subjectName}</div>
-                  <h3 className="db-plan-topic">{plan.lessonTopic}</h3>
-                  <div className="db-plan-unit"><BookOpen size={12} /> {plan.unitName || '—'}</div>
+                {/* Body */}
+                <div className="plan-card-body">
+                  <div className="plan-subject-name">{plan.subjectName}</div>
+                  <div className="plan-topic">{plan.lessonTopic}</div>
+                  <div className="plan-unit">
+                    <BookOpen size={11} style={{ flexShrink: 0 }} />
+                    <span>{plan.unitName || '—'}</span>
+                  </div>
                 </div>
 
-                {/* Card Meta */}
-                <div className="db-plan-meta">
-                  <span><Calendar size={12} /> ภาค {plan.semester}/{plan.academicYear}</span>
-                  <span><Clock size={12} /> {plan.totalHours} ชั่วโมง</span>
-                  <span><PenLine size={12} /> {formatDate(plan.updatedAt || plan.createdAt)}</span>
+                {/* Meta row */}
+                <div className="plan-meta">
+                  <span><Calendar size={11} /> ภาค {plan.semester}/{plan.academicYear}</span>
+                  <span><Clock size={11} /> {plan.totalHours} ชม.</span>
+                  <span><PenLine size={11} /> {formatDate(plan.updatedAt || plan.createdAt)}</span>
                 </div>
 
-                {/* Card Actions */}
-                <div className="db-plan-actions">
-                  <button className="db-act-btn preview" onClick={() => window.open(`/plan/${plan.planId}/preview`, '_blank')} title="ดูตัวอย่างแผน">
-                    <Eye size={14} /> ดูตัวอย่าง
+                {/* Actions */}
+                <div className="plan-actions">
+                  <button className="pact-btn pact-preview" onClick={() => window.open(`/plan/${plan.planId}/preview`, '_blank')}>
+                    <Eye size={13} /> ดูตัวอย่าง
                   </button>
-                  <button className="db-act-btn edit" onClick={() => router.push(`/plan/${plan.planId}`)} title="แก้ไขแผนการสอน">
-                    <FileEdit size={14} /> แก้ไข
+                  <button className="pact-btn pact-edit" onClick={() => router.push(`/plan/${plan.planId}`)}>
+                    <FileEdit size={13} /> แก้ไข
                   </button>
-                  <button className="db-act-btn word" onClick={() => handleExportWord(plan.planId)} title="ดาวน์โหลด Word">
-                    <FileDown size={14} /> Word
+                  <button className="pact-btn pact-word" onClick={() => handleExportWord(plan.planId)}>
+                    <FileDown size={13} /> Word
                   </button>
-                  <button className="db-act-btn pdf" onClick={() => handleExportPdf(plan.planId)} title="พิมพ์ PDF">
-                    <Printer size={14} /> PDF
+                  <button className="pact-btn pact-pdf" onClick={() => handleExportPdf(plan.planId)}>
+                    <Printer size={13} /> PDF
                   </button>
-                  <button className="db-act-btn del" onClick={() => handleDeletePlan(plan.planId, plan.lessonTopic)} title="ลบแผนการสอน">
-                    <Trash2 size={14} />
+                  <button className="pact-btn pact-del" onClick={() => handleDeletePlan(plan.planId, plan.lessonTopic)}>
+                    <Trash2 size={13} />
                   </button>
                 </div>
               </div>
@@ -356,483 +356,324 @@ export default function TeacherDashboard() {
       </div>
 
       <style jsx>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        @keyframes cardIn {
-          from { opacity: 0; transform: translateY(16px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .spin { animation: spin 1s linear infinite; }
-
-        .db-page {
-          min-height: 100vh;
-          background: #f0f2f8;
-          font-family: 'Sarabun', 'Inter', sans-serif;
-        }
+        /* ── Spin ── */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes cardIn { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+        .spin-icon { animation: spin 1s linear infinite; }
 
         /* ── HERO ── */
-        .db-hero {
-          position: relative;
+        .hero-wrap {
+          background: linear-gradient(135deg, #1e1b4b 0%, #312e81 45%, #4f46e5 80%, #6d28d9 100%);
+          border-radius: 24px;
           overflow: hidden;
-          background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4f46e5 75%, #6d28d9 100%);
-          padding: 56px 48px 60px;
-          color: #fff;
-        }
-        .db-hero-bg {
-          position: absolute; inset: 0;
-          background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        .db-hero-inner {
+          margin-bottom: 20px;
           position: relative;
-          max-width: 1100px;
-          margin: 0 auto;
+        }
+        .hero-wrap::before {
+          content: '';
+          position: absolute; inset: 0;
+          background: radial-gradient(ellipse at 70% 20%, rgba(129,140,248,0.25) 0%, transparent 60%);
+          pointer-events: none;
+        }
+        .hero-content {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 32px;
+          gap: 24px;
+          padding: 44px 44px 28px;
         }
-        .db-hero-left { flex: 1; }
-        .db-hero-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: rgba(255,255,255,0.15);
-          border: 1px solid rgba(255,255,255,0.25);
-          border-radius: 100px;
-          padding: 5px 14px;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.3px;
-          margin-bottom: 18px;
-          backdrop-filter: blur(8px);
-        }
-        .db-hero-title {
-          font-size: 38px;
+        .hero-text { flex: 1; color: #fff; }
+        .hero-title {
+          font-family: var(--font-head);
+          font-size: 34px;
           font-weight: 800;
-          line-height: 1.2;
-          margin: 0 0 14px;
+          line-height: 1.22;
+          margin: 12px 0 10px;
           letter-spacing: -0.5px;
+          color: #fff;
         }
-        .db-hero-highlight {
-          background: linear-gradient(90deg, #a5b4fc, #f9a8d4);
+        .hero-accent {
+          background: linear-gradient(90deg, #a5b4fc, #f9a8d4, #fbbf24);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
-        .db-hero-sub {
-          font-size: 15px;
-          opacity: 0.85;
-          line-height: 1.65;
-          margin: 0 0 28px;
-          max-width: 520px;
-        }
-        .db-hero-actions {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-        }
-        .db-btn-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 24px;
-          background: linear-gradient(135deg, #f59e0b, #ef4444);
-          color: #fff;
-          border: none;
-          border-radius: 10px;
+        .hero-desc {
           font-size: 14.5px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.2s;
-          box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+          line-height: 1.7;
+          color: rgba(255,255,255,0.78);
+          margin: 0 0 18px;
         }
-        .db-btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
-        }
-        .db-btn-ghost {
-          display: inline-flex;
-          align-items: center;
+        .hero-pills {
+          display: flex;
+          flex-wrap: wrap;
           gap: 8px;
-          padding: 12px 20px;
+          margin-bottom: 24px;
+        }
+        .h-pill {
           background: rgba(255,255,255,0.12);
-          color: #fff;
-          border: 1.5px solid rgba(255,255,255,0.3);
-          border-radius: 10px;
-          font-size: 14px;
+          border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 100px;
+          padding: 4px 12px;
+          font-size: 12px;
           font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s;
-          backdrop-filter: blur(8px);
+          color: rgba(255,255,255,0.9);
+          backdrop-filter: blur(4px);
+          white-space: nowrap;
         }
-        .db-btn-ghost:hover { background: rgba(255,255,255,0.2); }
-        .db-btn-ghost:disabled { opacity: 0.6; cursor: not-allowed; }
-        .db-hero-right {
+        .hero-img-wrap {
           flex-shrink: 0;
+          width: 220px;
         }
-        .db-hero-icon-wrap {
-          width: 140px;
-          height: 140px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.1);
-          border: 2px solid rgba(255,255,255,0.2);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          backdrop-filter: blur(12px);
-        }
-        .db-hero-icon { color: rgba(255,255,255,0.85); }
-
-        /* ── STATS ── */
-        .db-stats {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 16px;
-          padding: 24px 48px;
-          max-width: 1196px;
-          margin: 0 auto;
-          box-sizing: border-box;
-        }
-        .db-stat-card {
-          position: relative;
-          overflow: hidden;
+        .hero-img {
+          width: 100%;
+          height: auto;
           border-radius: 16px;
-          padding: 22px 20px;
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          color: #fff;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-          transition: transform 0.2s;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+          display: block;
         }
-        .db-stat-card:hover { transform: translateY(-3px); }
-        .db-stat-card.blue  { background: linear-gradient(135deg, #2563eb, #3b82f6); }
-        .db-stat-card.green { background: linear-gradient(135deg, #059669, #10b981); }
-        .db-stat-card.amber { background: linear-gradient(135deg, #d97706, #f59e0b); }
-        .db-stat-card.purple{ background: linear-gradient(135deg, #7c3aed, #a78bfa); }
-        .db-stat-icon {
-          width: 46px;
-          height: 46px;
-          border-radius: 12px;
-          background: rgba(255,255,255,0.2);
+
+        /* Mini stats bar inside hero */
+        .hero-ministats {
           display: flex;
           align-items: center;
+          background: rgba(255,255,255,0.08);
+          border-top: 1px solid rgba(255,255,255,0.12);
+          padding: 14px 44px;
+          gap: 0;
+          backdrop-filter: blur(4px);
+        }
+        .hero-ministat {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          gap: 10px;
           justify-content: center;
-          flex-shrink: 0;
         }
-        .db-stat-body { flex: 1; }
-        .db-stat-num {
-          font-size: 30px;
+        .hero-ministat strong {
+          font-size: 22px;
           font-weight: 800;
-          line-height: 1;
-          margin-bottom: 4px;
+          color: #fff;
+          font-family: var(--font-head);
         }
-        .db-stat-label {
-          font-size: 12.5px;
-          opacity: 0.9;
+        .hero-ministat span {
+          font-size: 12px;
+          color: rgba(255,255,255,0.65);
           font-weight: 500;
         }
-        .db-stat-bg-icon {
-          position: absolute;
-          right: -8px;
-          bottom: -8px;
-          opacity: 0.12;
+        .hero-ministat-divider {
+          width: 1px;
+          height: 36px;
+          background: rgba(255,255,255,0.15);
+          flex-shrink: 0;
         }
+        .ms-icon { flex-shrink: 0; }
+        .blue-i { color: #93c5fd; }
+        .green-i { color: #6ee7b7; }
+        .amber-i { color: #fcd34d; }
+        .purple-i { color: #c4b5fd; }
 
-        /* ── FILTER / SECTION CARD ── */
-        .db-section-card {
-          max-width: 1100px;
-          margin: 0 auto 20px;
-          background: #fff;
-          border-radius: 16px;
-          box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-          overflow: hidden;
-        }
-        .db-section-header {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 18px 24px 14px;
-          border-bottom: 1px solid #f3f4f6;
-          font-weight: 700;
-          font-size: 15px;
-          color: #1f2937;
-        }
-        .db-count-badge {
-          margin-left: auto;
-          background: #ede9fe;
-          color: #6d28d9;
-          border-radius: 100px;
-          padding: 3px 12px;
-          font-size: 12px;
-          font-weight: 700;
-        }
-        .db-filter-row {
-          padding: 16px 24px 20px;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-        .db-filter-search {
-          position: relative;
-        }
-        .db-filter-icon {
-          position: absolute;
-          left: 14px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #9ca3af;
-        }
-        .db-filter-input {
-          width: 100%;
-          box-sizing: border-box;
-          padding: 11px 14px 11px 40px;
-          border: 1.5px solid #e5e7eb;
-          border-radius: 10px;
-          font-size: 14px;
-          font-family: inherit;
-          outline: none;
-          transition: border-color 0.15s;
-        }
-        .db-filter-input:focus { border-color: #6366f1; }
-        .db-filter-chips {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-          align-items: center;
-        }
-        .db-sel {
-          padding: 9px 14px;
-          border: 1.5px solid #e5e7eb;
-          border-radius: 10px;
-          font-size: 13.5px;
-          font-family: inherit;
-          background: #fff;
-          cursor: pointer;
-          outline: none;
-          transition: border-color 0.15s;
-          min-width: 130px;
-        }
-        .db-sel:focus { border-color: #6366f1; }
-        .db-clear-btn {
-          padding: 9px 16px;
-          background: #fee2e2;
-          color: #dc2626;
-          border: none;
-          border-radius: 10px;
-          font-size: 13px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: background 0.15s;
-        }
-        .db-clear-btn:hover { background: #fecaca; }
-
-        /* ── LOADING / EMPTY ── */
-        .db-loading {
-          padding: 64px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 14px;
-          color: #6b7280;
-          font-size: 14px;
-        }
-        .db-spinner {
-          width: 34px;
-          height: 34px;
-          border: 3.5px solid rgba(99,102,241,0.15);
-          border-top-color: #6366f1;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-        .db-empty {
-          padding: 64px 24px;
-          text-align: center;
-          color: #9ca3af;
-        }
-        .db-empty-icon {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          background: #f3f4f6;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 16px;
-        }
-        .db-empty h3 { color: #374151; margin: 0 0 8px; font-size: 17px; }
-        .db-empty p  { margin: 0; font-size: 13.5px; }
-
-        /* ── PLAN GRID ── */
-        .db-plan-grid {
+        /* ── STAT CARDS 4 ── */
+        .stat-grid-4 {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-          gap: 20px;
-          padding: 20px 24px 24px;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 14px;
+          margin-bottom: 20px;
         }
-        .db-plan-card {
-          background: #fff;
-          border: 1.5px solid #e5e7eb;
-          border-radius: 14px;
-          padding: 0;
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-          transition: all 0.2s;
-          animation: cardIn 0.35s ease both;
-        }
-        .db-plan-card:hover {
-          border-color: #a5b4fc;
-          box-shadow: 0 8px 30px rgba(99,102,241,0.15);
-          transform: translateY(-3px);
-        }
-        .db-plan-card-top {
+        .scard {
+          border-radius: 16px;
+          padding: 20px 18px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 12px 16px 10px;
-          background: linear-gradient(135deg, #f8faff, #eef2ff);
-          border-bottom: 1px solid #e9edf8;
+          color: #fff;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+          transition: transform 0.2s, box-shadow 0.2s;
         }
-        .db-plan-code-wrap {
+        .scard:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
+        .scard-blue   { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
+        .scard-green  { background: linear-gradient(135deg, #047857, #10b981); }
+        .scard-amber  { background: linear-gradient(135deg, #b45309, #f59e0b); }
+        .scard-violet { background: linear-gradient(135deg, #6d28d9, #a78bfa); }
+        .scard-num {
+          font-size: 36px;
+          font-weight: 800;
+          font-family: var(--font-head);
+          line-height: 1;
+          margin-bottom: 4px;
+        }
+        .scard-label { font-size: 13px; font-weight: 700; opacity: 0.95; }
+        .scard-sub { font-size: 11px; opacity: 0.7; margin-top: 3px; }
+        .scard-icon { opacity: 0.25; flex-shrink: 0; }
+
+        /* ── Filter search row ── */
+        .filter-search-row {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+        }
+
+        /* ── Plans header ── */
+        .plans-header {
           display: flex;
           align-items: center;
+          justify-content: space-between;
+          padding: 16px 20px 14px;
+          border-bottom: 1px solid var(--c-gray-100);
+          background: #fafbff;
+        }
+        .plans-count {
+          background: var(--c-primary-l);
+          color: var(--c-primary);
+          border-radius: 100px;
+          padding: 2px 10px;
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        /* ── Plan Cards Grid ── */
+        .plan-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 1px;
+          background: var(--c-gray-100);
+        }
+        .plan-card {
+          background: #fff;
+          display: flex;
+          flex-direction: column;
+          animation: cardIn 0.4s ease both;
+          transition: background 0.15s;
+        }
+        .plan-card:hover { background: #fafbff; }
+
+        .plan-card-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 14px 10px;
+          border-bottom: 1px solid var(--c-gray-100);
           gap: 8px;
         }
-        .db-plan-code {
-          font-size: 13px;
+        .plan-code {
+          font-size: 12.5px;
           font-weight: 800;
-          color: #4f46e5;
+          color: var(--c-primary);
           letter-spacing: 0.3px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
-        .db-plan-status {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          padding: 3px 9px;
-          border-radius: 100px;
-          font-size: 11px;
-          font-weight: 700;
-        }
-        .db-plan-status.complete {
-          background: #d1fae5;
-          color: #065f46;
-        }
-        .db-plan-status.draft {
-          background: #fef3c7;
-          color: #92400e;
-        }
-        .db-plan-grade {
-          background: #e0e7ff;
-          color: #3730a3;
+        .plan-grade-badge {
+          background: var(--c-primary-l);
+          color: var(--c-primary);
           border-radius: 8px;
-          padding: 4px 10px;
-          font-size: 12px;
+          padding: 3px 9px;
+          font-size: 11.5px;
           font-weight: 700;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
-        .db-plan-card-body {
-          padding: 16px 16px 12px;
+
+        .plan-card-body {
+          padding: 12px 14px 10px;
           flex: 1;
         }
-        .db-plan-subject {
-          font-size: 12px;
-          color: #6b7280;
-          margin-bottom: 4px;
+        .plan-subject-name {
+          font-size: 11.5px;
+          color: var(--c-gray-400);
+          margin-bottom: 5px;
           font-weight: 500;
         }
-        .db-plan-topic {
-          font-size: 16px;
+        .plan-topic {
+          font-size: 15px;
           font-weight: 700;
-          color: #111827;
-          margin: 0 0 8px;
+          color: var(--c-gray-900);
           line-height: 1.4;
+          margin-bottom: 8px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
-        .db-plan-unit {
+        .plan-unit {
           display: flex;
           align-items: center;
           gap: 5px;
-          font-size: 12px;
-          color: #9ca3af;
+          font-size: 11.5px;
+          color: var(--c-gray-400);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
-        .db-plan-meta {
+
+        .plan-meta {
           display: flex;
-          gap: 14px;
-          padding: 10px 16px;
-          border-top: 1px solid #f3f4f6;
-          background: #fafafa;
+          gap: 12px;
+          flex-wrap: wrap;
+          padding: 8px 14px;
+          border-top: 1px solid var(--c-gray-100);
+          background: var(--c-gray-50);
         }
-        .db-plan-meta span {
-          display: flex;
+        .plan-meta span {
+          display: inline-flex;
           align-items: center;
           gap: 4px;
-          font-size: 11.5px;
-          color: #9ca3af;
+          font-size: 11px;
+          color: var(--c-gray-400);
           font-weight: 500;
         }
-        .db-plan-actions {
+
+        .plan-actions {
           display: flex;
           gap: 6px;
           padding: 10px 12px;
-          border-top: 1px solid #f3f4f6;
+          border-top: 1px solid var(--c-gray-100);
           flex-wrap: wrap;
         }
-        .db-act-btn {
+        .pact-btn {
           flex: 1;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 5px;
-          padding: 8px 6px;
+          gap: 4px;
+          padding: 7px 6px;
           border: none;
           border-radius: 8px;
           font-size: 12px;
           font-weight: 700;
           cursor: pointer;
           transition: all 0.15s;
+          font-family: inherit;
           white-space: nowrap;
-          min-width: 0;
         }
-        .db-act-btn.preview {
-          background: #ede9fe;
-          color: #6d28d9;
-        }
-        .db-act-btn.preview:hover { background: #ddd6fe; }
-        .db-act-btn.edit {
-          background: #e0f2fe;
-          color: #0369a1;
-        }
-        .db-act-btn.edit:hover { background: #bae6fd; }
-        .db-act-btn.word {
-          background: #d1fae5;
-          color: #065f46;
-        }
-        .db-act-btn.word:hover { background: #a7f3d0; }
-        .db-act-btn.pdf {
-          background: #e0e7ff;
-          color: #3730a3;
-        }
-        .db-act-btn.pdf:hover { background: #c7d2fe; }
-        .db-act-btn.del {
-          flex: 0 0 auto;
-          background: #fee2e2;
-          color: #dc2626;
-          padding: 8px 10px;
-        }
-        .db-act-btn.del:hover { background: #fecaca; }
+        .pact-preview { background: #f3f0ff; color: #6d28d9; }
+        .pact-preview:hover { background: #ede9fe; }
+        .pact-edit { background: #e0f2fe; color: #0369a1; }
+        .pact-edit:hover { background: #bae6fd; }
+        .pact-word { background: #dcfce7; color: #15803d; }
+        .pact-word:hover { background: #bbf7d0; }
+        .pact-pdf { background: #e0e7ff; color: #4338ca; }
+        .pact-pdf:hover { background: #c7d2fe; }
+        .pact-del { flex: 0 0 auto; background: #fee2e2; color: #dc2626; padding: 7px 10px; }
+        .pact-del:hover { background: #fecaca; }
 
+        /* ── Responsive ── */
         @media (max-width: 900px) {
-          .db-hero { padding: 40px 24px 48px; }
-          .db-hero-right { display: none; }
-          .db-hero-title { font-size: 28px; }
-          .db-stats { grid-template-columns: repeat(2, 1fr); padding: 16px 24px; }
-          .db-section-card { margin: 0 16px 16px; }
-          .db-plan-grid { grid-template-columns: 1fr; }
+          .hero-content { padding: 32px 24px 20px; }
+          .hero-img-wrap { display: none; }
+          .hero-title { font-size: 26px; }
+          .hero-ministats { padding: 12px 24px; }
+          .stat-grid-4 { grid-template-columns: repeat(2, 1fr); }
+          .plan-cards-grid { grid-template-columns: 1fr 1fr; }
         }
-        @media (max-width: 580px) {
-          .db-stats { grid-template-columns: 1fr 1fr; padding: 12px 16px; }
-          .db-filter-chips { flex-direction: column; }
-          .db-sel { min-width: unset; width: 100%; }
+        @media (max-width: 600px) {
+          .stat-grid-4 { grid-template-columns: 1fr 1fr; gap: 10px; }
+          .hero-ministats { flex-wrap: wrap; gap: 12px; padding: 12px 20px; }
+          .hero-ministat-divider { display: none; }
+          .plan-cards-grid { grid-template-columns: 1fr; }
         }
       `}</style>
     </div>

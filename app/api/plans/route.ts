@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
 
 // GET all plans
 export async function GET(req: NextRequest) {
@@ -7,6 +8,7 @@ export async function GET(req: NextRequest) {
     const { data, error } = await supabase
       .from('LessonPlans')
       .select('planId, planStatus, subjectCode, subjectName, unitName, lessonTopic, gradeLevel, semester, academicYear, totalHours, createdAt, updatedAt')
+      .neq('planStatus', 'archived')
       .order('updatedAt', { ascending: false });
 
     if (error) throw error;
@@ -28,6 +30,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const planStatus = body.planStatus || 'draft';
+    const validationError = validateLessonPlanPayload(body, planStatus);
+
+    if (validationError) {
+      return NextResponse.json({
+        success: false,
+        error: validationError
+      }, { status: 400 });
+    }
     
     // Generate simple ID if not provided
     const planId = body.planId || `PLAN-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
@@ -36,7 +47,7 @@ export async function POST(req: NextRequest) {
     const newPlan = {
       ...body,
       planId,
-      planStatus: body.planStatus || 'draft',
+      planStatus,
       createdAt: timestamp,
       updatedAt: timestamp
     };

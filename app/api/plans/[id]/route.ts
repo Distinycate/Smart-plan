@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
 
 // GET a single plan
 export async function GET(
@@ -58,18 +59,37 @@ export async function PUT(
       .eq('planId', id)
       .single();
 
-    if (!getErr && existingPlan) {
-      // Create backup record
-      const backupId = `BKP-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
-      await supabase.from('LessonPlan_Backup').insert({
-        backupId,
-        originalPlanId: id,
-        backupAt: timestamp,
-        actionType: 'update',
-        backupReason: body.backupReason || 'แก้ไขรายละเอียดแผนการสอน',
-        backupDataJson: JSON.stringify(existingPlan)
-      });
+    if (getErr || !existingPlan) {
+      return NextResponse.json({
+        success: false,
+        error: 'Plan not found'
+      }, { status: 404 });
     }
+
+    const mergedPlan = {
+      ...existingPlan,
+      ...body,
+      planStatus: body.planStatus || existingPlan.planStatus || 'draft'
+    };
+    const validationError = validateLessonPlanPayload(mergedPlan, mergedPlan.planStatus);
+
+    if (validationError) {
+      return NextResponse.json({
+        success: false,
+        error: validationError
+      }, { status: 400 });
+    }
+
+    // Create backup record before editing the current plan.
+    const backupId = `BKP-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
+    await supabase.from('LessonPlan_Backup').insert({
+      backupId,
+      originalPlanId: id,
+      backupAt: timestamp,
+      actionType: 'update',
+      backupReason: body.backupReason || 'แก้ไขรายละเอียดแผนการสอน',
+      backupDataJson: JSON.stringify(existingPlan)
+    });
 
     // 2. Perform Update
     const updatedFields = {
@@ -117,7 +137,8 @@ export async function PUT(
   }
 }
 
-// DELETE a plan
+// DELETE archives a plan. We keep the HTTP method for compatibility with the UI,
+// but the operation is intentionally non-destructive.
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -126,41 +147,60 @@ export async function DELETE(
     const { id } = params;
     const timestamp = new Date().toISOString();
 
-    // 1. Fetch details for logging
+    // 1. Fetch details for backup and logging
     const { data: plan, error: getErr } = await supabase
       .from('LessonPlans')
-      .select('lessonTopic, subjectCode')
+      .select('*')
       .eq('planId', id)
       .single();
 
-    // 2. Perform Delete
-    const { error: deleteErr } = await supabase
+    if (getErr || !plan) {
+      return NextResponse.json({
+        success: false,
+        error: 'Plan not found'
+      }, { status: 404 });
+    }
+
+    // 2. Back up the plan before archiving it.
+    await supabase.from('LessonPlan_Backup').insert({
+      backupId: `BKP-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
+      originalPlanId: id,
+      backupAt: timestamp,
+      actionType: 'archive',
+      backupReason: 'เก็บถาวรผ่านปุ่มจัดการแผน',
+      backupDataJson: JSON.stringify(plan)
+    });
+
+    // 3. Soft archive instead of deleting the row.
+    const { error: archiveErr } = await supabase
       .from('LessonPlans')
-      .delete()
+      .update({
+        planStatus: 'archived',
+        updatedAt: timestamp
+      })
       .eq('planId', id);
 
-    if (deleteErr) throw deleteErr;
+    if (archiveErr) throw archiveErr;
 
-    // 3. Log transaction
+    // 4. Log transaction
     await supabase.from('System_Logs').insert({
       logId: `LOG-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       timestamp,
-      action: 'DELETE_PLAN',
+      action: 'ARCHIVE_PLAN',
       status: 'success',
       planId: id,
-      message: `ลบแผนการสอน: ${plan?.lessonTopic || id} (${plan?.subjectCode || ''})`
+      message: `เก็บถาวรแผนการสอน: ${plan.lessonTopic || id} (${plan.subjectCode || ''})`
     });
 
     return NextResponse.json({
       success: true,
-      message: 'ลบแผนการสอนเรียบร้อยแล้ว'
+      message: 'เก็บถาวรแผนการสอนเรียบร้อยแล้ว'
     });
   } catch (error: any) {
-    console.error('Error deleting plan:', error);
+    console.error('Error archiving plan:', error);
     return NextResponse.json({
       success: false,
       error: error.message || 'Internal Server Error'
     }, { status: 500 });
   }
 }
-

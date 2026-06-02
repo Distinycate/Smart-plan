@@ -497,9 +497,9 @@ export default function PlanForm({ planId }: PlanFormProps) {
     }
   };
 
-  const handleDelete = async () => {
+  const handleArchive = async () => {
     if (!planId) return;
-    const confirmed = window.confirm('คุณแน่ใจหรือไม่ว่าต้องการลบแผนการจัดการเรียนรู้นี้? การดำเนินการนี้จะไม่สามารถย้อนกลับได้');
+    const confirmed = window.confirm('คุณแน่ใจหรือไม่ว่าต้องการเก็บถาวรแผนการจัดการเรียนรู้นี้? แผนจะถูกซ่อนจากหน้ารายการ แต่ยังเก็บข้อมูลและประวัติสำรองไว้ในระบบ');
     if (!confirmed) return;
 
     try {
@@ -509,7 +509,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
       });
       const json = await res.json();
       if (json.success) {
-        triggerToast('ลบแผนการสอนสำเร็จแล้ว', 'success');
+        triggerToast('เก็บถาวรแผนการสอนสำเร็จแล้ว', 'success');
         setTimeout(() => {
           router.push('/');
         }, 1500);
@@ -626,10 +626,10 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <button 
                 type="button" 
                 className="btn btn-danger" 
-                onClick={handleDelete}
+                onClick={handleArchive}
                 disabled={saving || aiLoading}
               >
-                🗑️ ลบแผน
+                เก็บถาวรแผน
               </button>
               <button 
                 type="button" 
