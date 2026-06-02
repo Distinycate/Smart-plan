@@ -165,9 +165,9 @@ export default function PlanForm({ planId }: PlanFormProps) {
     skills21: '',
     learningProcess: '',
     
-    measureK: '', methodK: '', toolK: '', criteriaK: 'ผ่านเกณฑ์ร้อยละ 60 ขึ้นไป',
-    measureP: '', methodP: '', toolP: '', criteriaP: 'ผ่านเกณฑ์ระดับคุณภาพระดับดีขึ้นไป',
-    measureA: '', methodA: '', toolA: '', criteriaA: 'ผ่านเกณฑ์ระดับคุณภาพระดับดีขึ้นไป',
+    measureK: '', methodK: '', toolK: '', criteriaK: 'ผ่านเกณฑ์ร้อยละ 60 ขึ้นไป', rubricK: '',
+    measureP: '', methodP: '', toolP: '', criteriaP: 'ผ่านเกณฑ์ระดับคุณภาพระดับดีขึ้นไป', rubricP: '',
+    measureA: '', methodA: '', toolA: '', criteriaA: 'ผ่านเกณฑ์ระดับคุณภาพระดับดีขึ้นไป', rubricA: '',
     
     learningMedia: '',
     learningSources: '',
@@ -415,16 +415,19 @@ export default function PlanForm({ planId }: PlanFormProps) {
           methodK: cleanJSONString(ai.methodK) || prev.methodK,
           toolK: cleanJSONString(ai.toolK) || prev.toolK,
           criteriaK: cleanJSONString(ai.criteriaK) || prev.criteriaK,
+          rubricK: cleanJSONString(ai.rubricK) || prev.rubricK,
           
           measureP: cleanJSONString(ai.measureP) || prev.measureP,
           methodP: cleanJSONString(ai.methodP) || prev.methodP,
           toolP: cleanJSONString(ai.toolP) || prev.toolP,
           criteriaP: cleanJSONString(ai.criteriaP) || prev.criteriaP,
+          rubricP: cleanJSONString(ai.rubricP) || prev.rubricP,
           
           measureA: cleanJSONString(ai.measureA) || prev.measureA,
           methodA: cleanJSONString(ai.methodA) || prev.methodA,
           toolA: cleanJSONString(ai.toolA) || prev.toolA,
           criteriaA: cleanJSONString(ai.criteriaA) || prev.criteriaA,
+          rubricA: cleanJSONString(ai.rubricA) || prev.rubricA,
           
           resultK: cleanJSONString(ai.resultK) || prev.resultK,
           resultP: cleanJSONString(ai.resultP) || prev.resultP,
@@ -942,6 +945,10 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   เกณฑ์ผ่านประเมิน
                   <input value={fields.criteriaK} onChange={e => setFields({ ...fields, criteriaK: e.target.value })} />
                 </label>
+                <label className="field fw">
+                  เกณฑ์การประเมินแบบ Rubric (ด้าน K)
+                  <textarea value={fields.rubricK} onChange={e => setFields({ ...fields, rubricK: e.target.value })} placeholder="ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
+                </label>
               </div>
             </div>
 
@@ -967,6 +974,10 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   เกณฑ์ผ่านประเมิน
                   <input value={fields.criteriaP} onChange={e => setFields({ ...fields, criteriaP: e.target.value })} />
                 </label>
+                <label className="field fw">
+                  เกณฑ์การประเมินแบบ Rubric (ด้าน P)
+                  <textarea value={fields.rubricP} onChange={e => setFields({ ...fields, rubricP: e.target.value })} placeholder="ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
+                </label>
               </div>
             </div>
 
@@ -991,6 +1002,10 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 <label className="field">
                   เกณฑ์ผ่านประเมิน
                   <input value={fields.criteriaA} onChange={e => setFields({ ...fields, criteriaA: e.target.value })} />
+                </label>
+                <label className="field fw">
+                  เกณฑ์การประเมินแบบ Rubric (ด้าน A)
+                  <textarea value={fields.rubricA} onChange={e => setFields({ ...fields, rubricA: e.target.value })} placeholder="ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
                 </label>
               </div>
             </div>

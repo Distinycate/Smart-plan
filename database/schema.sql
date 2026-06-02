@@ -138,9 +138,9 @@ CREATE TABLE "LessonPlans" (
     "learningProcess" TEXT,
     
     -- Assessment Table (K/P/A)
-    "measureK" TEXT, "methodK" TEXT, "toolK" TEXT, "criteriaK" TEXT,
-    "measureP" TEXT, "methodP" TEXT, "toolP" TEXT, "criteriaP" TEXT,
-    "measureA" TEXT, "methodA" TEXT, "toolA" TEXT, "criteriaA" TEXT,
+    "measureK" TEXT, "methodK" TEXT, "toolK" TEXT, "criteriaK" TEXT, "rubricK" TEXT,
+    "measureP" TEXT, "methodP" TEXT, "toolP" TEXT, "criteriaP" TEXT, "rubricP" TEXT,
+    "measureA" TEXT, "methodA" TEXT, "toolA" TEXT, "criteriaA" TEXT, "rubricA" TEXT,
     
     -- Resources & Tasks
     "learningMedia" TEXT,

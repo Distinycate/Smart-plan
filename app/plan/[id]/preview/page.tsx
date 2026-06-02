@@ -376,6 +376,30 @@ export default function PlanPreview() {
         </div>
 
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
+          <div className="section-title">9.1 เกณฑ์การประเมินผลการเรียนรู้ (Rubrics)</div>
+          <div className="section-content" style={{ marginLeft: '0' }}>
+            {plan.rubricK && (
+              <>
+                <div className="sub-heading">เกณฑ์ประเมินด้านความรู้ (K):</div>
+                {cleanSubContentVal(plan.rubricK)}
+              </>
+            )}
+            {plan.rubricP && (
+              <>
+                <div className="sub-heading" style={{ marginTop: '8px' }}>เกณฑ์ประเมินด้านทักษะกระบวนการ (P):</div>
+                {cleanSubContentVal(plan.rubricP)}
+              </>
+            )}
+            {plan.rubricA && (
+              <>
+                <div className="sub-heading" style={{ marginTop: '8px' }}>เกณฑ์ประเมินด้านคุณลักษณะ (A):</div>
+                {cleanSubContentVal(plan.rubricA)}
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="section" style={{ pageBreakInside: 'avoid' }}>
           <div className="section-title">10. บันทึกหลังการสอน</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
             <div className="sub-heading">1) ผลการจัดการเรียนรู้</div>

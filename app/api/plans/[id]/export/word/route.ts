@@ -394,6 +394,24 @@ export async function GET(
     </div>
 
     <div class="section">
+      <div class="section-title">9.1 เกณฑ์การประเมินผลการเรียนรู้ (Rubrics)</div>
+      <div class="section-content" style="margin-left: 0;">
+        ${plan.rubricK ? `
+          <div class="sub-heading">เกณฑ์ประเมินด้านความรู้ (K):</div>
+          ${cleanSubContentWord(plan.rubricK)}
+        ` : ''}
+        ${plan.rubricP ? `
+          <div class="sub-heading" style="margin-top: 8pt;">เกณฑ์ประเมินด้านทักษะกระบวนการ (P):</div>
+          ${cleanSubContentWord(plan.rubricP)}
+        ` : ''}
+        ${plan.rubricA ? `
+          <div class="sub-heading" style="margin-top: 8pt;">เกณฑ์ประเมินด้านคุณลักษณะ (A):</div>
+          ${cleanSubContentWord(plan.rubricA)}
+        ` : ''}
+      </div>
+    </div>
+
+    <div class="section">
       <div class="section-title">10. บันทึกหลังการสอน</div>
       <div class="section-content" style="margin-left: 0;">
         <div class="sub-heading">1) ผลการจัดการเรียนรู้</div>
