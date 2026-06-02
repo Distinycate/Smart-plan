@@ -122,6 +122,117 @@ const cleanSubContentWord = (val: any) => {
     .join('');
 };
 
+const parseRubricText = (text: string) => {
+  if (!text) return [];
+  
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  
+  const levels = [
+    { score: 5, label: '5 คะแนน (ดีเยี่ยม)', text: '' },
+    { score: 4, label: '4 คะแนน (ดี)', text: '' },
+    { score: 3, label: '3 คะแนน (พอใช้/ปานกลาง)', text: '' },
+    { score: 2, label: '2 คะแนน (ปรับปรุงบางส่วน)', text: '' },
+    { score: 1, label: '1 คะแนน (ปรับปรุงเร่งด่วน)', text: '' },
+  ];
+  
+  let parsedAny = false;
+  
+  lines.forEach(line => {
+    const match = line.match(/(?:ระดับ|คะแนน|\s|^)\s*([1-5])\s*(?:คะแนน|ระดับ)?\s*[:=-]\s*(.*)/i)
+                  || line.match(/(?:ระดับ|คะแนน)?\s*([1-5])\s*(?:คะแนน|ระดับ)?\s+(.*)/i);
+    if (match) {
+      const score = parseInt(match[1]);
+      const content = match[2].trim();
+      const levelObj = levels.find(l => l.score === score);
+      if (levelObj) {
+        levelObj.text = content;
+        parsedAny = true;
+      }
+    }
+  });
+  
+  if (!parsedAny) {
+    const parts = text.split(/[,;]\s*(?=ระดับ\s*[1-5])/i);
+    if (parts.length > 1) {
+      parts.forEach(part => {
+        const match = part.match(/(?:ระดับ|คะแนน|\s|^)\s*([1-5])\s*(?:คะแนน|ระดับ)?\s*[:=-]\s*(.*)/i)
+                      || part.match(/(?:ระดับ|คะแนน)?\s*([1-5])\s*(?:คะแนน|ระดับ)?\s+(.*)/i);
+        if (match) {
+          const score = parseInt(match[1]);
+          const content = match[2].trim();
+          const levelObj = levels.find(l => l.score === score);
+          if (levelObj) {
+            levelObj.text = content;
+            parsedAny = true;
+          }
+        }
+      });
+    }
+  }
+  
+  if (!parsedAny) {
+    let remainingText = text;
+    for (let s = 5; s >= 1; s--) {
+      const currentMarker = `ระดับ ${s}`;
+      const nextMarker = s > 1 ? `ระดับ ${s - 1}` : null;
+      
+      const startIndex = remainingText.indexOf(currentMarker);
+      if (startIndex !== -1) {
+        let endIndex = remainingText.length;
+        if (nextMarker) {
+          const nextIndex = remainingText.indexOf(nextMarker);
+          if (nextIndex !== -1 && nextIndex > startIndex) {
+            endIndex = nextIndex;
+          }
+        }
+        let content = remainingText.substring(startIndex + currentMarker.length, endIndex);
+        content = content.replace(/^[:=\-\s]+/, '').trim();
+        const levelObj = levels.find(l => l.score === s);
+        if (levelObj) {
+          levelObj.text = content;
+          parsedAny = true;
+        }
+      }
+    }
+  }
+  
+  if (!parsedAny) {
+    if (lines.length > 0) {
+      lines.forEach((line, idx) => {
+        if (idx < 5) {
+          levels[idx].text = line;
+        }
+      });
+    } else {
+      levels[2].text = text;
+    }
+  }
+  
+  return levels;
+};
+
+const renderRubricTableWord = (rubricText: string) => {
+  const levels = parseRubricText(rubricText);
+  return `
+    <table class="assessment-table" style="width: 100%; border-collapse: collapse; margin-top: 8px; margin-bottom: 16px; font-size: 14pt;">
+      <thead>
+        <tr>
+          <th style="width: 25%; text-align: center; font-weight: bold; border: 1px solid #000; padding: 4px 8px; font-size: 14pt;">ระดับคะแนน</th>
+          <th style="width: 75%; text-align: left; font-weight: bold; border: 1px solid #000; padding: 4px 8px; font-size: 14pt;">เกณฑ์การพิจารณา (คำอธิบายคุณภาพ)</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${levels.map(l => `
+          <tr>
+            <td style="width: 25%; text-align: center; font-weight: bold; border: 1px solid #000; padding: 4px 8px; vertical-align: middle; font-size: 14pt;">${l.label}</td>
+            <td style="width: 75%; border: 1px solid #000; padding: 4px 8px; vertical-align: top; font-size: 14pt;">${cleanVal(l.text) || '......................................................................'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+};
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -401,19 +512,19 @@ export async function GET(
          </thead>
          <tbody>
            <tr>
-             <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;"><strong>ด้านความรู้ (K):</strong><br>${cleanVal(plan.measureK)}</td>
+             <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;"><strong>1) ด้านความรู้ (K):</strong><br>${cleanVal(plan.measureK)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.methodK)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.toolK)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.criteriaK)}</td>
            </tr>
            <tr>
-             <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;"><strong>ด้านทักษะกระบวนการ (P):</strong><br>${cleanVal(plan.measureP)}</td>
+             <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;"><strong>2) ด้านทักษะกระบวนการ (P):</strong><br>${cleanVal(plan.measureP)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.methodP)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.toolP)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.criteriaP)}</td>
            </tr>
            <tr>
-             <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;"><strong>ด้านคุณลักษณะ (A):</strong><br>${cleanVal(plan.measureA)}</td>
+             <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;"><strong>3) ด้านคุณลักษณะ (A):</strong><br>${cleanVal(plan.measureA)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.methodA)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.toolA)}</td>
              <td style="border: 1px solid #000; padding: 4px 8px; vertical-align: top;">${cleanVal(plan.criteriaA)}</td>

@@ -41,12 +41,34 @@ export async function POST(req: NextRequest) {
       updatedAt: timestamp
     };
 
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from('LessonPlans')
       .insert(newPlan)
       .select();
 
-    if (error) throw error;
+    if (error) {
+      // Check if error is due to missing rubric columns
+      const isMissingColumnError = error.message?.includes('column') && 
+        (error.message?.includes('rubricK') || error.message?.includes('rubricP') || error.message?.includes('rubricA'));
+        
+      if (isMissingColumnError) {
+        console.warn('Database is missing rubric columns. Retrying save without rubric columns...');
+        const fallbackPlan = { ...newPlan };
+        delete fallbackPlan.rubricK;
+        delete fallbackPlan.rubricP;
+        delete fallbackPlan.rubricA;
+        
+        const retryResult = await supabase
+          .from('LessonPlans')
+          .insert(fallbackPlan)
+          .select();
+          
+        if (retryResult.error) throw retryResult.error;
+        data = retryResult.data;
+      } else {
+        throw error;
+      }
+    }
 
     // Log transaction
     await supabase.from('System_Logs').insert({

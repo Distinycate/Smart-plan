@@ -667,10 +667,10 @@ export default function PlanForm({ planId }: PlanFormProps) {
         {/* Form Tabs Navigation */}
         <div className="form-tabs">
           <button type="button" className={`form-tab ${activeTab === 1 ? 'active' : ''}`} onClick={() => setActiveTab(1)}>1. ข้อมูลวิชาและรายคาบ</button>
-          <button type="button" className={`form-tab ${activeTab === 2 ? 'active' : ''}`} onClick={() => setActiveTab(2)}>2. สาระสำคัญและตัวชี้วัด</button>
-          <button type="button" className={`form-tab ${activeTab === 3 ? 'active' : ''}`} onClick={() => setActiveTab(3)}>3. จุดประสงค์และการประเมิน</button>
-          <button type="button" className={`form-tab ${activeTab === 4 ? 'active' : ''}`} onClick={() => setActiveTab(4)}>4. กระบวนการและสื่อ</button>
-          <button type="button" className={`form-tab ${activeTab === 5 ? 'active' : ''}`} onClick={() => setActiveTab(5)}>5. บันทึกผลหลังสอน</button>
+          <button type="button" className={`form-tab ${activeTab === 2 ? 'active' : ''}`} onClick={() => setActiveTab(2)}>2. สาระสำคัญและตัวชี้วัด (ข้อ 1-4)</button>
+          <button type="button" className={`form-tab ${activeTab === 3 ? 'active' : ''}`} onClick={() => setActiveTab(3)}>3. จุดประสงค์และเนื้อหา (ข้อ 5-7)</button>
+          <button type="button" className={`form-tab ${activeTab === 4 ? 'active' : ''}`} onClick={() => setActiveTab(4)}>4. กระบวนการและการวัดผล (ข้อ 8-9)</button>
+          <button type="button" className={`form-tab ${activeTab === 5 ? 'active' : ''}`} onClick={() => setActiveTab(5)}>5. บันทึกหลังสอน (ข้อ 10)</button>
         </div>
 
         {/* ─── TAB 1: BASIC INFO ─── */}
@@ -807,14 +807,23 @@ export default function PlanForm({ planId }: PlanFormProps) {
           </div>
         )}
 
-        {/* ─── TAB 2: STANDARDS & CORE CONTENTS ─── */}
+        {/* ─── TAB 2: STANDARDS & CORE CONTENTS (ข้อ 1-4) ─── */}
         {activeTab === 2 && (
           <div className="tab-panel card">
-            <h3>มาตรฐานการเรียนรู้ และ ตัวชี้วัดหลักสูตร</h3>
+            <h3>1. สาระสำคัญ และ 2. มาตรฐานการเรียนรู้และตัวชี้วัด (ข้อ 1-2)</h3>
+            
+            <label className="field" style={{ marginBottom: '16px' }}>
+              1. สาระสำคัญ (Concept / Big Idea)
+              <textarea className="lg" value={fields.essentialConcept} onChange={e => setFields({ ...fields, essentialConcept: e.target.value })} />
+            </label>
+
+            <hr className="divider" />
+
+            <h3>2. มาตรฐานการเรียนรู้และตัวชี้วัด (Learning Standards & Indicators)</h3>
             
             <div className="g1">
               <label className="field">
-                1. มาตรฐานการเรียนรู้ที่เกี่ยวข้อง (Learning Standards)
+                มาตรฐานการเรียนรู้ที่เกี่ยวข้อง (Learning Standards)
                 <textarea className="lg" value={fields.learningStandard} onChange={e => setFields({ ...fields, learningStandard: e.target.value })} placeholder="เช่น มาตรฐาน ต 1.1 เข้าใจและตีความ..." />
               </label>
 
@@ -934,19 +943,49 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   </div>
                 )}
               </div>
-
-              <hr className="divider" />
-
-              <label className="field">
-                2. สาระสำคัญ (Concept / Big Idea)
-                <textarea className="lg" value={fields.essentialConcept} onChange={e => setFields({ ...fields, essentialConcept: e.target.value })} />
-              </label>
-
-              <label className="field" style={{ marginTop: '12px' }}>
-                6. เนื้อหาสาระ / สาระการเรียนรู้ (Learning Content)
-                <textarea className="lg" style={{ minHeight: '120px' }} value={fields.learningContent} onChange={e => setFields({ ...fields, learningContent: e.target.value })} placeholder="คำศัพท์ โครงสร้างประโยค หรือเนื้อหาหลักที่เรียน..." />
-              </label>
             </div>
+
+            <hr className="divider" />
+
+            <h3>3. สมรรถนะ และ 4. คุณลักษณะอันพึงประสงค์ (ข้อ 3-4)</h3>
+
+            {/* Competency Chips */}
+            <div className="chip-wrap" style={{ marginTop: '12px' }}>
+              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>สมรรถนะสำคัญผู้เรียน (กดเลือกเพื่อเติมใน textarea ด้านล่าง)</span>
+              <div className="chip-list">
+                {options.competency?.map((opt: any) => {
+                  const hasIt = (fields.competencies || '').includes(opt.optionName);
+                  return (
+                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('competencies', opt.optionName)}>
+                      {opt.optionName}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <label className="field" style={{ marginBottom: '16px' }}>
+              3. สมรรถนะสำคัญของผู้เรียน (เขียนแจกแจงเป็นข้อๆ)
+              <textarea value={fields.competencies} onChange={e => setFields({ ...fields, competencies: e.target.value })} />
+            </label>
+
+            {/* Desired Attributes Chips */}
+            <div className="chip-wrap">
+              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>คุณลักษณะอันพึงประสงค์ (กดเลือกเพื่อเติมใน textarea ด้านล่าง)</span>
+              <div className="chip-list">
+                {options.attribute?.map((opt: any) => {
+                  const hasIt = (fields.desiredAttributes || '').includes(opt.optionName);
+                  return (
+                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('desiredAttributes', opt.optionName)}>
+                      {opt.optionName}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <label className="field" style={{ marginBottom: '16px' }}>
+              4. คุณลักษณะอันพึงประสงค์ (เขียนแจกแจงเป็นข้อๆ)
+              <textarea value={fields.desiredAttributes} onChange={e => setFields({ ...fields, desiredAttributes: e.target.value })} />
+            </label>
 
             <div className="tab-nav">
               <button type="button" className="btn btn-ghost" onClick={() => setActiveTab(1)}><ChevronLeft size={14} /> ย้อนกลับ</button>
@@ -955,10 +994,10 @@ export default function PlanForm({ planId }: PlanFormProps) {
           </div>
         )}
 
-        {/* ─── TAB 3: OBJECTIVES & ASSESSMENT ─── */}
+        {/* ─── TAB 3: OBJECTIVES, SKILLS & CONTENT (ข้อ 5-7) ─── */}
         {activeTab === 3 && (
           <div className="tab-panel card">
-            <h3>3. จุดประสงค์การเรียนรู้ (Learning Objectives)</h3>
+            <h3>5. จุดประสงค์การเรียนรู้ (Learning Objectives)</h3>
             <div className="g1">
               <label className="field">
                 จุดประสงค์ด้านความรู้ (Knowledge - K)
@@ -975,13 +1014,76 @@ export default function PlanForm({ planId }: PlanFormProps) {
             </div>
 
             <hr className="divider" />
+
+            {/* Century Skills Chips */}
+            <div className="chip-wrap">
+              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>ทักษะแห่งศตวรรษที่ 21 (Skills 21)</span>
+              <div className="chip-list">
+                {options.skill21?.map((opt: any) => {
+                  const hasIt = (fields.skills21 || '').includes(opt.optionName);
+                  return (
+                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('skills21', opt.optionName)}>
+                      {opt.optionName}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <label className="field" style={{ marginBottom: '16px' }}>
+              5.1 ทักษะที่จำเป็นในศตวรรษที่ 21 (เขียนแจกแจงเป็นข้อๆ)
+              <textarea value={fields.skills21} onChange={e => setFields({ ...fields, skills21: e.target.value })} />
+            </label>
+
+            <hr className="divider" />
+
+            <label className="field" style={{ marginBottom: '16px' }}>
+              6. เนื้อหาสาระ / สาระการเรียนรู้ (Learning Content)
+              <textarea className="lg" style={{ minHeight: '120px' }} value={fields.learningContent} onChange={e => setFields({ ...fields, learningContent: e.target.value })} placeholder="คำศัพท์ โครงสร้างประโยค หรือเนื้อหาหลักที่เรียน..." />
+            </label>
+
+            <hr className="divider" />
+
+            <h3>7. สื่อและแหล่งการเรียนรู้ (สื่อ แหล่งเรียนรู้ และภาระงาน)</h3>
+            {/* Media & Sources Fields */}
+            <div className="g3">
+              <label className="field">
+                1) สื่อการเรียนรู้
+                <textarea className="lg" value={fields.learningMedia} onChange={e => setFields({ ...fields, learningMedia: e.target.value })} placeholder="- ใบงาน\n- สไลด์ประกอบการสอน" />
+              </label>
+              <label className="field">
+                2) แหล่งเรียนรู้
+                <textarea className="lg" value={fields.learningSources} onChange={e => setFields({ ...fields, learningSources: e.target.value })} placeholder="- ห้องสมุดโรงเรียน\n- สื่ออินเทอร์เน็ต" />
+              </label>
+              <label className="field">
+                3) ชิ้นงาน / ภาระงาน
+                <textarea className="lg" value={fields.tasks} onChange={e => setFields({ ...fields, tasks: e.target.value })} placeholder="- ใบงานสรุปคำศัพท์" />
+              </label>
+            </div>
+
+            <div className="tab-nav">
+              <button type="button" className="btn btn-ghost" onClick={() => setActiveTab(2)}><ChevronLeft size={14} /> ย้อนกลับ</button>
+              <button type="button" className="btn btn-ghost" onClick={() => setActiveTab(4)}>ถัดไป <ChevronRight size={14} /></button>
+            </div>
+          </div>
+        )}
+
+        {/* ─── TAB 4: PROCESS & ASSESSMENT (ข้อ 8-9) ─── */}
+        {activeTab === 4 && (
+          <div className="tab-panel card">
+            <h3>8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
+            <label className="field">
+              กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)
+              <textarea className="lg" style={{ minHeight: '220px' }} value={fields.learningProcess} onChange={e => setFields({ ...fields, learningProcess: e.target.value })} />
+            </label>
+
+            <hr className="divider" />
             
             <h3>9. การวัดและการประเมินผล (K/P/A Assessment)</h3>
             
             {/* K Assessment Card */}
             <div className="assess-card">
               <div className="assess-header">
-                <h4>ประเมินด้านความรู้ (Knowledge - K)</h4>
+                <h4>9.1 ประเมินด้านความรู้ (Knowledge - K)</h4>
               </div>
               <div className="g2">
                 <label className="field">
@@ -1010,7 +1112,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
             {/* P Assessment Card */}
             <div className="assess-card">
               <div className="assess-header">
-                <h4>ประเมินด้านทักษะกระบวนการ (Process - P)</h4>
+                <h4>9.2 ประเมินด้านทักษะกระบวนการ (Process - P)</h4>
               </div>
               <div className="g2">
                 <label className="field">
@@ -1039,7 +1141,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
             {/* A Assessment Card */}
             <div className="assess-card">
               <div className="assess-header">
-                <h4>ประเมินด้านคุณลักษณะ (Attitude - A)</h4>
+                <h4>9.3 ประเมินด้านคุณลักษณะ (Attitude - A)</h4>
               </div>
               <div className="g2">
                 <label className="field">
@@ -1066,102 +1168,6 @@ export default function PlanForm({ planId }: PlanFormProps) {
             </div>
 
             <div className="tab-nav">
-              <button type="button" className="btn btn-ghost" onClick={() => setActiveTab(2)}><ChevronLeft size={14} /> ย้อนกลับ</button>
-              <button type="button" className="btn btn-ghost" onClick={() => setActiveTab(4)}>ถัดไป <ChevronRight size={14} /></button>
-            </div>
-          </div>
-        )}
-
-        {/* ─── TAB 4: PROCESS & MEDIA ─── */}
-        {activeTab === 4 && (
-          <div className="tab-panel card">
-            <h3>สมรรถนะ, คุณลักษณะ และทักษะแนะนำ</h3>
-            
-            {/* Competency Chips */}
-            <div className="chip-wrap">
-              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>สมรรถนะสำคัญผู้เรียน (กดเลือกเพื่อเติมใน textarea ด้านล่าง)</span>
-              <div className="chip-list">
-                {options.competency?.map((opt: any) => {
-                  const hasIt = (fields.competencies || '').includes(opt.optionName);
-                  return (
-                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('competencies', opt.optionName)}>
-                      {opt.optionName}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <label className="field" style={{ marginBottom: '16px' }}>
-              สมรรถนะสำคัญผู้เรียนจริงที่แสดงในแผน
-              <textarea value={fields.competencies} onChange={e => setFields({ ...fields, competencies: e.target.value })} />
-            </label>
-
-            {/* Desired Attributes Chips */}
-            <div className="chip-wrap">
-              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>คุณลักษณะอันพึงประสงค์ (กดเลือกเพื่อเติมใน textarea ด้านล่าง)</span>
-              <div className="chip-list">
-                {options.attribute?.map((opt: any) => {
-                  const hasIt = (fields.desiredAttributes || '').includes(opt.optionName);
-                  return (
-                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('desiredAttributes', opt.optionName)}>
-                      {opt.optionName}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <label className="field" style={{ marginBottom: '16px' }}>
-              คุณลักษณะอันพึงประสงค์จริงที่เลือก
-              <textarea value={fields.desiredAttributes} onChange={e => setFields({ ...fields, desiredAttributes: e.target.value })} />
-            </label>
-
-            {/* Century Skills Chips */}
-            <div className="chip-wrap">
-              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>ทักษะแห่งศตวรรษที่ 21 (Skills 21)</span>
-              <div className="chip-list">
-                {options.skill21?.map((opt: any) => {
-                  const hasIt = (fields.skills21 || '').includes(opt.optionName);
-                  return (
-                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('skills21', opt.optionName)}>
-                      {opt.optionName}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <label className="field" style={{ marginBottom: '16px' }}>
-              ทักษะศตวรรษที่ 21 จริงที่เลือก
-              <textarea value={fields.skills21} onChange={e => setFields({ ...fields, skills21: e.target.value })} />
-            </label>
-
-            <hr className="divider" />
-
-            <h3>สื่อการเรียนรู้ แหล่งเรียนรู้ และชิ้นงาน/ภาระงาน</h3>
-            {/* Media & Sources Fields */}
-            <div className="g3">
-              <label className="field">
-                สื่อการจัดการเรียนรู้
-                <textarea className="lg" value={fields.learningMedia} onChange={e => setFields({ ...fields, learningMedia: e.target.value })} placeholder="- ใบงาน\n- สไลด์ประกอบการสอน" />
-              </label>
-              <label className="field">
-                แหล่งเรียนรู้ภายนอก
-                <textarea className="lg" value={fields.learningSources} onChange={e => setFields({ ...fields, learningSources: e.target.value })} placeholder="- ห้องสมุดโรงเรียน\n- สื่ออินเทอร์เน็ต" />
-              </label>
-              <label className="field">
-                ภาระงาน / ชิ้นงานหลัก (Tasks)
-                <textarea className="lg" value={fields.tasks} onChange={e => setFields({ ...fields, tasks: e.target.value })} placeholder="- ใบงานสรุปคำศัพท์" />
-              </label>
-            </div>
-
-            <hr className="divider" />
-
-            <h3>8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
-            <label className="field">
-              กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)
-              <textarea className="lg" style={{ minHeight: '220px' }} value={fields.learningProcess} onChange={e => setFields({ ...fields, learningProcess: e.target.value })} />
-            </label>
-
-            <div className="tab-nav">
               <button type="button" className="btn btn-ghost" onClick={() => setActiveTab(3)}><ChevronLeft size={14} /> ย้อนกลับ</button>
               <button type="button" className="btn btn-ghost" onClick={() => setActiveTab(5)}>ถัดไป <ChevronRight size={14} /></button>
             </div>
@@ -1171,7 +1177,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
         {/* ─── TAB 5: AFTER ACTION REVIEW ─── */}
         {activeTab === 5 && (
           <div className="tab-panel card">
-            <h3>13. บันทึกหลังการสอน (After Action Review)</h3>
+            <h3>10. บันทึกหลังการจัดกระบวนการเรียนรู้ (After Action Review)</h3>
             <div className="g3">
               <label className="field">
                 ผลการเรียนรู้ด้านความรู้ (K)

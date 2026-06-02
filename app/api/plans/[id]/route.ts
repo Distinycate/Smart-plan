@@ -82,13 +82,36 @@ export async function PUT(
     delete updatedFields.createdAt;
     delete updatedFields.backupReason;
 
-    const { data, error: updateErr } = await supabase
+    let { data, error: updateErr } = await supabase
       .from('LessonPlans')
       .update(updatedFields)
       .eq('planId', id)
       .select();
 
-    if (updateErr) throw updateErr;
+    if (updateErr) {
+      // Check if error is due to missing rubric columns
+      const isMissingColumnError = updateErr.message?.includes('column') && 
+        (updateErr.message?.includes('rubricK') || updateErr.message?.includes('rubricP') || updateErr.message?.includes('rubricA'));
+        
+      if (isMissingColumnError) {
+        console.warn('Database is missing rubric columns. Retrying update without rubric columns...');
+        const fallbackFields = { ...updatedFields };
+        delete fallbackFields.rubricK;
+        delete fallbackFields.rubricP;
+        delete fallbackFields.rubricA;
+        
+        const retryResult = await supabase
+          .from('LessonPlans')
+          .update(fallbackFields)
+          .eq('planId', id)
+          .select();
+          
+        if (retryResult.error) throw retryResult.error;
+        data = retryResult.data;
+      } else {
+        throw updateErr;
+      }
+    }
 
     // 3. Log transaction
     await supabase.from('System_Logs').insert({

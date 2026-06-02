@@ -193,6 +193,122 @@ export default function PlanPreview() {
     );
   };
 
+  const parseRubricText = (text: string) => {
+    if (!text) return [];
+    
+    // Split by newlines
+    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+    
+    const levels = [
+      { score: 5, label: '5 คะแนน (ดีเยี่ยม)', text: '' },
+      { score: 4, label: '4 คะแนน (ดี)', text: '' },
+      { score: 3, label: '3 คะแนน (พอใช้/ปานกลาง)', text: '' },
+      { score: 2, label: '2 คะแนน (ปรับปรุงบางส่วน)', text: '' },
+      { score: 1, label: '1 คะแนน (ปรับปรุงเร่งด่วน)', text: '' },
+    ];
+    
+    let parsedAny = false;
+    
+    lines.forEach(line => {
+      // Regex pattern to extract score digit: e.g. "ระดับ 5 = ..." or "5 = ..." or "ระดับ 5: ..."
+      const match = line.match(/(?:ระดับ|คะแนน|\s|^)\s*([1-5])\s*(?:คะแนน|ระดับ)?\s*[:=-]\s*(.*)/i)
+                    || line.match(/(?:ระดับ|คะแนน)?\s*([1-5])\s*(?:คะแนน|ระดับ)?\s+(.*)/i);
+      if (match) {
+        const score = parseInt(match[1]);
+        const content = match[2].trim();
+        const levelObj = levels.find(l => l.score === score);
+        if (levelObj) {
+          levelObj.text = content;
+          parsedAny = true;
+        }
+      }
+    });
+    
+    // Semicolon/comma split if no lines matched
+    if (!parsedAny) {
+      const parts = text.split(/[,;]\s*(?=ระดับ\s*[1-5])/i);
+      if (parts.length > 1) {
+        parts.forEach(part => {
+          const match = part.match(/(?:ระดับ|คะแนน|\s|^)\s*([1-5])\s*(?:คะแนน|ระดับ)?\s*[:=-]\s*(.*)/i)
+                        || part.match(/(?:ระดับ|คะแนน)?\s*([1-5])\s*(?:คะแนน|ระดับ)?\s+(.*)/i);
+          if (match) {
+            const score = parseInt(match[1]);
+            const content = match[2].trim();
+            const levelObj = levels.find(l => l.score === score);
+            if (levelObj) {
+              levelObj.text = content;
+              parsedAny = true;
+            }
+          }
+        });
+      }
+    }
+    
+    // Word scanning if still not parsed
+    if (!parsedAny) {
+      let remainingText = text;
+      for (let s = 5; s >= 1; s--) {
+        const currentMarker = `ระดับ ${s}`;
+        const nextMarker = s > 1 ? `ระดับ ${s - 1}` : null;
+        
+        const startIndex = remainingText.indexOf(currentMarker);
+        if (startIndex !== -1) {
+          let endIndex = remainingText.length;
+          if (nextMarker) {
+            const nextIndex = remainingText.indexOf(nextMarker);
+            if (nextIndex !== -1 && nextIndex > startIndex) {
+              endIndex = nextIndex;
+            }
+          }
+          let content = remainingText.substring(startIndex + currentMarker.length, endIndex);
+          content = content.replace(/^[:=\-\s]+/, '').trim();
+          const levelObj = levels.find(l => l.score === s);
+          if (levelObj) {
+            levelObj.text = content;
+            parsedAny = true;
+          }
+        }
+      }
+    }
+    
+    // Fallback distribution
+    if (!parsedAny) {
+      if (lines.length > 0) {
+        lines.forEach((line, idx) => {
+          if (idx < 5) {
+            levels[idx].text = line;
+          }
+        });
+      } else {
+        levels[2].text = text;
+      }
+    }
+    
+    return levels;
+  };
+
+  const renderRubricTable = (rubricText: string) => {
+    const levels = parseRubricText(rubricText);
+    return (
+      <table className="assessment-table" style={{ marginTop: '8px', marginBottom: '16px', width: '100%', fontSize: '14pt' }}>
+        <thead>
+          <tr>
+            <th style={{ width: '25%', textAlign: 'center', fontWeight: 'bold' }}>ระดับคะแนน</th>
+            <th style={{ width: '75%', textAlign: 'left', fontWeight: 'bold' }}>เกณฑ์การพิจารณา (คำอธิบายคุณภาพ)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {levels.map(l => (
+            <tr key={l.score}>
+              <td style={{ textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', width: '25%' }}>{l.label}</td>
+              <td style={{ verticalAlign: 'top', padding: '6px 8px', width: '75%' }}>{l.text || '......................................................................'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
   return (
     <div className="preview-container">
       {/* Floating control bar for screen viewing */}
@@ -361,19 +477,19 @@ export default function PlanPreview() {
             </thead>
             <tbody>
               <tr>
-                <td><strong>ด้านความรู้ (K):</strong><br />{cleanTableCellVal(plan.measureK)}</td>
+                <td><strong>1) ด้านความรู้ (K):</strong><br />{cleanTableCellVal(plan.measureK)}</td>
                 <td>{cleanTableCellVal(plan.methodK)}</td>
                 <td>{cleanTableCellVal(plan.toolK)}</td>
                 <td>{cleanTableCellVal(plan.criteriaK)}</td>
               </tr>
               <tr>
-                <td><strong>ด้านทักษะกระบวนการ (P):</strong><br />{cleanTableCellVal(plan.measureP)}</td>
+                <td><strong>2) ด้านทักษะกระบวนการ (P):</strong><br />{cleanTableCellVal(plan.measureP)}</td>
                 <td>{cleanTableCellVal(plan.methodP)}</td>
                 <td>{cleanTableCellVal(plan.toolP)}</td>
                 <td>{cleanTableCellVal(plan.criteriaP)}</td>
               </tr>
               <tr>
-                <td><strong>ด้านคุณลักษณะ (A):</strong><br />{cleanTableCellVal(plan.measureA)}</td>
+                <td><strong>3) ด้านคุณลักษณะ (A):</strong><br />{cleanTableCellVal(plan.measureA)}</td>
                 <td>{cleanTableCellVal(plan.methodA)}</td>
                 <td>{cleanTableCellVal(plan.toolA)}</td>
                 <td>{cleanTableCellVal(plan.criteriaA)}</td>
@@ -388,19 +504,19 @@ export default function PlanPreview() {
             {plan.rubricK && (
               <>
                 <div className="sub-heading">เกณฑ์ประเมินด้านความรู้ (K):</div>
-                {cleanSubContentVal(plan.rubricK)}
+                {renderRubricTable(plan.rubricK)}
               </>
             )}
             {plan.rubricP && (
               <>
                 <div className="sub-heading" style={{ marginTop: '8px' }}>เกณฑ์ประเมินด้านทักษะกระบวนการ (P):</div>
-                {cleanSubContentVal(plan.rubricP)}
+                {renderRubricTable(plan.rubricP)}
               </>
             )}
             {plan.rubricA && (
               <>
                 <div className="sub-heading" style={{ marginTop: '8px' }}>เกณฑ์ประเมินด้านคุณลักษณะ (A):</div>
-                {cleanSubContentVal(plan.rubricA)}
+                {renderRubricTable(plan.rubricA)}
               </>
             )}
           </div>
