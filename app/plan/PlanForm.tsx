@@ -411,14 +411,17 @@ export default function PlanForm({ planId }: PlanFormProps) {
           tasks: ensureBulletString(ai.tasks) || prev.tasks,
           learningProcess: cleanJSONString(ai.learningProcess) || prev.learningProcess,
           
+          measureK: cleanJSONString(ai.measureK) || prev.measureK,
           methodK: cleanJSONString(ai.methodK) || prev.methodK,
           toolK: cleanJSONString(ai.toolK) || prev.toolK,
           criteriaK: cleanJSONString(ai.criteriaK) || prev.criteriaK,
           
+          measureP: cleanJSONString(ai.measureP) || prev.measureP,
           methodP: cleanJSONString(ai.methodP) || prev.methodP,
           toolP: cleanJSONString(ai.toolP) || prev.toolP,
           criteriaP: cleanJSONString(ai.criteriaP) || prev.criteriaP,
           
+          measureA: cleanJSONString(ai.measureA) || prev.measureA,
           methodA: cleanJSONString(ai.methodA) || prev.methodA,
           toolA: cleanJSONString(ai.toolA) || prev.toolA,
           criteriaA: cleanJSONString(ai.criteriaA) || prev.criteriaA,
@@ -922,7 +925,11 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <div className="assess-header">
                 <h4>ประเมินด้านความรู้ (Knowledge - K)</h4>
               </div>
-              <div className="g3">
+              <div className="g2">
+                <label className="field">
+                  สิ่งที่ต้องการวัดและประเมินผล
+                  <input value={fields.measureK} onChange={e => setFields({ ...fields, measureK: e.target.value })} placeholder="เช่น ความถูกต้องในการทำใบงานคำศัพท์" />
+                </label>
                 <label className="field">
                   วิธีการวัดผล
                   <input value={fields.methodK} onChange={e => setFields({ ...fields, methodK: e.target.value })} placeholder="เช่น การทำใบงานคำศัพท์" />
@@ -943,7 +950,11 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <div className="assess-header">
                 <h4>ประเมินด้านทักษะกระบวนการ (Process - P)</h4>
               </div>
-              <div className="g3">
+              <div className="g2">
+                <label className="field">
+                  สิ่งที่ต้องการวัดและประเมินผล
+                  <input value={fields.measureP} onChange={e => setFields({ ...fields, measureP: e.target.value })} placeholder="เช่น ทักษะการพูดบทสนทนาภาษาอังกฤษ" />
+                </label>
                 <label className="field">
                   วิธีการวัดผล
                   <input value={fields.methodP} onChange={e => setFields({ ...fields, methodP: e.target.value })} placeholder="เช่น การสังเกตพฤติกรรมการพูด" />
@@ -964,7 +975,11 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <div className="assess-header">
                 <h4>ประเมินด้านคุณลักษณะ (Attitude - A)</h4>
               </div>
-              <div className="g3">
+              <div className="g2">
+                <label className="field">
+                  สิ่งที่ต้องการวัดและประเมินผล
+                  <input value={fields.measureA} onChange={e => setFields({ ...fields, measureA: e.target.value })} placeholder="เช่น ความตั้งใจเรียนและใฝ่เรียนรู้" />
+                </label>
                 <label className="field">
                   วิธีการวัดผล
                   <input value={fields.methodA} onChange={e => setFields({ ...fields, methodA: e.target.value })} placeholder="เช่น สังเกตพฤติกรรมใฝ่เรียนรู้" />

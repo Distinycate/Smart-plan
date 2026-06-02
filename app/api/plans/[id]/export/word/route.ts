@@ -360,27 +360,31 @@ export async function GET(
       <table class="assessment-table">
         <thead>
           <tr>
-            <th style="width:25%">รายการวัด</th>
-            <th style="width:25%">วิธีวัด</th>
-            <th style="width:25%">เครื่องมือ</th>
-            <th style="width:25%">เกณฑ์การประเมิน</th>
+            <th style="width:10%; text-align: center;">ด้าน</th>
+            <th style="width:25%">สิ่งที่ต้องการวัดและประเมินผล</th>
+            <th style="width:20%">วิธีการวัดผล</th>
+            <th style="width:25%">เครื่องมือวัดผล</th>
+            <th style="width:20%">เกณฑ์การประเมิน</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>ด้านความรู้ (K)</strong><br>${cleanVal(plan.objectiveK)}</td>
+            <td style="text-align: center; font-weight: bold;">ความรู้<br>(K)</td>
+            <td>${cleanVal(plan.measureK)}</td>
             <td>${cleanVal(plan.methodK)}</td>
             <td>${cleanVal(plan.toolK)}</td>
             <td>${cleanVal(plan.criteriaK)}</td>
           </tr>
           <tr>
-            <td><strong>ด้านทักษะกระบวนการ (P)</strong><br>${cleanVal(plan.objectiveP)}</td>
+            <td style="text-align: center; font-weight: bold;">ทักษะ<br>(P)</td>
+            <td>${cleanVal(plan.measureP)}</td>
             <td>${cleanVal(plan.methodP)}</td>
             <td>${cleanVal(plan.toolP)}</td>
             <td>${cleanVal(plan.criteriaP)}</td>
           </tr>
           <tr>
-            <td><strong>ด้านคุณลักษณะ (A)</strong><br>${cleanVal(plan.objectiveA)}</td>
+            <td style="text-align: center; font-weight: bold;">คุณลักษณะ<br>(A)</td>
+            <td>${cleanVal(plan.measureA)}</td>
             <td>${cleanVal(plan.methodA)}</td>
             <td>${cleanVal(plan.toolA)}</td>
             <td>${cleanVal(plan.criteriaA)}</td>

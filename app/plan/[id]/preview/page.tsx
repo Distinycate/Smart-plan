@@ -342,27 +342,31 @@ export default function PlanPreview() {
           <table className="assessment-table">
             <thead>
               <tr>
-                <th style={{ width: '25%' }}>รายการวัด</th>
-                <th style={{ width: '25%' }}>วิธีวัด</th>
-                <th style={{ width: '25%' }}>เครื่องมือ</th>
-                <th style={{ width: '25%' }}>เกณฑ์การประเมิน</th>
+                <th style={{ width: '10%', textAlign: 'center' }}>ด้าน</th>
+                <th style={{ width: '25%' }}>สิ่งที่ต้องการวัดและประเมินผล</th>
+                <th style={{ width: '20%' }}>วิธีการวัดผล</th>
+                <th style={{ width: '25%' }}>เครื่องมือวัดผล</th>
+                <th style={{ width: '20%' }}>เกณฑ์การประเมิน</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>ด้านความรู้ (K)</strong><br />{cleanTableCellVal(plan.objectiveK)}</td>
+                <td style={{ textAlign: 'center', fontWeight: 'bold' }}>ความรู้<br />(K)</td>
+                <td>{cleanTableCellVal(plan.measureK)}</td>
                 <td>{cleanTableCellVal(plan.methodK)}</td>
                 <td>{cleanTableCellVal(plan.toolK)}</td>
                 <td>{cleanTableCellVal(plan.criteriaK)}</td>
               </tr>
               <tr>
-                <td><strong>ด้านทักษะกระบวนการ (P)</strong><br />{cleanTableCellVal(plan.objectiveP)}</td>
+                <td style={{ textAlign: 'center', fontWeight: 'bold' }}>ทักษะ<br />(P)</td>
+                <td>{cleanTableCellVal(plan.measureP)}</td>
                 <td>{cleanTableCellVal(plan.methodP)}</td>
                 <td>{cleanTableCellVal(plan.toolP)}</td>
                 <td>{cleanTableCellVal(plan.criteriaP)}</td>
               </tr>
               <tr>
-                <td><strong>ด้านคุณลักษณะ (A)</strong><br />{cleanTableCellVal(plan.objectiveA)}</td>
+                <td style={{ textAlign: 'center', fontWeight: 'bold' }}>คุณลักษณะ<br />(A)</td>
+                <td>{cleanTableCellVal(plan.measureA)}</td>
                 <td>{cleanTableCellVal(plan.methodA)}</td>
                 <td>{cleanTableCellVal(plan.toolA)}</td>
                 <td>{cleanTableCellVal(plan.criteriaA)}</td>
