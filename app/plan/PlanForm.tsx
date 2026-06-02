@@ -941,6 +941,11 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 2. สาระสำคัญ (Concept / Big Idea)
                 <textarea className="lg" value={fields.essentialConcept} onChange={e => setFields({ ...fields, essentialConcept: e.target.value })} />
               </label>
+
+              <label className="field" style={{ marginTop: '12px' }}>
+                6. เนื้อหาสาระ / สาระการเรียนรู้ (Learning Content)
+                <textarea className="lg" style={{ minHeight: '120px' }} value={fields.learningContent} onChange={e => setFields({ ...fields, learningContent: e.target.value })} placeholder="คำศัพท์ โครงสร้างประโยค หรือเนื้อหาหลักที่เรียน..." />
+              </label>
             </div>
 
             <div className="tab-nav">
@@ -1070,15 +1075,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
         {/* ─── TAB 4: PROCESS & MEDIA ─── */}
         {activeTab === 4 && (
           <div className="tab-panel card">
-            <h3>8. กระบวนการเรียนรู้ (Active Learning Steps)</h3>
-            <label className="field">
-              กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)
-              <textarea className="lg" style={{ minHeight: '220px' }} value={fields.learningProcess} onChange={e => setFields({ ...fields, learningProcess: e.target.value })} />
-            </label>
-
-            <hr className="divider" />
-            
-            <h3>สมรรถนะ, ทักษะ และสื่อแนะนำ</h3>
+            <h3>สมรรถนะ, คุณลักษณะ และทักษะแนะนำ</h3>
             
             {/* Competency Chips */}
             <div className="chip-wrap">
@@ -1137,6 +1134,9 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <textarea value={fields.skills21} onChange={e => setFields({ ...fields, skills21: e.target.value })} />
             </label>
 
+            <hr className="divider" />
+
+            <h3>สื่อการเรียนรู้ แหล่งเรียนรู้ และชิ้นงาน/ภาระงาน</h3>
             {/* Media & Sources Fields */}
             <div className="g3">
               <label className="field">
@@ -1152,6 +1152,14 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 <textarea className="lg" value={fields.tasks} onChange={e => setFields({ ...fields, tasks: e.target.value })} placeholder="- ใบงานสรุปคำศัพท์" />
               </label>
             </div>
+
+            <hr className="divider" />
+
+            <h3>8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
+            <label className="field">
+              กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)
+              <textarea className="lg" style={{ minHeight: '220px' }} value={fields.learningProcess} onChange={e => setFields({ ...fields, learningProcess: e.target.value })} />
+            </label>
 
             <div className="tab-nav">
               <button type="button" className="btn btn-ghost" onClick={() => setActiveTab(3)}><ChevronLeft size={14} /> ย้อนกลับ</button>

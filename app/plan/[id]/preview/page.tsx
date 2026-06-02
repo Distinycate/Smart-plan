@@ -235,37 +235,66 @@ export default function PlanPreview() {
       <div className="a4-sheet" style={{ zoom: `${zoom}%` }}>
         <div className="doc-title">แผนการจัดการเรียนรู้</div>
         
-        <table className="top-grid">
+        <table className="info-table">
           <tbody>
             <tr>
-              <td><span className="label">ชื่อ-นามสกุลครูผู้สอน:</span> {plan.teacherName}</td>
-              <td><span className="label">โรงเรียน:</span> {plan.schoolName}</td>
+              <td style={{ width: '12%', fontWeight: 'bold' }}>ชื่อ-นามสกุล</td>
+              <td style={{ width: '28%' }}>{plan.teacherName}</td>
+              <td style={{ width: '10%', fontWeight: 'bold' }}>โรงเรียน</td>
+              <td style={{ width: '18%' }}>{plan.schoolName}</td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>สังกัด</td>
+              <td style={{ width: '24%' }}>{plan.organization}</td>
             </tr>
+          </tbody>
+        </table>
+        <table className="info-table">
+          <tbody>
             <tr>
-              <td><span className="label">สังกัด:</span> {plan.organization}</td>
-              <td><span className="label">กลุ่มสาระการเรียนรู้:</span> {plan.headerLearningArea}</td>
+              <td style={{ width: '15%', fontWeight: 'bold' }}>กลุ่มสาระ</td>
+              <td style={{ width: '53%' }}>{plan.headerLearningArea}</td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>ระดับชั้น</td>
+              <td style={{ width: '24%' }}>{plan.headerGradeLevel}</td>
             </tr>
+          </tbody>
+        </table>
+        <table className="info-table">
+          <tbody>
             <tr>
-              <td><span className="label">ระดับชั้น:</span> {plan.headerGradeLevel}</td>
-              <td><span className="label">ปีการศึกษา:</span> {plan.academicYear}</td>
+              <td style={{ width: '15%', fontWeight: 'bold' }}>รายวิชา</td>
+              <td style={{ width: '53%' }}>{plan.subjectName} ({plan.subjectCode})</td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>ภาคเรียน</td>
+              <td style={{ width: '24%' }}>ภาคเรียนที่ {plan.semester}/{plan.academicYear}</td>
             </tr>
+          </tbody>
+        </table>
+        <table className="info-table">
+          <tbody>
             <tr>
-              <td><span className="label">รายวิชา:</span> {plan.subjectName}</td>
-              <td><span className="label">รหัสวิชา:</span> {plan.subjectCode}</td>
+              <td style={{ width: '15%', fontWeight: 'bold' }}>ชื่อหน่วย</td>
+              <td style={{ width: '53%' }}>{plan.unitName}</td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>เวลา</td>
+              <td style={{ width: '24%' }}>{plan.totalHours} ชั่วโมง</td>
             </tr>
+          </tbody>
+        </table>
+        <table className="info-table" style={{ marginBottom: '15px' }}>
+          <tbody>
             <tr>
-              <td><span className="label">ภาคเรียนที่:</span> {plan.semester}</td>
-              <td><span className="label">เวลาเรียน:</span> {plan.totalHours} ชั่วโมง</td>
-            </tr>
-            <tr>
-              <td><span className="label">หน่วยการเรียนรู้:</span> {plan.unitName}</td>
-              <td><span className="label">เรื่องที่สอน:</span> {plan.lessonTopic}</td>
+              <td style={{ width: '10%', fontWeight: 'bold' }}>วันที่สอน</td>
+              <td style={{ width: '30%' }}></td>
+              <td style={{ width: '8%', fontWeight: 'bold' }}>เรื่อง</td>
+              <td style={{ width: '52%' }}>{plan.lessonTopic}</td>
             </tr>
           </tbody>
         </table>
 
         <div className="section">
-          <div className="section-title">1. มาตรฐานการเรียนรู้ / ตัวชี้วัด</div>
+          <div className="section-title">1. สาระสำคัญ</div>
+          <div className="section-content">{cleanVal(plan.essentialConcept)}</div>
+        </div>
+
+        <div className="section">
+          <div className="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
             <p><span className="label">มาตรฐานการเรียนรู้:</span><br />{renderIndicators(plan.learningStandard)}</p>
             <p style={{ marginTop: '6px' }}><span className="label">ตัวชี้วัดระหว่างทาง:</span><br />{renderIndicators(plan.indicatorDuring)}</p>
@@ -274,12 +303,17 @@ export default function PlanPreview() {
         </div>
 
         <div className="section">
-          <div className="section-title">2. สาระสำคัญ (Concept)</div>
-          <div className="section-content">{cleanVal(plan.essentialConcept)}</div>
+          <div className="section-title">3. สมรรถนะสำคัญของผู้เรียน</div>
+          <div className="section-content-list">{renderList(plan.competencies)}</div>
         </div>
 
         <div className="section">
-          <div className="section-title">3. จุดประสงค์การเรียนรู้</div>
+          <div className="section-title">4. คุณลักษณะอันพึงประสงค์</div>
+          <div className="section-content-list">{renderList(plan.desiredAttributes)}</div>
+        </div>
+
+        <div className="section">
+          <div className="section-title">5. จุดประสงค์การเรียนรู้</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
             <p><span className="label">ด้านความรู้ (K):</span><br />{cleanTableCellVal(plan.objectiveK)}</p>
             <p style={{ marginTop: '6px' }}><span className="label">ด้านทักษะกระบวนการ (P):</span><br />{cleanTableCellVal(plan.objectiveP)}</p>
@@ -288,60 +322,58 @@ export default function PlanPreview() {
         </div>
 
         <div className="section">
-          <div className="section-title">4. สาระการเรียนรู้</div>
-          <div className="section-content">{cleanVal(plan.learningContent)}</div>
-        </div>
-
-        <div className="section">
-          <div className="section-title">5. สมรรถนะสำคัญของผู้เรียน</div>
-          <div className="section-content-list">{renderList(plan.competencies)}</div>
-        </div>
-
-        <div className="section">
-          <div className="section-title">6. คุณลักษณะอันพึงประสงค์</div>
-          <div className="section-content-list">{renderList(plan.desiredAttributes)}</div>
-        </div>
-
-        <div className="section">
-          <div className="section-title">7. ทักษะที่จำเป็นในศตวรรษที่ 21</div>
+          <div className="section-title">5.1 ทักษะที่จำเป็นในศตวรรษที่ 21</div>
           <div className="section-content-list">{renderList(plan.skills21)}</div>
         </div>
 
         <div className="section">
-          <div className="section-title">8. กระบวนการจัดการเรียนรู้</div>
+          <div className="section-title">6. เนื้อหาสาระ</div>
+          <div className="section-content">{cleanVal(plan.learningContent)}</div>
+        </div>
+
+        <div className="section">
+          <div className="section-title">7. สื่อและแหล่งการเรียนรู้</div>
+          <div className="section-content" style={{ marginLeft: '0' }}>
+            <div className="sub-heading">1) สื่อการเรียนรู้:</div>
+            <div className="sub-content">{cleanVal(plan.learningMedia) || '..................................................'}</div>
+            <div className="sub-heading" style={{ marginTop: '6px' }}>2) แหล่งเรียนรู้:</div>
+            <div className="sub-content">{cleanVal(plan.learningSources) || '..................................................'}</div>
+            <div className="sub-heading" style={{ marginTop: '6px' }}>3) ชิ้นงาน / ภาระงาน:</div>
+            <div className="sub-content">{cleanVal(plan.tasks) || '..................................................'}</div>
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="section-title">8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</div>
           <div className="section-content" style={{ marginLeft: '0' }}>{renderLearningProcess(plan.learningProcess)}</div>
         </div>
 
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
-          <div className="section-title">9. การวัดและประเมินผลการเรียนรู้</div>
+          <div className="section-title">9. การวัดและการประเมินผล</div>
           <table className="assessment-table">
             <thead>
               <tr>
-                <th style={{ width: '10%', textAlign: 'center' }}>ด้าน</th>
-                <th style={{ width: '25%' }}>สิ่งที่ต้องการวัดและประเมินผล</th>
-                <th style={{ width: '20%' }}>วิธีการวัดผล</th>
-                <th style={{ width: '25%' }}>เครื่องมือวัดผล</th>
-                <th style={{ width: '20%' }}>เกณฑ์การประเมิน</th>
+                <th style={{ width: '40%', textAlign: 'center' }}>สิ่งที่ต้องการวัดและประเมินผล</th>
+                <th style={{ width: '20%', textAlign: 'center' }}>วิธีการวัดผล</th>
+                <th style={{ width: '20%', textAlign: 'center' }}>เครื่องมือวัดผล</th>
+                <th style={{ width: '20%', textAlign: 'center' }}>เกณฑ์การประเมิน</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td style={{ textAlign: 'center', fontWeight: 'bold' }}>ความรู้<br />(K)</td>
-                <td>{cleanTableCellVal(plan.measureK)}</td>
+                <td><strong>ด้านความรู้ (K):</strong><br />{cleanTableCellVal(plan.measureK)}</td>
                 <td>{cleanTableCellVal(plan.methodK)}</td>
                 <td>{cleanTableCellVal(plan.toolK)}</td>
                 <td>{cleanTableCellVal(plan.criteriaK)}</td>
               </tr>
               <tr>
-                <td style={{ textAlign: 'center', fontWeight: 'bold' }}>ทักษะ<br />(P)</td>
-                <td>{cleanTableCellVal(plan.measureP)}</td>
+                <td><strong>ด้านทักษะกระบวนการ (P):</strong><br />{cleanTableCellVal(plan.measureP)}</td>
                 <td>{cleanTableCellVal(plan.methodP)}</td>
                 <td>{cleanTableCellVal(plan.toolP)}</td>
                 <td>{cleanTableCellVal(plan.criteriaP)}</td>
               </tr>
               <tr>
-                <td style={{ textAlign: 'center', fontWeight: 'bold' }}>คุณลักษณะ<br />(A)</td>
-                <td>{cleanTableCellVal(plan.measureA)}</td>
+                <td><strong>ด้านคุณลักษณะ (A):</strong><br />{cleanTableCellVal(plan.measureA)}</td>
                 <td>{cleanTableCellVal(plan.methodA)}</td>
                 <td>{cleanTableCellVal(plan.toolA)}</td>
                 <td>{cleanTableCellVal(plan.criteriaA)}</td>
@@ -374,23 +406,8 @@ export default function PlanPreview() {
           </div>
         </div>
 
-        <div className="section">
-          <div className="section-title">10. สื่อการเรียนรู้</div>
-          <div className="section-content">{cleanVal(plan.learningMedia) || '..................................................'}</div>
-        </div>
-
-        <div className="section">
-          <div className="section-title">11. แหล่งเรียนรู้</div>
-          <div className="section-content">{cleanVal(plan.learningSources) || '..................................................'}</div>
-        </div>
-
-        <div className="section">
-          <div className="section-title">12. ชิ้นงาน / ภาระงาน</div>
-          <div className="section-content">{cleanVal(plan.tasks) || '..................................................'}</div>
-        </div>
-
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
-          <div className="section-title">13. บันทึกหลังการจัดกระบวนการเรียนรู้</div>
+          <div className="section-title">10. บันทึกหลังการจัดกระบวนการเรียนรู้</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
             <div className="sub-heading">1) ผลการจัดการเรียนรู้</div>
             <div className="sub-content" style={{ marginTop: '2px' }}>
@@ -576,22 +593,20 @@ export default function PlanPreview() {
           font-weight: bold;
           margin-bottom: 15px;
         }
-         .top-grid {
+         .info-table {
           width: 100%;
           border-collapse: collapse;
-          border: 1px solid #555;
-          margin-bottom: 12px;
-          line-height: 1.5;
+          margin-bottom: 2px;
+          line-height: 1.0;
         }
-        .top-grid td {
-          width: 50%;
-          padding: 4px 10px !important;
-          vertical-align: top;
-          border-bottom: 1px solid #bbb;
-          font-size: 15px;
+        .info-table td {
+          padding: 0px !important;
+          margin: 0px !important;
+          font-size: 16pt;
+          vertical-align: middle;
+          border: none;
+          height: 22px;
         }
-        .top-grid tr:last-child td { border-bottom: none; }
-        .top-grid td:first-child { border-right: 1px solid #bbb; }
 
         .sig-table {
           width: 100%;
