@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { buildEflSupplementalMasterData } from '@/lib/eflTopicTemplates';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET() {
   try {
@@ -70,13 +74,15 @@ export async function GET() {
       groupedOptions[type].push(opt);
     });
 
+    const supplementalMasterData = buildEflSupplementalMasterData(subjects || [], units || [], topics || []);
+
     return NextResponse.json({
       success: true,
       data: {
         config: configMap,
         subjects,
-        units,
-        topics,
+        units: supplementalMasterData.units,
+        topics: supplementalMasterData.topics,
         indicators,
         options: groupedOptions
       }

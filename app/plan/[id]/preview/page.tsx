@@ -11,7 +11,7 @@ export default function PlanPreview() {
   const [plan, setPlan] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [zoom, setZoom] = useState(100);
+  const [zoom, setZoom] = useState(90);
 
   useEffect(() => {
     if (!id) return;
@@ -290,7 +290,7 @@ export default function PlanPreview() {
   const renderRubricTable = (rubricText: string) => {
     const levels = parseRubricText(rubricText);
     return (
-      <table className="assessment-table" style={{ marginTop: '8px', marginBottom: '16px', width: '100%', fontSize: '14pt' }}>
+      <table className="assessment-table" style={{ marginTop: '8px', marginBottom: '16px', width: '100%', fontSize: '13pt' }}>
         <thead>
           <tr>
             <th style={{ width: '25%', textAlign: 'center', fontWeight: 'bold' }}>ระดับคะแนน</th>
@@ -335,7 +335,7 @@ export default function PlanPreview() {
             }}
           >
             <option value={75}>75%</option>
-            <option value={90}>90%</option>
+            <option value={90}>90% (เหมือน localhost)</option>
             <option value={100}>100% (ขนาดจริง)</option>
             <option value={110}>110%</option>
             <option value={120}>120%</option>
@@ -639,7 +639,34 @@ export default function PlanPreview() {
       </div>
 
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+        @font-face {
+          font-family: "TH Sarabun New";
+          src: url("/fonts/THSarabunNew.ttf") format("truetype");
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: "TH Sarabun New";
+          src: url("/fonts/THSarabunNew-Bold.ttf") format("truetype");
+          font-weight: 700;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: "TH Sarabun New";
+          src: url("/fonts/THSarabunNew-Italic.ttf") format("truetype");
+          font-weight: 400;
+          font-style: italic;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: "TH Sarabun New";
+          src: url("/fonts/THSarabunNew-BoldItalic.ttf") format("truetype");
+          font-weight: 700;
+          font-style: italic;
+          font-display: swap;
+        }
         
         body {
           background: #525659;
@@ -701,11 +728,11 @@ export default function PlanPreview() {
           box-sizing: border-box;
           color: #000;
           line-height: 1.0;
-          font-size: 16pt;
+          font-size: 15pt;
         }
         .doc-title {
           text-align: center;
-          font-size: 20pt;
+          font-size: 18pt;
           font-weight: bold;
           margin-bottom: 15px;
         }
@@ -718,7 +745,7 @@ export default function PlanPreview() {
         .info-table td {
           padding: 0px !important;
           margin: 0px !important;
-          font-size: 16pt;
+          font-size: 15pt;
           vertical-align: middle;
           border: none;
           height: 22px;
@@ -734,7 +761,7 @@ export default function PlanPreview() {
           width: 50%;
           text-align: center;
           padding: 6px 12px;
-          font-size: 15pt;
+          font-size: 14pt;
           vertical-align: top;
           line-height: 1.6;
         }
@@ -752,7 +779,7 @@ export default function PlanPreview() {
         }
         .section-title {
           font-weight: bold;
-          font-size: 16pt;
+          font-size: 15pt;
           margin-bottom: 4px;
           text-align: left;
           margin-left: 0;
@@ -760,13 +787,13 @@ export default function PlanPreview() {
         }
         .section-content {
           margin-left: 0.75cm;
-          font-size: 16pt;
+          font-size: 15pt;
           text-align: left;
           line-height: 1.0;
         }
         .section-content-list {
           margin-left: 0.75cm;
-          font-size: 16pt;
+          font-size: 15pt;
           line-height: 1.0;
         }
         .indent-p {
@@ -780,11 +807,11 @@ export default function PlanPreview() {
           margin-left: 0.75cm;
           margin-top: 4px;
           margin-bottom: 2px;
-          font-size: 16pt;
+          font-size: 15pt;
         }
         .sub-content {
           margin-left: 1.25cm;
-          font-size: 16pt;
+          font-size: 15pt;
           text-align: left;
         }
         .indicator-line {
@@ -809,14 +836,14 @@ export default function PlanPreview() {
           border-collapse: collapse;
           margin-top: 8px;
           margin-bottom: 12px;
-          font-size: 14pt;
+          font-size: 13pt;
         }
         .assessment-table th,
         .assessment-table td {
           border: 1px solid #000;
           padding: 4px 8px;
           vertical-align: top;
-          font-size: 14pt;
+          font-size: 13pt;
           text-align: left;
           line-height: 1.1;
         }
@@ -833,7 +860,7 @@ export default function PlanPreview() {
         }
         .sig-title {
           font-weight: bold;
-          font-size: 16pt;
+          font-size: 15pt;
           margin-top: 20px;
           text-align: left;
           margin-bottom: 15px;
@@ -844,12 +871,12 @@ export default function PlanPreview() {
         }
         .comment-heading {
           font-weight: bold;
-          font-size: 15pt;
+          font-size: 14pt;
           margin-bottom: 2px;
         }
         .comment-line {
           color: #333;
-          font-size: 15pt;
+          font-size: 14pt;
           line-height: 1.2;
           margin-bottom: 2px;
           letter-spacing: 1px;
@@ -865,7 +892,7 @@ export default function PlanPreview() {
         }
         .sig-cell {
           text-align: center;
-          font-size: 15pt;
+          font-size: 14pt;
           line-height: 1.6;
         }
 

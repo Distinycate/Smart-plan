@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   FileText, FileEdit, Plus, Search, Filter, Sparkles,
-  CheckCircle2, Clock, Download, Eye, Trash2, RefreshCw,
+  CheckCircle2, Clock, Download, Eye, Archive, RefreshCw,
   GraduationCap, BarChart3, FileDown, Printer, PenLine, 
   Calendar, Layers, BookOpen, Zap, TrendingUp, Star
 } from 'lucide-react';
@@ -71,8 +71,8 @@ export default function TeacherDashboard() {
       else alert('เกิดข้อผิดพลาด: ' + json.error);
     } catch (err: any) { alert('เกิดข้อผิดพลาด: ' + err.message); }
   };
-  const handleDeletePlan = async (planId: string, topic: string) => {
-    if (!window.confirm(`ลบแผนการสอน "${topic || 'ไม่มีชื่อ'}"?\nการดำเนินการนี้ไม่สามารถย้อนกลับได้`)) return;
+  const handleArchivePlan = async (planId: string, topic: string) => {
+    if (!window.confirm(`เก็บถาวรแผนการสอน "${topic || 'ไม่มีชื่อ'}"?\nแผนนี้จะถูกซ่อนจากหน้ารายการ แต่ยังเก็บข้อมูลและประวัติสำรองไว้ในระบบ`)) return;
     try {
       const res = await fetch(`/api/plans/${planId}`, { method: 'DELETE' });
       const json = await res.json();
@@ -345,8 +345,8 @@ export default function TeacherDashboard() {
                   <button className="pact-btn pact-pdf" onClick={() => handleExportPdf(plan.planId)}>
                     <Printer size={13} /> PDF
                   </button>
-                  <button className="pact-btn pact-del" onClick={() => handleDeletePlan(plan.planId, plan.lessonTopic)}>
-                    <Trash2 size={13} />
+                  <button className="pact-btn pact-archive" onClick={() => handleArchivePlan(plan.planId, plan.lessonTopic)} title="เก็บถาวรแผนการสอน">
+                    <Archive size={13} />
                   </button>
                 </div>
               </div>
@@ -657,8 +657,8 @@ export default function TeacherDashboard() {
         .pact-word:hover { background: #bbf7d0; }
         .pact-pdf { background: #e0e7ff; color: #4338ca; }
         .pact-pdf:hover { background: #c7d2fe; }
-        .pact-del { flex: 0 0 auto; background: #fee2e2; color: #dc2626; padding: 7px 10px; }
-        .pact-del:hover { background: #fecaca; }
+        .pact-archive { flex: 0 0 auto; background: #ffedd5; color: #c2410c; padding: 7px 10px; }
+        .pact-archive:hover { background: #fed7aa; }
 
         /* ── Responsive ── */
         @media (max-width: 900px) {

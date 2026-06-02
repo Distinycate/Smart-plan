@@ -99,6 +99,78 @@ const getCleanedPayload = (fieldsObj: any) => {
   return cleanedFields;
 };
 
+const keepExisting = (currentVal: any, templateVal: any): string => {
+  const current = String(currentVal || '').trim();
+  if (current) return current;
+  return String(templateVal || '').trim();
+};
+
+const buildTemplateLearningContent = (topic: any): string => {
+  return [
+    topic.learningContent,
+    topic.grammarFocus ? `Grammar Focus: ${topic.grammarFocus}` : '',
+    topic.vocabulary ? `Vocabulary: ${topic.vocabulary}` : ''
+  ].filter(Boolean).join('\n');
+};
+
+const buildTemplateLearningProcess = (topic: any): string => {
+  return [
+    topic.teachingMethods ? `วิธีการสอน / เทคนิค: ${topic.teachingMethods}` : '',
+    topic.highlightActivity ? `กิจกรรมเด่น: ${topic.highlightActivity}` : ''
+  ].filter(Boolean).join('\n');
+};
+
+const normalizeGradeLevel = (grade: any): string => {
+  const text = String(grade || '').trim();
+  if (!text) return '';
+  if (text === 'ม.1' || text.includes('ปีที่ 1')) return 'ม.1';
+  if (text === 'ม.2' || text.includes('ปีที่ 2')) return 'ม.2';
+  if (text === 'ม.3' || text.includes('ปีที่ 3')) return 'ม.3';
+  return text;
+};
+
+const toHeaderGradeLevel = (grade: any): string => {
+  const shortGrade = normalizeGradeLevel(grade);
+  if (shortGrade === 'ม.1') return 'มัธยมศึกษาปีที่ 1';
+  if (shortGrade === 'ม.2') return 'มัธยมศึกษาปีที่ 2';
+  if (shortGrade === 'ม.3') return 'มัธยมศึกษาปีที่ 3';
+  return String(grade || '');
+};
+
+const gradeLevelMatches = (candidate: any, selected: any): boolean => {
+  const candidateGrade = normalizeGradeLevel(candidate);
+  const selectedGrade = normalizeGradeLevel(selected);
+  return !!candidateGrade && !!selectedGrade && candidateGrade === selectedGrade;
+};
+
+const applyTopicTemplateDefaults = (baseFields: Record<string, any>, topic: any) => {
+  const learningContent = buildTemplateLearningContent(topic);
+  const learningProcess = buildTemplateLearningProcess(topic);
+  const assessment = topic.assessmentMethods || '';
+
+  return {
+    ...baseFields,
+    essentialConcept: keepExisting(baseFields.essentialConcept, topic.learningContent),
+    objectiveK: keepExisting(baseFields.objectiveK, topic.objectiveK),
+    objectiveP: keepExisting(baseFields.objectiveP, topic.objectiveP),
+    objectiveA: keepExisting(baseFields.objectiveA, topic.objectiveA),
+    learningContent: keepExisting(baseFields.learningContent, learningContent),
+    competencies: keepExisting(baseFields.competencies, topic.competencies),
+    skills21: keepExisting(baseFields.skills21, topic.skills21),
+    learningProcess: keepExisting(baseFields.learningProcess, learningProcess),
+    tasks: keepExisting(baseFields.tasks, topic.highlightActivity ? `- ${topic.highlightActivity}` : ''),
+    measureK: keepExisting(baseFields.measureK, topic.objectiveK),
+    measureP: keepExisting(baseFields.measureP, topic.objectiveP),
+    measureA: keepExisting(baseFields.measureA, topic.objectiveA),
+    methodK: keepExisting(baseFields.methodK, assessment),
+    methodP: keepExisting(baseFields.methodP, assessment),
+    methodA: keepExisting(baseFields.methodA, assessment),
+    toolK: keepExisting(baseFields.toolK, assessment),
+    toolP: keepExisting(baseFields.toolP, assessment),
+    toolA: keepExisting(baseFields.toolA, assessment),
+  };
+};
+
 export default function PlanForm({ planId }: PlanFormProps) {
   const router = useRouter();
   const isEdit = !!planId;
@@ -199,8 +271,8 @@ export default function PlanForm({ planId }: PlanFormProps) {
               organization: initJson.data.config.organization || '',
               learningArea: initJson.data.config.learningArea || 'ภาษาต่างประเทศ',
               headerLearningArea: initJson.data.config.learningArea || 'ภาษาต่างประเทศ',
-              gradeLevel: initJson.data.config.defaultGradeLevel || '',
-              headerGradeLevel: initJson.data.config.defaultGradeLevel || ''
+              gradeLevel: normalizeGradeLevel(initJson.data.config.defaultGradeLevel),
+              headerGradeLevel: toHeaderGradeLevel(initJson.data.config.defaultGradeLevel)
             }));
           }
         }
@@ -272,12 +344,33 @@ export default function PlanForm({ planId }: PlanFormProps) {
   const options = initialData?.options || {};
 
   // Filters based on selections
-  const filteredUnits = fields.subjectId 
-    ? units.filter((u: any) => u.subjectId === fields.subjectId)
+  const gradeLevels = Array.from(new Set(subjects.map((s: any) => normalizeGradeLevel(s.gradeLevel)).filter(Boolean)));
+  const subjectsForSelectedGrade = fields.gradeLevel
+    ? subjects.filter((s: any) => gradeLevelMatches(s.gradeLevel, fields.gradeLevel))
+    : subjects;
+  const defaultSubjectForGrade =
+    subjectsForSelectedGrade.find((s: any) => s.courseType === 'พื้นฐาน' && String(s.semester || '') === String(fields.semester || '')) ||
+    subjectsForSelectedGrade.find((s: any) => s.courseType === 'พื้นฐาน') ||
+    subjectsForSelectedGrade[0];
+  const activeSubjectId = fields.subjectId || defaultSubjectForGrade?.subjectId || '';
+
+  const filteredUnits = activeSubjectId 
+    ? units.filter((u: any) => u.subjectId === activeSubjectId)
     : [];
     
   const filteredTopics = fields.unitId 
     ? topics.filter((t: any) => t.unitId === fields.unitId)
+    : [];
+
+  const filteredUnitIds = new Set(filteredUnits.map((u: any) => u.unitId));
+  const quickTopicSubjectId = activeSubjectId;
+  const eflQuickUnitIds = new Set(
+    units
+      .filter((u: any) => u.subjectId === quickTopicSubjectId && u.source === 'efl-context-template')
+      .map((u: any) => u.unitId)
+  );
+  const eflQuickTopics = quickTopicSubjectId
+    ? topics.filter((t: any) => t.source === 'efl-context-template' && eflQuickUnitIds.has(t.unitId))
     : [];
 
   const filteredIndicators = fields.gradeLevel
@@ -285,6 +378,24 @@ export default function PlanForm({ planId }: PlanFormProps) {
     : [];
 
   // 1. Select Subject Handler
+  const handleGradeChange = (gradeLevel: string) => {
+    const normalizedGradeLevel = normalizeGradeLevel(gradeLevel);
+    setFields(prev => ({
+      ...prev,
+      gradeLevel: normalizedGradeLevel,
+      headerGradeLevel: toHeaderGradeLevel(normalizedGradeLevel),
+      subjectId: '',
+      subjectCode: '',
+      subjectName: '',
+      unitId: '',
+      unitName: '',
+      topicId: '',
+      lessonTopic: '',
+      totalHours: 2,
+      indicatorSelectedIds: ''
+    }));
+  };
+
   const handleSubjectChange = (subjectId: string) => {
     const selected = subjects.find((s: any) => s.subjectId === subjectId);
     if (selected) {
@@ -293,8 +404,8 @@ export default function PlanForm({ planId }: PlanFormProps) {
         subjectId,
         subjectCode: selected.subjectCode,
         subjectName: selected.subjectName,
-        gradeLevel: selected.gradeLevel,
-        headerGradeLevel: selected.gradeLevel === 'ม.1' ? 'มัธยมศึกษาปีที่ 1' : selected.gradeLevel === 'ม.2' ? 'มัธยมศึกษาปีที่ 2' : 'มัธยมศึกษาปีที่ 3',
+        gradeLevel: normalizeGradeLevel(selected.gradeLevel),
+        headerGradeLevel: toHeaderGradeLevel(selected.gradeLevel),
         learningArea: selected.learningArea,
         // Reset subsequent selections
         unitId: '',
@@ -309,7 +420,11 @@ export default function PlanForm({ planId }: PlanFormProps) {
 
   // 2. Select / Type Unit Handler (Automaps indicators associated with this unit if matched)
   const handleUnitNameChange = (typedName: string) => {
-    const selected = units.find((u: any) => 
+    const unitCandidates = activeSubjectId ? filteredUnits : units;
+    const selected = unitCandidates.find((u: any) => 
+      u.unitName === typedName || 
+      `หน่วยที่ ${u.unitNumber}: ${u.unitName}` === typedName
+    ) || units.find((u: any) => 
       u.unitName === typedName || 
       `หน่วยที่ ${u.unitNumber}: ${u.unitName}` === typedName
     );
@@ -348,17 +463,38 @@ export default function PlanForm({ planId }: PlanFormProps) {
 
   // 3. Select / Type Topic Handler
   const handleTopicNameChange = (typedTopic: string) => {
-    const selected = topics.find((t: any) => 
+    const topicCandidates = fields.unitId
+      ? filteredTopics
+      : eflQuickTopics.length > 0
+        ? eflQuickTopics
+        : topics;
+    const selected = topicCandidates.find((t: any) => 
+      t.lessonTopic === typedTopic || 
+      `${t.topicNumber}. ${t.lessonTopic}` === typedTopic
+    ) || topics.find((t: any) => 
       t.lessonTopic === typedTopic || 
       `${t.topicNumber}. ${t.lessonTopic}` === typedTopic
     );
 
     if (selected) {
+      const selectedUnit = units.find((u: any) => u.unitId === selected.unitId);
+      const selectedSubject = subjects.find((s: any) => s.subjectId === selectedUnit?.subjectId);
+
       setFields(prev => ({
-        ...prev,
-        topicId: selected.topicId,
-        lessonTopic: selected.lessonTopic,
-        totalHours: selected.defaultHours || 2
+        ...applyTopicTemplateDefaults({
+          ...prev,
+          subjectId: prev.subjectId || selectedSubject?.subjectId || '',
+          subjectCode: prev.subjectCode || selectedSubject?.subjectCode || '',
+          subjectName: prev.subjectName || selectedSubject?.subjectName || '',
+          gradeLevel: prev.gradeLevel || normalizeGradeLevel(selectedSubject?.gradeLevel) || '',
+          headerGradeLevel: prev.headerGradeLevel || toHeaderGradeLevel(selectedSubject?.gradeLevel || prev.gradeLevel),
+          learningArea: prev.learningArea || selectedSubject?.learningArea || 'ภาษาต่างประเทศ',
+          unitId: prev.unitId || selected.unitId || '',
+          unitName: prev.unitName || selectedUnit?.unitName || '',
+          topicId: selected.topicId,
+          lessonTopic: selected.lessonTopic,
+          totalHours: selected.defaultHours || 2
+        }, selected)
       }));
     } else {
       // Custom topic name typed by teacher
@@ -368,6 +504,36 @@ export default function PlanForm({ planId }: PlanFormProps) {
         lessonTopic: typedTopic
       }));
     }
+  };
+
+  const handleEflQuickTopicChange = (topicId: string) => {
+    if (!topicId) return;
+
+    const selected = eflQuickTopics.find((t: any) => t.topicId === topicId);
+    if (!selected) return;
+
+    const selectedUnit = units.find((u: any) => u.unitId === selected.unitId);
+    const selectedSubject = subjects.find((s: any) => s.subjectId === selectedUnit?.subjectId);
+
+    setFields(prev => ({
+      ...applyTopicTemplateDefaults({
+        ...prev,
+        subjectId: prev.subjectId || selectedSubject?.subjectId || '',
+        subjectCode: prev.subjectCode || selectedSubject?.subjectCode || '',
+        subjectName: prev.subjectName || selectedSubject?.subjectName || '',
+        gradeLevel: prev.gradeLevel || normalizeGradeLevel(selectedSubject?.gradeLevel) || '',
+        headerGradeLevel: prev.headerGradeLevel || toHeaderGradeLevel(selectedSubject?.gradeLevel),
+        learningArea: prev.learningArea || selectedSubject?.learningArea || 'ภาษาต่างประเทศ',
+        unitId: selectedUnit?.unitId || selected.unitId || '',
+        unitName: selectedUnit?.unitName || prev.unitName || '',
+        topicId: selected.topicId,
+        lessonTopic: selected.lessonTopic,
+        totalHours: selected.defaultHours || 2,
+        indicatorSelectedIds: selectedUnit?.indicatorIds || prev.indicatorSelectedIds || '',
+      }, selected)
+    }));
+
+    triggerToast(`เลือกหัวข้อ "${selected.lessonTopic}" และเติมข้อมูลตั้งต้นแล้ว`, 'success');
   };
 
   // 4. Update Indicators Checkboxes Check Handler
@@ -697,10 +863,20 @@ export default function PlanForm({ planId }: PlanFormProps) {
             <h3>รายวิชาและหัวข้อสอน</h3>
             <div className="g3">
               <label className="field">
+                เลือกระดับชั้น
+                <select value={fields.gradeLevel} onChange={e => handleGradeChange(e.target.value)}>
+                  <option value="">-- เลือกระดับชั้น --</option>
+                  {gradeLevels.map((grade: any) => (
+                    <option key={grade} value={grade}>{grade}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="field">
                 เลือกวิชา
                 <select value={fields.subjectId} onChange={e => handleSubjectChange(e.target.value)}>
-                  <option value="">-- กรุณาเลือกรายวิชา --</option>
-                  {subjects.map((sub: any) => (
+                  <option value="">-- {fields.gradeLevel ? 'เลือกวิชา หรือเลือกหัวข้อ EFL ได้เลย' : 'กรุณาเลือกระดับชั้นก่อน'} --</option>
+                  {subjectsForSelectedGrade.map((sub: any) => (
                     <option key={sub.subjectId} value={sub.subjectId}>
                       {sub.subjectCode} - {sub.subjectName} ({sub.gradeLevel})
                     </option>
@@ -722,7 +898,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
             <div className="g3" style={{ marginTop: '12px' }}>
               <label className="field">
                 ระดับชั้น
-                <input value={fields.gradeLevel} readOnly className="readonly-field" />
+                <input value={fields.headerGradeLevel || fields.gradeLevel} readOnly className="readonly-field" />
               </label>
               <label className="field">
                 ภาคเรียน
@@ -739,14 +915,33 @@ export default function PlanForm({ planId }: PlanFormProps) {
 
             <div className="g3" style={{ marginTop: '12px' }}>
               <label className="field">
+                หัวข้อ EFL เสริม (เลือกได้ทันที)
+                <select 
+                  value={fields.topicId && eflQuickTopics.some((t: any) => t.topicId === fields.topicId) ? fields.topicId : ''} 
+                  onChange={e => handleEflQuickTopicChange(e.target.value)}
+                  disabled={!fields.gradeLevel}
+                >
+                  <option value="">{fields.gradeLevel ? '-- เลือกหัวข้อ EFL โคก หนอง นา / อาชีพ / เทคโนโลยี --' : 'กรุณาเลือกระดับชั้นก่อน'}</option>
+                  {fields.gradeLevel && eflQuickTopics.length === 0 && (
+                    <option value="" disabled>ไม่พบหัวข้อ EFL สำหรับระดับชั้นนี้</option>
+                  )}
+                  {eflQuickTopics.map((t: any) => (
+                    <option key={t.topicId} value={t.topicId}>
+                      {t.topicNumber}. {t.lessonTopic}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="field">
                 ระบุหน่วยการเรียนรู้ (พิมพ์เอง หรือ เลือกแนะนำ)
                 <input 
                   type="text"
                   list="units-datalist" 
                   value={fields.unitName || ''} 
                   onChange={e => handleUnitNameChange(e.target.value)}
-                  disabled={!fields.subjectId}
-                  placeholder={fields.subjectId ? "พิมพ์ชื่อหน่วย หรือเลือกจากรายการ..." : "กรุณาเลือกรายวิชาก่อน"}
+                  disabled={!activeSubjectId}
+                  placeholder={activeSubjectId ? "พิมพ์ชื่อหน่วย หรือเลือกจากรายการ..." : "กรุณาเลือกระดับชั้นก่อน"}
                 />
                 <datalist id="units-datalist">
                   {filteredUnits.map((u: any) => (
@@ -762,11 +957,11 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   list="topics-datalist" 
                   value={fields.lessonTopic || ''} 
                   onChange={e => handleTopicNameChange(e.target.value)}
-                  disabled={!fields.unitName}
-                  placeholder={fields.unitName ? "พิมพ์ชื่อเรื่อง หรือเลือกจากรายการ..." : "กรุณากรอกชื่อหน่วยการเรียนรู้ก่อน"}
+                  disabled={!activeSubjectId}
+                  placeholder={activeSubjectId ? "พิมพ์ชื่อเรื่อง หรือเลือกจากรายการ..." : "กรุณาเลือกระดับชั้นก่อน"}
                 />
                 <datalist id="topics-datalist">
-                  {filteredTopics.map((t: any) => (
+                  {(filteredTopics.length > 0 ? filteredTopics : eflQuickTopics).map((t: any) => (
                     <option key={t.topicId} value={`${t.topicNumber}. ${t.lessonTopic}`} />
                   ))}
                 </datalist>
