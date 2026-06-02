@@ -18,6 +18,87 @@ interface PlanFormProps {
   planId?: string;
 }
 
+// Helper to clean JSON syntax, brackets, braces, and quotes from string values
+const cleanJSONString = (val: any): string => {
+  if (!val) return '';
+  let strVal = typeof val === 'string' ? val : JSON.stringify(val);
+  strVal = strVal.trim();
+  if (strVal.startsWith('[') || strVal.startsWith('{')) {
+    try {
+      const parsed = JSON.parse(strVal);
+      if (Array.isArray(parsed)) {
+        return parsed.map(x => cleanJSONString(x)).join('\n');
+      }
+      if (typeof parsed === 'object') {
+        if (parsed.measure) return cleanJSONString(parsed.measure);
+        if (parsed.optionText) return cleanJSONString(parsed.optionText);
+        if (parsed.text) return cleanJSONString(parsed.text);
+        return Object.values(parsed).map(x => cleanJSONString(x)).join('\n');
+      }
+    } catch (e) {
+      // fallback
+    }
+  }
+  // Remove typical JSON syntax brackets, double-quotes, braces and escaped quotes
+  return strVal.replace(/[{}|[\]"]/g, '').trim();
+};
+
+// Helper to format values as clean, newline-separated bullet points
+const ensureBulletString = (val: any): string => {
+  if (!val) return '';
+  
+  if (Array.isArray(val)) {
+    return val
+      .map(item => {
+        let cleaned = cleanJSONString(item);
+        if (cleaned && !cleaned.startsWith('-') && !cleaned.startsWith('*')) {
+          cleaned = `- ${cleaned}`;
+        }
+        return cleaned;
+      })
+      .filter(Boolean)
+      .join('\n');
+  }
+  
+  let strVal = String(val).trim();
+  if (strVal.startsWith('[') || strVal.startsWith('{')) {
+    try {
+      const parsed = JSON.parse(strVal);
+      return ensureBulletString(parsed);
+    } catch (e) {
+      // not valid JSON, proceed as regular string
+    }
+  }
+  
+  return strVal
+    .split('\n')
+    .map(line => {
+      let cleaned = cleanJSONString(line);
+      if (cleaned && !cleaned.startsWith('-') && !cleaned.startsWith('*')) {
+        cleaned = `- ${cleaned}`;
+      }
+      return cleaned;
+    })
+    .filter(Boolean)
+    .join('\n');
+};
+
+const getCleanedPayload = (fieldsObj: any) => {
+  const cleanedFields: Record<string, any> = {};
+  Object.keys(fieldsObj).forEach(key => {
+    if (typeof fieldsObj[key] === 'string') {
+      if (['competencies', 'desiredAttributes', 'skills21', 'learningMedia', 'learningSources', 'tasks'].includes(key)) {
+        cleanedFields[key] = ensureBulletString(fieldsObj[key]);
+      } else {
+        cleanedFields[key] = cleanJSONString(fieldsObj[key]);
+      }
+    } else {
+      cleanedFields[key] = fieldsObj[key];
+    }
+  });
+  return cleanedFields;
+};
+
 export default function PlanForm({ planId }: PlanFormProps) {
   const router = useRouter();
   const isEdit = !!planId;
@@ -129,7 +210,20 @@ export default function PlanForm({ planId }: PlanFormProps) {
           const planRes = await fetch(`/api/plans/${planId}`);
           const planJson = await planRes.json();
           if (planJson.success) {
-            setFields(planJson.data);
+            const planData = planJson.data;
+            const cleanedData: Record<string, any> = { ...planData };
+            const bulletFields = ['competencies', 'desiredAttributes', 'skills21', 'learningMedia', 'learningSources', 'tasks'];
+            
+            Object.keys(cleanedData).forEach(key => {
+              if (typeof cleanedData[key] === 'string') {
+                if (bulletFields.includes(key)) {
+                  cleanedData[key] = ensureBulletString(cleanedData[key]);
+                } else {
+                  cleanedData[key] = cleanJSONString(cleanedData[key]);
+                }
+              }
+            });
+            setFields(cleanedData);
           } else {
             triggerToast('ไม่พบรหัสแผนการสอนนี้', 'error');
             router.push('/');
@@ -269,87 +363,6 @@ export default function PlanForm({ planId }: PlanFormProps) {
       currentItems.push(chipText);
       setFields(prev => ({ ...prev, [fieldName]: currentItems.join('\n') }));
     }
-  };
-
-  // Helper to clean JSON syntax, brackets, braces, and quotes from string values
-  const cleanJSONString = (val: any): string => {
-    if (!val) return '';
-    let strVal = typeof val === 'string' ? val : JSON.stringify(val);
-    strVal = strVal.trim();
-    if (strVal.startsWith('[') || strVal.startsWith('{')) {
-      try {
-        const parsed = JSON.parse(strVal);
-        if (Array.isArray(parsed)) {
-          return parsed.map(x => cleanJSONString(x)).join('\n');
-        }
-        if (typeof parsed === 'object') {
-          if (parsed.measure) return cleanJSONString(parsed.measure);
-          if (parsed.optionText) return cleanJSONString(parsed.optionText);
-          if (parsed.text) return cleanJSONString(parsed.text);
-          return Object.values(parsed).map(x => cleanJSONString(x)).join('\n');
-        }
-      } catch (e) {
-        // fallback
-      }
-    }
-    // Remove typical JSON syntax brackets, double-quotes, braces and escaped quotes
-    return strVal.replace(/[{}|[\]"]/g, '').trim();
-  };
-
-  // Helper to format values as clean, newline-separated bullet points
-  const ensureBulletString = (val: any): string => {
-    if (!val) return '';
-    
-    if (Array.isArray(val)) {
-      return val
-        .map(item => {
-          let cleaned = cleanJSONString(item);
-          if (cleaned && !cleaned.startsWith('-') && !cleaned.startsWith('*')) {
-            cleaned = `- ${cleaned}`;
-          }
-          return cleaned;
-        })
-        .filter(Boolean)
-        .join('\n');
-    }
-    
-    let strVal = String(val).trim();
-    if (strVal.startsWith('[') || strVal.startsWith('{')) {
-      try {
-        const parsed = JSON.parse(strVal);
-        return ensureBulletString(parsed);
-      } catch (e) {
-        // not valid JSON, proceed as regular string
-      }
-    }
-    
-    return strVal
-      .split('\n')
-      .map(line => {
-        let cleaned = cleanJSONString(line);
-        if (cleaned && !cleaned.startsWith('-') && !cleaned.startsWith('*')) {
-          cleaned = `- ${cleaned}`;
-        }
-        return cleaned;
-      })
-      .filter(Boolean)
-      .join('\n');
-  };
-
-  const getCleanedPayload = (fieldsObj: any) => {
-    const cleanedFields: Record<string, any> = {};
-    Object.keys(fieldsObj).forEach(key => {
-      if (typeof fieldsObj[key] === 'string') {
-        if (['competencies', 'desiredAttributes', 'skills21', 'learningMedia', 'learningSources', 'tasks'].includes(key)) {
-          cleanedFields[key] = ensureBulletString(fieldsObj[key]);
-        } else {
-          cleanedFields[key] = cleanJSONString(fieldsObj[key]);
-        }
-      } else {
-        cleanedFields[key] = fieldsObj[key];
-      }
-    });
-    return cleanedFields;
   };
 
   // 6. Gemini AI Magic Autofill Handler
