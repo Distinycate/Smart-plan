@@ -209,7 +209,7 @@ export async function GET(
      <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
        <tbody>
          <tr style="height: 22px;">
-           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อหน่วยการเรียนรู้</td>
+           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">หน่วยที่</td>
            <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เวลา</td>
            <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>

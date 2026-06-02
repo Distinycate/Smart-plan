@@ -11,6 +11,7 @@ export default function PlanPreview() {
   const [plan, setPlan] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [zoom, setZoom] = useState(100);
 
   useEffect(() => {
     if (!id) return;
@@ -127,13 +128,36 @@ export default function PlanPreview() {
         <div className="control-title">
           ตัวอย่างเอกสาร: {plan.lessonTopic} ({plan.subjectCode})
         </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginRight: '16px' }}>
+          <span style={{ fontSize: '13.5px', fontWeight: 'bold', color: '#ccc' }}>ย่อ/ขยาย (Zoom):</span>
+          <select 
+            value={zoom} 
+            onChange={e => setZoom(parseInt(e.target.value))} 
+            style={{ 
+              background: '#4b5563', 
+              color: '#fff', 
+              border: 'none', 
+              padding: '6px 12px', 
+              borderRadius: '6px', 
+              fontWeight: 'bold',
+              cursor: 'pointer' 
+            }}
+          >
+            <option value={75}>75%</option>
+            <option value={90}>90%</option>
+            <option value={100}>100% (ขนาดจริง)</option>
+            <option value={110}>110%</option>
+            <option value={120}>120%</option>
+            <option value={150}>150%</option>
+          </select>
+        </div>
         <button className="control-btn print-btn" onClick={() => window.print()}>
           🖨️ พิมพ์แผนการสอน (Save PDF)
         </button>
       </div>
 
       {/* Main A4 Document Sheet */}
-      <div className="a4-sheet">
+      <div className="a4-sheet" style={{ zoom: `${zoom}%` }}>
         <div className="doc-title">แผนการจัดการเรียนรู้</div>
         
         <table className="info-table">
@@ -161,7 +185,7 @@ export default function PlanPreview() {
         <table className="info-table">
           <tbody>
             <tr>
-              <td style={{ width: '15%', fontWeight: 'bold' }}>ชื่อหน่วยการเรียนรู้</td>
+              <td style={{ width: '15%', fontWeight: 'bold' }}>หน่วยที่</td>
               <td style={{ width: '53%' }}>{plan.unitName}</td>
               <td style={{ width: '8%', fontWeight: 'bold' }}>เวลา</td>
               <td style={{ width: '24%' }}>{plan.totalHours} ชั่วโมง</td>
@@ -588,6 +612,7 @@ export default function PlanPreview() {
             padding: 0 !important;
             margin: 0 !important;
             box-shadow: none !important;
+            zoom: 100% !important;
           }
         }
       `}</style>
