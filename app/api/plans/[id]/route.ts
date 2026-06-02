@@ -113,3 +113,51 @@ export async function PUT(
     }, { status: 500 });
   }
 }
+
+// DELETE a plan
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+    const timestamp = new Date().toISOString();
+
+    // 1. Fetch details for logging
+    const { data: plan, error: getErr } = await supabase
+      .from('LessonPlans')
+      .select('lessonTopic, subjectCode')
+      .eq('planId', id)
+      .single();
+
+    // 2. Perform Delete
+    const { error: deleteErr } = await supabase
+      .from('LessonPlans')
+      .delete()
+      .eq('planId', id);
+
+    if (deleteErr) throw deleteErr;
+
+    // 3. Log transaction
+    await supabase.from('System_Logs').insert({
+      logId: `LOG-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
+      timestamp,
+      action: 'DELETE_PLAN',
+      status: 'success',
+      planId: id,
+      message: `ลบแผนการสอน: ${plan?.lessonTopic || id} (${plan?.subjectCode || ''})`
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'ลบแผนการสอนเรียบร้อยแล้ว'
+    });
+  } catch (error: any) {
+    console.error('Error deleting plan:', error);
+    return NextResponse.json({
+      success: false,
+      error: error.message || 'Internal Server Error'
+    }, { status: 500 });
+  }
+}
+

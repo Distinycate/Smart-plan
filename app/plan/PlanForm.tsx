@@ -443,6 +443,32 @@ export default function PlanForm({ planId }: PlanFormProps) {
     }
   };
 
+  const handleDelete = async () => {
+    if (!planId) return;
+    const confirmed = window.confirm('คุณแน่ใจหรือไม่ว่าต้องการลบแผนการจัดการเรียนรู้นี้? การดำเนินการนี้จะไม่สามารถย้อนกลับได้');
+    if (!confirmed) return;
+
+    try {
+      setSaving(true);
+      const res = await fetch(`/api/plans/${planId}`, {
+        method: 'DELETE'
+      });
+      const json = await res.json();
+      if (json.success) {
+        triggerToast('ลบแผนการสอนสำเร็จแล้ว', 'success');
+        setTimeout(() => {
+          router.push('/');
+        }, 1500);
+      } else {
+        triggerToast('เกิดข้อผิดพลาด: ' + json.error, 'error');
+      }
+    } catch (err: any) {
+      triggerToast('เกิดข้อผิดพลาด: ' + err.message, 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   // 7. Save to Database Handler
   const handleSave = async (status: 'draft' | 'complete') => {
     if (!fields.lessonTopic || !fields.subjectName) {
@@ -542,15 +568,25 @@ export default function PlanForm({ planId }: PlanFormProps) {
         </button>
         <div style={{ display: 'flex', gap: '8px' }}>
           {isEdit && (
-            <button 
-              type="button" 
-              className="btn btn-ghost" 
-              onClick={() => window.open(`/plan/${planId}/preview`, '_blank')}
-              title="ดูตัวอย่างแผน"
-              style={{ borderColor: 'var(--c-primary)', color: 'var(--c-primary)' }}
-            >
-              👁️ ดูตัวอย่างแผน (Preview)
-            </button>
+            <>
+              <button 
+                type="button" 
+                className="btn btn-danger" 
+                onClick={handleDelete}
+                disabled={saving || aiLoading}
+              >
+                🗑️ ลบแผน
+              </button>
+              <button 
+                type="button" 
+                className="btn btn-ghost" 
+                onClick={() => window.open(`/plan/${planId}/preview`, '_blank')}
+                title="ดูตัวอย่างแผน"
+                style={{ borderColor: 'var(--c-primary)', color: 'var(--c-primary)' }}
+              >
+                👁️ ดูตัวอย่างแผน (Preview)
+              </button>
+            </>
           )}
           <button 
             type="button" 

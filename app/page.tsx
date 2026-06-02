@@ -97,6 +97,26 @@ export default function TeacherDashboard() {
     }
   };
 
+  const handleDeletePlan = async (planId: string, topic: string) => {
+    const confirmed = window.confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบแผนการสอน "${topic || 'ไม่มีชื่อหัวข้อ'}"? การดำเนินการนี้จะไม่สามารถย้อนกลับได้`);
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`/api/plans/${planId}`, {
+        method: 'DELETE'
+      });
+      const json = await res.json();
+      if (json.success) {
+        alert('ลบแผนการสอนเรียบร้อยแล้ว');
+        loadData(true);
+      } else {
+        alert('เกิดข้อผิดพลาด: ' + json.error);
+      }
+    } catch (err: any) {
+      alert('เกิดข้อผิดพลาด: ' + err.message);
+    }
+  };
+
   // Stats
   const totalPlans = plans.length;
   const draftPlans = plans.filter(p => p.planStatus === 'draft').length;
@@ -318,6 +338,13 @@ export default function TeacherDashboard() {
                           title="พิมพ์เอกสาร / PDF"
                         >
                           🖨️ PDF
+                        </button>
+                        <button 
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDeletePlan(plan.planId, plan.lessonTopic)}
+                          title="ลบแผนการสอน"
+                        >
+                          🗑️ ลบ
                         </button>
                       </div>
                     </td>

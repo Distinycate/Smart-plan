@@ -80,6 +80,48 @@ const renderIndicatorsWord = (val: any) => {
     .join('');
 };
 
+// Parse learning process steps and apply bold & indents for Word
+const renderLearningProcessWord = (val: any) => {
+  if (val === undefined || val === null) return '';
+  const lines = String(val)
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean);
+
+  return lines.map((line, idx) => {
+    const isStep = (l: string): boolean => {
+      const normalized = l.toLowerCase();
+      return (
+        normalized.includes('warm-up') || normalized.includes('warm up') ||
+        normalized.includes('presentation') ||
+        normalized.includes('practice') ||
+        normalized.includes('production') ||
+        normalized.includes('wrap-up') || normalized.includes('warp-up') ||
+        normalized.includes('wrap up') || normalized.includes('warp up')
+      );
+    };
+
+    if (isStep(line)) {
+      return `<div class="sub-heading" style="margin-top: ${idx > 0 ? '12pt' : '4pt'}; font-weight: bold; margin-left: 20pt; font-size: 16pt;">${line}</div>`;
+    } else {
+      return `<div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 16pt;">${line}</div>`;
+    }
+  }).join('');
+};
+
+// Format sub-content body text with paragraph indentation for Word
+const cleanSubContentWord = (val: any) => {
+  if (val === undefined || val === null) return '';
+  return String(val)
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      return `<p class="sub-content" style="margin: 2px 0 4px 0; text-indent: 15pt; text-align: left; margin-left: 35pt; font-size: 16pt;">${line}</p>`;
+    })
+    .join('');
+};
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -310,7 +352,7 @@ export async function GET(
 
     <div class="section">
       <div class="section-title">8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning (แนวคิด/รูปแบบการสอน/วิธีการสอน : ${cleanVal(plan.subjectName)})</div>
-      <div class="section-content">${cleanParagraphsWord(plan.learningProcess)}</div>
+      <div class="section-content" style="margin-left: 0;">${renderLearningProcessWord(plan.learningProcess)}</div>
     </div>
 
     <div class="section">
@@ -352,16 +394,16 @@ export async function GET(
       <div class="section-content" style="margin-left: 0;">
         <div class="sub-heading">1) ผลการจัดการเรียนรู้</div>
         <div class="sub-content" style="margin-top: 2px;">
-          - ด้านความรู้ (K): ${cleanVal(plan.resultK)}
-          - ด้านทักษะกระบวนการ (P): ${cleanVal(plan.resultP)}
-          - ด้านคุณลักษณะ (A): ${cleanVal(plan.resultA)}
+          <div style="text-indent: 15pt; margin-bottom: 2pt;"><strong>- ด้านความรู้ (K):</strong> ${cleanVal(plan.resultK)}</div>
+          <div style="text-indent: 15pt; margin-bottom: 2pt;"><strong>- ด้านทักษะกระบวนการ (P):</strong> ${cleanVal(plan.resultP)}</div>
+          <div style="text-indent: 15pt; margin-bottom: 4pt;"><strong>- ด้านคุณลักษณะ (A):</strong> ${cleanVal(plan.resultA)}</div>
         </div>
         
         <div class="sub-heading" style="margin-top: 6px;">2) ปัญหา/อุปสรรค</div>
-        <div class="sub-content" style="margin-top: 2px;">${cleanVal(plan.problems)}</div>
+        ${cleanSubContentWord(plan.problems)}
         
         <div class="sub-heading" style="margin-top: 6px;">3) ข้อเสนอแนะ/แนวทางแก้ไข</div>
-        <div class="sub-content" style="margin-top: 2px;">${cleanVal(plan.solutions)}</div>
+        ${cleanSubContentWord(plan.solutions)}
       </div>
     </div>
 

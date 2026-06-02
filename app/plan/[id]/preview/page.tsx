@@ -68,6 +68,55 @@ export default function PlanPreview() {
       ));
   };
 
+  const isStepHeader = (line: string): boolean => {
+    const normalized = line.toLowerCase();
+    return (
+      normalized.includes('warm-up') || normalized.includes('warm up') ||
+      normalized.includes('presentation') ||
+      normalized.includes('practice') ||
+      normalized.includes('production') ||
+      normalized.includes('wrap-up') || normalized.includes('warp-up') ||
+      normalized.includes('wrap up') || normalized.includes('warp up')
+    );
+  };
+
+  const renderLearningProcess = (val: any) => {
+    if (val === undefined || val === null) return '';
+    const lines = String(val)
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean);
+
+    return lines.map((line, idx) => {
+      if (isStepHeader(line)) {
+        return (
+          <div key={idx} className="sub-heading" style={{ marginTop: idx > 0 ? '12px' : '4px' }}>
+            {line}
+          </div>
+        );
+      } else {
+        return (
+          <div key={idx} className="sub-content" style={{ marginTop: '2px', textIndent: '0.5cm' }}>
+            {line}
+          </div>
+        );
+      }
+    });
+  };
+
+  const cleanSubContentVal = (val: any) => {
+    if (val === undefined || val === null) return '';
+    return String(val)
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .map((line, idx) => (
+        <p key={idx} className="sub-content" style={{ textIndent: '0.5cm', marginTop: '2px', marginBottom: '4px' }}>
+          {line}
+        </p>
+      ));
+  };
+
   // Format table cells without indent
   const cleanTableCellVal = (val: any) => {
     if (val === undefined || val === null) return '';
@@ -285,7 +334,7 @@ export default function PlanPreview() {
 
         <div className="section">
           <div className="section-title">8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning (แนวคิด/รูปแบบการสอน/วิธีการสอน : {plan.subjectName})</div>
-          <div className="section-content">{cleanVal(plan.learningProcess)}</div>
+          <div className="section-content" style={{ marginLeft: '0' }}>{renderLearningProcess(plan.learningProcess)}</div>
         </div>
 
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
@@ -327,16 +376,22 @@ export default function PlanPreview() {
           <div className="section-content" style={{ marginLeft: '0' }}>
             <div className="sub-heading">1) ผลการจัดการเรียนรู้</div>
             <div className="sub-content" style={{ marginTop: '2px' }}>
-              - ด้านความรู้ (K): {cleanTableCellVal(plan.resultK)}
-              - ด้านทักษะกระบวนการ (P): {cleanTableCellVal(plan.resultP)}
-              - ด้านคุณลักษณะ (A): {cleanTableCellVal(plan.resultA)}
+              <div style={{ textIndent: '0.5cm', marginBottom: '2px' }}>
+                <strong>- ด้านความรู้ (K):</strong> {cleanTableCellVal(plan.resultK)}
+              </div>
+              <div style={{ textIndent: '0.5cm', marginBottom: '2px' }}>
+                <strong>- ด้านทักษะกระบวนการ (P):</strong> {cleanTableCellVal(plan.resultP)}
+              </div>
+              <div style={{ textIndent: '0.5cm', marginBottom: '4px' }}>
+                <strong>- ด้านคุณลักษณะ (A):</strong> {cleanTableCellVal(plan.resultA)}
+              </div>
             </div>
             
             <div className="sub-heading" style={{ marginTop: '6px' }}>2) ปัญหา/อุปสรรค</div>
-            <div className="sub-content" style={{ marginTop: '2px' }}>{cleanTableCellVal(plan.problems)}</div>
+            {cleanSubContentVal(plan.problems)}
             
             <div className="sub-heading" style={{ marginTop: '6px' }}>3) ข้อเสนอแนะ/แนวทางแก้ไข</div>
-            <div className="sub-content" style={{ marginTop: '2px' }}>{cleanTableCellVal(plan.solutions)}</div>
+            {cleanSubContentVal(plan.solutions)}
           </div>
         </div>
 
