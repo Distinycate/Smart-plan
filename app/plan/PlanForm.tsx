@@ -947,7 +947,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 </label>
                 <label className="field fw">
                   เกณฑ์การประเมินแบบ Rubric (ด้าน K)
-                  <textarea value={fields.rubricK} onChange={e => setFields({ ...fields, rubricK: e.target.value })} placeholder="ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
+                  <textarea value={fields.rubricK} onChange={e => setFields({ ...fields, rubricK: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
                 </label>
               </div>
             </div>
@@ -976,7 +976,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 </label>
                 <label className="field fw">
                   เกณฑ์การประเมินแบบ Rubric (ด้าน P)
-                  <textarea value={fields.rubricP} onChange={e => setFields({ ...fields, rubricP: e.target.value })} placeholder="ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
+                  <textarea value={fields.rubricP} onChange={e => setFields({ ...fields, rubricP: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
                 </label>
               </div>
             </div>
@@ -1005,7 +1005,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 </label>
                 <label className="field fw">
                   เกณฑ์การประเมินแบบ Rubric (ด้าน A)
-                  <textarea value={fields.rubricA} onChange={e => setFields({ ...fields, rubricA: e.target.value })} placeholder="ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
+                  <textarea value={fields.rubricA} onChange={e => setFields({ ...fields, rubricA: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
                 </label>
               </div>
             </div>
