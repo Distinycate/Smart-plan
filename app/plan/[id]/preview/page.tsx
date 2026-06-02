@@ -89,24 +89,24 @@ export default function PlanPreview() {
               <td><span className="label">โรงเรียน:</span>&nbsp;{plan.schoolName}</td>
             </tr>
             <tr>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>สังกัด:</span>&nbsp;{plan.organization}</td>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>กลุ่มสาระการเรียนรู้:</span>&nbsp;{plan.headerLearningArea}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>สังกัด:</span>&nbsp;{plan.organization}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>กลุ่มสาระการเรียนรู้:</span>&nbsp;{plan.headerLearningArea}</td>
             </tr>
             <tr>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>ระดับชั้น:</span>&nbsp;{plan.headerGradeLevel}</td>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>ปีการศึกษา:</span>&nbsp;{plan.academicYear}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>ระดับชั้น:</span>&nbsp;{plan.headerGradeLevel}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>ปีการศึกษา:</span>&nbsp;{plan.academicYear}</td>
             </tr>
             <tr>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>รายวิชา:</span>&nbsp;{plan.subjectName}</td>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>รหัสวิชา:</span>&nbsp;{plan.subjectCode}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>รายวิชา:</span>&nbsp;{plan.subjectName}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>รหัสวิชา:</span>&nbsp;{plan.subjectCode}</td>
             </tr>
             <tr>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>ภาคเรียนที่:</span>&nbsp;{plan.semester}</td>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>เวลาเรียน:</span>&nbsp;{plan.totalHours}&nbsp;ชั่วโมง</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>ภาคเรียนที่:</span>&nbsp;{plan.semester}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>เวลาเรียน:</span>&nbsp;{plan.totalHours}&nbsp;ชั่วโมง</td>
             </tr>
             <tr>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>หน่วยการเรียนรู้:</span>&nbsp;{plan.unitName}</td>
-              <td><span class="label" style={{ fontWeight: 'bold' }}>เรื่องที่สอน:</span>&nbsp;{plan.lessonTopic}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>หน่วยการเรียนรู้:</span>&nbsp;{plan.unitName}</td>
+              <td><span className="label" style={{ fontWeight: 'bold' }}>เรื่องที่สอน:</span>&nbsp;{plan.lessonTopic}</td>
             </tr>
           </tbody>
         </table>
