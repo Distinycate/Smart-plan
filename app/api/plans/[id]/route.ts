@@ -25,6 +25,12 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data
+    }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
     });
   } catch (error: any) {
     console.error('Error fetching plan:', error);

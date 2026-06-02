@@ -422,7 +422,10 @@ export async function GET(
     return new Response(htmlContent, {
       headers: {
         'Content-Type': 'application/msword',
-        'Content-Disposition': `attachment; filename="${encodeURIComponent(cleanFileName)}.doc"`
+        'Content-Disposition': `attachment; filename="${encodeURIComponent(cleanFileName)}.doc"`,
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0'
       }
     });
 
