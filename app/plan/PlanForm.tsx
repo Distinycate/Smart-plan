@@ -185,7 +185,23 @@ export default function PlanForm({ planId }: PlanFormProps) {
   // Backups modal state (only for Edit Mode)
   const [showBackupReason, setShowBackupReason] = useState(false);
   const [backupReasonText, setBackupReasonText] = useState('แก้ไขรายละเอียดทั่วไป');
+
+  // คลังซ่อน/แสดง (Collapsible Library Panels) สำหรับ Tab 4
+  const [showMethodLib, setShowMethodLib] = useState(false);
+  const [showToolLib, setShowToolLib] = useState(false);
+  const [showMethodLibP, setShowMethodLibP] = useState(false);
+  const [showToolLibP, setShowToolLibP] = useState(false);
+  const [showMethodLibA, setShowMethodLibA] = useState(false);
+  const [showToolLibA, setShowToolLibA] = useState(false);
   
+  // คลังซ่อน/แสดง (Collapsible Library Panels) สำหรับ Tab 3 (จุดประสงค์ และสื่อ/ชิ้นงาน)
+  const [showObjK, setShowObjK] = useState(false);
+  const [showObjP, setShowObjP] = useState(false);
+  const [showObjA, setShowObjA] = useState(false);
+  const [showMedia, setShowMedia] = useState(false);
+  const [showSource, setShowSource] = useState(false);
+  const [showTask, setShowTask] = useState(false);
+
   // Toast notifications
   const [toast, setToast] = useState<{ show: boolean; msg: string; type: 'success' | 'info' | 'error' }>({
     show: false,
@@ -897,10 +913,6 @@ export default function PlanForm({ planId }: PlanFormProps) {
 
             <div className="g3" style={{ marginTop: '12px' }}>
               <label className="field">
-                ระดับชั้น
-                <input value={fields.headerGradeLevel || fields.gradeLevel} readOnly className="readonly-field" />
-              </label>
-              <label className="field">
                 ภาคเรียน
                 <select value={fields.semester} onChange={e => setFields({ ...fields, semester: e.target.value })}>
                   <option value="1">1</option>
@@ -911,28 +923,13 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 ปีการศึกษา
                 <input value={fields.academicYear} onChange={e => setFields({ ...fields, academicYear: e.target.value })} />
               </label>
+              <label className="field">
+                จำนวนชั่วโมงสอนของแผนนี้
+                <input type="number" value={fields.totalHours} onChange={e => setFields({ ...fields, totalHours: parseInt(e.target.value) || 2 })} />
+              </label>
             </div>
 
-            <div className="g3" style={{ marginTop: '12px' }}>
-              <label className="field">
-                หัวข้อ EFL เสริม (เลือกได้ทันที)
-                <select 
-                  value={fields.topicId && eflQuickTopics.some((t: any) => t.topicId === fields.topicId) ? fields.topicId : ''} 
-                  onChange={e => handleEflQuickTopicChange(e.target.value)}
-                  disabled={!fields.gradeLevel}
-                >
-                  <option value="">{fields.gradeLevel ? '-- เลือกหัวข้อ EFL โคก หนอง นา / อาชีพ / เทคโนโลยี --' : 'กรุณาเลือกระดับชั้นก่อน'}</option>
-                  {fields.gradeLevel && eflQuickTopics.length === 0 && (
-                    <option value="" disabled>ไม่พบหัวข้อ EFL สำหรับระดับชั้นนี้</option>
-                  )}
-                  {eflQuickTopics.map((t: any) => (
-                    <option key={t.topicId} value={t.topicId}>
-                      {t.topicNumber}. {t.lessonTopic}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
+            <div className="g2" style={{ marginTop: '12px' }}>
               <label className="field">
                 ระบุหน่วยการเรียนรู้ (พิมพ์เอง หรือ เลือกแนะนำ)
                 <input 
@@ -941,7 +938,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   value={fields.unitName || ''} 
                   onChange={e => handleUnitNameChange(e.target.value)}
                   disabled={!activeSubjectId}
-                  placeholder={activeSubjectId ? "พิมพ์ชื่อหน่วย หรือเลือกจากรายการ..." : "กรุณาเลือกระดับชั้นก่อน"}
+                  placeholder={activeSubjectId ? "พิมพ์ชื่อหน่วย หรือเลือกจากรายการ..." : "กรุณาเลือกวิชาก่อน"}
                 />
                 <datalist id="units-datalist">
                   {filteredUnits.map((u: any) => (
@@ -958,18 +955,13 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   value={fields.lessonTopic || ''} 
                   onChange={e => handleTopicNameChange(e.target.value)}
                   disabled={!activeSubjectId}
-                  placeholder={activeSubjectId ? "พิมพ์ชื่อเรื่อง หรือเลือกจากรายการ..." : "กรุณาเลือกระดับชั้นก่อน"}
+                  placeholder={activeSubjectId ? "พิมพ์ชื่อเรื่อง หรือเลือกจากรายการ..." : "กรุณาเลือกวิชาก่อน"}
                 />
                 <datalist id="topics-datalist">
                   {(filteredTopics.length > 0 ? filteredTopics : eflQuickTopics).map((t: any) => (
                     <option key={t.topicId} value={`${t.topicNumber}. ${t.lessonTopic}`} />
                   ))}
                 </datalist>
-              </label>
-
-              <label className="field">
-                จำนวนชั่วโมงสอนของแผนนี้
-                <input type="number" value={fields.totalHours} onChange={e => setFields({ ...fields, totalHours: parseInt(e.target.value) || 2 })} />
               </label>
             </div>
 
@@ -1197,14 +1189,59 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <label className="field">
                 จุดประสงค์ด้านความรู้ (Knowledge - K)
                 <textarea value={fields.objectiveK} onChange={e => setFields({ ...fields, objectiveK: e.target.value })} />
+                <button type="button" onClick={() => setShowObjK(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#6366f1', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
+                  {showObjK ? '▼' : '▶'} คลังจุดประสงค์ (K)
+                </button>
+                {showObjK && (
+                  <div className="chip-list" style={{ marginTop: '6px' }}>
+                    {(options.objectiveK || options.objective || []).map((opt: any) => {
+                      const hasIt = (fields.objectiveK || '').includes(opt.optionName);
+                      return (
+                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('objectiveK', opt.optionName)}>
+                          {opt.optionName}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </label>
               <label className="field">
                 จุดประสงค์ด้านทักษะกระบวนการ (Process - P)
                 <textarea value={fields.objectiveP} onChange={e => setFields({ ...fields, objectiveP: e.target.value })} />
+                <button type="button" onClick={() => setShowObjP(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#6366f1', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
+                  {showObjP ? '▼' : '▶'} คลังจุดประสงค์ (P)
+                </button>
+                {showObjP && (
+                  <div className="chip-list" style={{ marginTop: '6px' }}>
+                    {(options.objectiveP || options.objective || []).map((opt: any) => {
+                      const hasIt = (fields.objectiveP || '').includes(opt.optionName);
+                      return (
+                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('objectiveP', opt.optionName)}>
+                          {opt.optionName}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </label>
               <label className="field">
                 จุดประสงค์ด้านคุณลักษณะ (Attitude - A)
                 <textarea value={fields.objectiveA} onChange={e => setFields({ ...fields, objectiveA: e.target.value })} />
+                <button type="button" onClick={() => setShowObjA(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#6366f1', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
+                  {showObjA ? '▼' : '▶'} คลังจุดประสงค์ (A)
+                </button>
+                {showObjA && (
+                  <div className="chip-list" style={{ marginTop: '6px' }}>
+                    {(options.objectiveA || options.objective || []).map((opt: any) => {
+                      const hasIt = (fields.objectiveA || '').includes(opt.optionName);
+                      return (
+                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('objectiveA', opt.optionName)}>
+                          {opt.optionName}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </label>
             </div>
 
@@ -1244,14 +1281,59 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <label className="field">
                 1) สื่อการเรียนรู้
                 <textarea className="lg" value={fields.learningMedia} onChange={e => setFields({ ...fields, learningMedia: e.target.value })} placeholder="- ใบงาน\n- สไลด์ประกอบการสอน" />
+                <button type="button" onClick={() => setShowMedia(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#0891b2', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
+                  {showMedia ? '▼' : '▶'} คลังสื่อการเรียนรู้
+                </button>
+                {showMedia && (
+                  <div className="chip-list" style={{ marginTop: '6px' }}>
+                    {(options.media || options.learningMedia || []).map((opt: any) => {
+                      const hasIt = (fields.learningMedia || '').includes(opt.optionName);
+                      return (
+                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('learningMedia', opt.optionName)}>
+                          {opt.optionName}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </label>
               <label className="field">
                 2) แหล่งเรียนรู้
                 <textarea className="lg" value={fields.learningSources} onChange={e => setFields({ ...fields, learningSources: e.target.value })} placeholder="- ห้องสมุดโรงเรียน\n- สื่ออินเทอร์เน็ต" />
+                <button type="button" onClick={() => setShowSource(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#0891b2', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
+                  {showSource ? '▼' : '▶'} คลังแหล่งเรียนรู้
+                </button>
+                {showSource && (
+                  <div className="chip-list" style={{ marginTop: '6px' }}>
+                    {(options.source || options.learningSource || []).map((opt: any) => {
+                      const hasIt = (fields.learningSources || '').includes(opt.optionName);
+                      return (
+                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('learningSources', opt.optionName)}>
+                          {opt.optionName}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </label>
               <label className="field">
                 3) ชิ้นงาน / ภาระงาน
                 <textarea className="lg" value={fields.tasks} onChange={e => setFields({ ...fields, tasks: e.target.value })} placeholder="- ใบงานสรุปคำศัพท์" />
+                <button type="button" onClick={() => setShowTask(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#0891b2', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
+                  {showTask ? '▼' : '▶'} คลังชิ้นงาน/ภาระงาน
+                </button>
+                {showTask && (
+                  <div className="chip-list" style={{ marginTop: '6px' }}>
+                    {(options.task || options.learningTask || []).map((opt: any) => {
+                      const hasIt = (fields.tasks || '').includes(opt.optionName);
+                      return (
+                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('tasks', opt.optionName)}>
+                          {opt.optionName}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </label>
             </div>
 
@@ -1289,10 +1371,82 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   วิธีการวัดผล
                   <input value={fields.methodK} onChange={e => setFields({ ...fields, methodK: e.target.value })} placeholder="เช่น การทำใบงานคำศัพท์" />
                 </label>
+
+                {/* คลังวิถีประเมิน K — ซ่อน/แสดง */}
+                <div className="field fw" style={{ marginTop: '-8px', marginBottom: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowMethodLib(v => !v)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', color: '#6366f1', fontWeight: 600,
+                      display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0'
+                    }}
+                  >
+                    {showMethodLib ? '▼' : '▶'} คลังวิถีประเมิน (คลิกเลือก)
+                  </button>
+                  {showMethodLib && (
+                    <div className="chip-wrap" style={{ marginTop: '6px', background: 'rgba(99,102,241,0.04)', borderRadius: '8px', padding: '8px' }}>
+                      <div className="chip-list">
+                        {(options.method || options.assessMethod || []).map((opt: any) => {
+                          const hasIt = (fields.methodK || '').includes(opt.optionName);
+                          return (
+                            <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`}
+                              onClick={() => {
+                                const cur = fields.methodK || '';
+                                setFields(prev => ({ ...prev, methodK: hasIt ? cur.replace(opt.optionName, '').replace(/^,\s*|,\s*$|,\s*,/g, '').trim() : cur ? `${cur}, ${opt.optionName}` : opt.optionName }));
+                              }}
+                            >{opt.optionName}</div>
+                          );
+                        })}
+                        {(options.method || options.assessMethod || []).length === 0 && (
+                          <span style={{ fontSize: '12px', color: '#9ca3af' }}>ยังไม่มีข้อมูลคลังในฐานข้อมูล (optionType: method)</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <label className="field">
                   เครื่องมือประเมิน
                   <input value={fields.toolK} onChange={e => setFields({ ...fields, toolK: e.target.value })} placeholder="เช่น ใบงานที่ 1.1" />
                 </label>
+
+                {/* คลังเครื่องมือวัด K — ซ่อน/แสดง */}
+                <div className="field fw" style={{ marginTop: '-8px', marginBottom: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowToolLib(v => !v)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', color: '#0891b2', fontWeight: 600,
+                      display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0'
+                    }}
+                  >
+                    {showToolLib ? '▼' : '▶'} คลังเครื่องมือวัด (คลิกเลือก)
+                  </button>
+                  {showToolLib && (
+                    <div className="chip-wrap" style={{ marginTop: '6px', background: 'rgba(8,145,178,0.04)', borderRadius: '8px', padding: '8px' }}>
+                      <div className="chip-list">
+                        {(options.tool || options.assessTool || []).map((opt: any) => {
+                          const hasIt = (fields.toolK || '').includes(opt.optionName);
+                          return (
+                            <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`}
+                              onClick={() => {
+                                const cur = fields.toolK || '';
+                                setFields(prev => ({ ...prev, toolK: hasIt ? cur.replace(opt.optionName, '').replace(/^,\s*|,\s*$|,\s*,/g, '').trim() : cur ? `${cur}, ${opt.optionName}` : opt.optionName }));
+                              }}
+                            >{opt.optionName}</div>
+                          );
+                        })}
+                        {(options.tool || options.assessTool || []).length === 0 && (
+                          <span style={{ fontSize: '12px', color: '#9ca3af' }}>ยังไม่มีข้อมูลคลังในฐานข้อมูล (optionType: tool)</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <label className="field">
                   เกณฑ์ผ่านประเมิน
                   <input value={fields.criteriaK} onChange={e => setFields({ ...fields, criteriaK: e.target.value })} />
@@ -1318,10 +1472,82 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   วิธีการวัดผล
                   <input value={fields.methodP} onChange={e => setFields({ ...fields, methodP: e.target.value })} placeholder="เช่น การสังเกตพฤติกรรมการพูด" />
                 </label>
+
+                {/* คลังวิถีประเมิน P — ซ่อน/แสดง */}
+                <div className="field fw" style={{ marginTop: '-8px', marginBottom: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowMethodLibP(v => !v)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', color: '#6366f1', fontWeight: 600,
+                      display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0'
+                    }}
+                  >
+                    {showMethodLibP ? '▼' : '▶'} คลังวิถีประเมิน (คลิกเลือก)
+                  </button>
+                  {showMethodLibP && (
+                    <div className="chip-wrap" style={{ marginTop: '6px', background: 'rgba(99,102,241,0.04)', borderRadius: '8px', padding: '8px' }}>
+                      <div className="chip-list">
+                        {(options.method || options.assessMethod || []).map((opt: any) => {
+                          const hasIt = (fields.methodP || '').includes(opt.optionName);
+                          return (
+                            <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`}
+                              onClick={() => {
+                                const cur = fields.methodP || '';
+                                setFields(prev => ({ ...prev, methodP: hasIt ? cur.replace(opt.optionName, '').replace(/^,\s*|,\s*$|,\s*,/g, '').trim() : cur ? `${cur}, ${opt.optionName}` : opt.optionName }));
+                              }}
+                            >{opt.optionName}</div>
+                          );
+                        })}
+                        {(options.method || options.assessMethod || []).length === 0 && (
+                          <span style={{ fontSize: '12px', color: '#9ca3af' }}>ยังไม่มีข้อมูลคลังในฐานข้อมูล (optionType: method)</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <label className="field">
                   เครื่องมือประเมิน
                   <input value={fields.toolP} onChange={e => setFields({ ...fields, toolP: e.target.value })} placeholder="เช่น แบบสังเกตการพูดประโยค" />
                 </label>
+
+                {/* คลังเครื่องมือวัด P — ซ่อน/แสดง */}
+                <div className="field fw" style={{ marginTop: '-8px', marginBottom: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowToolLibP(v => !v)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', color: '#0891b2', fontWeight: 600,
+                      display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0'
+                    }}
+                  >
+                    {showToolLibP ? '▼' : '▶'} คลังเครื่องมือวัด (คลิกเลือก)
+                  </button>
+                  {showToolLibP && (
+                    <div className="chip-wrap" style={{ marginTop: '6px', background: 'rgba(8,145,178,0.04)', borderRadius: '8px', padding: '8px' }}>
+                      <div className="chip-list">
+                        {(options.tool || options.assessTool || []).map((opt: any) => {
+                          const hasIt = (fields.toolP || '').includes(opt.optionName);
+                          return (
+                            <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`}
+                              onClick={() => {
+                                const cur = fields.toolP || '';
+                                setFields(prev => ({ ...prev, toolP: hasIt ? cur.replace(opt.optionName, '').replace(/^,\s*|,\s*$|,\s*,/g, '').trim() : cur ? `${cur}, ${opt.optionName}` : opt.optionName }));
+                              }}
+                            >{opt.optionName}</div>
+                          );
+                        })}
+                        {(options.tool || options.assessTool || []).length === 0 && (
+                          <span style={{ fontSize: '12px', color: '#9ca3af' }}>ยังไม่มีข้อมูลคลังในฐานข้อมูล (optionType: tool)</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <label className="field">
                   เกณฑ์ผ่านประเมิน
                   <input value={fields.criteriaP} onChange={e => setFields({ ...fields, criteriaP: e.target.value })} />
@@ -1347,10 +1573,82 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   วิธีการวัดผล
                   <input value={fields.methodA} onChange={e => setFields({ ...fields, methodA: e.target.value })} placeholder="เช่น สังเกตพฤติกรรมใฝ่เรียนรู้" />
                 </label>
+
+                {/* คลังวิถีประเมิน A — ซ่อน/แสดง */}
+                <div className="field fw" style={{ marginTop: '-8px', marginBottom: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowMethodLibA(v => !v)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', color: '#6366f1', fontWeight: 600,
+                      display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0'
+                    }}
+                  >
+                    {showMethodLibA ? '▼' : '▶'} คลังวิถีประเมิน (คลิกเลือก)
+                  </button>
+                  {showMethodLibA && (
+                    <div className="chip-wrap" style={{ marginTop: '6px', background: 'rgba(99,102,241,0.04)', borderRadius: '8px', padding: '8px' }}>
+                      <div className="chip-list">
+                        {(options.method || options.assessMethod || []).map((opt: any) => {
+                          const hasIt = (fields.methodA || '').includes(opt.optionName);
+                          return (
+                            <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`}
+                              onClick={() => {
+                                const cur = fields.methodA || '';
+                                setFields(prev => ({ ...prev, methodA: hasIt ? cur.replace(opt.optionName, '').replace(/^,\s*|,\s*$|,\s*,/g, '').trim() : cur ? `${cur}, ${opt.optionName}` : opt.optionName }));
+                              }}
+                            >{opt.optionName}</div>
+                          );
+                        })}
+                        {(options.method || options.assessMethod || []).length === 0 && (
+                          <span style={{ fontSize: '12px', color: '#9ca3af' }}>ยังไม่มีข้อมูลคลังในฐานข้อมูล (optionType: method)</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <label className="field">
                   เครื่องมือประเมิน
                   <input value={fields.toolA} onChange={e => setFields({ ...fields, toolA: e.target.value })} placeholder="เช่น แบบประเมินคุณลักษณะอันพึงประสงค์" />
                 </label>
+
+                {/* คลังเครื่องมือวัด A — ซ่อน/แสดง */}
+                <div className="field fw" style={{ marginTop: '-8px', marginBottom: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowToolLibA(v => !v)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', color: '#0891b2', fontWeight: 600,
+                      display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0'
+                    }}
+                  >
+                    {showToolLibA ? '▼' : '▶'} คลังเครื่องมือวัด (คลิกเลือก)
+                  </button>
+                  {showToolLibA && (
+                    <div className="chip-wrap" style={{ marginTop: '6px', background: 'rgba(8,145,178,0.04)', borderRadius: '8px', padding: '8px' }}>
+                      <div className="chip-list">
+                        {(options.tool || options.assessTool || []).map((opt: any) => {
+                          const hasIt = (fields.toolA || '').includes(opt.optionName);
+                          return (
+                            <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`}
+                              onClick={() => {
+                                const cur = fields.toolA || '';
+                                setFields(prev => ({ ...prev, toolA: hasIt ? cur.replace(opt.optionName, '').replace(/^,\s*|,\s*$|,\s*,/g, '').trim() : cur ? `${cur}, ${opt.optionName}` : opt.optionName }));
+                              }}
+                            >{opt.optionName}</div>
+                          );
+                        })}
+                        {(options.tool || options.assessTool || []).length === 0 && (
+                          <span style={{ fontSize: '12px', color: '#9ca3af' }}>ยังไม่มีข้อมูลคลังในฐานข้อมูล (optionType: tool)</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <label className="field">
                   เกณฑ์ผ่านประเมิน
                   <input value={fields.criteriaA} onChange={e => setFields({ ...fields, criteriaA: e.target.value })} />

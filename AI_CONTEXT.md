@@ -130,7 +130,7 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 
 ## ✅ CURRENT STATE (สถานะปัจจุบัน)
 
-**Last updated**: 2026-06-02 21:28 (Thai time)  
+**Last updated**: 2026-06-03 06:26 (Thai time)  
 **Updated by**: Antigravity (AI Agent 1)
 
 ### สิ่งที่ทำเสร็จแล้ว ✅
@@ -139,9 +139,8 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 - [x] ลบ fallback bug ที่ลบ rubricK/P/A ก่อน save ออกแล้ว
 - [x] Dashboard redesign — Hero gradient + illustration + stat cards + plan card grid
 - [x] บันทึกหลังสอน (Tab 5) ทำงานได้ปกติ
-- [x] Rubrics table ใน Preview page ทำงานได้ (parse 5 levels)
-- [x] Word export ใช้ `renderRubricTableWord()` ถูกต้องแล้ว
-- [x] Git push ล่าสุด: commit `3dd56d5`
+- [x] **PlanForm UI Update**: ลบการเลือกระดับชั้นซ้ำซ้อน และเปลี่ยนระบบเลือก EFL ให้ไม่เกะกะสายตา (Tab 1)
+- [x] **PlanForm Options Library**: เพิ่มคลังตัวเลือก BasicOptions กลับมา (ซ่อน/แสดงได้) ใน Tab 3 (จุดประสงค์, สื่อ, แหล่ง, ชิ้นงาน) และ Tab 4 (วิธีการวัด, เครื่องมือประเมิน K/P/A)
 
 ### รอดำเนินการ ⏳
 - [ ] **DB Migration**: ผู้ใช้ต้องรัน SQL เพิ่ม rubricK/P/A ใน Supabase Dashboard
@@ -154,6 +153,14 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 ---
 
 ## 📝 CHANGELOG (ประวัติการเปลี่ยนแปลง)
+
+### 2026-06-03 — Session โดย Antigravity (AI Agent 1)
+
+#### 🎨 UI Changes
+- **`app/plan/PlanForm.tsx`**: ปรับปรุงหน้ากรอกข้อมูล
+  - Tab 1: ลบการแสดงผลระดับชั้นที่ซ้ำซ้อน และเปลี่ยน dropdown เมนูย่อย EFL ออก โดยให้ผู้ใช้งานค้นหาผ่านการเลือกหน่วย (Unit) แทน เพื่อความสะอาดตา
+  - Tab 3: เพิ่มปุ่มคลังซ่อน/แสดง (Collapsible Library) กลับเข้ามาในส่วนของ: จุดประสงค์ K/P/A, สื่อการเรียนรู้, แหล่งเรียนรู้, ชิ้นงาน/ภาระงาน
+  - Tab 4: เพิ่มปุ่มคลังซ่อน/แสดง กลับเข้ามาในส่วนของ: วิธีการวัดผล (method) และเครื่องมือประเมิน (tool) สำหรับด้าน K, P, A
 
 ### 2026-06-02 — Session โดย Antigravity (AI Agent 1)
 
