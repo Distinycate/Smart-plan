@@ -878,6 +878,25 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <textarea value={fields.competencies} onChange={e => setFields({ ...fields, competencies: e.target.value })} />
             </label>
 
+            {/* Desired Attributes Chips */}
+            <div className="chip-wrap">
+              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>คุณลักษณะอันพึงประสงค์ (กดเลือกเพื่อเติมใน textarea ด้านล่าง)</span>
+              <div className="chip-list">
+                {options.attribute?.map((opt: any) => {
+                  const hasIt = (fields.desiredAttributes || '').includes(opt.optionName);
+                  return (
+                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('desiredAttributes', opt.optionName)}>
+                      {opt.optionName}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <label className="field" style={{ marginBottom: '16px' }}>
+              คุณลักษณะอันพึงประสงค์จริงที่เลือก
+              <textarea value={fields.desiredAttributes} onChange={e => setFields({ ...fields, desiredAttributes: e.target.value })} />
+            </label>
+
             {/* Century Skills Chips */}
             <div className="chip-wrap">
               <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>ทักษะแห่งศตวรรษที่ 21 (Skills 21)</span>
