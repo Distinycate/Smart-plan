@@ -195,8 +195,8 @@ export default function PlanPreview() {
         <table className="info-table" style={{ marginBottom: '15px' }}>
           <tbody>
             <tr>
-              <td style={{ width: '22%', fontWeight: 'bold' }}>แผนการจัดการเรียนรู้ที่</td>
-              <td style={{ width: '18%' }}></td>
+              <td style={{ width: '10%', fontWeight: 'bold' }}>วันที่สอน</td>
+              <td style={{ width: '30%' }}></td>
               <td style={{ width: '8%', fontWeight: 'bold' }}>เรื่อง</td>
               <td style={{ width: '52%' }}>{plan.lessonTopic}</td>
             </tr>

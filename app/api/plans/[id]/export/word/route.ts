@@ -217,15 +217,15 @@ export async function GET(
        </tbody>
      </table>
      <table border="0" cellspacing="0" cellpadding="0" style="width: 100%; border-collapse: collapse; margin-bottom: 15px; line-height: 1.0;">
-       <tbody>
-         <tr style="height: 22px;">
-           <td style="width: 22%; font-weight: bold; padding: 0px; font-size: 16pt;">แผนการจัดการเรียนรู้ที่</td>
-           <td style="width: 18%; padding: 0px; font-size: 16pt;"></td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เรื่อง</td>
-           <td style="width: 52%; padding: 0px; font-size: 16pt;">${cleanVal(plan.lessonTopic)}</td>
-         </tr>
-       </tbody>
-     </table>
+        <tbody>
+          <tr style="height: 22px;">
+            <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 16pt;">วันที่สอน</td>
+            <td style="width: 30%; padding: 0px; font-size: 16pt;"></td>
+            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เรื่อง</td>
+            <td style="width: 52%; padding: 0px; font-size: 16pt;">${cleanVal(plan.lessonTopic)}</td>
+          </tr>
+        </tbody>
+      </table>
 
     <div class="section">
       <div class="section-title">1. สาระสำคัญ</div>
