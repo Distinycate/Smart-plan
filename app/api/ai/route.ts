@@ -94,8 +94,14 @@ export async function POST(req: NextRequest) {
       throw new Error('Invalid response payload structure from Gemini API');
     }
 
-    // Parse the generated text into JSON
-    const parsedData = JSON.parse(aiText.trim());
+    // Parse the generated text into JSON, handling markdown block wrappers if present
+    let cleanedText = aiText.trim();
+    if (cleanedText.startsWith('```')) {
+      cleanedText = cleanedText.replace(/^```(json)?\n?/, '').replace(/\n?```$/, '');
+    }
+    cleanedText = cleanedText.trim();
+
+    const parsedData = JSON.parse(cleanedText);
 
     return NextResponse.json({
       success: true,
