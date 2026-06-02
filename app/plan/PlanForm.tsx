@@ -13,6 +13,7 @@ import {
   HelpCircle,
   FileDown
 } from 'lucide-react';
+import SmartDropdown from '../components/SmartDropdown';
 
 interface PlanFormProps {
   planId?: string;
@@ -1014,36 +1015,32 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 <textarea className="lg" value={fields.learningStandard} onChange={e => setFields({ ...fields, learningStandard: e.target.value })} placeholder="เช่น มาตรฐาน ต 1.1 เข้าใจและตีความ..." />
               </label>
 
-              {/* Standards Repository Panel */}
-              <div className="chip-wrap" style={{ marginTop: '4px', marginBottom: '14px' }}>
-                <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>คลังมาตรฐานการเรียนรู้แนะนำ (คลิกเพื่อเลือกมาตรฐาน)</span>
-                <div className="chip-list">
-                  {options.standard?.map((opt: any) => {
-                    const standardText = `${opt.optionName} ${opt.optionText}`;
-                    const hasIt = (fields.learningStandard || '').includes(opt.optionName);
-                    return (
-                      <div 
-                        key={opt.optionId} 
-                        className={`chip ${hasIt ? 'on' : ''}`} 
-                        onClick={() => {
-                          const currentVal = fields.learningStandard || '';
-                          const currentItems = currentVal.split('\n').map((i: string) => i.trim()).filter(Boolean);
-                          if (hasIt) {
-                            // Find and remove standard text line
-                            const filtered = currentItems.filter((i: string) => !i.includes(opt.optionName));
-                            setFields(prev => ({ ...prev, learningStandard: filtered.join('\n') }));
-                          } else {
-                            currentItems.push(standardText);
-                            setFields(prev => ({ ...prev, learningStandard: currentItems.join('\n') }));
-                          }
-                        }}
-                      >
-                        {opt.optionName}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              {/* Standards Smart Dropdown */}
+              {options.standard && options.standard.length > 0 && (
+                <SmartDropdown 
+                  options={options.standard.map((opt: any) => ({
+                    id: opt.optionId,
+                    label: opt.optionName,
+                    value: opt.optionText || '',
+                    selected: (fields.learningStandard || '').includes(opt.optionName)
+                  }))}
+                  placeholder="ค้นหาหรือเลือกจากคลังมาตรฐานการเรียนรู้..."
+                  onSelect={(opt) => {
+                    const currentVal = fields.learningStandard || '';
+                    const currentItems = currentVal.split('\n').map((i: string) => i.trim()).filter(Boolean);
+                    const standardText = `${opt.label} ${opt.value}`;
+                    if (currentVal.includes(opt.label)) {
+                      // Remove
+                      const filtered = currentItems.filter((i: string) => !i.includes(opt.label));
+                      setFields(prev => ({ ...prev, learningStandard: filtered.join('\n') }));
+                    } else {
+                      // Add
+                      currentItems.push(standardText);
+                      setFields(prev => ({ ...prev, learningStandard: currentItems.join('\n') }));
+                    }
+                  }}
+                />
+              )}
 
               {/* During Indicators Section */}
               <div className="g1" style={{ marginTop: '12px' }}>
@@ -1052,39 +1049,24 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   <textarea className="lg" value={fields.indicatorDuring} onChange={e => setFields({ ...fields, indicatorDuring: e.target.value })} placeholder="คลิกเลือกตัวชี้วัดระหว่างทางด้านล่าง..." />
                 </label>
                 
-                {fields.gradeLevel && (
-                  <div className="ind-panel" style={{ marginTop: '4px', marginBottom: '14px' }}>
-                    <div className="ind-header" style={{ background: '#eff6ff', borderBottomColor: '#bfdbfe' }}>
-                      <span className="ind-header-text" style={{ color: '#1e40af' }}>คลังตัวชี้วัดระหว่างทางแนะนำ ({fields.gradeLevel})</span>
-                    </div>
-                    <div className="ind-list">
-                      {filteredIndicators.filter((ind: any) => ind.indicatorType === 'during').map((ind: any) => {
-                        const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
-                        const isChecked = selectedArr.includes(ind.indicatorId);
-                        return (
-                          <div 
-                            key={ind.indicatorId} 
-                            className="ind-item"
-                            onClick={() => handleIndicatorCheck(ind.indicatorId, !isChecked)}
-                          >
-                            <input 
-                              type="checkbox" 
-                              checked={isChecked} 
-                              onChange={() => {}}
-                            />
-                            <div className="ind-text">
-                              <span className="ind-code">{ind.indicatorCode}</span>
-                              {ind.indicatorText}
-                              <span className="ind-type during">ระหว่างทาง</span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                      {filteredIndicators.filter((ind: any) => ind.indicatorType === 'during').length === 0 && (
-                        <div className="ind-empty">ไม่มีตัวชี้วัดระหว่างทางสำหรับระดับชั้นนี้</div>
-                      )}
-                    </div>
-                  </div>
+                {fields.gradeLevel && filteredIndicators.filter((ind: any) => ind.indicatorType === 'during').length > 0 && (
+                  <SmartDropdown 
+                    options={filteredIndicators.filter((ind: any) => ind.indicatorType === 'during').map((ind: any) => {
+                      const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
+                      return {
+                        id: ind.indicatorId,
+                        label: ind.indicatorCode,
+                        value: ind.indicatorText,
+                        selected: selectedArr.includes(ind.indicatorId)
+                      };
+                    })}
+                    placeholder="ค้นหาหรือเลือกตัวชี้วัดระหว่างทางจากคลัง..."
+                    onSelect={(opt) => {
+                      const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
+                      const isChecked = selectedArr.includes(opt.id);
+                      handleIndicatorCheck(opt.id, !isChecked);
+                    }}
+                  />
                 )}
               </div>
 
@@ -1095,39 +1077,24 @@ export default function PlanForm({ planId }: PlanFormProps) {
                   <textarea className="lg" value={fields.indicatorFinal} onChange={e => setFields({ ...fields, indicatorFinal: e.target.value })} placeholder="คลิกเลือกตัวชี้วัดปลายทางด้านล่าง..." />
                 </label>
 
-                {fields.gradeLevel && (
-                  <div className="ind-panel" style={{ marginTop: '4px', marginBottom: '14px' }}>
-                    <div className="ind-header" style={{ background: '#ecfdf5', borderBottomColor: '#a7f3d0' }}>
-                      <span className="ind-header-text" style={{ color: '#065f46' }}>คลังตัวชี้วัดปลายทางแนะนำ ({fields.gradeLevel})</span>
-                    </div>
-                    <div className="ind-list">
-                      {filteredIndicators.filter((ind: any) => ind.indicatorType === 'final').map((ind: any) => {
-                        const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
-                        const isChecked = selectedArr.includes(ind.indicatorId);
-                        return (
-                          <div 
-                            key={ind.indicatorId} 
-                            className="ind-item"
-                            onClick={() => handleIndicatorCheck(ind.indicatorId, !isChecked)}
-                          >
-                            <input 
-                              type="checkbox" 
-                              checked={isChecked} 
-                              onChange={() => {}}
-                            />
-                            <div className="ind-text">
-                              <span className="ind-code">{ind.indicatorCode}</span>
-                              {ind.indicatorText}
-                              <span className="ind-type final">ปลายทาง</span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                      {filteredIndicators.filter((ind: any) => ind.indicatorType === 'final').length === 0 && (
-                        <div className="ind-empty">ไม่มีตัวชี้วัดปลายทางสำหรับระดับชั้นนี้</div>
-                      )}
-                    </div>
-                  </div>
+                {fields.gradeLevel && filteredIndicators.filter((ind: any) => ind.indicatorType === 'final').length > 0 && (
+                  <SmartDropdown 
+                    options={filteredIndicators.filter((ind: any) => ind.indicatorType === 'final').map((ind: any) => {
+                      const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
+                      return {
+                        id: ind.indicatorId,
+                        label: ind.indicatorCode,
+                        value: ind.indicatorText,
+                        selected: selectedArr.includes(ind.indicatorId)
+                      };
+                    })}
+                    placeholder="ค้นหาหรือเลือกตัวชี้วัดปลายทางจากคลัง..."
+                    onSelect={(opt) => {
+                      const selectedArr = fields.indicatorSelectedIds ? fields.indicatorSelectedIds.split(',') : [];
+                      const isChecked = selectedArr.includes(opt.id);
+                      handleIndicatorCheck(opt.id, !isChecked);
+                    }}
+                  />
                 )}
               </div>
             </div>
@@ -1136,39 +1103,37 @@ export default function PlanForm({ planId }: PlanFormProps) {
 
             <h3>3. สมรรถนะ และ 4. คุณลักษณะอันพึงประสงค์ (ข้อ 3-4)</h3>
 
-            {/* Competency Chips */}
-            <div className="chip-wrap" style={{ marginTop: '12px' }}>
-              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>สมรรถนะสำคัญผู้เรียน (กดเลือกเพื่อเติมใน textarea ด้านล่าง)</span>
-              <div className="chip-list">
-                {options.competency?.map((opt: any) => {
-                  const hasIt = (fields.competencies || '').includes(opt.optionName);
-                  return (
-                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('competencies', opt.optionName)}>
-                      {opt.optionName}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            {/* Competency Smart Dropdown */}
+            {options.competency && options.competency.length > 0 && (
+              <SmartDropdown 
+                options={options.competency.map((opt: any) => ({
+                  id: opt.optionId,
+                  label: opt.optionName,
+                  value: opt.optionText || '',
+                  selected: (fields.competencies || '').includes(opt.optionName)
+                }))}
+                placeholder="ค้นหาสมรรถนะสำคัญผู้เรียนจากคลัง..."
+                onSelect={(opt) => handleChipClick('competencies', opt.label)}
+              />
+            )}
             <label className="field" style={{ marginBottom: '16px' }}>
               3. สมรรถนะสำคัญของผู้เรียน (เขียนแจกแจงเป็นข้อๆ)
               <textarea value={fields.competencies} onChange={e => setFields({ ...fields, competencies: e.target.value })} />
             </label>
 
-            {/* Desired Attributes Chips */}
-            <div className="chip-wrap">
-              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>คุณลักษณะอันพึงประสงค์ (กดเลือกเพื่อเติมใน textarea ด้านล่าง)</span>
-              <div className="chip-list">
-                {options.attribute?.map((opt: any) => {
-                  const hasIt = (fields.desiredAttributes || '').includes(opt.optionName);
-                  return (
-                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('desiredAttributes', opt.optionName)}>
-                      {opt.optionName}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            {/* Desired Attributes Smart Dropdown */}
+            {options.attribute && options.attribute.length > 0 && (
+              <SmartDropdown 
+                options={options.attribute.map((opt: any) => ({
+                  id: opt.optionId,
+                  label: opt.optionName,
+                  value: opt.optionText || '',
+                  selected: (fields.desiredAttributes || '').includes(opt.optionName)
+                }))}
+                placeholder="ค้นหาคุณลักษณะอันพึงประสงค์จากคลัง..."
+                onSelect={(opt) => handleChipClick('desiredAttributes', opt.label)}
+              />
+            )}
             <label className="field" style={{ marginBottom: '16px' }}>
               4. คุณลักษณะอันพึงประสงค์ (เขียนแจกแจงเป็นข้อๆ)
               <textarea value={fields.desiredAttributes} onChange={e => setFields({ ...fields, desiredAttributes: e.target.value })} />
@@ -1189,78 +1154,68 @@ export default function PlanForm({ planId }: PlanFormProps) {
               <label className="field">
                 จุดประสงค์ด้านความรู้ (Knowledge - K)
                 <textarea value={fields.objectiveK} onChange={e => setFields({ ...fields, objectiveK: e.target.value })} />
-                <button type="button" onClick={() => setShowObjK(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#6366f1', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
-                  {showObjK ? '▼' : '▶'} คลังจุดประสงค์ (K)
-                </button>
-                {showObjK && (
-                  <div className="chip-list" style={{ marginTop: '6px' }}>
-                    {(options.objectiveK || options.objective || []).map((opt: any) => {
-                      const hasIt = (fields.objectiveK || '').includes(opt.optionName);
-                      return (
-                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('objectiveK', opt.optionName)}>
-                          {opt.optionName}
-                        </div>
-                      );
-                    })}
-                  </div>
+                {(options.objectiveK || options.objective) && (options.objectiveK || options.objective).length > 0 && (
+                  <SmartDropdown 
+                    options={(options.objectiveK || options.objective).map((opt: any) => ({
+                      id: opt.optionId,
+                      label: opt.optionName,
+                      value: opt.optionText || '',
+                      selected: (fields.objectiveK || '').includes(opt.optionName)
+                    }))}
+                    placeholder="ค้นหาจุดประสงค์ (K) จากคลัง..."
+                    onSelect={(opt) => handleChipClick('objectiveK', opt.label)}
+                  />
                 )}
               </label>
               <label className="field">
                 จุดประสงค์ด้านทักษะกระบวนการ (Process - P)
                 <textarea value={fields.objectiveP} onChange={e => setFields({ ...fields, objectiveP: e.target.value })} />
-                <button type="button" onClick={() => setShowObjP(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#6366f1', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
-                  {showObjP ? '▼' : '▶'} คลังจุดประสงค์ (P)
-                </button>
-                {showObjP && (
-                  <div className="chip-list" style={{ marginTop: '6px' }}>
-                    {(options.objectiveP || options.objective || []).map((opt: any) => {
-                      const hasIt = (fields.objectiveP || '').includes(opt.optionName);
-                      return (
-                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('objectiveP', opt.optionName)}>
-                          {opt.optionName}
-                        </div>
-                      );
-                    })}
-                  </div>
+                {(options.objectiveP || options.objective) && (options.objectiveP || options.objective).length > 0 && (
+                  <SmartDropdown 
+                    options={(options.objectiveP || options.objective).map((opt: any) => ({
+                      id: opt.optionId,
+                      label: opt.optionName,
+                      value: opt.optionText || '',
+                      selected: (fields.objectiveP || '').includes(opt.optionName)
+                    }))}
+                    placeholder="ค้นหาจุดประสงค์ (P) จากคลัง..."
+                    onSelect={(opt) => handleChipClick('objectiveP', opt.label)}
+                  />
                 )}
               </label>
               <label className="field">
                 จุดประสงค์ด้านคุณลักษณะ (Attitude - A)
                 <textarea value={fields.objectiveA} onChange={e => setFields({ ...fields, objectiveA: e.target.value })} />
-                <button type="button" onClick={() => setShowObjA(v => !v)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#6366f1', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', padding: '2px 0', marginTop: '4px' }}>
-                  {showObjA ? '▼' : '▶'} คลังจุดประสงค์ (A)
-                </button>
-                {showObjA && (
-                  <div className="chip-list" style={{ marginTop: '6px' }}>
-                    {(options.objectiveA || options.objective || []).map((opt: any) => {
-                      const hasIt = (fields.objectiveA || '').includes(opt.optionName);
-                      return (
-                        <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('objectiveA', opt.optionName)}>
-                          {opt.optionName}
-                        </div>
-                      );
-                    })}
-                  </div>
+                {(options.objectiveA || options.objective) && (options.objectiveA || options.objective).length > 0 && (
+                  <SmartDropdown 
+                    options={(options.objectiveA || options.objective).map((opt: any) => ({
+                      id: opt.optionId,
+                      label: opt.optionName,
+                      value: opt.optionText || '',
+                      selected: (fields.objectiveA || '').includes(opt.optionName)
+                    }))}
+                    placeholder="ค้นหาจุดประสงค์ (A) จากคลัง..."
+                    onSelect={(opt) => handleChipClick('objectiveA', opt.label)}
+                  />
                 )}
               </label>
             </div>
 
             <hr className="divider" />
 
-            {/* Century Skills Chips */}
-            <div className="chip-wrap">
-              <span className="help-text" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>ทักษะแห่งศตวรรษที่ 21 (Skills 21)</span>
-              <div className="chip-list">
-                {options.skill21?.map((opt: any) => {
-                  const hasIt = (fields.skills21 || '').includes(opt.optionName);
-                  return (
-                    <div key={opt.optionId} className={`chip ${hasIt ? 'on' : ''}`} onClick={() => handleChipClick('skills21', opt.optionName)}>
-                      {opt.optionName}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            {/* Century Skills Smart Dropdown */}
+            {options.skill21 && options.skill21.length > 0 && (
+              <SmartDropdown 
+                options={options.skill21.map((opt: any) => ({
+                  id: opt.optionId,
+                  label: opt.optionName,
+                  value: opt.optionText || '',
+                  selected: (fields.skills21 || '').includes(opt.optionName)
+                }))}
+                placeholder="ค้นหาทักษะแห่งศตวรรษที่ 21 จากคลัง..."
+                onSelect={(opt) => handleChipClick('skills21', opt.label)}
+              />
+            )}
             <label className="field" style={{ marginBottom: '16px' }}>
               5.1 ทักษะที่จำเป็นในศตวรรษที่ 21 (เขียนแจกแจงเป็นข้อๆ)
               <textarea value={fields.skills21} onChange={e => setFields({ ...fields, skills21: e.target.value })} />
