@@ -44,6 +44,9 @@ export default async function RootLayout({
           <div className="app-header-right" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px' }}>
+                <Link href="/profile" className="text-white hover:bg-white/20 transition-colors" style={{ padding: '4px 8px', borderRadius: '4px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  🏠 หน้าหลัก
+                </Link>
                 <span className="text-white">👤 {user.email}</span>
                 {isAdmin && (
                   <Link href="/admin" className="text-blue-200 hover:text-white" style={{ background: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none' }}>

@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { User, BookOpen, PenTool, Sparkles, CheckCircle2, Heart } from 'lucide-react'
+import FeedbackForm from './FeedbackForm'
 
 const quotes = [
   "การสอนที่ดียิ่งกว่าศิลปะ คือการส่งต่อแรงบันดาลใจให้ผู้เรียนครับ - กำลังใจจากครูเต้ครับ",
@@ -128,6 +129,9 @@ export default async function ProfilePage() {
 
           </div>
         </div>
+
+        {/* Feedback Form */}
+        <FeedbackForm />
 
         {/* CTA */}
         <div className="text-center pt-4 pb-8">
