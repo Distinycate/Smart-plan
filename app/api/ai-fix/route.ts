@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { autoFixPromptTemplate, partialFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
+import { partialFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { supabase } from '@/lib/supabase';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 
@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { planData, feedback, isPartial, partialSection, partialSuggestion } = body;
+    const { planData, partialSection, partialSuggestion } = body;
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY is not configured.");
@@ -17,15 +17,9 @@ export async function POST(req: Request) {
     const model = 'gemini-2.5-flash'; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-    let prompt = "";
-    if (isPartial) {
-        prompt = partialFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
-        prompt = prompt.replace('<<<SECTION_NAME>>>', partialSection);
-        prompt = prompt.replace('<<<SUGGESTION>>>', partialSuggestion);
-    } else {
-        prompt = autoFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
-        prompt = prompt.replace('<<<FEEDBACK_CONTENT>>>', JSON.stringify(feedback, null, 2));
-    }
+    let prompt = partialFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
+    prompt = prompt.replace('<<<SECTION_NAME>>>', partialSection);
+    prompt = prompt.replace('<<<SUGGESTION>>>', partialSuggestion);
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -52,7 +46,7 @@ export async function POST(req: Request) {
     const standardData = {
       ...fixedPlanData,
       planId: newPlanId,
-      planStatus: 'draft',
+      planStatus: 'ai_fixed',
       createdAt: timestamp,
       updatedAt: timestamp
     };

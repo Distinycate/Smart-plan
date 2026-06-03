@@ -154,36 +154,7 @@ export default function EvaluatorPage() {
     }
   };
 
-  const resetEvaluationFlow = () => {
-    setEvaluationResults([]);
-    setError(null);
-    setFixingPlanId(null);
-    setBatchProgress({ current: 0, total: 0 });
-  };
 
-  const startAutoFix = async (resultIndex: number) => {
-    const result = evaluationResults[resultIndex];
-    if (!result || !result.originalPlanData) return;
-    setFixingPlanId(result.planId);
-    setError(null);
-    try {
-      const res = await fetch('/api/ai-fix', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planData: result.originalPlanData, feedback: result })
-      });
-      const json = await res.json();
-      if (!json.success) throw new Error(json.error);
-      alert(`ปรับปรุงแผน ${result.title} สำเร็จ! ระบบได้สร้างแผนฉบับใหม่แล้ว`);
-      const newResults = [...evaluationResults];
-      newResults[resultIndex].isFixed = true;
-      setEvaluationResults(newResults);
-    } catch (err: any) {
-      alert(err.message || 'เกิดข้อผิดพลาดในการ Auto-Fix');
-    } finally {
-      setFixingPlanId(null);
-    }
-  };
 
   const startPartialFix = async (resultIndex: number, recIndex: number) => {
     const result = evaluationResults[resultIndex];
@@ -546,7 +517,6 @@ export default function EvaluatorPage() {
                 key={`${result.planId}-${index}`} 
                 result={result} 
                 index={index}
-                onFix={() => startAutoFix(index)}
                 onFixPartial={(recIndex) => startPartialFix(index, recIndex)}
                 isFixing={fixingPlanId === result.planId}
                 fixingId={fixingPlanId}
@@ -565,272 +535,20 @@ export default function EvaluatorPage() {
   );
 }
 
-function EvaluationFlowStepper({ step }: { step: number }) {
-  const steps = [
-    { label: 'เลือกแผน', icon: CheckSquare },
-    { label: 'AI วิเคราะห์', icon: UploadCloud },
-    { label: 'ผลประเมิน', icon: FileText }
-  ];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.04, ease: 'easeOut' }}
-      className="flex justify-center"
-    >
-      <div className="inline-flex flex-wrap items-center justify-center gap-3 rounded-[2rem] bg-white/60 p-2 shadow-sm backdrop-blur-md border border-white/40">
-        {steps.map((item, itemIndex) => {
-          const itemStep = itemIndex + 1;
-          const Icon = item.icon;
-          const isActive = step === itemStep;
-          const isDone = step > itemStep;
-
-          return (
-            <div key={item.label} className="flex items-center gap-3">
-              <div
-                className={`flex items-center gap-3 rounded-full px-5 py-2.5 transition-all duration-500 ${
-                  isActive
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 scale-105'
-                    : isDone
-                      ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20'
-                      : 'bg-transparent text-slate-500 hover:bg-white/50'
-                }`}
-              >
-                <div className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${isActive || isDone ? 'bg-white/20' : 'bg-slate-200/80'}`}>
-                  {isDone ? <CheckCircle className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
-                </div>
-                <span className="text-sm font-black tracking-wide">{item.label}</span>
-              </div>
-              {itemIndex < steps.length - 1 && (
-                <ArrowRight className="h-4 w-4 text-slate-300" />
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </motion.div>
-  );
-}
-
-type ScoreTone = 'green' | 'yellow' | 'red';
-
-const evaluationSteps = [
-  {
-    title: 'Structural Check',
-    description: 'ตรวจโครงสร้างหัวข้อและความครบถ้วนของแผน',
-    icon: ClipboardCheck
-  },
-  {
-    title: 'Content Analysis',
-    description: 'วิเคราะห์มาตรฐาน จุดประสงค์ กิจกรรม และการวัดผล',
-    icon: Gauge
-  },
-  {
-    title: 'Final Review',
-    description: 'สรุปคะแนน จุดแข็ง และข้อเสนอแนะจาก AI',
-    icon: ShieldCheck
-  }
-];
-
-const fallbackChecklist = [
-  {
-    topic: 'ความสอดคล้องกับมาตรฐาน/ตัวชี้วัด',
-    score: 18,
-    maxScore: 20,
-    feedback: 'แผนระบุมาตรฐานและตัวชี้วัดชัดเจน เชื่อมโยงกับจุดประสงค์ K/P/A ได้ดี'
-  },
-  {
-    topic: 'การจัดกิจกรรมแบบ Active Learning / PBL',
-    score: 15,
-    maxScore: 20,
-    feedback: 'กิจกรรมมีลำดับขั้นชัดเจน แต่ควรเพิ่มภาระงานที่เปิดโอกาสให้ผู้เรียนลงมือแก้ปัญหาจริงมากขึ้น'
-  },
-  {
-    topic: 'การใช้คำถามกระตุ้นความคิด',
-    score: 13,
-    maxScore: 20,
-    feedback: 'มีคำถามนำเข้าสู่บทเรียนแล้ว แต่ยังควรเพิ่มคำถามปลายเปิดและคำถามสะท้อนคิดท้ายกิจกรรม'
-  },
-  {
-    topic: 'ความหลากหลายของเครื่องมือวัดผล',
-    score: 16,
-    maxScore: 20,
-    feedback: 'มีทั้งใบงาน แบบสังเกต และ Rubric แต่ควรระบุเกณฑ์คะแนนให้ชัดในแต่ละระดับ'
-  },
-  {
-    topic: 'ความเหมาะสมของเวลาเรียน',
-    score: 17,
-    maxScore: 20,
-    feedback: 'เวลาโดยรวมเหมาะสมกับกิจกรรมหลัก ควรเผื่อช่วงสะท้อนผลและสรุปองค์ความรู้เล็กน้อย'
-  }
-];
-
-const fallbackPros = [
-  'จุดประสงค์การเรียนรู้แบ่ง K/P/A ชัดเจนและสัมพันธ์กับหัวข้อบทเรียน',
-  'กิจกรรมมีแนวทาง Active Learning และเปิดพื้นที่ให้ผู้เรียนมีส่วนร่วม',
-  'เครื่องมือประเมินหลากหลาย ทั้งใบงาน แบบสังเกต และ Rubric'
-];
-
-const fallbackCons = [
-  'ควรเพิ่มคำถามปลายเปิดเพื่อกระตุ้นการคิดวิเคราะห์ของผู้เรียน',
-  'เกณฑ์ Rubric บางส่วนยังควรระบุพฤติกรรมที่สังเกตได้ให้ชัดขึ้น'
-];
-
-const fallbackRecommendations = [
-  {
-    section: 'กิจกรรมการเรียนรู้',
-    suggestion: 'เพิ่มขั้น PBL สั้น ๆ ให้ผู้เรียนวิเคราะห์สถานการณ์จริง แล้วนำเสนอวิธีแก้ปัญหาเป็นภาษาอังกฤษ'
-  },
-  {
-    section: 'การวัดและประเมินผล',
-    suggestion: 'แยกเกณฑ์ประเมิน K/P/A ให้สัมพันธ์กับจุดประสงค์แต่ละด้าน และกำหนดระดับคุณภาพที่ตรวจได้จริง'
-  }
-];
-
-const getScoreTone = (percentage: number): ScoreTone => {
-  if (percentage < 60) return 'red';
-  if (percentage < 80) return 'yellow';
-  return 'green';
-};
-
-const toneStyles: Record<ScoreTone, any> = {
-  green: {
-    label: 'ผ่านเกณฑ์ดี',
-    text: 'text-emerald-700',
-    bg: 'bg-emerald-50',
-    fill: '#10b981',
-    gradient: 'from-emerald-500 to-teal-500'
-  },
-  yellow: {
-    label: 'ควรปรับปรุงบางจุด',
-    text: 'text-amber-700',
-    bg: 'bg-amber-50',
-    fill: '#f59e0b',
-    gradient: 'from-amber-400 to-orange-500'
-  },
-  red: {
-    label: 'ต้องทบทวนเพิ่มเติม',
-    text: 'text-rose-700',
-    bg: 'bg-rose-50',
-    fill: '#ef4444',
-    gradient: 'from-rose-500 to-red-500'
-  }
-};
-
-const percentOf = (score: number, maxScore: number) => {
-  if (!maxScore) return 0;
-  return Math.max(0, Math.min(100, Math.round((score / maxScore) * 100)));
-};
-
-const normalizeChecklist = (result: any) => {
-  const checklist = Array.isArray(result.checklist) && result.checklist.length > 0
-    ? result.checklist
-    : fallbackChecklist;
-
-  return checklist.map((item: any) => ({
-    topic: item.topic || 'หัวข้อการประเมิน',
-    score: Number(item.score || 0),
-    maxScore: Number(item.maxScore || 20),
-    feedback: item.feedback || 'ยังไม่มีรายละเอียด feedback จาก AI'
-  }));
-};
-
-const buildRadarData = (checklist: any[], overallPercentage: number) => {
-  const findScore = (keywords: string[], fallbackOffset = 0) => {
-    const matched = checklist.find(item =>
-      keywords.some(keyword => String(item.topic || '').toLowerCase().includes(keyword.toLowerCase()))
-    );
-    if (matched) return percentOf(matched.score, matched.maxScore);
-    return Math.max(45, Math.min(96, Math.round(overallPercentage + fallbackOffset)));
-  };
-
-  return [
-    { subject: 'เนื้อหา', value: findScore(['มาตรฐาน', 'ตัวชี้วัด', 'เนื้อหา'], 3), fullMark: 100 },
-    { subject: 'กิจกรรม', value: findScore(['กิจกรรม', 'active', 'pbl'], -2), fullMark: 100 },
-    { subject: 'การวัดผล', value: findScore(['วัด', 'ประเมิน', 'เครื่องมือ', 'rubric'], -4), fullMark: 100 },
-    { subject: 'เวลาเรียน', value: findScore(['เวลา', 'timing'], 1), fullMark: 100 }
-  ];
-};
-
-const getTrafficLightData = (result: any, checklist: any[]) => {
-  const pros = Array.isArray(result.pros) && result.pros.length > 0 ? result.pros : fallbackPros;
-  const cons = Array.isArray(result.cons) && result.cons.length > 0 ? result.cons : fallbackCons;
-
-  const passed = checklist
-    .filter(item => percentOf(item.score, item.maxScore) >= 80)
-    .map(item => `${item.topic}: ${item.feedback}`);
-
-  const needsWork = checklist
-    .filter(item => {
-      const pct = percentOf(item.score, item.maxScore);
-      return pct >= 60 && pct < 80;
-    })
-    .map(item => `${item.topic}: ${item.feedback}`);
-
-  const risks = checklist
-    .filter(item => percentOf(item.score, item.maxScore) < 60)
-    .map(item => `${item.topic}: ${item.feedback}`);
-
-  return {
-    passed: [...pros, ...passed].slice(0, 5),
-    needsWork: [...cons, ...needsWork].slice(0, 5),
-    risks: risks.slice(0, 4)
-  };
-};
-
-const cardMotion: any = {
-  hidden: { opacity: 0, y: 22 },
-  visible: (index: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, delay: (Number(index) || 0) * 0.08, ease: 'easeOut' }
-  })
-};
-
-function TrafficLightCard({
-  tone,
-  title,
-  description,
-  icon: Icon,
-  items
-}: {
-  tone: 'green' | 'yellow' | 'red';
-  title: string;
-  description: string;
-  icon: any;
-  items: string[];
-}) {
-  const styles = {
-    green: {
-      card: 'bg-gradient-to-br from-emerald-50/80 to-teal-50/50 hover:shadow-emerald-500/10 hover:border-emerald-200/50 border border-transparent',
-      icon: 'bg-gradient-to-br from-emerald-400 to-teal-500 text-white shadow-md shadow-emerald-500/20',
-      text: 'text-emerald-950',
-      bullet: 'text-emerald-500'
-    },
-    yellow: {
-      card: 'bg-gradient-to-br from-amber-50/80 to-orange-50/50 hover:shadow-amber-500/10 hover:border-amber-200/50 border border-transparent',
-      icon: 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-md shadow-amber-500/20',
-      text: 'text-amber-950',
-      bullet: 'text-amber-500'
-    },
-    red: {
-      card: 'bg-gradient-to-br from-rose-50/80 to-red-50/50 hover:shadow-rose-500/10 hover:border-rose-200/50 border border-transparent',
-      icon: 'bg-gradient-to-br from-rose-400 to-red-500 text-white shadow-md shadow-rose-500/20',
-      text: 'text-rose-950',
-      bullet: 'text-rose-500'
-    }
-  }[tone];
-
-  return (
-    <motion.div variants={cardMotion} className={`group relative rounded-[2rem] p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 ${styles.card}`}>
-      <div className="flex items-start gap-4">
-        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[1.25rem] transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110 ${styles.icon}`}>
-          <Icon className="h-6 w-6" />
-        </div>
-        <div>
-          <h4 className={`text-lg font-black ${styles.text}`}>{title}</h4>
-          <p className="mt-1 text-sm font-medium text-slate-500">{description}</p>
+// ── COMPONENT: EvaluationResultCard (International Standard Dashboard) ──
+function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId }: { result: any, index: number, onFixPartial: (recIndex: number) => void, isFixing: boolean, fixingId: string | null }) {
+  const [isOpen, setIsOpen] = useState(index === 0); 
+  
+  if (result.error) {
+    return (
+      <div className="bg-white/70 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-rose-200/60 overflow-hidden relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent pointer-events-none"></div>
+        <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+          <div className="flex items-center gap-4">
+             <div className="w-12 h-12 bg-white text-rose-500 rounded-2xl shadow-sm flex items-center justify-center shrink-0"><AlertTriangle className="w-6 h-6"/></div>
+             <h3 className="font-bold text-slate-800 text-lg">{result.title}</h3>
+          </div>
+          <span className="px-4 py-2 bg-rose-100 text-rose-700 rounded-xl text-sm font-bold">วิเคราะห์ไม่สำเร็จ</span>
         </div>
       </div>
 
@@ -1114,19 +832,10 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
               </div>
             </div>
 
-            <div className="relative">
-              <div className="rounded-[2rem] bg-white/10 p-6 shadow-xl shadow-black/10 backdrop-blur md:p-8">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-cyan-300/20 text-cyan-200 transition-transform duration-500 group-hover/ai:rotate-12 group-hover/ai:scale-110">
-                    <FileText className="h-7 w-7" />
-                  </div>
-                  <div>
-                    <h5 className="text-lg font-black">สรุปแนวทางปรับปรุง</h5>
-                    <p className="mt-2 text-sm font-medium leading-7 text-indigo-100/75">
-                      เริ่มจากเพิ่มคำถามกระตุ้นความคิดในช่วงนำเข้าสู่บทเรียน แล้วปรับเกณฑ์ประเมินให้วัดพฤติกรรมผู้เรียนได้ชัดเจน
-                    </p>
-                  </div>
-                </div>
+            {/* RECOMMENDATIONS & AUTO-FIX */}
+            <div className="space-y-6">
+              {/* Full Fix Card */}
+
 
                 <div className="mt-6 space-y-3">
                   {checklist.slice(0, 4).map((item: any, itemIndex: number) => {

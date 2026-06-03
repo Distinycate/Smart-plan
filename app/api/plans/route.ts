@@ -16,8 +16,10 @@ export async function GET(req: NextRequest) {
 
     if (statusFilter === 'archived') {
       query = query.eq('planStatus', 'archived');
+    } else if (statusFilter === 'ai_fixed') {
+      query = query.eq('planStatus', 'ai_fixed');
     } else {
-      query = query.neq('planStatus', 'archived');
+      query = query.neq('planStatus', 'archived').neq('planStatus', 'ai_fixed');
     }
 
     const { data, error } = await query;

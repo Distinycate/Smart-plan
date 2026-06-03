@@ -29,7 +29,9 @@ export default function TeacherDashboard() {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
     try {
-      const qs = tab === 'archived' ? '?status=archived' : '';
+      let qs = '';
+      if (tab === 'archived') qs = '?status=archived';
+      if (tab === 'ai_fixed') qs = '?status=ai_fixed';
       const [plansRes, initRes] = await Promise.all([
         fetch(`/api/plans${qs}`),
         fetch('/api/initial-data')
@@ -117,19 +119,20 @@ export default function TeacherDashboard() {
   const getStatusBadge = (status: string) => {
     if (status === 'complete') return '✅ สมบูรณ์';
     if (status === 'archived') return '🗄️ เก็บถาวร';
+    if (status === 'ai_fixed') return '✨ แก้ไขโดย AI';
     return '📝 ร่างแผน';
   };
 
   const emptyStateTitle = activeTab === 'archived'
     ? 'ยังไม่มีแผนการสอนในที่เก็บถาวร'
     : activeTab === 'ai_fixed'
-    ? 'ยังไม่มีแผนที่ปรับปรุงโดย AI'
+    ? 'ยังไม่มีแผนที่ถูกแก้ไขโดย AI'
     : 'ยังไม่มีแผนการสอนในระบบ';
 
   const emptyStateDescription = activeTab === 'archived'
     ? 'เมื่อเก็บถาวรแผนการสอน แผนจะปรากฏที่นี่ และสามารถกู้คืนกลับมาใช้งานได้'
     : activeTab === 'ai_fixed'
-    ? 'แผนที่ได้รับการประเมินและคลิก Auto-Fix จากระบบ AI จะถูกจัดเก็บแยกไว้ที่นี่'
+    ? 'เมื่อ AI ทำการแก้ไขจุดบกพร่องในแผน แผนฉบับใหม่จะมาปรากฏที่นี่'
     : 'กดปุ่มด้านล่างเพื่อสร้างแผนการสอนแรกของคุณ';
 
   return (
@@ -336,6 +339,13 @@ export default function TeacherDashboard() {
                 onClick={() => setActiveTab('archived')}
               >
                 <Archive size={12} /> ที่เก็บถาวร
+              </button>
+              <button 
+                className={`btn btn-sm ${activeTab === 'ai_fixed' ? 'btn-primary' : ''}`}
+                style={{ background: activeTab === 'ai_fixed' ? '#fff' : 'transparent', color: activeTab === 'ai_fixed' ? 'var(--c-primary)' : 'var(--c-gray-500)', boxShadow: activeTab === 'ai_fixed' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5, display: 'flex', alignItems: 'center', gap: 4 }}
+                onClick={() => setActiveTab('ai_fixed')}
+              >
+                <Sparkles size={12} /> แผนที่แก้ไขโดย AI
               </button>
             </div>
             <button className="btn btn-hero btn-sm" style={{ background: 'var(--c-primary)', color: '#fff', height: '100%' }} onClick={() => router.push('/plan/new')}>
@@ -600,6 +610,7 @@ export default function TeacherDashboard() {
         .ps-badge { font-size:11px; padding:4px 7px; border-radius:999px; font-weight:700; }
         .ps-badge.complete { background:#dcfce7; color:#15803d; }
         .ps-badge.draft { background:#fef3c7; color:#92400e; }
+        .ps-badge.ai_fixed { background:#f5f3ff; color:#7c3aed; }
         .ps-badge.archived { background:#e5e7eb; color:#374151; }
         .plan-grade-badge { font-size:11.5px; color:var(--c-gray-500); background:var(--c-gray-50); padding:4px 7px; border-radius:8px; }
         .plan-card-body { padding: 0 14px 12px; min-height: 94px; }
