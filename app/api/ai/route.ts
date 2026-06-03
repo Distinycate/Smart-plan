@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
     const indicatorRegex = /([ก-ฮ]\s*[๐-๙0-9]+\.[๐-๙0-9]+)\s+((?:ป|ม)\.[๐-๙0-9]+(?:-[๐-๙0-9]+)?)\/([๐-๙0-9]+)/g;
     const extractCodes = (text: string) => {
       if (!text) return [];
-      const matches = [...text.matchAll(indicatorRegex)];
+      const matches = Array.from(text.matchAll(indicatorRegex));
       return matches.map(m => `${m[1].trim()} ${m[2].trim()}/${m[3].trim()}`.replace(/\s+/g, ' '));
     };
 
