@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { autoFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
+import { autoFixPromptTemplate, partialFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { supabase } from '@/lib/supabase';
 
 export const maxDuration = 60;
@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { planData, feedback } = body;
+    const { planData, feedback, isPartial, partialSection, partialSuggestion } = body;
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY is not configured.");
@@ -16,8 +16,15 @@ export async function POST(req: Request) {
     const model = 'gemini-2.5-flash'; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-    let prompt = autoFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
-    prompt = prompt.replace('<<<FEEDBACK_CONTENT>>>', JSON.stringify(feedback, null, 2));
+    let prompt = "";
+    if (isPartial) {
+        prompt = partialFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
+        prompt = prompt.replace('<<<SECTION_NAME>>>', partialSection);
+        prompt = prompt.replace('<<<SUGGESTION>>>', partialSuggestion);
+    } else {
+        prompt = autoFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
+        prompt = prompt.replace('<<<FEEDBACK_CONTENT>>>', JSON.stringify(feedback, null, 2));
+    }
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -63,7 +70,6 @@ export async function POST(req: Request) {
     
     const { error: insertErr } = await supabase.from('LessonPlans').insert(standardData);
     if (insertErr) {
-       // if rubric columns missing, try fallback
        const isMissingColumnError = insertErr.message?.includes('column') && 
        (insertErr.message?.includes('rubricK') || insertErr.message?.includes('rubricP') || insertErr.message?.includes('rubricA'));
        if(isMissingColumnError){
@@ -78,7 +84,7 @@ export async function POST(req: Request) {
        }
     }
 
-    return NextResponse.json({ success: true, fixedPlanId: newPlanId });
+    return NextResponse.json({ success: true, fixedPlanId: newPlanId, newPlanData: standardData });
 
   } catch (error: any) {
     console.error('Auto-Fix API Error:', error);

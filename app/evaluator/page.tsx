@@ -186,6 +186,48 @@ export default function EvaluatorPage() {
     }
   };
 
+  const startPartialFix = async (resultIndex: number, recIndex: number) => {
+    const result = evaluationResults[resultIndex];
+    if (!result || !result.originalPlanData) return;
+    
+    const rec = result.recommendations[recIndex];
+    setFixingPlanId(`${result.planId}-partial-${recIndex}`);
+    setError(null);
+    
+    try {
+      const res = await fetch('/api/ai-fix', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planData: result.originalPlanData,
+          isPartial: true,
+          partialSection: rec.section,
+          partialSuggestion: rec.suggestion
+        })
+      });
+      
+      const json = await res.json();
+      if (!json.success) throw new Error(json.error);
+      
+      alert(`แก้ไขจุดที่ ${recIndex + 1} สำเร็จ! ระบบอัปเดตข้อมูลแผนให้แล้ว`);
+      
+      // Update UI state with new plan data, so subsequent fixes use the newly updated plan
+      const newResults = [...evaluationResults];
+      newResults[resultIndex].originalPlanData = json.newPlanData;
+      // Mark this specific recommendation as fixed so UI can reflect it
+      if (!newResults[resultIndex].fixedRecs) {
+          newResults[resultIndex].fixedRecs = {};
+      }
+      newResults[resultIndex].fixedRecs[recIndex] = true;
+      setEvaluationResults(newResults);
+      
+    } catch (err: any) {
+      alert(err.message || 'เกิดข้อผิดพลาดในการแก้เฉพาะจุด');
+    } finally {
+      setFixingPlanId(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f4f7f6] py-10 px-4 font-sans">
       <div className="max-w-6xl mx-auto space-y-8">
@@ -336,7 +378,9 @@ export default function EvaluatorPage() {
                 result={result} 
                 index={index}
                 onFix={() => startAutoFix(index)}
+                onFixPartial={(recIndex) => startPartialFix(index, recIndex)}
                 isFixing={fixingPlanId === result.planId}
+                fixingId={fixingPlanId}
               />
             ))}
           </div>
@@ -353,7 +397,7 @@ export default function EvaluatorPage() {
 }
 
 // ── COMPONENT: EvaluationResultCard (Accordion style professional dashboard) ──
-function EvaluationResultCard({ result, index, onFix, isFixing }: { result: any, index: number, onFix: () => void, isFixing: boolean }) {
+function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fixingId }: { result: any, index: number, onFix: () => void, onFixPartial: (recIndex: number) => void, isFixing: boolean, fixingId: string | null }) {
   const [isOpen, setIsOpen] = useState(index === 0); // Open first one by default
   
   if (result.error) {
@@ -515,15 +559,31 @@ function EvaluationResultCard({ result, index, onFix, isFixing }: { result: any,
                 <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
                    <h4 className="font-black text-slate-800 mb-4">คำแนะนำเพิ่มเติม (Recommendations)</h4>
                    <div className="space-y-4">
-                     {result.recommendations.map((rec: any, i: number) => (
-                       <div key={i} className="flex gap-4 p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100">
-                         <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 font-bold text-xs">{i+1}</div>
-                         <div>
-                           <h5 className="font-bold text-sm text-indigo-900 mb-1">{rec.section}</h5>
-                           <p className="text-sm font-medium text-indigo-700/80">{rec.suggestion}</p>
+                     {result.recommendations.map((rec: any, i: number) => {
+                       const isRecFixed = result.fixedRecs?.[i];
+                       const isThisFixing = fixingId === `${result.planId}-partial-${i}`;
+                       return (
+                         <div key={i} className="flex flex-col sm:flex-row sm:items-start gap-4 p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100">
+                           <div className="flex gap-4 flex-1">
+                             <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 font-bold text-xs">{i+1}</div>
+                             <div>
+                               <h5 className="font-bold text-sm text-indigo-900 mb-1">{rec.section}</h5>
+                               <p className="text-sm font-medium text-indigo-700/80">{rec.suggestion}</p>
+                             </div>
+                           </div>
+                           {result.planId !== 'uploaded' && !result.isFixed && (
+                             <button 
+                               onClick={() => onFixPartial(i)}
+                               disabled={isThisFixing || isRecFixed}
+                               className={`shrink-0 mt-3 sm:mt-0 px-4 py-2 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 ${isRecFixed ? 'bg-emerald-100 text-emerald-700' : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm'}`}
+                             >
+                               {isThisFixing ? <Loader2 className="w-3.5 h-3.5 animate-spin"/> : (isRecFixed ? <CheckCircle className="w-3.5 h-3.5"/> : <Zap className="w-3.5 h-3.5"/>)}
+                               {isThisFixing ? 'กำลังแก้...' : (isRecFixed ? 'แก้ไขแล้ว' : '✨ ให้ AI แก้จุดนี้')}
+                             </button>
+                           )}
                          </div>
-                       </div>
-                     ))}
+                       )
+                     })}
                    </div>
                 </div>
               )}
