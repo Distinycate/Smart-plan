@@ -130,8 +130,8 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 
 ## ✅ CURRENT STATE (สถานะปัจจุบัน)
 
-**Last updated**: 2026-06-03 06:26 (Thai time)  
-**Updated by**: Antigravity (AI Agent 1)
+**Last updated**: 2026-06-03 11:03 (Thai time)  
+**Updated by**: Codex
 
 ### สิ่งที่ทำเสร็จแล้ว ✅
 - [x] ลำดับหัวข้อ 1-10 ถูกต้องทั้ง Preview, Word Export, PlanForm
@@ -142,11 +142,14 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 - [x] **PlanForm UI Update**: ลบการเลือกระดับชั้นซ้ำซ้อน และเปลี่ยนระบบเลือก EFL ให้ไม่เกะกะสายตา (Tab 1)
 - [x] **PlanForm Options Library**: เพิ่มคลังตัวเลือก BasicOptions กลับมา (ซ่อน/แสดงได้) ใน Tab 3 (จุดประสงค์, สื่อ, แหล่ง, ชิ้นงาน) และ Tab 4 (วิธีการวัด, เครื่องมือประเมิน K/P/A)
 - [x] **Merge Codebase**: ผสานโค้ดจาก lesson-plan-next-app เข้ากับ smart-plan-ten โดยคง UI เดิมของ Evaluator V3 ไว้
+- [x] **KPA Assessment Cleanup**: ลบ UI/Dropdown ของ "สิ่งที่ต้องการวัดและประเมินผล" ใน Tab 4 ออกแล้ว และ sync `measureK/P/A` จาก `objectiveK/P/A` อัตโนมัติทั้งหลัง AI สร้างและก่อนบันทึก
+- [x] **KPA Method/Tool/Criteria Dropdowns**: ช่องวิธีการวัดผล เครื่องมือประเมิน และเกณฑ์ผ่านประเมินของ K/P/A ใช้ตัวเลือกจาก `BasicOptions.assessmentTemplate` โดยแยกตาม domain K/P/A แล้ว
 
 ### รอดำเนินการ ⏳
 - [ ] **DB Migration**: ผู้ใช้ต้องรัน SQL เพิ่ม rubricK/P/A ใน Supabase Dashboard
 - [ ] ทดสอบ Rubric บันทึก→กลับมาแก้ไข→ยังมีข้อมูล (หลัง DB migration)
 - [ ] ทดสอบ Word export มี Rubric table จริงๆ (หลัง DB migration)
+- [ ] ตรวจบน Vercel production `https://smart-plan-ten.vercel.app` หลัง deploy ว่า Tab 4 ไม่มีช่อง "สิ่งที่ต้องการวัดและประเมินผล" แล้ว
 
 ### Known Issues 🔴
 - **rubricK, rubricP, rubricA columns ยังไม่มีใน Supabase** → Rubric จะไม่ถูกบันทึก จนกว่าจะ migrate DB
@@ -154,6 +157,21 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 ---
 
 ## 📝 CHANGELOG (ประวัติการเปลี่ยนแปลง)
+
+### 2026-06-03 11:03 — Session โดย Codex
+
+#### 🔧 PlanForm KPA Assessment Fix
+- **`app/plan/PlanForm.tsx`**
+  - ลบ dropdown/field ของ "สิ่งที่ต้องการวัดและประเมินผล" ออกจาก UI ในข้อ 9.1/9.2/9.3
+  - เพิ่ม `withSyncedAssessmentMeasures()` เพื่อให้ `measureK`, `measureP`, `measureA` sync จาก `objectiveK`, `objectiveP`, `objectiveA`
+  - หลัง Gemini AI สร้างจุดประสงค์ K/P/A แล้ว ระบบจะนำจุดประสงค์นั้นไปใช้เป็น measure K/P/A อัตโนมัติ เพื่อให้แผนสอดคล้องกัน
+  - ก่อน POST/PUT บันทึกแผน ระบบ sync measure จาก objective อีกครั้งเพื่อกันข้อมูลหลุด
+  - ช่อง `methodK/P/A`, `toolK/P/A`, `criteriaK/P/A` มี SmartDropdown จาก `BasicOptions.assessmentTemplate` โดย parse `optionText` เป็น JSON และกรองตาม domain K/P/A
+
+#### ✅ Verification
+- `npm run build` ผ่าน
+- Local dev server ยังเปิดไม่ได้ใน sandbox นี้ เพราะ `listen EPERM` บน port 3000
+- Commit ที่เกี่ยวข้อง: `63b1451 fix: sync KPA assessment measures from objectives`
 
 ### 2026-06-03 — Session โดย Antigravity (AI Agent 1)
 
@@ -275,3 +293,15 @@ LOW      | Refactor globals.css ให้ organize ดีขึ้น          |
 ---
 **[UPDATE จาก Agent 1]**: ผมได้รวมโค้ดและ Force Push ไปยัง `main` เรียบร้อยแล้ว (อัปเดตไปที่ Vercel: `smart-plan-ten.vercel.app`)
 สำหรับงานเดิมของคุณถูกแบ็คอัปไว้ที่ branch `backup-lesson-plan-next-app` ครับ หากจะแก้ไขโค้ดใหม่ ให้ดึงโค้ดจาก `main` ล่าสุดเสมอเพื่อป้องกัน Conflict ครับ
+
+---
+**[Codex → AI Agents] — 2026-06-03 11:03**
+```
+อัปเดตล่าสุด:
+- ครูต้องการลบ "สิ่งที่ต้องการวัดและประเมินผล" ออกจากหน้าฟอร์ม Tab 4 ไม่ใช่แค่ลบ dropdown
+- UI ของ field นี้ถูกลบออกจาก 9.1/9.2/9.3 แล้ว
+- แต่ข้อมูล measureK/measureP/measureA ยังต้องมีอยู่หลังบ้าน เพื่อใช้กับ Preview/Word Export/API
+- ค่าของ measureK/P/A ต้อง sync จาก objectiveK/P/A อัตโนมัติ หลัง AI สร้าง และก่อนบันทึก
+- อย่านำ dropdown ของ assessmentTemplate กลับไปใส่ใน field measure อีก
+- Dropdown จาก assessmentTemplate ตอนนี้ใช้เฉพาะ method/tool/criteria ของ K/P/A เท่านั้น
+```
