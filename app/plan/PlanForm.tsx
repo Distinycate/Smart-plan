@@ -322,13 +322,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     teacherName: '',
     schoolName: '',
     organization: '',
-    headerLearningArea: 'ภาษาต่างประเทศ',
+    headerLearningArea: '',
     headerGradeLevel: '',
     
     subjectId: '',
     subjectName: '',
     subjectCode: '',
-    learningArea: 'ภาษาต่างประเทศ',
+    learningArea: '',
     gradeLevel: '',
     semester: '1',
     academicYear: '2569',
@@ -377,20 +377,6 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         
         if (initJson.success) {
           setInitialData(initJson.data);
-          
-          // Seed defaults from config if creating new
-          if (!isEdit && initJson.data.config) {
-            setFields(prev => ({
-              ...prev,
-              teacherName: initJson.data.config.teacherName || '',
-              schoolName: initJson.data.config.schoolName || '',
-              organization: initJson.data.config.organization || '',
-              learningArea: initJson.data.config.learningArea || 'ภาษาต่างประเทศ',
-              headerLearningArea: initJson.data.config.learningArea || 'ภาษาต่างประเทศ',
-              gradeLevel: normalizeGradeLevel(initJson.data.config.defaultGradeLevel),
-              headerGradeLevel: toHeaderGradeLevel(initJson.data.config.defaultGradeLevel)
-            }));
-          }
         }
 
         // If Edit Mode, load existing plan data
@@ -421,7 +407,6 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               if (val === undefined || val === null) {
                 if (key === 'criteriaK') cleanedData[key] = 'ผ่านเกณฑ์ร้อยละ 60 ขึ้นไป';
                 else if (key === 'criteriaP' || key === 'criteriaA') cleanedData[key] = 'ผ่านเกณฑ์ระดับคุณภาพระดับดีขึ้นไป';
-                else if (key === 'learningArea' || key === 'headerLearningArea') cleanedData[key] = 'ภาษาต่างประเทศ';
                 else if (key === 'semester') cleanedData[key] = '1';
                 else if (key === 'academicYear') cleanedData[key] = '2569';
                 else if (key === 'totalHours') cleanedData[key] = 2;
@@ -716,7 +701,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           subjectName: prev.subjectName || selectedSubject?.subjectName || '',
           gradeLevel: prev.gradeLevel || normalizeGradeLevel(selectedSubject?.gradeLevel) || '',
           headerGradeLevel: prev.headerGradeLevel || toHeaderGradeLevel(selectedSubject?.gradeLevel || prev.gradeLevel),
-          learningArea: prev.learningArea || selectedSubject?.learningArea || 'ภาษาต่างประเทศ',
+          learningArea: prev.learningArea || selectedSubject?.learningArea || '',
           unitId: prev.unitId || selected.unitId || '',
           unitName: prev.unitName || selectedUnit?.unitName || '',
           topicId: selected.topicId,
@@ -751,7 +736,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         subjectName: prev.subjectName || selectedSubject?.subjectName || '',
         gradeLevel: prev.gradeLevel || normalizeGradeLevel(selectedSubject?.gradeLevel) || '',
         headerGradeLevel: prev.headerGradeLevel || toHeaderGradeLevel(selectedSubject?.gradeLevel),
-        learningArea: prev.learningArea || selectedSubject?.learningArea || 'ภาษาต่างประเทศ',
+        learningArea: prev.learningArea || selectedSubject?.learningArea || '',
         unitId: selectedUnit?.unitId || selected.unitId || '',
         unitName: selectedUnit?.unitName || prev.unitName || '',
         topicId: selected.topicId,
@@ -826,7 +811,10 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         body: JSON.stringify({
           gradeLevel: fields.gradeLevel,
           subjectName: fields.subjectName,
-          lessonTopic: fields.lessonTopic
+          lessonTopic: fields.lessonTopic,
+          learningStandard: fields.learningStandard,
+          indicatorDuring: fields.indicatorDuring,
+          indicatorFinal: fields.indicatorFinal
         })
       });
 
@@ -1320,21 +1308,36 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
 
               <label className="field">
-                เลือกวิชา
-                <select value={fields.subjectId} onChange={e => handleSubjectChange(e.target.value)}>
-                  <option value="">-- {fields.gradeLevel ? 'เลือกวิชา หรือเลือกหัวข้อ EFL ได้เลย' : 'กรุณาเลือกระดับชั้นก่อน'} --</option>
+                ระบุวิชา (พิมพ์เอง หรือ เลือกแนะนำ)
+                <input 
+                  type="text"
+                  list="subjects-datalist"
+                  value={fields.subjectName || ''}
+                  onChange={e => {
+                    const val = e.target.value;
+                    const selected = subjectsForSelectedGrade.find((s: any) => 
+                      s.subjectName === val || 
+                      `${s.subjectCode} ${s.subjectName}` === val ||
+                      `${s.subjectCode} - ${s.subjectName}` === val ||
+                      `${s.subjectCode} - ${s.subjectName} (${s.gradeLevel})` === val
+                    );
+                    if (selected) {
+                      handleSubjectChange(selected.subjectId);
+                    } else {
+                      setFields(prev => ({ ...prev, subjectName: val, subjectId: '' }));
+                    }
+                  }}
+                  placeholder={fields.gradeLevel ? "พิมพ์ชื่อวิชา หรือเลือกจากรายการ..." : "กรุณาเลือกระดับชั้นก่อน"}
+                  disabled={!fields.gradeLevel}
+                />
+                <datalist id="subjects-datalist">
                   {subjectsForSelectedGrade.map((sub: any) => (
-                    <option key={sub.subjectId} value={sub.subjectId}>
-                      {sub.subjectCode} - {sub.subjectName} ({sub.gradeLevel})
-                    </option>
+                    <option key={sub.subjectId} value={`${sub.subjectCode} ${sub.subjectName}`} />
                   ))}
-                </select>
+                </datalist>
               </label>
 
-              <label className="field">
-                วิชา (แสดงในหัวกระดาษ)
-                <input value={fields.subjectName} onChange={e => setFields({ ...fields, subjectName: e.target.value })} required />
-              </label>
+              {/* Removed redundant subjectName input since we combined it with datalist */}
 
               <label className="field">
                 รหัสวิชา (แสดงในหัวกระดาษ)

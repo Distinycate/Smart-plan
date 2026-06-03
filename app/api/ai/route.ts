@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 
 export async function POST(req: NextRequest) {
   try {
-    const { gradeLevel, subjectName, lessonTopic } = await req.json();
+    const { gradeLevel, subjectName, lessonTopic, learningStandard, indicatorDuring, indicatorFinal } = await req.json();
 
     if (!gradeLevel || !subjectName || !lessonTopic) {
       return NextResponse.json({
@@ -57,6 +57,11 @@ export async function POST(req: NextRequest) {
 สามารถนำไปใช้จริงในโรงเรียนได้
 สำหรับระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
 
+ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัดที่ต้องใช้ (ห้ามสร้างขึ้นมาเอง):
+มาตรฐานการเรียนรู้: ${learningStandard || 'ให้วิเคราะห์จากเรื่องที่สอน (ตามหลักสูตรแกนกลาง)'}
+ตัวชี้วัดระหว่างทาง: ${indicatorDuring || 'ให้วิเคราะห์จากเรื่องที่สอน (ตามหลักสูตรแกนกลาง)'}
+ตัวชี้วัดปลายทาง: ${indicatorFinal || 'ให้วิเคราะห์จากเรื่องที่สอน (ตามหลักสูตรแกนกลาง)'}
+
 หลักการสำคัญ
 1. ทุกองค์ประกอบต้องสัมพันธ์กัน
 มาตรฐาน → ตัวชี้วัด → จุดประสงค์ K/P/A → กิจกรรมการเรียนรู้ → ชิ้นงาน/ภาระงาน → การวัดผล → Rubric
@@ -70,13 +75,14 @@ export async function POST(req: NextRequest) {
 8. ห้ามส่งคำตอบที่ไม่ครบถ้วน
 9. หากข้อมูลไม่เพียงพอ ให้ระบุข้อมูลที่ต้องการเพิ่มเติม
 10. ผลลัพธ์ต้องพร้อมใช้งานจริง
+11. ตัวชี้วัดต้องตรงตามรายวิชาที่กำหนด ห้ามนำตัวชี้วัดของวิชาอื่นมาปะปนเด็ดขาด
 ${errorMemoryText}${knowledgeBaseText}
 ให้ตอบกลับเป็น JSON Object เท่านั้น (ห้ามมีอักขระอื่นนอกเหนือจาก JSON) โดยมีคีย์ดังต่อไปนี้:
-1. learningStandard: (วิเคราะห์มาตรฐานการเรียนรู้ที่สอดคล้องกับเรื่องนี้)
-2. indicatorDuring: (วิเคราะห์ตัวชี้วัดระหว่างทางที่สอดคล้องกับเรื่องนี้)
-3. indicatorFinal: (วิเคราะห์ตัวชี้วัดปลายทางที่สอดคล้องกับเรื่องนี้)
+1. learningStandard: (ใช้มาตรฐานการเรียนรู้ที่กำหนดมาให้ หากมี)
+2. indicatorDuring: (ใช้ตัวชี้วัดระหว่างทางที่กำหนดมาให้ หากมี)
+3. indicatorFinal: (ใช้ตัวชี้วัดปลายทางที่กำหนดมาให้ หากมี)
 4. essentialConcept: (เนื้อหาสาระสำคัญแบบสรุป)
-5. objectiveK: (จุดประสงค์การเรียนรู้ ด้านความรู้ K)
+5. objectiveK: (จุดประสงค์การเรียนรู้ ด้านความรู้ K ที่สอดคล้องกับตัวชี้วัด)
 6. objectiveP: (จุดประสงค์การเรียนรู้ ด้านทักษะกระบวนการ P)
 7. objectiveA: (จุดประสงค์การเรียนรู้ ด้านคุณลักษณะ A)
 8. learningContent: (เนื้อหาสาระการเรียนรู้)
