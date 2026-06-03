@@ -128,6 +128,9 @@ export default function TeacherDashboard() {
               <button className="btn btn-hero" onClick={() => router.push('/plan/new')}>
                 <Plus size={15} /> สร้างแผนการสอนใหม่
               </button>
+              <button className="btn btn-hero-outline" style={{ borderColor: '#818cf8', color: '#4f46e5', backgroundColor: '#e0e7ff' }} onClick={() => router.push('/evaluator')}>
+                <Zap size={15} /> AI ตรวจแผนอัจฉริยะ
+              </button>
               <button className="btn btn-hero-outline" onClick={() => loadData(true)} disabled={refreshing}>
                 <RefreshCw size={14} className={refreshing ? 'spin-icon' : ''} />
                 {refreshing ? 'กำลังรีเฟรช...' : 'รีเฟรช'}
