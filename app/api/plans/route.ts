@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSupabaseAdmin } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/server';
 import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
+import { getSupabaseAdmin } from '@/lib/supabase'; // keeping for logs if needed
 
 // GET all plans
 export async function GET(req: NextRequest) {
   try {
-    const db = getSupabaseAdmin();
+    const supabase = createClient();
     const { searchParams } = new URL(req.url);
     const statusFilter = searchParams.get('status');
+    const { data: { user } } = await supabase.auth.getUser();
 
-    let query = db
+    // The RLS policies in the database will automatically filter plans by user_id
+    // or return all plans if the user is an admin.
+    let query = supabase
       .from('LessonPlans')
       .select('planId, planStatus, subjectCode, subjectName, unitName, lessonTopic, gradeLevel, semester, academicYear, totalHours, createdAt, updatedAt')
       .order('updatedAt', { ascending: false });
@@ -42,7 +46,13 @@ export async function GET(req: NextRequest) {
 // POST create plan
 export async function POST(req: NextRequest) {
   try {
-    const db = getSupabaseAdmin();
+    const supabase = createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+        return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await req.json();
     const planStatus = body.planStatus || 'draft';
     const validationError = validateLessonPlanPayload(body, planStatus);
@@ -62,11 +72,12 @@ export async function POST(req: NextRequest) {
       ...body,
       planId,
       planStatus,
+      user_id: user.id, // Assign to current user
       createdAt: timestamp,
       updatedAt: timestamp
     };
 
-    let { data, error } = await db
+    let { data, error } = await supabase
       .from('LessonPlans')
       .insert(newPlan)
       .select();
@@ -83,7 +94,7 @@ export async function POST(req: NextRequest) {
         delete fallbackPlan.rubricP;
         delete fallbackPlan.rubricA;
         
-        const retryResult = await db
+        const retryResult = await supabase
           .from('LessonPlans')
           .insert(fallbackPlan)
           .select();
@@ -95,8 +106,9 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Log transaction
-    await db.from('System_Logs').insert({
+    // Log transaction using getSupabaseAdmin since System_Logs might not have RLS for regular users to insert
+    const adminDb = getSupabaseAdmin();
+    await adminDb.from('System_Logs').insert({
       logId: `LOG-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       timestamp,
       action: 'CREATE_PLAN',

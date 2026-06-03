@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/server';
 import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
+import { getSupabaseAdmin } from '@/lib/supabase'; // keeping for logs if needed
 
 // GET a single plan
 export async function GET(
@@ -8,6 +9,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = createClient();
     const { id } = params;
 
     const { data, error } = await supabase
@@ -19,7 +21,7 @@ export async function GET(
     if (error) {
       return NextResponse.json({
         success: false,
-        error: 'Plan not found'
+        error: 'Plan not found or unauthorized'
       }, { status: 404 });
     }
 
@@ -48,6 +50,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = createClient();
     const { id } = params;
     const body = await req.json();
     const timestamp = new Date().toISOString();
@@ -62,7 +65,7 @@ export async function PUT(
     if (getErr || !existingPlan) {
       return NextResponse.json({
         success: false,
-        error: 'Plan not found'
+        error: 'Plan not found or unauthorized'
       }, { status: 404 });
     }
 
@@ -81,8 +84,9 @@ export async function PUT(
     }
 
     // Create backup record before editing the current plan.
+    const adminDb = getSupabaseAdmin();
     const backupId = `BKP-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
-    await supabase.from('LessonPlan_Backup').insert({
+    await adminDb.from('LessonPlan_Backup').insert({
       backupId,
       originalPlanId: id,
       backupAt: timestamp,
@@ -101,6 +105,7 @@ export async function PUT(
     delete updatedFields.planId;
     delete updatedFields.createdAt;
     delete updatedFields.backupReason;
+    delete updatedFields.user_id; // don't allow changing owner
 
     let { data, error: updateErr } = await supabase
       .from('LessonPlans')
@@ -114,7 +119,7 @@ export async function PUT(
     }
 
     // 3. Log transaction
-    await supabase.from('System_Logs').insert({
+    await adminDb.from('System_Logs').insert({
       logId: `LOG-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       timestamp,
       action: 'UPDATE_PLAN',
@@ -144,6 +149,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const supabase = createClient();
+    const adminDb = getSupabaseAdmin();
     const { id } = params;
     const timestamp = new Date().toISOString();
 
@@ -157,12 +164,12 @@ export async function DELETE(
     if (getErr || !plan) {
       return NextResponse.json({
         success: false,
-        error: 'Plan not found'
+        error: 'Plan not found or unauthorized'
       }, { status: 404 });
     }
 
     // 2. Back up the plan before archiving it.
-    await supabase.from('LessonPlan_Backup').insert({
+    await adminDb.from('LessonPlan_Backup').insert({
       backupId: `BKP-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       originalPlanId: id,
       backupAt: timestamp,
@@ -183,7 +190,7 @@ export async function DELETE(
     if (archiveErr) throw archiveErr;
 
     // 4. Log transaction
-    await supabase.from('System_Logs').insert({
+    await adminDb.from('System_Logs').insert({
       logId: `LOG-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       timestamp,
       action: 'ARCHIVE_PLAN',
