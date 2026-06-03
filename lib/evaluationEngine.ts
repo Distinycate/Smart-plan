@@ -1,32 +1,28 @@
 export interface RuleBasedEvaluationResult {
-  totalScore: number; // out of 70
+  totalScore: number; // out of 30
   details: {
-    standardsScore: number; // out of 21
-    kpaScore: number;       // out of 49
+    standardsScore: number; // out of 10
+    structureScore: number; // out of 20
   };
   missingElements: string[];
 }
 
 export function evaluatePlanRuleBased(planData: any | null): RuleBasedEvaluationResult {
   let standardsScore = 0;
-  let kpaScore = 0;
+  let structureScore = 0;
   const missingElements: string[] = [];
 
   if (!planData || typeof planData !== 'object') {
     return {
       totalScore: 0,
-      details: { standardsScore: 0, kpaScore: 0 },
+      details: { standardsScore: 0, structureScore: 0 },
       missingElements: ['ไม่พบโครงสร้างข้อมูลแผนการสอน (เป็นไฟล์แนบข้อความ)']
     };
   }
 
-  // 1. Check Standards & Indicators (Max 21 points)
-  let hasStandard = false;
-  let hasIndicator = false;
-
+  // 1. Check Standards & Indicators (Max 10 points)
   if (planData.learningStandard && planData.learningStandard.trim().length > 5) {
-    hasStandard = true;
-    standardsScore += 10;
+    standardsScore += 5;
   } else {
     missingElements.push('มาตรฐานการเรียนรู้');
   }
@@ -36,78 +32,62 @@ export function evaluatePlanRuleBased(planData: any | null): RuleBasedEvaluation
     (planData.indicatorFinal && planData.indicatorFinal.trim().length > 5) ||
     (planData.indicatorSelectedIds && planData.indicatorSelectedIds.length > 0)
   ) {
-    hasIndicator = true;
-    standardsScore += 11;
+    standardsScore += 5;
   } else {
     missingElements.push('ตัวชี้วัด');
   }
 
-  // 2. Check K, P, A Completeness (Max 49 points)
-  // Each domain (K, P, A) is worth roughly 16.33 points.
-  // Let's break it down: Objective (4), Measure (3), Method (3), Tool (3), Criteria (3.33) -> total ~16.33 * 3 = 49
+  // 2. Check Structure Completeness (Max 20 points)
+  // KPA Objectives (5), Activities (5), Assessments (5), Rubrics (5)
 
-  const checkDomain = (domain: string, label: string) => {
-    let score = 0;
-    
-    // Objective
-    if (planData[`objective${domain}`] && planData[`objective${domain}`].trim().length > 2) {
-      score += 4;
-    } else {
-      missingElements.push(`จุดประสงค์ด้าน ${label}`);
-    }
+  // Objectives (K/P/A)
+  let objCount = 0;
+  if (planData.objectiveK && planData.objectiveK.trim().length > 2) objCount++;
+  if (planData.objectiveP && planData.objectiveP.trim().length > 2) objCount++;
+  if (planData.objectiveA && planData.objectiveA.trim().length > 2) objCount++;
+  if (objCount === 3) structureScore += 5;
+  else if (objCount > 0) structureScore += 2;
+  if (objCount < 3) missingElements.push('จุดประสงค์ K/P/A ไม่ครบ');
 
-    // Measure (สิ่งที่ต้องการวัด)
-    if (planData[`measure${domain}`] && planData[`measure${domain}`].trim().length > 2) {
-      score += 3;
-    } else {
-      missingElements.push(`สิ่งที่ต้องการวัดด้าน ${label}`);
-    }
+  // Activities (Learning Process)
+  if (planData.learningProcess && planData.learningProcess.trim().length > 20) {
+    structureScore += 5;
+  } else {
+    missingElements.push('กิจกรรมการเรียนรู้');
+  }
 
-    // Method (วิธีการวัด)
-    if (planData[`method${domain}`] && planData[`method${domain}`].trim().length > 2) {
-      score += 3;
-    } else {
-      missingElements.push(`วิธีการวัดผลด้าน ${label}`);
-    }
+  // Assessments (Measure, Method, Tool)
+  let asmCount = 0;
+  ['K', 'P', 'A'].forEach(domain => {
+    if (planData[`measure${domain}`] && planData[`measure${domain}`].trim().length > 2) asmCount++;
+    if (planData[`method${domain}`] && planData[`method${domain}`].trim().length > 2) asmCount++;
+    if (planData[`tool${domain}`] && planData[`tool${domain}`].trim().length > 2) asmCount++;
+  });
+  if (asmCount >= 9) structureScore += 5; // 3 domains * 3 fields
+  else if (asmCount >= 4) structureScore += 2;
+  if (asmCount < 9) missingElements.push('การวัดผลประเมินผลไม่ครบ');
 
-    // Tool (เครื่องมือประเมิน)
-    if (planData[`tool${domain}`] && planData[`tool${domain}`].trim().length > 2) {
-      score += 3;
-    } else {
-      missingElements.push(`เครื่องมือประเมินด้าน ${label}`);
-    }
-
-    // Criteria / Rubric (เกณฑ์ผ่าน)
-    const hasCriteria = planData[`criteria${domain}`] && planData[`criteria${domain}`].trim().length > 2;
-    const hasRubric = planData[`rubric${domain}`] && planData[`rubric${domain}`].trim().length > 10;
-    
-    if (hasCriteria || hasRubric) {
-      score += 3.33;
-    } else {
-      missingElements.push(`เกณฑ์การประเมินด้าน ${label}`);
-    }
-
-    return score;
-  };
-
-  kpaScore += checkDomain('K', 'ความรู้ (K)');
-  kpaScore += checkDomain('P', 'ทักษะ (P)');
-  kpaScore += checkDomain('A', 'เจตคติ (A)');
-
-  // Math.round to avoid floating point weirdness
-  kpaScore = Math.round(kpaScore); 
+  // Rubrics
+  let rubCount = 0;
+  ['K', 'P', 'A'].forEach(domain => {
+    if (planData[`rubric${domain}`] && planData[`rubric${domain}`].trim().length > 10) rubCount++;
+    if (planData[`criteria${domain}`] && planData[`criteria${domain}`].trim().length > 2) rubCount++;
+  });
+  if (rubCount >= 6) structureScore += 5; // 3 domains * 2 fields
+  else if (rubCount >= 3) structureScore += 2;
+  if (rubCount < 6) missingElements.push('เกณฑ์การประเมิน (Rubrics) ไม่ครบ');
 
   // Make sure we cap at max
-  standardsScore = Math.min(21, standardsScore);
-  kpaScore = Math.min(49, kpaScore);
+  standardsScore = Math.min(10, standardsScore);
+  structureScore = Math.min(20, structureScore);
 
-  const totalScore = standardsScore + kpaScore;
+  const totalScore = standardsScore + structureScore;
 
   return {
     totalScore,
     details: {
       standardsScore,
-      kpaScore
+      structureScore
     },
     missingElements
   };

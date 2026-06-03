@@ -53,25 +53,71 @@ export async function POST(req: Request) {
     const { evaluatePlanRuleBased } = await import('@/lib/evaluationEngine');
     const ruleResult = evaluatePlanRuleBased(planData);
     
-    // Mix Rule-based (70%) + AI Qualitative (30%)
-    // parsedData.overallScore is from Gemini (out of 100). We multiply by 0.3
-    // ruleResult.totalScore is already out of 70.
-    const aiScoreScaled = Math.round((parsedData.overallScore || 0) * 0.3);
-    const finalScore = ruleResult.totalScore + aiScoreScaled;
+    // Hybrid Score = Rule-based (Max 30) + AI Qualitative (Max 70)
+    const aiTotal = parsedData.overallScore || 0;
+    const ruleTotal = ruleResult.totalScore || 0;
+    const finalScore = ruleTotal + aiTotal;
 
     // Inject rule-based findings into the AI summary
-    let combinedSummary = parsedData.summary;
+    let combinedSummary = parsedData.summary || '';
     if (ruleResult.missingElements.length > 0) {
       combinedSummary = `[ระบบตรวจพบข้อบกพร่องพื้นฐาน: ขาด ${ruleResult.missingElements.join(', ')}] ` + combinedSummary;
     }
 
     const finalEvaluation = {
       ...parsedData,
-      originalAiScore: parsedData.overallScore,
-      ruleBasedScore: ruleResult.totalScore,
+      ruleBasedScore: ruleTotal,
       overallScore: finalScore,
       summary: combinedSummary
     };
+
+    // --- DB INSERTIONS ---
+    const planId = planData?.planId || planData?.id;
+    const userId = planData?.userId || planData?.author_id || null;
+
+    if (planId) {
+      const aiScores = parsedData.scores || {};
+      
+      // 1. Log Lesson Quality Scores
+      await supabase.from('lesson_quality_scores').insert({
+         plan_id: planId,
+         user_id: userId,
+         structure_score: ruleResult.details?.structureScore || 0,
+         indicators_score: ruleResult.details?.standardsScore || 0,
+         objectives_score: aiScores.objectivesQualitative || 0,
+         activities_score: aiScores.activitiesQualitative || 0,
+         assessment_score: aiScores.assessmentQualitative || 0,
+         rubric_score: aiScores.rubricQualitative || 0,
+         alignment_score: aiScores.alignmentScore || 0,
+         language_score: aiScores.languageScore || 0,
+         ai_review_score: aiTotal,
+         total_score: finalScore
+      });
+
+      // 2. Log AI Feedback
+      await supabase.from('ai_feedback').insert({
+         plan_id: planId,
+         user_id: userId,
+         rating: finalScore >= 80 ? 5 : finalScore >= 60 ? 4 : 3,
+         strengths: (parsedData.strengths || []).join('\\n'),
+         improvements: (parsedData.improvements || []).join('\\n'),
+         errors_found: (parsedData.errorsFound || []).join('\\n'),
+         suggestions: parsedData.suggestions || '',
+         raw_response: JSON.stringify(parsedData)
+      });
+
+      // 3. Log AI Errors if any found
+      if (parsedData.errorsFound && parsedData.errorsFound.length > 0) {
+        const errorLogs = parsedData.errorsFound.map((err: string) => ({
+          plan_id: planId,
+          user_id: userId,
+          error_type: 'EVALUATION_ERROR',
+          error_message: err,
+          resolution_hint: parsedData.suggestions || ''
+        }));
+        await supabase.from('ai_error_logs').insert(errorLogs);
+      }
+    }
 
     return NextResponse.json({ success: true, evaluation: finalEvaluation });
 

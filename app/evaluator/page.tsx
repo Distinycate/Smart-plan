@@ -896,13 +896,17 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
   }
 
   const score = result.overallScore || 0;
-  const maxScore = result.maxScore || 100;
+  const maxScore = 100;
   const percentage = percentOf(score, maxScore);
   const tone = getScoreTone(percentage);
   const toneStyle = toneStyles[tone];
-  const summary = result.summary || 'AI วิเคราะห์แผนการจัดการเรียนรู้และจัดกลุ่มข้อเสนอแนะ 4 ส่วน พร้อมเกณฑ์วิทยฐานะ (PA)';
-  const parts = Array.isArray(result.parts) ? result.parts : [];
-  const paAssessment = result.paAssessment || { indicators: [], overallRecommendation: '', canFix: false };
+  const summary = result.summary || 'AI วิเคราะห์แผนการจัดการเรียนรู้เสร็จสมบูรณ์';
+  
+  const strengths = Array.isArray(result.strengths) ? result.strengths : [];
+  const improvements = Array.isArray(result.improvements) ? result.improvements : [];
+  const errorsFound = Array.isArray(result.errorsFound) ? result.errorsFound : [];
+  const suggestions = result.suggestions || '';
+  const scores = result.scores || {};
 
   return (
     <motion.section
@@ -911,11 +915,11 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
       viewport={{ once: true, amount: 0.18 }}
       custom={index}
       variants={cardMotion}
-      className="relative overflow-hidden rounded-2xl bg-white shadow-sm"
+      className="relative overflow-hidden rounded-[2rem] bg-white shadow-sm border border-slate-100"
     >
       <div className="relative space-y-6 p-4 sm:p-6 md:p-8">
         {result.hasUnsavedChanges && (
-          <div className="mb-2 flex items-center justify-between rounded-xl bg-amber-50 p-4 border border-amber-200">
+          <div className="mb-4 flex items-center justify-between rounded-xl bg-amber-50 p-4 border border-amber-200">
             <div className="flex items-center gap-3">
               <AlertTriangle className="h-5 w-5 text-amber-500" />
               <div>
@@ -933,228 +937,172 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
           </div>
         )}
 
-        <div className="grid gap-5 lg:grid-cols-[1fr_280px]">
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-50 to-indigo-50/50 p-6 shadow-sm md:p-8">
+        <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
+          <div className="relative overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-slate-50 to-indigo-50/50 p-6 shadow-sm md:p-8 border border-indigo-100/50">
             <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-indigo-400/10 blur-3xl" />
             <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30">
                 <ClipboardCheck className="h-8 w-8" />
               </div>
               <div className="min-w-0">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-black text-indigo-700">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-indigo-100 px-3 py-1 text-xs font-black text-indigo-700">
                   <Sparkles className="h-3.5 w-3.5" />
-                  Plan Evaluation Result
+                  Hybrid Evaluation Result
                 </div>
                 <h3 className="text-2xl font-black tracking-tight text-slate-900 md:text-3xl">
                   ผลการตรวจแผนการจัดการเรียนรู้
                 </h3>
                 <p className="mt-2 text-lg font-bold text-slate-700 line-clamp-2">{result.title}</p>
-                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-500">{summary}</p>
+                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600">{summary}</p>
               </div>
             </div>
           </div>
 
           <motion.div
             whileHover={{ y: -5, scale: 1.02 }}
-            className="group relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-xl shadow-slate-200/50 transition-shadow duration-300 hover:shadow-indigo-500/20"
+            className={`group relative overflow-hidden rounded-[1.5rem] p-6 shadow-xl transition-all duration-300 ${toneStyle.bg} border-2 ${tone === 'green' ? 'border-emerald-200' : tone === 'yellow' ? 'border-amber-200' : 'border-rose-200'}`}
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-2 flex items-center justify-between">
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.18em] text-slate-400">Total Score</p>
+                <p className={`text-xs font-black uppercase tracking-[0.15em] ${toneStyle.text} opacity-80`}>Total Score</p>
                 <p className={`mt-1 text-sm font-bold ${toneStyle.text}`}>{toneStyle.label}</p>
               </div>
-              <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${toneStyle.gradient} text-white shadow-lg`}>
+              <div className={`flex h-12 w-12 items-center justify-center rounded-[1.25rem] bg-gradient-to-br ${toneStyle.gradient} text-white shadow-lg`}>
                 <Trophy className="h-6 w-6" />
               </div>
             </div>
-            <div className="flex items-end gap-2">
-              <span className="text-6xl font-black tracking-tight text-slate-900">{score}</span>
-              <span className="pb-2 text-xl font-black text-slate-400">/{maxScore}</span>
+            <div className="flex items-end gap-2 mb-4">
+              <span className={`text-6xl font-black tracking-tight ${toneStyle.text}`}>{score}</span>
+              <span className={`pb-2 text-xl font-black ${toneStyle.text} opacity-50`}>/{maxScore}</span>
             </div>
-            <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-100">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${percentage}%` }}
-                transition={{ duration: 0.9, ease: 'easeOut' }}
-                className={`h-full rounded-full bg-gradient-to-r ${toneStyle.gradient}`}
-              />
-            </div>
-            {/* Rule-based & AI Score Breakdown */}
-            {(result.data.ruleBasedScore !== undefined && result.data.originalAiScore !== undefined) && (
-              <div className="mt-4 flex items-center justify-between rounded-xl bg-slate-50 p-3 text-xs font-bold text-slate-500 shadow-inner">
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-[10px] uppercase tracking-wider text-slate-400">Rule-based</span>
-                  <span className="text-sm text-slate-700">{result.data.ruleBasedScore} <span className="text-slate-400">/ 70</span></span>
-                </div>
-                <div className="text-slate-300">+</div>
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-[10px] uppercase tracking-wider text-slate-400">AI Logic</span>
-                  <span className="text-sm text-slate-700">{Math.round(result.data.originalAiScore * 0.3)} <span className="text-slate-400">/ 30</span></span>
-                </div>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between items-center bg-white/60 p-2.5 rounded-xl">
+                <span className="text-xs font-bold text-slate-600">Rule-based (Max 30)</span>
+                <span className="text-sm font-black text-slate-800">{result.ruleBasedScore || 0}</span>
               </div>
-            )}
+              <div className="flex justify-between items-center bg-white/60 p-2.5 rounded-xl">
+                <span className="text-xs font-bold text-slate-600">AI Logic (Max 70)</span>
+                <span className="text-sm font-black text-slate-800">{Math.round((result.overallScore || 0) - (result.ruleBasedScore || 0))}</span>
+              </div>
+            </div>
           </motion.div>
+        </div>
+
+        {/* AI Scores Breakdown */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
+            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">จุดประสงค์</p>
+            <p className="text-xl font-black text-indigo-700">{scores.objectivesQualitative || 0}<span className="text-sm text-slate-400">/15</span></p>
+          </div>
+          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
+            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">กิจกรรม</p>
+            <p className="text-xl font-black text-indigo-700">{scores.activitiesQualitative || 0}<span className="text-sm text-slate-400">/15</span></p>
+          </div>
+          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
+            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">การวัดผล</p>
+            <p className="text-xl font-black text-indigo-700">{scores.assessmentQualitative || 0}<span className="text-sm text-slate-400">/15</span></p>
+          </div>
+          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
+            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">Rubric</p>
+            <p className="text-xl font-black text-indigo-700">{scores.rubricQualitative || 0}<span className="text-sm text-slate-400">/10</span></p>
+          </div>
+          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
+            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">ความสอดคล้อง</p>
+            <p className="text-xl font-black text-indigo-700">{scores.alignmentScore || 0}<span className="text-sm text-slate-400">/10</span></p>
+          </div>
+          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
+            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">ภาษา</p>
+            <p className="text-xl font-black text-indigo-700">{scores.languageScore || 0}<span className="text-sm text-slate-400">/5</span></p>
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {parts.map((part: any, pIndex: number) => {
-            const isRecFixed = result.fixedRecs?.[`part-${pIndex}`];
-            const isThisFixing = fixingId === `${result.planId}-partial-part-${pIndex}`;
-            return (
-              <motion.div variants={cardMotion} custom={pIndex + 1} key={pIndex} className="group overflow-hidden rounded-[2rem] bg-white shadow-lg shadow-slate-200/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-indigo-500/10">
-                <div className="flex flex-col h-full p-6 md:p-7">
-                  <div className="mb-5 flex items-start justify-between gap-4">
-                    <div>
-                      <h4 className="flex items-center gap-2 text-lg font-black text-slate-800">
-                        <ListChecks className="h-5 w-5 text-indigo-500" />
-                        {part.partName}
-                      </h4>
-                      <p className="mt-1 text-sm font-medium text-slate-500">คะแนน: {part.score}/{part.maxScore}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex-1 space-y-4">
-                    {part.pros && part.pros.length > 0 && (
-                      <div className="rounded-2xl bg-emerald-50/80 p-4">
-                        <p className="mb-2 text-xs font-black uppercase text-emerald-600">สิ่งที่ทำได้ดี</p>
-                        <ul className="space-y-2">
-                          {part.pros.map((pro: string, i: number) => (
-                            <li key={i} className="flex gap-2 text-sm font-medium text-emerald-900">
-                              <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
-                              <span>{pro}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    
-                    {part.cons && part.cons.length > 0 && (
-                      <div className="rounded-2xl bg-rose-50/80 p-4">
-                        <p className="mb-2 text-xs font-black uppercase text-rose-600">ข้อควรปรับปรุง</p>
-                        <ul className="space-y-2">
-                          {part.cons.map((con: string, i: number) => (
-                            <li key={i} className="flex gap-2 text-sm font-medium text-rose-900">
-                              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-rose-500" />
-                              <span>{con}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+          {/* Strengths */}
+          <div className="rounded-[1.5rem] bg-emerald-50/50 p-6 border border-emerald-100">
+            <h4 className="flex items-center gap-2 text-lg font-black text-emerald-800 mb-4">
+              <CheckCircle className="h-5 w-5 text-emerald-500" />
+              จุดแข็งและสิ่งที่ทำได้ดี
+            </h4>
+            <ul className="space-y-3">
+              {strengths.length > 0 ? strengths.map((item: string, i: number) => (
+                <li key={i} className="flex gap-3 text-sm font-medium text-emerald-900 bg-white p-3 rounded-xl shadow-sm">
+                  <span className="text-emerald-500 font-bold">•</span>
+                  <span>{item}</span>
+                </li>
+              )) : <li className="text-sm text-emerald-600">ไม่มีข้อมูล</li>}
+            </ul>
+          </div>
 
-                    {part.recommendation && (
-                      <div className="rounded-2xl bg-indigo-50/80 p-4">
-                        <p className="mb-2 text-xs font-black uppercase text-indigo-600">คำแนะนำ</p>
-                        <p className="text-sm font-medium leading-6 text-indigo-900">{part.recommendation}</p>
-                      </div>
-                    )}
-                  </div>
-                  
-                  {part.canFix && result.planId !== 'uploaded' && !result.isFixed && (
-                    <div className="mt-6">
-                      <button
-                        onClick={() => onFixPartial(part.sectionKey, part.recommendation, `part-${pIndex}`)}
-                        disabled={isThisFixing || isRecFixed}
-                        className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition-all ${
-                          isRecFixed
-                            ? 'bg-emerald-100 text-emerald-700'
-                            : 'bg-indigo-600 text-white hover:bg-indigo-700 disabled:bg-slate-100 disabled:text-slate-400'
-                        }`}
-                      >
-                        {isThisFixing ? (
-                          <><Loader2 className="h-4 w-4 animate-spin" /> กำลังแก้...</>
-                        ) : isRecFixed ? (
-                          <><CheckCircle className="h-4 w-4" /> AI แก้ไขส่วนนี้แล้ว</>
-                        ) : (
-                          <><Sparkles className="h-4 w-4" /> ให้ AI ปรับปรุงส่วนนี้</>
-                        )}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
+          {/* Improvements & Errors */}
+          <div className="space-y-6">
+            <div className="rounded-[1.5rem] bg-amber-50/50 p-6 border border-amber-100">
+              <h4 className="flex items-center gap-2 text-lg font-black text-amber-800 mb-4">
+                <AlertTriangle className="h-5 w-5 text-amber-500" />
+                จุดที่ควรปรับปรุง
+              </h4>
+              <ul className="space-y-3">
+                {improvements.length > 0 ? improvements.map((item: string, i: number) => (
+                  <li key={i} className="flex gap-3 text-sm font-medium text-amber-900 bg-white p-3 rounded-xl shadow-sm">
+                    <span className="text-amber-500 font-bold">•</span>
+                    <span>{item}</span>
+                  </li>
+                )) : <li className="text-sm text-amber-600">ไม่มีข้อมูล</li>}
+              </ul>
+            </div>
+            
+            {errorsFound.length > 0 && (
+              <div className="rounded-[1.5rem] bg-rose-50/50 p-6 border border-rose-100">
+                <h4 className="flex items-center gap-2 text-lg font-black text-rose-800 mb-4">
+                  <ShieldCheck className="h-5 w-5 text-rose-500" />
+                  ข้อผิดพลาดที่พบ (Errors)
+                </h4>
+                <ul className="space-y-3">
+                  {errorsFound.map((item: string, i: number) => (
+                    <li key={i} className="flex gap-3 text-sm font-medium text-rose-900 bg-white p-3 rounded-xl shadow-sm">
+                      <span className="text-rose-500 font-bold">!</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
 
-        {paAssessment && paAssessment.indicators && paAssessment.indicators.length > 0 && (
-          <motion.div variants={cardMotion} custom={5} className="overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-6 text-white shadow-2xl shadow-indigo-950/30 md:p-10">
-            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-black text-amber-300 backdrop-blur border border-white/10">
-                  <Star className="h-4 w-4" />
-                  Performance Agreement (PA)
+        {/* Suggestions & Auto Fix */}
+        {(suggestions || (result.autoFixAvailable && result.planId !== 'uploaded' && !result.isFixed)) && (
+          <div className="rounded-[1.5rem] bg-indigo-600 p-8 text-white shadow-lg shadow-indigo-600/20">
+            <div className="flex flex-col md:flex-row gap-6 justify-between items-center">
+              <div className="flex-1">
+                <h4 className="flex items-center gap-2 text-xl font-black text-white mb-3">
+                  <Sparkles className="h-6 w-6 text-indigo-200" />
+                  ข้อเสนอแนะและแนวทางแก้ไข (AI Auto-Fix)
+                </h4>
+                <p className="text-sm font-medium leading-7 text-indigo-100">
+                  {suggestions}
+                </p>
+              </div>
+              
+              {result.autoFixAvailable && result.planId !== 'uploaded' && !result.isFixed && (
+                <div className="shrink-0 w-full md:w-auto">
+                  <button
+                    onClick={() => onFixPartial('overall', suggestions, 'overall')}
+                    disabled={isFixing}
+                    className="flex w-full md:w-auto items-center justify-center gap-2 rounded-xl bg-white text-indigo-600 px-6 py-4 text-sm font-black shadow-md transition-all hover:scale-105 disabled:bg-indigo-400 disabled:text-indigo-200 disabled:scale-100"
+                  >
+                    {fixingId === `${result.planId}-partial-overall` ? (
+                      <><Loader2 className="h-5 w-5 animate-spin" /> กำลังปรับปรุงแผนทั้งหมด...</>
+                    ) : result.fixedRecs?.['overall'] ? (
+                      <><CheckCircle className="h-5 w-5" /> ปรับปรุงแผนแล้ว</>
+                    ) : (
+                      <><Zap className="h-5 w-5" /> ให้ AI ปรับปรุงแผนให้สมบูรณ์</>
+                    )}
+                  </button>
                 </div>
-                <h4 className="text-2xl font-black md:text-3xl">การวิเคราะห์ความสอดคล้องเกณฑ์วิทยฐานะ</h4>
-                <p className="mt-3 text-sm font-medium leading-7 text-slate-300 max-w-2xl">
-                  ประเมินตามเกณฑ์ ว9/2564 ด้านการจัดการเรียนรู้ (8 ตัวชี้วัด) เพื่อให้แผนนี้ตอบโจทย์สำหรับการเลื่อนวิทยฐานะ
-                </p>
-              </div>
+              )}
             </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {paAssessment.indicators.map((indicator: any, i: number) => {
-                const isPassed = indicator.status === 'passed';
-                return (
-                  <div key={i} className={`rounded-2xl p-5 backdrop-blur border ${
-                    isPassed ? 'bg-emerald-900/20 border-emerald-500/20' : 'bg-rose-900/20 border-rose-500/20'
-                  }`}>
-                    <div className="flex items-start gap-3">
-                      <div className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
-                        isPassed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
-                      }`}>
-                        {isPassed ? <CheckCircle className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
-                      </div>
-                      <div>
-                        <h5 className={`text-sm font-bold ${isPassed ? 'text-emerald-100' : 'text-rose-100'}`}>
-                          ตัวชี้วัดที่ {indicator.id}: {indicator.title}
-                        </h5>
-                        {indicator.evidence && (
-                          <p className={`mt-2 text-xs leading-5 ${isPassed ? 'text-emerald-300' : 'text-rose-300'}`}>
-                            <strong>ข้อมูลอ้างอิง:</strong> {indicator.evidence}
-                          </p>
-                        )}
-                        {!isPassed && indicator.recommendation && (
-                          <p className="mt-2 text-xs font-medium leading-5 text-rose-200">
-                            <strong>คำแนะนำ:</strong> {indicator.recommendation}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {paAssessment.overallRecommendation && (
-              <div className="mt-6 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 p-6 backdrop-blur">
-                <h5 className="flex items-center gap-2 font-bold text-indigo-300 mb-2">
-                  <Sparkles className="h-5 w-5" /> ข้อเสนอแนะภาพรวมเพื่อการเลื่อนวิทยฐานะ
-                </h5>
-                <p className="text-sm font-medium leading-7 text-slate-300">
-                  {paAssessment.overallRecommendation}
-                </p>
-              </div>
-            )}
-            
-            {paAssessment.canFix && result.planId !== 'uploaded' && !result.isFixed && (
-              <div className="mt-6 flex justify-end">
-                <button
-                  onClick={() => onFixPartial('paAssessment', paAssessment.overallRecommendation || 'ปรับปรุงให้สอดคล้องกับ 8 ตัวชี้วัด PA', 'paAssessment')}
-                  disabled={isFixing}
-                  className="flex items-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-black text-slate-900 shadow-md transition-all hover:-translate-y-0.5 hover:bg-amber-400 disabled:bg-slate-700 disabled:text-slate-500"
-                >
-                  {fixingId === `${result.planId}-partial-paAssessment` ? (
-                    <><Loader2 className="h-4 w-4 animate-spin" /> กำลังปรับปรุงแผนตาม PA...</>
-                  ) : result.fixedRecs?.['paAssessment'] ? (
-                    <><CheckCircle className="h-4 w-4" /> ปรับปรุงแผนตาม PA แล้ว</>
-                  ) : (
-                    <><Sparkles className="h-4 w-4" /> ให้ AI ปรับปรุงแผนให้สอดคล้องกับ PA ทั้ง 8 ตัวชี้วัด</>
-                  )}
-                </button>
-              </div>
-            )}
-          </motion.div>
+          </div>
         )}
       </div>
     </motion.section>
