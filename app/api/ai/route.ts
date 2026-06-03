@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 
 export async function POST(req: NextRequest) {
   try {
@@ -79,19 +80,7 @@ export async function POST(req: NextRequest) {
       generationConfig: { responseMimeType: 'application/json' }
     };
 
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload),
-      next: { revalidate: 0 } // Bypass caching
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Gemini API responded with status ${response.status}: ${errText}`);
-    }
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
 
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;

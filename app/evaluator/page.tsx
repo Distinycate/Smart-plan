@@ -186,8 +186,12 @@ export default function EvaluatorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-12 px-4 font-sans text-slate-800">
-      <div className="max-w-[1200px] mx-auto space-y-10">
+    <div className="min-h-screen bg-slate-50 py-12 px-4 font-sans text-slate-800 relative overflow-hidden">
+      {/* Background Ambient Gradients */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-300/30 blur-[120px] mix-blend-multiply pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-fuchsia-300/30 blur-[120px] mix-blend-multiply pointer-events-none"></div>
+      
+      <div className="max-w-[1200px] mx-auto space-y-10 relative z-10">
         
         {/* HEADER */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -205,8 +209,10 @@ export default function EvaluatorPage() {
         </div>
 
         {/* INPUT SECTION */}
-        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-          <div className="flex border-b border-slate-100 bg-slate-50/50">
+        <div className="bg-white/60 backdrop-blur-2xl rounded-[2rem] shadow-[0_8px_40px_rgb(0,0,0,0.04)] border border-white/80 overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent pointer-events-none"></div>
+          <div className="relative z-10">
+            <div className="flex border-b border-white/50 bg-white/20">
             <button 
               className={`flex-1 py-5 text-center font-bold text-sm transition-all relative ${activeTab === 'system' ? 'text-indigo-700 bg-white shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)]' : 'text-slate-500 hover:bg-slate-100'}`}
               onClick={() => setActiveTab('system')}
@@ -215,11 +221,11 @@ export default function EvaluatorPage() {
               {activeTab === 'system' && <div className="absolute top-0 left-0 right-0 h-1 bg-indigo-600" />}
             </button>
             <button 
-              className={`flex-1 py-5 text-center font-bold text-sm transition-all relative ${activeTab === 'upload' ? 'text-indigo-700 bg-white shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)]' : 'text-slate-500 hover:bg-slate-100'}`}
+              className={`flex-1 py-5 text-center font-bold text-sm transition-all relative ${activeTab === 'upload' ? 'text-indigo-700 bg-white/80 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)]' : 'text-slate-500 hover:bg-white/40'}`}
               onClick={() => setActiveTab('upload')}
             >
               อัปโหลดไฟล์ (DOCX)
-              {activeTab === 'upload' && <div className="absolute top-0 left-0 right-0 h-1 bg-indigo-600" />}
+              {activeTab === 'upload' && <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-fuchsia-500" />}
             </button>
           </div>
           
@@ -231,12 +237,12 @@ export default function EvaluatorPage() {
                     <h2 className="text-lg font-black text-slate-800">เลือกแผนการสอน</h2>
                     <p className="text-sm font-medium text-slate-500 mt-1">สามารถเลือกหลายแผนพร้อมกัน ระบบจะทำการตรวจคิวแบบอัตโนมัติ</p>
                   </div>
-                  <button onClick={selectAll} className="text-sm font-bold text-indigo-700 hover:text-white bg-indigo-50 hover:bg-indigo-600 px-4 py-2 rounded-xl transition-colors border border-indigo-100 hover:border-transparent">
+                  <button onClick={selectAll} className="text-sm font-bold text-indigo-700 hover:text-white bg-indigo-50/80 hover:bg-indigo-600 px-4 py-2 rounded-xl transition-colors border border-indigo-100/50 hover:border-transparent backdrop-blur-md">
                     {selectedPlanIds.size === plans.length && plans.length > 0 ? 'ยกเลิกทั้งหมด' : 'เลือกทั้งหมด'}
                   </button>
                 </div>
                 
-                <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
+                <div className="bg-white/40 backdrop-blur-lg rounded-2xl border border-white/60 overflow-hidden shadow-inner">
                   <div className="max-h-[350px] overflow-y-auto custom-scrollbar p-2">
                     {plans.length === 0 ? (
                       <div className="py-12 text-center text-slate-400 font-medium">ไม่มีแผนในระบบ</div>
@@ -248,7 +254,7 @@ export default function EvaluatorPage() {
                             <div 
                               key={p.planId} 
                               onClick={() => toggleSelectPlan(p.planId)}
-                              className={`group flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all border ${isSelected ? 'bg-white border-indigo-300 shadow-sm' : 'bg-transparent border-transparent hover:bg-white hover:border-slate-200 hover:shadow-sm'}`}
+                              className={`group flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all border ${isSelected ? 'bg-white/90 border-indigo-300 shadow-md transform scale-[1.01]' : 'bg-transparent border-transparent hover:bg-white/60 hover:border-white/80 hover:shadow-sm'}`}
                             >
                               <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-colors ${isSelected ? 'border-indigo-600 bg-indigo-600' : 'border-slate-300 group-hover:border-indigo-400'}`}>
                                 {isSelected && <CheckCircle className="w-3.5 h-3.5 text-white" />}
@@ -309,9 +315,9 @@ export default function EvaluatorPage() {
               <button 
                 onClick={startEvaluation}
                 disabled={isEvaluating || (activeTab === 'system' ? selectedPlanIds.size === 0 : !fileText)}
-                className="w-full sm:w-auto px-10 py-4 bg-slate-900 hover:bg-black disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl font-black text-sm shadow-xl shadow-slate-900/20 transition-all flex items-center justify-center gap-3 relative overflow-hidden group"
+                className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-black hover:to-slate-900 disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400 text-white rounded-2xl font-black text-sm shadow-[0_8px_20px_rgb(0,0,0,0.15)] hover:shadow-[0_12px_25px_rgb(0,0,0,0.25)] hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 relative overflow-hidden group"
               >
-                {isEvaluating && <div className="absolute inset-0 bg-indigo-600 animate-pulse"></div>}
+                {isEvaluating && <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 animate-pulse bg-[length:200%_auto]"></div>}
                 <span className="relative z-10 flex items-center gap-2">
                   {isEvaluating ? (
                     <>
@@ -327,6 +333,7 @@ export default function EvaluatorPage() {
                 </span>
               </button>
             </div>
+            </div>
           </div>
         </div>
 
@@ -334,8 +341,8 @@ export default function EvaluatorPage() {
         {evaluationResults.length > 0 && (
           <div className="space-y-6 pt-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div className="flex items-center gap-4 mb-4 pl-2">
-              <div className="w-2 h-8 bg-indigo-500 rounded-full"></div>
-              <h2 className="text-2xl font-black text-slate-800">รายงานผลวิเคราะห์ (Analytics Dashboard)</h2>
+              <div className="w-2 h-8 bg-gradient-to-b from-indigo-500 to-fuchsia-500 rounded-full"></div>
+              <h2 className="text-2xl font-black text-slate-800 tracking-tight">รายงานผลวิเคราะห์ (Analytics Dashboard)</h2>
             </div>
             
             {evaluationResults.map((result, index) => (
@@ -368,8 +375,9 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
   
   if (result.error) {
     return (
-      <div className="bg-white rounded-[2rem] shadow-sm border border-rose-200 overflow-hidden">
-        <div className="p-6 md:p-8 bg-rose-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white/70 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-rose-200/60 overflow-hidden relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent pointer-events-none"></div>
+        <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div className="flex items-center gap-4">
              <div className="w-12 h-12 bg-white text-rose-500 rounded-2xl shadow-sm flex items-center justify-center shrink-0"><AlertTriangle className="w-6 h-6"/></div>
              <h3 className="font-bold text-slate-800 text-lg">{result.title}</h3>
@@ -409,11 +417,12 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
   }) || [];
 
   return (
-    <div className={`bg-white rounded-[2rem] shadow-sm border ${isOpen ? theme.border : 'border-slate-200'} overflow-hidden transition-all duration-300`}>
+    <div className={`bg-white/70 backdrop-blur-xl rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border ${isOpen ? theme.border : 'border-white/60 hover:border-indigo-200/50'} overflow-hidden transition-all duration-500 relative group`}>
+      <div className="absolute inset-0 bg-gradient-to-br from-white/60 to-transparent pointer-events-none opacity-50"></div>
       {/* ACCORDION HEADER */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 text-left transition-colors ${isOpen ? theme.bgLight : 'hover:bg-slate-50'}`}
+        className={`w-full p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 text-left transition-colors relative z-10 ${isOpen ? theme.bgLight + '/50' : ''}`}
       >
         <div className="flex items-center gap-6 w-full md:w-auto">
           {/* Circular Progress Gauge */}
@@ -446,13 +455,13 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
 
       {/* EXPANDED DASHBOARD CONTENT */}
       {isOpen && (
-        <div className="p-6 md:p-8 bg-white border-t border-slate-100">
+        <div className="p-6 md:p-8 bg-white/50 border-t border-white/50 relative z-10">
           
           {/* ROW 1: Charts & Pros/Cons */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             
             {/* RADAR CHART MODULE */}
-            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 flex flex-col">
+            <div className="bg-white/80 rounded-3xl p-6 border border-white flex flex-col shadow-sm hover:shadow-md transition-shadow">
               <h4 className="text-sm font-black text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-2">
                 <BarChart2 className="w-4 h-4 text-indigo-500"/> Plan Balance
               </h4>
@@ -473,9 +482,9 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
             {/* PROS & CONS MODULE */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* PROS */}
-              <div className="bg-emerald-50/50 rounded-3xl p-6 border border-emerald-100">
+              <div className="bg-gradient-to-br from-emerald-50/80 to-emerald-100/30 backdrop-blur-sm rounded-3xl p-6 border border-emerald-100 hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 bg-emerald-100/80 rounded-xl flex items-center justify-center shrink-0">
                     <ThumbsUp className="w-5 h-5 text-emerald-600"/>
                   </div>
                   <h4 className="font-black text-emerald-900 text-lg">จุดแข็ง (Strengths)</h4>
@@ -490,9 +499,9 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
               </div>
 
               {/* CONS */}
-              <div className="bg-rose-50/50 rounded-3xl p-6 border border-rose-100">
+              <div className="bg-gradient-to-br from-rose-50/80 to-rose-100/30 backdrop-blur-sm rounded-3xl p-6 border border-rose-100 hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 bg-rose-100/80 rounded-xl flex items-center justify-center shrink-0">
                     <AlertTriangle className="w-5 h-5 text-rose-600"/>
                   </div>
                   <h4 className="font-black text-rose-900 text-lg">จุดพัฒนา (Improvements)</h4>
@@ -512,9 +521,9 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* CHECKLIST BREAKDOWN */}
-            <div className="lg:col-span-2 bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm">
+            <div className="lg:col-span-2 bg-white/80 rounded-3xl p-6 md:p-8 border border-white shadow-sm hover:shadow-md transition-shadow">
               <h4 className="font-black text-slate-800 text-lg mb-6 flex items-center gap-2">
-                <ListChecks className="w-5 h-5 text-slate-400"/> รายละเอียดการประเมิน
+                <ListChecks className="w-5 h-5 text-indigo-400"/> รายละเอียดการประเมิน
               </h4>
               <div className="space-y-6">
                 {result.checklist?.map((item: any, i: number) => {
@@ -543,8 +552,8 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
             <div className="space-y-6">
               {/* Full Fix Card */}
               {result.autoFixAvailable && result.planId !== 'uploaded' && !result.isFixed && (
-                <div className="bg-slate-900 text-white rounded-3xl p-8 shadow-xl shadow-slate-900/20 relative overflow-hidden">
-                  <div className="absolute -right-10 -top-10 opacity-10 blur-xl">
+                <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(79,70,229,0.3)] relative overflow-hidden group">
+                  <div className="absolute -right-10 -top-10 opacity-20 blur-2xl group-hover:blur-3xl transition-all duration-700">
                     <Zap className="w-40 h-40 text-indigo-400"/>
                   </div>
                   <div className="relative z-10">
@@ -557,7 +566,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                     <button 
                       onClick={onFix}
                       disabled={isFixing}
-                      className="w-full py-3.5 bg-indigo-500 hover:bg-indigo-400 disabled:bg-slate-800 text-white font-black rounded-xl transition-colors flex justify-center items-center gap-2 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50"
+                      className="w-full py-3.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 hover:to-fuchsia-400 disabled:from-slate-700 disabled:to-slate-800 text-white font-black rounded-xl transition-all flex justify-center items-center gap-2 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5"
                     >
                       {isFixing ? <><Loader2 className="w-5 h-5 animate-spin"/> กำลังดำเนินการ...</> : 'แก้ไขแผนทั้งหมดทันที'}
                     </button>
@@ -567,7 +576,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
 
               {/* Partial Fix List */}
               {result.recommendations && result.recommendations.length > 0 && (
-                <div className="bg-indigo-50/50 rounded-3xl p-6 border border-indigo-100">
+                <div className="bg-white/60 backdrop-blur-md rounded-3xl p-6 border border-white shadow-sm">
                    <h4 className="font-black text-indigo-900 mb-4 flex items-center gap-2">
                      <Zap className="w-4 h-4 text-indigo-500"/> Smart Recommendations
                    </h4>
@@ -576,7 +585,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                        const isRecFixed = result.fixedRecs?.[i];
                        const isThisFixing = fixingId === `${result.planId}-partial-${i}`;
                        return (
-                         <div key={i} className="p-4 rounded-2xl bg-white border border-indigo-100 shadow-sm transition-all hover:shadow-md">
+                         <div key={i} className="p-4 rounded-2xl bg-white/80 border border-white shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5">
                            <h5 className="font-bold text-sm text-slate-800 mb-1">{rec.section}</h5>
                            <p className="text-xs font-medium text-slate-500 mb-4 line-clamp-3">{rec.suggestion}</p>
                            
