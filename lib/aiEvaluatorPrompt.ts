@@ -22,14 +22,14 @@ export const evaluatorPromptTemplate = `MASTER SELF-CHECK PROMPT
 ให้รายงานและตอบกลับเป็นรูปแบบ JSON (เท่านั้น ห้ามมีข้อความอื่นปน) ตามโครงสร้างนี้:
 {
   "scores": {
-    "objectivesQualitative": (คะแนนความเหมาะสมของจุดประสงค์ K/P/A เต็ม 15),
-    "activitiesQualitative": (คะแนนความเหมาะสมและน่าสนใจของกิจกรรม เต็ม 15),
-    "assessmentQualitative": (คะแนนความเหมาะสมของการวัดผล เต็ม 15),
-    "rubricQualitative": (คะแนนความเหมาะสมของ Rubric เต็ม 10),
-    "alignmentScore": (คะแนนความสอดคล้องของทุกองค์ประกอบ เต็ม 10),
+    "objectivesQualitative": (คะแนนความเหมาะสมของจุดประสงค์ K/P/A เต็ม 5),
+    "activitiesQualitative": (คะแนนความเหมาะสมและน่าสนใจของกิจกรรม เต็ม 5),
+    "assessmentQualitative": (คะแนนความเหมาะสมของการวัดผล เต็ม 5),
+    "rubricQualitative": (คะแนนความเหมาะสมของ Rubric เต็ม 5),
+    "alignmentScore": (คะแนนความสอดคล้องของทุกองค์ประกอบ เต็ม 5),
     "languageScore": (คะแนนความถูกต้องของภาษาทางราชการ เต็ม 5)
   },
-  "overallScore": (คะแนนรวมของส่วน AI ประเมิน เต็ม 70),
+  "overallScore": (คะแนนรวมของส่วน AI ประเมิน เต็ม 30),
   "strengths": ["จุดแข็ง 1", "จุดแข็ง 2"],
   "improvements": ["จุดที่ควรปรับปรุง 1", "จุดที่ควรปรับปรุง 2"],
   "errorsFound": ["ข้อผิดพลาดที่พบ 1", "ข้อผิดพลาดที่พบ 2"],

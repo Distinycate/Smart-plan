@@ -1,21 +1,27 @@
 export interface RuleBasedEvaluationResult {
-  totalScore: number; // out of 30
+  totalScore: number; // out of 70
   details: {
     standardsScore: number; // out of 10
-    structureScore: number; // out of 20
+    objectivesScore: number; // out of 15
+    activitiesScore: number; // out of 15
+    assessmentScore: number; // out of 15
+    rubricScore: number; // out of 15
   };
   missingElements: string[];
 }
 
 export function evaluatePlanRuleBased(planData: any | null): RuleBasedEvaluationResult {
   let standardsScore = 0;
-  let structureScore = 0;
+  let objectivesScore = 0;
+  let activitiesScore = 0;
+  let assessmentScore = 0;
+  let rubricScore = 0;
   const missingElements: string[] = [];
 
   if (!planData || typeof planData !== 'object') {
     return {
       totalScore: 0,
-      details: { standardsScore: 0, structureScore: 0 },
+      details: { standardsScore: 0, objectivesScore: 0, activitiesScore: 0, assessmentScore: 0, rubricScore: 0 },
       missingElements: ['ไม่พบโครงสร้างข้อมูลแผนการสอน (เป็นไฟล์แนบข้อความ)']
     };
   }
@@ -37,57 +43,63 @@ export function evaluatePlanRuleBased(planData: any | null): RuleBasedEvaluation
     missingElements.push('ตัวชี้วัด');
   }
 
-  // 2. Check Structure Completeness (Max 20 points)
-  // KPA Objectives (5), Activities (5), Assessments (5), Rubrics (5)
-
-  // Objectives (K/P/A)
+  // 2. Check Objectives K/P/A (Max 15 points)
   let objCount = 0;
   if (planData.objectiveK && planData.objectiveK.trim().length > 2) objCount++;
   if (planData.objectiveP && planData.objectiveP.trim().length > 2) objCount++;
   if (planData.objectiveA && planData.objectiveA.trim().length > 2) objCount++;
-  if (objCount === 3) structureScore += 5;
-  else if (objCount > 0) structureScore += 2;
+  if (objCount === 3) objectivesScore += 15;
+  else if (objCount === 2) objectivesScore += 10;
+  else if (objCount === 1) objectivesScore += 5;
   if (objCount < 3) missingElements.push('จุดประสงค์ K/P/A ไม่ครบ');
 
-  // Activities (Learning Process)
+  // 3. Check Activities/Learning Process (Max 15 points)
   if (planData.learningProcess && planData.learningProcess.trim().length > 20) {
-    structureScore += 5;
+    activitiesScore += 15;
   } else {
     missingElements.push('กิจกรรมการเรียนรู้');
   }
 
-  // Assessments (Measure, Method, Tool)
+  // 4. Check Assessments (Max 15 points)
   let asmCount = 0;
   ['K', 'P', 'A'].forEach(domain => {
     if (planData[`measure${domain}`] && planData[`measure${domain}`].trim().length > 2) asmCount++;
     if (planData[`method${domain}`] && planData[`method${domain}`].trim().length > 2) asmCount++;
     if (planData[`tool${domain}`] && planData[`tool${domain}`].trim().length > 2) asmCount++;
   });
-  if (asmCount >= 9) structureScore += 5; // 3 domains * 3 fields
-  else if (asmCount >= 4) structureScore += 2;
-  if (asmCount < 9) missingElements.push('การวัดผลประเมินผลไม่ครบ');
+  if (asmCount >= 9) assessmentScore += 15; // 3 domains * 3 fields
+  else if (asmCount >= 6) assessmentScore += 10;
+  else if (asmCount >= 3) assessmentScore += 5;
+  if (asmCount < 9) missingElements.push('การวัดผลประเมินผลไม่ครบถ้วน');
 
-  // Rubrics
+  // 5. Check Rubrics (Max 15 points)
   let rubCount = 0;
   ['K', 'P', 'A'].forEach(domain => {
     if (planData[`rubric${domain}`] && planData[`rubric${domain}`].trim().length > 10) rubCount++;
     if (planData[`criteria${domain}`] && planData[`criteria${domain}`].trim().length > 2) rubCount++;
   });
-  if (rubCount >= 6) structureScore += 5; // 3 domains * 2 fields
-  else if (rubCount >= 3) structureScore += 2;
-  if (rubCount < 6) missingElements.push('เกณฑ์การประเมิน (Rubrics) ไม่ครบ');
+  if (rubCount >= 6) rubricScore += 15; // 3 domains * 2 fields
+  else if (rubCount >= 4) rubricScore += 10;
+  else if (rubCount >= 2) rubricScore += 5;
+  if (rubCount < 6) missingElements.push('เกณฑ์การประเมิน (Rubrics) ไม่ครบถ้วน');
 
-  // Make sure we cap at max
+  // Ensure capping
   standardsScore = Math.min(10, standardsScore);
-  structureScore = Math.min(20, structureScore);
+  objectivesScore = Math.min(15, objectivesScore);
+  activitiesScore = Math.min(15, activitiesScore);
+  assessmentScore = Math.min(15, assessmentScore);
+  rubricScore = Math.min(15, rubricScore);
 
-  const totalScore = standardsScore + structureScore;
+  const totalScore = standardsScore + objectivesScore + activitiesScore + assessmentScore + rubricScore;
 
   return {
     totalScore,
     details: {
       standardsScore,
-      structureScore
+      objectivesScore,
+      activitiesScore,
+      assessmentScore,
+      rubricScore
     },
     missingElements
   };

@@ -978,11 +978,11 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
             
             <div className="space-y-3">
               <div className="flex justify-between items-center bg-white/60 p-2.5 rounded-xl">
-                <span className="text-xs font-bold text-slate-600">Rule-based (Max 30)</span>
+                <span className="text-xs font-bold text-slate-600">Rule-based (Max 70)</span>
                 <span className="text-sm font-black text-slate-800">{result.ruleBasedScore || 0}</span>
               </div>
               <div className="flex justify-between items-center bg-white/60 p-2.5 rounded-xl">
-                <span className="text-xs font-bold text-slate-600">AI Logic (Max 70)</span>
+                <span className="text-xs font-bold text-slate-600">AI Logic (Max 30)</span>
                 <span className="text-sm font-black text-slate-800">{Math.round((result.overallScore || 0) - (result.ruleBasedScore || 0))}</span>
               </div>
             </div>
@@ -993,23 +993,23 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
             <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">จุดประสงค์</p>
-            <p className="text-xl font-black text-indigo-700">{scores.objectivesQualitative || 0}<span className="text-sm text-slate-400">/15</span></p>
+            <p className="text-xl font-black text-indigo-700">{scores.objectivesQualitative || 0}<span className="text-sm text-slate-400">/5</span></p>
           </div>
           <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
             <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">กิจกรรม</p>
-            <p className="text-xl font-black text-indigo-700">{scores.activitiesQualitative || 0}<span className="text-sm text-slate-400">/15</span></p>
+            <p className="text-xl font-black text-indigo-700">{scores.activitiesQualitative || 0}<span className="text-sm text-slate-400">/5</span></p>
           </div>
           <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
             <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">การวัดผล</p>
-            <p className="text-xl font-black text-indigo-700">{scores.assessmentQualitative || 0}<span className="text-sm text-slate-400">/15</span></p>
+            <p className="text-xl font-black text-indigo-700">{scores.assessmentQualitative || 0}<span className="text-sm text-slate-400">/5</span></p>
           </div>
           <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
             <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">Rubric</p>
-            <p className="text-xl font-black text-indigo-700">{scores.rubricQualitative || 0}<span className="text-sm text-slate-400">/10</span></p>
+            <p className="text-xl font-black text-indigo-700">{scores.rubricQualitative || 0}<span className="text-sm text-slate-400">/5</span></p>
           </div>
           <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
             <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">ความสอดคล้อง</p>
-            <p className="text-xl font-black text-indigo-700">{scores.alignmentScore || 0}<span className="text-sm text-slate-400">/10</span></p>
+            <p className="text-xl font-black text-indigo-700">{scores.alignmentScore || 0}<span className="text-sm text-slate-400">/5</span></p>
           </div>
           <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
             <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">ภาษา</p>
