@@ -5,7 +5,7 @@ import {
   CheckCircle, AlertTriangle, Upload, Zap, Loader2, ArrowLeft,
   BarChart2, Star, Layers, ListChecks, ClipboardCheck, Trophy,
   Sparkles, ShieldCheck, Gauge, ArrowRight, FileText, Circle,
-  CheckSquare, UploadCloud, BookOpen, ChevronDown, ChevronUp, ThumbsUp
+  CheckSquare, UploadCloud, BookOpen
 } from 'lucide-react';
 import Link from 'next/link';
 import * as mammoth from 'mammoth';
@@ -219,26 +219,25 @@ export default function EvaluatorPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-8 font-sans text-slate-800 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1180px] space-y-8">
+      <div className="mx-auto max-w-5xl space-y-6">
+        <EvaluationFlowStepper step={flowStep} />
+
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-7 lg:p-8"
+          className="rounded-2xl bg-white p-5 shadow-sm sm:p-7 lg:p-8"
         >
-          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-28 left-8 h-72 w-72 rounded-full bg-cyan-200/30 blur-3xl" />
-
-          <div className="relative grid gap-6 lg:grid-cols-[1fr_360px] lg:items-center">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
               <Link
                 href="/"
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 shadow-sm transition-all hover:border-indigo-300 hover:text-indigo-600 hover:shadow-md"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500 transition-all hover:bg-blue-50 hover:text-blue-600"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Link>
               <div className="min-w-0">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-black text-indigo-700">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">
                   <BarChart2 className="h-3.5 w-3.5" />
                   Intelligence Analysis
                 </div>
@@ -246,44 +245,33 @@ export default function EvaluatorPage() {
                   AI ตรวจแผนอัจฉริยะ
                 </h1>
                 <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-500 md:text-base">
-                  เลือกแผนจากระบบหรืออัปโหลดไฟล์ DOCX แล้วให้ AI สรุปคะแนน จุดแข็ง จุดที่ควรปรับ และคำแนะนำที่ทำต่อได้ทันที
+                  เลือกแผนการสอนจากระบบหรืออัปโหลดไฟล์ DOCX เพื่อให้ AI วิเคราะห์คะแนน จุดแข็ง จุดที่ควรปรับ และคำแนะนำที่ทำต่อได้ทันที
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 rounded-3xl border border-slate-100 bg-slate-50 p-3">
-              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
-                <p className="text-2xl font-black text-slate-900">{plans.length}</p>
-                <p className="mt-1 text-xs font-bold text-slate-500">แผนในระบบ</p>
-              </div>
-              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
-                <p className="text-2xl font-black text-indigo-600">{selectedPlanIds.size}</p>
-                <p className="mt-1 text-xs font-bold text-slate-500">เลือกแล้ว</p>
-              </div>
-              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
-                <p className="text-2xl font-black text-emerald-600">{fileText ? 1 : 0}</p>
-                <p className="mt-1 text-xs font-bold text-slate-500">ไฟล์พร้อม</p>
-              </div>
+            <div className="flex flex-wrap gap-2 text-xs font-black text-slate-500 sm:justify-end">
+              <span className="rounded-full bg-slate-100 px-3 py-2">{plans.length} แผนในระบบ</span>
+              <span className="rounded-full bg-blue-50 px-3 py-2 text-blue-700">{selectedPlanIds.size} เลือกแล้ว</span>
+              <span className="rounded-full bg-emerald-50 px-3 py-2 text-emerald-700">{fileText ? 1 : 0} ไฟล์พร้อม</span>
             </div>
           </div>
         </motion.div>
 
-        <EvaluationFlowStepper step={flowStep} />
-
         {flowStep === 1 && (
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.08, ease: 'easeOut' }}
-          className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"
-        >
-          <div className="border-b border-slate-100 bg-slate-50/70 p-3">
-            <div className="grid gap-2 rounded-2xl bg-white p-1 shadow-sm sm:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.08, ease: 'easeOut' }}
+            className="rounded-2xl bg-white p-4 shadow-sm sm:p-6"
+          >
+          <div className="mb-6 flex justify-center">
+            <div className="inline-flex rounded-full bg-slate-100 p-1">
               <button
-                className={`flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition-all ${
+                className={`flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-black transition-all ${
                   activeTab === 'system'
-                    ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15'
-                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                    ? 'bg-white text-blue-700 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-900'
                 }`}
                 onClick={() => setActiveTab('system')}
               >
@@ -291,10 +279,10 @@ export default function EvaluatorPage() {
                 ดึงแผนจากระบบ
               </button>
               <button
-                className={`flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition-all ${
+                className={`flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-black transition-all ${
                   activeTab === 'upload'
-                    ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15'
-                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                    ? 'bg-white text-blue-700 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-900'
                 }`}
                 onClick={() => setActiveTab('upload')}
               >
@@ -304,13 +292,12 @@ export default function EvaluatorPage() {
             </div>
           </div>
 
-          <div className="p-5 sm:p-6 lg:p-8">
+          <div>
             {activeTab === 'system' && (
-              <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-                <div className="min-w-0">
+              <div className="space-y-5">
                   <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                     <div>
-                      <h2 className="text-xl font-black text-slate-900">เลือกแผนการสอน</h2>
+                      <h2 className="text-xl font-black text-slate-900">แผนจากระบบ</h2>
                       <p className="mt-1 text-sm font-medium text-slate-500">
                         เลือกได้หลายแผน ระบบจะตรวจทีละรายการและแสดงผลเป็นแดชบอร์ด
                       </p>
@@ -318,34 +305,34 @@ export default function EvaluatorPage() {
                     <button
                       onClick={selectAll}
                       disabled={plans.length === 0}
-                      className="inline-flex items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-black text-indigo-700 transition-colors hover:border-indigo-600 hover:bg-indigo-600 hover:text-white disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-100 disabled:text-slate-400"
+                      className="inline-flex items-center justify-center rounded-full bg-blue-50 px-4 py-2 text-sm font-black text-blue-700 transition-colors hover:bg-blue-600 hover:text-white disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
                     >
                       {selectedPlanIds.size === plans.length && plans.length > 0 ? 'ยกเลิกทั้งหมด' : 'เลือกทั้งหมด'}
                     </button>
                   </div>
 
-                  <div className="max-h-[430px] overflow-y-auto rounded-3xl border border-slate-200 bg-slate-50 p-3 custom-scrollbar">
+                  <div className="max-h-[430px] space-y-3 overflow-y-auto pr-1 custom-scrollbar">
                     {plans.length === 0 ? (
-                      <div className="flex min-h-[220px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center">
+                      <div className="flex min-h-[220px] flex-col items-center justify-center rounded-2xl bg-slate-50 p-8 text-center">
                         <FileText className="h-10 w-10 text-slate-300" />
                         <p className="mt-3 text-sm font-bold text-slate-500">ไม่มีแผนในระบบ</p>
                       </div>
                     ) : (
-                      <div className="grid gap-3">
+                      <>
                         {plans.map(p => {
                           const isSelected = selectedPlanIds.has(p.planId);
                           return (
                             <button
                               key={p.planId}
                               onClick={() => toggleSelectPlan(p.planId)}
-                              className={`group flex w-full items-start gap-4 rounded-2xl border p-4 text-left transition-all ${
+                              className={`group flex w-full items-start gap-4 rounded-2xl bg-white p-4 text-left shadow-sm transition-all hover:border-blue-500 hover:shadow-md ${
                                 isSelected
-                                  ? 'border-indigo-300 bg-white shadow-md shadow-indigo-100'
-                                  : 'border-transparent bg-white/70 hover:border-slate-200 hover:bg-white hover:shadow-sm'
+                                  ? 'border border-blue-500 shadow-md shadow-blue-100'
+                                  : 'border border-transparent'
                               }`}
                             >
-                              <div className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 transition-colors ${
-                                isSelected ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-slate-300 text-transparent group-hover:border-indigo-300'
+                              <div className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                                isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-transparent group-hover:bg-blue-50'
                               }`}>
                                 <CheckCircle className="h-4 w-4" />
                               </div>
@@ -362,31 +349,15 @@ export default function EvaluatorPage() {
                             </button>
                           );
                         })}
-                      </div>
+                      </>
                     )}
                   </div>
-                </div>
-
-                <div className="rounded-3xl border border-indigo-100 bg-indigo-50/70 p-5">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm">
-                    <Gauge className="h-6 w-6" />
-                  </div>
-                  <h3 className="mt-5 text-lg font-black text-slate-900">พร้อมตรวจแบบ Batch</h3>
-                  <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
-                    เหมาะสำหรับตรวจหลายแผนพร้อมกัน แล้วดูผลคะแนน จุดแข็ง และจุดที่ AI แนะนำให้ปรับเป็นรายแผน
-                  </p>
-                  <div className="mt-5 rounded-2xl bg-white p-4 shadow-sm">
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Selected</p>
-                    <p className="mt-1 text-4xl font-black text-indigo-600">{selectedPlanIds.size}</p>
-                    <p className="text-sm font-bold text-slate-500">แผนการสอน</p>
-                  </div>
-                </div>
               </div>
             )}
 
             {activeTab === 'upload' && (
-              <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-                <div className="relative overflow-hidden rounded-[2rem] border-2 border-dashed border-indigo-200 bg-indigo-50/60 p-8 text-center transition-colors hover:bg-indigo-50 sm:p-12">
+              <div className="space-y-4">
+                <div className="relative overflow-hidden rounded-2xl bg-blue-50 p-8 text-center transition-colors hover:bg-blue-100/70 sm:p-12">
                   <input
                     type="file"
                     id="file-upload"
@@ -394,15 +365,15 @@ export default function EvaluatorPage() {
                     accept=".docx"
                     onChange={handleFileUpload}
                   />
-                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-indigo-100 bg-white text-indigo-500 shadow-sm">
+                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-white text-blue-500 shadow-sm">
                     <Upload className="h-10 w-10" />
                   </div>
-                  <h3 className="mt-6 text-xl font-black text-indigo-950">ลากไฟล์มาวาง หรือคลิกเพื่ออัปโหลด</h3>
+                  <h3 className="mt-6 text-xl font-black text-slate-900">ลากไฟล์มาวาง หรือคลิกเพื่ออัปโหลด</h3>
                   <p className="mt-2 text-sm font-medium text-slate-500">รองรับเฉพาะไฟล์เอกสาร .docx เท่านั้น</p>
                 </div>
 
-                <div className={`rounded-3xl border p-5 ${
-                  fileText ? 'border-emerald-200 bg-emerald-50' : 'border-slate-200 bg-slate-50'
+                <div className={`rounded-2xl p-5 shadow-sm ${
+                  fileText ? 'bg-emerald-50' : 'bg-slate-50'
                 }`}>
                   <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm ${
                     fileText ? 'text-emerald-600' : 'text-slate-400'
@@ -422,13 +393,13 @@ export default function EvaluatorPage() {
             )}
 
             {error && (
-              <div className="mt-6 flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm font-bold text-rose-800">
+              <div className="mt-6 flex items-start gap-3 rounded-2xl bg-rose-50 p-5 text-sm font-bold text-rose-800 shadow-sm">
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-500" />
                 {error}
               </div>
             )}
 
-            <div className="mt-8 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+            <div className="mt-8 flex flex-col gap-4 rounded-2xl bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Evaluation Queue</p>
                 <p className="mt-1 text-sm font-bold text-slate-700">
@@ -440,18 +411,18 @@ export default function EvaluatorPage() {
               <button
                 onClick={startEvaluation}
                 disabled={isEvaluating || (activeTab === 'system' ? selectedPlanIds.size === 0 : !fileText)}
-                className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-slate-900 px-8 py-4 text-sm font-black text-white shadow-xl shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:bg-black disabled:translate-y-0 disabled:bg-slate-200 disabled:text-slate-400 sm:w-auto"
+                className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-blue-600 px-8 py-4 text-sm font-black text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-md disabled:translate-y-0 disabled:bg-slate-200 disabled:text-slate-400 sm:w-auto"
               >
-                {isEvaluating && <div className="absolute inset-0 bg-indigo-600 animate-pulse" />}
+                {isEvaluating && <div className="absolute inset-0 animate-pulse bg-blue-600" />}
                 <span className="relative z-10 flex items-center gap-2">
                   {isEvaluating ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin text-indigo-200" />
+                      <Loader2 className="h-5 w-5 animate-spin text-blue-100" />
                       {batchProgress.total > 1 ? `กำลังประเมินแผนที่ ${batchProgress.current} จาก ${batchProgress.total}...` : 'AI กำลังวิเคราะห์...'}
                     </>
                   ) : (
                     <>
-                      <Sparkles className="h-5 w-5 text-indigo-200" />
+                      <Sparkles className="h-5 w-5 text-blue-100" />
                       {selectedPlanIds.size > 1 ? `เริ่มประเมินทั้งหมด (${selectedPlanIds.size})` : 'เริ่มประเมินความสมบูรณ์'}
                     </>
                   )}
@@ -459,7 +430,7 @@ export default function EvaluatorPage() {
               </button>
             </div>
           </div>
-        </motion.div>
+          </motion.div>
         )}
 
         {flowStep === 2 && (
@@ -467,7 +438,7 @@ export default function EvaluatorPage() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="mx-auto max-w-xl rounded-[2rem] border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12"
+            className="mx-auto max-w-xl rounded-2xl bg-white p-8 text-center shadow-sm sm:p-12"
           >
             <div className="relative mx-auto mb-8 h-28 w-28">
               <div className="absolute inset-0 rounded-full border-4 border-indigo-100" />
@@ -496,7 +467,7 @@ export default function EvaluatorPage() {
         {/* EVALUATION RESULTS */}
         {flowStep === 3 && evaluationResults.length > 0 && (
           <div className="space-y-6 pt-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <div className="flex flex-col gap-4 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-end sm:justify-between sm:p-6">
+            <div className="flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-sm sm:flex-row sm:items-end sm:justify-between sm:p-6">
               <div>
                 <button
                   onClick={resetEvaluationFlow}
@@ -556,9 +527,9 @@ function EvaluationFlowStepper({ step }: { step: number }) {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.04, ease: 'easeOut' }}
-      className="rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm"
+      className="overflow-x-auto rounded-2xl bg-white p-2 shadow-sm"
     >
-      <div className="grid gap-2 md:grid-cols-3">
+      <div className="flex min-w-[620px] flex-row items-center justify-between gap-2">
         {steps.map((item, itemIndex) => {
           const itemStep = itemIndex + 1;
           const Icon = item.icon;
@@ -568,9 +539,9 @@ function EvaluationFlowStepper({ step }: { step: number }) {
           return (
             <div
               key={item.label}
-              className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition-colors ${
+              className={`flex flex-1 items-center gap-3 rounded-xl px-4 py-3 transition-colors ${
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700'
+                  ? 'bg-blue-50 text-blue-700'
                   : isDone
                     ? 'bg-emerald-50 text-emerald-700'
                     : 'bg-slate-50 text-slate-400'
@@ -578,7 +549,7 @@ function EvaluationFlowStepper({ step }: { step: number }) {
             >
               <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
                 isActive
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-blue-600 text-white'
                   : isDone
                     ? 'bg-emerald-600 text-white'
                     : 'bg-white text-slate-400'
@@ -683,8 +654,6 @@ const toneStyles: Record<ScoreTone, any> = {
     label: 'ผ่านเกณฑ์ดี',
     text: 'text-emerald-700',
     bg: 'bg-emerald-50',
-    border: 'border-emerald-200',
-    ring: 'ring-emerald-100',
     fill: '#10b981',
     gradient: 'from-emerald-500 to-teal-500'
   },
@@ -692,8 +661,6 @@ const toneStyles: Record<ScoreTone, any> = {
     label: 'ควรปรับปรุงบางจุด',
     text: 'text-amber-700',
     bg: 'bg-amber-50',
-    border: 'border-amber-200',
-    ring: 'ring-amber-100',
     fill: '#f59e0b',
     gradient: 'from-amber-400 to-orange-500'
   },
@@ -701,8 +668,6 @@ const toneStyles: Record<ScoreTone, any> = {
     label: 'ต้องทบทวนเพิ่มเติม',
     text: 'text-rose-700',
     bg: 'bg-rose-50',
-    border: 'border-rose-200',
-    ring: 'ring-rose-100',
     fill: '#ef4444',
     gradient: 'from-rose-500 to-red-500'
   }
@@ -793,19 +758,19 @@ function TrafficLightCard({
 }) {
   const styles = {
     green: {
-      card: 'bg-emerald-50/80 border-emerald-200',
+      card: 'bg-emerald-50/80',
       icon: 'bg-emerald-100 text-emerald-700',
       text: 'text-emerald-950',
       bullet: 'text-emerald-600'
     },
     yellow: {
-      card: 'bg-amber-50/80 border-amber-200',
+      card: 'bg-amber-50/80',
       icon: 'bg-amber-100 text-amber-700',
       text: 'text-amber-950',
       bullet: 'text-amber-600'
     },
     red: {
-      card: 'bg-rose-50/80 border-rose-200',
+      card: 'bg-rose-50/80',
       icon: 'bg-rose-100 text-rose-700',
       text: 'text-rose-950',
       bullet: 'text-rose-600'
@@ -813,7 +778,7 @@ function TrafficLightCard({
   }[tone];
 
   return (
-    <motion.div variants={cardMotion} className={`rounded-3xl border p-6 shadow-sm ${styles.card}`}>
+    <motion.div variants={cardMotion} className={`rounded-2xl p-6 shadow-sm ${styles.card}`}>
       <div className="flex items-start gap-4">
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${styles.icon}`}>
           <Icon className="h-6 w-6" />
@@ -847,7 +812,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        className="overflow-hidden rounded-[2rem] border border-rose-200 bg-white shadow-sm"
+        className="overflow-hidden rounded-2xl bg-white shadow-sm"
       >
         <div className="flex flex-col gap-4 bg-rose-50 p-6 md:flex-row md:items-center md:justify-between md:p-8">
           <div className="flex items-center gap-4">
@@ -882,20 +847,17 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
       viewport={{ once: true, amount: 0.18 }}
       custom={index}
       variants={cardMotion}
-      className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-50 shadow-sm md:rounded-[2.25rem]"
+      className="relative overflow-hidden rounded-2xl bg-white shadow-sm"
     >
-      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-28 left-10 h-72 w-72 rounded-full bg-cyan-200/30 blur-3xl" />
-
       <div className="relative space-y-6 p-4 sm:p-6 md:p-8">
         <div className="grid gap-5 lg:grid-cols-[1fr_280px]">
-          <div className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm backdrop-blur md:p-8">
+          <div className="rounded-2xl bg-slate-50 p-6 shadow-sm md:p-8">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/25">
                 <ClipboardCheck className="h-7 w-7" />
               </div>
               <div className="min-w-0">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-black text-indigo-700">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-black text-indigo-700">
                   <Sparkles className="h-3.5 w-3.5" />
                   Plan Evaluation Result
                 </div>
@@ -910,7 +872,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
 
           <motion.div
             whileHover={{ y: -3, scale: 1.01 }}
-            className={`rounded-3xl border bg-white p-6 shadow-sm ring-8 ${toneStyle.border} ${toneStyle.ring}`}
+            className="rounded-2xl bg-white p-6 shadow-sm"
           >
             <div className="mb-4 flex items-center justify-between">
               <div>
@@ -937,7 +899,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <motion.div variants={cardMotion} custom={1} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+          <motion.div variants={cardMotion} custom={1} className="rounded-2xl bg-white p-6 shadow-sm md:p-7">
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <h4 className="flex items-center gap-2 text-lg font-black text-slate-800">
@@ -970,7 +932,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
             </div>
           </motion.div>
 
-          <motion.div variants={cardMotion} custom={2} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-7">
+          <motion.div variants={cardMotion} custom={2} className="rounded-2xl bg-white p-6 shadow-sm md:p-7">
             <div className="mb-6">
               <h4 className="flex items-center gap-2 text-lg font-black text-slate-800">
                 <ListChecks className="h-5 w-5 text-indigo-500" />
@@ -988,7 +950,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                     initial={{ opacity: 0, x: 12 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.35, delay: stepIndex * 0.12 }}
-                    className="relative flex gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-4"
+                    className="relative flex gap-4 rounded-2xl bg-slate-50 p-4"
                   >
                     <div className="flex flex-col items-center">
                       <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm">
@@ -1010,7 +972,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
             </div>
 
             {result.isFixed && (
-              <div className="mt-5 flex items-center gap-3 rounded-2xl border border-indigo-100 bg-indigo-50 p-4 text-sm font-bold text-indigo-700">
+              <div className="mt-5 flex items-center gap-3 rounded-2xl bg-indigo-50 p-4 text-sm font-bold text-indigo-700">
                 <Star className="h-5 w-5 fill-indigo-500 text-indigo-500" />
                 AI ปรับปรุงแผนนี้แล้ว
               </div>
@@ -1018,7 +980,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
           </motion.div>
         </div>
 
-        <motion.div variants={cardMotion} custom={3} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+        <motion.div variants={cardMotion} custom={3} className="rounded-2xl bg-white p-5 shadow-sm md:p-7">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h4 className="text-xl font-black text-slate-800">รายละเอียดแบบ Traffic Light</h4>
@@ -1048,11 +1010,8 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
         <motion.div
           variants={cardMotion}
           custom={4}
-          className="relative overflow-hidden rounded-[2rem] border border-indigo-400/20 bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6 text-white shadow-2xl shadow-indigo-950/30 md:p-8"
+          className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6 text-white shadow-2xl shadow-indigo-950/30 md:p-8"
         >
-          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-indigo-500/30 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 left-10 h-56 w-56 rounded-full bg-cyan-400/20 blur-3xl" />
-
           <div className="relative grid gap-8 lg:grid-cols-[1fr_0.9fr]">
             <div>
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black text-indigo-100 backdrop-blur">
@@ -1074,7 +1033,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: recIndex * 0.08 }}
-                      className="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur"
+                      className="rounded-2xl bg-white/10 p-4 shadow-sm backdrop-blur"
                     >
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div>
@@ -1108,7 +1067,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
             </div>
 
             <div className="relative">
-              <div className="rounded-3xl border border-white/10 bg-white/10 p-5 backdrop-blur md:p-6">
+              <div className="rounded-2xl bg-white/10 p-5 shadow-sm backdrop-blur md:p-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-cyan-300/20 text-cyan-200">
                     <FileText className="h-6 w-6" />
@@ -1169,249 +1128,5 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
         </motion.div>
       </div>
     </motion.section>
-  );
-}
-
-// ── COMPONENT: LegacyEvaluationResultCard (kept temporarily for reference) ──
-function LegacyEvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fixingId }: { result: any, index: number, onFix: () => void, onFixPartial: (recIndex: number) => void, isFixing: boolean, fixingId: string | null }) {
-  const [isOpen, setIsOpen] = useState(index === 0); 
-  
-  if (result.error) {
-    return (
-      <div className="bg-white rounded-[2rem] shadow-sm border border-rose-200 overflow-hidden">
-        <div className="p-6 md:p-8 bg-rose-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-             <div className="w-12 h-12 bg-white text-rose-500 rounded-2xl shadow-sm flex items-center justify-center shrink-0"><AlertTriangle className="w-6 h-6"/></div>
-             <h3 className="font-bold text-slate-800 text-lg">{result.title}</h3>
-          </div>
-          <span className="px-4 py-2 bg-rose-100 text-rose-700 rounded-xl text-sm font-bold">วิเคราะห์ไม่สำเร็จ</span>
-        </div>
-      </div>
-    );
-  }
-
-  const score = result.overallScore || 0;
-  const maxScore = result.maxScore || 100;
-  const percentage = (score / maxScore) * 100;
-  
-  let themeColor = 'emerald';
-  if (percentage < 60) themeColor = 'rose';
-  else if (percentage < 80) themeColor = 'amber';
-
-  const colorMap: any = {
-    emerald: { text: 'text-emerald-500', bg: 'bg-emerald-500', bgLight: 'bg-emerald-50', border: 'border-emerald-200', hex: '#10b981' },
-    amber: { text: 'text-amber-500', bg: 'bg-amber-500', bgLight: 'bg-amber-50', border: 'border-amber-200', hex: '#f59e0b' },
-    rose: { text: 'text-rose-500', bg: 'bg-rose-500', bgLight: 'bg-rose-50', border: 'border-rose-200', hex: '#f43f5e' },
-  };
-  const theme = colorMap[themeColor];
-
-  // Data for Radar Chart
-  const radarData = result.checklist?.map((item: any) => {
-    // Shorten topic for chart if too long
-    let shortTopic = item.topic.replace(/^[0-9]+\.\s*/, '');
-    if(shortTopic.length > 15) shortTopic = shortTopic.substring(0, 15) + '...';
-    
-    return {
-      subject: shortTopic,
-      A: Math.round((item.score / item.maxScore) * 100),
-      fullMark: 100,
-    };
-  }) || [];
-
-  return (
-    <div className={`bg-white rounded-[2rem] shadow-sm border ${isOpen ? theme.border : 'border-slate-200'} overflow-hidden transition-all duration-300`}>
-      {/* ACCORDION HEADER */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 text-left transition-colors ${isOpen ? theme.bgLight : 'hover:bg-slate-50'}`}
-      >
-        <div className="flex items-center gap-6 w-full md:w-auto">
-          {/* Circular Progress Gauge */}
-          <div className="relative w-20 h-20 shrink-0">
-             <svg className="w-full h-full transform -rotate-90 drop-shadow-sm" viewBox="0 0 36 36">
-               <path className="text-white/50 stroke-slate-200" strokeWidth="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-               <path strokeDasharray={`${percentage}, 100`} strokeWidth="3" stroke={theme.hex} strokeLinecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" className="transition-all duration-1000 ease-out"/>
-             </svg>
-             <div className="absolute inset-0 flex items-center justify-center flex-col">
-               <span className="text-xl font-black text-slate-800 leading-none">{score}</span>
-             </div>
-          </div>
-          <div className="flex-1">
-            <h3 className="text-xl font-black text-slate-900 mb-1 line-clamp-1">{result.title}</h3>
-            <p className="text-sm font-medium text-slate-500 line-clamp-2 md:line-clamp-1">{result.summary}</p>
-          </div>
-        </div>
-        
-        <div className="flex items-center justify-between md:justify-end w-full md:w-auto gap-4 shrink-0 border-t md:border-0 border-slate-200/50 pt-4 md:pt-0">
-          {result.isFixed && (
-            <span className="px-3 py-1.5 bg-indigo-600 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
-              <Star className="w-3.5 h-3.5 fill-white"/> AI Fixed
-            </span>
-          )}
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isOpen ? 'bg-white text-slate-700 shadow-sm' : 'bg-slate-100 text-slate-500'}`}>
-            {isOpen ? <ChevronUp className="w-5 h-5"/> : <ChevronDown className="w-5 h-5"/>}
-          </div>
-        </div>
-      </button>
-
-      {/* EXPANDED DASHBOARD CONTENT */}
-      {isOpen && (
-        <div className="p-6 md:p-8 bg-white border-t border-slate-100">
-          
-          {/* ROW 1: Charts & Pros/Cons */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            
-            {/* RADAR CHART MODULE */}
-            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 flex flex-col">
-              <h4 className="text-sm font-black text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-2">
-                <BarChart2 className="w-4 h-4 text-indigo-500"/> Plan Balance
-              </h4>
-              <p className="text-xs font-medium text-slate-500 mb-4">มิติความครอบคลุมของแผน (%)</p>
-              <div className="flex-1 min-h-[220px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
-                    <PolarGrid stroke="#e2e8f0" />
-                    <PolarAngleAxis dataKey="subject" tick={{fill: '#64748b', fontSize: 10, fontWeight: 700}} />
-                    <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                    <Radar name="Score %" dataKey="A" stroke={theme.hex} fill={theme.hex} fillOpacity={0.4} />
-                    <RechartsTooltip wrapperClassName="rounded-xl shadow-lg border-none" contentStyle={{borderRadius:'12px', border:'none', fontWeight:'bold', fontSize:'12px'}} />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* PROS & CONS MODULE */}
-            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* PROS */}
-              <div className="bg-emerald-50/50 rounded-3xl p-6 border border-emerald-100">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
-                    <ThumbsUp className="w-5 h-5 text-emerald-600"/>
-                  </div>
-                  <h4 className="font-black text-emerald-900 text-lg">จุดแข็ง (Strengths)</h4>
-                </div>
-                <ul className="space-y-4">
-                  {result.pros?.map((p: string, i: number) => (
-                    <li key={i} className="flex gap-3 text-sm font-medium text-emerald-800/80 leading-relaxed">
-                      <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0"/> {p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* CONS */}
-              <div className="bg-rose-50/50 rounded-3xl p-6 border border-rose-100">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center shrink-0">
-                    <AlertTriangle className="w-5 h-5 text-rose-600"/>
-                  </div>
-                  <h4 className="font-black text-rose-900 text-lg">จุดพัฒนา (Improvements)</h4>
-                </div>
-                <ul className="space-y-4">
-                  {result.cons?.map((p: string, i: number) => (
-                    <li key={i} className="flex gap-3 text-sm font-medium text-rose-800/80 leading-relaxed">
-                      <div className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0 mt-2"></div> {p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* ROW 2: Details & AI Actions */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            {/* CHECKLIST BREAKDOWN */}
-            <div className="lg:col-span-2 bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm">
-              <h4 className="font-black text-slate-800 text-lg mb-6 flex items-center gap-2">
-                <ListChecks className="w-5 h-5 text-slate-400"/> รายละเอียดการประเมิน
-              </h4>
-              <div className="space-y-6">
-                {result.checklist?.map((item: any, i: number) => {
-                  const itemPct = (item.score / item.maxScore) * 100;
-                  let barColor = 'bg-emerald-500';
-                  if(itemPct < 60) barColor = 'bg-rose-500';
-                  else if(itemPct < 80) barColor = 'bg-amber-500';
-                  
-                  return (
-                    <div key={i} className="group">
-                      <div className="flex justify-between items-end mb-2">
-                        <span className="font-bold text-sm text-slate-800">{item.topic}</span>
-                        <span className="text-sm font-black text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">{item.score}/{item.maxScore}</span>
-                      </div>
-                      <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-3">
-                        <div className={`h-full ${barColor} rounded-full transition-all duration-1000`} style={{ width: `${Math.min(itemPct, 100)}%` }}></div>
-                      </div>
-                      <p className="text-sm font-medium text-slate-500 leading-relaxed p-3 bg-slate-50 rounded-xl border border-transparent group-hover:border-slate-200 transition-colors">{item.feedback}</p>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* RECOMMENDATIONS & AUTO-FIX */}
-            <div className="space-y-6">
-              {/* Full Fix Card */}
-              {result.autoFixAvailable && result.planId !== 'uploaded' && !result.isFixed && (
-                <div className="bg-slate-900 text-white rounded-3xl p-8 shadow-xl shadow-slate-900/20 relative overflow-hidden">
-                  <div className="absolute -right-10 -top-10 opacity-10 blur-xl">
-                    <Zap className="w-40 h-40 text-indigo-400"/>
-                  </div>
-                  <div className="relative z-10">
-                    <div className="inline-flex p-2 bg-indigo-500/20 rounded-xl mb-4 border border-indigo-500/30">
-                      <Star className="w-6 h-6 text-indigo-400 fill-indigo-400"/>
-                    </div>
-                    <h4 className="font-black text-2xl mb-2">AI Auto-Fix</h4>
-                    <p className="text-sm text-slate-400 font-medium mb-6">ให้ AI ผู้เชี่ยวชาญรื้อและปรับปรุงแผนนี้ให้สมบูรณ์แบบตามคำแนะนำทั้งหมดโดยอัตโนมัติ</p>
-                    
-                    <button 
-                      onClick={onFix}
-                      disabled={isFixing}
-                      className="w-full py-3.5 bg-indigo-500 hover:bg-indigo-400 disabled:bg-slate-800 text-white font-black rounded-xl transition-colors flex justify-center items-center gap-2 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50"
-                    >
-                      {isFixing ? <><Loader2 className="w-5 h-5 animate-spin"/> กำลังดำเนินการ...</> : 'แก้ไขแผนทั้งหมดทันที'}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Partial Fix List */}
-              {result.recommendations && result.recommendations.length > 0 && (
-                <div className="bg-indigo-50/50 rounded-3xl p-6 border border-indigo-100">
-                   <h4 className="font-black text-indigo-900 mb-4 flex items-center gap-2">
-                     <Zap className="w-4 h-4 text-indigo-500"/> Smart Recommendations
-                   </h4>
-                   <div className="space-y-3">
-                     {result.recommendations.map((rec: any, i: number) => {
-                       const isRecFixed = result.fixedRecs?.[i];
-                       const isThisFixing = fixingId === `${result.planId}-partial-${i}`;
-                       return (
-                         <div key={i} className="p-4 rounded-2xl bg-white border border-indigo-100 shadow-sm transition-all hover:shadow-md">
-                           <h5 className="font-bold text-sm text-slate-800 mb-1">{rec.section}</h5>
-                           <p className="text-xs font-medium text-slate-500 mb-4 line-clamp-3">{rec.suggestion}</p>
-                           
-                           {result.planId !== 'uploaded' && !result.isFixed && (
-                             <button 
-                               onClick={() => onFixPartial(i)}
-                               disabled={isThisFixing || isRecFixed}
-                               className={`w-full py-2 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 ${isRecFixed ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-600 border border-indigo-200'}`}
-                             >
-                               {isThisFixing ? <Loader2 className="w-3.5 h-3.5 animate-spin"/> : (isRecFixed ? <CheckCircle className="w-3.5 h-3.5"/> : <Star className="w-3.5 h-3.5"/>)}
-                               {isThisFixing ? 'กำลังแก้...' : (isRecFixed ? 'แก้ไขแล้ว' : 'ให้ AI แก้จุดนี้')}
-                             </button>
-                           )}
-                         </div>
-                       )
-                     })}
-                   </div>
-                </div>
-              )}
-            </div>
-
-          </div>
-
-        </div>
-      )}
-    </div>
   );
 }

@@ -130,7 +130,7 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 
 ## ✅ CURRENT STATE (สถานะปัจจุบัน)
 
-**Last updated**: 2026-06-03 11:52 (Thai time)
+**Last updated**: 2026-06-03 12:02 (Thai time)
 **Updated by**: Codex
 
 ### สิ่งที่ทำเสร็จแล้ว ✅
@@ -146,6 +146,7 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 - [x] **KPA Method/Tool/Criteria Dropdowns**: ช่องวิธีการวัดผล เครื่องมือประเมิน และเกณฑ์ผ่านประเมินของ K/P/A ใช้ตัวเลือกจาก `BasicOptions.assessmentTemplate` โดยแยกตาม domain K/P/A แล้ว
 - [x] **Plan Evaluation Result Redesign**: ปรับ `app/evaluator/page.tsx` ให้หน้าผลการตรวจแผนเป็นแบบ compartmentalized dashboard มี Total Score card, RadarChart, 3-step status, Traffic Light cards และ AI Deep Insights ตามคำขอผู้ใช้
 - [x] **Evaluator Landing/Input UI Cleanup**: ปรับหน้าแรกของ `/evaluator` ให้ไม่เป็นกล่องแบน ๆ แบบเดิมแล้ว มี hero, stats, segmented mode, plan cards และ upload panel ที่อ่านง่ายขึ้น
+- [x] **Evaluator Broken Layout Refactor**: ปรับ `/evaluator` เป็น single-column layout, stepper แนวนอนด้านบน, header เดียว, segmented control แบบ pill, plan cards สะอาด และลบ legacy result component ท้ายไฟล์ที่ไม่ได้ใช้งานออกแล้ว
 
 ### รอดำเนินการ ⏳
 - [ ] **DB Migration**: ผู้ใช้ต้องรัน SQL เพิ่ม rubricK/P/A ใน Supabase Dashboard
@@ -159,6 +160,24 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 ---
 
 ## 📝 CHANGELOG (ประวัติการเปลี่ยนแปลง)
+
+### 2026-06-03 12:02 — Session โดย Codex
+
+#### 🎨 Evaluator Broken Layout Refactor
+- **`app/evaluator/page.tsx`**
+  - แก้โครงหน้า `/evaluator` ให้เป็น single-column layout บน `bg-slate-50`
+  - ย้าย `EvaluationFlowStepper` ไปไว้ด้านบนสุด และบังคับเป็นแนวนอนด้วย flex row + horizontal scroll บนจอแคบ
+  - รวม header ซ้ำให้เหลือหัวข้อหลักเดียวคือ "AI ตรวจแผนอัจฉริยะ"
+  - ปรับ tab "ดึงแผนจากระบบ" / "อัปโหลดไฟล์ DOCX" ให้เป็น segmented pill control
+  - ปรับรายการแผนให้เป็น clickable cards มี hover shadow และ hover blue border โดยไม่มี list container สีเทา/กรอบหนา
+  - ลด border ใน result dashboard และลบ `LegacyEvaluationResultCard` ที่ไม่ได้ใช้งานออกจากไฟล์
+
+#### ✅ Verification
+- ยังไม่ได้ push ตามคำสั่งผู้ใช้: "แก้แค่ในไฟล์ เดี๋ยวให้อีกตัว push เอง"
+- `git diff --check` ผ่าน
+- `npm run build` ผ่าน
+
+*(UPDATE: Agent 1 ได้รับช่วงต่อ ทำการตรวจสอบโค้ด, Build ซ้ำ, และ Push ขึ้น Vercel ให้เรียบร้อยแล้วครับ!)*
 
 ### 2026-06-03 11:42 — Session โดย Codex
 
