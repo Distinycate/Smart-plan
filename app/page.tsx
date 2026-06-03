@@ -17,6 +17,7 @@ export default function TeacherDashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState<'active' | 'archived'>('active');
   
   const [filterGrade, setFilterGrade] = useState('');
   const [filterSubject, setFilterSubject] = useState('');
@@ -24,12 +25,13 @@ export default function TeacherDashboard() {
   const [filterStatus, setFilterStatus] = useState('');
   const [filterKeyword, setFilterKeyword] = useState('');
 
-  const loadData = async (isRefresh = false) => {
+  const loadData = async (isRefresh = false, tab = activeTab) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
     try {
+      const qs = tab === 'archived' ? '?status=archived' : '';
       const [plansRes, initRes] = await Promise.all([
-        fetch('/api/plans'),
+        fetch(`/api/plans${qs}`),
         fetch('/api/initial-data')
       ]);
       const plansJson = await plansRes.json();
@@ -44,7 +46,7 @@ export default function TeacherDashboard() {
     }
   };
 
-  useEffect(() => { loadData(); }, []);
+  useEffect(() => { loadData(false, activeTab); }, [activeTab]);
 
   const filteredPlans = plans.filter(p => {
     if (filterGrade && p.gradeLevel !== filterGrade) return false;
@@ -76,7 +78,16 @@ export default function TeacherDashboard() {
     try {
       const res = await fetch(`/api/plans/${planId}`, { method: 'DELETE' });
       const json = await res.json();
-      if (json.success) loadData(true);
+      if (json.success) loadData(true, activeTab);
+      else alert('เกิดข้อผิดพลาด: ' + json.error);
+    } catch (err: any) { alert('เกิดข้อผิดพลาด: ' + err.message); }
+  };
+  const handleRestorePlan = async (planId: string, topic: string) => {
+    if (!window.confirm(`กู้คืนแผนการสอน "${topic || 'ไม่มีชื่อ'}"?\nแผนนี้จะกลับไปอยู่ที่หน้ารายการหลัก`)) return;
+    try {
+      const res = await fetch(`/api/plans/${planId}/restore`, { method: 'PATCH' });
+      const json = await res.json();
+      if (json.success) loadData(true, activeTab);
       else alert('เกิดข้อผิดพลาด: ' + json.error);
     } catch (err: any) { alert('เกิดข้อผิดพลาด: ' + err.message); }
   };
@@ -281,9 +292,27 @@ export default function TeacherDashboard() {
             </span>
             <span className="plans-count">{filteredPlans.length}</span>
           </div>
-          <button className="btn btn-hero btn-sm" style={{ background: 'var(--c-primary)', color: '#fff' }} onClick={() => router.push('/plan/new')}>
-            <Plus size={13} /> สร้างแผนใหม่
-          </button>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div style={{ background: 'var(--c-gray-100)', padding: 4, borderRadius: 8, display: 'flex', gap: 4 }}>
+              <button 
+                className={`btn btn-sm ${activeTab === 'active' ? 'btn-primary' : ''}`}
+                style={{ background: activeTab === 'active' ? '#fff' : 'transparent', color: activeTab === 'active' ? 'var(--c-primary)' : 'var(--c-gray-500)', boxShadow: activeTab === 'active' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5 }}
+                onClick={() => setActiveTab('active')}
+              >
+                แผนที่ใช้งาน
+              </button>
+              <button 
+                className={`btn btn-sm ${activeTab === 'archived' ? 'btn-primary' : ''}`}
+                style={{ background: activeTab === 'archived' ? '#fff' : 'transparent', color: activeTab === 'archived' ? 'var(--c-primary)' : 'var(--c-gray-500)', boxShadow: activeTab === 'archived' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5, display: 'flex', alignItems: 'center', gap: 4 }}
+                onClick={() => setActiveTab('archived')}
+              >
+                <Archive size={12} /> ที่เก็บถาวร
+              </button>
+            </div>
+            <button className="btn btn-hero btn-sm" style={{ background: 'var(--c-primary)', color: '#fff', height: '100%' }} onClick={() => router.push('/plan/new')}>
+              <Plus size={13} /> สร้างแผนใหม่
+            </button>
+          </div>
         </div>
 
         {loading ? (
@@ -339,18 +368,26 @@ export default function TeacherDashboard() {
                   <button className="pact-btn pact-preview" onClick={() => window.open(`/plan/${plan.planId}/preview`, '_blank')}>
                     <Eye size={13} /> ดูตัวอย่าง
                   </button>
-                  <button className="pact-btn pact-edit" onClick={() => router.push(`/plan/${plan.planId}`)}>
-                    <FileEdit size={13} /> แก้ไข
-                  </button>
-                  <button className="pact-btn pact-word" onClick={() => handleExportWord(plan.planId)}>
-                    <FileDown size={13} /> Word
-                  </button>
-                  <button className="pact-btn pact-pdf" onClick={() => handleExportPdf(plan.planId)}>
-                    <Printer size={13} /> PDF
-                  </button>
-                  <button className="pact-btn pact-archive" onClick={() => handleArchivePlan(plan.planId, plan.lessonTopic)} title="เก็บถาวรแผนการสอน">
-                    <Archive size={13} />
-                  </button>
+                  {activeTab === 'active' ? (
+                    <>
+                      <button className="pact-btn pact-edit" onClick={() => router.push(`/plan/${plan.planId}`)}>
+                        <FileEdit size={13} /> แก้ไข
+                      </button>
+                      <button className="pact-btn pact-word" onClick={() => handleExportWord(plan.planId)}>
+                        <FileDown size={13} /> Word
+                      </button>
+                      <button className="pact-btn pact-pdf" onClick={() => handleExportPdf(plan.planId)}>
+                        <Printer size={13} /> PDF
+                      </button>
+                      <button className="pact-btn pact-archive" onClick={() => handleArchivePlan(plan.planId, plan.lessonTopic)} title="เก็บถาวรแผนการสอน">
+                        <Archive size={13} />
+                      </button>
+                    </>
+                  ) : (
+                    <button className="pact-btn pact-word" style={{ background: '#dcfce7', color: '#15803d' }} onClick={() => handleRestorePlan(plan.planId, plan.lessonTopic)}>
+                      <RefreshCw size={13} /> กู้คืนแผนนี้
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

@@ -1,10 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
+// Helper to escape HTML tags to prevent XSS
+const escapeHtml = (text: string) => {
+  if (!text) return '';
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
+
 // Helper to escape HTML tags for presentation inside Word
 const cleanVal = (val: any) => {
   if (val === undefined || val === null) return '';
-  return String(val)
+  return escapeHtml(String(val))
     .replace(/\n/g, '<br>')
     .replace(/\r/g, '');
 };
@@ -50,7 +61,7 @@ const renderListWord = (val: any) => {
   if (cleanedLines.length === 0) return '';
   
   return `<div style="margin: 4px 0;">` + cleanedLines.map((line, idx) => {
-    return `<div style="margin-left: 35pt; text-indent: -15pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${line}</div>`;
+    return `<div style="margin-left: 35pt; text-indent: -15pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${escapeHtml(line)}</div>`;
   }).join('') + `</div>`;
 };
 
@@ -62,7 +73,7 @@ const cleanParagraphsWord = (val: any) => {
     .map(line => line.trim())
     .filter(Boolean)
     .map(line => {
-      return `<p style="margin: 2px 0 4px 0; text-indent: 15pt; text-align: left;">${line}</p>`;
+      return `<p style="margin: 2px 0 4px 0; text-indent: 15pt; text-align: left;">${escapeHtml(line)}</p>`;
     })
     .join('');
 };
@@ -75,7 +86,7 @@ const renderIndicatorsWord = (val: any) => {
     .map(line => line.trim())
     .filter(Boolean)
     .map(line => {
-      return `<div style="margin-left: 35pt; text-indent: 0; margin-bottom: 2px; text-align: left;">${line}</div>`;
+      return `<div style="margin-left: 35pt; text-indent: 0; margin-bottom: 2px; text-align: left;">${escapeHtml(line)}</div>`;
     })
     .join('');
 };
@@ -102,9 +113,9 @@ const renderLearningProcessWord = (val: any) => {
     };
 
     if (isStep(line)) {
-      return `<div class="sub-heading" style="margin-top: ${idx > 0 ? '12pt' : '4pt'}; font-weight: bold; margin-left: 20pt; font-size: 15pt;">${line}</div>`;
+      return `<div class="sub-heading" style="margin-top: ${idx > 0 ? '12pt' : '4pt'}; font-weight: bold; margin-left: 20pt; font-size: 15pt;">${escapeHtml(line)}</div>`;
     } else {
-      return `<div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 15pt;">${line}</div>`;
+      return `<div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 15pt;">${escapeHtml(line)}</div>`;
     }
   }).join('');
 };
@@ -117,7 +128,7 @@ const cleanSubContentWord = (val: any) => {
     .map(line => line.trim())
     .filter(Boolean)
     .map(line => {
-      return `<p class="sub-content" style="margin: 2px 0 4px 0; text-indent: 15pt; text-align: left; margin-left: 35pt; font-size: 15pt;">${line}</p>`;
+      return `<p class="sub-content" style="margin: 2px 0 4px 0; text-indent: 15pt; text-align: left; margin-left: 35pt; font-size: 15pt;">${escapeHtml(line)}</p>`;
     })
     .join('');
 };

@@ -1,4 +1,12 @@
 -- Schema definition for Lesson Plan AutoFill System
+--
+-- ============================================================================
+-- WARNING: DO NOT RUN THIS FILE ON PRODUCTION!
+-- This file contains destructive commands (DROP TABLE ... CASCADE) which will
+-- delete all existing data.
+-- For production changes, create a new non-destructive migration file in the 
+-- database/migrations/ directory.
+-- ============================================================================
 
 -- Enable UUID extension if needed
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

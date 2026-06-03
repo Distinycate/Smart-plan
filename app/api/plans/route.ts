@@ -5,11 +5,21 @@ import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
 // GET all plans
 export async function GET(req: NextRequest) {
   try {
-    const { data, error } = await supabase
+    const { searchParams } = new URL(req.url);
+    const statusFilter = searchParams.get('status');
+
+    let query = supabase
       .from('LessonPlans')
       .select('planId, planStatus, subjectCode, subjectName, unitName, lessonTopic, gradeLevel, semester, academicYear, totalHours, createdAt, updatedAt')
-      .neq('planStatus', 'archived')
       .order('updatedAt', { ascending: false });
+
+    if (statusFilter === 'archived') {
+      query = query.eq('planStatus', 'archived');
+    } else {
+      query = query.neq('planStatus', 'archived');
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error;
 
