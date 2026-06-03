@@ -105,9 +105,34 @@ export async function POST(req: NextRequest) {
 
     const parsedData = JSON.parse(cleanedText);
 
+    // --- PHASE 3: AI HALLUCINATION VALIDATION ---
+    const { validateIndicators } = await import('@/lib/aiValidator');
+    
+    // Extract indicator codes from the generated text
+    const indicatorRegex = /([ก-ฮ]\s*[๐-๙0-9]+\.[๐-๙0-9]+)\s+((?:ป|ม)\.[๐-๙0-9]+(?:-[๐-๙0-9]+)?)\/([๐-๙0-9]+)/g;
+    const extractCodes = (text: string) => {
+      if (!text) return [];
+      const matches = [...text.matchAll(indicatorRegex)];
+      return matches.map(m => `${m[1].trim()} ${m[2].trim()}/${m[3].trim()}`.replace(/\s+/g, ' '));
+    };
+
+    const codesToCheck = [
+      ...extractCodes(parsedData.indicatorDuring || ''),
+      ...extractCodes(parsedData.indicatorFinal || '')
+    ];
+
+    let validationResult = { isValid: true, hallucinatedIndicators: [] as string[] };
+    if (codesToCheck.length > 0) {
+      validationResult = await validateIndicators(codesToCheck);
+    }
+
     return NextResponse.json({
       success: true,
-      data: parsedData
+      data: {
+        ...parsedData,
+        isAiDraft: true, // Flag for UI to show warning
+        aiValidation: validationResult
+      }
     });
 
   } catch (error: any) {

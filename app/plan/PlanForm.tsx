@@ -256,8 +256,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
 
   // Loading & UI States
   const [loading, setLoading] = useState(true);
-  const [aiLoading, setAiLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  
+  // Phase 3: AI Draft & Hallucination States
+  const [isAiDraft, setIsAiDraft] = useState(false);
+  const [aiValidation, setAiValidation] = useState<any>(null);
+  
   const [activeTab, setActiveTab] = useState(1);
   const [initialData, setInitialData] = useState<any>(null);
   
@@ -798,6 +803,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           problems: cleanJSONString(ai.problems) || prev.problems,
           solutions: cleanJSONString(ai.solutions) || prev.solutions
         }));
+        
+        setIsAiDraft(ai.isAiDraft || true);
+        if (ai.aiValidation) {
+          setAiValidation(ai.aiValidation);
+        }
 
         triggerToast('AI ทำร่างแผนการสอนเสร็จสมบูรณ์แล้ว!', 'success');
         setActiveTab(2); // Auto jump to review tab
@@ -975,6 +985,48 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           </button>
         </div>
       </div>
+
+      {/* ─── PHASE 3: AI DRAFT WARNING BANNER ─── */}
+      {isAiDraft && (
+        <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 p-4 shadow-sm relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 text-amber-500 text-xl animate-pulse">✨</div>
+            <div className="flex-1">
+              <h3 className="font-bold text-amber-800 flex items-center gap-2">
+                ฉบับร่างจาก AI - กรุณาตรวจสอบและปรับแก้
+                <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200">
+                  AI Assistant
+                </span>
+              </h3>
+              <p className="mt-1 text-sm text-amber-700">
+                ข้อมูลในแผนนี้ถูกสร้างโดย AI โปรดอ่านทบทวนเนื้อหา กิจกรรม และเกณฑ์การประเมินอีกครั้งเพื่อความถูกต้องและเหมาะสมกับบริบทชั้นเรียนของคุณครู ก่อนกดปุ่ม "บันทึกเสร็จสมบูรณ์"
+              </p>
+
+              {aiValidation && !aiValidation.isValid && (
+                <div className="mt-3 rounded-md bg-red-50 p-3 border border-red-100">
+                  <p className="text-sm font-semibold text-red-800 mb-1 flex items-center gap-1">
+                    <span className="text-red-500">⚠️</span> ตรวจพบตัวชี้วัดที่อาจไม่ตรงกับหลักสูตรแกนกลาง (AI หลอน):
+                  </p>
+                  <ul className="list-disc list-inside text-sm text-red-700 ml-1">
+                    {aiValidation.hallucinatedIndicators.map((ind: string, idx: number) => (
+                      <li key={idx}><span className="font-mono bg-red-100 px-1 py-0.5 rounded">{ind}</span></li>
+                    ))}
+                  </ul>
+                  <p className="text-xs text-red-600 mt-2">กรุณาตรวจสอบรหัสตัวชี้วัดเหล่านี้กับเอกสารอ้างอิงอีกครั้ง</p>
+                </div>
+              )}
+            </div>
+            <button 
+              onClick={() => setIsAiDraft(false)}
+              className="text-amber-400 hover:text-amber-600 transition-colors p-1"
+              title="รับทราบ"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ─── WIZARD FORM CARDS ─── */}
       <form onSubmit={e => e.preventDefault()} style={{ position: 'relative' }}>

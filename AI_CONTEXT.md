@@ -37,6 +37,22 @@ LOCKED_TASK : —
 
 ---
 
+## 🤖 AI-TO-AI ARCHITECTURE (ระบบ AI ตรวจและแก้แผนอัตโนมัติ)
+
+ระบบ Smart Plan มีฟีเจอร์ "AI to AI" ในหน้า `/evaluator` (ประเมินและพัฒนาแผน) ซึ่งเป็นการทำงานร่วมกันของ AI 2 ตัว:
+
+1. **AI #1 (The Evaluator) - `app/api/ai-evaluate/route.ts`**
+   - **หน้าที่:** อ่านไฟล์ `.docx` หรือ JSON ของแผนการสอน แล้วให้คะแนนพร้อมระบุจุดเด่น จุดด้อย และ "ข้อเสนอแนะเชิงลึก" (Recommendations) แยกตามส่วนต่างๆ
+   - **Prompt:** `evaluationPromptTemplate` ใน `lib/aiEvaluatorPrompt.ts`
+
+2. **AI #2 (The Auto-Fixer) - `app/api/ai-fix/route.ts`**
+   - **หน้าที่:** รับค่า JSON แผนการสอนเดิม + "ข้อเสนอแนะ" จาก AI ตัวแรก แล้วเข้าไปเขียนเนื้อหาใหม่เฉพาะจุดที่ AI ตัวแรกแนะนำ (Partial Fix)
+   - **Prompt:** `partialFixPromptTemplate` ใน `lib/aiEvaluatorPrompt.ts`
+
+**คำเตือนสำหรับ AI:** หากแก้ไข Prompt หรือ API ของระบบนี้ ต้องคงรูปแบบ Output เป็น JSON เสมอ เพราะระบบนี้ใช้ JSON เป็นภาษากลางในการคุยกันระหว่าง AI 1 และ AI 2
+
+---
+
 ## 📁 KEY FILES MAP (ไฟล์สำคัญ)
 
 ```
@@ -86,16 +102,15 @@ resultK, resultP, resultA, problems, solutions
 createdAt, updatedAt
 ```
 
-### ⚠️ CRITICAL — คอลัมน์ที่ต้องเพิ่มใน Supabase
+### ✅ CRITICAL — คอลัมน์ที่ต้องเพิ่มใน Supabase
 ```sql
--- ต้องรันใน Supabase SQL Editor: 
--- https://supabase.com/dashboard/project/tfvlkfmayxsgneyajhrl/sql/new
+-- รันเรียบร้อยแล้วใน Supabase SQL Editor:
 ALTER TABLE "LessonPlans"
 ADD COLUMN IF NOT EXISTS "rubricK" TEXT,
 ADD COLUMN IF NOT EXISTS "rubricP" TEXT,
 ADD COLUMN IF NOT EXISTS "rubricA" TEXT;
 ```
-> **STATUS**: ⏳ รอผู้ใช้รันใน Supabase Dashboard (ไม่สามารถรันผ่าน script อัตโนมัติได้)
+> **STATUS**: ✅ อัปเดตฐานข้อมูลและตรวจสอบเรียบร้อยแล้ว (Rubric บันทึกได้ 100%)
 
 ---
 
@@ -130,8 +145,8 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 
 ## ✅ CURRENT STATE (สถานะปัจจุบัน)
 
-**Last updated**: 2026-06-03 12:02 (Thai time)
-**Updated by**: Codex
+**Last updated**: 2026-06-03 22:15 (Thai time)
+**Updated by**: Antigravity
 
 ### สิ่งที่ทำเสร็จแล้ว ✅
 - [x] ลำดับหัวข้อ 1-10 ถูกต้องทั้ง Preview, Word Export, PlanForm
@@ -147,15 +162,15 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 - [x] **Plan Evaluation Result Redesign**: ปรับ `app/evaluator/page.tsx` ให้หน้าผลการตรวจแผนเป็นแบบ compartmentalized dashboard มี Total Score card, RadarChart, 3-step status, Traffic Light cards และ AI Deep Insights ตามคำขอผู้ใช้
 - [x] **Evaluator Landing/Input UI Cleanup**: ปรับหน้าแรกของ `/evaluator` ให้ไม่เป็นกล่องแบน ๆ แบบเดิมแล้ว มี hero, stats, segmented mode, plan cards และ upload panel ที่อ่านง่ายขึ้น
 - [x] **Evaluator Broken Layout Refactor**: ปรับ `/evaluator` เป็น single-column layout, stepper แนวนอนด้านบน, header เดียว, segmented control แบบ pill, plan cards สะอาด และลบ legacy result component ท้ายไฟล์ที่ไม่ได้ใช้งานออกแล้ว
+- [x] **DB Migration**: ผู้ใช้ทำการรัน SQL เพิ่ม rubricK/P/A ใน Supabase Dashboard เรียบร้อยแล้ว
+- [x] ทดสอบ Rubric บันทึก→กลับมาแก้ไข→ยังมีข้อมูลสมบูรณ์
+- [x] ทดสอบ Word export มี Rubric table โชว์ถูกต้องสมบูรณ์
 
 ### รอดำเนินการ ⏳
-- [ ] **DB Migration**: ผู้ใช้ต้องรัน SQL เพิ่ม rubricK/P/A ใน Supabase Dashboard
-- [ ] ทดสอบ Rubric บันทึก→กลับมาแก้ไข→ยังมีข้อมูล (หลัง DB migration)
-- [ ] ทดสอบ Word export มี Rubric table จริงๆ (หลัง DB migration)
 - [ ] ตรวจบน Vercel production `https://smart-plan-ten.vercel.app` หลัง deploy ว่า Tab 4 ไม่มีช่อง "สิ่งที่ต้องการวัดและประเมินผล" แล้ว
 
 ### Known Issues 🔴
-- **rubricK, rubricP, rubricA columns ยังไม่มีใน Supabase** → Rubric จะไม่ถูกบันทึก จนกว่าจะ migrate DB
+- ไม่มี Issues สำคัญเกี่ยวกับฐานข้อมูลแล้ว
 
 ---
 

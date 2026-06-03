@@ -979,6 +979,20 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
                 className={`h-full rounded-full bg-gradient-to-r ${toneStyle.gradient}`}
               />
             </div>
+            {/* Rule-based & AI Score Breakdown */}
+            {(result.data.ruleBasedScore !== undefined && result.data.originalAiScore !== undefined) && (
+              <div className="mt-4 flex items-center justify-between rounded-xl bg-slate-50 p-3 text-xs font-bold text-slate-500 shadow-inner">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-400">Rule-based</span>
+                  <span className="text-sm text-slate-700">{result.data.ruleBasedScore} <span className="text-slate-400">/ 70</span></span>
+                </div>
+                <div className="text-slate-300">+</div>
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-400">AI Logic</span>
+                  <span className="text-sm text-slate-700">{Math.round(result.data.originalAiScore * 0.3)} <span className="text-slate-400">/ 30</span></span>
+                </div>
+              </div>
+            )}
           </motion.div>
         </div>
 

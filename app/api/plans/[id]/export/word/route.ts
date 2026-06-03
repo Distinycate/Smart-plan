@@ -113,9 +113,9 @@ const renderLearningProcessWord = (val: any) => {
     };
 
     if (isStep(line)) {
-      return `<div class="sub-heading" style="margin-top: ${idx > 0 ? '12pt' : '4pt'}; font-weight: bold; margin-left: 20pt; font-size: 15pt;">${escapeHtml(line)}</div>`;
+      return `<div class="sub-heading" style="margin-top: ${idx > 0 ? '12pt' : '4pt'}; font-weight: bold; margin-left: 20pt; font-size: 16pt;">${escapeHtml(line)}</div>`;
     } else {
-      return `<div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 15pt;">${escapeHtml(line)}</div>`;
+      return `<div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 16pt;">${escapeHtml(line)}</div>`;
     }
   }).join('');
 };
@@ -128,7 +128,7 @@ const cleanSubContentWord = (val: any) => {
     .map(line => line.trim())
     .filter(Boolean)
     .map(line => {
-      return `<p class="sub-content" style="margin: 2px 0 4px 0; text-indent: 15pt; text-align: left; margin-left: 35pt; font-size: 15pt;">${escapeHtml(line)}</p>`;
+      return `<p class="sub-content" style="margin: 2px 0 4px 0; text-indent: 15pt; text-align: left; margin-left: 35pt; font-size: 16pt;">${escapeHtml(line)}</p>`;
     })
     .join('');
 };
@@ -225,18 +225,18 @@ const parseRubricText = (text: string) => {
 const renderRubricTableWord = (rubricText: string) => {
   const levels = parseRubricText(rubricText);
   return `
-    <table class="assessment-table" style="width: 100%; border-collapse: collapse; margin-top: 8px; margin-bottom: 16px; font-size: 13pt;">
+    <table class="assessment-table" style="table-layout: fixed; word-wrap: break-word; word-break: break-word; width: 100%; border-collapse: collapse; margin-top: 8px; margin-bottom: 16px; font-size: 16pt;">
       <thead>
         <tr>
-          <th style="width: 25%; text-align: center; font-weight: bold; border: 1px solid #000; padding: 4px 8px; font-size: 13pt;">ระดับคะแนน</th>
-          <th style="width: 75%; text-align: left; font-weight: bold; border: 1px solid #000; padding: 4px 8px; font-size: 13pt;">เกณฑ์การพิจารณา (คำอธิบายคุณภาพ)</th>
+          <th style="width: 25%; text-align: center; font-weight: bold; border: 1px solid #000; padding: 4px 8px; font-size: 16pt;">ระดับคะแนน</th>
+          <th style="width: 75%; text-align: left; font-weight: bold; border: 1px solid #000; padding: 4px 8px; font-size: 16pt;">เกณฑ์การพิจารณา (คำอธิบายคุณภาพ)</th>
         </tr>
       </thead>
       <tbody>
         ${levels.map(l => `
           <tr>
-            <td style="width: 25%; text-align: center; font-weight: bold; border: 1px solid #000; padding: 4px 8px; vertical-align: middle; font-size: 13pt;">${l.label}</td>
-            <td style="width: 75%; border: 1px solid #000; padding: 4px 8px; vertical-align: top; font-size: 13pt;">${cleanVal(l.text) || '......................................................................'}</td>
+            <td style="width: 25%; text-align: center; font-weight: bold; border: 1px solid #000; padding: 4px 8px; vertical-align: middle; font-size: 16pt;">${l.label}</td>
+            <td style="width: 75%; border: 1px solid #000; padding: 4px 8px; vertical-align: top; font-size: 16pt;">${cleanVal(l.text) || '......................................................................'}</td>
           </tr>
         `).join('')}
       </tbody>
@@ -308,13 +308,13 @@ export async function GET(
       mso-ascii-font-family: "TH Sarabun New";
       mso-hansi-font-family: "TH Sarabun New";
       mso-bidi-font-family: "TH Sarabun New";
-      font-size: 15pt;
+      font-size: 16pt;
       line-height: 1.0;
       color: #000;
     }
     .doc-title {
       text-align: center;
-      font-size: 18pt;
+      font-size: 16pt;
       font-weight: bold;
       margin-bottom: 18px;
     }
@@ -329,7 +329,7 @@ export async function GET(
     .info-table td {
       padding: 0px !important;
       margin: 0px !important;
-      font-size: 15pt;
+      font-size: 16pt;
       vertical-align: middle;
       border: none;
       height: 22px;
@@ -345,7 +345,7 @@ export async function GET(
       width: 50%;
       text-align: center;
       padding: 6px 12px;
-      font-size: 14pt;
+      font-size: 16pt;
       vertical-align: top;
       line-height: 1.6;
     }
@@ -356,24 +356,24 @@ export async function GET(
     }
     .label { font-weight: bold; }
     .section { margin-top: 10px; }
-    .section-title { font-weight: bold; font-size: 15pt; margin-bottom: 4px; text-align: left; }
-    .section-content { margin-left: 20pt; font-size: 15pt; text-align: left; }
-    .section-content-list { margin-left: 20pt; font-size: 15pt; }
-    .sub-heading { font-weight: bold; margin-left: 20pt; margin-top: 4px; margin-bottom: 2px; font-size: 15pt; }
-    .sub-content { margin-left: 35pt; font-size: 15pt; text-align: left; }
+    .section-title { font-weight: bold; font-size: 16pt; margin-bottom: 4px; text-align: left; }
+    .section-content { margin-left: 20pt; font-size: 16pt; text-align: left; }
+    .section-content-list { margin-left: 20pt; font-size: 16pt; }
+    .sub-heading { font-weight: bold; margin-left: 20pt; margin-top: 4px; margin-bottom: 2px; font-size: 16pt; }
+    .sub-content { margin-left: 35pt; font-size: 16pt; text-align: left; }
     .assessment-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
       margin-bottom: 15px;
-      font-size: 13pt;
+      font-size: 16pt;
     }
     .assessment-table th,
     .assessment-table td {
       border: 1px solid #000;
       padding: 4px 8px;
       vertical-align: top;
-      font-size: 13pt;
+      font-size: 16pt;
       text-align: left;
       line-height: 1.1;
     }
@@ -389,7 +389,7 @@ export async function GET(
     }
     .sig-title {
       font-weight: bold;
-      font-size: 15pt;
+      font-size: 16pt;
       margin-top: 20px;
       text-align: left;
       margin-bottom: 15px;
@@ -399,7 +399,7 @@ export async function GET(
     }
     .comment-heading {
       font-weight: bold;
-      font-size: 14pt;
+      font-size: 16pt;
       margin-bottom: 2px;
     }
     .sig-layout-table {
@@ -413,7 +413,7 @@ export async function GET(
     }
     .sig-cell {
       text-align: center;
-      font-size: 14pt;
+      font-size: 16pt;
       line-height: 1.6;
     }
     p { margin: 2px 0 4px; }
@@ -427,52 +427,52 @@ export async function GET(
     <table class="info-table" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
        <tbody>
          <tr style="height: 22px;">
-           <td style="width: 12%; font-weight: bold; padding: 0px; font-size: 15pt;">ชื่อ-นามสกุล</td>
-           <td style="width: 28%; padding: 0px; font-size: 15pt;">${cleanVal(plan.teacherName)}</td>
-           <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 15pt;">โรงเรียน</td>
-           <td style="width: 18%; padding: 0px; font-size: 15pt;">${cleanVal(plan.schoolName)}</td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 15pt;">สังกัด</td>
-           <td style="width: 24%; padding: 0px; font-size: 15pt;">${cleanVal(plan.organization)}</td>
+           <td style="width: 12%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อ-นามสกุล</td>
+           <td style="width: 28%; padding: 0px; font-size: 16pt;">${cleanVal(plan.teacherName)}</td>
+           <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 16pt;">โรงเรียน</td>
+           <td style="width: 18%; padding: 0px; font-size: 16pt;">${cleanVal(plan.schoolName)}</td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">สังกัด</td>
+           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.organization)}</td>
          </tr>
        </tbody>
      </table>
      <table class="info-table" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
        <tbody>
          <tr style="height: 22px;">
-           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 15pt;">กลุ่มสาระ</td>
-           <td style="width: 53%; padding: 0px; font-size: 15pt;">${cleanVal(plan.headerLearningArea)}</td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 15pt;">ระดับชั้น</td>
-           <td style="width: 24%; padding: 0px; font-size: 15pt;">${cleanVal(plan.headerGradeLevel)}</td>
+           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">กลุ่มสาระ</td>
+           <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerLearningArea)}</td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">ระดับชั้น</td>
+           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.headerGradeLevel)}</td>
          </tr>
        </tbody>
      </table>
      <table class="info-table" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
        <tbody>
          <tr style="height: 22px;">
-           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 15pt;">รายวิชา</td>
-           <td style="width: 53%; padding: 0px; font-size: 15pt;">${cleanVal(plan.subjectName)} (${cleanVal(plan.subjectCode)})</td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 15pt;">ภาคเรียน</td>
-           <td style="width: 24%; padding: 0px; font-size: 15pt;">ภาคเรียนที่ ${cleanVal(plan.semester)}/${cleanVal(plan.academicYear)}</td>
+           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">รายวิชา</td>
+           <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.subjectName)} (${cleanVal(plan.subjectCode)})</td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">ภาคเรียน</td>
+           <td style="width: 24%; padding: 0px; font-size: 16pt;">ภาคเรียนที่ ${cleanVal(plan.semester)}/${cleanVal(plan.academicYear)}</td>
          </tr>
        </tbody>
      </table>
      <table class="info-table" style="width: 100%; border-collapse: collapse; margin-bottom: 2px; line-height: 1.0;">
        <tbody>
          <tr style="height: 22px;">
-           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 15pt;">ชื่อหน่วย</td>
-           <td style="width: 53%; padding: 0px; font-size: 15pt;">${cleanVal(plan.unitName)}</td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 15pt;">เวลา</td>
-           <td style="width: 24%; padding: 0px; font-size: 15pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
+           <td style="width: 15%; font-weight: bold; padding: 0px; font-size: 16pt;">ชื่อหน่วย</td>
+           <td style="width: 53%; padding: 0px; font-size: 16pt;">${cleanVal(plan.unitName)}</td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เวลา</td>
+           <td style="width: 24%; padding: 0px; font-size: 16pt;">${cleanVal(plan.totalHours)} ชั่วโมง</td>
          </tr>
        </tbody>
      </table>
      <table class="info-table" style="width: 100%; border-collapse: collapse; margin-bottom: 15px; line-height: 1.0;">
        <tbody>
          <tr style="height: 22px;">
-           <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 15pt;">วันที่สอน</td>
-           <td style="width: 30%; padding: 0px; font-size: 15pt;"></td>
-           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 15pt;">เรื่อง</td>
-           <td style="width: 52%; padding: 0px; font-size: 15pt;">${cleanVal(plan.lessonTopic)}</td>
+           <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 16pt;">วันที่สอน</td>
+           <td style="width: 30%; padding: 0px; font-size: 16pt;"></td>
+           <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เรื่อง</td>
+           <td style="width: 52%; padding: 0px; font-size: 16pt;">${cleanVal(plan.lessonTopic)}</td>
          </tr>
        </tbody>
      </table>
@@ -523,12 +523,12 @@ export async function GET(
      <div class="section">
        <div class="section-title">7. สื่อและแหล่งการเรียนรู้</div>
        <div class="section-content" style="margin-left: 0;">
-         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt;">1) สื่อการเรียนรู้:</div>
-         <div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 15pt;">${cleanVal(plan.learningMedia) || '..................................................'}</div>
-         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt; margin-top: 6pt;">2) แหล่งเรียนรู้:</div>
-         <div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 15pt;">${cleanVal(plan.learningSources) || '..................................................'}</div>
-         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt; margin-top: 6pt;">3) ชิ้นงาน / ภาระงาน:</div>
-         <div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 15pt;">${cleanVal(plan.tasks) || '..................................................'}</div>
+         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt;">1) สื่อการเรียนรู้:</div>
+         <div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 16pt;">${cleanVal(plan.learningMedia) || '..................................................'}</div>
+         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 6pt;">2) แหล่งเรียนรู้:</div>
+         <div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 16pt;">${cleanVal(plan.learningSources) || '..................................................'}</div>
+         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 6pt;">3) ชิ้นงาน / ภาระงาน:</div>
+         <div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 16pt;">${cleanVal(plan.tasks) || '..................................................'}</div>
        </div>
      </div>
 
@@ -539,7 +539,7 @@ export async function GET(
 
      <div class="section">
        <div class="section-title">9. การวัดและการประเมินผล</div>
-       <table class="assessment-table" style="width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px; font-size: 13pt;">
+       <table class="assessment-table" style="table-layout: fixed; word-wrap: break-word; word-break: break-word; width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px; font-size: 16pt;">
          <thead>
            <tr>
              <th style="width:40%; text-align: center; font-weight: bold; border: 1px solid #000; padding: 4px 8px;">สิ่งที่ต้องการวัดและประเมินผล</th>
@@ -575,15 +575,15 @@ export async function GET(
        <div class="section-title">9.1 เกณฑ์การประเมินผลการเรียนรู้ (Rubrics)</div>
        <div class="section-content" style="margin-left: 0;">
          ${plan.rubricK ? `
-           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านความรู้ (K):</div>
+           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านความรู้ (K):</div>
            ${renderRubricTableWord(plan.rubricK)}
          ` : ''}
          ${plan.rubricP ? `
-           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt; margin-top: 12pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านทักษะกระบวนการ (P):</div>
+           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 12pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านทักษะกระบวนการ (P):</div>
            ${renderRubricTableWord(plan.rubricP)}
          ` : ''}
          ${plan.rubricA ? `
-           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt; margin-top: 12pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านคุณลักษณะ (A):</div>
+           <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 12pt; margin-bottom: 4pt;">เกณฑ์ประเมินด้านคุณลักษณะ (A):</div>
            ${renderRubricTableWord(plan.rubricA)}
          ` : ''}
        </div>
@@ -592,17 +592,17 @@ export async function GET(
      <div class="section">
        <div class="section-title">10. บันทึกหลังการจัดกระบวนการเรียนรู้</div>
        <div class="section-content" style="margin-left: 0;">
-         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt;">1) ผลการจัดการเรียนรู้</div>
-         <div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 15pt;">
+         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt;">1) ผลการจัดการเรียนรู้</div>
+         <div class="sub-content" style="margin-left: 35pt; text-indent: 15pt; margin-top: 2pt; margin-bottom: 4pt; text-align: left; font-size: 16pt;">
            <div style="text-indent: 15pt; margin-bottom: 2pt;"><strong>- ด้านความรู้ (K):</strong> ${cleanVal(plan.resultK)}</div>
            <div style="text-indent: 15pt; margin-bottom: 2pt;"><strong>- ด้านทักษะกระบวนการ (P):</strong> ${cleanVal(plan.resultP)}</div>
            <div style="text-indent: 15pt; margin-bottom: 4pt;"><strong>- ด้านคุณลักษณะ (A):</strong> ${cleanVal(plan.resultA)}</div>
          </div>
          
-         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt; margin-top: 6px;">2) ปัญหา/อุปสรรค</div>
+         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 6px;">2) ปัญหา/อุปสรรค</div>
          ${cleanSubContentWord(plan.problems)}
          
-         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 15pt; margin-top: 6px;">3) ข้อเสนอแนะ/แนวทางแก้ไข</div>
+         <div class="sub-heading" style="font-weight: bold; margin-left: 20pt; font-size: 16pt; margin-top: 6px;">3) ข้อเสนอแนะ/แนวทางแก้ไข</div>
          ${cleanSubContentWord(plan.solutions)}
        </div>
     </div>
@@ -644,8 +644,8 @@ export async function GET(
       
       <div class="comment-block">
         <div class="comment-heading">ความเห็น / ข้อเสนอแนะของหัวหน้างานวิชาการ</div>
-        <div style="color: #000; margin-top: 4px; font-size: 14pt;">............................................................................................................................................................................................</div>
-        <div style="color: #000; margin-top: 4px; font-size: 14pt;">............................................................................................................................................................................................</div>
+        <div style="color: #000; margin-top: 4px; font-size: 16pt;">............................................................................................................................................................................................</div>
+        <div style="color: #000; margin-top: 4px; font-size: 16pt;">............................................................................................................................................................................................</div>
         <table class="sig-layout-table">
           <tbody>
             <tr>
@@ -662,8 +662,8 @@ export async function GET(
 
       <div class="comment-block">
         <div class="comment-heading">ความเห็น / ข้อเสนอแนะของรองผู้อำนวยการบริหารงานวิชาการ (ถ้ามี)</div>
-        <div style="color: #000; margin-top: 4px; font-size: 14pt;">............................................................................................................................................................................................</div>
-        <div style="color: #000; margin-top: 4px; font-size: 14pt;">............................................................................................................................................................................................</div>
+        <div style="color: #000; margin-top: 4px; font-size: 16pt;">............................................................................................................................................................................................</div>
+        <div style="color: #000; margin-top: 4px; font-size: 16pt;">............................................................................................................................................................................................</div>
         <table class="sig-layout-table">
           <tbody>
             <tr>
@@ -680,8 +680,8 @@ export async function GET(
 
       <div class="comment-block">
         <div class="comment-heading">ความเห็น / ข้อเสนอแนะของผู้อำนวยการ</div>
-        <div style="color: #000; margin-top: 4px; font-size: 14pt;">............................................................................................................................................................................................</div>
-        <div style="color: #000; margin-top: 4px; font-size: 14pt;">............................................................................................................................................................................................</div>
+        <div style="color: #000; margin-top: 4px; font-size: 16pt;">............................................................................................................................................................................................</div>
+        <div style="color: #000; margin-top: 4px; font-size: 16pt;">............................................................................................................................................................................................</div>
         <table class="sig-layout-table">
           <tbody>
             <tr>

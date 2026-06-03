@@ -49,7 +49,31 @@ export async function POST(req: Request) {
     }
     const parsedData = JSON.parse(cleanedText);
 
-    return NextResponse.json({ success: true, evaluation: parsedData });
+    // --- RULE-BASED SCORING INTEGRATION ---
+    const { evaluatePlanRuleBased } = await import('@/lib/evaluationEngine');
+    const ruleResult = evaluatePlanRuleBased(planData);
+    
+    // Mix Rule-based (70%) + AI Qualitative (30%)
+    // parsedData.overallScore is from Gemini (out of 100). We multiply by 0.3
+    // ruleResult.totalScore is already out of 70.
+    const aiScoreScaled = Math.round((parsedData.overallScore || 0) * 0.3);
+    const finalScore = ruleResult.totalScore + aiScoreScaled;
+
+    // Inject rule-based findings into the AI summary
+    let combinedSummary = parsedData.summary;
+    if (ruleResult.missingElements.length > 0) {
+      combinedSummary = `[ระบบตรวจพบข้อบกพร่องพื้นฐาน: ขาด ${ruleResult.missingElements.join(', ')}] ` + combinedSummary;
+    }
+
+    const finalEvaluation = {
+      ...parsedData,
+      originalAiScore: parsedData.overallScore,
+      ruleBasedScore: ruleResult.totalScore,
+      overallScore: finalScore,
+      summary: combinedSummary
+    };
+
+    return NextResponse.json({ success: true, evaluation: finalEvaluation });
 
   } catch (error: any) {
     console.error('Evaluate API Error:', error);
