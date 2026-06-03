@@ -5,7 +5,7 @@ import {
   CheckCircle, AlertTriangle, Upload, Zap, Loader2, ArrowLeft,
   BarChart2, Star, Layers, ListChecks, ClipboardCheck, Trophy,
   Sparkles, ShieldCheck, Gauge, ArrowRight, FileText, Circle,
-  ChevronDown, ChevronUp, ThumbsUp
+  CheckSquare, UploadCloud, BookOpen, ChevronDown, ChevronUp, ThumbsUp
 } from 'lucide-react';
 import Link from 'next/link';
 import * as mammoth from 'mammoth';
@@ -20,14 +20,36 @@ export default function EvaluatorPage() {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluationResults, setEvaluationResults] = useState<any[]>([]);
   const [fixingPlanId, setFixingPlanId] = useState<string | null>(null);
+  const [loadingText, setLoadingText] = useState('กำลังเชื่อมต่อกับ AI...');
   
   const [activeTab, setActiveTab] = useState<'system' | 'upload'>('system');
   const [error, setError] = useState<string | null>(null);
   const [batchProgress, setBatchProgress] = useState({ current: 0, total: 0 });
+  const flowStep = isEvaluating ? 2 : (evaluationResults.length > 0 ? 3 : 1);
 
   useEffect(() => {
     fetchPlans();
   }, []);
+
+  useEffect(() => {
+    if (!isEvaluating) return;
+
+    const texts = [
+      'กำลังอ่านโครงสร้างแผนการสอน...',
+      'กำลังวิเคราะห์ความสอดคล้องของตัวชี้วัด...',
+      'กำลังประเมินความเหมาะสมของกิจกรรม...',
+      'กำลังสรุปผลและสร้างข้อเสนอแนะ...'
+    ];
+    let textIndex = 0;
+    setLoadingText(texts[0]);
+
+    const interval = window.setInterval(() => {
+      textIndex = (textIndex + 1) % texts.length;
+      setLoadingText(texts[textIndex]);
+    }, 1500);
+
+    return () => window.clearInterval(interval);
+  }, [isEvaluating]);
 
   const fetchPlans = async () => {
     try {
@@ -130,6 +152,13 @@ export default function EvaluatorPage() {
       setIsEvaluating(false);
       setBatchProgress({ current: 0, total: 0 });
     }
+  };
+
+  const resetEvaluationFlow = () => {
+    setEvaluationResults([]);
+    setError(null);
+    setFixingPlanId(null);
+    setBatchProgress({ current: 0, total: 0 });
   };
 
   const startAutoFix = async (resultIndex: number) => {
@@ -239,6 +268,9 @@ export default function EvaluatorPage() {
           </div>
         </motion.div>
 
+        <EvaluationFlowStepper step={flowStep} />
+
+        {flowStep === 1 && (
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -321,7 +353,7 @@ export default function EvaluatorPage() {
                                 <h3 className="truncate text-base font-black text-slate-900">{p.lessonTopic || 'ไม่มีชื่อแผน'}</h3>
                                 <div className="mt-2 flex flex-wrap items-center gap-2 text-xs font-bold text-slate-500">
                                   <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
-                                    <Layers className="h-3.5 w-3.5" />
+                                    <BookOpen className="h-3.5 w-3.5" />
                                     {p.subjectName || 'ไม่ระบุวิชา'}
                                   </span>
                                   <span className="rounded-full bg-slate-100 px-2.5 py-1">{p.gradeLevel || 'ไม่ระบุระดับชั้น'}</span>
@@ -428,13 +460,64 @@ export default function EvaluatorPage() {
             </div>
           </div>
         </motion.div>
+        )}
+
+        {flowStep === 2 && (
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+            className="mx-auto max-w-xl rounded-[2rem] border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12"
+          >
+            <div className="relative mx-auto mb-8 h-28 w-28">
+              <div className="absolute inset-0 rounded-full border-4 border-indigo-100" />
+              <div className="absolute inset-0 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
+                  <Sparkles className="h-8 w-8 animate-pulse" />
+                </div>
+              </div>
+            </div>
+            <h2 className="text-2xl font-black text-slate-900">AI กำลังทำงาน...</h2>
+            <p className="mt-3 min-h-6 text-sm font-bold text-slate-500">{loadingText}</p>
+            {batchProgress.total > 0 && (
+              <div className="mt-6 rounded-2xl bg-slate-50 p-4">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Progress</p>
+                <p className="mt-1 text-sm font-bold text-slate-700">
+                  {batchProgress.total > 1
+                    ? `กำลังตรวจแผนที่ ${batchProgress.current} จาก ${batchProgress.total}`
+                    : 'กำลังตรวจ 1 รายการ'}
+                </p>
+              </div>
+            )}
+          </motion.div>
+        )}
 
         {/* EVALUATION RESULTS */}
-        {evaluationResults.length > 0 && (
+        {flowStep === 3 && evaluationResults.length > 0 && (
           <div className="space-y-6 pt-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <div className="flex items-center gap-4 mb-4 pl-2">
-              <div className="w-2 h-8 bg-indigo-500 rounded-full"></div>
-              <h2 className="text-2xl font-black text-slate-800">รายงานผลวิเคราะห์ (Analytics Dashboard)</h2>
+            <div className="flex flex-col gap-4 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-end sm:justify-between sm:p-6">
+              <div>
+                <button
+                  onClick={resetEvaluationFlow}
+                  className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-indigo-600"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  ประเมินแผนอื่น
+                </button>
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+                    <FileText className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Evaluation Completed</p>
+                    <h2 className="text-2xl font-black text-slate-900">รายงานผลวิเคราะห์</h2>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-2xl bg-slate-50 px-5 py-4 text-sm font-bold text-slate-600">
+                ตรวจเสร็จแล้ว {evaluationResults.length} รายการ
+              </div>
             </div>
             
             {evaluationResults.map((result, index) => (
@@ -458,6 +541,59 @@ export default function EvaluatorPage() {
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
       `}}/>
     </div>
+  );
+}
+
+function EvaluationFlowStepper({ step }: { step: number }) {
+  const steps = [
+    { label: 'เลือกแผน', icon: CheckSquare },
+    { label: 'AI วิเคราะห์', icon: UploadCloud },
+    { label: 'ผลประเมิน', icon: FileText }
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.04, ease: 'easeOut' }}
+      className="rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm"
+    >
+      <div className="grid gap-2 md:grid-cols-3">
+        {steps.map((item, itemIndex) => {
+          const itemStep = itemIndex + 1;
+          const Icon = item.icon;
+          const isActive = step === itemStep;
+          const isDone = step > itemStep;
+
+          return (
+            <div
+              key={item.label}
+              className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition-colors ${
+                isActive
+                  ? 'bg-indigo-50 text-indigo-700'
+                  : isDone
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-slate-50 text-slate-400'
+              }`}
+            >
+              <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
+                isActive
+                  ? 'bg-indigo-600 text-white'
+                  : isDone
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-white text-slate-400'
+              }`}>
+                {isDone ? <CheckCircle className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+              </div>
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.14em] opacity-70">Step {itemStep}</p>
+                <p className="text-sm font-black">{item.label}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </motion.div>
   );
 }
 

@@ -130,7 +130,7 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 
 ## ✅ CURRENT STATE (สถานะปัจจุบัน)
 
-**Last updated**: 2026-06-03 11:42 (Thai time)
+**Last updated**: 2026-06-03 11:52 (Thai time)
 **Updated by**: Codex
 
 ### สิ่งที่ทำเสร็จแล้ว ✅
@@ -357,4 +357,35 @@ LOW      | Refactor globals.css ให้ organize ดีขึ้น          |
 - ตอนนี้ app/evaluator/page.tsx ปรับหน้าแรกแล้ว: hero, stats, segmented mode, plan cards, upload panel, evaluation queue
 - build ผ่านแล้ว แต่ local dev server เปิดไม่ได้ใน sandbox เพราะ listen EPERM
 - ถ้าจะตรวจบน production ให้รอ Vercel deploy commit ล่าสุดก่อน แล้ว refresh /evaluator
+```
+
+---
+**[Codex → AI Agents] — 2026-06-03 11:46**
+```
+สถานะส่งต่อสำหรับ AI ตัวถัดไป:
+- ผู้ใช้สั่งให้หยุดลอง push แล้ว ให้แก้ไฟล์ในเครื่องพอ และให้อีก AI เป็นคน push
+- Local branch main มี commit ใหม่แล้ว: 396b22a feat: polish evaluator entry experience
+- สถานะก่อนหยุด: main ahead origin/main 1 commit
+- git push จากเครื่อง Codex ล้มเหลวเพราะ DNS: Could not resolve host: github.com
+- ห้ามแก้ซ้ำโดยไม่จำเป็น ให้ตรวจ quick status แล้ว push commit นี้ต่อได้เลย
+- สิ่งที่อยู่ใน commit: app/evaluator/page.tsx ปรับหน้าแรก /evaluator + AI_CONTEXT.md อัปเดต handoff
+- Verification ที่ทำแล้ว: git diff --check ผ่าน, npm run build ผ่าน
+- Local dev server ยังเปิดไม่ได้ใน sandbox เพราะ listen EPERM ทั้ง 3000 และ 3001
+```
+
+---
+**[Codex → AI Agents] — 2026-06-03 11:52**
+```
+อัปเดตจากไฟล์แนบ Pasted text:
+- ผู้ใช้ให้ "จัดทำอันนี้ด้วย" เป็น mock flow เลือกแผน -> AI กำลังตรวจ -> ผลประเมิน
+- ผสานแนวคิดนี้เข้า app/evaluator/page.tsx แล้ว ไม่ได้สร้าง demo แยก
+- เพิ่ม flowStep แบบ derived: 1 เมื่อยังไม่ตรวจ, 2 เมื่อ isEvaluating, 3 เมื่อมี evaluationResults
+- เพิ่ม EvaluationFlowStepper ด้านบนของหน้า
+- เพิ่มหน้ากำลังประมวลผลพร้อม spinner และ loadingText หมุนข้อความจริงระหว่างรอ AI
+- หน้า result มีปุ่ม "ประเมินแผนอื่น" เพื่อกลับไป step 1 โดยไม่ reload
+- เปลี่ยน subject chip ใน plan card ให้ใช้ BookOpen ตาม mock
+- Verification ล่าสุด: git diff --check ผ่าน, npm run build ผ่าน
+- สถานะหลังอัปเดตนี้ยังไม่ได้ commit/push ตามคำสั่งผู้ใช้ มี modified: app/evaluator/page.tsx และ AI_CONTEXT.md
+
+*(UPDATE: Agent 1 ได้รับช่วงต่อ ทำการตรวจสอบโค้ด, Build ซ้ำ, และ Push ขึ้น Vercel ให้เรียบร้อยแล้วครับ!)*
 ```
