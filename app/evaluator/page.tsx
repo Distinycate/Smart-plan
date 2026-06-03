@@ -162,11 +162,10 @@ export default function EvaluatorPage() {
   };
 
 
-  const startPartialFix = async (resultIndex: number, recIndex: number) => {
+  const startPartialFix = async (resultIndex: number, sectionKey: string, suggestion: string, identifier: string) => {
     const result = evaluationResults[resultIndex];
     if (!result || !result.originalPlanData) return;
-    const rec = result.recommendations[recIndex];
-    setFixingPlanId(`${result.planId}-partial-${recIndex}`);
+    setFixingPlanId(`${result.planId}-partial-${identifier}`);
     setError(null);
     try {
       const res = await fetch('/api/ai-fix', {
@@ -175,17 +174,17 @@ export default function EvaluatorPage() {
         body: JSON.stringify({
           planData: result.originalPlanData,
           isPartial: true,
-          partialSection: rec.section,
-          partialSuggestion: rec.suggestion
+          partialSection: sectionKey,
+          partialSuggestion: suggestion
         })
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      alert(`แก้ไขจุดที่ ${recIndex + 1} สำเร็จ! ระบบอัปเดตข้อมูลแผนให้แล้ว`);
+      alert(`แก้ไขส่วน [${sectionKey}] สำเร็จ! ระบบอัปเดตข้อมูลแผนให้แล้ว`);
       const newResults = [...evaluationResults];
       newResults[resultIndex].originalPlanData = json.newPlanData;
       if (!newResults[resultIndex].fixedRecs) newResults[resultIndex].fixedRecs = {};
-      newResults[resultIndex].fixedRecs[recIndex] = true;
+      newResults[resultIndex].fixedRecs[identifier] = true;
       setEvaluationResults(newResults);
     } catch (err: any) {
       alert(err.message || 'เกิดข้อผิดพลาดในการแก้เฉพาะจุด');
@@ -523,7 +522,7 @@ export default function EvaluatorPage() {
                 key={`${result.planId}-${index}`} 
                 result={result} 
                 index={index}
-                onFixPartial={(recIndex) => startPartialFix(index, recIndex)}
+                onFixPartial={(sectionKey, suggestion, identifier) => startPartialFix(index, sectionKey, suggestion, identifier)}
                 isFixing={fixingPlanId === result.planId}
                 fixingId={fixingPlanId}
               />
@@ -827,7 +826,7 @@ function TrafficLightCard({
 }
 
 // ── COMPONENT: EvaluationResultCard (Plan Evaluation Result Page) ──
-function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId }: { result: any, index: number, onFixPartial: (recIndex: number) => void, isFixing: boolean, fixingId: string | null }) {
+function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId }: { result: any, index: number, onFixPartial: (sectionKey: string, suggestion: string, identifier: string) => void, isFixing: boolean, fixingId: string | null }) {
   if (result.error) {
     return (
       <motion.div
@@ -853,13 +852,9 @@ function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId 
   const percentage = percentOf(score, maxScore);
   const tone = getScoreTone(percentage);
   const toneStyle = toneStyles[tone];
-  const checklist = normalizeChecklist(result);
-  const radarData = buildRadarData(checklist, percentage);
-  const traffic = getTrafficLightData(result, checklist);
-  const recommendations = Array.isArray(result.recommendations) && result.recommendations.length > 0
-    ? result.recommendations
-    : fallbackRecommendations;
-  const summary = result.summary || 'AI วิเคราะห์แผนการจัดการเรียนรู้และจัดกลุ่มข้อเสนอแนะตามระดับความสำคัญ เพื่อช่วยให้ครูปรับแผนได้เร็วขึ้น';
+  const summary = result.summary || 'AI วิเคราะห์แผนการจัดการเรียนรู้และจัดกลุ่มข้อเสนอแนะ 4 ส่วน พร้อมเกณฑ์วิทยฐานะ (PA)';
+  const parts = Array.isArray(result.parts) ? result.parts : [];
+  const paAssessment = result.paAssessment || { meetsCriteria: [], needsImprovement: [], recommendation: '' };
 
   return (
     <motion.section
@@ -920,218 +915,148 @@ function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId 
           </motion.div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <motion.div variants={cardMotion} custom={1} className="group overflow-hidden rounded-[2rem] bg-white p-6 shadow-lg shadow-slate-200/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-indigo-500/10 md:p-7">
-            <div className="mb-5 flex items-start justify-between gap-4">
-              <div>
-                <h4 className="flex items-center gap-2 text-lg font-black text-slate-800">
-                  <BarChart2 className="h-5 w-5 text-indigo-500" />
-                  สมดุลของแผนการสอน
-                </h4>
-                <p className="mt-1 text-sm font-medium text-slate-500">เปรียบเทียบมิติหลักของแผนแบบ Radar Chart</p>
-              </div>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500">Balance</span>
-            </div>
-            <div className="h-[300px] w-full sm:h-[340px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="74%" data={radarData}>
-                  <defs>
-                    <linearGradient id={`radarGradient-${index}`} x1="0" x2="1" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#6366f1" stopOpacity={0.48} />
-                      <stop offset="100%" stopColor={toneStyle.fill} stopOpacity={0.28} />
-                    </linearGradient>
-                  </defs>
-                  <PolarGrid stroke="#e2e8f0" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#475569', fontSize: 12, fontWeight: 800 }} />
-                  <PolarRadiusAxis angle={35} domain={[0, 100]} tick={false} axisLine={false} />
-                  <Radar name="คะแนนสมดุล" dataKey="value" stroke={toneStyle.fill} strokeWidth={3} fill={`url(#radarGradient-${index})`} fillOpacity={1} />
-                  <RechartsTooltip
-                    contentStyle={{ borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 18px 45px rgba(15,23,42,.12)', fontWeight: 800 }}
-                    formatter={(value: any) => [`${value}%`, 'คะแนน']}
-                  />
-                </RadarChart>
-              </ResponsiveContainer>
-            </div>
-          </motion.div>
-
-          <motion.div variants={cardMotion} custom={2} className="group overflow-hidden rounded-[2rem] bg-white p-6 shadow-lg shadow-slate-200/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-indigo-500/10 md:p-7">
-            <div className="mb-6">
-              <h4 className="flex items-center gap-2 text-lg font-black text-slate-800">
-                <ListChecks className="h-5 w-5 text-indigo-500" />
-                สถานะการตรวจ 3 ขั้น
-              </h4>
-              <p className="mt-1 text-sm font-medium text-slate-500">แบ่งขั้นเพื่อช่วยให้เข้าใจผลตรวจได้เร็วขึ้น</p>
-            </div>
-
-            <div className="space-y-4">
-              {evaluationSteps.map((step, stepIndex) => {
-                const StepIcon = step.icon;
-                return (
-                  <motion.div
-                    key={step.title}
-                    initial={{ opacity: 0, x: 12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.35, delay: stepIndex * 0.12 }}
-                    className="relative flex gap-4 rounded-2xl bg-slate-50 p-4"
-                  >
-                    <div className="flex flex-col items-center">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-md shadow-slate-200 transition-transform duration-300 hover:scale-110 hover:text-indigo-700">
-                        <StepIcon className="h-5 w-5" />
-                      </div>
-                      {stepIndex < evaluationSteps.length - 1 && <div className="mt-3 h-8 w-px bg-slate-200" />}
+        <div className="grid gap-6 md:grid-cols-2">
+          {parts.map((part: any, pIndex: number) => {
+            const isRecFixed = result.fixedRecs?.[`part-${pIndex}`];
+            const isThisFixing = fixingId === `${result.planId}-partial-part-${pIndex}`;
+            return (
+              <motion.div variants={cardMotion} custom={pIndex + 1} key={pIndex} className="group overflow-hidden rounded-[2rem] bg-white shadow-lg shadow-slate-200/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-indigo-500/10">
+                <div className="flex flex-col h-full p-6 md:p-7">
+                  <div className="mb-5 flex items-start justify-between gap-4">
+                    <div>
+                      <h4 className="flex items-center gap-2 text-lg font-black text-slate-800">
+                        <ListChecks className="h-5 w-5 text-indigo-500" />
+                        {part.partName}
+                      </h4>
+                      <p className="mt-1 text-sm font-medium text-slate-500">คะแนน: {part.score}/{part.maxScore}</p>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-xs font-black text-white">{stepIndex + 1}</span>
-                        <h5 className="font-black text-slate-800">{step.title}</h5>
-                        <CheckCircle className="ml-auto h-5 w-5 text-emerald-500" />
+                  </div>
+                  
+                  <div className="flex-1 space-y-4">
+                    {part.pros && part.pros.length > 0 && (
+                      <div className="rounded-2xl bg-emerald-50/80 p-4">
+                        <p className="mb-2 text-xs font-black uppercase text-emerald-600">สิ่งที่ทำได้ดี</p>
+                        <ul className="space-y-2">
+                          {part.pros.map((pro: string, i: number) => (
+                            <li key={i} className="flex gap-2 text-sm font-medium text-emerald-900">
+                              <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                              <span>{pro}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <p className="mt-2 text-sm font-medium leading-6 text-slate-500">{step.description}</p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+                    )}
+                    
+                    {part.cons && part.cons.length > 0 && (
+                      <div className="rounded-2xl bg-rose-50/80 p-4">
+                        <p className="mb-2 text-xs font-black uppercase text-rose-600">ข้อควรปรับปรุง</p>
+                        <ul className="space-y-2">
+                          {part.cons.map((con: string, i: number) => (
+                            <li key={i} className="flex gap-2 text-sm font-medium text-rose-900">
+                              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-rose-500" />
+                              <span>{con}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
-            {result.isFixed && (
-              <div className="mt-5 flex items-center gap-3 rounded-2xl bg-indigo-50 p-4 text-sm font-bold text-indigo-700">
-                <Star className="h-5 w-5 fill-indigo-500 text-indigo-500" />
-                AI ปรับปรุงแผนนี้แล้ว
-              </div>
-            )}
-          </motion.div>
+                    {part.recommendation && (
+                      <div className="rounded-2xl bg-indigo-50/80 p-4">
+                        <p className="mb-2 text-xs font-black uppercase text-indigo-600">คำแนะนำ</p>
+                        <p className="text-sm font-medium leading-6 text-indigo-900">{part.recommendation}</p>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {part.canFix && result.planId !== 'uploaded' && !result.isFixed && (
+                    <div className="mt-6">
+                      <button
+                        onClick={() => onFixPartial(part.sectionKey, part.recommendation, `part-${pIndex}`)}
+                        disabled={isThisFixing || isRecFixed}
+                        className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition-all ${
+                          isRecFixed
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : 'bg-indigo-600 text-white hover:bg-indigo-700 disabled:bg-slate-100 disabled:text-slate-400'
+                        }`}
+                      >
+                        {isThisFixing ? (
+                          <><Loader2 className="h-4 w-4 animate-spin" /> กำลังแก้...</>
+                        ) : isRecFixed ? (
+                          <><CheckCircle className="h-4 w-4" /> AI แก้ไขส่วนนี้แล้ว</>
+                        ) : (
+                          <><Sparkles className="h-4 w-4" /> ให้ AI ปรับปรุงส่วนนี้</>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        <motion.div variants={cardMotion} custom={3} className="overflow-hidden rounded-[2rem] bg-white p-5 shadow-lg shadow-slate-200/40 transition-all duration-300 hover:shadow-indigo-500/10 md:p-7">
-          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h4 className="text-xl font-black text-slate-800">รายละเอียดแบบ Traffic Light</h4>
-              <p className="mt-1 text-sm font-medium text-slate-500">แยกผลตรวจเป็นกลุ่มอ่านง่าย ลดภาระการไล่ข้อความยาว ๆ</p>
+        {paAssessment && paAssessment.meetsCriteria && (
+          <motion.div variants={cardMotion} custom={5} className="overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-6 text-white shadow-2xl shadow-indigo-950/30 md:p-10">
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-black text-amber-300 backdrop-blur border border-white/10">
+                  <Star className="h-4 w-4" />
+                  Performance Agreement (PA)
+                </div>
+                <h4 className="text-2xl font-black md:text-3xl">การวิเคราะห์ความสอดคล้องเกณฑ์วิทยฐานะ</h4>
+                <p className="mt-3 text-sm font-medium leading-7 text-slate-300 max-w-2xl">
+                  ประเมินตามเกณฑ์ ว9/2564 ด้านการจัดการเรียนรู้ (8 ตัวชี้วัด) เพื่อให้แผนนี้ตอบโจทย์สำหรับการเลื่อนวิทยฐานะ
+                </p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-xs font-black text-slate-500">
-              <Circle className="h-3 w-3 fill-emerald-500 text-emerald-500" /> ผ่าน
-              <Circle className="ml-2 h-3 w-3 fill-amber-500 text-amber-500" /> ควรปรับ
-              <Circle className="ml-2 h-3 w-3 fill-rose-500 text-rose-500" /> เสี่ยง
-            </div>
-          </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            className={`grid gap-5 ${traffic.risks.length > 0 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'}`}
-          >
-            <TrafficLightCard tone="green" title="Strengths / Passed" description="สิ่งที่แผนทำได้ดีและควรรักษาไว้" icon={CheckCircle} items={traffic.passed} />
-            <TrafficLightCard tone="yellow" title="Needs Improvement" description="จุดที่ควรปรับเพื่อให้แผนชัดและวัดผลได้ขึ้น" icon={AlertTriangle} items={traffic.needsWork} />
-            {traffic.risks.length > 0 && (
-              <TrafficLightCard tone="red" title="Critical Focus" description="จุดเสี่ยงที่ควรแก้ก่อนนำแผนไปใช้จริง" icon={AlertTriangle} items={traffic.risks} />
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="rounded-2xl bg-white/5 p-6 backdrop-blur">
+                <h5 className="flex items-center gap-2 text-lg font-bold text-emerald-400 mb-4">
+                  <CheckCircle className="h-5 w-5" /> จุดที่ตรงตามเกณฑ์แล้ว
+                </h5>
+                <ul className="space-y-3">
+                  {paAssessment.meetsCriteria.length > 0 ? paAssessment.meetsCriteria.map((item: string, i: number) => (
+                    <li key={i} className="flex gap-3 text-sm font-medium text-slate-200">
+                      <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                      <span>{item}</span>
+                    </li>
+                  )) : (
+                    <li className="text-sm text-slate-400">ยังไม่พบองค์ประกอบที่ชัดเจนในเกณฑ์วิทยฐานะ</li>
+                  )}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl bg-white/5 p-6 backdrop-blur">
+                <h5 className="flex items-center gap-2 text-lg font-bold text-amber-400 mb-4">
+                  <AlertTriangle className="h-5 w-5" /> จุดที่ควรเพิ่มเติม
+                </h5>
+                <ul className="space-y-3">
+                  {paAssessment.needsImprovement.length > 0 ? paAssessment.needsImprovement.map((item: string, i: number) => (
+                    <li key={i} className="flex gap-3 text-sm font-medium text-slate-200">
+                      <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" />
+                      <span>{item}</span>
+                    </li>
+                  )) : (
+                    <li className="text-sm text-slate-400">ไม่พบจุดบกพร่องที่ร้ายแรงในเกณฑ์วิทยฐานะ</li>
+                  )}
+                </ul>
+              </div>
+            </div>
+
+            {paAssessment.recommendation && (
+              <div className="mt-6 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 p-6 backdrop-blur">
+                <h5 className="flex items-center gap-2 font-bold text-indigo-300 mb-2">
+                  <Sparkles className="h-5 w-5" /> ข้อเสนอแนะเชิงลึกเพื่อการเลื่อนวิทยฐานะ
+                </h5>
+                <p className="text-sm font-medium leading-7 text-slate-300">
+                  {paAssessment.recommendation}
+                </p>
+              </div>
             )}
           </motion.div>
-        </motion.div>
-
-        <motion.div
-          variants={cardMotion}
-          custom={4}
-          className="group/ai relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6 text-white shadow-2xl shadow-indigo-950/40 transition-all duration-500 hover:shadow-indigo-900/50 md:p-10"
-        >
-          <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-indigo-500/20 blur-[100px] transition-transform duration-700 group-hover/ai:translate-x-10 group-hover/ai:translate-y-10" />
-          <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-purple-500/20 blur-[100px] transition-transform duration-700 group-hover/ai:-translate-x-10 group-hover/ai:-translate-y-10" />
-          <div className="relative grid gap-8 lg:grid-cols-[1fr_0.9fr]">
-            <div>
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black text-indigo-100 backdrop-blur">
-                <Sparkles className="h-4 w-4 text-cyan-300" />
-                AI Deep Insights
-              </div>
-              <h4 className="text-2xl font-black tracking-tight md:text-3xl">คำแนะนำเชิงลึกจาก AI</h4>
-              <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-indigo-100/80">
-                ระบบสรุปข้อเสนอแนะที่ควรทำก่อน เพื่อช่วยให้แผนสอดคล้องกับมาตรฐาน ตัวชี้วัด กิจกรรม Active Learning และการวัดผลมากขึ้น
-              </p>
-
-              <div className="mt-6 grid gap-3">
-                {recommendations.slice(0, 3).map((rec: any, recIndex: number) => {
-                  const isRecFixed = result.fixedRecs?.[recIndex];
-                  const isThisFixing = fixingId === `${result.planId}-partial-${recIndex}`;
-                  return (
-                    <motion.div
-                      key={`${rec.section}-${recIndex}`}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: recIndex * 0.08 }}
-                      className="rounded-[1.5rem] bg-white/10 p-5 shadow-sm backdrop-blur transition-all duration-300 hover:bg-white/15 hover:shadow-md"
-                    >
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <h5 className="font-black text-white">{rec.section || `ข้อเสนอแนะที่ ${recIndex + 1}`}</h5>
-                          <p className="mt-2 text-sm font-medium leading-7 text-indigo-100/80">{rec.suggestion || rec}</p>
-                        </div>
-                        {result.planId !== 'uploaded' && !result.isFixed && (
-                          <button
-                            onClick={() => onFixPartial(recIndex)}
-                            disabled={isThisFixing || isRecFixed}
-                            className={`shrink-0 rounded-xl px-4 py-2 text-xs font-black transition-all ${
-                              isRecFixed
-                                ? 'bg-emerald-400/20 text-emerald-200 ring-1 ring-emerald-300/30'
-                                : 'bg-white text-indigo-950 hover:bg-cyan-100 disabled:bg-white/20 disabled:text-white/50'
-                            }`}
-                          >
-                            {isThisFixing ? (
-                              <span className="inline-flex items-center gap-2"><Loader2 className="h-3.5 w-3.5 animate-spin" /> กำลังแก้</span>
-                            ) : isRecFixed ? (
-                              <span className="inline-flex items-center gap-2"><CheckCircle className="h-3.5 w-3.5" /> แก้แล้ว</span>
-                            ) : (
-                              <span className="inline-flex items-center gap-2">ให้ AI แก้จุดนี้ <ArrowRight className="h-3.5 w-3.5" /></span>
-                            )}
-                          </button>
-                        )}
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="rounded-[2rem] bg-white/10 p-6 shadow-xl shadow-black/10 backdrop-blur md:p-8">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-cyan-300/20 text-cyan-200 transition-transform duration-500 group-hover/ai:rotate-12 group-hover/ai:scale-110">
-                    <FileText className="h-7 w-7" />
-                  </div>
-                  <div>
-                    <h5 className="text-lg font-black">สรุปแนวทางปรับปรุง</h5>
-                    <p className="mt-2 text-sm font-medium leading-7 text-indigo-100/75">
-                      เริ่มจากเพิ่มคำถามกระตุ้นความคิดในช่วงนำเข้าสู่บทเรียน แล้วปรับเกณฑ์ประเมินให้วัดพฤติกรรมผู้เรียนได้ชัดเจน
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-6 space-y-3">
-                  {checklist.slice(0, 4).map((item: any, itemIndex: number) => {
-                    const itemPct = percentOf(item.score, item.maxScore);
-                    return (
-                      <div key={item.topic} className="group/item rounded-2xl bg-slate-950/35 p-4 transition-colors hover:bg-slate-950/50">
-                        <div className="mb-2 flex items-center justify-between gap-3 text-xs font-black">
-                          <span className="truncate text-indigo-100">{item.topic}</span>
-                          <span className="text-cyan-200">{itemPct}%</span>
-                        </div>
-                        <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${itemPct}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.75, delay: itemIndex * 0.08 }}
-                            className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-indigo-300 transition-all duration-500 group-hover/item:opacity-80"
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-        </motion.div>
+        )}
       </div>
     </motion.section>
   );
