@@ -17,7 +17,7 @@ export default function TeacherDashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState<'active' | 'archived'>('active');
+  const [activeTab, setActiveTab] = useState<'active' | 'archived' | 'ai_fixed'>('active');
   
   const [filterGrade, setFilterGrade] = useState('');
   const [filterSubject, setFilterSubject] = useState('');
@@ -49,6 +49,10 @@ export default function TeacherDashboard() {
   useEffect(() => { loadData(false, activeTab); }, [activeTab]);
 
   const filteredPlans = plans.filter(p => {
+    const isAIFixed = p.planId && p.planId.startsWith('ai-fixed-');
+    if (activeTab === 'active' && isAIFixed) return false;
+    if (activeTab === 'ai_fixed' && !isAIFixed) return false;
+
     if (filterGrade && p.gradeLevel !== filterGrade) return false;
     if (filterSubject && p.subjectName !== filterSubject) return false;
     if (filterSemester && String(p.semester) !== filterSemester) return false;
@@ -118,10 +122,14 @@ export default function TeacherDashboard() {
 
   const emptyStateTitle = activeTab === 'archived'
     ? 'ยังไม่มีแผนการสอนในที่เก็บถาวร'
+    : activeTab === 'ai_fixed'
+    ? 'ยังไม่มีแผนที่ปรับปรุงโดย AI'
     : 'ยังไม่มีแผนการสอนในระบบ';
 
   const emptyStateDescription = activeTab === 'archived'
     ? 'เมื่อเก็บถาวรแผนการสอน แผนจะปรากฏที่นี่ และสามารถกู้คืนกลับมาใช้งานได้'
+    : activeTab === 'ai_fixed'
+    ? 'แผนที่ได้รับการประเมินและคลิก Auto-Fix จากระบบ AI จะถูกจัดเก็บแยกไว้ที่นี่'
     : 'กดปุ่มด้านล่างเพื่อสร้างแผนการสอนแรกของคุณ';
 
   return (
@@ -316,6 +324,13 @@ export default function TeacherDashboard() {
                 แผนที่ใช้งาน
               </button>
               <button 
+                className={`btn btn-sm ${activeTab === 'ai_fixed' ? 'btn-primary' : ''}`}
+                style={{ background: activeTab === 'ai_fixed' ? '#fff' : 'transparent', color: activeTab === 'ai_fixed' ? '#6366f1' : 'var(--c-gray-500)', boxShadow: activeTab === 'ai_fixed' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5, display: 'flex', alignItems: 'center', gap: 4 }}
+                onClick={() => setActiveTab('ai_fixed')}
+              >
+                <Sparkles size={12} /> AI ปรับปรุง
+              </button>
+              <button 
                 className={`btn btn-sm ${activeTab === 'archived' ? 'btn-primary' : ''}`}
                 style={{ background: activeTab === 'archived' ? '#fff' : 'transparent', color: activeTab === 'archived' ? 'var(--c-primary)' : 'var(--c-gray-500)', boxShadow: activeTab === 'archived' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5, display: 'flex', alignItems: 'center', gap: 4 }}
                 onClick={() => setActiveTab('archived')}
@@ -344,6 +359,11 @@ export default function TeacherDashboard() {
             {activeTab === 'active' && (
               <button className="btn btn-primary" onClick={() => router.push('/plan/new')}>
                 <Plus size={14} /> สร้างแผนการสอนใหม่
+              </button>
+            )}
+            {activeTab === 'ai_fixed' && (
+              <button className="btn btn-primary" style={{ background: '#6366f1', borderColor: '#6366f1' }} onClick={() => router.push('/evaluator')}>
+                <Zap size={14} /> ไปที่ระบบตรวจแผน AI
               </button>
             )}
           </div>
@@ -384,7 +404,7 @@ export default function TeacherDashboard() {
                   <button className="pact-btn pact-preview" onClick={() => window.open(`/plan/${plan.planId}/preview`, '_blank')}>
                     <Eye size={13} /> ดูตัวอย่าง
                   </button>
-                  {activeTab === 'active' ? (
+                  {activeTab !== 'archived' ? (
                     <>
                       <button className="pact-btn pact-edit" onClick={() => router.push(`/plan/${plan.planId}`)}>
                         <FileEdit size={13} /> แก้ไข

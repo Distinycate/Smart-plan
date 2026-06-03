@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     const fixedPlanData = JSON.parse(cleanedText);
 
     // Provide a new ID for the fixed plan
-    const newPlanId = `plan-${Date.now()}`;
+    const newPlanId = `ai-fixed-${Date.now()}`;
     const timestamp = new Date().toISOString();
 
     const standardData = {
