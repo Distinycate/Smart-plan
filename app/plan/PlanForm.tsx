@@ -144,6 +144,69 @@ const gradeLevelMatches = (candidate: any, selected: any): boolean => {
   return !!candidateGrade && !!selectedGrade && candidateGrade === selectedGrade;
 };
 
+type AssessmentDomain = 'K' | 'P' | 'A';
+type AssessmentChoiceField = 'method' | 'tool' | 'criteria';
+
+const parseAssessmentTemplate = (option: any) => {
+  try {
+    return JSON.parse(option.optionText || '{}');
+  } catch (e) {
+    return null;
+  }
+};
+
+const getAssessmentGroupLabel = (group: string) => {
+  if (group === 'English_Basic') return '[พื้นฐาน]';
+  if (group === 'English_Communication') return '[สื่อสาร]';
+  if (group === 'KPA_Generic') return '[ทั่วไป]';
+  return group ? `[${group}]` : '';
+};
+
+const splitAssessmentChoices = (value: any) =>
+  String(value || '')
+    .split(';')
+    .map(item => item.trim())
+    .filter(Boolean);
+
+const buildAssessmentChoiceOptions = (
+  templates: any[] = [],
+  domain: AssessmentDomain,
+  field: AssessmentChoiceField,
+  currentValue: any
+) => {
+  const currentItems = splitAssessmentChoices(currentValue);
+  const seen = new Set<string>();
+  const choices: Array<{ id: string; label: string; value: string; selected?: boolean }> = [];
+
+  templates.forEach(option => {
+    const data = parseAssessmentTemplate(option);
+    if (!data || !String(data.domain || '').includes(domain)) return;
+
+    splitAssessmentChoices(data[field]).forEach((choice, index) => {
+      if (seen.has(choice)) return;
+      seen.add(choice);
+
+      const groupLabel = getAssessmentGroupLabel(data.group);
+      const measureContext = data.measure ? `${groupLabel} ${data.measure}`.trim() : groupLabel;
+      choices.push({
+        id: `${option.optionId}-${field}-${index}`,
+        label: choice,
+        value: measureContext,
+        selected: currentItems.includes(choice) || String(currentValue || '').trim() === choice
+      });
+    });
+  });
+
+  return choices;
+};
+
+const withSyncedAssessmentMeasures = (sourceFields: Record<string, any>) => ({
+  ...sourceFields,
+  measureK: cleanJSONString(sourceFields.objectiveK),
+  measureP: cleanJSONString(sourceFields.objectiveP),
+  measureA: cleanJSONString(sourceFields.objectiveA)
+});
+
 const applyTopicTemplateDefaults = (baseFields: Record<string, any>, topic: any) => {
   const learningContent = buildTemplateLearningContent(topic);
   const learningProcess = buildTemplateLearningProcess(topic);
@@ -359,6 +422,60 @@ export default function PlanForm({ planId }: PlanFormProps) {
   const topics = initialData?.topics || [];
   const indicators = initialData?.indicators || [];
   const options = initialData?.options || {};
+
+  useEffect(() => {
+    setFields(prev => {
+      const synced = withSyncedAssessmentMeasures(prev);
+      if (
+        synced.measureK === prev.measureK &&
+        synced.measureP === prev.measureP &&
+        synced.measureA === prev.measureA
+      ) {
+        return prev;
+      }
+      return synced;
+    });
+  }, [fields.objectiveK, fields.objectiveP, fields.objectiveA]);
+
+  const handleAssessmentChoice = (fieldName: string, choice: string, mode: 'append' | 'replace' = 'append') => {
+    setFields(prev => {
+      if (mode === 'replace') {
+        return { ...prev, [fieldName]: choice };
+      }
+
+      const currentItems = splitAssessmentChoices(prev[fieldName]);
+      const updatedItems = currentItems.includes(choice)
+        ? currentItems.filter(item => item !== choice)
+        : [...currentItems, choice];
+
+      return { ...prev, [fieldName]: updatedItems.join('; ') };
+    });
+  };
+
+  const renderAssessmentChoiceDropdown = (
+    domain: AssessmentDomain,
+    choiceField: AssessmentChoiceField,
+    targetField: string,
+    placeholder: string,
+    mode: 'append' | 'replace' = 'append'
+  ) => {
+    const dropdownOptions = buildAssessmentChoiceOptions(
+      options.assessmentTemplate || [],
+      domain,
+      choiceField,
+      fields[targetField]
+    );
+
+    if (!dropdownOptions.length) return null;
+
+    return (
+      <SmartDropdown
+        options={dropdownOptions}
+        placeholder={placeholder}
+        onSelect={(opt) => handleAssessmentChoice(targetField, opt.label, mode)}
+      />
+    );
+  };
 
   // Filters based on selections
   const gradeLevels = Array.from(new Set(subjects.map((s: any) => normalizeGradeLevel(s.gradeLevel)).filter(Boolean)));
@@ -642,19 +759,19 @@ export default function PlanForm({ planId }: PlanFormProps) {
           tasks: ensureBulletString(ai.tasks) || prev.tasks,
           learningProcess: cleanJSONString(ai.learningProcess) || prev.learningProcess,
           
-          measureK: cleanJSONString(ai.measureK) || prev.measureK,
+          measureK: cleanJSONString(ai.objectiveK) || prev.measureK,
           methodK: cleanJSONString(ai.methodK) || prev.methodK,
           toolK: cleanJSONString(ai.toolK) || prev.toolK,
           criteriaK: cleanJSONString(ai.criteriaK) || prev.criteriaK,
           rubricK: cleanJSONString(ai.rubricK) || prev.rubricK,
           
-          measureP: cleanJSONString(ai.measureP) || prev.measureP,
+          measureP: cleanJSONString(ai.objectiveP) || prev.measureP,
           methodP: cleanJSONString(ai.methodP) || prev.methodP,
           toolP: cleanJSONString(ai.toolP) || prev.toolP,
           criteriaP: cleanJSONString(ai.criteriaP) || prev.criteriaP,
           rubricP: cleanJSONString(ai.rubricP) || prev.rubricP,
           
-          measureA: cleanJSONString(ai.measureA) || prev.measureA,
+          measureA: cleanJSONString(ai.objectiveA) || prev.measureA,
           methodA: cleanJSONString(ai.methodA) || prev.methodA,
           toolA: cleanJSONString(ai.toolA) || prev.toolA,
           criteriaA: cleanJSONString(ai.criteriaA) || prev.criteriaA,
@@ -722,7 +839,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
       setSaving(true);
       try {
         const payload = {
-          ...getCleanedPayload(fields),
+          ...getCleanedPayload(withSyncedAssessmentMeasures(fields)),
           planStatus: status
         };
         const res = await fetch('/api/plans', {
@@ -754,7 +871,7 @@ export default function PlanForm({ planId }: PlanFormProps) {
     
     try {
       const payload = {
-        ...getCleanedPayload(fields),
+        ...getCleanedPayload(withSyncedAssessmentMeasures(fields)),
         backupReason: backupReasonText
       };
       
@@ -1310,59 +1427,19 @@ export default function PlanForm({ planId }: PlanFormProps) {
               </div>
               <div className="g2">
                 <label className="field">
-                  สิ่งที่ต้องการวัดและประเมินผล
-                  {options.assessmentTemplate && options.assessmentTemplate.length > 0 && (
-                    <div style={{ marginBottom: '8px' }}>
-                      <SmartDropdown 
-                        options={options.assessmentTemplate
-                          .filter((opt: any) => {
-                            try {
-                              const d = JSON.parse(opt.optionText);
-                              return d.domain?.includes('K');
-                            } catch (e) { return false; }
-                          })
-                          .map((opt: any) => {
-                            let label = opt.optionName;
-                            try {
-                              const d = JSON.parse(opt.optionText);
-                              const prefix = d.group === 'English_Basic' ? '[พื้นฐาน]' : d.group === 'English_Communication' ? '[สื่อสาร]' : '[ทั่วไป]';
-                              label = `${prefix} ${(d.measure || '').substring(0, 50)}...`;
-                            } catch (e) {}
-                            return {
-                              id: opt.optionId,
-                              label: label,
-                              value: opt.optionText || ''
-                            };
-                          })}
-                        placeholder="เลือกเทมเพลตการประเมิน (K) จากคลัง (Auto-fill)..."
-                        onSelect={(opt) => {
-                          try {
-                            const data = JSON.parse(opt.value);
-                            setFields(prev => ({ 
-                              ...prev, 
-                              measureK: data.measure || prev.measureK,
-                              methodK: data.method || prev.methodK,
-                              toolK: data.tool || prev.toolK,
-                              criteriaK: data.criteria || prev.criteriaK
-                            }));
-                          } catch(e) {}
-                        }}
-                      />
-                    </div>
-                  )}
-                  <input value={fields.measureK} onChange={e => setFields({ ...fields, measureK: e.target.value })} placeholder="เช่น ความถูกต้องในการทำใบงานคำศัพท์" />
-                </label>
-                <label className="field">
                   วิธีการวัดผล
+                  {renderAssessmentChoiceDropdown('K', 'method', 'methodK', 'ค้นหาวิธีการวัดผล (K) จากฐานข้อมูล...')}
                   <input value={fields.methodK} onChange={e => setFields({ ...fields, methodK: e.target.value })} placeholder="เช่น การทำใบงานคำศัพท์" />
                 </label>
                 <label className="field">
                   เครื่องมือประเมิน
+                  {renderAssessmentChoiceDropdown('K', 'tool', 'toolK', 'ค้นหาเครื่องมือประเมิน (K) จากฐานข้อมูล...')}
                   <input value={fields.toolK} onChange={e => setFields({ ...fields, toolK: e.target.value })} placeholder="เช่น ใบงานที่ 1.1" />
                 </label>
 
                 <label className="field">
                   เกณฑ์ผ่านประเมิน
+                  {renderAssessmentChoiceDropdown('K', 'criteria', 'criteriaK', 'ค้นหาเกณฑ์ผ่านประเมิน (K) จากฐานข้อมูล...', 'replace')}
                   <input value={fields.criteriaK} onChange={e => setFields({ ...fields, criteriaK: e.target.value })} />
                 </label>
                 <label className="field fw">
@@ -1379,59 +1456,19 @@ export default function PlanForm({ planId }: PlanFormProps) {
               </div>
               <div className="g2">
                 <label className="field">
-                  สิ่งที่ต้องการวัดและประเมินผล
-                  {options.assessmentTemplate && options.assessmentTemplate.length > 0 && (
-                    <div style={{ marginBottom: '8px' }}>
-                      <SmartDropdown 
-                        options={options.assessmentTemplate
-                          .filter((opt: any) => {
-                            try {
-                              const d = JSON.parse(opt.optionText);
-                              return d.domain?.includes('P');
-                            } catch (e) { return false; }
-                          })
-                          .map((opt: any) => {
-                            let label = opt.optionName;
-                            try {
-                              const d = JSON.parse(opt.optionText);
-                              const prefix = d.group === 'English_Basic' ? '[พื้นฐาน]' : d.group === 'English_Communication' ? '[สื่อสาร]' : '[ทั่วไป]';
-                              label = `${prefix} ${(d.measure || '').substring(0, 50)}...`;
-                            } catch (e) {}
-                            return {
-                              id: opt.optionId,
-                              label: label,
-                              value: opt.optionText || ''
-                            };
-                          })}
-                        placeholder="เลือกเทมเพลตการประเมิน (P) จากคลัง (Auto-fill)..."
-                        onSelect={(opt) => {
-                          try {
-                            const data = JSON.parse(opt.value);
-                            setFields(prev => ({ 
-                              ...prev, 
-                              measureP: data.measure || prev.measureP,
-                              methodP: data.method || prev.methodP,
-                              toolP: data.tool || prev.toolP,
-                              criteriaP: data.criteria || prev.criteriaP
-                            }));
-                          } catch(e) {}
-                        }}
-                      />
-                    </div>
-                  )}
-                  <input value={fields.measureP} onChange={e => setFields({ ...fields, measureP: e.target.value })} placeholder="เช่น ทักษะการพูดบทสนทนาภาษาอังกฤษ" />
-                </label>
-                <label className="field">
                   วิธีการวัดผล
+                  {renderAssessmentChoiceDropdown('P', 'method', 'methodP', 'ค้นหาวิธีการวัดผล (P) จากฐานข้อมูล...')}
                   <input value={fields.methodP} onChange={e => setFields({ ...fields, methodP: e.target.value })} placeholder="เช่น การสังเกตพฤติกรรมการพูด" />
                 </label>
                 <label className="field">
                   เครื่องมือประเมิน
+                  {renderAssessmentChoiceDropdown('P', 'tool', 'toolP', 'ค้นหาเครื่องมือประเมิน (P) จากฐานข้อมูล...')}
                   <input value={fields.toolP} onChange={e => setFields({ ...fields, toolP: e.target.value })} placeholder="เช่น แบบสังเกตการพูดประโยค" />
                 </label>
 
                 <label className="field">
                   เกณฑ์ผ่านประเมิน
+                  {renderAssessmentChoiceDropdown('P', 'criteria', 'criteriaP', 'ค้นหาเกณฑ์ผ่านประเมิน (P) จากฐานข้อมูล...', 'replace')}
                   <input value={fields.criteriaP} onChange={e => setFields({ ...fields, criteriaP: e.target.value })} />
                 </label>
                 <label className="field fw">
@@ -1448,59 +1485,19 @@ export default function PlanForm({ planId }: PlanFormProps) {
               </div>
               <div className="g2">
                 <label className="field">
-                  สิ่งที่ต้องการวัดและประเมินผล
-                  {options.assessmentTemplate && options.assessmentTemplate.length > 0 && (
-                    <div style={{ marginBottom: '8px' }}>
-                      <SmartDropdown 
-                        options={options.assessmentTemplate
-                          .filter((opt: any) => {
-                            try {
-                              const d = JSON.parse(opt.optionText);
-                              return d.domain?.includes('A');
-                            } catch (e) { return false; }
-                          })
-                          .map((opt: any) => {
-                            let label = opt.optionName;
-                            try {
-                              const d = JSON.parse(opt.optionText);
-                              const prefix = d.group === 'English_Basic' ? '[พื้นฐาน]' : d.group === 'English_Communication' ? '[สื่อสาร]' : '[ทั่วไป]';
-                              label = `${prefix} ${(d.measure || '').substring(0, 50)}...`;
-                            } catch (e) {}
-                            return {
-                              id: opt.optionId,
-                              label: label,
-                              value: opt.optionText || ''
-                            };
-                          })}
-                        placeholder="เลือกเทมเพลตการประเมิน (A) จากคลัง (Auto-fill)..."
-                        onSelect={(opt) => {
-                          try {
-                            const data = JSON.parse(opt.value);
-                            setFields(prev => ({ 
-                              ...prev, 
-                              measureA: data.measure || prev.measureA,
-                              methodA: data.method || prev.methodA,
-                              toolA: data.tool || prev.toolA,
-                              criteriaA: data.criteria || prev.criteriaA
-                            }));
-                          } catch(e) {}
-                        }}
-                      />
-                    </div>
-                  )}
-                  <input value={fields.measureA} onChange={e => setFields({ ...fields, measureA: e.target.value })} placeholder="เช่น ความตั้งใจเรียนและใฝ่เรียนรู้" />
-                </label>
-                <label className="field">
                   วิธีการวัดผล
+                  {renderAssessmentChoiceDropdown('A', 'method', 'methodA', 'ค้นหาวิธีการวัดผล (A) จากฐานข้อมูล...')}
                   <input value={fields.methodA} onChange={e => setFields({ ...fields, methodA: e.target.value })} placeholder="เช่น สังเกตพฤติกรรมใฝ่เรียนรู้" />
                 </label>
                 <label className="field">
                   เครื่องมือประเมิน
+                  {renderAssessmentChoiceDropdown('A', 'tool', 'toolA', 'ค้นหาเครื่องมือประเมิน (A) จากฐานข้อมูล...')}
                   <input value={fields.toolA} onChange={e => setFields({ ...fields, toolA: e.target.value })} placeholder="เช่น แบบประเมินคุณลักษณะอันพึงประสงค์" />
                 </label>
 
                 <label className="field">
                   เกณฑ์ผ่านประเมิน
+                  {renderAssessmentChoiceDropdown('A', 'criteria', 'criteriaA', 'ค้นหาเกณฑ์ผ่านประเมิน (A) จากฐานข้อมูล...', 'replace')}
                   <input value={fields.criteriaA} onChange={e => setFields({ ...fields, criteriaA: e.target.value })} />
                 </label>
                 <label className="field fw">
