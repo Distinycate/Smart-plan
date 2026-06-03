@@ -236,3 +236,16 @@ LOW      | Refactor globals.css ให้ organize ดีขึ้น          |
 ---
 
 *ไฟล์นี้อัปเดตโดย AI Agent อัตโนมัติ — อย่าลบหรือเปลี่ยนโครงสร้างหลัก*
+
+## Update: AI Evaluator V3 (Partial Fix & UI Overhaul)
+**Date**: 2024-06 (Current)
+- **Framework Changes**: Added Tailwind CSS v4 support via PostCSS (`tailwindcss`, `@tailwindcss/postcss`) to support UI class rendering. Added `recharts` for Data Visualization.
+- **AI Evaluator Page (`app/evaluator/page.tsx`)**: Completely redesigned to International Standards.
+  - Implemented a clean List Layout for batch selecting plans.
+  - Added Radar Chart using Recharts to visualize Plan Balance.
+  - Added Modular Dashboard layout for Pros/Cons and Checklist breakdown.
+- **Partial Auto-Fix Capabilities**:
+  - Added a "✨ ให้ AI แก้จุดนี้" button for specific recommendations.
+  - UI now supports chaining fixes sequentially by updating `originalPlanData` in state after a successful partial fix.
+  - `app/api/ai-fix/route.ts` updated to accept `isPartial` flag. If true, it uses `partialFixPromptTemplate` to update ONLY the specific section.
+  - Always creates a new `planId` draft in Supabase upon fixing to preserve the original.
