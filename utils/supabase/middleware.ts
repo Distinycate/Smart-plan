@@ -55,7 +55,7 @@ export async function updateSession(request: NextRequest) {
   const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register');
   
   // Exclude static assets and api routes if not strictly needed
-  if (!user && !isAuthRoute && !request.nextUrl.pathname.startsWith('/api/') && !request.nextUrl.pathname.startsWith('/_next/') && request.nextUrl.pathname !== '/') {
+  if (!user && !isAuthRoute && !request.nextUrl.pathname.startsWith('/api/') && !request.nextUrl.pathname.startsWith('/_next/')) {
     // If not logged in and trying to access a protected route, redirect to login
     const url = request.nextUrl.clone()
     url.pathname = '/login'
