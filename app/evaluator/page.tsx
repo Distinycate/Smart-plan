@@ -5,7 +5,7 @@ import {
   CheckCircle, AlertTriangle, Upload, Zap, Loader2, ArrowLeft,
   BarChart2, Star, Layers, ListChecks, ClipboardCheck, Trophy,
   Sparkles, ShieldCheck, Gauge, ArrowRight, FileText, Circle,
-  CheckSquare, UploadCloud, BookOpen
+  CheckSquare, UploadCloud, BookOpen, GraduationCap
 } from 'lucide-react';
 import Link from 'next/link';
 import * as mammoth from 'mammoth';
@@ -263,30 +263,30 @@ export default function EvaluatorPage() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.08, ease: 'easeOut' }}
-            className="rounded-2xl bg-white p-4 shadow-sm sm:p-6"
+            className="rounded-[2rem] bg-white p-5 shadow-sm sm:p-8"
           >
-          <div className="mb-6 flex justify-center">
-            <div className="inline-flex rounded-full bg-slate-100 p-1">
+          <div className="mb-8 flex justify-center">
+            <div className="relative inline-flex rounded-full bg-slate-100/80 p-1.5 shadow-inner backdrop-blur-sm">
               <button
-                className={`flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-black transition-all ${
+                className={`relative flex items-center justify-center gap-2.5 rounded-full px-6 py-3 text-sm font-black transition-all duration-300 ${
                   activeTab === 'system'
-                    ? 'bg-white text-blue-700 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-900'
+                    ? 'bg-white text-indigo-700 shadow-md shadow-slate-200/50'
+                    : 'text-slate-500 hover:bg-white/50 hover:text-slate-800'
                 }`}
                 onClick={() => setActiveTab('system')}
               >
-                <Layers className="h-4 w-4" />
+                <Layers className={`h-4 w-4 transition-transform duration-300 ${activeTab === 'system' ? 'scale-110' : ''}`} />
                 ดึงแผนจากระบบ
               </button>
               <button
-                className={`flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-black transition-all ${
+                className={`relative flex items-center justify-center gap-2.5 rounded-full px-6 py-3 text-sm font-black transition-all duration-300 ${
                   activeTab === 'upload'
-                    ? 'bg-white text-blue-700 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-900'
+                    ? 'bg-white text-indigo-700 shadow-md shadow-slate-200/50'
+                    : 'text-slate-500 hover:bg-white/50 hover:text-slate-800'
                 }`}
                 onClick={() => setActiveTab('upload')}
               >
-                <Upload className="h-4 w-4" />
+                <Upload className={`h-4 w-4 transition-transform duration-300 ${activeTab === 'upload' ? 'scale-110' : ''}`} />
                 อัปโหลดไฟล์ DOCX
               </button>
             </div>
@@ -294,28 +294,31 @@ export default function EvaluatorPage() {
 
           <div>
             {activeTab === 'system' && (
-              <div className="space-y-5">
-                  <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between rounded-[2rem] bg-gradient-to-br from-indigo-50/50 to-blue-50/30 p-6 md:p-8">
                     <div>
-                      <h2 className="text-xl font-black text-slate-900">แผนจากระบบ</h2>
-                      <p className="mt-1 text-sm font-medium text-slate-500">
-                        เลือกได้หลายแผน ระบบจะตรวจทีละรายการและแสดงผลเป็นแดชบอร์ด
+                      <h2 className="text-2xl font-black tracking-tight text-slate-900">เลือกจากแผนในระบบ</h2>
+                      <p className="mt-1.5 text-sm font-medium leading-relaxed text-slate-500 max-w-lg">
+                        เลือกได้หลายแผน AI จะช่วยประเมินแผนทั้งหมดที่คุณเลือกและสรุปผลให้เป็นแดชบอร์ดอย่างละเอียด
                       </p>
                     </div>
                     <button
                       onClick={selectAll}
                       disabled={plans.length === 0}
-                      className="inline-flex items-center justify-center rounded-full bg-blue-50 px-4 py-2 text-sm font-black text-blue-700 transition-colors hover:bg-blue-600 hover:text-white disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+                      className="inline-flex items-center justify-center rounded-[1.25rem] bg-indigo-600 px-6 py-3 text-sm font-black text-white shadow-lg shadow-indigo-600/30 transition-all duration-300 hover:-translate-y-1 hover:bg-indigo-700 hover:shadow-indigo-600/40 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
                     >
                       {selectedPlanIds.size === plans.length && plans.length > 0 ? 'ยกเลิกทั้งหมด' : 'เลือกทั้งหมด'}
                     </button>
                   </div>
 
-                  <div className="max-h-[430px] space-y-3 overflow-y-auto pr-1 custom-scrollbar">
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-h-[500px] overflow-y-auto p-2 custom-scrollbar">
                     {plans.length === 0 ? (
-                      <div className="flex min-h-[220px] flex-col items-center justify-center rounded-2xl bg-slate-50 p-8 text-center">
-                        <FileText className="h-10 w-10 text-slate-300" />
-                        <p className="mt-3 text-sm font-bold text-slate-500">ไม่มีแผนในระบบ</p>
+                      <div className="col-span-full flex min-h-[300px] flex-col items-center justify-center rounded-[2rem] border-2 border-dashed border-slate-200 bg-slate-50/50 p-8 text-center transition-colors hover:bg-slate-50">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-[1.5rem] bg-white shadow-sm mb-4">
+                          <FileText className="h-10 w-10 text-slate-300" />
+                        </div>
+                        <h3 className="text-xl font-black text-slate-700">ไม่มีแผนในระบบ</h3>
+                        <p className="mt-2 text-sm font-medium text-slate-500 max-w-sm">คุณต้องสร้างแผนการสอนในระบบก่อน จึงจะสามารถใช้ AI ประเมินผลได้</p>
                       </div>
                     ) : (
                       <>
@@ -325,25 +328,35 @@ export default function EvaluatorPage() {
                             <button
                               key={p.planId}
                               onClick={() => toggleSelectPlan(p.planId)}
-                              className={`group flex w-full items-start gap-4 rounded-2xl bg-white p-4 text-left shadow-sm transition-all hover:border-blue-500 hover:shadow-md ${
+                              className={`group relative flex flex-col items-start gap-4 rounded-[1.5rem] p-5 text-left transition-all duration-300 hover:-translate-y-1 ${
                                 isSelected
-                                  ? 'border border-blue-500 shadow-md shadow-blue-100'
-                                  : 'border border-transparent'
+                                  ? 'bg-gradient-to-br from-indigo-50 to-blue-50/80 border-2 border-indigo-400 shadow-lg shadow-indigo-500/10'
+                                  : 'bg-white border-2 border-slate-100 shadow-sm hover:border-indigo-300 hover:shadow-md'
                               }`}
                             >
-                              <div className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg transition-colors ${
-                                isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-transparent group-hover:bg-blue-50'
-                              }`}>
-                                <CheckCircle className="h-4 w-4" />
+                              <div className="flex w-full items-start justify-between">
+                                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[1rem] transition-all duration-300 ${
+                                  isSelected ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-110' : 'bg-slate-100 text-transparent group-hover:bg-indigo-50 group-hover:text-indigo-200'
+                                }`}>
+                                  <CheckCircle className="h-5 w-5" />
+                                </div>
+                                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500">
+                                  {p.subjectCode || 'ไม่มีรหัส'}
+                                </span>
                               </div>
-                              <div className="min-w-0 flex-1">
-                                <h3 className="truncate text-base font-black text-slate-900">{p.lessonTopic || 'ไม่มีชื่อแผน'}</h3>
-                                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs font-bold text-slate-500">
-                                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
-                                    <BookOpen className="h-3.5 w-3.5" />
-                                    {p.subjectName || 'ไม่ระบุวิชา'}
-                                  </span>
-                                  <span className="rounded-full bg-slate-100 px-2.5 py-1">{p.gradeLevel || 'ไม่ระบุระดับชั้น'}</span>
+                              <div className="min-w-0 w-full mt-2">
+                                <h3 className={`truncate text-lg font-black transition-colors ${isSelected ? 'text-indigo-950' : 'text-slate-900'}`}>
+                                  {p.lessonTopic || 'ไม่มีชื่อแผน'}
+                                </h3>
+                                <div className="mt-3 flex flex-col gap-2">
+                                  <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
+                                    <BookOpen className="h-4 w-4 text-indigo-400" />
+                                    <span className="truncate">{p.subjectName || 'ไม่ระบุวิชา'}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
+                                    <GraduationCap className="h-4 w-4 text-emerald-400" />
+                                    <span>{p.gradeLevel || 'ไม่ระบุระดับชั้น'}</span>
+                                  </div>
                                 </div>
                               </div>
                             </button>
