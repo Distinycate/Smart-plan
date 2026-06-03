@@ -82,7 +82,7 @@ export async function POST(req: Request) {
       await supabase.from('lesson_quality_scores').insert({
          plan_id: planId,
          user_id: userId,
-         structure_score: ruleResult.details?.structureScore || 0,
+         structure_score: (ruleResult.details?.objectivesScore || 0) + (ruleResult.details?.activitiesScore || 0) + (ruleResult.details?.assessmentScore || 0) + (ruleResult.details?.rubricScore || 0),
          indicators_score: ruleResult.details?.standardsScore || 0,
          objectives_score: aiScores.objectivesQualitative || 0,
          activities_score: aiScores.activitiesQualitative || 0,
