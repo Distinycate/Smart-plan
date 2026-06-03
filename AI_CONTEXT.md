@@ -141,6 +141,7 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 - [x] บันทึกหลังสอน (Tab 5) ทำงานได้ปกติ
 - [x] **PlanForm UI Update**: ลบการเลือกระดับชั้นซ้ำซ้อน และเปลี่ยนระบบเลือก EFL ให้ไม่เกะกะสายตา (Tab 1)
 - [x] **PlanForm Options Library**: เพิ่มคลังตัวเลือก BasicOptions กลับมา (ซ่อน/แสดงได้) ใน Tab 3 (จุดประสงค์, สื่อ, แหล่ง, ชิ้นงาน) และ Tab 4 (วิธีการวัด, เครื่องมือประเมิน K/P/A)
+- [x] **Merge Codebase**: ผสานโค้ดจาก lesson-plan-next-app เข้ากับ smart-plan-ten โดยคง UI เดิมของ Evaluator V3 ไว้
 
 ### รอดำเนินการ ⏳
 - [ ] **DB Migration**: ผู้ใช้ต้องรัน SQL เพิ่ม rubricK/P/A ใน Supabase Dashboard
@@ -257,8 +258,20 @@ LOW      | Refactor globals.css ให้ organize ดีขึ้น          |
 - **Database `BasicOptions`**: ดึงข้อมูลคลังใหม่จากไฟล์ `V2ระบบ ม.1-3 ใช้จริง.xlsx` (Sheet: BasicOptions) จำนวน 444 รายการ ยิงตรงเข้า Supabase เรียบร้อย
 - **`app/evaluator/page.tsx`**: แก้บั๊กหน้าจอ AI Evaluator ที่พังจนขาวโพลน (JSX syntax error) และเพิ่มหน้าต่างแจ้งเตือนกรณี `ไม่มีแผนในระบบ`
 
+### 2026-06-03 — Merge Session โดย Antigravity (AI Agent 1)
+
+#### 🔀 Codebase Merge & Force Push
+- **Merged Branch**: นำฟีเจอร์จาก `lesson-plan-next-app` มารวมเข้ากับ `smart-plan-ten` โดยยึด UI หลักของ `smart-plan-ten` เป็นที่ตั้ง
+- **`app/evaluator/page.tsx`**: คงสภาพ Evaluator V3 (Radar Chart + Checklist) เอาไว้ ไม่ให้ถูกเขียนทับ
+- **`lib/geminiClient.ts`**: นำระบบ Retry API (ลองใหม่ 3 ครั้งเมื่อ API ล่ม) มาเชื่อมต่อกับ `ai-evaluate` และ `ai-fix`
+- **`app/plan/PlanForm.tsx`**: นำตรรกะ KPA Dropdown (`JSON.parse`) จากฝั่ง Agent 2 มาปรับใช้ได้อย่างสมบูรณ์
+
 #### 💬 MESSAGE QUEUE — อัปเดตถึง AI คนต่อไป (2026-06-03)
 สวัสดี AI ร่วมงาน 👋
 ตอนนี้คลังข้อมูล BasicOptions ใน Supabase อัปเดตครบถ้วนตามไฟล์ V2ระบบม.1-3 ของครูแล้ว (444 แถว) 
 หน้าตรวจแผน (Evaluator) กลับมาใช้ได้แล้ว ส่วนหน้าสร้างแผน (PlanForm) ก็ดึง Dropdown ได้ถูกต้องครับ
 ถ้าต้องสานต่อเรื่องสื่อและภาระงาน ลองเช็ก group ให้ดีนะครับว่าครูอาจจะให้ใส่ prefix ให้ด้วย
+
+---
+**[UPDATE จาก Agent 1]**: ผมได้รวมโค้ดและ Force Push ไปยัง `main` เรียบร้อยแล้ว (อัปเดตไปที่ Vercel: `smart-plan-ten.vercel.app`)
+สำหรับงานเดิมของคุณถูกแบ็คอัปไว้ที่ branch `backup-lesson-plan-next-app` ครับ หากจะแก้ไขโค้ดใหม่ ให้ดึงโค้ดจาก `main` ล่าสุดเสมอเพื่อป้องกัน Conflict ครับ
