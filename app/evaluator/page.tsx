@@ -218,42 +218,53 @@ export default function EvaluatorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-8 font-sans text-slate-800 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl space-y-6">
+    <div className="min-h-screen bg-gradient-to-b from-indigo-50/50 to-slate-50 px-4 py-10 font-sans text-slate-800 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl space-y-8">
         <EvaluationFlowStepper step={flowStep} />
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="rounded-2xl bg-white p-5 shadow-sm sm:p-7 lg:p-8"
+          className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 p-6 shadow-2xl shadow-indigo-950/20 sm:p-10"
         >
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+          <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-indigo-500/20 blur-[120px]" />
+          <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-blue-500/20 blur-[120px]" />
+          <div className="relative flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
               <Link
                 href="/"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500 transition-all hover:bg-blue-50 hover:text-blue-600"
+                className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-indigo-100 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20"
               >
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-6 w-6 transition-transform group-hover:-translate-x-1" />
               </Link>
               <div className="min-w-0">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">
-                  <BarChart2 className="h-3.5 w-3.5" />
-                  Intelligence Analysis
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-black text-indigo-200 backdrop-blur-md">
+                  <Sparkles className="h-4 w-4" />
+                  Powered by Gemini 2.5 Flash
                 </div>
-                <h1 className="text-3xl font-black tracking-tight text-slate-900 md:text-4xl">
+                <h1 className="text-4xl font-black tracking-tight text-white md:text-5xl">
                   AI ตรวจแผนอัจฉริยะ
                 </h1>
-                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-500 md:text-base">
-                  เลือกแผนการสอนจากระบบหรืออัปโหลดไฟล์ DOCX เพื่อให้ AI วิเคราะห์คะแนน จุดแข็ง จุดที่ควรปรับ และคำแนะนำที่ทำต่อได้ทันที
+                <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-indigo-100/80">
+                  เลือกแผนการสอนจากระบบหรืออัปโหลดไฟล์ DOCX เพื่อให้ AI วิเคราะห์ให้คะแนน จุดแข็ง จุดที่ควรปรับ และข้อเสนอแนะเชิงลึกที่นำไปใช้ได้ทันที
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 text-xs font-black text-slate-500 sm:justify-end">
-              <span className="rounded-full bg-slate-100 px-3 py-2">{plans.length} แผนในระบบ</span>
-              <span className="rounded-full bg-blue-50 px-3 py-2 text-blue-700">{selectedPlanIds.size} เลือกแล้ว</span>
-              <span className="rounded-full bg-emerald-50 px-3 py-2 text-emerald-700">{fileText ? 1 : 0} ไฟล์พร้อม</span>
+            <div className="flex flex-wrap items-center gap-3 text-xs font-black text-indigo-100 sm:flex-col sm:items-end">
+              <span className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 backdrop-blur-md border border-white/5">
+                <Layers className="h-4 w-4" />
+                {plans.length} แผนในระบบ
+              </span>
+              <span className="flex items-center gap-2 rounded-full bg-indigo-500/20 px-4 py-2.5 text-indigo-200 backdrop-blur-md border border-indigo-400/20">
+                <CheckSquare className="h-4 w-4" />
+                {selectedPlanIds.size} เลือกแล้ว
+              </span>
+              <span className="flex items-center gap-2 rounded-full bg-emerald-500/20 px-4 py-2.5 text-emerald-300 backdrop-blur-md border border-emerald-400/20">
+                <FileText className="h-4 w-4" />
+                {fileText ? 1 : 0} ไฟล์พร้อมตรวจ
+              </span>
             </div>
           </div>
         </motion.div>
@@ -566,9 +577,9 @@ function EvaluationFlowStepper({ step }: { step: number }) {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.04, ease: 'easeOut' }}
-      className="overflow-x-auto rounded-2xl bg-white p-2 shadow-sm"
+      className="flex justify-center"
     >
-      <div className="flex min-w-[620px] flex-row items-center justify-between gap-2">
+      <div className="inline-flex flex-wrap items-center justify-center gap-3 rounded-[2rem] bg-white/60 p-2 shadow-sm backdrop-blur-md border border-white/40">
         {steps.map((item, itemIndex) => {
           const itemStep = itemIndex + 1;
           const Icon = item.icon;
@@ -576,29 +587,24 @@ function EvaluationFlowStepper({ step }: { step: number }) {
           const isDone = step > itemStep;
 
           return (
-            <div
-              key={item.label}
-              className={`flex flex-1 items-center gap-3 rounded-xl px-4 py-3 transition-colors ${
-                isActive
-                  ? 'bg-blue-50 text-blue-700'
-                  : isDone
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'bg-slate-50 text-slate-400'
-              }`}
-            >
-              <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
-                isActive
-                  ? 'bg-blue-600 text-white'
-                  : isDone
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-white text-slate-400'
-              }`}>
-                {isDone ? <CheckCircle className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+            <div key={item.label} className="flex items-center gap-3">
+              <div
+                className={`flex items-center gap-3 rounded-full px-5 py-2.5 transition-all duration-500 ${
+                  isActive
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 scale-105'
+                    : isDone
+                      ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20'
+                      : 'bg-transparent text-slate-500 hover:bg-white/50'
+                }`}
+              >
+                <div className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${isActive || isDone ? 'bg-white/20' : 'bg-slate-200/80'}`}>
+                  {isDone ? <CheckCircle className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+                </div>
+                <span className="text-sm font-black tracking-wide">{item.label}</span>
               </div>
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.14em] opacity-70">Step {itemStep}</p>
-                <p className="text-sm font-black">{item.label}</p>
-              </div>
+              {itemIndex < steps.length - 1 && (
+                <ArrowRight className="h-4 w-4 text-slate-300" />
+              )}
             </div>
           );
         })}
