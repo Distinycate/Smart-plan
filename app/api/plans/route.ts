@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
 import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
 
 // GET all plans
 export async function GET(req: NextRequest) {
   try {
+    const db = getSupabaseAdmin();
     const { searchParams } = new URL(req.url);
     const statusFilter = searchParams.get('status');
 
-    let query = supabase
+    let query = db
       .from('LessonPlans')
       .select('planId, planStatus, subjectCode, subjectName, unitName, lessonTopic, gradeLevel, semester, academicYear, totalHours, createdAt, updatedAt')
       .order('updatedAt', { ascending: false });
@@ -39,6 +40,7 @@ export async function GET(req: NextRequest) {
 // POST create plan
 export async function POST(req: NextRequest) {
   try {
+    const db = getSupabaseAdmin();
     const body = await req.json();
     const planStatus = body.planStatus || 'draft';
     const validationError = validateLessonPlanPayload(body, planStatus);
@@ -62,7 +64,7 @@ export async function POST(req: NextRequest) {
       updatedAt: timestamp
     };
 
-    let { data, error } = await supabase
+    let { data, error } = await db
       .from('LessonPlans')
       .insert(newPlan)
       .select();
@@ -79,7 +81,7 @@ export async function POST(req: NextRequest) {
         delete fallbackPlan.rubricP;
         delete fallbackPlan.rubricA;
         
-        const retryResult = await supabase
+        const retryResult = await db
           .from('LessonPlans')
           .insert(fallbackPlan)
           .select();
@@ -92,7 +94,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Log transaction
-    await supabase.from('System_Logs').insert({
+    await db.from('System_Logs').insert({
       logId: `LOG-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       timestamp,
       action: 'CREATE_PLAN',
