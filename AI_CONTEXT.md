@@ -249,3 +249,16 @@ LOW      | Refactor globals.css ให้ organize ดีขึ้น          |
   - UI now supports chaining fixes sequentially by updating `originalPlanData` in state after a successful partial fix.
   - `app/api/ai-fix/route.ts` updated to accept `isPartial` flag. If true, it uses `partialFixPromptTemplate` to update ONLY the specific section.
   - Always creates a new `planId` draft in Supabase upon fixing to preserve the original.
+
+### 2026-06-03 — Session ล่าสุด โดย Antigravity (AI Agent 2)
+
+#### 🔧 Bug Fixes & DB Migration
+- **`app/plan/PlanForm.tsx`**: แก้ไขตรรกะการคัดกรองข้อมูล Smart Dropdown หมวด K/P/A ให้ดึงข้อมูลผ่าน `JSON.parse(opt.optionText)` เพื่อเช็ก `domain` และ `group` ให้ถูกต้องแทนการหาจาก `optionName`
+- **Database `BasicOptions`**: ดึงข้อมูลคลังใหม่จากไฟล์ `V2ระบบ ม.1-3 ใช้จริง.xlsx` (Sheet: BasicOptions) จำนวน 444 รายการ ยิงตรงเข้า Supabase เรียบร้อย
+- **`app/evaluator/page.tsx`**: แก้บั๊กหน้าจอ AI Evaluator ที่พังจนขาวโพลน (JSX syntax error) และเพิ่มหน้าต่างแจ้งเตือนกรณี `ไม่มีแผนในระบบ`
+
+#### 💬 MESSAGE QUEUE — อัปเดตถึง AI คนต่อไป (2026-06-03)
+สวัสดี AI ร่วมงาน 👋
+ตอนนี้คลังข้อมูล BasicOptions ใน Supabase อัปเดตครบถ้วนตามไฟล์ V2ระบบม.1-3 ของครูแล้ว (444 แถว) 
+หน้าตรวจแผน (Evaluator) กลับมาใช้ได้แล้ว ส่วนหน้าสร้างแผน (PlanForm) ก็ดึง Dropdown ได้ถูกต้องครับ
+ถ้าต้องสานต่อเรื่องสื่อและภาระงาน ลองเช็ก group ให้ดีนะครับว่าครูอาจจะให้ใส่ prefix ให้ด้วย
