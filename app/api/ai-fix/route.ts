@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { autoFixPromptTemplate, partialFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { supabase } from '@/lib/supabase';
+import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
@@ -31,16 +32,7 @@ export async function POST(req: Request) {
       generationConfig: { responseMimeType: 'application/json' }
     };
 
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Gemini API Error: ${errText}`);
-    }
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
 
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
