@@ -356,38 +356,64 @@ export default function EvaluatorPage() {
             )}
 
             {activeTab === 'upload' && (
-              <div className="space-y-4">
-                <div className="relative overflow-hidden rounded-2xl bg-blue-50 p-8 text-center transition-colors hover:bg-blue-100/70 sm:p-12">
+              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className={`group relative overflow-hidden rounded-[2rem] border-2 border-dashed p-10 sm:p-16 text-center transition-all duration-300 ease-out ${
+                  fileText 
+                    ? 'border-indigo-400 bg-indigo-50/50' 
+                    : 'border-slate-200 hover:border-indigo-400 hover:bg-slate-50/50 hover:shadow-2xl hover:shadow-indigo-500/10'
+                }`}>
                   <input
                     type="file"
                     id="file-upload"
-                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                    className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                     accept=".docx"
                     onChange={handleFileUpload}
                   />
-                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-white text-blue-500 shadow-sm">
-                    <Upload className="h-10 w-10" />
+                  <div className="relative z-0 mx-auto flex flex-col items-center justify-center">
+                    <div className="relative mb-6 flex h-24 w-24 items-center justify-center rounded-[1.5rem] bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-xl shadow-purple-500/30 transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-110">
+                      <div className="absolute inset-[3px] flex items-center justify-center rounded-[1.3rem] bg-white transition-colors duration-300 group-hover:bg-indigo-50/80">
+                        <UploadCloud className="h-10 w-10 text-indigo-600 transition-transform duration-500 group-hover:-translate-y-1" />
+                      </div>
+                      <div className="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
+                        <Sparkles className="h-4 w-4 text-amber-500" />
+                      </div>
+                    </div>
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900 transition-colors duration-300 group-hover:text-indigo-950">
+                      ลากไฟล์มาวาง หรือ <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">คลิกเพื่ออัปโหลด</span>
+                    </h3>
+                    <p className="mt-3 max-w-sm text-sm font-medium text-slate-500">
+                      รองรับไฟล์เอกสาร <strong className="text-indigo-600">.docx</strong> (Microsoft Word) เท่านั้น
+                    </p>
                   </div>
-                  <h3 className="mt-6 text-xl font-black text-slate-900">ลากไฟล์มาวาง หรือคลิกเพื่ออัปโหลด</h3>
-                  <p className="mt-2 text-sm font-medium text-slate-500">รองรับเฉพาะไฟล์เอกสาร .docx เท่านั้น</p>
                 </div>
 
-                <div className={`rounded-2xl p-5 shadow-sm ${
-                  fileText ? 'bg-emerald-50' : 'bg-slate-50'
+                <div className={`relative overflow-hidden rounded-[2rem] p-6 shadow-sm transition-all duration-500 ${
+                  fileText 
+                    ? 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/20 translate-y-0 opacity-100 scale-100' 
+                    : 'bg-white border border-slate-100 translate-y-2 opacity-80 scale-[0.98]'
                 }`}>
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm ${
-                    fileText ? 'text-emerald-600' : 'text-slate-400'
-                  }`}>
-                    {fileText ? <CheckCircle className="h-6 w-6" /> : <FileText className="h-6 w-6" />}
+                  <div className="relative z-10 flex flex-col items-center gap-5 sm:flex-row">
+                    <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl shadow-inner transition-colors duration-500 ${
+                      fileText ? 'bg-white/20 text-white backdrop-blur-md' : 'bg-slate-50 text-slate-400'
+                    }`}>
+                      {fileText ? <CheckCircle className="h-8 w-8" /> : <FileText className="h-8 w-8" />}
+                    </div>
+                    <div className="text-center sm:text-left">
+                      <h3 className={`text-lg font-black ${fileText ? 'text-white' : 'text-slate-900'}`}>
+                        {fileText ? 'ไฟล์พร้อมสำหรับการประเมินแล้ว! ✨' : 'รอรับไฟล์แผนการสอน...'}
+                      </h3>
+                      <p className={`mt-1.5 text-sm font-medium leading-relaxed ${fileText ? 'text-emerald-50' : 'text-slate-500'}`}>
+                        {fileText
+                          ? 'ระบบอ่านเนื้อหาจากไฟล์สำเร็จ AI พร้อมวิเคราะห์คุณภาพและให้คำแนะนำแบบเจาะลึกตามเกณฑ์ วPA ทันที'
+                          : 'อัปโหลดไฟล์แผนเพื่อให้ AI ช่วยวิเคราะห์อย่างละเอียดในรูปแบบเดียวกับแผนในระบบ'}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="mt-5 text-lg font-black text-slate-900">
-                    {fileText ? 'ไฟล์พร้อมสำหรับการประเมินแล้ว' : 'ยังไม่ได้อัปโหลดไฟล์'}
-                  </h3>
-                  <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
-                    {fileText
-                      ? 'ระบบอ่านตัวอักษรจากไฟล์ DOCX สำเร็จ สามารถเริ่มให้ AI ตรวจแผนได้ทันที'
-                      : 'อัปโหลดไฟล์แผนการสอนเพื่อให้ AI วิเคราะห์ด้วยรูปแบบเดียวกับแผนในระบบ'}
-                  </p>
+                  {fileText && (
+                    <div className="absolute -bottom-12 -right-12 opacity-10 transition-transform duration-700 hover:scale-110 hover:rotate-12">
+                      <CheckCircle className="h-48 w-48" />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -758,29 +784,29 @@ function TrafficLightCard({
 }) {
   const styles = {
     green: {
-      card: 'bg-emerald-50/80',
-      icon: 'bg-emerald-100 text-emerald-700',
+      card: 'bg-gradient-to-br from-emerald-50/80 to-teal-50/50 hover:shadow-emerald-500/10 hover:border-emerald-200/50 border border-transparent',
+      icon: 'bg-gradient-to-br from-emerald-400 to-teal-500 text-white shadow-md shadow-emerald-500/20',
       text: 'text-emerald-950',
-      bullet: 'text-emerald-600'
+      bullet: 'text-emerald-500'
     },
     yellow: {
-      card: 'bg-amber-50/80',
-      icon: 'bg-amber-100 text-amber-700',
+      card: 'bg-gradient-to-br from-amber-50/80 to-orange-50/50 hover:shadow-amber-500/10 hover:border-amber-200/50 border border-transparent',
+      icon: 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-md shadow-amber-500/20',
       text: 'text-amber-950',
-      bullet: 'text-amber-600'
+      bullet: 'text-amber-500'
     },
     red: {
-      card: 'bg-rose-50/80',
-      icon: 'bg-rose-100 text-rose-700',
+      card: 'bg-gradient-to-br from-rose-50/80 to-red-50/50 hover:shadow-rose-500/10 hover:border-rose-200/50 border border-transparent',
+      icon: 'bg-gradient-to-br from-rose-400 to-red-500 text-white shadow-md shadow-rose-500/20',
       text: 'text-rose-950',
-      bullet: 'text-rose-600'
+      bullet: 'text-rose-500'
     }
   }[tone];
 
   return (
-    <motion.div variants={cardMotion} className={`rounded-2xl p-6 shadow-sm ${styles.card}`}>
+    <motion.div variants={cardMotion} className={`group relative rounded-[2rem] p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 ${styles.card}`}>
       <div className="flex items-start gap-4">
-        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${styles.icon}`}>
+        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[1.25rem] transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110 ${styles.icon}`}>
           <Icon className="h-6 w-6" />
         </div>
         <div>
@@ -791,7 +817,7 @@ function TrafficLightCard({
 
       <div className="mt-6 space-y-4">
         {items.length > 0 ? items.map((item, itemIndex) => (
-          <div key={itemIndex} className="flex gap-3 rounded-2xl bg-white/70 p-4 text-sm font-medium leading-7 text-slate-700 shadow-sm">
+          <div key={itemIndex} className="flex gap-3 rounded-2xl bg-white/80 p-4 text-sm font-medium leading-7 text-slate-700 shadow-sm transition-colors hover:bg-white">
             <CheckCircle className={`mt-1 h-4 w-4 shrink-0 ${styles.bullet}`} />
             <span>{item}</span>
           </div>
@@ -851,10 +877,11 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
     >
       <div className="relative space-y-6 p-4 sm:p-6 md:p-8">
         <div className="grid gap-5 lg:grid-cols-[1fr_280px]">
-          <div className="rounded-2xl bg-slate-50 p-6 shadow-sm md:p-8">
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/25">
-                <ClipboardCheck className="h-7 w-7" />
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-50 to-indigo-50/50 p-6 shadow-sm md:p-8">
+            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-indigo-400/10 blur-3xl" />
+            <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30">
+                <ClipboardCheck className="h-8 w-8" />
               </div>
               <div className="min-w-0">
                 <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-black text-indigo-700">
@@ -871,8 +898,8 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
           </div>
 
           <motion.div
-            whileHover={{ y: -3, scale: 1.01 }}
-            className="rounded-2xl bg-white p-6 shadow-sm"
+            whileHover={{ y: -5, scale: 1.02 }}
+            className="group relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-xl shadow-slate-200/50 transition-shadow duration-300 hover:shadow-indigo-500/20"
           >
             <div className="mb-4 flex items-center justify-between">
               <div>
@@ -899,7 +926,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <motion.div variants={cardMotion} custom={1} className="rounded-2xl bg-white p-6 shadow-sm md:p-7">
+          <motion.div variants={cardMotion} custom={1} className="group overflow-hidden rounded-[2rem] bg-white p-6 shadow-lg shadow-slate-200/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-indigo-500/10 md:p-7">
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <h4 className="flex items-center gap-2 text-lg font-black text-slate-800">
@@ -932,7 +959,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
             </div>
           </motion.div>
 
-          <motion.div variants={cardMotion} custom={2} className="rounded-2xl bg-white p-6 shadow-sm md:p-7">
+          <motion.div variants={cardMotion} custom={2} className="group overflow-hidden rounded-[2rem] bg-white p-6 shadow-lg shadow-slate-200/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-indigo-500/10 md:p-7">
             <div className="mb-6">
               <h4 className="flex items-center gap-2 text-lg font-black text-slate-800">
                 <ListChecks className="h-5 w-5 text-indigo-500" />
@@ -953,7 +980,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                     className="relative flex gap-4 rounded-2xl bg-slate-50 p-4"
                   >
                     <div className="flex flex-col items-center">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-md shadow-slate-200 transition-transform duration-300 hover:scale-110 hover:text-indigo-700">
                         <StepIcon className="h-5 w-5" />
                       </div>
                       {stepIndex < evaluationSteps.length - 1 && <div className="mt-3 h-8 w-px bg-slate-200" />}
@@ -980,7 +1007,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
           </motion.div>
         </div>
 
-        <motion.div variants={cardMotion} custom={3} className="rounded-2xl bg-white p-5 shadow-sm md:p-7">
+        <motion.div variants={cardMotion} custom={3} className="overflow-hidden rounded-[2rem] bg-white p-5 shadow-lg shadow-slate-200/40 transition-all duration-300 hover:shadow-indigo-500/10 md:p-7">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h4 className="text-xl font-black text-slate-800">รายละเอียดแบบ Traffic Light</h4>
@@ -1010,8 +1037,10 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
         <motion.div
           variants={cardMotion}
           custom={4}
-          className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6 text-white shadow-2xl shadow-indigo-950/30 md:p-8"
+          className="group/ai relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6 text-white shadow-2xl shadow-indigo-950/40 transition-all duration-500 hover:shadow-indigo-900/50 md:p-10"
         >
+          <div className="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-indigo-500/20 blur-[100px] transition-transform duration-700 group-hover/ai:translate-x-10 group-hover/ai:translate-y-10" />
+          <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-purple-500/20 blur-[100px] transition-transform duration-700 group-hover/ai:-translate-x-10 group-hover/ai:-translate-y-10" />
           <div className="relative grid gap-8 lg:grid-cols-[1fr_0.9fr]">
             <div>
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-black text-indigo-100 backdrop-blur">
@@ -1033,7 +1062,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: recIndex * 0.08 }}
-                      className="rounded-2xl bg-white/10 p-4 shadow-sm backdrop-blur"
+                      className="rounded-[1.5rem] bg-white/10 p-5 shadow-sm backdrop-blur transition-all duration-300 hover:bg-white/15 hover:shadow-md"
                     >
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div>
@@ -1067,10 +1096,10 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
             </div>
 
             <div className="relative">
-              <div className="rounded-2xl bg-white/10 p-5 shadow-sm backdrop-blur md:p-6">
+              <div className="rounded-[2rem] bg-white/10 p-6 shadow-xl shadow-black/10 backdrop-blur md:p-8">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-cyan-300/20 text-cyan-200">
-                    <FileText className="h-6 w-6" />
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-cyan-300/20 text-cyan-200 transition-transform duration-500 group-hover/ai:rotate-12 group-hover/ai:scale-110">
+                    <FileText className="h-7 w-7" />
                   </div>
                   <div>
                     <h5 className="text-lg font-black">สรุปแนวทางปรับปรุง</h5>
@@ -1084,7 +1113,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                   {checklist.slice(0, 4).map((item: any, itemIndex: number) => {
                     const itemPct = percentOf(item.score, item.maxScore);
                     return (
-                      <div key={item.topic} className="rounded-2xl bg-slate-950/35 p-4">
+                      <div key={item.topic} className="group/item rounded-2xl bg-slate-950/35 p-4 transition-colors hover:bg-slate-950/50">
                         <div className="mb-2 flex items-center justify-between gap-3 text-xs font-black">
                           <span className="truncate text-indigo-100">{item.topic}</span>
                           <span className="text-cyan-200">{itemPct}%</span>
@@ -1095,7 +1124,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                             whileInView={{ width: `${itemPct}%` }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.75, delay: itemIndex * 0.08 }}
-                            className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-indigo-300"
+                            className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-indigo-300 transition-all duration-500 group-hover/item:opacity-80"
                           />
                         </div>
                       </div>
@@ -1108,7 +1137,7 @@ function EvaluationResultCard({ result, index, onFix, onFixPartial, isFixing, fi
                 <button
                   onClick={onFix}
                   disabled={isFixing}
-                  className="mt-5 flex w-full items-center justify-center gap-3 rounded-2xl bg-white px-5 py-4 text-sm font-black text-indigo-950 shadow-xl shadow-black/20 transition-all hover:-translate-y-0.5 hover:bg-cyan-50 disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
+                  className="mt-5 flex w-full items-center justify-center gap-3 rounded-[1.5rem] bg-white px-5 py-4 text-sm font-black text-indigo-950 shadow-xl shadow-black/20 transition-all duration-300 hover:-translate-y-1 hover:bg-cyan-50 hover:shadow-cyan-500/20 disabled:translate-y-0 disabled:bg-white/20 disabled:text-white/50"
                 >
                   {isFixing ? (
                     <>
