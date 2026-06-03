@@ -21,6 +21,9 @@ export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetr
       if (response.status === 503 || response.status === 429) {
         attempt++;
         if (attempt >= maxRetries) {
+          if (response.status === 429 || errText.includes('429') || errText.includes('quota')) {
+            throw new Error('ขณะนี้มีผู้ใช้งานระบบจำนวนมาก โปรดรอสักครู่ (ประมาณ 1 นาที) แล้วลองใหม่อีกครั้ง');
+          }
           throw new Error(`Gemini API Error (Status ${response.status}): ${errText}`);
         }
         
@@ -32,9 +35,15 @@ export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetr
         continue;
       } else {
         // Other errors (e.g. 400 Bad Request, 401 Unauthorized), don't retry
+        if (response.status === 429 || errText.includes('429') || errText.includes('quota')) {
+          throw new Error('ขณะนี้มีผู้ใช้งานระบบจำนวนมาก โปรดรอสักครู่ (ประมาณ 1 นาที) แล้วลองใหม่อีกครั้ง');
+        }
         throw new Error(`Gemini API Error (Status ${response.status}): ${errText}`);
       }
     } catch (error: any) {
+      if (error.message.includes('429') || error.message.includes('quota')) {
+        throw new Error('ขณะนี้มีผู้ใช้งานระบบจำนวนมาก โปรดรอสักครู่ (ประมาณ 1 นาที) แล้วลองใหม่อีกครั้ง');
+      }
       // Fetch threw a network error
       if (attempt >= maxRetries - 1) {
         throw error;

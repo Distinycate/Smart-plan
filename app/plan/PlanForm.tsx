@@ -17,6 +17,7 @@ import SmartDropdown from '../components/SmartDropdown';
 
 interface PlanFormProps {
   planId?: string;
+  isAdmin?: boolean;
 }
 
 // Helper to clean JSON syntax, brackets, braces, and quotes from string values
@@ -249,7 +250,7 @@ const applyTopicTemplateDefaults = (baseFields: Record<string, any>, topic: any)
   };
 };
 
-export default function PlanForm({ planId }: PlanFormProps) {
+export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   const router = useRouter();
   const isEdit = !!planId;
 
@@ -1063,61 +1064,67 @@ export default function PlanForm({ planId }: PlanFormProps) {
 
             <div className="g2" style={{ marginTop: '12px' }}>
               <label className="field">
-                ระบุหน่วยการเรียนรู้ (พิมพ์เอง หรือ เลือกแนะนำ)
+                {isAdmin ? 'ระบุหน่วยการเรียนรู้ (พิมพ์เอง หรือ เลือกแนะนำ)' : 'ระบุหน่วยการเรียนรู้'}
                 <input 
                   type="text"
-                  list="units-datalist" 
+                  list={isAdmin ? "units-datalist" : undefined}
                   value={fields.unitName || ''} 
                   onChange={e => handleUnitNameChange(e.target.value)}
                   disabled={!activeSubjectId}
-                  placeholder={activeSubjectId ? "พิมพ์ชื่อหน่วย หรือเลือกจากรายการ..." : "กรุณาเลือกวิชาก่อน"}
+                  placeholder={isAdmin ? (activeSubjectId ? "พิมพ์ชื่อหน่วย หรือเลือกจากรายการ..." : "กรุณาเลือกวิชาก่อน") : "พิมพ์ชื่อหน่วยการเรียนรู้"}
                 />
-                <datalist id="units-datalist">
-                  {filteredUnits.map((u: any) => (
-                    <option key={u.unitId} value={`หน่วยที่ ${u.unitNumber}: ${u.unitName}`} />
-                  ))}
-                </datalist>
+                {isAdmin && (
+                  <datalist id="units-datalist">
+                    {filteredUnits.map((u: any) => (
+                      <option key={u.unitId} value={`หน่วยที่ ${u.unitNumber}: ${u.unitName}`} />
+                    ))}
+                  </datalist>
+                )}
               </label>
 
               <label className="field">
-                ระบุเรื่องที่สอน (พิมพ์เอง หรือ เลือกแนะนำ)
+                {isAdmin ? 'ระบุเรื่องที่สอน (พิมพ์เอง หรือ เลือกแนะนำ)' : 'ระบุเรื่องที่สอน'}
                 <input 
                   type="text"
-                  list="topics-datalist" 
+                  list={isAdmin ? "topics-datalist" : undefined}
                   value={fields.lessonTopic || ''} 
                   onChange={e => handleTopicNameChange(e.target.value)}
                   disabled={!activeSubjectId}
-                  placeholder={activeSubjectId ? "พิมพ์ชื่อเรื่อง หรือเลือกจากรายการ..." : "กรุณาเลือกวิชาก่อน"}
+                  placeholder={isAdmin ? (activeSubjectId ? "พิมพ์ชื่อเรื่อง หรือเลือกจากรายการ..." : "กรุณาเลือกวิชาก่อน") : "พิมพ์ชื่อเรื่องที่สอน"}
                 />
-                <datalist id="topics-datalist">
-                  {(filteredTopics.length > 0 ? filteredTopics : eflQuickTopics).map((t: any) => (
-                    <option key={t.topicId} value={`${t.topicNumber}. ${t.lessonTopic}`} />
-                  ))}
-                </datalist>
+                {isAdmin && (
+                  <datalist id="topics-datalist">
+                    {(filteredTopics.length > 0 ? filteredTopics : eflQuickTopics).map((t: any) => (
+                      <option key={t.topicId} value={`${t.topicNumber}. ${t.lessonTopic}`} />
+                    ))}
+                  </datalist>
+                )}
               </label>
             </div>
 
-            {/* AI AUTOFILL CALLOUT PANEL */}
-            <div className="db-warn" style={{ marginTop: '24px', background: 'rgba(99, 102, 241, 0.1)', borderColor: '#818cf8', color: '#1e1b4b' }}>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                <Sparkles size={18} color="#4f46e5" style={{ marginTop: '2px' }} />
-                <div>
-                  <strong>พลังสร้างสรรค์แผนการสอนด้วย Gemini AI</strong>
-                  <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#4b5563' }}>
-                    เมื่อคุณกรอกข้อมูลชั้น วิชา และเรื่องที่สอนเสร็จเรียบร้อย 
-                    คุณสามารถกดปุ่ม Magic Fill เพื่อวิเคราะห์มาตรฐาน ตัวชี้วัด และจุดประสงค์ ทั้ง 19 ฟิลด์อัตโนมัติ
-                  </p>
+            {/* AI AUTOFILL CALLOUT PANEL - Admin Only */}
+            {isAdmin && (
+              <div className="db-warn" style={{ marginTop: '24px', background: 'rgba(99, 102, 241, 0.1)', borderColor: '#818cf8', color: '#1e1b4b' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                  <Sparkles size={18} color="#4f46e5" style={{ marginTop: '2px' }} />
+                  <div>
+                    <strong>พลังสร้างสรรค์แผนการสอนด้วย Gemini AI</strong>
+                    <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#4b5563' }}>
+                      เมื่อคุณกรอกข้อมูลชั้น วิชา และเรื่องที่สอนเสร็จเรียบร้อย 
+                      คุณสามารถกดปุ่ม Magic Fill เพื่อวิเคราะห์มาตรฐาน ตัวชี้วัด และจุดประสงค์ ทั้ง 19 ฟิลด์อัตโนมัติ
+                    </p>
+                  </div>
                 </div>
+                <button 
+                  type="button" 
+                  className="btn btn-primary"
+                  onClick={handleAIMagicFill}
+                  disabled={aiLoading || !fields.lessonTopic}
+                >
+                  <Sparkles size={13} /> {aiLoading ? 'กำลังสร้างแผนด้วย AI...' : 'Magic AutoFill'}
+                </button>
               </div>
-              <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={handleAIMagicFill}
-                disabled={aiLoading || !fields.lessonTopic}
-              >
-                <Sparkles size={13} /> {aiLoading ? 'กำลังสร้างแผนด้วย AI...' : 'Magic AutoFill'}
-              </button>
-            </div>
+            )}
 
             <div className="tab-nav">
               <div></div>

@@ -64,7 +64,12 @@ export default async function RootLayout({
             )}
           </div>
         </header>
-        {children}
+        <main style={{ minHeight: 'calc(100vh - 120px)' }}>
+          {children}
+        </main>
+        <footer className="text-center py-6 text-slate-500 text-sm bg-slate-50 border-t border-slate-200">
+          @copyright By Mr.Nattapat Prompru
+        </footer>
       </body>
     </html>
   );
