@@ -162,6 +162,20 @@ const getAssessmentGroupLabel = (group: string) => {
   return group ? `[${group}]` : '';
 };
 
+const formatOptionWithGroupPrefix = (opt: any) => {
+  let label = opt.optionName;
+  try {
+    const data = JSON.parse(opt.optionText || '{}');
+    if (data.group) {
+      const prefix = getAssessmentGroupLabel(data.group);
+      if (prefix) {
+        label = `${prefix} ${label}`.trim();
+      }
+    }
+  } catch (e) {}
+  return label;
+};
+
 const splitAssessmentChoices = (value: any) =>
   String(value || '')
     .split(';')
@@ -1354,12 +1368,15 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 1) สื่อการเรียนรู้
                 {options.media && options.media.length > 0 && (
                   <SmartDropdown 
-                    options={options.media.map((opt: any) => ({
-                      id: opt.optionId,
-                      label: opt.optionName,
-                      value: opt.optionText || '',
-                      selected: (fields.learningMedia || '').includes(opt.optionName)
-                    }))}
+                    options={options.media.map((opt: any) => {
+                      const prefixedLabel = formatOptionWithGroupPrefix(opt);
+                      return {
+                        id: opt.optionId,
+                        label: prefixedLabel,
+                        value: opt.optionText || '',
+                        selected: (fields.learningMedia || '').includes(prefixedLabel)
+                      };
+                    })}
                     placeholder="ค้นหาสื่อการเรียนรู้จากคลัง..."
                     onSelect={(opt) => handleChipClick('learningMedia', opt.label)}
                   />
@@ -1370,12 +1387,15 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 2) แหล่งเรียนรู้
                 {options.learningSource && options.learningSource.length > 0 && (
                   <SmartDropdown 
-                    options={options.learningSource.map((opt: any) => ({
-                      id: opt.optionId,
-                      label: opt.optionName,
-                      value: opt.optionText || '',
-                      selected: (fields.learningSources || '').includes(opt.optionName)
-                    }))}
+                    options={options.learningSource.map((opt: any) => {
+                      const prefixedLabel = formatOptionWithGroupPrefix(opt);
+                      return {
+                        id: opt.optionId,
+                        label: prefixedLabel,
+                        value: opt.optionText || '',
+                        selected: (fields.learningSources || '').includes(prefixedLabel)
+                      };
+                    })}
                     placeholder="ค้นหาแหล่งเรียนรู้จากคลัง..."
                     onSelect={(opt) => handleChipClick('learningSources', opt.label)}
                   />
@@ -1386,12 +1406,15 @@ export default function PlanForm({ planId }: PlanFormProps) {
                 3) ชิ้นงาน / ภาระงาน
                 {options.task && options.task.length > 0 && (
                   <SmartDropdown 
-                    options={options.task.map((opt: any) => ({
-                      id: opt.optionId,
-                      label: opt.optionName,
-                      value: opt.optionText || '',
-                      selected: (fields.tasks || '').includes(opt.optionName)
-                    }))}
+                    options={options.task.map((opt: any) => {
+                      const prefixedLabel = formatOptionWithGroupPrefix(opt);
+                      return {
+                        id: opt.optionId,
+                        label: prefixedLabel,
+                        value: opt.optionText || '',
+                        selected: (fields.tasks || '').includes(prefixedLabel)
+                      };
+                    })}
                     placeholder="ค้นหาชิ้นงาน/ภาระงานจากคลัง..."
                     onSelect={(opt) => handleChipClick('tasks', opt.label)}
                   />

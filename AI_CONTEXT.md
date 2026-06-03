@@ -130,7 +130,7 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 
 ## ✅ CURRENT STATE (สถานะปัจจุบัน)
 
-**Last updated**: 2026-06-03 11:03 (Thai time)  
+**Last updated**: 2026-06-03 11:28 (Thai time)
 **Updated by**: Codex
 
 ### สิ่งที่ทำเสร็จแล้ว ✅
@@ -144,19 +144,40 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 - [x] **Merge Codebase**: ผสานโค้ดจาก lesson-plan-next-app เข้ากับ smart-plan-ten โดยคง UI เดิมของ Evaluator V3 ไว้
 - [x] **KPA Assessment Cleanup**: ลบ UI/Dropdown ของ "สิ่งที่ต้องการวัดและประเมินผล" ใน Tab 4 ออกแล้ว และ sync `measureK/P/A` จาก `objectiveK/P/A` อัตโนมัติทั้งหลัง AI สร้างและก่อนบันทึก
 - [x] **KPA Method/Tool/Criteria Dropdowns**: ช่องวิธีการวัดผล เครื่องมือประเมิน และเกณฑ์ผ่านประเมินของ K/P/A ใช้ตัวเลือกจาก `BasicOptions.assessmentTemplate` โดยแยกตาม domain K/P/A แล้ว
+- [x] **Plan Evaluation Result Redesign (local code)**: ปรับ `app/evaluator/page.tsx` ให้หน้าผลการตรวจแผนเป็นแบบ compartmentalized dashboard มี Total Score card, RadarChart, 3-step status, Traffic Light cards และ AI Deep Insights ตามคำขอผู้ใช้
 
 ### รอดำเนินการ ⏳
 - [ ] **DB Migration**: ผู้ใช้ต้องรัน SQL เพิ่ม rubricK/P/A ใน Supabase Dashboard
 - [ ] ทดสอบ Rubric บันทึก→กลับมาแก้ไข→ยังมีข้อมูล (หลัง DB migration)
 - [ ] ทดสอบ Word export มี Rubric table จริงๆ (หลัง DB migration)
 - [ ] ตรวจบน Vercel production `https://smart-plan-ten.vercel.app` หลัง deploy ว่า Tab 4 ไม่มีช่อง "สิ่งที่ต้องการวัดและประเมินผล" แล้ว
+- [ ] ติดตั้ง dependency ใหม่ `framer-motion` และรัน `npm run build` ซ้ำ หลัง network/npm registry ใช้งานได้
 
 ### Known Issues 🔴
 - **rubricK, rubricP, rubricA columns ยังไม่มีใน Supabase** → Rubric จะไม่ถูกบันทึก จนกว่าจะ migrate DB
+- **Local npm install blocked**: `npm install framer-motion` ล้มเหลวด้วย `getaddrinfo ENOTFOUND registry.npmjs.org` ทำให้ `package-lock.json` ยังไม่ถูกอัปเดต และยัง build ตรวจเต็มไม่ได้ในเครื่องนี้
 
 ---
 
 ## 📝 CHANGELOG (ประวัติการเปลี่ยนแปลง)
+
+### 2026-06-03 11:28 — Session โดย Codex
+
+#### 🎨 Plan Evaluation Result UI Redesign
+- **`app/evaluator/page.tsx`**
+  - เพิ่มหน้าผลการตรวจแผนแบบใหม่ใน `EvaluationResultCard`
+  - Header มี primary icon, summary และ Total Score card ที่สื่อสารสีตามคะแนน Green/Yellow/Red
+  - Top grid มี Recharts RadarChart สำหรับมิติ เนื้อหา/กิจกรรม/การวัดผล/เวลาเรียน และ status stepper 3 ขั้น
+  - Middle section แยกผลตรวจเป็น Traffic Light cards: Strengths / Passed, Needs Improvement, Critical Focus
+  - Bottom section เพิ่ม AI Deep Insights box ด้วย dark indigo gradient และปุ่ม AI partial/full fix เดิมยังทำงานกับ state เดิม
+  - เพิ่ม dummy/fallback data ภาษาไทยในบริบทแผนการจัดการเรียนรู้ เช่น มาตรฐาน/ตัวชี้วัด, Active Learning / PBL, คำถามกระตุ้นความคิด, เครื่องมือวัดผล
+- **`package.json`**
+  - เพิ่ม dependency `framer-motion`
+
+#### ⚠️ Verification Status
+- `git diff --check` ผ่าน
+- `npm install framer-motion` ยังไม่ผ่านในเครื่องนี้ เพราะ DNS หา `registry.npmjs.org` ไม่เจอ
+- `npm run build` จะยังไม่ผ่านจนกว่า `framer-motion` ถูกติดตั้งและ lockfile ถูกอัปเดต
 
 ### 2026-06-03 11:03 — Session โดย Codex
 
@@ -281,14 +302,14 @@ LOW      | Refactor globals.css ให้ organize ดีขึ้น          |
 #### 🔀 Codebase Merge & Force Push
 - **Merged Branch**: นำฟีเจอร์จาก `lesson-plan-next-app` มารวมเข้ากับ `smart-plan-ten` โดยยึด UI หลักของ `smart-plan-ten` เป็นที่ตั้ง
 - **`app/evaluator/page.tsx`**: คงสภาพ Evaluator V3 (Radar Chart + Checklist) เอาไว้ ไม่ให้ถูกเขียนทับ
-- **`lib/geminiClient.ts`**: นำระบบ Retry API (ลองใหม่ 3 ครั้งเมื่อ API ล่ม) มาเชื่อมต่อกับ `ai-evaluate` และ `ai-fix`
 - **`app/plan/PlanForm.tsx`**: นำตรรกะ KPA Dropdown (`JSON.parse`) จากฝั่ง Agent 2 มาปรับใช้ได้อย่างสมบูรณ์
+- **`app/plan/PlanForm.tsx`**: (อัปเดตล่าสุด) เพิ่มฟังก์ชัน `formatOptionWithGroupPrefix` เพื่อดึง `group` จาก JSON ของสื่อ (Media) และภาระงาน (Task) มาแสดงเป็น Prefix เช่น `[พื้นฐาน]` นำหน้าชื่อตัวเลือก เพื่อความชัดเจนตามที่ครูต้องการ
 
 #### 💬 MESSAGE QUEUE — อัปเดตถึง AI คนต่อไป (2026-06-03)
 สวัสดี AI ร่วมงาน 👋
 ตอนนี้คลังข้อมูล BasicOptions ใน Supabase อัปเดตครบถ้วนตามไฟล์ V2ระบบม.1-3 ของครูแล้ว (444 แถว) 
 หน้าตรวจแผน (Evaluator) กลับมาใช้ได้แล้ว ส่วนหน้าสร้างแผน (PlanForm) ก็ดึง Dropdown ได้ถูกต้องครับ
-ถ้าต้องสานต่อเรื่องสื่อและภาระงาน ลองเช็ก group ให้ดีนะครับว่าครูอาจจะให้ใส่ prefix ให้ด้วย
+*(อัปเดต: เรื่องสื่อและภาระงาน Agent 1 ได้จัดการใส่ Prefix ตาม Group เรียบร้อยแล้วครับ!)*
 
 ---
 **[UPDATE จาก Agent 1]**: ผมได้รวมโค้ดและ Force Push ไปยัง `main` เรียบร้อยแล้ว (อัปเดตไปที่ Vercel: `smart-plan-ten.vercel.app`)
@@ -304,4 +325,15 @@ LOW      | Refactor globals.css ให้ organize ดีขึ้น          |
 - ค่าของ measureK/P/A ต้อง sync จาก objectiveK/P/A อัตโนมัติ หลัง AI สร้าง และก่อนบันทึก
 - อย่านำ dropdown ของ assessmentTemplate กลับไปใส่ใน field measure อีก
 - Dropdown จาก assessmentTemplate ตอนนี้ใช้เฉพาะ method/tool/criteria ของ K/P/A เท่านั้น
+```
+
+---
+**[Codex → AI Agents] — 2026-06-03 11:28**
+```
+อัปเดตหน้าผลการตรวจแผน:
+- ผู้ใช้ขอ redesign Plan Evaluation Result page ให้ลด cognitive load และใช้ Recharts + Framer Motion
+- app/evaluator/page.tsx ถูกปรับเป็น dashboard ใหม่แล้ว: Total Score, RadarChart, 3-step status, Traffic Light feedback, AI Deep Insights
+- package.json เพิ่ม framer-motion แล้ว แต่ npm install ยังล้มเหลวในเครื่องนี้เพราะ DNS: getaddrinfo ENOTFOUND registry.npmjs.org
+- package-lock.json จึงยังไม่ได้อัปเดต และ npm run build ยังตรวจเต็มไม่ได้จนกว่าจะติดตั้ง dependency สำเร็จ
+- ถ้าสภาพแวดล้อมต่อ npm ได้แล้ว ให้รัน npm install แล้ว npm run build ก่อน deploy/push
 ```
