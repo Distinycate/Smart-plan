@@ -11,9 +11,19 @@ import {
   Info,
   CheckCircle,
   HelpCircle,
-  FileDown
+  FileDown,
+  BookOpen,
+  Layers
 } from 'lucide-react';
 import SmartDropdown from '../components/SmartDropdown';
+import {
+  SubjectCurriculumData,
+  getSubjectsByGrade,
+  getAllGradeLevels,
+  formatStandards,
+  formatDuringIndicators,
+  formatFinalIndicators,
+} from '../../lib/subjectStandardsData';
 
 interface PlanFormProps {
   planId?: string;
@@ -265,6 +275,12 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   
   const [activeTab, setActiveTab] = useState(1);
   const [initialData, setInitialData] = useState<any>(null);
+  
+  // ── Hardcoded Curriculum Selection State ──
+  const [selectedCurriculum, setSelectedCurriculum] = useState<SubjectCurriculumData | null>(null);
+  const [curriculumGrade, setCurriculumGrade] = useState<string>('');
+  const [curriculumLearningArea, setCurriculumLearningArea] = useState<string>('');
+  const [showCurriculumPanel, setShowCurriculumPanel] = useState(false);
   
   // Backups modal state (only for Edit Mode)
   const [showBackupReason, setShowBackupReason] = useState(false);
@@ -530,6 +546,64 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   const filteredIndicators = fields.gradeLevel
     ? indicators.filter((ind: any) => ind.gradeLevel === fields.gradeLevel)
     : [];
+
+  // ── Hardcoded Curriculum Computed Lists ──
+  const hardcodedGradeLevels = getAllGradeLevels();
+  const hardcodedSubjectsForGrade = curriculumGrade ? getSubjectsByGrade(curriculumGrade) : [];
+  
+  const hardcodedLearningAreasForGrade = Array.from(new Set(hardcodedSubjectsForGrade.map(s => s.learningArea)));
+  const hardcodedSubjectsForGradeArea = hardcodedSubjectsForGrade.filter(s => 
+    curriculumLearningArea ? s.learningArea === curriculumLearningArea : true
+  );
+
+  // ── Handlers: Hardcoded Curriculum ──
+  const handleCurriculumGradeChange = (grade: string) => {
+    setCurriculumGrade(grade);
+    setCurriculumLearningArea('');
+    setSelectedCurriculum(null);
+  };
+
+  const handleCurriculumSubjectSelect = (curriculum: SubjectCurriculumData) => {
+    setSelectedCurriculum(curriculum);
+  };
+
+  const handleApplyCurriculum = () => {
+    if (!selectedCurriculum) return;
+    const standards = formatStandards(selectedCurriculum);
+    const duringInds = formatDuringIndicators(selectedCurriculum);
+    const finalInds = formatFinalIndicators(selectedCurriculum);
+
+    setFields(prev => ({
+      ...prev,
+      subjectName: prev.subjectName || selectedCurriculum.subjectName,
+      subjectCode: prev.subjectCode || selectedCurriculum.subjectCode,
+      gradeLevel: prev.gradeLevel || selectedCurriculum.gradeLevel,
+      headerGradeLevel: prev.headerGradeLevel || toHeaderGradeLevel(selectedCurriculum.gradeLevel),
+      learningArea: selectedCurriculum.learningArea,
+      headerLearningArea: selectedCurriculum.learningArea,
+      learningStandard: standards,
+      indicatorDuring: duringInds,
+      indicatorFinal: finalInds,
+      indicatorSelectedIds: selectedCurriculum.indicators.map(i => i.id).join(','),
+    }));
+    setShowCurriculumPanel(false);
+    triggerToast(`โหลดมาตรฐานและตัวชี้วัดวิชา "${selectedCurriculum.subjectName} ${selectedCurriculum.gradeLevel}" เรียบร้อยแล้ว!`, 'success');
+  };
+
+  const handleAddSingleIndicator = (curriculum: SubjectCurriculumData, indicatorId: string) => {
+    const indicator = curriculum.indicators.find(i => i.id === indicatorId);
+    if (!indicator) return;
+    const indicatorText = `${indicator.code} ${indicator.text}`;
+    const field = indicator.type === 'during' ? 'indicatorDuring' : 'indicatorFinal';
+    setFields(prev => {
+      const current = prev[field] || '';
+      if (current.includes(indicatorText)) {
+        // Remove it
+        return { ...prev, [field]: current.split('\n').filter((l: string) => l.trim() !== indicatorText).join('\n') };
+      }
+      return { ...prev, [field]: current ? `${current}\n${indicatorText}` : indicatorText };
+    });
+  };
 
   // 1. Select Subject Handler
   const handleGradeChange = (gradeLevel: string) => {
@@ -1062,6 +1136,178 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             <hr className="divider" style={{ borderTopStyle: 'dashed' }} />
             
             <h3>รายวิชาและหัวข้อสอน</h3>
+
+            {/* ── Hardcoded Curriculum Quick-Pick Panel ── */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(79,70,229,0.07) 0%, rgba(16,185,129,0.05) 100%)',
+              border: '1.5px solid rgba(79,70,229,0.22)',
+              borderRadius: '12px',
+              padding: '16px',
+              marginBottom: '20px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: selectedCurriculum || showCurriculumPanel ? '12px' : '0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <BookOpen size={16} color="#4f46e5" />
+                  <strong style={{ color: '#1e1b4b', fontSize: '14px' }}>
+                    📚 เลือกรายวิชา — โหลดมาตรฐาน/ตัวชี้วัดอัตโนมัติ
+                  </strong>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowCurriculumPanel(!showCurriculumPanel)}
+                  style={{
+                    background: showCurriculumPanel ? 'rgba(79,70,229,0.15)' : 'transparent',
+                    border: '1px solid rgba(79,70,229,0.4)',
+                    borderRadius: '6px',
+                    padding: '4px 12px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    color: '#4f46e5',
+                    fontWeight: 600,
+                    transition: 'all 0.15s'
+                  }}
+                >
+                  {showCurriculumPanel ? '▲ ซ่อน' : '▼ เลือกวิชา'}
+                </button>
+              </div>
+
+              {/* ── Currently selected curriculum badge ── */}
+              {selectedCurriculum && (
+                <div style={{
+                  background: 'rgba(16,185,129,0.1)',
+                  border: '1px solid rgba(16,185,129,0.3)',
+                  borderRadius: '8px',
+                  padding: '10px 14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '10px',
+                  flexWrap: 'wrap'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle size={15} color="#10b981" />
+                    <span style={{ fontSize: '13px', color: '#065f46', fontWeight: 600 }}>
+                      เลือก: {selectedCurriculum.subjectName} ({selectedCurriculum.subjectCode}) {selectedCurriculum.gradeLevel}
+                    </span>
+                    <span style={{ fontSize: '11px', color: '#6b7280' }}>
+                      — {selectedCurriculum.standards.length} มาตรฐาน, {selectedCurriculum.indicators.length} ตัวชี้วัด
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleApplyCurriculum}
+                    style={{
+                      background: 'linear-gradient(135deg, #10b981, #059669)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '6px',
+                      padding: '7px 16px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    ✓ ใช้มาตรฐาน/ตัวชี้วัดชุดนี้
+                  </button>
+                </div>
+              )}
+
+              {/* ── Curriculum Selector Dropdowns ── */}
+              {showCurriculumPanel && (
+                <div style={{ marginTop: '12px' }}>
+                  <div className="g2">
+                    <label className="field">
+                      <span style={{ fontSize: '12px', color: '#6b7280' }}>เลือกระดับชั้น</span>
+                      <select
+                        value={curriculumGrade}
+                        onChange={e => handleCurriculumGradeChange(e.target.value)}
+                        style={{ fontSize: '13px' }}
+                      >
+                        <option value="">-- เลือกระดับชั้น --</option>
+                        {hardcodedGradeLevels.map(grade => (
+                          <option key={grade} value={grade}>{grade}</option>
+                        ))}
+                      </select>
+                    </label>
+
+                    {curriculumGrade && (
+                      <label className="field">
+                        <span style={{ fontSize: '12px', color: '#6b7280' }}>เลือกกลุ่มสาระฯ</span>
+                        <select
+                          value={curriculumLearningArea}
+                          onChange={e => {
+                            setCurriculumLearningArea(e.target.value);
+                            setSelectedCurriculum(null);
+                          }}
+                          style={{ fontSize: '13px' }}
+                        >
+                          <option value="">-- ทุกกลุ่มสาระฯ --</option>
+                          {hardcodedLearningAreasForGrade.map(area => (
+                            <option key={area} value={area}>{area}</option>
+                          ))}
+                        </select>
+                      </label>
+                    )}
+
+                    {curriculumGrade && (
+                      <label className="field">
+                        <span style={{ fontSize: '12px', color: '#6b7280' }}>เลือกรายวิชา</span>
+                        <select
+                          value={selectedCurriculum?.subjectKey || ''}
+                          onChange={e => {
+                            const found = hardcodedSubjectsForGradeArea.find(s => s.subjectKey === e.target.value);
+                            if (found) handleCurriculumSubjectSelect(found);
+                          }}
+                          style={{ fontSize: '13px' }}
+                        >
+                          <option value="">-- เลือกรายวิชา --</option>
+                          {hardcodedSubjectsForGradeArea.map(sub => (
+                            <option key={sub.subjectKey} value={sub.subjectKey}>
+                              {sub.subjectCode} — {sub.subjectName} ({sub.learningArea})
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    )}
+                  </div>
+
+                  {/* ── Preview of selected curriculum ── */}
+                  {selectedCurriculum && (
+                    <div style={{ marginTop: '12px', padding: '12px', background: 'rgba(255,255,255,0.75)', borderRadius: '8px', border: '1px solid rgba(0,0,0,0.08)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                        <Layers size={13} color="#4f46e5" />
+                        <strong style={{ fontSize: '12px', color: '#4f46e5' }}>
+                          มาตรฐานการเรียนรู้ ({selectedCurriculum.standards.length} ข้อ)
+                        </strong>
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
+                        {selectedCurriculum.standards.map(std => (
+                          <span key={std.code} title={std.text} style={{
+                            background: 'rgba(79,70,229,0.1)',
+                            border: '1px solid rgba(79,70,229,0.25)',
+                            borderRadius: '20px',
+                            padding: '3px 10px',
+                            fontSize: '11px',
+                            color: '#3730a3',
+                            fontWeight: 600,
+                            cursor: 'help'
+                          }}>
+                            {std.code}
+                          </span>
+                        ))}
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#6b7280' }}>
+                        🕐 ตัวชี้วัดระหว่างทาง: <strong style={{ color: '#065f46' }}>{selectedCurriculum.indicators.filter(i => i.type === 'during').length} ข้อ</strong>
+                        &nbsp;&nbsp;
+                        🏁 ตัวชี้วัดปลายทาง: <strong style={{ color: '#92400e' }}>{selectedCurriculum.indicators.filter(i => i.type === 'final').length} ข้อ</strong>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
             <div className="g3">
               <label className="field">
                 เลือกระดับชั้น
