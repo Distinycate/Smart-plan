@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     }
     
     // Choose the best model
-    const model = 'gemini-1.5-pro'; 
+    const model = 'gemini-2.5-flash'; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     let planContentString = '';
