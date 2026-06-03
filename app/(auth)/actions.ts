@@ -17,29 +17,44 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    redirect('/login?message=Could not authenticate user')
+    redirect(`/login?message=${encodeURIComponent(error.message)}`)
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/plan/new')
 }
 
 export async function signup(formData: FormData) {
   const supabase = createClient()
 
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  }
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
+  const full_name = formData.get('full_name') as string
+  const gender = formData.get('gender') as string
+  const age = formData.get('age') as string
+  const subject_group = formData.get('subject_group') as string
+  const grade_levels = formData.getAll('grade_levels')
 
-  const { error } = await supabase.auth.signUp(data)
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name,
+        gender,
+        age,
+        subject_group,
+        grade_levels: JSON.stringify(grade_levels)
+      }
+    }
+  })
 
   if (error) {
-    redirect('/register?message=Could not create user')
+    redirect(`/register?message=${encodeURIComponent(error.message)}`)
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/plan/new')
 }
 
 export async function logout() {

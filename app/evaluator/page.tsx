@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import * as mammoth from 'mammoth';
+import { toast, Toaster } from 'react-hot-toast';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { motion } from 'framer-motion';
 
@@ -186,7 +187,7 @@ export default function EvaluatorPage() {
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      alert(`AI แก้ไขส่วน [${sectionKey}] สำเร็จ! ตรวจสอบเนื้อหาและกดบันทึกเพื่อบันทึกร่างใหม่`);
+      toast.success(`AI แก้ไขส่วน [${sectionKey}] สำเร็จ! ตรวจสอบเนื้อหาและกดบันทึกเพื่อบันทึกร่างใหม่`);
       const newResults = [...evaluationResults];
       newResults[resultIndex].originalPlanData = json.newPlanData;
       if (!newResults[resultIndex].fixedRecs) newResults[resultIndex].fixedRecs = {};
@@ -195,7 +196,7 @@ export default function EvaluatorPage() {
       newResults[resultIndex].hasUnsavedChanges = true;
       setEvaluationResults(newResults);
     } catch (err: any) {
-      alert(err.message || 'เกิดข้อผิดพลาดในการแก้เฉพาะจุด');
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการแก้เฉพาะจุด');
     } finally {
       setFixingPlanId(null);
     }
@@ -219,12 +220,12 @@ export default function EvaluatorPage() {
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      alert('บันทึกแผนร่าง (Draft) สำเร็จ! คุณสามารถดูได้ที่หน้าระบบหลัก');
+      toast.success('บันทึกแผนร่าง (Draft) สำเร็จ! คุณสามารถดูได้ที่หน้าระบบหลัก');
       const newResults = [...evaluationResults];
       newResults[resultIndex].hasUnsavedChanges = false;
       setEvaluationResults(newResults);
     } catch (err: any) {
-      alert(err.message || 'เกิดข้อผิดพลาดในการบันทึกแผนร่าง');
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการบันทึกแผนร่าง');
     }
   };
 
@@ -252,13 +253,13 @@ export default function EvaluatorPage() {
               <div className="min-w-0">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-black text-indigo-200 backdrop-blur-md">
                   <Sparkles className="h-4 w-4" />
-                  Powered by Gemini 2.5 Flash
+                  Smart Lesson plan By Kruteh
                 </div>
                 <h1 className="text-4xl font-black tracking-tight text-white md:text-5xl">
-                  AI ตรวจแผนอัจฉริยะ
+                  ประเมินและพัฒนาแผน
                 </h1>
                 <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-indigo-100/80">
-                  เลือกแผนการสอนจากระบบหรืออัปโหลดไฟล์ DOCX เพื่อให้ AI วิเคราะห์ให้คะแนน จุดแข็ง จุดที่ควรปรับ และข้อเสนอแนะเชิงลึกที่นำไปใช้ได้ทันที
+                  อัปโหลดแผนการสอนของคุณให้ระบบช่วยประเมิน จุดเด่น จุดด้อย พร้อมข้อเสนอแนะเชิงลึก เพื่อนำไปพัฒนาต่อได้อย่างตรงจุด
                 </p>
               </div>
             </div>

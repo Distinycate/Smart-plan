@@ -170,15 +170,15 @@ export default function TeacherDashboard() {
           <div className="hero-text">
             <div className="home-hero-badge">
               <Sparkles size={12} />
-              <span>ขับเคลื่อนด้วย Gemini 2.5 Flash AI</span>
+              <span>Smart Lesson plan By Kruteh</span>
             </div>
             <h2 className="hero-title">
               สร้างแผนการสอน<br />
               <span className="hero-accent">อัจฉริยะ</span> ใน&nbsp;3&nbsp;นาที
             </h2>
             <p className="hero-desc">
-              วิเคราะห์มาตรฐานตัวชี้วัด KPA ครบ 19 ฟิลด์อัตโนมัติ<br/>
-              ส่งออก Word · PDF ได้ทันที สำรองข้อมูลอัตโนมัติ
+              เปลี่ยนความยุ่งยากให้เป็นเรื่องง่าย สร้างแผนการสอนที่สมบูรณ์แบบ<br/>
+              พร้อมออกแบบกิจกรรมล้ำสมัย และส่งออก Word · PDF ได้ทันที
             </p>
             <div className="hero-pills">
               <span className="h-pill">✅ มาตรฐานการเรียนรู้</span>
@@ -191,7 +191,7 @@ export default function TeacherDashboard() {
                 <Plus size={15} /> สร้างแผนการสอนใหม่
               </button>
               <button className="btn btn-hero-outline" style={{ borderColor: '#818cf8', color: '#4f46e5', backgroundColor: '#e0e7ff' }} onClick={() => router.push('/evaluator')}>
-                <Zap size={15} /> AI ตรวจแผนอัจฉริยะ
+                <Zap size={15} /> ประเมินและพัฒนาแผน
               </button>
               <button className="btn btn-hero-outline" onClick={() => loadData(true)} disabled={refreshing}>
                 <RefreshCw size={14} className={refreshing ? 'spin-icon' : ''} />

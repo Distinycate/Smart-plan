@@ -3,10 +3,11 @@ import '../styles/globals.css';
 import { createClient } from '@/utils/supabase/server';
 import { logout } from './(auth)/actions';
 import Link from 'next/link';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
-  title: 'ระบบช่วยจัดทำแผนการจัดการเรียนรู้กึ่งอัตโนมัติ (Enterprise Edition)',
-  description: 'สร้างแผนการเรียนรู้อย่างรวดเร็วด้วยระบบกรอกข้อมูลอัตโนมัติและผู้ช่วย AI อัจฉริยะ',
+  title: 'Smart Lesson plan By Kruteh',
+  description: 'สร้างแผนการเรียนรู้อย่างรวดเร็วและสมบูรณ์แบบ',
 };
 
 export default async function RootLayout({
@@ -29,13 +30,14 @@ export default async function RootLayout({
   return (
     <html lang="th">
       <body>
+        <Toaster position="top-center" toastOptions={{ duration: 4000, style: { background: '#333', color: '#fff', padding: '16px', borderRadius: '8px' } }} />
         <header className="app-header">
           <div className="app-header-brand">
             <Link href="/" className="flex items-center gap-2" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
-              <div className="logo">📝</div>
+              <div className="logo">✨</div>
               <div>
-                <h1>ระบบช่วยจัดทำแผนการจัดการเรียนรู้</h1>
-                <p>Lesson Plan AutoFill System v2.8.5 — Next.js Edition</p>
+                <h1 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Smart Lesson plan By Kruteh</h1>
+                <p style={{ fontSize: '0.85rem', opacity: 0.8 }}>เปลี่ยนความยุ่งยากให้เป็นเรื่องง่าย</p>
               </div>
             </Link>
           </div>
@@ -57,7 +59,7 @@ export default async function RootLayout({
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px' }}>
                 <Link href="/login" style={{ color: 'white', textDecoration: 'none' }}>เข้าสู่ระบบ</Link>
-                <Link href="/register" style={{ background: 'white', color: '#2563eb', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none' }}>สมัครสมาชิก</Link>
+                <Link href="/register" style={{ background: 'white', color: '#2563eb', padding: '4px 8px', borderRadius: '4px', textDecoration: 'none', fontWeight: 500 }}>สมัครสมาชิก</Link>
               </div>
             )}
           </div>
