@@ -189,141 +189,237 @@ export default function EvaluatorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-12 px-4 font-sans text-slate-800">
-      <div className="max-w-[1200px] mx-auto space-y-10">
-        
-        {/* HEADER */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center gap-5">
-            <Link href="/" className="p-3.5 bg-white rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all group">
-              <ArrowLeft className="w-5 h-5 text-slate-500 group-hover:text-indigo-600 transition-colors" />
-            </Link>
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 rounded-full text-xs font-bold text-indigo-700 mb-2">
-                <BarChart2 className="w-3.5 h-3.5" /> Intelligence Analysis
+    <div className="min-h-screen bg-slate-50 px-4 py-8 font-sans text-slate-800 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1180px] space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: 'easeOut' }}
+          className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-7 lg:p-8"
+        >
+          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-28 left-8 h-72 w-72 rounded-full bg-cyan-200/30 blur-3xl" />
+
+          <div className="relative grid gap-6 lg:grid-cols-[1fr_360px] lg:items-center">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+              <Link
+                href="/"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 shadow-sm transition-all hover:border-indigo-300 hover:text-indigo-600 hover:shadow-md"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Link>
+              <div className="min-w-0">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-black text-indigo-700">
+                  <BarChart2 className="h-3.5 w-3.5" />
+                  Intelligence Analysis
+                </div>
+                <h1 className="text-3xl font-black tracking-tight text-slate-900 md:text-4xl">
+                  AI ตรวจแผนอัจฉริยะ
+                </h1>
+                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-500 md:text-base">
+                  เลือกแผนจากระบบหรืออัปโหลดไฟล์ DOCX แล้วให้ AI สรุปคะแนน จุดแข็ง จุดที่ควรปรับ และคำแนะนำที่ทำต่อได้ทันที
+                </p>
               </div>
-              <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">AI ตรวจแผนอัจฉริยะ</h1>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 rounded-3xl border border-slate-100 bg-slate-50 p-3">
+              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-black text-slate-900">{plans.length}</p>
+                <p className="mt-1 text-xs font-bold text-slate-500">แผนในระบบ</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-black text-indigo-600">{selectedPlanIds.size}</p>
+                <p className="mt-1 text-xs font-bold text-slate-500">เลือกแล้ว</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+                <p className="text-2xl font-black text-emerald-600">{fileText ? 1 : 0}</p>
+                <p className="mt-1 text-xs font-bold text-slate-500">ไฟล์พร้อม</p>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* INPUT SECTION */}
-        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-          <div className="flex border-b border-slate-100 bg-slate-50/50">
-            <button 
-              className={`flex-1 py-5 text-center font-bold text-sm transition-all relative ${activeTab === 'system' ? 'text-indigo-700 bg-white shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)]' : 'text-slate-500 hover:bg-slate-100'}`}
-              onClick={() => setActiveTab('system')}
-            >
-              ดึงแผนจากระบบ (Batch Evaluation)
-              {activeTab === 'system' && <div className="absolute top-0 left-0 right-0 h-1 bg-indigo-600" />}
-            </button>
-            <button 
-              className={`flex-1 py-5 text-center font-bold text-sm transition-all relative ${activeTab === 'upload' ? 'text-indigo-700 bg-white shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)]' : 'text-slate-500 hover:bg-slate-100'}`}
-              onClick={() => setActiveTab('upload')}
-            >
-              อัปโหลดไฟล์ (DOCX)
-              {activeTab === 'upload' && <div className="absolute top-0 left-0 right-0 h-1 bg-indigo-600" />}
-            </button>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.08, ease: 'easeOut' }}
+          className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm"
+        >
+          <div className="border-b border-slate-100 bg-slate-50/70 p-3">
+            <div className="grid gap-2 rounded-2xl bg-white p-1 shadow-sm sm:grid-cols-2">
+              <button
+                className={`flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition-all ${
+                  activeTab === 'system'
+                    ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15'
+                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                }`}
+                onClick={() => setActiveTab('system')}
+              >
+                <Layers className="h-4 w-4" />
+                ดึงแผนจากระบบ
+              </button>
+              <button
+                className={`flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black transition-all ${
+                  activeTab === 'upload'
+                    ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15'
+                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                }`}
+                onClick={() => setActiveTab('upload')}
+              >
+                <Upload className="h-4 w-4" />
+                อัปโหลดไฟล์ DOCX
+              </button>
+            </div>
           </div>
-          
-          <div className="p-6 md:p-10">
+
+          <div className="p-5 sm:p-6 lg:p-8">
             {activeTab === 'system' && (
-              <div className="space-y-4">
-                <div className="flex justify-between items-end mb-4">
-                  <div>
-                    <h2 className="text-lg font-black text-slate-800">เลือกแผนการสอน</h2>
-                    <p className="text-sm font-medium text-slate-500 mt-1">สามารถเลือกหลายแผนพร้อมกัน ระบบจะทำการตรวจคิวแบบอัตโนมัติ</p>
+              <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+                <div className="min-w-0">
+                  <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <h2 className="text-xl font-black text-slate-900">เลือกแผนการสอน</h2>
+                      <p className="mt-1 text-sm font-medium text-slate-500">
+                        เลือกได้หลายแผน ระบบจะตรวจทีละรายการและแสดงผลเป็นแดชบอร์ด
+                      </p>
+                    </div>
+                    <button
+                      onClick={selectAll}
+                      disabled={plans.length === 0}
+                      className="inline-flex items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-black text-indigo-700 transition-colors hover:border-indigo-600 hover:bg-indigo-600 hover:text-white disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-100 disabled:text-slate-400"
+                    >
+                      {selectedPlanIds.size === plans.length && plans.length > 0 ? 'ยกเลิกทั้งหมด' : 'เลือกทั้งหมด'}
+                    </button>
                   </div>
-                  <button onClick={selectAll} className="text-sm font-bold text-indigo-700 hover:text-white bg-indigo-50 hover:bg-indigo-600 px-4 py-2 rounded-xl transition-colors border border-indigo-100 hover:border-transparent">
-                    {selectedPlanIds.size === plans.length && plans.length > 0 ? 'ยกเลิกทั้งหมด' : 'เลือกทั้งหมด'}
-                  </button>
-                </div>
-                
-                <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-                  <div className="max-h-[350px] overflow-y-auto custom-scrollbar p-2">
+
+                  <div className="max-h-[430px] overflow-y-auto rounded-3xl border border-slate-200 bg-slate-50 p-3 custom-scrollbar">
                     {plans.length === 0 ? (
-                      <div className="py-12 text-center text-slate-400 font-medium">ไม่มีแผนในระบบ</div>
+                      <div className="flex min-h-[220px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center">
+                        <FileText className="h-10 w-10 text-slate-300" />
+                        <p className="mt-3 text-sm font-bold text-slate-500">ไม่มีแผนในระบบ</p>
+                      </div>
                     ) : (
-                      <div className="space-y-1.5">
+                      <div className="grid gap-3">
                         {plans.map(p => {
                           const isSelected = selectedPlanIds.has(p.planId);
                           return (
-                            <div 
-                              key={p.planId} 
+                            <button
+                              key={p.planId}
                               onClick={() => toggleSelectPlan(p.planId)}
-                              className={`group flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all border ${isSelected ? 'bg-white border-indigo-300 shadow-sm' : 'bg-transparent border-transparent hover:bg-white hover:border-slate-200 hover:shadow-sm'}`}
+                              className={`group flex w-full items-start gap-4 rounded-2xl border p-4 text-left transition-all ${
+                                isSelected
+                                  ? 'border-indigo-300 bg-white shadow-md shadow-indigo-100'
+                                  : 'border-transparent bg-white/70 hover:border-slate-200 hover:bg-white hover:shadow-sm'
+                              }`}
                             >
-                              <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-colors ${isSelected ? 'border-indigo-600 bg-indigo-600' : 'border-slate-300 group-hover:border-indigo-400'}`}>
-                                {isSelected && <CheckCircle className="w-3.5 h-3.5 text-white" />}
+                              <div className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 transition-colors ${
+                                isSelected ? 'border-indigo-600 bg-indigo-600 text-white' : 'border-slate-300 text-transparent group-hover:border-indigo-300'
+                              }`}>
+                                <CheckCircle className="h-4 w-4" />
                               </div>
-                              <div className="flex-1 min-w-0">
-                                <h3 className="font-bold text-slate-800 truncate">{p.lessonTopic || 'ไม่มีชื่อแผน'}</h3>
-                                <div className="flex items-center gap-3 mt-1 text-xs font-medium text-slate-500">
-                                  <span className="flex items-center gap-1"><Layers className="w-3.5 h-3.5"/> {p.subjectName}</span>
-                                  <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                                  <span>{p.gradeLevel}</span>
+                              <div className="min-w-0 flex-1">
+                                <h3 className="truncate text-base font-black text-slate-900">{p.lessonTopic || 'ไม่มีชื่อแผน'}</h3>
+                                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs font-bold text-slate-500">
+                                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
+                                    <Layers className="h-3.5 w-3.5" />
+                                    {p.subjectName || 'ไม่ระบุวิชา'}
+                                  </span>
+                                  <span className="rounded-full bg-slate-100 px-2.5 py-1">{p.gradeLevel || 'ไม่ระบุระดับชั้น'}</span>
                                 </div>
                               </div>
-                            </div>
-                          )
+                            </button>
+                          );
                         })}
                       </div>
                     )}
                   </div>
                 </div>
+
+                <div className="rounded-3xl border border-indigo-100 bg-indigo-50/70 p-5">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm">
+                    <Gauge className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-black text-slate-900">พร้อมตรวจแบบ Batch</h3>
+                  <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
+                    เหมาะสำหรับตรวจหลายแผนพร้อมกัน แล้วดูผลคะแนน จุดแข็ง และจุดที่ AI แนะนำให้ปรับเป็นรายแผน
+                  </p>
+                  <div className="mt-5 rounded-2xl bg-white p-4 shadow-sm">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Selected</p>
+                    <p className="mt-1 text-4xl font-black text-indigo-600">{selectedPlanIds.size}</p>
+                    <p className="text-sm font-bold text-slate-500">แผนการสอน</p>
+                  </div>
+                </div>
               </div>
             )}
-            
+
             {activeTab === 'upload' && (
-              <div className="space-y-4">
-                <div className="border-2 border-dashed border-indigo-200 bg-indigo-50/50 rounded-[2rem] p-16 text-center hover:bg-indigo-50 transition-colors group cursor-pointer relative">
-                  <input type="file" id="file-upload" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".docx" onChange={handleFileUpload} />
-                  <div className="w-20 h-20 bg-white rounded-2xl shadow-sm border border-indigo-100 flex items-center justify-center mx-auto mb-6 text-indigo-500 group-hover:scale-110 transition-transform">
-                    <Upload className="w-10 h-10" />
+              <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+                <div className="relative overflow-hidden rounded-[2rem] border-2 border-dashed border-indigo-200 bg-indigo-50/60 p-8 text-center transition-colors hover:bg-indigo-50 sm:p-12">
+                  <input
+                    type="file"
+                    id="file-upload"
+                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                    accept=".docx"
+                    onChange={handleFileUpload}
+                  />
+                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-indigo-100 bg-white text-indigo-500 shadow-sm">
+                    <Upload className="h-10 w-10" />
                   </div>
-                  <h3 className="text-xl font-black text-indigo-900 mb-2">ลากไฟล์มาวาง หรือคลิกเพื่ออัปโหลด</h3>
-                  <p className="text-sm font-medium text-slate-500">รองรับเฉพาะไฟล์เอกสาร .docx เท่านั้น</p>
+                  <h3 className="mt-6 text-xl font-black text-indigo-950">ลากไฟล์มาวาง หรือคลิกเพื่ออัปโหลด</h3>
+                  <p className="mt-2 text-sm font-medium text-slate-500">รองรับเฉพาะไฟล์เอกสาร .docx เท่านั้น</p>
                 </div>
-                {fileText && (
-                  <div className="p-5 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0"><CheckCircle className="w-5 h-5"/></div>
-                      <div>
-                        <p className="text-sm font-bold text-emerald-900">ไฟล์พร้อมสำหรับการประเมินแล้ว</p>
-                        <p className="text-xs font-medium text-emerald-600 mt-0.5">ระบบดึงข้อมูลตัวอักษรสำเร็จ</p>
-                      </div>
-                    </div>
-                    <CheckCircle className="w-6 h-6 text-emerald-400 opacity-50"/>
+
+                <div className={`rounded-3xl border p-5 ${
+                  fileText ? 'border-emerald-200 bg-emerald-50' : 'border-slate-200 bg-slate-50'
+                }`}>
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm ${
+                    fileText ? 'text-emerald-600' : 'text-slate-400'
+                  }`}>
+                    {fileText ? <CheckCircle className="h-6 w-6" /> : <FileText className="h-6 w-6" />}
                   </div>
-                )}
+                  <h3 className="mt-5 text-lg font-black text-slate-900">
+                    {fileText ? 'ไฟล์พร้อมสำหรับการประเมินแล้ว' : 'ยังไม่ได้อัปโหลดไฟล์'}
+                  </h3>
+                  <p className="mt-2 text-sm font-medium leading-7 text-slate-600">
+                    {fileText
+                      ? 'ระบบอ่านตัวอักษรจากไฟล์ DOCX สำเร็จ สามารถเริ่มให้ AI ตรวจแผนได้ทันที'
+                      : 'อัปโหลดไฟล์แผนการสอนเพื่อให้ AI วิเคราะห์ด้วยรูปแบบเดียวกับแผนในระบบ'}
+                  </p>
+                </div>
               </div>
             )}
 
             {error && (
-              <div className="mt-6 p-5 bg-rose-50 text-rose-800 border border-rose-200 rounded-2xl text-sm font-bold flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 shrink-0 text-rose-500"/> {error}
+              <div className="mt-6 flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm font-bold text-rose-800">
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-500" />
+                {error}
               </div>
             )}
 
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-              <div className="text-sm font-bold text-slate-400">
-                {activeTab === 'system' ? `เลือกอยู่ ${selectedPlanIds.size} แผนการสอน` : (fileText ? 'พร้อมตรวจ 1 ไฟล์' : 'ยังไม่ได้อัปโหลดไฟล์')}
+            <div className="mt-8 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Evaluation Queue</p>
+                <p className="mt-1 text-sm font-bold text-slate-700">
+                  {activeTab === 'system'
+                    ? `เลือกอยู่ ${selectedPlanIds.size} แผนการสอน`
+                    : (fileText ? 'พร้อมตรวจ 1 ไฟล์' : 'ยังไม่ได้อัปโหลดไฟล์')}
+                </p>
               </div>
-              <button 
+              <button
                 onClick={startEvaluation}
                 disabled={isEvaluating || (activeTab === 'system' ? selectedPlanIds.size === 0 : !fileText)}
-                className="w-full sm:w-auto px-10 py-4 bg-slate-900 hover:bg-black disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-2xl font-black text-sm shadow-xl shadow-slate-900/20 transition-all flex items-center justify-center gap-3 relative overflow-hidden group"
+                className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-slate-900 px-8 py-4 text-sm font-black text-white shadow-xl shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:bg-black disabled:translate-y-0 disabled:bg-slate-200 disabled:text-slate-400 sm:w-auto"
               >
-                {isEvaluating && <div className="absolute inset-0 bg-indigo-600 animate-pulse"></div>}
+                {isEvaluating && <div className="absolute inset-0 bg-indigo-600 animate-pulse" />}
                 <span className="relative z-10 flex items-center gap-2">
                   {isEvaluating ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin text-indigo-300" /> 
+                      <Loader2 className="h-5 w-5 animate-spin text-indigo-200" />
                       {batchProgress.total > 1 ? `กำลังประเมินแผนที่ ${batchProgress.current} จาก ${batchProgress.total}...` : 'AI กำลังวิเคราะห์...'}
                     </>
                   ) : (
                     <>
-                      <Star className="w-5 h-5 text-indigo-400 group-hover:text-indigo-300 transition-colors"/> 
+                      <Sparkles className="h-5 w-5 text-indigo-200" />
                       {selectedPlanIds.size > 1 ? `เริ่มประเมินทั้งหมด (${selectedPlanIds.size})` : 'เริ่มประเมินความสมบูรณ์'}
                     </>
                   )}
@@ -331,7 +427,7 @@ export default function EvaluatorPage() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* EVALUATION RESULTS */}
         {evaluationResults.length > 0 && (
