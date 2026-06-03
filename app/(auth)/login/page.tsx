@@ -1,48 +1,74 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { login } from '../actions'
 import { SubmitButton } from '../components/SubmitButton'
 
 export default function LoginPage({ searchParams }: { searchParams: { message: string } }) {
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-50">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-50 py-10 px-4">
       {/* Pastel Gradient Background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-blue-200/50 blur-[120px] mix-blend-multiply animate-blob"></div>
-        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-purple-200/50 blur-[120px] mix-blend-multiply animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-pink-200/50 blur-[120px] mix-blend-multiply animate-blob animation-delay-4000"></div>
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-blue-200/60 blur-[120px] mix-blend-multiply animate-blob"></div>
+        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-purple-200/60 blur-[120px] mix-blend-multiply animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-pink-200/60 blur-[120px] mix-blend-multiply animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="w-full px-4 sm:px-6 flex justify-center z-10 py-12">
-        <div className="w-full max-w-md bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 p-8 sm:p-10">
-          <form className="animate-in flex flex-col w-full justify-center gap-2">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600/10 text-indigo-600 mb-4 shadow-inner">
-                <span className="text-3xl">✨</span>
-              </div>
-              <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">เข้าสู่ระบบ</h1>
-              <p className="text-slate-500 mt-2 font-medium">Smart Lesson Plan By Kruteh</p>
+      <div className="w-full max-w-4xl bg-white/70 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/60 overflow-hidden flex flex-col md:flex-row">
+        
+        {/* Left Side: 3D Illustration */}
+        <div className="w-full md:w-5/12 bg-indigo-50/50 p-8 flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-100/50 to-blue-50/50 z-0"></div>
+          <div className="relative z-10 w-full max-w-[280px] aspect-square rounded-full bg-white/40 shadow-[0_0_40px_rgba(255,255,255,0.8)] flex items-center justify-center mb-6 overflow-visible">
+            <Image 
+              src="/assets/3d_cute_robot_book_1780498831641.png" 
+              alt="AI Robot Reading" 
+              width={320} 
+              height={320}
+              className="object-contain drop-shadow-xl animate-float"
+              priority
+            />
+          </div>
+          <div className="relative z-10 text-center mt-4">
+            <h2 className="text-2xl font-black text-indigo-950 mb-2">Smart-plan AI</h2>
+            <p className="text-indigo-800/70 font-medium text-sm px-4">
+              ผู้ช่วยอัจฉริยะที่จะทำให้การสร้างแผนการสอนของคุณเป็นเรื่องง่าย สนุก และรวดเร็ว
+            </p>
+          </div>
+        </div>
+
+        {/* Right Side: Form */}
+        <div className="w-full md:w-7/12 p-8 sm:p-12 flex flex-col justify-center">
+          <form className="animate-in flex flex-col w-full justify-center">
+            <div className="mb-8">
+              <h1 className="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">เข้าสู่ระบบ</h1>
+              <p className="text-slate-500 mt-2 font-medium">ยินดีต้อนรับกลับมา! กรุณาเข้าสู่ระบบเพื่อไปต่อ</p>
             </div>
             
             <div className="space-y-5">
               <div>
-                <label className="text-sm font-semibold text-slate-700 block mb-2" htmlFor="email">
+                <label className="text-sm font-bold text-slate-700 block mb-2" htmlFor="email">
                   อีเมล (Email)
                 </label>
                 <input
-                  className="w-full rounded-xl px-4 py-3 bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all shadow-sm"
+                  className="w-full rounded-2xl px-5 py-3.5 bg-white/60 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium"
                   name="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="you@school.ac.th"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-slate-700 block mb-2" htmlFor="password">
-                  รหัสผ่าน (Password)
-                </label>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-bold text-slate-700 block" htmlFor="password">
+                    รหัสผ่าน (Password)
+                  </label>
+                  <Link href="#" className="text-xs font-bold text-indigo-600 hover:text-indigo-700 hover:underline">
+                    ลืมรหัสผ่าน?
+                  </Link>
+                </div>
                 <input
-                  className="w-full rounded-xl px-4 py-3 bg-white/50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all shadow-sm"
+                  className="w-full rounded-2xl px-5 py-3.5 bg-white/60 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium"
                   type="password"
                   name="password"
                   placeholder="••••••••"
@@ -52,23 +78,39 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
             </div>
             
             <div className="mt-8">
-              <SubmitButton formAction={login} pendingText="กำลังเข้าสู่ระบบ...">
+              <SubmitButton 
+                formAction={login} 
+                pendingText="กำลังเข้าสู่ระบบ..."
+                className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl px-4 py-4 text-white font-bold text-lg hover:from-indigo-700 hover:to-blue-700 transition-all shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/40 active:scale-[0.98] flex justify-center items-center"
+              >
                 เข้าสู่ระบบ
               </SubmitButton>
             </div>
             
-            <div className="text-center mt-6 text-sm text-slate-500 font-medium">
-              ยังไม่มีบัญชี? <Link href="/register" className="text-indigo-600 hover:text-indigo-700 hover:underline transition-colors ml-1">สมัครสมาชิกที่นี่</Link>
+            <div className="text-center mt-8 text-sm text-slate-500 font-medium bg-slate-50/50 py-3 rounded-xl border border-slate-100">
+              ยังไม่มีบัญชีใช่ไหม? <Link href="/register" className="text-indigo-600 font-bold hover:text-indigo-700 hover:underline transition-colors ml-1">สมัครสมาชิกฟรี</Link>
             </div>
 
             {searchParams?.message && (
-              <p className="mt-6 p-4 bg-red-50/80 backdrop-blur-sm text-red-600 text-center text-sm font-medium rounded-xl border border-red-100">
+              <div className="mt-6 p-4 bg-red-50/80 backdrop-blur-sm text-red-600 text-center text-sm font-medium rounded-2xl border border-red-100 flex items-center justify-center gap-2">
+                <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
                 {searchParams.message}
-              </p>
+              </div>
             )}
           </form>
         </div>
       </div>
+
+      {/* Floating animation for the image */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-12px) rotate(2deg); }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+      `}} />
     </div>
   )
 }
