@@ -30,9 +30,18 @@ export const evaluatorPromptTemplate = `คุณคือผู้เชี่�
     }
   ],
   "paAssessment": {
-    "meetsCriteria": ["ข้อที่ตรงเกณฑ์ (เช่น สร้างความรู้เอง)", "ข้อที่ตรงเกณฑ์ 2"],
-    "needsImprovement": ["จุดที่ยังไม่ชัดเจนหรือขาดหายไป"],
-    "recommendation": "คำแนะนำเพื่อยกระดับสู่การประเมินวิทยฐานะ"
+    "indicators": [
+      {
+        "id": 1,
+        "title": "ผู้เรียนสามารถเข้าถึงสิ่งที่เรียนและเข้าใจบทเรียน",
+        "status": "passed หรือ failed",
+        "evidence": "พบตรงไหน หรือ ไม่พบตรงไหน (อธิบายสั้นๆ)",
+        "recommendation": "คำแนะนำเฉพาะตัวชี้วัดนี้ (ถ้ามี)"
+      }
+      // มีให้ครบ 8 ตัวชี้วัดตามเกณฑ์ ว9/2564
+    ],
+    "overallRecommendation": "คำแนะนำภาพรวมเพื่อยกระดับสู่การประเมินวิทยฐานะ",
+    "canFix": true
   },
   "autoFixAvailable": true
 }`;

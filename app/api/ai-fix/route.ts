@@ -54,22 +54,7 @@ export async function POST(req: Request) {
     // Remove fields that might cause issues if they exist
     delete standardData.id;
     
-    const { error: insertErr } = await supabase.from('LessonPlans').insert(standardData);
-    if (insertErr) {
-       const isMissingColumnError = insertErr.message?.includes('column') && 
-       (insertErr.message?.includes('rubricK') || insertErr.message?.includes('rubricP') || insertErr.message?.includes('rubricA'));
-       if(isMissingColumnError){
-           const fallbackData = {...standardData};
-           delete fallbackData.rubricK;
-           delete fallbackData.rubricP;
-           delete fallbackData.rubricA;
-           const {error: fbErr} = await supabase.from('LessonPlans').insert(fallbackData);
-           if(fbErr) throw fbErr;
-       } else {
-           throw insertErr;
-       }
-    }
-
+    // DO NOT insert automatically. Let the frontend handle saving.
     return NextResponse.json({ success: true, fixedPlanId: newPlanId, newPlanData: standardData });
 
   } catch (error: any) {

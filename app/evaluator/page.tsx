@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   CheckCircle, AlertTriangle, Upload, Zap, Loader2, ArrowLeft,
   BarChart2, Star, Layers, ListChecks, ClipboardCheck, Trophy,
   Sparkles, ShieldCheck, Gauge, ArrowRight, FileText, Circle,
-  CheckSquare, UploadCloud, BookOpen, GraduationCap
+  CheckSquare, UploadCloud, BookOpen, GraduationCap, Calendar
 } from 'lucide-react';
 import Link from 'next/link';
 import * as mammoth from 'mammoth';
@@ -14,7 +14,7 @@ import { motion } from 'framer-motion';
 
 export default function EvaluatorPage() {
   const [plans, setPlans] = useState<any[]>([]);
-  const [selectedPlanIds, setSelectedPlanIds] = useState<Set<string>>(new Set());
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [fileText, setFileText] = useState<string | null>(null);
   
   const [isEvaluating, setIsEvaluating] = useState(false);
@@ -85,16 +85,27 @@ export default function EvaluatorPage() {
   };
 
   const toggleSelectPlan = (planId: string) => {
-    const newSet = new Set(selectedPlanIds);
-    if (newSet.has(planId)) newSet.delete(planId);
-    else newSet.add(planId);
-    setSelectedPlanIds(newSet);
+    if (selectedPlanId === planId) {
+      setSelectedPlanId(null);
+    } else {
+      setSelectedPlanId(planId);
+    }
   };
-  
-  const selectAll = () => {
-    if (selectedPlanIds.size === plans.length) setSelectedPlanIds(new Set());
-    else setSelectedPlanIds(new Set(plans.map(p => p.planId)));
-  };
+
+  const groupedPlans = useMemo(() => {
+    const groups: Record<string, Record<string, Record<string, any[]>>> = {};
+    plans.forEach(plan => {
+      const year = plan.academicYear ? `ปีการศึกษา ${plan.academicYear}` : 'ไม่ระบุปีการศึกษา';
+      const grade = plan.gradeLevel || 'ไม่ระบุระดับชั้น';
+      const subject = plan.subjectName || 'ไม่ระบุรายวิชา';
+
+      if (!groups[year]) groups[year] = {};
+      if (!groups[year][grade]) groups[year][grade] = {};
+      if (!groups[year][grade][subject]) groups[year][grade][subject] = [];
+      groups[year][grade][subject].push(plan);
+    });
+    return groups;
+  }, [plans]);
 
   const evaluateSingle = async (payload: any) => {
     const evalRes = await fetch('/api/ai-evaluate', {
@@ -114,31 +125,26 @@ export default function EvaluatorPage() {
 
     try {
       if (activeTab === 'system') {
-        if (selectedPlanIds.size === 0) throw new Error("กรุณาเลือกแผนการสอนอย่างน้อย 1 แผน");
+        if (!selectedPlanId) throw new Error("กรุณาเลือกแผนการสอน 1 แผน");
         
-        const planIdsToEvaluate = Array.from(selectedPlanIds);
-        setBatchProgress({ current: 0, total: planIdsToEvaluate.length });
+        setBatchProgress({ current: 1, total: 1 });
         const newResults = [];
         
-        for (let i = 0; i < planIdsToEvaluate.length; i++) {
-          const planId = planIdsToEvaluate[i];
-          setBatchProgress({ current: i + 1, total: planIdsToEvaluate.length });
-          try {
-            const res = await fetch(`/api/plans/${planId}`);
-            const json = await res.json();
-            if (!json.success) throw new Error("โหลดข้อมูลแผนไม่สำเร็จ");
-            const evaluation = await evaluateSingle({ planData: json.data });
-            newResults.push({
-              planId,
-              title: json.data.lessonTopic || `แผนที่ ${i+1}`,
-              ...evaluation,
-              originalPlanData: json.data
-            });
-            setEvaluationResults([...newResults]);
-          } catch (e: any) {
-            newResults.push({ planId, title: `พบข้อผิดพลาด: ${e.message}`, overallScore: 0, error: true });
-            setEvaluationResults([...newResults]);
-          }
+        try {
+          const res = await fetch(`/api/plans/${selectedPlanId}`);
+          const json = await res.json();
+          if (!json.success) throw new Error("โหลดข้อมูลแผนไม่สำเร็จ");
+          const evaluation = await evaluateSingle({ planData: json.data });
+          newResults.push({
+            planId: selectedPlanId,
+            title: json.data.lessonTopic || 'ไม่มีชื่อแผน',
+            ...evaluation,
+            originalPlanData: json.data
+          });
+          setEvaluationResults(newResults);
+        } catch (e: any) {
+          newResults.push({ planId: selectedPlanId, title: `พบข้อผิดพลาด: ${e.message}`, overallScore: 0, error: true });
+          setEvaluationResults(newResults);
         }
       } else {
         if (!fileText) throw new Error("กรุณาอัปโหลดไฟล์ที่อ่านได้ก่อน");
@@ -180,16 +186,45 @@ export default function EvaluatorPage() {
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      alert(`แก้ไขส่วน [${sectionKey}] สำเร็จ! ระบบอัปเดตข้อมูลแผนให้แล้ว`);
+      alert(`AI แก้ไขส่วน [${sectionKey}] สำเร็จ! ตรวจสอบเนื้อหาและกดบันทึกเพื่อบันทึกร่างใหม่`);
       const newResults = [...evaluationResults];
       newResults[resultIndex].originalPlanData = json.newPlanData;
       if (!newResults[resultIndex].fixedRecs) newResults[resultIndex].fixedRecs = {};
       newResults[resultIndex].fixedRecs[identifier] = true;
+      // Mark as having unsaved changes
+      newResults[resultIndex].hasUnsavedChanges = true;
       setEvaluationResults(newResults);
     } catch (err: any) {
       alert(err.message || 'เกิดข้อผิดพลาดในการแก้เฉพาะจุด');
     } finally {
       setFixingPlanId(null);
+    }
+  };
+
+  const saveToDraft = async (resultIndex: number) => {
+    const result = evaluationResults[resultIndex];
+    if (!result || !result.originalPlanData) return;
+    try {
+      // Generate a new ID for the draft
+      const draftData = {
+        ...result.originalPlanData,
+        planId: `draft-${Date.now()}`,
+        planStatus: 'draft',
+        lessonTopic: result.originalPlanData.lessonTopic + ' (AI แก้ไข)',
+      };
+      const res = await fetch('/api/plans', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(draftData)
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.error);
+      alert('บันทึกแผนร่าง (Draft) สำเร็จ! คุณสามารถดูได้ที่หน้าระบบหลัก');
+      const newResults = [...evaluationResults];
+      newResults[resultIndex].hasUnsavedChanges = false;
+      setEvaluationResults(newResults);
+    } catch (err: any) {
+      alert(err.message || 'เกิดข้อผิดพลาดในการบันทึกแผนร่าง');
     }
   };
 
@@ -235,7 +270,7 @@ export default function EvaluatorPage() {
               </span>
               <span className="flex items-center gap-2 rounded-full bg-indigo-500/20 px-4 py-2.5 text-indigo-200 backdrop-blur-md border border-indigo-400/20">
                 <CheckSquare className="h-4 w-4" />
-                {selectedPlanIds.size} เลือกแล้ว
+                {selectedPlanId ? 1 : 0} เลือกแล้ว
               </span>
               <span className="flex items-center gap-2 rounded-full bg-emerald-500/20 px-4 py-2.5 text-emerald-300 backdrop-blur-md border border-emerald-400/20">
                 <FileText className="h-4 w-4" />
@@ -286,19 +321,12 @@ export default function EvaluatorPage() {
                     <div>
                       <h2 className="text-2xl font-black tracking-tight text-slate-900">เลือกจากแผนในระบบ</h2>
                       <p className="mt-1.5 text-sm font-medium leading-relaxed text-slate-500 max-w-lg">
-                        เลือกได้หลายแผน AI จะช่วยประเมินแผนทั้งหมดที่คุณเลือกและสรุปผลให้เป็นแดชบอร์ดอย่างละเอียด
+                        เลือก 1 แผนการสอนเพื่อให้ AI ช่วยวิเคราะห์อย่างละเอียด (จัดกลุ่มตามปีการศึกษา ชั้น และวิชา)
                       </p>
                     </div>
-                    <button
-                      onClick={selectAll}
-                      disabled={plans.length === 0}
-                      className="inline-flex items-center justify-center rounded-[1.25rem] bg-indigo-600 px-6 py-3 text-sm font-black text-white shadow-lg shadow-indigo-600/30 transition-all duration-300 hover:-translate-y-1 hover:bg-indigo-700 hover:shadow-indigo-600/40 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
-                    >
-                      {selectedPlanIds.size === plans.length && plans.length > 0 ? 'ยกเลิกทั้งหมด' : 'เลือกทั้งหมด'}
-                    </button>
                   </div>
 
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-h-[500px] overflow-y-auto p-2 custom-scrollbar">
+                  <div className="max-h-[500px] overflow-y-auto p-2 custom-scrollbar">
                     {plans.length === 0 ? (
                       <div className="col-span-full flex min-h-[300px] flex-col items-center justify-center rounded-[2rem] border-2 border-dashed border-slate-200 bg-slate-50/50 p-8 text-center transition-colors hover:bg-slate-50">
                         <div className="flex h-20 w-20 items-center justify-center rounded-[1.5rem] bg-white shadow-sm mb-4">
@@ -308,48 +336,66 @@ export default function EvaluatorPage() {
                         <p className="mt-2 text-sm font-medium text-slate-500 max-w-sm">คุณต้องสร้างแผนการสอนในระบบก่อน จึงจะสามารถใช้ AI ประเมินผลได้</p>
                       </div>
                     ) : (
-                      <>
-                        {plans.map(p => {
-                          const isSelected = selectedPlanIds.has(p.planId);
-                          return (
-                            <button
-                              key={p.planId}
-                              onClick={() => toggleSelectPlan(p.planId)}
-                              className={`group relative flex flex-col items-start gap-4 rounded-[1.5rem] p-5 text-left transition-all duration-300 hover:-translate-y-1 ${
-                                isSelected
-                                  ? 'bg-gradient-to-br from-indigo-50 to-blue-50/80 border-2 border-indigo-400 shadow-lg shadow-indigo-500/10'
-                                  : 'bg-white border-2 border-slate-100 shadow-sm hover:border-indigo-300 hover:shadow-md'
-                              }`}
-                            >
-                              <div className="flex w-full items-start justify-between">
-                                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[1rem] transition-all duration-300 ${
-                                  isSelected ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-110' : 'bg-slate-100 text-transparent group-hover:bg-indigo-50 group-hover:text-indigo-200'
-                                }`}>
-                                  <CheckCircle className="h-5 w-5" />
-                                </div>
-                                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500">
-                                  {p.subjectCode || 'ไม่มีรหัส'}
-                                </span>
-                              </div>
-                              <div className="min-w-0 w-full mt-2">
-                                <h3 className={`truncate text-lg font-black transition-colors ${isSelected ? 'text-indigo-950' : 'text-slate-900'}`}>
-                                  {p.lessonTopic || 'ไม่มีชื่อแผน'}
-                                </h3>
-                                <div className="mt-3 flex flex-col gap-2">
-                                  <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                                    <BookOpen className="h-4 w-4 text-indigo-400" />
-                                    <span className="truncate">{p.subjectName || 'ไม่ระบุวิชา'}</span>
+                      <div className="space-y-6">
+                        {Object.entries(groupedPlans).map(([year, grades]) => (
+                          <div key={year} className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
+                            <h3 className="mb-4 flex items-center gap-2 text-lg font-black text-indigo-900">
+                              <Calendar className="h-5 w-5 text-indigo-500" />
+                              {year}
+                            </h3>
+                            <div className="space-y-6 pl-2">
+                              {Object.entries(grades).map(([grade, subjects]) => (
+                                <div key={grade} className="border-l-2 border-indigo-100 pl-4">
+                                  <h4 className="mb-3 flex items-center gap-2 text-md font-bold text-slate-700">
+                                    <GraduationCap className="h-4 w-4 text-emerald-500" />
+                                    {grade}
+                                  </h4>
+                                  <div className="space-y-4">
+                                    {Object.entries(subjects).map(([subject, planList]) => (
+                                      <div key={subject} className="rounded-xl bg-slate-50 p-4">
+                                        <h5 className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-600">
+                                          <BookOpen className="h-4 w-4 text-amber-500" />
+                                          {subject}
+                                        </h5>
+                                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+                                          {planList.map(p => {
+                                            const isSelected = selectedPlanId === p.planId;
+                                            return (
+                                              <button
+                                                key={p.planId}
+                                                onClick={() => toggleSelectPlan(p.planId)}
+                                                className={`group relative flex items-start gap-3 rounded-xl p-4 text-left transition-all duration-300 hover:-translate-y-1 ${
+                                                  isSelected
+                                                    ? 'bg-gradient-to-br from-indigo-50 to-blue-50/80 border-2 border-indigo-400 shadow-md shadow-indigo-500/10'
+                                                    : 'bg-white border-2 border-slate-200 shadow-sm hover:border-indigo-300'
+                                                }`}
+                                              >
+                                                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                                                  isSelected ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-100 text-transparent group-hover:bg-indigo-50'
+                                                }`}>
+                                                  <CheckCircle className="h-4 w-4" />
+                                                </div>
+                                                <div className="min-w-0 flex-1">
+                                                  <h6 className={`truncate text-sm font-black ${isSelected ? 'text-indigo-950' : 'text-slate-800'}`}>
+                                                    {p.lessonTopic || 'ไม่มีชื่อแผน'}
+                                                  </h6>
+                                                  <div className="mt-1 flex items-center justify-between text-[11px] font-bold text-slate-500">
+                                                    <span className="truncate">{p.subjectCode || 'ไม่มีรหัส'}</span>
+                                                  </div>
+                                                </div>
+                                              </button>
+                                            );
+                                          })}
+                                        </div>
+                                      </div>
+                                    ))}
                                   </div>
-                                  <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                                    <GraduationCap className="h-4 w-4 text-emerald-400" />
-                                    <span>{p.gradeLevel || 'ไม่ระบุระดับชั้น'}</span>
-                                  </div>
                                 </div>
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </div>
               </div>
@@ -430,13 +476,13 @@ export default function EvaluatorPage() {
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Evaluation Queue</p>
                 <p className="mt-1 text-sm font-bold text-slate-700">
                   {activeTab === 'system'
-                    ? `เลือกอยู่ ${selectedPlanIds.size} แผนการสอน`
+                    ? (selectedPlanId ? 'เลือกแผนแล้ว 1 ไฟล์' : 'ยังไม่ได้เลือกแผน')
                     : (fileText ? 'พร้อมตรวจ 1 ไฟล์' : 'ยังไม่ได้อัปโหลดไฟล์')}
                 </p>
               </div>
               <button
                 onClick={startEvaluation}
-                disabled={isEvaluating || (activeTab === 'system' ? selectedPlanIds.size === 0 : !fileText)}
+                disabled={isEvaluating || (activeTab === 'system' ? !selectedPlanId : !fileText)}
                 className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-blue-600 px-8 py-4 text-sm font-black text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-md disabled:translate-y-0 disabled:bg-slate-200 disabled:text-slate-400 sm:w-auto"
               >
                 {isEvaluating && <div className="absolute inset-0 animate-pulse bg-blue-600" />}
@@ -449,7 +495,7 @@ export default function EvaluatorPage() {
                   ) : (
                     <>
                       <Sparkles className="h-5 w-5 text-blue-100" />
-                      {selectedPlanIds.size > 1 ? `เริ่มประเมินทั้งหมด (${selectedPlanIds.size})` : 'เริ่มประเมินความสมบูรณ์'}
+                      {'เริ่มประเมินความสมบูรณ์'}
                     </>
                   )}
                 </span>
@@ -523,7 +569,8 @@ export default function EvaluatorPage() {
                 result={result} 
                 index={index}
                 onFixPartial={(sectionKey, suggestion, identifier) => startPartialFix(index, sectionKey, suggestion, identifier)}
-                isFixing={fixingPlanId === result.planId}
+                onSaveDraft={() => saveToDraft(index)}
+                isFixing={fixingPlanId !== null && fixingPlanId.startsWith(`${result.planId}-partial`)}
                 fixingId={fixingPlanId}
               />
             ))}
@@ -826,7 +873,7 @@ function TrafficLightCard({
 }
 
 // ── COMPONENT: EvaluationResultCard (Plan Evaluation Result Page) ──
-function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId }: { result: any, index: number, onFixPartial: (sectionKey: string, suggestion: string, identifier: string) => void, isFixing: boolean, fixingId: string | null }) {
+function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixing, fixingId }: { result: any, index: number, onFixPartial: (sectionKey: string, suggestion: string, identifier: string) => void, onSaveDraft: () => void, isFixing: boolean, fixingId: string | null }) {
   if (result.error) {
     return (
       <motion.div
@@ -854,7 +901,7 @@ function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId 
   const toneStyle = toneStyles[tone];
   const summary = result.summary || 'AI วิเคราะห์แผนการจัดการเรียนรู้และจัดกลุ่มข้อเสนอแนะ 4 ส่วน พร้อมเกณฑ์วิทยฐานะ (PA)';
   const parts = Array.isArray(result.parts) ? result.parts : [];
-  const paAssessment = result.paAssessment || { meetsCriteria: [], needsImprovement: [], recommendation: '' };
+  const paAssessment = result.paAssessment || { indicators: [], overallRecommendation: '', canFix: false };
 
   return (
     <motion.section
@@ -866,6 +913,25 @@ function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId 
       className="relative overflow-hidden rounded-2xl bg-white shadow-sm"
     >
       <div className="relative space-y-6 p-4 sm:p-6 md:p-8">
+        {result.hasUnsavedChanges && (
+          <div className="mb-2 flex items-center justify-between rounded-xl bg-amber-50 p-4 border border-amber-200">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="h-5 w-5 text-amber-500" />
+              <div>
+                <h4 className="text-sm font-bold text-amber-900">มีข้อมูลร่างที่รอการบันทึก</h4>
+                <p className="text-xs text-amber-700">AI ได้แก้ไขแผนของคุณแล้ว กรุณากดบันทึกเพื่อเก็บเป็นร่างใหม่</p>
+              </div>
+            </div>
+            <button
+              onClick={onSaveDraft}
+              className="flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-amber-600"
+            >
+              <CheckSquare className="h-4 w-4" />
+              บันทึกเป็นแบบร่าง
+            </button>
+          </div>
+        )}
+
         <div className="grid gap-5 lg:grid-cols-[1fr_280px]">
           <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-50 to-indigo-50/50 p-6 shadow-sm md:p-8">
             <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-indigo-400/10 blur-3xl" />
@@ -996,7 +1062,7 @@ function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId 
           })}
         </div>
 
-        {paAssessment && paAssessment.meetsCriteria && (
+        {paAssessment && paAssessment.indicators && paAssessment.indicators.length > 0 && (
           <motion.div variants={cardMotion} custom={5} className="overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-6 text-white shadow-2xl shadow-indigo-950/30 md:p-10">
             <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -1011,48 +1077,66 @@ function EvaluationResultCard({ result, index, onFixPartial, isFixing, fixingId 
               </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-2xl bg-white/5 p-6 backdrop-blur">
-                <h5 className="flex items-center gap-2 text-lg font-bold text-emerald-400 mb-4">
-                  <CheckCircle className="h-5 w-5" /> จุดที่ตรงตามเกณฑ์แล้ว
-                </h5>
-                <ul className="space-y-3">
-                  {paAssessment.meetsCriteria.length > 0 ? paAssessment.meetsCriteria.map((item: string, i: number) => (
-                    <li key={i} className="flex gap-3 text-sm font-medium text-slate-200">
-                      <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-                      <span>{item}</span>
-                    </li>
-                  )) : (
-                    <li className="text-sm text-slate-400">ยังไม่พบองค์ประกอบที่ชัดเจนในเกณฑ์วิทยฐานะ</li>
-                  )}
-                </ul>
-              </div>
-
-              <div className="rounded-2xl bg-white/5 p-6 backdrop-blur">
-                <h5 className="flex items-center gap-2 text-lg font-bold text-amber-400 mb-4">
-                  <AlertTriangle className="h-5 w-5" /> จุดที่ควรเพิ่มเติม
-                </h5>
-                <ul className="space-y-3">
-                  {paAssessment.needsImprovement.length > 0 ? paAssessment.needsImprovement.map((item: string, i: number) => (
-                    <li key={i} className="flex gap-3 text-sm font-medium text-slate-200">
-                      <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" />
-                      <span>{item}</span>
-                    </li>
-                  )) : (
-                    <li className="text-sm text-slate-400">ไม่พบจุดบกพร่องที่ร้ายแรงในเกณฑ์วิทยฐานะ</li>
-                  )}
-                </ul>
-              </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {paAssessment.indicators.map((indicator: any, i: number) => {
+                const isPassed = indicator.status === 'passed';
+                return (
+                  <div key={i} className={`rounded-2xl p-5 backdrop-blur border ${
+                    isPassed ? 'bg-emerald-900/20 border-emerald-500/20' : 'bg-rose-900/20 border-rose-500/20'
+                  }`}>
+                    <div className="flex items-start gap-3">
+                      <div className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
+                        isPassed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
+                      }`}>
+                        {isPassed ? <CheckCircle className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
+                      </div>
+                      <div>
+                        <h5 className={`text-sm font-bold ${isPassed ? 'text-emerald-100' : 'text-rose-100'}`}>
+                          ตัวชี้วัดที่ {indicator.id}: {indicator.title}
+                        </h5>
+                        {indicator.evidence && (
+                          <p className={`mt-2 text-xs leading-5 ${isPassed ? 'text-emerald-300' : 'text-rose-300'}`}>
+                            <strong>ข้อมูลอ้างอิง:</strong> {indicator.evidence}
+                          </p>
+                        )}
+                        {!isPassed && indicator.recommendation && (
+                          <p className="mt-2 text-xs font-medium leading-5 text-rose-200">
+                            <strong>คำแนะนำ:</strong> {indicator.recommendation}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
-            {paAssessment.recommendation && (
+            {paAssessment.overallRecommendation && (
               <div className="mt-6 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 p-6 backdrop-blur">
                 <h5 className="flex items-center gap-2 font-bold text-indigo-300 mb-2">
-                  <Sparkles className="h-5 w-5" /> ข้อเสนอแนะเชิงลึกเพื่อการเลื่อนวิทยฐานะ
+                  <Sparkles className="h-5 w-5" /> ข้อเสนอแนะภาพรวมเพื่อการเลื่อนวิทยฐานะ
                 </h5>
                 <p className="text-sm font-medium leading-7 text-slate-300">
-                  {paAssessment.recommendation}
+                  {paAssessment.overallRecommendation}
                 </p>
+              </div>
+            )}
+            
+            {paAssessment.canFix && result.planId !== 'uploaded' && !result.isFixed && (
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={() => onFixPartial('paAssessment', paAssessment.overallRecommendation || 'ปรับปรุงให้สอดคล้องกับ 8 ตัวชี้วัด PA', 'paAssessment')}
+                  disabled={isFixing}
+                  className="flex items-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-black text-slate-900 shadow-md transition-all hover:-translate-y-0.5 hover:bg-amber-400 disabled:bg-slate-700 disabled:text-slate-500"
+                >
+                  {fixingId === `${result.planId}-partial-paAssessment` ? (
+                    <><Loader2 className="h-4 w-4 animate-spin" /> กำลังปรับปรุงแผนตาม PA...</>
+                  ) : result.fixedRecs?.['paAssessment'] ? (
+                    <><CheckCircle className="h-4 w-4" /> ปรับปรุงแผนตาม PA แล้ว</>
+                  ) : (
+                    <><Sparkles className="h-4 w-4" /> ให้ AI ปรับปรุงแผนให้สอดคล้องกับ PA ทั้ง 8 ตัวชี้วัด</>
+                  )}
+                </button>
               </div>
             )}
           </motion.div>
