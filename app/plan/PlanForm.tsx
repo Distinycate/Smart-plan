@@ -1315,12 +1315,25 @@ export default function PlanForm({ planId }: PlanFormProps) {
                     <div style={{ marginBottom: '8px' }}>
                       <SmartDropdown 
                         options={options.assessmentTemplate
-                          .filter((opt: any) => opt.optionName.includes('[K]'))
-                          .map((opt: any) => ({
-                            id: opt.optionId,
-                            label: opt.optionName,
-                            value: opt.optionText || ''
-                          }))}
+                          .filter((opt: any) => {
+                            try {
+                              const d = JSON.parse(opt.optionText);
+                              return d.domain?.includes('K');
+                            } catch (e) { return false; }
+                          })
+                          .map((opt: any) => {
+                            let label = opt.optionName;
+                            try {
+                              const d = JSON.parse(opt.optionText);
+                              const prefix = d.group === 'English_Basic' ? '[พื้นฐาน]' : d.group === 'English_Communication' ? '[สื่อสาร]' : '[ทั่วไป]';
+                              label = `${prefix} ${(d.measure || '').substring(0, 50)}...`;
+                            } catch (e) {}
+                            return {
+                              id: opt.optionId,
+                              label: label,
+                              value: opt.optionText || ''
+                            };
+                          })}
                         placeholder="เลือกเทมเพลตการประเมิน (K) จากคลัง (Auto-fill)..."
                         onSelect={(opt) => {
                           try {
@@ -1371,12 +1384,25 @@ export default function PlanForm({ planId }: PlanFormProps) {
                     <div style={{ marginBottom: '8px' }}>
                       <SmartDropdown 
                         options={options.assessmentTemplate
-                          .filter((opt: any) => opt.optionName.includes('[P]'))
-                          .map((opt: any) => ({
-                            id: opt.optionId,
-                            label: opt.optionName,
-                            value: opt.optionText || ''
-                          }))}
+                          .filter((opt: any) => {
+                            try {
+                              const d = JSON.parse(opt.optionText);
+                              return d.domain?.includes('P');
+                            } catch (e) { return false; }
+                          })
+                          .map((opt: any) => {
+                            let label = opt.optionName;
+                            try {
+                              const d = JSON.parse(opt.optionText);
+                              const prefix = d.group === 'English_Basic' ? '[พื้นฐาน]' : d.group === 'English_Communication' ? '[สื่อสาร]' : '[ทั่วไป]';
+                              label = `${prefix} ${(d.measure || '').substring(0, 50)}...`;
+                            } catch (e) {}
+                            return {
+                              id: opt.optionId,
+                              label: label,
+                              value: opt.optionText || ''
+                            };
+                          })}
                         placeholder="เลือกเทมเพลตการประเมิน (P) จากคลัง (Auto-fill)..."
                         onSelect={(opt) => {
                           try {
@@ -1427,12 +1453,25 @@ export default function PlanForm({ planId }: PlanFormProps) {
                     <div style={{ marginBottom: '8px' }}>
                       <SmartDropdown 
                         options={options.assessmentTemplate
-                          .filter((opt: any) => opt.optionName.includes('[A]'))
-                          .map((opt: any) => ({
-                            id: opt.optionId,
-                            label: opt.optionName,
-                            value: opt.optionText || ''
-                          }))}
+                          .filter((opt: any) => {
+                            try {
+                              const d = JSON.parse(opt.optionText);
+                              return d.domain?.includes('A');
+                            } catch (e) { return false; }
+                          })
+                          .map((opt: any) => {
+                            let label = opt.optionName;
+                            try {
+                              const d = JSON.parse(opt.optionText);
+                              const prefix = d.group === 'English_Basic' ? '[พื้นฐาน]' : d.group === 'English_Communication' ? '[สื่อสาร]' : '[ทั่วไป]';
+                              label = `${prefix} ${(d.measure || '').substring(0, 50)}...`;
+                            } catch (e) {}
+                            return {
+                              id: opt.optionId,
+                              label: label,
+                              value: opt.optionText || ''
+                            };
+                          })}
                         placeholder="เลือกเทมเพลตการประเมิน (A) จากคลัง (Auto-fill)..."
                         onSelect={(opt) => {
                           try {
