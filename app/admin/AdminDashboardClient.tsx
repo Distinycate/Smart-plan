@@ -106,7 +106,7 @@ export default function AdminDashboardClient({
           <h3 className="text-md font-semibold text-slate-700 mb-4 text-center">สัดส่วนผู้ใช้งานตามเพศ</h3>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={genderData} cx="50%" cy="50%" outerRadius={80} fill="#8884d8" dataKey="value" label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}>
+              <Pie data={genderData} cx="50%" cy="50%" outerRadius={80} fill="#8884d8" dataKey="value" label={({name, percent}) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}>
                 {genderData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}

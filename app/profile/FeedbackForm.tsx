@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
 import { MessageSquare } from 'lucide-react'
 
-const initialState = {
+const initialState: { success: boolean; message?: string; error?: string } = {
   success: false,
   message: '',
   error: ''
@@ -19,10 +19,10 @@ export default function FeedbackForm() {
 
   useEffect(() => {
     if (state.success) {
-      toast.success(state.message)
+      toast.success(state.message || '')
       formRef.current?.reset()
     } else if (state.error) {
-      toast.error(state.error)
+      toast.error(state.error || '')
     }
   }, [state])
 
