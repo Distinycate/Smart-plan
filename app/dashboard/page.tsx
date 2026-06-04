@@ -201,7 +201,7 @@ export default function TeacherDashboard() {
           </div>
           <div className="hero-img-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/hero-illustration.png" alt="illustration" className="hero-img" />
+            <img src="/assets/magical_book.png" alt="illustration" className="hero-img" />
           </div>
         </div>
 
@@ -608,7 +608,8 @@ export default function TeacherDashboard() {
         .hero-img-wrap { width: 300px; display:flex; justify-content:center; align-items:center; }
         .hero-img {
           width: 260px; max-height: 240px; object-fit: contain;
-          filter: drop-shadow(0 24px 34px rgba(0,0,0,0.25));
+          mix-blend-mode: multiply;
+          filter: contrast(1.05) brightness(1.05);
           animation: floaty 5s ease-in-out infinite;
         }
         @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
