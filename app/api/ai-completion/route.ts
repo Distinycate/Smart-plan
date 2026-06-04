@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
-import { fetchGroqWithRetry } from '@/lib/groqClient';
 
 export const maxDuration = 60;
 
@@ -91,24 +90,12 @@ ${learningProcess}
       }
     };
 
-    let aiText = '';
-    try {
-      const response = await fetchGeminiWithRetry(apiUrl, payload, 2);
-      const resJson = await response.json();
-      aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
-      
-      if (!aiText) {
-        throw new Error('Invalid response payload structure from Gemini API');
-      }
-    } catch (geminiError: any) {
-      console.warn("Gemini Failed, falling back to Groq:", geminiError.message);
-      const response = await fetchGroqWithRetry(prompt, 2);
-      const resJson = await response.json();
-      aiText = resJson.choices?.[0]?.message?.content;
-      
-      if (!aiText) {
-        throw new Error('Invalid response payload structure from Groq API');
-      }
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
+    const resJson = await response.json();
+    const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
+    
+    if (!aiText) {
+      throw new Error('Invalid response payload structure from Gemini API');
     }
 
     let cleanedText = aiText.trim();
