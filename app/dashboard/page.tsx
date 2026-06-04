@@ -412,7 +412,7 @@ export default function TeacherDashboard() {
                   onClick={() => toggleFolder(year)}
                 >
                   {expandedFolders.has(year) ? <ChevronDown size={20} className="text-slate-500" /> : <ChevronRight size={20} className="text-slate-500" />}
-                  {expandedFolders.has(year) ? <FolderOpen size={24} className="text-pink-500 fill-pink-100" /> : <Folder size={24} className="text-pink-500 fill-pink-100" />}
+                  {expandedFolders.has(year) ? <FolderOpen size={24} className="text-pink-400 fill-pink-100" /> : <Folder size={24} className="text-pink-400 fill-pink-100" />}
                   <h3 className="font-bold text-lg text-slate-800 m-0">{year}</h3>
                   <span className="ml-auto bg-white px-3 py-1 rounded-full text-xs font-bold text-slate-500 border border-slate-200 shadow-sm">
                     {Object.values(groupedPlans[year]).reduce((acc, gradeObj) => acc + Object.values(gradeObj).reduce((acc2, subjArr) => acc2 + subjArr.length, 0), 0)} แผน

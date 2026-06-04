@@ -36,7 +36,7 @@ export default async function AdminPage() {
           <Link href="/profile" className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors font-medium">
             กลับหน้าหลัก (Profile)
           </Link>
-          <Link href="/dashboard" className="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition-colors font-medium shadow-md shadow-pink-500/20">
+          <Link href="/dashboard" className="px-4 py-2 bg-pink-300 hover:bg-pink-400 text-white rounded-lg transition-colors font-medium shadow-md shadow-pink-200/20">
             ← กลับสู่ระบบหลักสร้างแผน
           </Link>
         </div>

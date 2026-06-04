@@ -40,7 +40,7 @@ export default async function RootLayout({
             {/* BRAND */}
             <div className="flex items-center gap-8">
               <Link href="/" className="group flex items-center gap-2.5 transition-transform hover:scale-105">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-md shadow-pink-500/20">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-pink-200 to-rose-200 text-pink-900 shadow-md shadow-pink-200/20">
                   <Sparkles className="h-5 w-5" />
                 </div>
                 <div>
@@ -50,11 +50,11 @@ export default async function RootLayout({
               
               {/* DESKTOP NAV (Visible when logged in, or generic links) */}
               <nav className="hidden md:flex items-center gap-1">
-                <Link href="/" className="rounded-lg px-3 py-2 text-sm font-bold text-slate-500 transition-colors hover:bg-pink-50 hover:text-pink-600">
+                <Link href="/" className="rounded-lg px-3 py-2 text-sm font-bold text-slate-500 transition-colors hover:bg-pink-50 hover:text-pink-500">
                   หน้าแรก
                 </Link>
                 {user && (
-                  <Link href="/dashboard" className="rounded-lg px-3 py-2 text-sm font-bold text-slate-500 transition-colors hover:bg-pink-50 hover:text-pink-600">
+                  <Link href="/dashboard" className="rounded-lg px-3 py-2 text-sm font-bold text-slate-500 transition-colors hover:bg-pink-50 hover:text-pink-500">
                     แดชบอร์ดจัดการแผน
                   </Link>
                 )}
@@ -70,12 +70,12 @@ export default async function RootLayout({
                     {user.email}
                   </div>
                   
-                  <Link href="/dashboard" className="flex items-center gap-2 rounded-full bg-pink-600 px-4 py-2 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-pink-700 hover:shadow-lg sm:hidden">
+                  <Link href="/dashboard" className="flex items-center gap-2 rounded-full bg-pink-300 px-4 py-2 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-pink-400 hover:shadow-lg sm:hidden">
                     <LayoutDashboard className="h-4 w-4" /> แดชบอร์ด
                   </Link>
 
                   {isAdmin && (
-                    <Link href="/admin" className="hidden sm:flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-bold text-pink-600 transition-colors hover:bg-indigo-100">
+                    <Link href="/admin" className="hidden sm:flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-bold text-pink-500 transition-colors hover:bg-indigo-100">
                       จัดการแอดมิน
                     </Link>
                   )}
@@ -88,10 +88,10 @@ export default async function RootLayout({
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <Link href="/login" className="flex items-center justify-center rounded-full bg-white border border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-slate-50 hover:text-pink-600">
+                  <Link href="/login" className="flex items-center justify-center rounded-full bg-white border border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-slate-50 hover:text-pink-500">
                     เข้าสู่ระบบ
                   </Link>
-                  <Link href="/register" className="flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-5 py-2.5 text-sm font-black text-white shadow-md shadow-pink-500/25 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-pink-500/40">
+                  <Link href="/register" className="flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-200 to-rose-200 px-5 py-2.5 text-sm font-black text-pink-900 shadow-md shadow-pink-200/25 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-pink-200/40">
                     เริ่มใช้งานฟรี <Sparkles className="h-4 w-4" />
                   </Link>
                 </div>
@@ -109,7 +109,7 @@ export default async function RootLayout({
         <footer className="border-t border-slate-200 bg-white py-8">
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-slate-900">
-              <div className="flex h-6 w-6 items-center justify-center rounded-md bg-pink-500 text-white">
+              <div className="flex h-6 w-6 items-center justify-center rounded-md bg-pink-200 text-pink-900">
                 <Sparkles className="h-3 w-3" />
               </div>
               <span className="text-sm font-black tracking-tight">Smart Plan</span>

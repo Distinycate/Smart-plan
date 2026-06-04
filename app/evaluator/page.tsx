@@ -234,10 +234,10 @@ export default function EvaluatorPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 p-6 shadow-2xl shadow-pink-500/40 sm:p-10"
+          className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-pink-400 via-rose-400 to-pink-500 p-6 shadow-2xl shadow-pink-200/40 sm:p-10"
         >
-          <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-pink-500/20 blur-[120px]" />
-          <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-rose-500/20 blur-[120px]" />
+          <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-pink-200/20 blur-[120px]" />
+          <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-rose-200/20 blur-[120px]" />
           <div className="relative flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
               <Link
@@ -265,7 +265,7 @@ export default function EvaluatorPage() {
                 <Layers className="h-4 w-4" />
                 {plans.length} แผนในระบบ
               </span>
-              <span className="flex items-center gap-2 rounded-full bg-pink-500/20 px-4 py-2.5 text-pink-200 backdrop-blur-md border border-pink-400/20">
+              <span className="flex items-center gap-2 rounded-full bg-pink-200/20 px-4 py-2.5 text-pink-200 backdrop-blur-md border border-pink-400/20">
                 <CheckSquare className="h-4 w-4" />
                 {selectedPlanId ? 1 : 0} เลือกแล้ว
               </span>
@@ -337,7 +337,7 @@ export default function EvaluatorPage() {
                         {Object.entries(groupedPlans).map(([year, grades]) => (
                           <div key={year} className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
                             <h3 className="mb-4 flex items-center gap-2 text-lg font-black text-pink-900">
-                              <Calendar className="h-5 w-5 text-pink-500" />
+                              <Calendar className="h-5 w-5 text-pink-400" />
                               {year}
                             </h3>
                             <div className="space-y-6 pl-2">
@@ -363,12 +363,12 @@ export default function EvaluatorPage() {
                                                 onClick={() => toggleSelectPlan(p.planId)}
                                                 className={`group relative flex items-start gap-3 rounded-xl p-4 text-left transition-all duration-300 hover:-translate-y-1 ${
                                                   isSelected
-                                                    ? 'bg-gradient-to-br from-pink-50 to-rose-50/80 border-2 border-pink-400 shadow-md shadow-pink-500/10'
+                                                    ? 'bg-gradient-to-br from-pink-50 to-rose-50/80 border-2 border-pink-400 shadow-md shadow-pink-200/10'
                                                     : 'bg-white border-2 border-slate-200 shadow-sm hover:border-pink-300'
                                                 }`}
                                               >
                                                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
-                                                  isSelected ? 'bg-pink-600 text-white shadow-sm' : 'bg-slate-100 text-transparent group-hover:bg-pink-50'
+                                                  isSelected ? 'bg-pink-300 text-white shadow-sm' : 'bg-slate-100 text-transparent group-hover:bg-pink-50'
                                                 }`}>
                                                   <CheckCircle className="h-4 w-4" />
                                                 </div>
@@ -403,7 +403,7 @@ export default function EvaluatorPage() {
                 <div className={`group relative overflow-hidden rounded-[2rem] border-2 border-dashed p-10 sm:p-16 text-center transition-all duration-300 ease-out ${
                   fileText 
                     ? 'border-pink-400 bg-pink-50/50' 
-                    : 'border-slate-200 hover:border-pink-400 hover:bg-slate-50/50 hover:shadow-2xl hover:shadow-pink-500/10'
+                    : 'border-slate-200 hover:border-pink-400 hover:bg-slate-50/50 hover:shadow-2xl hover:shadow-pink-200/10'
                 }`}>
                   <input
                     type="file"
@@ -415,7 +415,7 @@ export default function EvaluatorPage() {
                   <div className="relative z-0 mx-auto flex flex-col items-center justify-center">
                     <div className="relative mb-6 flex h-24 w-24 items-center justify-center rounded-[1.5rem] bg-gradient-to-tr from-pink-500 via-rose-500 to-pink-500 shadow-xl shadow-rose-500/30 transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-110">
                       <div className="absolute inset-[3px] flex items-center justify-center rounded-[1.3rem] bg-white transition-colors duration-300 group-hover:bg-pink-50/80">
-                        <UploadCloud className="h-10 w-10 text-pink-600 transition-transform duration-500 group-hover:-translate-y-1" />
+                        <UploadCloud className="h-10 w-10 text-pink-500 transition-transform duration-500 group-hover:-translate-y-1" />
                       </div>
                       <div className="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
                         <Sparkles className="h-4 w-4 text-amber-500" />
@@ -425,7 +425,7 @@ export default function EvaluatorPage() {
                       ลากไฟล์มาวาง หรือ <span className="bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">คลิกเพื่ออัปโหลด</span>
                     </h3>
                     <p className="mt-3 max-w-sm text-sm font-medium text-slate-500">
-                      รองรับไฟล์เอกสาร <strong className="text-pink-600">.docx</strong> (Microsoft Word) เท่านั้น
+                      รองรับไฟล์เอกสาร <strong className="text-pink-500">.docx</strong> (Microsoft Word) เท่านั้น
                     </p>
                   </div>
                 </div>
@@ -463,7 +463,7 @@ export default function EvaluatorPage() {
 
             {error && (
               <div className="mt-6 flex items-start gap-3 rounded-2xl bg-rose-50 p-5 text-sm font-bold text-rose-800 shadow-sm">
-                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-500" />
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-400" />
                 {error}
               </div>
             )}
@@ -480,9 +480,9 @@ export default function EvaluatorPage() {
               <button
                 onClick={startEvaluation}
                 disabled={isEvaluating || (activeTab === 'system' ? !selectedPlanId : !fileText)}
-                className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-rose-600 px-8 py-4 text-sm font-black text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-rose-700 hover:shadow-md disabled:translate-y-0 disabled:bg-slate-200 disabled:text-slate-400 sm:w-auto"
+                className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-rose-300 px-8 py-4 text-sm font-black text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-rose-700 hover:shadow-md disabled:translate-y-0 disabled:bg-slate-200 disabled:text-slate-400 sm:w-auto"
               >
-                {isEvaluating && <div className="absolute inset-0 animate-pulse bg-rose-600" />}
+                {isEvaluating && <div className="absolute inset-0 animate-pulse bg-rose-300" />}
                 <span className="relative z-10 flex items-center gap-2">
                   {isEvaluating ? (
                     <>
@@ -513,7 +513,7 @@ export default function EvaluatorPage() {
               <div className="absolute inset-0 rounded-full border-4 border-pink-100" />
               <div className="absolute inset-0 animate-spin rounded-full border-4 border-pink-600 border-t-transparent" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-50 text-pink-600">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-50 text-pink-500">
                   <Sparkles className="h-8 w-8 animate-pulse" />
                 </div>
               </div>
@@ -540,13 +540,13 @@ export default function EvaluatorPage() {
               <div>
                 <button
                   onClick={resetEvaluationFlow}
-                  className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-pink-600"
+                  className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-pink-500"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   ประเมินแผนอื่น
                 </button>
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-50 text-pink-600">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-50 text-pink-500">
                     <FileText className="h-6 w-6" />
                   </div>
                   <div>
@@ -610,7 +610,7 @@ function EvaluationFlowStepper({ step }: { step: number }) {
               <div
                 className={`flex items-center gap-3 rounded-full px-5 py-2.5 transition-all duration-500 ${
                   isActive
-                    ? 'bg-pink-600 text-white shadow-lg shadow-pink-600/30 scale-105'
+                    ? 'bg-pink-300 text-white shadow-lg shadow-pink-600/30 scale-105'
                     : isDone
                       ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20'
                       : 'bg-transparent text-slate-500 hover:bg-white/50'
@@ -837,7 +837,7 @@ function TrafficLightCard({
       card: 'bg-gradient-to-br from-rose-50/80 to-red-50/50 hover:shadow-rose-500/10 hover:border-rose-200/50 border border-transparent',
       icon: 'bg-gradient-to-br from-rose-400 to-red-500 text-white shadow-md shadow-rose-500/20',
       text: 'text-rose-950',
-      bullet: 'text-rose-500'
+      bullet: 'text-rose-400'
     }
   }[tone];
 
@@ -880,7 +880,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
       >
         <div className="flex flex-col gap-4 bg-rose-50 p-6 md:flex-row md:items-center md:justify-between md:p-8">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-rose-500 shadow-sm">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-rose-400 shadow-sm">
               <AlertTriangle className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-bold text-slate-800">{result.title}</h3>
@@ -906,7 +906,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
       <div className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-slate-100">
         <div className="flex justify-between items-center mb-4">
           <h4 className="text-lg font-black text-slate-800">{title}</h4>
-          <span className="text-xl font-black text-pink-600 bg-pink-50 px-3 py-1 rounded-xl">{data.score}/5</span>
+          <span className="text-xl font-black text-pink-500 bg-pink-50 px-3 py-1 rounded-xl">{data.score}/5</span>
         </div>
         <div className="space-y-4">
           <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
@@ -939,7 +939,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
         <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <div className="relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-sm md:p-8 border border-slate-100">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-pink-50 text-pink-600 shadow-inner">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-pink-50 text-pink-500 shadow-inner">
                 <ClipboardCheck className="h-8 w-8" />
               </div>
               <div className="min-w-0">
@@ -978,7 +978,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
         {/* Detailed Scores Breakdown */}
         <div>
           <h4 className="flex items-center gap-2 text-xl font-black text-slate-800 mb-6">
-            <BarChart2 className="h-6 w-6 text-pink-500" />
+            <BarChart2 className="h-6 w-6 text-pink-400" />
             ผลประเมินรายหัวข้อ (เชิงลึก)
           </h4>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -995,7 +995,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
         {result.pa8Indicators && result.pa8Indicators.length > 0 && (
           <div>
             <h4 className="flex items-center gap-2 text-xl font-black text-slate-800 mb-6 mt-8">
-              <ShieldCheck className="h-6 w-6 text-pink-500" />
+              <ShieldCheck className="h-6 w-6 text-pink-400" />
               การประเมิน 8 ตัวชี้วัดวิทยฐานะ (ว9 / วPA)
             </h4>
             <div className="grid gap-4 md:grid-cols-2">
@@ -1025,7 +1025,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
               <button
                 onClick={onFixAll}
                 disabled={isFixing}
-                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-pink-600 px-8 py-4 text-base font-black text-white shadow-lg shadow-pink-600/30 transition-all hover:scale-105 hover:bg-pink-700 disabled:bg-slate-300 disabled:scale-100"
+                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-pink-300 px-8 py-4 text-base font-black text-white shadow-lg shadow-pink-600/30 transition-all hover:scale-105 hover:bg-pink-400 disabled:bg-slate-300 disabled:scale-100"
               >
                 {isFixing ? (
                   <><Loader2 className="h-5 w-5 animate-spin" /> กำลังปรับปรุงแผน...</>

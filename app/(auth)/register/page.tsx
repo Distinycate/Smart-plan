@@ -14,7 +14,7 @@ export default function RegisterPage({ searchParams }: { searchParams: { message
         <div className="absolute -bottom-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-pink-100/60 blur-[120px] mix-blend-multiply animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="w-full max-w-6xl bg-white/80 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl shadow-pink-500/10 border border-white overflow-hidden flex flex-col lg:flex-row my-8">
+      <div className="w-full max-w-6xl bg-white/80 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl shadow-pink-200/10 border border-white overflow-hidden flex flex-col lg:flex-row my-8">
         
         {/* Left Side: 3D Illustration & Welcome Text */}
         <div className="w-full lg:w-5/12 bg-gradient-to-br from-pink-50 to-rose-50 p-8 lg:p-12 flex flex-col justify-center relative overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-100">
@@ -32,7 +32,7 @@ export default function RegisterPage({ searchParams }: { searchParams: { message
           
           <div className="relative z-10 text-center">
             <div className="inline-flex items-center justify-center gap-2 mb-3">
-              <Sparkles className="h-6 w-6 text-pink-500" />
+              <Sparkles className="h-6 w-6 text-pink-400" />
               <h2 className="text-3xl font-black text-slate-800 tracking-tight">พุ่งสู่อนาคตการสอน! 🚀</h2>
             </div>
             <p className="text-slate-600 font-medium leading-relaxed">
@@ -54,23 +54,23 @@ export default function RegisterPage({ searchParams }: { searchParams: { message
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="text-sm font-bold text-slate-700 block mb-2" htmlFor="full_name">ชื่อ-นามสกุล</label>
-                  <input className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium" name="full_name" placeholder="นาย/นาง/นางสาว สมปอง นามสกุล" required />
+                  <input className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium" name="full_name" placeholder="นาย/นาง/นางสาว สมปอง นามสกุล" required />
                 </div>
                 <div>
                   <label className="text-sm font-bold text-slate-700 block mb-2" htmlFor="email">อีเมล (Email)</label>
-                  <input className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium" name="email" type="email" placeholder="you@school.ac.th" required />
+                  <input className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium" name="email" type="email" placeholder="you@school.ac.th" required />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="text-sm font-bold text-slate-700 block mb-2" htmlFor="password">รหัสผ่าน (Password)</label>
-                  <input className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium" type="password" name="password" placeholder="••••••••" minLength={6} required />
+                  <input className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium" type="password" name="password" placeholder="••••••••" minLength={6} required />
                 </div>
                 <div className="flex gap-4">
                   <div className="flex-1">
                     <label className="text-sm font-bold text-slate-700 block mb-2" htmlFor="gender">เพศ</label>
-                    <select className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all shadow-sm text-slate-800 font-medium appearance-none" name="gender" required>
+                    <select className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 font-medium appearance-none" name="gender" required>
                       <option value="">เลือกเพศ...</option>
                       <option value="ชาย">ชาย</option>
                       <option value="หญิง">หญิง</option>
@@ -79,7 +79,7 @@ export default function RegisterPage({ searchParams }: { searchParams: { message
                   </div>
                   <div className="w-24">
                     <label className="text-sm font-bold text-slate-700 block mb-2" htmlFor="age">อายุ</label>
-                    <input className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium" type="number" name="age" placeholder="ปี" min="18" max="100" required />
+                    <input className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium" type="number" name="age" placeholder="ปี" min="18" max="100" required />
                   </div>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function RegisterPage({ searchParams }: { searchParams: { message
                 
                 <div className="mb-6">
                   <label className="text-sm font-bold text-slate-700 block mb-2" htmlFor="subject_group">กลุ่มสาระการเรียนรู้</label>
-                  <select className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all shadow-sm text-slate-800 font-medium appearance-none" name="subject_group" required>
+                  <select className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 font-medium appearance-none" name="subject_group" required>
                     <option value="">เลือกกลุ่มสาระฯ...</option>
                     <option value="ภาษาไทย">ภาษาไทย</option>
                     <option value="คณิตศาสตร์">คณิตศาสตร์</option>
@@ -108,7 +108,7 @@ export default function RegisterPage({ searchParams }: { searchParams: { message
                     {['อ.1', 'อ.2', 'อ.3', 'ป.1', 'ป.2', 'ป.3', 'ป.4', 'ป.5', 'ป.6', 'ม.1', 'ม.2', 'ม.3', 'ม.4', 'ม.5', 'ม.6'].map(grade => (
                       <label key={grade} className="relative cursor-pointer">
                         <input type="checkbox" name="grade_levels" value={grade} className="peer sr-only" />
-                        <div className="w-full text-center py-2 px-3 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-600 hover:bg-pink-50 hover:border-pink-200 transition-all peer-checked:bg-pink-500 peer-checked:text-white peer-checked:border-pink-500 peer-checked:shadow-md shadow-sm">
+                        <div className="w-full text-center py-2 px-3 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-600 hover:bg-pink-50 hover:border-pink-200 transition-all peer-checked:bg-pink-200 peer-checked:text-pink-900 peer-checked:border-pink-300 peer-checked:shadow-md shadow-sm">
                           {grade}
                         </div>
                       </label>
@@ -122,14 +122,14 @@ export default function RegisterPage({ searchParams }: { searchParams: { message
               <SubmitButton 
                 formAction={signup} 
                 pendingText="กำลังสร้างบัญชี..."
-                className="w-full bg-pink-500 rounded-2xl px-4 py-4 text-white font-black text-lg hover:bg-pink-600 transition-all shadow-lg shadow-pink-500/30 hover:shadow-xl hover:shadow-pink-500/40 active:scale-[0.98] flex justify-center items-center"
+                className="w-full bg-pink-200 rounded-2xl px-4 py-4 text-pink-900 font-black text-lg hover:bg-pink-300 transition-all shadow-lg shadow-pink-200/30 hover:shadow-xl hover:shadow-pink-200/40 active:scale-[0.98] flex justify-center items-center"
               >
                 ยืนยันการสมัครสมาชิก
               </SubmitButton>
             </div>
             
             <div className="text-center mt-6 text-sm text-slate-500 font-medium">
-              มีบัญชีอยู่แล้วใช่ไหม? <Link href="/login" className="text-pink-500 font-black hover:text-pink-600 hover:underline transition-colors ml-1">เข้าสู่ระบบที่นี่</Link>
+              มีบัญชีอยู่แล้วใช่ไหม? <Link href="/login" className="text-pink-400 font-black hover:text-pink-500 hover:underline transition-colors ml-1">เข้าสู่ระบบที่นี่</Link>
             </div>
 
             {searchParams?.message && (

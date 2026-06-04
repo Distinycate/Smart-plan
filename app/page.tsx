@@ -38,31 +38,31 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="max-w-2xl"
             >
-              <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 px-5 py-2 text-sm font-black text-pink-600 mb-8 border border-pink-200/60 shadow-sm">
+              <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 px-5 py-2 text-sm font-black text-pink-500 mb-8 border border-pink-200/60 shadow-sm">
                 <Sparkles className="h-4 w-4 animate-pulse" />
                 ผู้ช่วย AI ส่วนตัวของคุณครูยุคใหม่
               </div>
               <h1 className="text-5xl sm:text-6xl lg:text-[4.5rem] font-black tracking-tight text-slate-900 leading-[1.1]">
                 พลิกโฉมการทำ <br className="hidden sm:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 drop-shadow-sm">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 drop-shadow-sm">
                   แผนการสอน
                 </span>
               </h1>
               <p className="mt-6 text-xl font-bold text-slate-500 leading-relaxed max-w-xl">
-                บอกลาการปั่นเอกสารดึกดื่น! <span className="text-pink-500">Smart Plan</span> ช่วยคุณออกแบบเนื้อหา กิจกรรม และรูบริกประเมินผลอัตโนมัติ ให้คุณมีเวลาพักผ่อนและโฟกัสกับเด็กๆ ได้เต็มที่
+                บอกลาการปั่นเอกสารดึกดื่น! <span className="text-pink-400">Smart Plan</span> ช่วยคุณออกแบบเนื้อหา กิจกรรม และรูบริกประเมินผลอัตโนมัติ ให้คุณมีเวลาพักผ่อนและโฟกัสกับเด็กๆ ได้เต็มที่
               </p>
               
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link 
                   href="/login" 
-                  className="group relative inline-flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-8 py-4 text-lg font-black text-white shadow-xl shadow-pink-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-pink-500/50 overflow-hidden"
+                  className="group relative inline-flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-pink-200 to-rose-200 px-8 py-4 text-lg font-black text-pink-900 shadow-xl shadow-pink-200/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-pink-200/50 overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                   <span className="relative z-10 flex items-center gap-2">🚀 ทดลองใช้งานฟรี <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" /></span>
                 </Link>
                 <Link 
                   href="/login" 
-                  className="inline-flex justify-center items-center gap-2 rounded-full bg-white/50 backdrop-blur-sm px-8 py-4 text-lg font-black text-slate-700 border-2 border-slate-200/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-pink-300 hover:bg-white hover:text-pink-600 hover:shadow-md hover:shadow-pink-100"
+                  className="inline-flex justify-center items-center gap-2 rounded-full bg-white/50 backdrop-blur-sm px-8 py-4 text-lg font-black text-slate-700 border-2 border-slate-200/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-pink-300 hover:bg-white hover:text-pink-500 hover:shadow-md hover:shadow-pink-100"
                 >
                   เข้าสู่ระบบ
                 </Link>
@@ -86,7 +86,7 @@ export default function LandingPage() {
                   {/* Mockup content */}
                   <div className="flex items-center justify-between mb-6">
                     <div className="h-6 w-1/3 rounded-lg bg-slate-200 animate-pulse" />
-                    <div className="h-8 w-8 rounded-full bg-pink-100 text-pink-500 flex items-center justify-center">
+                    <div className="h-8 w-8 rounded-full bg-pink-100 text-pink-400 flex items-center justify-center">
                       <Sparkles className="h-4 w-4" />
                     </div>
                   </div>
@@ -122,21 +122,21 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-pink-200/50">
             <div className="flex flex-col items-center text-center px-6 py-4 md:py-0">
-              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-6 shadow-inner border border-pink-200">
+              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-400 mb-6 shadow-inner border border-pink-200">
                 <Clock className="h-8 w-8" />
               </div>
               <div className="text-5xl font-black text-slate-800 mb-2">90%</div>
               <p className="text-sm font-bold text-slate-500">ประหยัดเวลาในการเตรียมและเขียนเอกสารแผนการสอน</p>
             </div>
             <div className="flex flex-col items-center text-center px-6 py-4 md:py-0">
-              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-6 shadow-inner border border-pink-200">
+              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-400 mb-6 shadow-inner border border-pink-200">
                 <ShieldCheck className="h-8 w-8" />
               </div>
               <div className="text-5xl font-black text-slate-800 mb-2">95%+</div>
               <p className="text-sm font-bold text-slate-500">ความถูกต้อง สมบูรณ์ และสอดคล้องตามตัวชี้วัดหลักสูตร</p>
             </div>
             <div className="flex flex-col items-center text-center px-6 py-4 md:py-0">
-              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-6 shadow-inner border border-pink-200">
+              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-400 mb-6 shadow-inner border border-pink-200">
                 <Smile className="h-8 w-8" />
               </div>
               <div className="text-5xl font-black text-slate-800 mb-2">100%</div>
@@ -154,10 +154,10 @@ export default function LandingPage() {
         
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <div className="inline-flex items-center gap-2 rounded-full bg-pink-100 border border-pink-200 px-5 py-2 text-sm font-black text-pink-600 mb-6 shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full bg-pink-100 border border-pink-200 px-5 py-2 text-sm font-black text-pink-500 mb-6 shadow-sm">
               <Sparkles className="h-4 w-4" /> ฟีเจอร์หลักอันทรงพลัง
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">จัดการทุกขั้นตอนของแผนการสอน<br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">ครบจบในที่เดียว</span></h2>
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">จัดการทุกขั้นตอนของแผนการสอน<br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-200 to-rose-200">ครบจบในที่เดียว</span></h2>
             <p className="text-xl font-bold text-slate-500">ระบบถูกออกแบบมาให้ครอบคลุมการทำงานของคุณครูตั้งแต่เริ่มคิดจนถึงพิมพ์ใช้งาน พร้อมพลัง AI ที่ช่วยยกระดับความเร็วและคุณภาพอย่างที่ไม่เคยมีมาก่อน</p>
           </div>
 
@@ -216,13 +216,13 @@ export default function LandingPage() {
               <div className="aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-pink-200 to-rose-100 overflow-hidden shadow-2xl flex items-center justify-center relative">
                 <Image src="/assets/happy_thai_teacher.png" alt="Happy Thai Teacher" fill className="object-cover transition-transform duration-700 hover:scale-105" />
               </div>
-              <div className="absolute -bottom-6 -right-6 h-32 w-32 bg-pink-500 rounded-full blur-[80px] opacity-30 z-0" />
+              <div className="absolute -bottom-6 -right-6 h-32 w-32 bg-pink-200 rounded-full blur-[80px] opacity-30 z-0" />
             </div>
 
             {/* Right: Text */}
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
-                "เพราะเราเชื่อว่า <span className="text-pink-500">เวลาของคุณครูมีค่าที่สุด</span> สำหรับนักเรียน"
+                "เพราะเราเชื่อว่า <span className="text-pink-400">เวลาของคุณครูมีค่าที่สุด</span> สำหรับนักเรียน"
               </h2>
               <div className="space-y-6 text-lg font-medium text-slate-600 leading-relaxed">
                 <p>
@@ -247,13 +247,13 @@ export default function LandingPage() {
 
           <div className="max-w-lg mx-auto">
             <div className="rounded-[2.5rem] bg-gradient-to-b from-pink-50 to-white p-8 sm:p-10 shadow-[0_20px_50px_rgb(255,20,147,0.1)] border-2 border-pink-100 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-pink-500 text-white text-xs font-black uppercase tracking-wider py-1.5 px-4 rounded-bl-xl">
+              <div className="absolute top-0 right-0 bg-pink-200 text-pink-900 text-xs font-black uppercase tracking-wider py-1.5 px-4 rounded-bl-xl">
                 Most Popular
               </div>
               
               <h3 className="text-2xl font-black text-slate-900 mb-2">Free Account</h3>
               <div className="flex items-baseline justify-center gap-2 mb-8">
-                <span className="text-5xl font-black text-pink-500">0</span>
+                <span className="text-5xl font-black text-pink-400">0</span>
                 <span className="text-xl font-bold text-slate-500">บาท / ใช้งานฟรีตลอดไป</span>
               </div>
 
@@ -265,7 +265,7 @@ export default function LandingPage() {
                   "รองรับการใช้งานผ่านคอมพิวเตอร์และมือถือ"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-pink-100 text-pink-600">
+                    <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-pink-100 text-pink-500">
                       <CheckCircle2 className="h-3.5 w-3.5" />
                     </div>
                     <span className="text-slate-600 font-bold text-sm leading-relaxed">{item}</span>
@@ -275,7 +275,7 @@ export default function LandingPage() {
 
               <Link 
                 href="/login" 
-                className="block w-full rounded-2xl bg-pink-500 px-6 py-4 text-center text-lg font-black text-white shadow-lg shadow-pink-500/30 transition-all hover:-translate-y-1 hover:bg-pink-600 hover:shadow-xl hover:shadow-pink-500/40"
+                className="block w-full rounded-2xl bg-pink-200 px-6 py-4 text-center text-lg font-black text-pink-900 shadow-lg shadow-pink-200/30 transition-all hover:-translate-y-1 hover:bg-pink-300 hover:shadow-xl hover:shadow-pink-200/40"
               >
                 สมัครสมาชิกและเริ่มใช้ฟรีวันนี้
               </Link>

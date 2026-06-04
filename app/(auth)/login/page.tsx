@@ -14,7 +14,7 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
         <div className="absolute -bottom-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-pink-100/60 blur-[120px] mix-blend-multiply animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="w-full max-w-4xl bg-white/80 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl shadow-pink-500/10 border border-white overflow-hidden flex flex-col md:flex-row">
+      <div className="w-full max-w-4xl bg-white/80 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl shadow-pink-200/10 border border-white overflow-hidden flex flex-col md:flex-row">
         
         {/* Left Side: Illustration */}
         <div className="w-full md:w-5/12 bg-gradient-to-br from-pink-50 to-rose-50 p-8 flex flex-col items-center justify-center relative overflow-hidden border-r border-slate-100">
@@ -30,7 +30,7 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
           </div>
           <div className="relative z-10 text-center mt-4">
             <div className="inline-flex items-center justify-center gap-2 mb-2">
-              <Sparkles className="h-5 w-5 text-pink-500" />
+              <Sparkles className="h-5 w-5 text-pink-400" />
               <h2 className="text-2xl font-black text-slate-800">Smart Plan</h2>
             </div>
             <p className="text-slate-500 font-medium text-sm px-4 leading-relaxed">
@@ -53,7 +53,7 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
                   อีเมล (Email)
                 </label>
                 <input
-                  className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium"
+                  className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium"
                   name="email"
                   type="email"
                   placeholder="you@school.ac.th"
@@ -66,12 +66,12 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
                   <label className="text-sm font-bold text-slate-700 block" htmlFor="password">
                     รหัสผ่าน (Password)
                   </label>
-                  <Link href="#" className="text-xs font-bold text-pink-500 hover:text-pink-600 hover:underline">
+                  <Link href="#" className="text-xs font-bold text-pink-400 hover:text-pink-500 hover:underline">
                     ลืมรหัสผ่าน?
                   </Link>
                 </div>
                 <input
-                  className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium"
+                  className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium"
                   type="password"
                   name="password"
                   placeholder="••••••••"
@@ -84,14 +84,14 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
               <SubmitButton 
                 formAction={login} 
                 pendingText="กำลังเข้าสู่ระบบ..."
-                className="w-full bg-pink-500 rounded-2xl px-4 py-4 text-white font-black text-lg hover:bg-pink-600 transition-all shadow-lg shadow-pink-500/30 hover:shadow-xl hover:shadow-pink-500/40 active:scale-[0.98] flex justify-center items-center"
+                className="w-full bg-pink-200 rounded-2xl px-4 py-4 text-pink-900 font-black text-lg hover:bg-pink-300 transition-all shadow-lg shadow-pink-200/30 hover:shadow-xl hover:shadow-pink-200/40 active:scale-[0.98] flex justify-center items-center"
               >
                 เข้าสู่ระบบ
               </SubmitButton>
             </div>
             
             <div className="text-center mt-8 text-sm text-slate-500 font-medium bg-slate-50 py-4 rounded-2xl border border-slate-100">
-              ยังไม่มีบัญชีใช่ไหม? <Link href="/register" className="text-pink-500 font-black hover:text-pink-600 hover:underline transition-colors ml-1">สมัครสมาชิกฟรี</Link>
+              ยังไม่มีบัญชีใช่ไหม? <Link href="/register" className="text-pink-400 font-black hover:text-pink-500 hover:underline transition-colors ml-1">สมัครสมาชิกฟรี</Link>
             </div>
 
             {searchParams?.message && (

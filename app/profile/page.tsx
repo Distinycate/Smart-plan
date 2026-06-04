@@ -40,7 +40,7 @@ export default async function ProfilePage() {
           
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between p-8 sm:p-12 gap-8">
             <div className="flex-1 space-y-4 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 border border-white text-pink-600 font-bold text-sm shadow-sm">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 border border-white text-pink-500 font-bold text-sm shadow-sm">
                 <Sparkles size={16} />
                 <span>ยินดีต้อนรับกลับมาครับคุณครู</span>
               </div>
@@ -49,7 +49,7 @@ export default async function ProfilePage() {
               </h1>
               <p className="text-slate-500 font-medium text-lg">{user.email}</p>
               
-              <div className="inline-block mt-2 px-4 py-1.5 rounded-full bg-pink-600 text-white text-xs font-bold shadow-md shadow-pink-500/20">
+              <div className="inline-block mt-2 px-4 py-1.5 rounded-full bg-pink-300 text-white text-xs font-bold shadow-md shadow-pink-200/20">
                 {profile?.role === 'admin' ? '⭐ ผู้ดูแลระบบ (Admin)' : 'คุณครู (User)'}
               </div>
             </div>
@@ -70,7 +70,7 @@ export default async function ProfilePage() {
           {/* Quote Bar */}
           <div className="relative z-10 px-8 py-5 bg-white/80 border-t border-white backdrop-blur-md">
             <div className="flex items-start sm:items-center gap-4 max-w-3xl mx-auto justify-center">
-              <Heart className="h-6 w-6 text-pink-500 shrink-0 animate-pulse" />
+              <Heart className="h-6 w-6 text-pink-400 shrink-0 animate-pulse" />
               <p className="text-pink-900 font-semibold italic text-sm sm:text-base text-center">"{randomQuote}"</p>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default async function ProfilePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white p-8 rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-100">
             <h3 className="text-lg font-black text-slate-800 flex items-center gap-2 mb-6">
-              <User className="text-rose-500" /> ข้อมูลส่วนตัว
+              <User className="text-rose-400" /> ข้อมูลส่วนตัว
             </h3>
             <ul className="space-y-5">
               <li className="flex items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
@@ -106,7 +106,7 @@ export default async function ProfilePage() {
 
           <div className="bg-white p-8 rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-100">
             <h3 className="text-lg font-black text-slate-800 flex items-center gap-2 mb-6">
-              <BookOpen className="text-rose-500" /> ข้อมูลการสอน
+              <BookOpen className="text-rose-400" /> ข้อมูลการสอน
             </h3>
             <ul className="space-y-5">
               <li className="flex items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
@@ -175,11 +175,11 @@ export default async function ProfilePage() {
 
           <div className="space-y-8 flex flex-col justify-between">
             {/* CTA Button */}
-            <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-3xl p-8 text-center text-white shadow-xl shadow-pink-500/20 relative overflow-hidden group">
+            <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-3xl p-8 text-center text-white shadow-xl shadow-pink-200/20 relative overflow-hidden group">
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
               <h3 className="text-2xl font-black mb-3 relative z-10">พร้อมแล้วใช่ไหม?</h3>
               <p className="text-pink-100 mb-8 font-medium relative z-10">ลุยเลย! สร้างแผนการสอนที่สมบูรณ์แบบในไม่กี่คลิก</p>
-              <Link href="/dashboard" className="relative z-10 flex items-center justify-center gap-2 w-full px-6 py-4 text-pink-600 font-black text-lg bg-white rounded-2xl hover:bg-pink-50 transition-colors shadow-lg active:scale-95">
+              <Link href="/dashboard" className="relative z-10 flex items-center justify-center gap-2 w-full px-6 py-4 text-pink-500 font-black text-lg bg-white rounded-2xl hover:bg-pink-50 transition-colors shadow-lg active:scale-95">
                 เข้าสู่ระบบสร้างแผน <ArrowRight size={20} />
               </Link>
             </div>

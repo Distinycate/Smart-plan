@@ -1765,7 +1765,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             <label className="field">
               <div className="flex justify-between items-center w-full mb-2">
                 <span>กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)</span>
-                <button type="button" className="btn btn-sm btn-ghost text-pink-600 flex items-center gap-1" onClick={() => setShowProcessModal(true)}>
+                <button type="button" className="btn btn-sm btn-ghost text-pink-500 flex items-center gap-1" onClick={() => setShowProcessModal(true)}>
                   <Maximize2 size={14} /> ขยายเต็มจอ
                 </button>
               </div>
@@ -1804,7 +1804,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <div className="flex justify-between items-end mb-1">
                     <span>เกณฑ์การประเมินแบบ Rubric (ด้าน K)</span>
                     <div className="flex gap-2">
-                      <button type="button" onClick={() => setRubricSaveType('K')} className="text-xs bg-pink-50 text-pink-600 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setRubricSaveType('K')} className="text-xs bg-pink-50 text-pink-500 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
                       <button type="button" onClick={() => setShowRubricModal('K')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
                     </div>
                   </div>
@@ -1839,7 +1839,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <div className="flex justify-between items-end mb-1">
                     <span>เกณฑ์การประเมินแบบ Rubric (ด้าน P)</span>
                     <div className="flex gap-2">
-                      <button type="button" onClick={() => setRubricSaveType('P')} className="text-xs bg-pink-50 text-pink-600 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setRubricSaveType('P')} className="text-xs bg-pink-50 text-pink-500 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
                       <button type="button" onClick={() => setShowRubricModal('P')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
                     </div>
                   </div>
@@ -1874,7 +1874,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <div className="flex justify-between items-end mb-1">
                     <span>เกณฑ์การประเมินแบบ Rubric (ด้าน A)</span>
                     <div className="flex gap-2">
-                      <button type="button" onClick={() => setRubricSaveType('A')} className="text-xs bg-pink-50 text-pink-600 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setRubricSaveType('A')} className="text-xs bg-pink-50 text-pink-500 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
                       <button type="button" onClick={() => setShowRubricModal('A')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
                     </div>
                   </div>
@@ -1985,7 +1985,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             </label>
             <div className="flex justify-end gap-2 mt-4">
               <button type="button" className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors font-medium text-sm" onClick={() => setRubricSaveType(null)}>ยกเลิก</button>
-              <button type="button" className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors font-bold text-sm shadow-md" onClick={handleSaveRubric}>บันทึกเก็บไว้</button>
+              <button type="button" className="px-4 py-2 bg-pink-300 text-white rounded-lg hover:bg-pink-400 transition-colors font-bold text-sm shadow-md" onClick={handleSaveRubric}>บันทึกเก็บไว้</button>
             </div>
           </div>
         </div>
@@ -2012,7 +2012,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               ) : (
                 savedRubrics.filter(r => r.type === showRubricModal).map(r => (
                   <div key={r.id} className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all group relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-pink-500 rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute top-0 left-0 w-1 h-full bg-pink-200 rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div className="flex justify-between items-start mb-2">
                       <h4 className="font-bold text-slate-800 text-base">{r.name}</h4>
                       <div className="flex gap-2">
@@ -2033,13 +2033,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         <div className="modal-overlay" style={{ zIndex: 9999 }}>
           <div className="modal-content flex flex-col" style={{ maxWidth: '90vw', width: '1200px', height: '90vh', padding: '24px' }}>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-slate-800 m-0 flex items-center gap-2"><Maximize2 className="text-pink-600" /> กระบวนการสอน (แก้ไขเต็มหน้าจอ)</h2>
+              <h2 className="text-xl font-bold text-slate-800 m-0 flex items-center gap-2"><Maximize2 className="text-pink-500" /> กระบวนการสอน (แก้ไขเต็มหน้าจอ)</h2>
               <button type="button" className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors" onClick={() => setShowProcessModal(false)}>
                 <X size={24} />
               </button>
             </div>
             <textarea 
-              className="flex-1 w-full p-6 border border-slate-300 rounded-xl resize-none text-base focus:ring-2 focus:ring-pink-500 focus:border-pink-500 leading-relaxed"
+              className="flex-1 w-full p-6 border border-slate-300 rounded-xl resize-none text-base focus:ring-2 focus:ring-pink-500 focus:border-pink-300 leading-relaxed"
               value={fields.learningProcess} 
               onChange={e => setFields({ ...fields, learningProcess: e.target.value })} 
               placeholder="พิมพ์กระบวนการสอนที่นี่..."
