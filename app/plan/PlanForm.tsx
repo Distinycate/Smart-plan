@@ -1138,33 +1138,39 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
 
               <label className="field">
-                ระบุวิชา (พิมพ์เอง หรือ เลือกแนะนำ)
-                <input 
-                  type="text"
-                  list="subjects-datalist"
+                เลือกวิชา (เฉพาะ 8 กลุ่มสาระหลัก)
+                <select 
                   value={fields.subjectName || ''}
                   onChange={e => {
-                    const val = e.target.value;
-                    const selected = subjectsForSelectedGrade.find((s: any) => 
-                      s.subjectName === val || 
-                      `${s.subjectCode} ${s.subjectName}` === val ||
-                      `${s.subjectCode} - ${s.subjectName}` === val ||
-                      `${s.subjectCode} - ${s.subjectName} (${s.gradeLevel})` === val
-                    );
-                    if (selected) {
-                      handleSubjectChange(selected.subjectId);
+                    const subjName = e.target.value;
+                    if (!subjName) {
+                      setFields(prev => ({ ...prev, subjectName: '', subjectCode: '', subjectId: '' }));
+                      return;
+                    }
+                    if (fields.gradeLevel) {
+                      const subjects = getSubjectsByGrade(fields.gradeLevel);
+                      const selected = subjects.find(s => s.subjectName === subjName);
+                      if (selected) {
+                        setFields(prev => ({ 
+                          ...prev, 
+                          subjectName: subjName, 
+                          subjectCode: selected.subjectCode,
+                          subjectId: selected.subjectKey // used for unit filtering if needed
+                        }));
+                      } else {
+                        setFields(prev => ({ ...prev, subjectName: subjName, subjectCode: '', subjectId: '' }));
+                      }
                     } else {
-                      setFields(prev => ({ ...prev, subjectName: val, subjectId: '' }));
+                      setFields(prev => ({ ...prev, subjectName: subjName }));
                     }
                   }}
-                  placeholder={fields.gradeLevel ? "พิมพ์ชื่อวิชา หรือเลือกจากรายการ..." : "กรุณาเลือกระดับชั้นก่อน"}
                   disabled={!fields.gradeLevel}
-                />
-                <datalist id="subjects-datalist">
-                  {subjectsForSelectedGrade.map((sub: any) => (
-                    <option key={sub.subjectId} value={`${sub.subjectCode} ${sub.subjectName}`} />
+                >
+                  <option value="">-- เลือกวิชา --</option>
+                  {fields.gradeLevel && getSubjectsByGrade(fields.gradeLevel).map((s: any) => (
+                    <option key={s.subjectKey} value={s.subjectName}>{s.subjectName}</option>
                   ))}
-                </datalist>
+                </select>
               </label>
 
               {/* Removed redundant subjectName input since we combined it with datalist */}
@@ -1233,29 +1239,27 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
             </div>
 
-            {/* AI AUTOFILL CALLOUT PANEL - Admin Only */}
-            {isAdmin && (
-              <div className="db-warn" style={{ marginTop: '24px', background: 'rgba(99, 102, 241, 0.1)', borderColor: '#818cf8', color: '#1e1b4b' }}>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                  <Sparkles size={18} color="#4f46e5" style={{ marginTop: '2px' }} />
-                  <div>
-                    <strong>พลังสร้างสรรค์แผนการสอนด้วย Gemini AI</strong>
-                    <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#4b5563' }}>
-                      เมื่อคุณกรอกข้อมูลชั้น วิชา และเรื่องที่สอนเสร็จเรียบร้อย 
-                      คุณสามารถกดปุ่ม Magic Fill เพื่อวิเคราะห์มาตรฐาน ตัวชี้วัด และจุดประสงค์ ทั้ง 19 ฟิลด์อัตโนมัติ
-                    </p>
-                  </div>
+            {/* AI AUTOFILL CALLOUT PANEL */}
+            <div className="db-warn" style={{ marginTop: '24px', background: 'rgba(99, 102, 241, 0.1)', borderColor: '#818cf8', color: '#1e1b4b' }}>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                <Sparkles size={18} color="#4f46e5" style={{ marginTop: '2px' }} />
+                <div>
+                  <strong>พลังสร้างสรรค์แผนการสอนด้วย Gemini AI</strong>
+                  <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#4b5563' }}>
+                    เมื่อคุณกรอกข้อมูลชั้น วิชา และเรื่องที่สอนเสร็จเรียบร้อย 
+                    คุณสามารถกดปุ่ม สร้างแผนอัตโนมัติด้วย AI เพื่อวิเคราะห์มาตรฐาน ตัวชี้วัด และจุดประสงค์ ทั้ง 19 ฟิลด์อัตโนมัติ
+                  </p>
                 </div>
-                <button 
-                  type="button" 
-                  className="btn btn-primary"
-                  onClick={handleAIMagicFill}
-                  disabled={aiLoading || !fields.lessonTopic}
-                >
-                  <Sparkles size={13} /> {aiLoading ? 'กำลังสร้างแผนด้วย AI...' : 'Magic AutoFill'}
-                </button>
               </div>
-            )}
+              <button 
+                type="button" 
+                className="btn btn-primary"
+                onClick={handleAIMagicFill}
+                disabled={aiLoading || !fields.lessonTopic}
+              >
+                <Sparkles size={13} /> {aiLoading ? 'กำลังสร้างแผนด้วย AI...' : 'สร้างแผนอัตโนมัติด้วย AI'}
+              </button>
+            </div>
 
             <div className="tab-nav">
               <div></div>
