@@ -135,17 +135,38 @@ const buildTemplateLearningProcess = (topic: any): string => {
 const normalizeGradeLevel = (grade: any): string => {
   const text = String(grade || '').trim();
   if (!text) return '';
-  if (text === 'ม.1' || text.includes('ปีที่ 1')) return 'ม.1';
-  if (text === 'ม.2' || text.includes('ปีที่ 2')) return 'ม.2';
-  if (text === 'ม.3' || text.includes('ปีที่ 3')) return 'ม.3';
+  if (text === 'ป.1' || text.includes('ประถมศึกษาปีที่ 1') || text.includes('ป.1')) return 'ป.1';
+  if (text === 'ป.2' || text.includes('ประถมศึกษาปีที่ 2') || text.includes('ป.2')) return 'ป.2';
+  if (text === 'ป.3' || text.includes('ประถมศึกษาปีที่ 3') || text.includes('ป.3')) return 'ป.3';
+  if (text === 'ป.4' || text.includes('ประถมศึกษาปีที่ 4') || text.includes('ป.4')) return 'ป.4';
+  if (text === 'ป.5' || text.includes('ประถมศึกษาปีที่ 5') || text.includes('ป.5')) return 'ป.5';
+  if (text === 'ป.6' || text.includes('ประถมศึกษาปีที่ 6') || text.includes('ป.6')) return 'ป.6';
+  
+  if (text === 'ม.1' || text.includes('มัธยมศึกษาปีที่ 1') || text.includes('ม.1') || (text.includes('ปีที่ 1') && !text.includes('ประถม'))) return 'ม.1';
+  if (text === 'ม.2' || text.includes('มัธยมศึกษาปีที่ 2') || text.includes('ม.2') || (text.includes('ปีที่ 2') && !text.includes('ประถม'))) return 'ม.2';
+  if (text === 'ม.3' || text.includes('มัธยมศึกษาปีที่ 3') || text.includes('ม.3') || (text.includes('ปีที่ 3') && !text.includes('ประถม'))) return 'ม.3';
+  if (text === 'ม.4' || text.includes('มัธยมศึกษาปีที่ 4') || text.includes('ม.4') || (text.includes('ปีที่ 4') && !text.includes('ประถม'))) return 'ม.4';
+  if (text === 'ม.5' || text.includes('มัธยมศึกษาปีที่ 5') || text.includes('ม.5') || (text.includes('ปีที่ 5') && !text.includes('ประถม'))) return 'ม.5';
+  if (text === 'ม.6' || text.includes('มัธยมศึกษาปีที่ 6') || text.includes('ม.6') || (text.includes('ปีที่ 6') && !text.includes('ประถม'))) return 'ม.6';
+  if (text === 'ม.4-6' || text.includes('ม.4-6')) return 'ม.4-6';
   return text;
 };
 
 const toHeaderGradeLevel = (grade: any): string => {
   const shortGrade = normalizeGradeLevel(grade);
+  if (shortGrade === 'ป.1') return 'ประถมศึกษาปีที่ 1';
+  if (shortGrade === 'ป.2') return 'ประถมศึกษาปีที่ 2';
+  if (shortGrade === 'ป.3') return 'ประถมศึกษาปีที่ 3';
+  if (shortGrade === 'ป.4') return 'ประถมศึกษาปีที่ 4';
+  if (shortGrade === 'ป.5') return 'ประถมศึกษาปีที่ 5';
+  if (shortGrade === 'ป.6') return 'ประถมศึกษาปีที่ 6';
   if (shortGrade === 'ม.1') return 'มัธยมศึกษาปีที่ 1';
   if (shortGrade === 'ม.2') return 'มัธยมศึกษาปีที่ 2';
   if (shortGrade === 'ม.3') return 'มัธยมศึกษาปีที่ 3';
+  if (shortGrade === 'ม.4') return 'มัธยมศึกษาปีที่ 4';
+  if (shortGrade === 'ม.5') return 'มัธยมศึกษาปีที่ 5';
+  if (shortGrade === 'ม.6') return 'มัธยมศึกษาปีที่ 6';
+  if (shortGrade === 'ม.4-6') return 'มัธยมศึกษาตอนปลาย (ม.4-6)';
   return String(grade || '');
 };
 
@@ -563,7 +584,10 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   };
 
   // Filters based on selections
-  const gradeLevels = Array.from(new Set(subjects.map((s: any) => normalizeGradeLevel(s.gradeLevel)).filter(Boolean)));
+  const gradeLevels = Array.from(new Set([
+    ...getAllGradeLevels(),
+    ...subjects.map((s: any) => normalizeGradeLevel(s.gradeLevel))
+  ])).filter(Boolean);
   const subjectsForSelectedGrade = fields.gradeLevel
     ? subjects.filter((s: any) => gradeLevelMatches(s.gradeLevel, fields.gradeLevel))
     : subjects;
