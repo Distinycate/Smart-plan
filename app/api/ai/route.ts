@@ -3,6 +3,8 @@ import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
 
+export const runtime = 'edge';
+
 export async function POST(req: NextRequest) {
   try {
     const { gradeLevel, subjectName, lessonTopic, learningStandard, indicatorDuring, indicatorFinal } = await req.json();
@@ -92,9 +94,8 @@ ${formatFinalIndicators(curriculum)}
 6. ทุกกิจกรรมต้องสนับสนุนจุดประสงค์การเรียนรู้
 7. ทุกการประเมินต้องเชื่อมโยงกับจุดประสงค์ K/P/A
 8. ห้ามส่งคำตอบที่ไม่ครบถ้วน หรือตัดจบทิ้งกลางคัน (ต้องตอบกลับให้ครบถ้วนทุกข้อจนถึงข้อสุดท้าย)
-9. รูบริก (Rubrics) ต้องพิมพ์รายละเอียดให้ครบทั้ง 5 ระดับ (5, 4, 3, 2, 1) ห้ามเว้นว่าง
-10. ตัวชี้วัดต้องคัดเลือกมาเฉพาะที่เกี่ยวข้องกับเรื่องที่สอนที่สุด (1-3 ข้อ) ห้ามคัดลอกมาทั้งหมด
-11. ตัวชี้วัดต้องตรงตามรายวิชาที่กำหนด ห้ามนำตัวชี้วัดของวิชาอื่นมาปะปนเด็ดขาด
+9. ตัวชี้วัดต้องคัดเลือกมาเฉพาะที่เกี่ยวข้องกับเรื่องที่สอนที่สุด (1-3 ข้อ) ห้ามคัดลอกมาทั้งหมด
+10. ตัวชี้วัดต้องตรงตามรายวิชาที่กำหนด ห้ามนำตัวชี้วัดของวิชาอื่นมาปะปนเด็ดขาด
 ${errorMemoryText}${knowledgeBaseText}
 ให้ตอบกลับเป็น JSON Object เท่านั้น (ห้ามมีอักขระอื่นนอกเหนือจาก JSON) โดยมีคีย์ดังต่อไปนี้:
 1. learningStandard: (ใช้มาตรฐานการเรียนรู้ที่กำหนดมาให้ หากมี)
@@ -141,7 +142,7 @@ ${errorMemoryText}${knowledgeBaseText}
       }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 5);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
 
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;

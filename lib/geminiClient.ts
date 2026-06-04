@@ -1,6 +1,6 @@
-export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetries = 5) {
+export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetries = 3) {
   let attempt = 0;
-  const baseDelay = 3000; // 3.0 seconds base delay for better rate limit handling
+  const baseDelay = 1500; // 1.5s base delay to avoid Vercel timeout
 
   while (attempt < maxRetries) {
     try {
