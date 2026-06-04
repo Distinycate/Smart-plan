@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
         error: 'Missing GEMINI_API_KEY environment variable.'
       }, { status: 500 });
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
 
     // Fetch Best Practices (Error Memory)
     const { data: bestPractices } = await supabase.from('ai_best_practices').select('*').limit(5);
