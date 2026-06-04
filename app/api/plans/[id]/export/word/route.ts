@@ -61,7 +61,7 @@ const renderListWord = (val: any) => {
   if (cleanedLines.length === 0) return '';
   
   return `<div style="margin: 4px 0;">` + cleanedLines.map((line, idx) => {
-    return `<div style="margin-left: 35pt; text-indent: -15pt; margin-bottom: 4px; text-align: left;">${idx + 1}) ${escapeHtml(line)}</div>`;
+    return `<div style="margin-left: 35pt; text-indent: -15pt; margin-bottom: 4px; text-align: left;">${idx + 1}. ${escapeHtml(line)}</div>`;
   }).join('') + `</div>`;
 };
 
@@ -502,7 +502,12 @@ export async function GET(
      </div>
 
      <div class="section">
-       <div class="section-title">5. จุดประสงค์การเรียนรู้</div>
+       <div class="section-title">5. ทักษะที่จำเป็นในศตวรรษที่ 21</div>
+       <div class="section-content-list">${renderListWord(plan.skills21)}</div>
+     </div>
+
+     <div class="section">
+       <div class="section-title">6. จุดประสงค์การเรียนรู้</div>
        <div class="section-content" style="margin-left: 0;">
          <p><span class="label">ด้านความรู้ (K):</span><br>${cleanParagraphsWord(plan.objectiveK)}</p>
          <p style="margin-top: 6px;"><span class="label">ด้านทักษะกระบวนการ (P):</span><br>${cleanParagraphsWord(plan.objectiveP)}</p>
@@ -510,15 +515,12 @@ export async function GET(
        </div>
      </div>
 
+     ${plan.learningContent ? `
      <div class="section">
-       <div class="section-title">5.1 ทักษะที่จำเป็นในศตวรรษที่ 21</div>
-       <div class="section-content-list">${renderListWord(plan.skills21)}</div>
-     </div>
-
-     <div class="section">
-       <div class="section-title">6. เนื้อหาสาระ</div>
+       <div class="section-title">เนื้อหาสาระ</div>
        <div class="section-content">${cleanParagraphsWord(plan.learningContent)}</div>
      </div>
+     ` : ''}
 
      <div class="section">
        <div class="section-title">7. สื่อและแหล่งการเรียนรู้</div>

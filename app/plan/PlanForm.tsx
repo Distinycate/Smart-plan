@@ -905,6 +905,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         // Auto populate fields from phase 1
         setFields(prev => ({
           ...prev,
+          essentialConcept: cleanJSONString(ai.essentialConcept) || prev.essentialConcept,
           learningStandard: cleanJSONString(ai.learningStandard) || prev.learningStandard,
           indicatorDuring: cleanJSONString(ai.indicatorDuring) || prev.indicatorDuring,
           indicatorFinal: cleanJSONString(ai.indicatorFinal) || prev.indicatorFinal,
@@ -968,7 +969,6 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         // Auto populate fields from phase 2
         setFields(prev => ({
           ...prev,
-          essentialConcept: cleanJSONString(ai.essentialConcept) || prev.essentialConcept,
           learningContent: cleanJSONString(ai.learningContent) || prev.learningContent,
           learningMedia: ensureBulletString(ai.learningMedia) || prev.learningMedia,
           learningSources: ensureBulletString(ai.learningSources) || prev.learningSources,

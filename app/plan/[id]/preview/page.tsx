@@ -186,7 +186,7 @@ export default function PlanPreview() {
       <div className="list-wrapper">
         {cleanedLines.map((line, idx) => (
           <div key={idx} className="list-item">
-            {idx + 1}) {line}
+            {idx + 1}. {line}
           </div>
         ))}
       </div>
@@ -429,7 +429,12 @@ export default function PlanPreview() {
         </div>
 
         <div className="section">
-          <div className="section-title">5. จุดประสงค์การเรียนรู้</div>
+          <div className="section-title">5. ทักษะที่จำเป็นในศตวรรษที่ 21</div>
+          <div className="section-content-list">{renderList(plan.skills21)}</div>
+        </div>
+
+        <div className="section">
+          <div className="section-title">6. จุดประสงค์การเรียนรู้</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
             <p><span className="label">ด้านความรู้ (K):</span><br />{cleanTableCellVal(plan.objectiveK)}</p>
             <p style={{ marginTop: '6px' }}><span className="label">ด้านทักษะกระบวนการ (P):</span><br />{cleanTableCellVal(plan.objectiveP)}</p>
@@ -437,15 +442,12 @@ export default function PlanPreview() {
           </div>
         </div>
 
-        <div className="section">
-          <div className="section-title">5.1 ทักษะที่จำเป็นในศตวรรษที่ 21</div>
-          <div className="section-content-list">{renderList(plan.skills21)}</div>
-        </div>
-
-        <div className="section">
-          <div className="section-title">6. เนื้อหาสาระ</div>
-          <div className="section-content">{cleanVal(plan.learningContent)}</div>
-        </div>
+        {plan.learningContent && (
+          <div className="section">
+            <div className="section-title">เนื้อหาสาระ</div>
+            <div className="section-content">{cleanVal(plan.learningContent)}</div>
+          </div>
+        )}
 
         <div className="section">
           <div className="section-title">7. สื่อและแหล่งการเรียนรู้</div>
