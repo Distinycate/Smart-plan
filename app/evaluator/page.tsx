@@ -241,7 +241,7 @@ export default function EvaluatorPage() {
           <div className="relative flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
               <Link
-                href="/"
+                href="/dashboard"
                 className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-pink-100 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20"
               >
                 <ArrowLeft className="h-6 w-6 transition-transform group-hover:-translate-x-1" />

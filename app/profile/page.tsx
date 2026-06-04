@@ -29,18 +29,18 @@ export default async function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 -mr-[20%] -mt-[10%] w-[60%] h-[60%] rounded-full bg-blue-200/30 blur-[120px] mix-blend-multiply pointer-events-none"></div>
-      <div className="absolute top-[40%] left-0 -ml-[20%] w-[50%] h-[50%] rounded-full bg-purple-200/30 blur-[120px] mix-blend-multiply pointer-events-none"></div>
+      <div className="absolute top-0 right-0 -mr-[20%] -mt-[10%] w-[60%] h-[60%] rounded-full bg-rose-200/30 blur-[120px] mix-blend-multiply pointer-events-none"></div>
+      <div className="absolute top-[40%] left-0 -ml-[20%] w-[50%] h-[50%] rounded-full bg-rose-200/30 blur-[120px] mix-blend-multiply pointer-events-none"></div>
 
       <div className="max-w-5xl mx-auto space-y-8 relative z-10">
         
         {/* Header / Profile Card */}
         <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/40 border border-white overflow-hidden relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/80 to-purple-50/80 backdrop-blur-sm z-0"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-pink-50/80 to-rose-50/80 backdrop-blur-sm z-0"></div>
           
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between p-8 sm:p-12 gap-8">
             <div className="flex-1 space-y-4 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 border border-white text-indigo-600 font-bold text-sm shadow-sm">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 border border-white text-pink-600 font-bold text-sm shadow-sm">
                 <Sparkles size={16} />
                 <span>ยินดีต้อนรับกลับมาครับคุณครู</span>
               </div>
@@ -49,7 +49,7 @@ export default async function ProfilePage() {
               </h1>
               <p className="text-slate-500 font-medium text-lg">{user.email}</p>
               
-              <div className="inline-block mt-2 px-4 py-1.5 rounded-full bg-indigo-600 text-white text-xs font-bold shadow-md shadow-indigo-500/20">
+              <div className="inline-block mt-2 px-4 py-1.5 rounded-full bg-pink-600 text-white text-xs font-bold shadow-md shadow-pink-500/20">
                 {profile?.role === 'admin' ? '⭐ ผู้ดูแลระบบ (Admin)' : 'คุณครู (User)'}
               </div>
             </div>
@@ -71,7 +71,7 @@ export default async function ProfilePage() {
           <div className="relative z-10 px-8 py-5 bg-white/80 border-t border-white backdrop-blur-md">
             <div className="flex items-start sm:items-center gap-4 max-w-3xl mx-auto justify-center">
               <Heart className="h-6 w-6 text-pink-500 shrink-0 animate-pulse" />
-              <p className="text-indigo-900 font-semibold italic text-sm sm:text-base text-center">"{randomQuote}"</p>
+              <p className="text-pink-900 font-semibold italic text-sm sm:text-base text-center">"{randomQuote}"</p>
             </div>
           </div>
         </div>
@@ -80,11 +80,11 @@ export default async function ProfilePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white p-8 rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-100">
             <h3 className="text-lg font-black text-slate-800 flex items-center gap-2 mb-6">
-              <User className="text-blue-500" /> ข้อมูลส่วนตัว
+              <User className="text-rose-500" /> ข้อมูลส่วนตัว
             </h3>
             <ul className="space-y-5">
               <li className="flex items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 shadow-inner">
+                <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 shadow-inner">
                   <User size={20} />
                 </div>
                 <div>
@@ -106,11 +106,11 @@ export default async function ProfilePage() {
 
           <div className="bg-white p-8 rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-100">
             <h3 className="text-lg font-black text-slate-800 flex items-center gap-2 mb-6">
-              <BookOpen className="text-purple-500" /> ข้อมูลการสอน
+              <BookOpen className="text-rose-500" /> ข้อมูลการสอน
             </h3>
             <ul className="space-y-5">
               <li className="flex items-center gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 shadow-inner">
+                <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 shadow-inner">
                   <BookOpen size={20} />
                 </div>
                 <div>
@@ -138,7 +138,7 @@ export default async function ProfilePage() {
         {/* User Guide & Action */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 bg-white rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden">
-            <div className="px-8 py-6 border-b border-slate-100 bg-gradient-to-r from-indigo-50/50 to-white">
+            <div className="px-8 py-6 border-b border-slate-100 bg-gradient-to-r from-pink-50/50 to-white">
               <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
                 <CheckCircle2 className="h-6 w-6 text-green-500" />
                 คู่มือแนะนำการใช้งาน
@@ -147,7 +147,7 @@ export default async function ProfilePage() {
             <div className="p-8 space-y-6 text-slate-600">
               
               <div className="flex gap-5">
-                <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-2xl bg-blue-100 text-blue-600 font-black shadow-inner">1</div>
+                <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 font-black shadow-inner">1</div>
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 mb-2">เริ่มสร้างแผนการสอนใหม่</h3>
                   <p className="font-medium leading-relaxed">กดปุ่ม "เข้าสู่ระบบสร้างแผน" ด้านล่าง เพื่อเข้าสู่หน้าหลัก ในหน้ากิจกรรมต่างๆ คุณครูสามารถกดปุ่ม "✨ AI ช่วยเขียน" เพื่อให้ระบบช่วยออกแบบกิจกรรมการเรียนรู้แบบ Active Learning ได้อัตโนมัติ</p>
@@ -155,7 +155,7 @@ export default async function ProfilePage() {
               </div>
 
               <div className="flex gap-5">
-                <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-2xl bg-purple-100 text-purple-600 font-black shadow-inner">2</div>
+                <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 font-black shadow-inner">2</div>
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 mb-2">ประเมินและพัฒนาแผนเดิม</h3>
                   <p className="font-medium leading-relaxed">มีแผนเดิมอยู่แล้ว? ไปที่เมนู "ประเมินและพัฒนาแผน" เพื่ออัปโหลดไฟล์ Word (.docx) ให้ AI วิเคราะห์หาจุดเด่นและให้ข้อเสนอแนะเชิงลึก เพื่อนำไปปรับให้สอดคล้องกับเกณฑ์วิทยฐานะ PA</p>
@@ -175,11 +175,11 @@ export default async function ProfilePage() {
 
           <div className="space-y-8 flex flex-col justify-between">
             {/* CTA Button */}
-            <div className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl p-8 text-center text-white shadow-xl shadow-indigo-500/20 relative overflow-hidden group">
+            <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-3xl p-8 text-center text-white shadow-xl shadow-pink-500/20 relative overflow-hidden group">
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
               <h3 className="text-2xl font-black mb-3 relative z-10">พร้อมแล้วใช่ไหม?</h3>
-              <p className="text-indigo-100 mb-8 font-medium relative z-10">ลุยเลย! สร้างแผนการสอนที่สมบูรณ์แบบในไม่กี่คลิก</p>
-              <Link href="/" className="relative z-10 flex items-center justify-center gap-2 w-full px-6 py-4 text-indigo-600 font-black text-lg bg-white rounded-2xl hover:bg-indigo-50 transition-colors shadow-lg active:scale-95">
+              <p className="text-pink-100 mb-8 font-medium relative z-10">ลุยเลย! สร้างแผนการสอนที่สมบูรณ์แบบในไม่กี่คลิก</p>
+              <Link href="/dashboard" className="relative z-10 flex items-center justify-center gap-2 w-full px-6 py-4 text-pink-600 font-black text-lg bg-white rounded-2xl hover:bg-pink-50 transition-colors shadow-lg active:scale-95">
                 เข้าสู่ระบบสร้างแผน <ArrowRight size={20} />
               </Link>
             </div>
