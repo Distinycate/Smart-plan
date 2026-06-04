@@ -52,10 +52,16 @@ export default function LandingPage() {
               
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <Link 
-                  href="/register" 
+                  href="/login" 
                   className="inline-flex justify-center items-center gap-2 rounded-full bg-pink-500 px-8 py-4 text-base font-black text-white shadow-lg shadow-pink-500/30 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-pink-500/40 hover:bg-pink-600"
                 >
                   สร้างแผนการสอนแรกของคุณฟรี <ArrowRight className="h-5 w-5" />
+                </Link>
+                <Link 
+                  href="/login" 
+                  className="inline-flex justify-center items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-black text-pink-500 border border-pink-200 shadow-md shadow-pink-500/10 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-pink-500/20 hover:bg-pink-50"
+                >
+                  เข้าสู่ระบบ
                 </Link>
               </div>
             </motion.div>
@@ -254,7 +260,7 @@ export default function LandingPage() {
               </ul>
 
               <Link 
-                href="/register" 
+                href="/login" 
                 className="block w-full rounded-2xl bg-pink-500 px-6 py-4 text-center text-lg font-black text-white shadow-lg shadow-pink-500/30 transition-all hover:-translate-y-1 hover:bg-pink-600 hover:shadow-xl hover:shadow-pink-500/40"
               >
                 สมัครสมาชิกและเริ่มใช้ฟรีวันนี้
