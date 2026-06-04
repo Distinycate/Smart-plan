@@ -198,7 +198,7 @@ export default function TeacherDashboard() {
               <button className="btn btn-hero" onClick={() => router.push('/plan/new')}>
                 <Plus size={15} /> สร้างแผนการสอนใหม่
               </button>
-              <button className="btn btn-hero-outline" style={{ borderColor: '#818cf8', color: '#4f46e5', backgroundColor: '#e0e7ff' }} onClick={() => router.push('/evaluator')}>
+              <button className="btn btn-hero-outline" style={{ borderColor: '#f472b6', color: '#db2777', backgroundColor: '#fce7f3' }} onClick={() => router.push('/evaluator')}>
                 <Zap size={15} /> ประเมินและพัฒนาแผน
               </button>
               <button className="btn btn-hero-outline" onClick={() => loadData(true)} disabled={refreshing}>
@@ -211,10 +211,6 @@ export default function TeacherDashboard() {
                 </button>
               )}
             </div>
-          </div>
-          <div className="hero-img-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/lesson_plan_pastel.png" alt="illustration" className="hero-img" />
           </div>
         </div>
 
@@ -366,9 +362,9 @@ export default function TeacherDashboard() {
                 แผนที่ใช้งาน
               </button>
               <button 
-                className={`btn btn-sm ${activeTab === 'ai_fixed' ? 'btn-primary' : ''}`}
-                style={{ background: activeTab === 'ai_fixed' ? '#fff' : 'transparent', color: activeTab === 'ai_fixed' ? '#6366f1' : 'var(--c-gray-500)', boxShadow: activeTab === 'ai_fixed' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5, display: 'flex', alignItems: 'center', gap: 4 }}
                 onClick={() => setActiveTab('ai_fixed')}
+                style={{ background: activeTab === 'ai_fixed' ? '#fff' : 'transparent', color: activeTab === 'ai_fixed' ? '#ec4899' : 'var(--c-gray-500)', boxShadow: activeTab === 'ai_fixed' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5, display: 'flex', alignItems: 'center', gap: 4 }}
+                className="rounded-full font-medium transition-all"
               >
                 <Sparkles size={12} /> AI ปรับปรุง
               </button>
@@ -711,7 +707,7 @@ export default function TeacherDashboard() {
         .ps-badge { font-size:11px; padding:4px 7px; border-radius:999px; font-weight:700; }
         .ps-badge.complete { background:#dcfce7; color:#15803d; }
         .ps-badge.draft { background:#fef3c7; color:#92400e; }
-        .ps-badge.ai_fixed { background:#f5f3ff; color:#7c3aed; }
+        .ps-badge.ai_fixed { background:#fce7f3; color:#db2777; }
         .ps-badge.archived { background:#e5e7eb; color:#374151; }
         .plan-grade-badge { font-size:11.5px; color:var(--c-gray-500); background:var(--c-gray-50); padding:4px 7px; border-radius:8px; }
         .plan-card-body { padding: 0 14px 12px; min-height: 94px; }

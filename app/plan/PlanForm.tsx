@@ -1134,7 +1134,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   if (loading) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', gap: '14px', fontFamily: 'Sarabun, sans-serif' }}>
-        <div style={{ width: '40px', height: '40px', border: '4px solid rgba(0,0,0,0.1)', borderTopColor: '#4f46e5', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+        <div style={{ width: '40px', height: '40px', border: '4px solid rgba(0,0,0,0.1)', borderTopColor: '#ec4899', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
         <strong>กำลังดึงโครงสร้างแผนการสอน...</strong>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
@@ -1244,9 +1244,9 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         {/* Form Tabs Navigation */}
         <div className="form-tabs">
           <button type="button" className={`form-tab ${activeTab === 1 ? 'active' : ''}`} onClick={() => setActiveTab(1)}>1. ข้อมูลวิชาและรายคาบ</button>
-          <button type="button" className={`form-tab ${activeTab === 2 ? 'active' : ''}`} onClick={() => setActiveTab(2)}>2. สาระสำคัญและตัวชี้วัด (ข้อ 1-4)</button>
-          <button type="button" className={`form-tab ${activeTab === 3 ? 'active' : ''}`} onClick={() => setActiveTab(3)}>3. จุดประสงค์และเนื้อหา (ข้อ 5-7)</button>
-          <button type="button" className={`form-tab ${activeTab === 4 ? 'active' : ''}`} onClick={() => setActiveTab(4)}>4. กระบวนการและการวัดผล (ข้อ 8-9)</button>
+          <button type="button" className={`form-tab ${activeTab === 2 ? 'active' : ''}`} onClick={() => setActiveTab(2)}>2. สาระสำคัญ, มาตรฐาน, สมรรถนะ (ข้อ 1-5)</button>
+          <button type="button" className={`form-tab ${activeTab === 3 ? 'active' : ''}`} onClick={() => setActiveTab(3)}>3. จุดประสงค์ และ เนื้อหา (ข้อ 6-7)</button>
+          <button type="button" className={`form-tab ${activeTab === 4 ? 'active' : ''}`} onClick={() => setActiveTab(4)}>4. กิจกรรม และ การวัดผล (ข้อ 8-9)</button>
           <button type="button" className={`form-tab ${activeTab === 5 ? 'active' : ''}`} onClick={() => setActiveTab(5)}>5. บันทึกหลังสอน (ข้อ 10)</button>
         </div>
 
@@ -1287,8 +1287,12 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
 
               <label className="field">
                 เลือกรหัสวิชา
-                <select 
+                <input 
+                  type="text"
+                  list="subject-codes-datalist"
                   value={fields.subjectCode || ''}
+                  placeholder={fields.gradeLevel ? "พิมพ์ หรือ เลือกรหัสวิชา" : "กรุณาเลือกระดับชั้นก่อน"}
+                  disabled={!fields.gradeLevel}
                   onChange={e => {
                     const subjCode = e.target.value;
                     if (!subjCode) {
@@ -1297,18 +1301,18 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                     }
                     if (fields.gradeLevel) {
                       const subjects = getSubjectsByGrade(fields.gradeLevel);
-                      const selected = subjects.find(s => s.subjectCode === subjCode);
-                      if (selected) {
+                      const selected = subjects.find(s => s.subjectCode === subjCode || s.subjectCode + ' (เทอม 2)' === subjCode);
+                      if (selected || subjCode.length >= 5) {
                         // Infer semester from subjectCode (usually ends with 2 or 02 for semester 2)
                         let sem = '1';
-                        if (subjCode.endsWith('2') || subjCode.endsWith('02')) sem = '2';
+                        if (subjCode.endsWith('2') || subjCode.endsWith('02') || subjCode.includes('(เทอม 2)')) sem = '2';
                         else if (subjCode.endsWith('1') || subjCode.endsWith('01')) sem = '1';
 
                         setFields(prev => ({ 
                           ...prev, 
-                          subjectName: selected.subjectName, 
-                          subjectCode: subjCode,
-                          subjectId: selected.subjectKey,
+                          subjectName: selected ? selected.subjectName : prev.subjectName, 
+                          subjectCode: subjCode.replace(' (เทอม 2)', ''),
+                          subjectId: selected ? selected.subjectKey : '',
                           semester: sem
                         }));
                       } else {
@@ -1318,13 +1322,14 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                       setFields(prev => ({ ...prev, subjectCode: subjCode }));
                     }
                   }}
-                  disabled={!fields.gradeLevel}
-                >
-                  <option value="">-- เลือกรหัสวิชา --</option>
-                  {fields.gradeLevel && getSubjectsByGrade(fields.gradeLevel).map((s: any) => (
-                    <option key={s.subjectKey} value={s.subjectCode}>{s.subjectCode}</option>
-                  ))}
-                </select>
+                />
+                {fields.gradeLevel && (
+                  <datalist id="subject-codes-datalist">
+                    {getSubjectsByGrade(fields.gradeLevel).map((s: any) => (
+                      <option key={s.subjectKey} value={s.subjectCode}>{s.subjectName}</option>
+                    ))}
+                  </datalist>
+                )}
               </label>
 
               <label className="field">
@@ -1392,12 +1397,12 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             </div>
 
             {/* AI AUTOFILL CALLOUT PANEL */}
-            <div className="db-warn" style={{ marginTop: '24px', background: 'rgba(99, 102, 241, 0.1)', borderColor: '#818cf8', color: '#1e1b4b' }}>
+            <div className="db-warn" style={{ marginTop: '24px', background: 'rgba(236, 72, 153, 0.1)', borderColor: '#f472b6', color: '#831843' }}>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                <Sparkles size={18} color="#4f46e5" style={{ marginTop: '2px' }} />
+                <Sparkles size={18} color="#ec4899" style={{ marginTop: '2px' }} />
                 <div>
                   <strong>พลังสร้างสรรค์แผนการสอนด้วย Gemini AI (ขั้นที่ 1/2)</strong>
-                  <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#4b5563' }}>
+                  <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#be185d' }}>
                     หลังจากกรอกข้อมูลระดับชั้น วิชา และเรื่องที่สอนเสร็จแล้ว <br/>
                     กดปุ่มด้านล่างเพื่อให้ AI ร่าง <b>ตัวชี้วัด, จุดประสงค์, สมรรถนะ, และกระบวนการสอน (Active Learning)</b> ให้อัตโนมัติ
                   </p>
@@ -1409,7 +1414,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                 onClick={handleAIMagicFill}
                 disabled={aiLoading || !fields.lessonTopic}
                 style={{
-                  background: 'linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%)',
+                  background: 'linear-gradient(135deg, #db2777 0%, #ec4899 100%)',
                   marginTop: '12px',
                   fontWeight: 'bold',
                   padding: '10px 16px'
@@ -1429,16 +1434,12 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         {/* ─── TAB 2: STANDARDS & CORE CONTENTS (ข้อ 1-4) ─── */}
         {activeTab === 2 && (
           <div className="tab-panel card">
-            <h3>1. สาระสำคัญ และ 2. มาตรฐานการเรียนรู้และตัวชี้วัด (ข้อ 1-2)</h3>
-            
-            <label className="field" style={{ marginBottom: '16px' }}>
-              1. สาระสำคัญ (Concept / Big Idea)
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>1. สาระสำคัญ (Concept / Big Idea)</h3>
+            <label className="field" style={{ marginBottom: '24px' }}>
               <textarea className="lg" value={fields.essentialConcept} onChange={e => setFields({ ...fields, essentialConcept: e.target.value })} />
             </label>
 
-            <hr className="divider" />
-
-            <h3>2. มาตรฐานการเรียนรู้และตัวชี้วัด (Learning Standards & Indicators)</h3>
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>2. มาตรฐานการเรียนรู้และตัวชี้วัด (Learning Standards & Indicators)</h3>
             
             <div className="g1">
               <label className="field">
@@ -1530,9 +1531,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </div>
             </div>
 
-            <hr className="divider" />
-
-            <h3>3. สมรรถนะ และ 4. คุณลักษณะอันพึงประสงค์ (ข้อ 3-4)</h3>
+            <h3 style={{ color: '#ec4899', marginTop: '24px', marginBottom: '16px' }}>3. สมรรถนะสำคัญของผู้เรียน</h3>
 
             {/* Competency Smart Dropdown */}
             {options.competency && options.competency.length > 0 && (
@@ -1547,10 +1546,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                 onSelect={(opt) => handleChipClick('competencies', opt.label)}
               />
             )}
-            <label className="field" style={{ marginBottom: '16px' }}>
-              3. สมรรถนะสำคัญของผู้เรียน (เขียนแจกแจงเป็นข้อๆ)
-              <textarea value={fields.competencies} onChange={e => setFields({ ...fields, competencies: e.target.value })} />
+            <label className="field" style={{ marginBottom: '24px' }}>
+              <textarea value={fields.competencies} onChange={e => setFields({ ...fields, competencies: e.target.value })} placeholder="เขียนแจกแจงเป็นข้อๆ..." />
             </label>
+
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>4. คุณลักษณะอันพึงประสงค์</h3>
 
             {/* Desired Attributes Smart Dropdown */}
             {options.attribute && options.attribute.length > 0 && (
@@ -1565,9 +1565,27 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                 onSelect={(opt) => handleChipClick('desiredAttributes', opt.label)}
               />
             )}
-            <label className="field" style={{ marginBottom: '16px' }}>
-              4. คุณลักษณะอันพึงประสงค์ (เขียนแจกแจงเป็นข้อๆ)
-              <textarea value={fields.desiredAttributes} onChange={e => setFields({ ...fields, desiredAttributes: e.target.value })} />
+            <label className="field" style={{ marginBottom: '24px' }}>
+              <textarea value={fields.desiredAttributes} onChange={e => setFields({ ...fields, desiredAttributes: e.target.value })} placeholder="เขียนแจกแจงเป็นข้อๆ..." />
+            </label>
+
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>5. ทักษะที่จำเป็นในศตวรรษที่ 21</h3>
+
+            {/* Century Skills Smart Dropdown */}
+            {options.skill21 && options.skill21.length > 0 && (
+              <SmartDropdown 
+                options={options.skill21.map((opt: any) => ({
+                  id: opt.optionId,
+                  label: opt.optionName,
+                  value: opt.optionText || '',
+                  selected: (fields.skills21 || '').includes(opt.optionName)
+                }))}
+                placeholder="ค้นหาทักษะศตวรรษที่ 21 จากคลัง..."
+                onSelect={(opt) => handleChipClick('skills21', opt.label)}
+              />
+            )}
+            <label className="field" style={{ marginBottom: '24px' }}>
+              <textarea value={fields.skills21} onChange={e => setFields({ ...fields, skills21: e.target.value })} placeholder="เขียนแจกแจงเป็นข้อๆ..." />
             </label>
 
             <div className="tab-nav">
@@ -1577,10 +1595,9 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           </div>
         )}
 
-        {/* ─── TAB 3: OBJECTIVES, SKILLS & CONTENT (ข้อ 5-7) ─── */}
         {activeTab === 3 && (
           <div className="tab-panel card">
-            <h3>5. จุดประสงค์การเรียนรู้ (Learning Objectives)</h3>
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>6. จุดประสงค์การเรียนรู้ (Learning Objectives)</h3>
             <div className="g1">
               <label className="field">
                 จุดประสงค์ด้านความรู้ (Knowledge - K)
@@ -1632,36 +1649,14 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
             </div>
 
-            <hr className="divider" />
+            {/* Removed duplicated skills21 */}
 
-            {/* Century Skills Smart Dropdown */}
-            {options.skill21 && options.skill21.length > 0 && (
-              <SmartDropdown 
-                options={options.skill21.map((opt: any) => ({
-                  id: opt.optionId,
-                  label: opt.optionName,
-                  value: opt.optionText || '',
-                  selected: (fields.skills21 || '').includes(opt.optionName)
-                }))}
-                placeholder="ค้นหาทักษะแห่งศตวรรษที่ 21 จากคลัง..."
-                onSelect={(opt) => handleChipClick('skills21', opt.label)}
-              />
-            )}
-            <label className="field" style={{ marginBottom: '16px' }}>
-              5.1 ทักษะที่จำเป็นในศตวรรษที่ 21 (เขียนแจกแจงเป็นข้อๆ)
-              <textarea value={fields.skills21} onChange={e => setFields({ ...fields, skills21: e.target.value })} />
-            </label>
-
-            <hr className="divider" />
-
-            <label className="field" style={{ marginBottom: '16px' }}>
-              6. เนื้อหาสาระ / สาระการเรียนรู้ (Learning Content)
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>7. เนื้อหาสาระ / สาระการเรียนรู้ (Learning Content)</h3>
+            <label className="field" style={{ marginBottom: '24px' }}>
               <textarea className="lg" style={{ minHeight: '120px' }} value={fields.learningContent} onChange={e => setFields({ ...fields, learningContent: e.target.value })} placeholder="คำศัพท์ โครงสร้างประโยค หรือเนื้อหาหลักที่เรียน..." />
             </label>
 
-            <hr className="divider" />
-
-            <h3>7. สื่อและแหล่งการเรียนรู้ (สื่อ แหล่งเรียนรู้ และภาระงาน)</h3>
+            <h3 style={{ color: '#db2777', marginTop: '24px', marginBottom: '16px' }}>* สื่อและแหล่งการเรียนรู้ (สื่อ แหล่งเรียนรู้ และภาระงาน)</h3>
             {/* Media & Sources Fields */}
             <div className="g3">
               <label className="field">
@@ -1767,7 +1762,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         {/* ─── TAB 4: PROCESS & ASSESSMENT (ข้อ 8-9) ─── */}
         {activeTab === 4 && (
           <div className="tab-panel card">
-            <h3>8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
             <label className="field">
               <div className="flex justify-between items-center w-full mb-2">
                 <span>กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)</span>
@@ -1778,10 +1773,8 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               <textarea className="lg" style={{ minHeight: '400px' }} value={fields.learningProcess} onChange={e => setFields({ ...fields, learningProcess: e.target.value })} />
             </label>
 
-            <hr className="divider" />
-            
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="m-0">9. การวัดและการประเมินผล (K/P/A Assessment)</h3>
+            <div className="flex justify-between items-center mb-4" style={{ marginTop: '24px' }}>
+              <h3 className="m-0" style={{ color: '#ec4899' }}>9. การวัดและการประเมินผล (K/P/A Assessment)</h3>
             </div>
             
             {/* K Assessment Card */}
