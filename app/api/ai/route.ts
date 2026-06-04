@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
+import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
 
 export async function POST(req: NextRequest) {
   try {
@@ -57,10 +58,28 @@ export async function POST(req: NextRequest) {
 สามารถนำไปใช้จริงในโรงเรียนได้
 สำหรับระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
 
-ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัดที่ต้องใช้ (ห้ามสร้างขึ้นมาเอง):
+${(() => {
+  const curriculum = getCurriculumBySubject(gradeLevel, subjectName);
+  if (curriculum && (curriculum.standards.length > 0 || curriculum.indicators.length > 0)) {
+    return `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัดของวิชา ${subjectName} ระดับชั้น ${gradeLevel} (บังคับเลือกจากรายการนี้เท่านั้น ห้ามสร้างขึ้นมาเอง):
+[มาตรฐานการเรียนรู้ที่มีทั้งหมด]
+${formatStandards(curriculum)}
+
+[ตัวชี้วัดระหว่างทางที่มีทั้งหมด]
+${formatDuringIndicators(curriculum)}
+
+[ตัวชี้วัดปลายทางที่มีทั้งหมด]
+${formatFinalIndicators(curriculum)}
+
+** คำสั่งพิเศษ ** 
+คุณต้องเลือกดึงเฉพาะมาตรฐานและตัวชี้วัดจากรายการด้านบนที่ "สอดคล้องกับเรื่องที่สอน (${lessonTopic})" มากที่สุดเท่านั้น ห้ามนำตัวชี้วัดที่ไม่ได้อยู่ในรายการนี้มาใช้เด็ดขาด และห้ามสร้างตัวชี้วัดขึ้นมาเอง`;
+  } else {
+    return `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัดที่ต้องใช้ (ห้ามสร้างขึ้นมาเอง):
 มาตรฐานการเรียนรู้: ${learningStandard || 'ให้วิเคราะห์จากเรื่องที่สอน (ตามหลักสูตรแกนกลาง)'}
 ตัวชี้วัดระหว่างทาง: ${indicatorDuring || 'ให้วิเคราะห์จากเรื่องที่สอน (ตามหลักสูตรแกนกลาง)'}
-ตัวชี้วัดปลายทาง: ${indicatorFinal || 'ให้วิเคราะห์จากเรื่องที่สอน (ตามหลักสูตรแกนกลาง)'}
+ตัวชี้วัดปลายทาง: ${indicatorFinal || 'ให้วิเคราะห์จากเรื่องที่สอน (ตามหลักสูตรแกนกลาง)'}`;
+  }
+})()}
 
 หลักการสำคัญ
 1. ทุกองค์ประกอบต้องสัมพันธ์กัน
