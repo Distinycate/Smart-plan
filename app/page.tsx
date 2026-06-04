@@ -77,12 +77,12 @@ export default function LandingPage() {
               className="relative mx-auto w-full max-w-lg lg:max-w-none"
             >
               <div className="relative aspect-square w-full mix-blend-multiply animate-[bounce_6s_ease-in-out_infinite] group">
-                <Image src="/assets/magical_book.png" alt="Magical Lesson Plan Book" fill className="object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" priority />
+                <Image src="/assets/magical_book.png" alt="Magical Lesson Plan Book" fill className="object-contain transition-transform duration-700 group-hover:scale-105 contrast-105 brightness-105" priority />
               </div>
               
               {/* Floating Element */}
               <div className="absolute -right-12 -bottom-12 h-48 w-48 animate-[bounce_4s_ease-in-out_infinite] hover:scale-110 transition-transform z-20 mix-blend-multiply">
-                <Image src="/assets/cute_robot.png" alt="Cute AI Robot" width={192} height={192} className="object-contain drop-shadow-md" priority />
+                <Image src="/assets/cute_robot.png" alt="Cute AI Robot" width={192} height={192} className="object-contain contrast-105 brightness-105" priority />
               </div>
             </motion.div>
           </div>
@@ -139,7 +139,7 @@ export default function LandingPage() {
               <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
               <div className="relative z-10">
                 <div className="h-32 w-32 mx-auto mb-8 relative mix-blend-multiply transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                  <Image src="/assets/icon_generate.png" alt="Generate Icon" fill className="object-contain drop-shadow-sm" />
+                  <Image src="/assets/icon_generate.png" alt="Generate Icon" fill className="object-contain contrast-105 brightness-105" />
                 </div>
                 <h3 className="text-2xl font-black text-slate-900 mb-4">สร้างแผน (Generate)</h3>
                 <p className="text-slate-500 font-medium leading-relaxed text-lg">
@@ -153,7 +153,7 @@ export default function LandingPage() {
               <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
               <div className="relative z-10">
                 <div className="h-32 w-32 mx-auto mb-8 relative mix-blend-multiply transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                  <Image src="/assets/icon_verify.png" alt="Verify Icon" fill className="object-contain drop-shadow-sm" />
+                  <Image src="/assets/icon_verify.png" alt="Verify Icon" fill className="object-contain contrast-105 brightness-105" />
                 </div>
                 <h3 className="text-2xl font-black text-slate-900 mb-4">ตรวจแผน (Verify)</h3>
                 <p className="text-slate-500 font-medium leading-relaxed text-lg">
@@ -167,7 +167,7 @@ export default function LandingPage() {
               <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
               <div className="relative z-10">
                 <div className="h-32 w-32 mx-auto mb-8 relative mix-blend-multiply transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                  <Image src="/assets/icon_customize.png" alt="Customize Icon" fill className="object-contain drop-shadow-sm" />
+                  <Image src="/assets/icon_customize.png" alt="Customize Icon" fill className="object-contain contrast-105 brightness-105" />
                 </div>
                 <h3 className="text-2xl font-black text-slate-900 mb-4">แก้แผน (Customize)</h3>
                 <p className="text-slate-500 font-medium leading-relaxed text-lg">
