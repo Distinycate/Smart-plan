@@ -7,7 +7,7 @@ export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
   try {
-    const { gradeLevel, subjectName, lessonTopic } = await req.json();
+    const { gradeLevel, subjectName, lessonTopic, learningArea } = await req.json();
 
     if (!gradeLevel || !subjectName || !lessonTopic) {
       return NextResponse.json({
@@ -36,22 +36,55 @@ export async function POST(req: NextRequest) {
       errorMemoryText += `กรุณาหลีกเลี่ยงข้อผิดพลาดเหล่านี้\n`;
     }
 
-    const curriculum = getCurriculumBySubject(gradeLevel, subjectName);
     let indicatorPrompt = '';
     
-    if (curriculum && (curriculum.standards.length > 0 || curriculum.indicators.length > 0)) {
-      indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัดของวิชา ${subjectName} ระดับชั้น ${gradeLevel} (บังคับเลือกจากรายการนี้เท่านั้น):
+    if (learningArea && gradeLevel) {
+      // Fetch dynamic curriculum from DB instead of hardcoded fallback
+      const { data: dbIndicators, error: dbError } = await supabase
+        .from('Indicators')
+        .select('*')
+        .eq('gradeLevel', gradeLevel)
+        .eq('learningArea', learningArea)
+        .eq('isActive', true)
+        .order('indicatorCode', { ascending: true });
+        
+      if (dbIndicators && dbIndicators.length > 0) {
+        // Group by standards
+        const standardsMap = new Map<string, string>();
+        const duringInds: string[] = [];
+        const finalInds: string[] = [];
+        
+        dbIndicators.forEach(ind => {
+          if (ind.standardCode && ind.standardText && !standardsMap.has(ind.standardCode)) {
+            standardsMap.set(ind.standardCode, ind.standardText);
+          }
+          if (ind.indicatorType === 'during') {
+            duringInds.push(`- ${ind.indicatorCode} ${ind.indicatorText}`);
+          } else {
+            finalInds.push(`- ${ind.indicatorCode} ${ind.indicatorText}`);
+          }
+        });
+        
+        let standardsStr = '';
+        standardsMap.forEach((text, code) => {
+          standardsStr += `- ${code} ${text}\n`;
+        });
+        
+        indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัดของวิชา ${subjectName} ระดับชั้น ${gradeLevel} (บังคับเลือกจากรายการนี้เท่านั้น):
 [มาตรฐานการเรียนรู้ที่มีทั้งหมด]
-${formatStandards(curriculum)}
+${standardsStr || 'ไม่มีข้อมูลมาตรฐาน'}
 
 [ตัวชี้วัดระหว่างทางที่มีทั้งหมด]
-${formatDuringIndicators(curriculum)}
+${duringInds.length > 0 ? duringInds.join('\n') : 'ไม่มีข้อมูลตัวชี้วัดระหว่างทาง'}
 
 [ตัวชี้วัดปลายทางที่มีทั้งหมด]
-${formatFinalIndicators(curriculum)}
+${finalInds.length > 0 ? finalInds.join('\n') : 'ไม่มีข้อมูลตัวชี้วัดปลายทาง'}
 
 ** คำสั่งพิเศษ ** 
 เลือกเฉพาะตัวชี้วัดที่สอดคล้องกับเรื่องที่สอน (${lessonTopic}) มากที่สุด (1-3 ข้อ) ห้ามนำตัวชี้วัดของวิชาอื่นมาปะปนเด็ดขาด`;
+      } else {
+        indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัด: ให้วิเคราะห์เองจากเรื่องที่สอนตามหลักสูตรแกนกลาง`;
+      }
     } else {
       indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัด: ให้วิเคราะห์เองจากเรื่องที่สอนตามหลักสูตรแกนกลาง`;
     }
@@ -66,7 +99,7 @@ ${formatFinalIndicators(curriculum)}
 ${indicatorPrompt}
 
 หลักการสำคัญ
-1. ให้สร้างข้อมูลเฉพาะ 8 ส่วนแรกของแผนการสอนเท่านั้น (เพื่อความรวดเร็ว) ได้แก่ มาตรฐาน, ตัวชี้วัด, จุดประสงค์ K/P/A, สมรรถนะ, คุณลักษณะ, ทักษะศตวรรษที่ 21 และ กระบวนการสอน (Active Learning 5 ขั้นตอน)
+1. ให้สร้างข้อมูลเฉพาะ 8 ส่วนแรกของแผนการสอนเท่านั้น (เพื่อความรวดเร็ว) ได้แก่ มาตรฐาน, ตัวชี้วัด, จุดประสงค์ K/P/A, สมรรถนะ, คุณลักษณะ, ทักษะศตวรรษที่ 21 และ กระบวนการสอน (5 ขั้นตอน: นำ, สอน, ฝึก, ประยุกต์, สรุป)
 2. ทุกองค์ประกอบต้องสัมพันธ์กัน
 3. ใช้ภาษาราชการทางการศึกษา
 ${errorMemoryText}
@@ -82,7 +115,7 @@ ${errorMemoryText}
 8. competencies: (วิเคราะห์สมรรถนะสำคัญ แจกแจงเป็นข้อๆ)
 9. desiredAttributes: (วิเคราะห์คุณลักษณะอันพึงประสงค์ แจกแจงเป็นข้อๆ)
 10. skills21: (วิเคราะห์ทักษะในศตวรรษที่ 21 แจกแจงเป็นข้อๆ)
-11. learningProcess: (วิธีดำเนินกิจกรรม Active Learning 5 ขั้นตอน: นำเข้าสู่บทเรียน นำเสนอ ฝึกฝน ประยุกต์ และสรุป อธิบายโดยละเอียด)`;
+11. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าใครทำอะไร อย่างไร)`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],

@@ -619,8 +619,15 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     ? topics.filter((t: any) => t.source === 'efl-context-template' && eflQuickUnitIds.has(t.unitId))
     : [];
 
+  const activeSubject = subjects.find((s: any) => s.subjectId === activeSubjectId);
+  const activeLearningArea = activeSubject?.learningArea;
+
   const filteredIndicators = fields.gradeLevel
-    ? indicators.filter((ind: any) => ind.gradeLevel === fields.gradeLevel)
+    ? indicators.filter((ind: any) => {
+        const gradeMatch = ind.gradeLevel === fields.gradeLevel;
+        const areaMatch = activeLearningArea ? ind.learningArea === activeLearningArea : true;
+        return gradeMatch && areaMatch;
+      })
     : [];
 
   // ── Hardcoded Curriculum Computed Lists ──
@@ -892,7 +899,8 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         body: JSON.stringify({
           gradeLevel: fields.gradeLevel,
           subjectName: fields.subjectName,
-          lessonTopic: fields.lessonTopic
+          lessonTopic: fields.lessonTopic,
+          learningArea: activeLearningArea
         })
       });
 
