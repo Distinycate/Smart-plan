@@ -13,7 +13,8 @@ import {
   Edit3, 
   Search, 
   PenTool,
-  ArrowRight
+  ArrowRight,
+  Smile
 } from 'lucide-react';
 
 export default function LandingPage() {
@@ -121,74 +122,83 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-pink-200/50">
             <div className="flex flex-col items-center text-center px-6 py-4 md:py-0">
-              <div className="text-5xl font-black text-pink-500 mb-2">90%</div>
-              <p className="text-sm font-bold text-slate-600">ประหยัดเวลาในการเตรียมและเขียนเอกสารแผนการสอน</p>
+              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-6 shadow-inner border border-pink-200">
+                <Clock className="h-8 w-8" />
+              </div>
+              <div className="text-5xl font-black text-slate-800 mb-2">90%</div>
+              <p className="text-sm font-bold text-slate-500">ประหยัดเวลาในการเตรียมและเขียนเอกสารแผนการสอน</p>
             </div>
             <div className="flex flex-col items-center text-center px-6 py-4 md:py-0">
-              <div className="text-5xl font-black text-pink-500 mb-2">95%+</div>
-              <p className="text-sm font-bold text-slate-600">ความถูกต้อง สมบูรณ์ และสอดคล้องตามตัวชี้วัดหลักสูตร</p>
+              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-6 shadow-inner border border-pink-200">
+                <ShieldCheck className="h-8 w-8" />
+              </div>
+              <div className="text-5xl font-black text-slate-800 mb-2">95%+</div>
+              <p className="text-sm font-bold text-slate-500">ความถูกต้อง สมบูรณ์ และสอดคล้องตามตัวชี้วัดหลักสูตร</p>
             </div>
             <div className="flex flex-col items-center text-center px-6 py-4 md:py-0">
-              <div className="text-5xl font-black text-pink-500 mb-2">100%</div>
-              <p className="text-sm font-bold text-slate-600">ออกแบบมาเพื่อลดภาระงาน ใช้งานง่ายสำหรับคุณครูทุกคน</p>
+              <div className="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-6 shadow-inner border border-pink-200">
+                <Smile className="h-8 w-8" />
+              </div>
+              <div className="text-5xl font-black text-slate-800 mb-2">100%</div>
+              <p className="text-sm font-bold text-slate-500">ออกแบบมาเพื่อลดภาระงาน ใช้งานง่ายสำหรับคุณครูทุกคน</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. CORE FEATURES SECTION (WOW DESIGN) */}
-      <section className="py-32 bg-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-900/40 via-slate-900 to-slate-900"></div>
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-pink-600/20 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-rose-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+      {/* 3. CORE FEATURES SECTION (WOW DESIGN - LIGHT THEME) */}
+      <section className="py-32 bg-white relative overflow-hidden border-y border-slate-100">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-50/80 via-white to-white pointer-events-none"></div>
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-pink-300/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-rose-300/20 rounded-full blur-[150px] pointer-events-none"></div>
         
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <div className="inline-flex items-center gap-2 rounded-full bg-pink-500/10 border border-pink-500/20 px-4 py-2 text-sm font-black text-pink-400 mb-6 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 rounded-full bg-pink-100 border border-pink-200 px-5 py-2 text-sm font-black text-pink-600 mb-6 shadow-sm">
               <Sparkles className="h-4 w-4" /> ฟีเจอร์หลักอันทรงพลัง
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">จัดการทุกขั้นตอนของแผนการสอน<br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">ครบจบในที่เดียว</span></h2>
-            <p className="text-xl font-medium text-slate-400">ระบบถูกออกแบบมาให้ครอบคลุมการทำงานของคุณครูตั้งแต่เริ่มคิดจนถึงพิมพ์ใช้งาน พร้อมพลัง AI ที่ช่วยยกระดับความเร็วและคุณภาพอย่างที่ไม่เคยมีมาก่อน</p>
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">จัดการทุกขั้นตอนของแผนการสอน<br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">ครบจบในที่เดียว</span></h2>
+            <p className="text-xl font-bold text-slate-500">ระบบถูกออกแบบมาให้ครอบคลุมการทำงานของคุณครูตั้งแต่เริ่มคิดจนถึงพิมพ์ใช้งาน พร้อมพลัง AI ที่ช่วยยกระดับความเร็วและคุณภาพอย่างที่ไม่เคยมีมาก่อน</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
             {/* Feature 1 */}
-            <div className="group relative rounded-[2.5rem] bg-slate-800/50 p-10 border border-slate-700/50 backdrop-blur-xl transition-all duration-500 hover:-translate-y-3 hover:bg-slate-800 hover:border-pink-500/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]">
+            <div className="group relative rounded-[2.5rem] bg-white p-10 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-3 hover:border-pink-200 hover:shadow-[0_20px_40px_rgb(255,20,147,0.08)]">
               <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
               <div className="relative z-10">
-                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white mb-8 shadow-lg shadow-pink-500/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                  <Edit3 className="h-8 w-8" />
+                <div className="h-32 w-32 mx-auto mb-8 relative mix-blend-multiply transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  <Image src="/assets/icon_generate.png" alt="Generate Icon" fill className="object-contain drop-shadow-sm" />
                 </div>
-                <h3 className="text-2xl font-black text-white mb-4">สร้างแผน (Generate)</h3>
-                <p className="text-slate-400 font-medium leading-relaxed text-lg">
+                <h3 className="text-2xl font-black text-slate-900 mb-4">สร้างแผน (Generate)</h3>
+                <p className="text-slate-500 font-medium leading-relaxed text-lg">
                   เพียงใส่หัวข้อวิชาหรือตัวชี้วัด AI จะช่วยร่างโครงสร้างแผนการสอน จุดประสงค์การเรียนรู้ และกิจกรรมกลุ่มให้ทันทีอย่างมืออาชีพ
                 </p>
               </div>
             </div>
 
             {/* Feature 2 */}
-            <div className="group relative rounded-[2.5rem] bg-slate-800/50 p-10 border border-slate-700/50 backdrop-blur-xl transition-all duration-500 hover:-translate-y-3 hover:bg-slate-800 hover:border-pink-500/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]">
+            <div className="group relative rounded-[2.5rem] bg-white p-10 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-3 hover:border-pink-200 hover:shadow-[0_20px_40px_rgb(255,20,147,0.08)]">
               <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
               <div className="relative z-10">
-                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white mb-8 shadow-lg shadow-pink-500/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                  <Search className="h-8 w-8" />
+                <div className="h-32 w-32 mx-auto mb-8 relative mix-blend-multiply transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  <Image src="/assets/icon_verify.png" alt="Verify Icon" fill className="object-contain drop-shadow-sm" />
                 </div>
-                <h3 className="text-2xl font-black text-white mb-4">ตรวจแผน (Verify & Audit)</h3>
-                <p className="text-slate-400 font-medium leading-relaxed text-lg">
+                <h3 className="text-2xl font-black text-slate-900 mb-4">ตรวจแผน (Verify)</h3>
+                <p className="text-slate-500 font-medium leading-relaxed text-lg">
                   ระบบตรวจสอบความสอดคล้อง (Alignment) ระหว่างเนื้อหา กิจกรรม และการวัดผล เพื่อให้มั่นใจว่าแผนผ่านเกณฑ์มาตรฐานอย่างถูกต้อง
                 </p>
               </div>
             </div>
 
             {/* Feature 3 */}
-            <div className="group relative rounded-[2.5rem] bg-slate-800/50 p-10 border border-slate-700/50 backdrop-blur-xl transition-all duration-500 hover:-translate-y-3 hover:bg-slate-800 hover:border-pink-500/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]">
+            <div className="group relative rounded-[2.5rem] bg-white p-10 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-3 hover:border-pink-200 hover:shadow-[0_20px_40px_rgb(255,20,147,0.08)]">
               <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
               <div className="relative z-10">
-                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white mb-8 shadow-lg shadow-pink-500/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                  <PenTool className="h-8 w-8" />
+                <div className="h-32 w-32 mx-auto mb-8 relative mix-blend-multiply transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  <Image src="/assets/icon_customize.png" alt="Customize Icon" fill className="object-contain drop-shadow-sm" />
                 </div>
-                <h3 className="text-2xl font-black text-white mb-4">แก้แผน (Customize)</h3>
-                <p className="text-slate-400 font-medium leading-relaxed text-lg">
+                <h3 className="text-2xl font-black text-slate-900 mb-4">แก้แผน (Customize)</h3>
+                <p className="text-slate-500 font-medium leading-relaxed text-lg">
                   ปรับแต่ง ยืดหยุ่น และแก้ไขเนื้อหาเฉพาะจุดได้อย่างอิสระผ่านโปรแกรมแก้ไขที่ใช้งานง่าย พร้อมส่งออก (Export) เป็นไฟล์พร้อมใช้งาน
                 </p>
               </div>
