@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     let fixedPlanData;
     try {
       fixedPlanData = JSON.parse(cleanedText);
-    } catch (parseError) {
+    } catch (parseError: any) {
       console.error("Failed to parse JSON. Raw AI Output:", aiText);
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }

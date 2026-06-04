@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     let parsedData;
     try {
       parsedData = JSON.parse(cleanedText);
-    } catch (parseError) {
+    } catch (parseError: any) {
       console.error("Failed to parse JSON. Raw AI Output:", aiText);
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }
