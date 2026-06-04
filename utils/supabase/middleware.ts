@@ -53,20 +53,23 @@ export async function updateSession(request: NextRequest) {
   
   // Protect routes logic
   const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register');
+  const isLandingPage = request.nextUrl.pathname === '/';
   
   // Exclude static assets and api routes if not strictly needed
-  if (!user && !isAuthRoute && !request.nextUrl.pathname.startsWith('/api/') && !request.nextUrl.pathname.startsWith('/_next/')) {
+  if (!user && !isAuthRoute && !isLandingPage && !request.nextUrl.pathname.startsWith('/api/') && !request.nextUrl.pathname.startsWith('/_next/')) {
     // If not logged in and trying to access a protected route, redirect to login
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
   
-  if (user && isAuthRoute) {
-     // If logged in and trying to access login/register, redirect to home
-     const url = request.nextUrl.clone()
-     url.pathname = '/'
-     return NextResponse.redirect(url)
+  if (user) {
+    if (isAuthRoute || isLandingPage) {
+      // If logged in and trying to access login/register/landing, redirect to dashboard
+      const url = request.nextUrl.clone()
+      url.pathname = '/dashboard'
+      return NextResponse.redirect(url)
+    }
   }
 
   // Admin route protection
