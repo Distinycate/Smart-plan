@@ -7,6 +7,9 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
+    const body = await req.json();
+    const { planData, feedbackContent } = body;
+
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY is not configured.");
     
