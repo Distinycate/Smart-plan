@@ -37,30 +37,31 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="max-w-2xl"
             >
-              <div className="inline-flex items-center gap-2 rounded-full bg-pink-100/80 px-4 py-2 text-sm font-black text-pink-600 mb-6 border border-pink-200">
-                <Zap className="h-4 w-4" />
-                AI Assistant For Thai Teachers
+              <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 px-5 py-2 text-sm font-black text-pink-600 mb-8 border border-pink-200/60 shadow-sm">
+                <Sparkles className="h-4 w-4 animate-pulse" />
+                ผู้ช่วย AI ส่วนตัวของคุณครูยุคใหม่
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-5xl font-black tracking-tight text-slate-900 leading-snug">
-                ออกแบบแผนการสอนอัจฉริยะ <br className="hidden sm:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">
-                  เสร็จสมบูรณ์ใน 30 วินาทีด้วย AI
+              <h1 className="text-5xl sm:text-6xl lg:text-[4.5rem] font-black tracking-tight text-slate-900 leading-[1.1]">
+                พลิกโฉมการทำ <br className="hidden sm:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 drop-shadow-sm">
+                  แผนการสอน
                 </span>
               </h1>
-              <p className="mt-6 text-lg font-medium text-slate-600 leading-relaxed max-w-xl">
-                ลดภาระงานเอกสารของคุณครู เพิ่มเวลาให้ห้องเรียน ด้วยระบบสร้างแผนการสอนกึ่งอัตโนมัติ (Smart Lesson Plan) ที่ถูกต้อง แม่นยำ และตรงตามหลักสูตร
+              <p className="mt-6 text-xl font-bold text-slate-500 leading-relaxed max-w-xl">
+                บอกลาการปั่นเอกสารดึกดื่น! <span className="text-pink-500">Smart Plan</span> ช่วยคุณออกแบบเนื้อหา กิจกรรม และรูบริกประเมินผลอัตโนมัติ ให้คุณมีเวลาพักผ่อนและโฟกัสกับเด็กๆ ได้เต็มที่
               </p>
               
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link 
                   href="/login" 
-                  className="inline-flex justify-center items-center gap-2 rounded-full bg-pink-500 px-8 py-4 text-base font-black text-white shadow-lg shadow-pink-500/30 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-pink-500/40 hover:bg-pink-600"
+                  className="group relative inline-flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-8 py-4 text-lg font-black text-white shadow-xl shadow-pink-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-pink-500/50 overflow-hidden"
                 >
-                  สร้างแผนการสอนแรกของคุณฟรี <ArrowRight className="h-5 w-5" />
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                  <span className="relative z-10 flex items-center gap-2">🚀 ทดลองใช้งานฟรี <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" /></span>
                 </Link>
                 <Link 
                   href="/login" 
-                  className="inline-flex justify-center items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-black text-pink-500 border border-pink-200 shadow-md shadow-pink-500/10 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-pink-500/20 hover:bg-pink-50"
+                  className="inline-flex justify-center items-center gap-2 rounded-full bg-white/50 backdrop-blur-sm px-8 py-4 text-lg font-black text-slate-700 border-2 border-slate-200/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-pink-300 hover:bg-white hover:text-pink-600 hover:shadow-md hover:shadow-pink-100"
                 >
                   เข้าสู่ระบบ
                 </Link>
