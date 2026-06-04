@@ -398,7 +398,7 @@ export default function TeacherDashboard() {
               </button>
             )}
             {activeTab === 'ai_fixed' && (
-              <button className="btn btn-primary" style={{ background: '#6366f1', borderColor: '#6366f1' }} onClick={() => router.push('/evaluator')}>
+              <button className="btn btn-primary" style={{ background: '#ec4899', borderColor: '#ec4899' }} onClick={() => router.push('/evaluator')}>
                 <Zap size={14} /> ไปที่ระบบตรวจแผน AI
               </button>
             )}
@@ -536,7 +536,7 @@ export default function TeacherDashboard() {
 
         /* ── HERO ── */
         .hero-wrap {
-          background: linear-gradient(135deg, #1e1b4b 0%, #312e81 45%, #4f46e5 80%, #6d28d9 100%);
+          background: linear-gradient(135deg, #be185d 0%, #db2777 45%, #ec4899 80%, #f43f5e 100%);
           border-radius: 24px;
           overflow: hidden;
           margin-bottom: 20px;
@@ -597,7 +597,7 @@ export default function TeacherDashboard() {
         }
         .home-hero-actions { display:flex; gap:10px; flex-wrap:wrap; }
         .btn-hero {
-          background:#fff; color:#4338ca;
+          background:#fff; color:#db2777;
           box-shadow: 0 14px 30px rgba(0,0,0,0.18);
         }
         .btn-hero-outline {
@@ -687,7 +687,7 @@ export default function TeacherDashboard() {
         .plan-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(15,23,42,.11); border-color:#dbeafe; }
         .plan-card-top { display:flex; align-items:center; justify-content:space-between; padding: 13px 14px 9px; }
         .plan-code {
-          background:#eef2ff; color:#4338ca;
+          background:#eef2ff; color:#db2777;
           border-radius: 8px;
           padding: 4px 8px;
           font-weight:800;

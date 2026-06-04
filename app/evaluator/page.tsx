@@ -234,7 +234,7 @@ export default function EvaluatorPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-pink-950 via-slate-900 to-pink-900 p-6 shadow-2xl shadow-pink-950/20 sm:p-10"
+          className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 p-6 shadow-2xl shadow-pink-500/40 sm:p-10"
         >
           <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-pink-500/20 blur-[120px]" />
           <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-rose-500/20 blur-[120px]" />
@@ -247,7 +247,7 @@ export default function EvaluatorPage() {
                 <ArrowLeft className="h-6 w-6 transition-transform group-hover:-translate-x-1" />
               </Link>
               <div className="min-w-0">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-pink-400/30 bg-pink-500/10 px-4 py-1.5 text-xs font-black text-pink-200 backdrop-blur-md">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-pink-200/50 bg-white/20 px-4 py-1.5 text-xs font-black text-pink-200 backdrop-blur-md">
                   <Sparkles className="h-4 w-4" />
                   Smart Lesson plan By Kruteh
                 </div>
@@ -373,7 +373,7 @@ export default function EvaluatorPage() {
                                                   <CheckCircle className="h-4 w-4" />
                                                 </div>
                                                 <div className="min-w-0 flex-1">
-                                                  <h6 className={`truncate text-sm font-black ${isSelected ? 'text-pink-950' : 'text-slate-800'}`}>
+                                                  <h6 className={`truncate text-sm font-black ${isSelected ? 'text-pink-700' : 'text-slate-800'}`}>
                                                     {p.lessonTopic || 'ไม่มีชื่อแผน'} {p.author_email && <span className="text-xs font-normal text-slate-400 ml-2 font-mono">[{p.author_email}]</span>}
                                                   </h6>
                                                   <div className="mt-1 flex items-center justify-between text-[11px] font-bold text-slate-500">
@@ -421,7 +421,7 @@ export default function EvaluatorPage() {
                         <Sparkles className="h-4 w-4 text-amber-500" />
                       </div>
                     </div>
-                    <h3 className="text-2xl font-black tracking-tight text-slate-900 transition-colors duration-300 group-hover:text-pink-950">
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900 transition-colors duration-300 group-hover:text-pink-700">
                       ลากไฟล์มาวาง หรือ <span className="bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">คลิกเพื่ออัปโหลด</span>
                     </h3>
                     <p className="mt-3 max-w-sm text-sm font-medium text-slate-500">

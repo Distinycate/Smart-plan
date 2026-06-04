@@ -70,12 +70,12 @@ export default async function RootLayout({
                     {user.email}
                   </div>
                   
-                  <Link href="/dashboard" className="flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-lg sm:hidden">
+                  <Link href="/dashboard" className="flex items-center gap-2 rounded-full bg-pink-600 px-4 py-2 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-pink-700 hover:shadow-lg sm:hidden">
                     <LayoutDashboard className="h-4 w-4" /> แดชบอร์ด
                   </Link>
 
                   {isAdmin && (
-                    <Link href="/admin" className="hidden sm:flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-bold text-indigo-600 transition-colors hover:bg-indigo-100">
+                    <Link href="/admin" className="hidden sm:flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-bold text-pink-600 transition-colors hover:bg-indigo-100">
                       จัดการแอดมิน
                     </Link>
                   )}
