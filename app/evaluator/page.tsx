@@ -568,6 +568,7 @@ export default function EvaluatorPage() {
                 onFixAll={() => startFixAll(index)}
                 onSaveDraft={() => saveToDraft(index)}
                 onCancel={resetEvaluationFlow}
+                onRetry={startEvaluation}
                 isFixing={fixingPlanId !== null && fixingPlanId.startsWith(`${result.planId}-all`)}
               />
             ))}
@@ -870,7 +871,7 @@ function TrafficLightCard({
 }
 
 // ── COMPONENT: EvaluationResultCard ──
-function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, isFixing }: { result: any, index: number, onFixAll: () => void, onSaveDraft: () => void, onCancel: () => void, isFixing: boolean }) {
+function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, onRetry, isFixing }: { result: any, index: number, onFixAll: () => void, onSaveDraft: () => void, onCancel: () => void, onRetry: () => void, isFixing: boolean }) {
   if (result.error) {
     return (
       <motion.div
@@ -879,13 +880,29 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
         className="overflow-hidden rounded-2xl bg-white shadow-sm"
       >
         <div className="flex flex-col gap-4 bg-rose-50 p-6 md:flex-row md:items-center md:justify-between md:p-8">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-rose-400 shadow-sm">
               <AlertTriangle className="h-6 w-6" />
             </div>
-            <h3 className="text-lg font-bold text-slate-800">{result.title}</h3>
+            <div>
+              <h3 className="text-lg font-bold text-slate-800">{result.title}</h3>
+              <p className="mt-1 text-sm font-medium text-rose-600">วิเคราะห์ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง</p>
+            </div>
           </div>
-          <span className="rounded-xl bg-rose-100 px-4 py-2 text-sm font-bold text-rose-700">วิเคราะห์ไม่สำเร็จ</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={onRetry}
+              className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-rose-600 transition-colors"
+            >
+              ลองใหม่อีกครั้ง (Retry)
+            </button>
+            <button
+              onClick={onCancel}
+              className="rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-slate-600 shadow-sm hover:bg-slate-50 transition-colors border border-slate-200"
+            >
+              ยกเลิก
+            </button>
+          </div>
         </div>
       </motion.div>
     );

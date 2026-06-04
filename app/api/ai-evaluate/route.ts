@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { evaluatorPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { supabase } from '@/lib/supabase';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
+import { fetchGroqWithRetry } from '@/lib/groqClient';
 
 export const maxDuration = 60; // Set longer timeout if supported by hosting
 export const runtime = 'edge';
@@ -37,12 +38,21 @@ export async function POST(req: Request) {
       generationConfig: { responseMimeType: 'application/json' }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
-
-    const resJson = await response.json();
-    const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
-    
-    if (!aiText) throw new Error('Invalid response from Gemini');
+    let aiText = '';
+    try {
+      const response = await fetchGeminiWithRetry(apiUrl, payload, 2);
+      const resJson = await response.json();
+      aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      if (!aiText) throw new Error('Invalid response from Gemini');
+    } catch (geminiError: any) {
+      console.warn("Gemini Failed, falling back to Groq:", geminiError.message);
+      const response = await fetchGroqWithRetry(prompt, 2);
+      const resJson = await response.json();
+      aiText = resJson.choices?.[0]?.message?.content;
+      
+      if (!aiText) throw new Error('Invalid response from Groq');
+    }
 
     let cleanedText = aiText.trim();
     const match = cleanedText.match(/```(?:json)?([\\s\\S]*?)```/);
