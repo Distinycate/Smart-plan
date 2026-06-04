@@ -76,36 +76,8 @@ export default function LandingPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative mx-auto w-full max-w-lg lg:max-w-none"
             >
-              <div className="relative rounded-[2.5rem] bg-white p-2 shadow-2xl shadow-slate-200/50 border border-slate-100">
-                <div className="absolute top-4 left-6 flex gap-2">
-                  <div className="h-3 w-3 rounded-full bg-slate-200" />
-                  <div className="h-3 w-3 rounded-full bg-slate-200" />
-                  <div className="h-3 w-3 rounded-full bg-slate-200" />
-                </div>
-                <div className="mt-8 rounded-[2rem] bg-slate-50 border border-slate-100 p-6 overflow-hidden">
-                  {/* Mockup content */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="h-6 w-1/3 rounded-lg bg-slate-200 animate-pulse" />
-                    <div className="h-8 w-8 rounded-full bg-pink-100 text-pink-400 flex items-center justify-center">
-                      <Sparkles className="h-4 w-4" />
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="h-4 w-full rounded-md bg-slate-200 animate-pulse" />
-                    <div className="h-4 w-5/6 rounded-md bg-slate-200 animate-pulse" />
-                    <div className="h-4 w-4/6 rounded-md bg-slate-200 animate-pulse" />
-                  </div>
-                  
-                  <div className="mt-8 pt-6 border-t border-slate-200">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="h-4 w-4 rounded-full bg-emerald-400" />
-                      <div className="h-4 w-1/4 rounded-md bg-slate-200" />
-                    </div>
-                    <div className="w-full bg-slate-200 rounded-full h-2 mb-4">
-                      <div className="bg-gradient-to-r from-pink-400 to-rose-500 h-2 rounded-full w-[85%] animate-[pulse_2s_ease-in-out_infinite]" />
-                    </div>
-                  </div>
-                </div>
+              <div className="relative aspect-square w-full mix-blend-multiply animate-[bounce_6s_ease-in-out_infinite] group">
+                <Image src="/assets/magical_book.png" alt="Magical Lesson Plan Book" fill className="object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" priority />
               </div>
               
               {/* Floating Element */}
