@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { partialFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
-import { supabase } from '@/lib/supabase';
+import { autoFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 
 export const maxDuration = 60;
@@ -9,17 +8,17 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { planData, partialSection, partialSuggestion } = body;
+    const { planData, feedbackContent } = body;
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY is not configured.");
     
+    // Choose the best model
     const model = 'gemini-flash-latest';
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-    let prompt = partialFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
-    prompt = prompt.replace('<<<SECTION_NAME>>>', partialSection);
-    prompt = prompt.replace('<<<SUGGESTION>>>', partialSuggestion);
+    let prompt = autoFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
+    prompt = prompt.replace('<<<FEEDBACK_CONTENT>>>', feedbackContent || 'ปรับปรุงให้สมบูรณ์ตามเกณฑ์ประเมินแผน');
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -34,11 +33,11 @@ export async function POST(req: Request) {
     if (!aiText) throw new Error('Invalid response from Gemini');
 
     let cleanedText = aiText.trim();
-    const match = cleanedText.match(/```(?:json)?([\\s\\S]*?)```/);
+    const match = cleanedText.match(/```(?:json)?([\s\S]*?)```/);
     if (match) {
       cleanedText = match[1].trim();
     } else {
-      cleanedText = cleanedText.replace(/^```(?:json)?\\n?/, '').replace(/\\n?```$/, '').trim();
+      cleanedText = cleanedText.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
     }
     
     let fixedPlanData;

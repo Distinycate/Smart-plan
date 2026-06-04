@@ -169,10 +169,10 @@ export default function EvaluatorPage() {
   };
 
 
-  const startPartialFix = async (resultIndex: number, sectionKey: string, suggestion: string, identifier: string) => {
+  const startFixAll = async (resultIndex: number) => {
     const result = evaluationResults[resultIndex];
     if (!result || !result.originalPlanData) return;
-    setFixingPlanId(`${result.planId}-partial-${identifier}`);
+    setFixingPlanId(`${result.planId}-all`);
     setError(null);
     try {
       const res = await fetch('/api/ai-fix', {
@@ -180,23 +180,19 @@ export default function EvaluatorPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           planData: result.originalPlanData,
-          isPartial: true,
-          partialSection: sectionKey,
-          partialSuggestion: suggestion
+          isPartial: false,
+          feedbackContent: JSON.stringify(result)
         })
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      toast.success(`AI แก้ไขส่วน [${sectionKey}] สำเร็จ! ตรวจสอบเนื้อหาและกดบันทึกเพื่อบันทึกร่างใหม่`);
+      toast.success(`AI ปรับปรุงแผนทั้งหมดสำเร็จ! กรุณากดบันทึกเป็นร่างใหม่`);
       const newResults = [...evaluationResults];
       newResults[resultIndex].originalPlanData = json.newPlanData;
-      if (!newResults[resultIndex].fixedRecs) newResults[resultIndex].fixedRecs = {};
-      newResults[resultIndex].fixedRecs[identifier] = true;
-      // Mark as having unsaved changes
       newResults[resultIndex].hasUnsavedChanges = true;
       setEvaluationResults(newResults);
     } catch (err: any) {
-      toast.error(err.message || 'เกิดข้อผิดพลาดในการแก้เฉพาะจุด');
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการปรับปรุงแผน');
     } finally {
       setFixingPlanId(null);
     }
@@ -230,7 +226,7 @@ export default function EvaluatorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50/50 to-slate-50 px-4 py-10 font-sans text-slate-800 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-pink-50/50 to-slate-50 px-4 py-10 font-sans text-slate-800 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl space-y-8">
         <EvaluationFlowStepper step={flowStep} />
 
@@ -238,38 +234,38 @@ export default function EvaluatorPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 p-6 shadow-2xl shadow-indigo-950/20 sm:p-10"
+          className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-pink-950 via-slate-900 to-pink-900 p-6 shadow-2xl shadow-pink-950/20 sm:p-10"
         >
-          <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-indigo-500/20 blur-[120px]" />
-          <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-blue-500/20 blur-[120px]" />
+          <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-pink-500/20 blur-[120px]" />
+          <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-rose-500/20 blur-[120px]" />
           <div className="relative flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
               <Link
                 href="/"
-                className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-indigo-100 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20"
+                className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-pink-100 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20"
               >
                 <ArrowLeft className="h-6 w-6 transition-transform group-hover:-translate-x-1" />
               </Link>
               <div className="min-w-0">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-black text-indigo-200 backdrop-blur-md">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-pink-400/30 bg-pink-500/10 px-4 py-1.5 text-xs font-black text-pink-200 backdrop-blur-md">
                   <Sparkles className="h-4 w-4" />
                   Smart Lesson plan By Kruteh
                 </div>
                 <h1 className="text-4xl font-black tracking-tight text-white md:text-5xl">
                   ประเมินและพัฒนาแผน
                 </h1>
-                <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-indigo-100/80">
+                <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-pink-100/80">
                   อัปโหลดแผนการสอนของคุณให้ระบบช่วยประเมิน จุดเด่น จุดด้อย พร้อมข้อเสนอแนะเชิงลึก เพื่อนำไปพัฒนาต่อได้อย่างตรงจุด
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 text-xs font-black text-indigo-100 sm:flex-col sm:items-end">
+            <div className="flex flex-wrap items-center gap-3 text-xs font-black text-pink-100 sm:flex-col sm:items-end">
               <span className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 backdrop-blur-md border border-white/5">
                 <Layers className="h-4 w-4" />
                 {plans.length} แผนในระบบ
               </span>
-              <span className="flex items-center gap-2 rounded-full bg-indigo-500/20 px-4 py-2.5 text-indigo-200 backdrop-blur-md border border-indigo-400/20">
+              <span className="flex items-center gap-2 rounded-full bg-pink-500/20 px-4 py-2.5 text-pink-200 backdrop-blur-md border border-pink-400/20">
                 <CheckSquare className="h-4 w-4" />
                 {selectedPlanId ? 1 : 0} เลือกแล้ว
               </span>
@@ -293,7 +289,7 @@ export default function EvaluatorPage() {
               <button
                 className={`relative flex items-center justify-center gap-2.5 rounded-full px-6 py-3 text-sm font-black transition-all duration-300 ${
                   activeTab === 'system'
-                    ? 'bg-white text-indigo-700 shadow-md shadow-slate-200/50'
+                    ? 'bg-white text-pink-700 shadow-md shadow-slate-200/50'
                     : 'text-slate-500 hover:bg-white/50 hover:text-slate-800'
                 }`}
                 onClick={() => setActiveTab('system')}
@@ -304,7 +300,7 @@ export default function EvaluatorPage() {
               <button
                 className={`relative flex items-center justify-center gap-2.5 rounded-full px-6 py-3 text-sm font-black transition-all duration-300 ${
                   activeTab === 'upload'
-                    ? 'bg-white text-indigo-700 shadow-md shadow-slate-200/50'
+                    ? 'bg-white text-pink-700 shadow-md shadow-slate-200/50'
                     : 'text-slate-500 hover:bg-white/50 hover:text-slate-800'
                 }`}
                 onClick={() => setActiveTab('upload')}
@@ -318,7 +314,7 @@ export default function EvaluatorPage() {
           <div>
             {activeTab === 'system' && (
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between rounded-[2rem] bg-gradient-to-br from-indigo-50/50 to-blue-50/30 p-6 md:p-8">
+                  <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between rounded-[2rem] bg-gradient-to-br from-pink-50/50 to-rose-50/30 p-6 md:p-8">
                     <div>
                       <h2 className="text-2xl font-black tracking-tight text-slate-900">เลือกจากแผนในระบบ</h2>
                       <p className="mt-1.5 text-sm font-medium leading-relaxed text-slate-500 max-w-lg">
@@ -340,13 +336,13 @@ export default function EvaluatorPage() {
                       <div className="space-y-6">
                         {Object.entries(groupedPlans).map(([year, grades]) => (
                           <div key={year} className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-                            <h3 className="mb-4 flex items-center gap-2 text-lg font-black text-indigo-900">
-                              <Calendar className="h-5 w-5 text-indigo-500" />
+                            <h3 className="mb-4 flex items-center gap-2 text-lg font-black text-pink-900">
+                              <Calendar className="h-5 w-5 text-pink-500" />
                               {year}
                             </h3>
                             <div className="space-y-6 pl-2">
                               {Object.entries(grades).map(([grade, subjects]) => (
-                                <div key={grade} className="border-l-2 border-indigo-100 pl-4">
+                                <div key={grade} className="border-l-2 border-pink-100 pl-4">
                                   <h4 className="mb-3 flex items-center gap-2 text-md font-bold text-slate-700">
                                     <GraduationCap className="h-4 w-4 text-emerald-500" />
                                     {grade}
@@ -367,18 +363,18 @@ export default function EvaluatorPage() {
                                                 onClick={() => toggleSelectPlan(p.planId)}
                                                 className={`group relative flex items-start gap-3 rounded-xl p-4 text-left transition-all duration-300 hover:-translate-y-1 ${
                                                   isSelected
-                                                    ? 'bg-gradient-to-br from-indigo-50 to-blue-50/80 border-2 border-indigo-400 shadow-md shadow-indigo-500/10'
-                                                    : 'bg-white border-2 border-slate-200 shadow-sm hover:border-indigo-300'
+                                                    ? 'bg-gradient-to-br from-pink-50 to-rose-50/80 border-2 border-pink-400 shadow-md shadow-pink-500/10'
+                                                    : 'bg-white border-2 border-slate-200 shadow-sm hover:border-pink-300'
                                                 }`}
                                               >
                                                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
-                                                  isSelected ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-100 text-transparent group-hover:bg-indigo-50'
+                                                  isSelected ? 'bg-pink-600 text-white shadow-sm' : 'bg-slate-100 text-transparent group-hover:bg-pink-50'
                                                 }`}>
                                                   <CheckCircle className="h-4 w-4" />
                                                 </div>
                                                 <div className="min-w-0 flex-1">
-                                                  <h6 className={`truncate text-sm font-black ${isSelected ? 'text-indigo-950' : 'text-slate-800'}`}>
-                                                    {p.lessonTopic || 'ไม่มีชื่อแผน'}
+                                                  <h6 className={`truncate text-sm font-black ${isSelected ? 'text-pink-950' : 'text-slate-800'}`}>
+                                                    {p.lessonTopic || 'ไม่มีชื่อแผน'} {p.author_email && <span className="text-xs font-normal text-slate-400 ml-2 font-mono">[{p.author_email}]</span>}
                                                   </h6>
                                                   <div className="mt-1 flex items-center justify-between text-[11px] font-bold text-slate-500">
                                                     <span className="truncate">{p.subjectCode || 'ไม่มีรหัส'}</span>
@@ -406,8 +402,8 @@ export default function EvaluatorPage() {
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className={`group relative overflow-hidden rounded-[2rem] border-2 border-dashed p-10 sm:p-16 text-center transition-all duration-300 ease-out ${
                   fileText 
-                    ? 'border-indigo-400 bg-indigo-50/50' 
-                    : 'border-slate-200 hover:border-indigo-400 hover:bg-slate-50/50 hover:shadow-2xl hover:shadow-indigo-500/10'
+                    ? 'border-pink-400 bg-pink-50/50' 
+                    : 'border-slate-200 hover:border-pink-400 hover:bg-slate-50/50 hover:shadow-2xl hover:shadow-pink-500/10'
                 }`}>
                   <input
                     type="file"
@@ -417,19 +413,19 @@ export default function EvaluatorPage() {
                     onChange={handleFileUpload}
                   />
                   <div className="relative z-0 mx-auto flex flex-col items-center justify-center">
-                    <div className="relative mb-6 flex h-24 w-24 items-center justify-center rounded-[1.5rem] bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-xl shadow-purple-500/30 transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-110">
-                      <div className="absolute inset-[3px] flex items-center justify-center rounded-[1.3rem] bg-white transition-colors duration-300 group-hover:bg-indigo-50/80">
-                        <UploadCloud className="h-10 w-10 text-indigo-600 transition-transform duration-500 group-hover:-translate-y-1" />
+                    <div className="relative mb-6 flex h-24 w-24 items-center justify-center rounded-[1.5rem] bg-gradient-to-tr from-pink-500 via-rose-500 to-pink-500 shadow-xl shadow-rose-500/30 transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-110">
+                      <div className="absolute inset-[3px] flex items-center justify-center rounded-[1.3rem] bg-white transition-colors duration-300 group-hover:bg-pink-50/80">
+                        <UploadCloud className="h-10 w-10 text-pink-600 transition-transform duration-500 group-hover:-translate-y-1" />
                       </div>
                       <div className="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
                         <Sparkles className="h-4 w-4 text-amber-500" />
                       </div>
                     </div>
-                    <h3 className="text-2xl font-black tracking-tight text-slate-900 transition-colors duration-300 group-hover:text-indigo-950">
-                      ลากไฟล์มาวาง หรือ <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">คลิกเพื่ออัปโหลด</span>
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900 transition-colors duration-300 group-hover:text-pink-950">
+                      ลากไฟล์มาวาง หรือ <span className="bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">คลิกเพื่ออัปโหลด</span>
                     </h3>
                     <p className="mt-3 max-w-sm text-sm font-medium text-slate-500">
-                      รองรับไฟล์เอกสาร <strong className="text-indigo-600">.docx</strong> (Microsoft Word) เท่านั้น
+                      รองรับไฟล์เอกสาร <strong className="text-pink-600">.docx</strong> (Microsoft Word) เท่านั้น
                     </p>
                   </div>
                 </div>
@@ -484,18 +480,18 @@ export default function EvaluatorPage() {
               <button
                 onClick={startEvaluation}
                 disabled={isEvaluating || (activeTab === 'system' ? !selectedPlanId : !fileText)}
-                className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-blue-600 px-8 py-4 text-sm font-black text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-md disabled:translate-y-0 disabled:bg-slate-200 disabled:text-slate-400 sm:w-auto"
+                className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-rose-600 px-8 py-4 text-sm font-black text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-rose-700 hover:shadow-md disabled:translate-y-0 disabled:bg-slate-200 disabled:text-slate-400 sm:w-auto"
               >
-                {isEvaluating && <div className="absolute inset-0 animate-pulse bg-blue-600" />}
+                {isEvaluating && <div className="absolute inset-0 animate-pulse bg-rose-600" />}
                 <span className="relative z-10 flex items-center gap-2">
                   {isEvaluating ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin text-blue-100" />
+                      <Loader2 className="h-5 w-5 animate-spin text-rose-100" />
                       {batchProgress.total > 1 ? `กำลังประเมินแผนที่ ${batchProgress.current} จาก ${batchProgress.total}...` : 'AI กำลังวิเคราะห์...'}
                     </>
                   ) : (
                     <>
-                      <Sparkles className="h-5 w-5 text-blue-100" />
+                      <Sparkles className="h-5 w-5 text-rose-100" />
                       {'เริ่มประเมินความสมบูรณ์'}
                     </>
                   )}
@@ -514,10 +510,10 @@ export default function EvaluatorPage() {
             className="mx-auto max-w-xl rounded-2xl bg-white p-8 text-center shadow-sm sm:p-12"
           >
             <div className="relative mx-auto mb-8 h-28 w-28">
-              <div className="absolute inset-0 rounded-full border-4 border-indigo-100" />
-              <div className="absolute inset-0 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
+              <div className="absolute inset-0 rounded-full border-4 border-pink-100" />
+              <div className="absolute inset-0 animate-spin rounded-full border-4 border-pink-600 border-t-transparent" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-50 text-pink-600">
                   <Sparkles className="h-8 w-8 animate-pulse" />
                 </div>
               </div>
@@ -544,13 +540,13 @@ export default function EvaluatorPage() {
               <div>
                 <button
                   onClick={resetEvaluationFlow}
-                  className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-indigo-600"
+                  className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-pink-600"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   ประเมินแผนอื่น
                 </button>
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-50 text-pink-600">
                     <FileText className="h-6 w-6" />
                   </div>
                   <div>
@@ -569,10 +565,10 @@ export default function EvaluatorPage() {
                 key={`${result.planId}-${index}`} 
                 result={result} 
                 index={index}
-                onFixPartial={(sectionKey, suggestion, identifier) => startPartialFix(index, sectionKey, suggestion, identifier)}
+                onFixAll={() => startFixAll(index)}
                 onSaveDraft={() => saveToDraft(index)}
-                isFixing={fixingPlanId !== null && fixingPlanId.startsWith(`${result.planId}-partial`)}
-                fixingId={fixingPlanId}
+                onCancel={resetEvaluationFlow}
+                isFixing={fixingPlanId !== null && fixingPlanId.startsWith(`${result.planId}-all`)}
               />
             ))}
           </div>
@@ -614,7 +610,7 @@ function EvaluationFlowStepper({ step }: { step: number }) {
               <div
                 className={`flex items-center gap-3 rounded-full px-5 py-2.5 transition-all duration-500 ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 scale-105'
+                    ? 'bg-pink-600 text-white shadow-lg shadow-pink-600/30 scale-105'
                     : isDone
                       ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20'
                       : 'bg-transparent text-slate-500 hover:bg-white/50'
@@ -873,8 +869,8 @@ function TrafficLightCard({
   );
 }
 
-// ── COMPONENT: EvaluationResultCard (Plan Evaluation Result Page) ──
-function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixing, fixingId }: { result: any, index: number, onFixPartial: (sectionKey: string, suggestion: string, identifier: string) => void, onSaveDraft: () => void, isFixing: boolean, fixingId: string | null }) {
+// ── COMPONENT: EvaluationResultCard ──
+function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, isFixing }: { result: any, index: number, onFixAll: () => void, onSaveDraft: () => void, onCancel: () => void, isFixing: boolean }) {
   if (result.error) {
     return (
       <motion.div
@@ -896,17 +892,39 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
   }
 
   const score = result.overallScore || 0;
-  const maxScore = 100;
+  const maxScore = 30; // Max AI score
   const percentage = percentOf(score, maxScore);
   const tone = getScoreTone(percentage);
   const toneStyle = toneStyles[tone];
   const summary = result.summary || 'AI วิเคราะห์แผนการจัดการเรียนรู้เสร็จสมบูรณ์';
   
-  const strengths = Array.isArray(result.strengths) ? result.strengths : [];
-  const improvements = Array.isArray(result.improvements) ? result.improvements : [];
-  const errorsFound = Array.isArray(result.errorsFound) ? result.errorsFound : [];
-  const suggestions = result.suggestions || '';
-  const scores = result.scores || {};
+  const detailedScores = result.detailedScores || {};
+
+  const ScoreDetailBox = ({ title, data }: { title: string, data: any }) => {
+    if (!data) return null;
+    return (
+      <div className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-slate-100">
+        <div className="flex justify-between items-center mb-4">
+          <h4 className="text-lg font-black text-slate-800">{title}</h4>
+          <span className="text-xl font-black text-pink-600 bg-pink-50 px-3 py-1 rounded-xl">{data.score}/5</span>
+        </div>
+        <div className="space-y-4">
+          <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+            <h5 className="text-xs font-black text-emerald-800 uppercase tracking-widest mb-1">จุดดี</h5>
+            <p className="text-sm font-medium text-emerald-900">{data.strengths}</p>
+          </div>
+          <div className="bg-rose-50 rounded-xl p-4 border border-rose-100">
+            <h5 className="text-xs font-black text-rose-800 uppercase tracking-widest mb-1">จุดที่บกพร่อง</h5>
+            <p className="text-sm font-medium text-rose-900">{data.weaknesses}</p>
+          </div>
+          <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
+            <h5 className="text-xs font-black text-amber-800 uppercase tracking-widest mb-1">ข้อเสนอแนะ</h5>
+            <p className="text-sm font-medium text-amber-900">{data.suggestions}</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <motion.section
@@ -915,126 +933,84 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
       viewport={{ once: true, amount: 0.18 }}
       custom={index}
       variants={cardMotion}
-      className="relative overflow-hidden rounded-[2rem] bg-white shadow-sm border border-slate-100"
+      className="relative overflow-hidden rounded-[2.5rem] bg-slate-50 shadow-sm border border-slate-200"
     >
-      <div className="relative space-y-6 p-4 sm:p-6 md:p-8">
-        {result.hasUnsavedChanges && (
-          <div className="mb-4 flex items-center justify-between rounded-xl bg-amber-50 p-4 border border-amber-200">
-            <div className="flex items-center gap-3">
-              <AlertTriangle className="h-5 w-5 text-amber-500" />
-              <div>
-                <h4 className="text-sm font-bold text-amber-900">มีข้อมูลร่างที่รอการบันทึก</h4>
-                <p className="text-xs text-amber-700">AI ได้แก้ไขแผนของคุณแล้ว กรุณากดบันทึกเพื่อเก็บเป็นร่างใหม่</p>
-              </div>
-            </div>
-            <button
-              onClick={onSaveDraft}
-              className="flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-amber-600"
-            >
-              <CheckSquare className="h-4 w-4" />
-              บันทึกเป็นแบบร่าง
-            </button>
-          </div>
-        )}
-
-        <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
-          <div className="relative overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-slate-50 to-indigo-50/50 p-6 shadow-sm md:p-8 border border-indigo-100/50">
-            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-indigo-400/10 blur-3xl" />
-            <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30">
+      <div className="relative space-y-8 p-4 sm:p-8 md:p-10">
+        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+          <div className="relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-sm md:p-8 border border-slate-100">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-pink-50 text-pink-600 shadow-inner">
                 <ClipboardCheck className="h-8 w-8" />
               </div>
               <div className="min-w-0">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-indigo-100 px-3 py-1 text-xs font-black text-indigo-700">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
                   <Sparkles className="h-3.5 w-3.5" />
-                  Hybrid Evaluation Result
+                  AI Evaluation
                 </div>
                 <h3 className="text-2xl font-black tracking-tight text-slate-900 md:text-3xl">
-                  ผลการตรวจแผนการจัดการเรียนรู้
+                  {result.title}
                 </h3>
-                <p className="mt-2 text-lg font-bold text-slate-700 line-clamp-2">{result.title}</p>
-                <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-600">{summary}</p>
+                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">{summary}</p>
               </div>
             </div>
           </div>
 
           <motion.div
             whileHover={{ y: -5, scale: 1.02 }}
-            className={`group relative overflow-hidden rounded-[1.5rem] p-6 shadow-xl transition-all duration-300 ${toneStyle.bg} border-2 ${tone === 'green' ? 'border-emerald-200' : tone === 'yellow' ? 'border-amber-200' : 'border-rose-200'}`}
+            className={`group relative overflow-hidden rounded-[2rem] p-6 shadow-xl transition-all duration-300 ${toneStyle.bg} border-2 ${tone === 'green' ? 'border-emerald-200' : tone === 'yellow' ? 'border-amber-200' : 'border-rose-200'}`}
           >
             <div className="mb-2 flex items-center justify-between">
               <div>
-                <p className={`text-xs font-black uppercase tracking-[0.15em] ${toneStyle.text} opacity-80`}>Total Score</p>
+                <p className={`text-xs font-black uppercase tracking-[0.15em] ${toneStyle.text} opacity-80`}>AI Score</p>
                 <p className={`mt-1 text-sm font-bold ${toneStyle.text}`}>{toneStyle.label}</p>
               </div>
               <div className={`flex h-12 w-12 items-center justify-center rounded-[1.25rem] bg-gradient-to-br ${toneStyle.gradient} text-white shadow-lg`}>
                 <Trophy className="h-6 w-6" />
               </div>
             </div>
-            <div className="flex items-end gap-2 mb-4">
+            <div className="flex items-end gap-2 mt-4">
               <span className={`text-6xl font-black tracking-tight ${toneStyle.text}`}>{score}</span>
               <span className={`pb-2 text-xl font-black ${toneStyle.text} opacity-50`}>/{maxScore}</span>
-            </div>
-            
-            <div className="space-y-3">
-              <div className="flex justify-between items-center bg-white/60 p-2.5 rounded-xl">
-                <span className="text-xs font-bold text-slate-600">Rule-based (Max 70)</span>
-                <span className="text-sm font-black text-slate-800">{result.ruleBasedScore || 0}</span>
-              </div>
-              <div className="flex justify-between items-center bg-white/60 p-2.5 rounded-xl">
-                <span className="text-xs font-bold text-slate-600">AI Logic (Max 30)</span>
-                <span className="text-sm font-black text-slate-800">{Math.round((result.overallScore || 0) - (result.ruleBasedScore || 0))}</span>
-              </div>
             </div>
           </motion.div>
         </div>
 
-        {/* AI Scores Breakdown */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
-            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">จุดประสงค์</p>
-            <p className="text-xl font-black text-indigo-700">{scores.objectivesQualitative || 0}<span className="text-sm text-slate-400">/5</span></p>
-          </div>
-          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
-            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">กิจกรรม</p>
-            <p className="text-xl font-black text-indigo-700">{scores.activitiesQualitative || 0}<span className="text-sm text-slate-400">/5</span></p>
-          </div>
-          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
-            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">การวัดผล</p>
-            <p className="text-xl font-black text-indigo-700">{scores.assessmentQualitative || 0}<span className="text-sm text-slate-400">/5</span></p>
-          </div>
-          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
-            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">Rubric</p>
-            <p className="text-xl font-black text-indigo-700">{scores.rubricQualitative || 0}<span className="text-sm text-slate-400">/5</span></p>
-          </div>
-          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
-            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">ความสอดคล้อง</p>
-            <p className="text-xl font-black text-indigo-700">{scores.alignmentScore || 0}<span className="text-sm text-slate-400">/5</span></p>
-          </div>
-          <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
-            <p className="text-[10px] uppercase font-bold text-slate-400 mb-1">ภาษา</p>
-            <p className="text-xl font-black text-indigo-700">{scores.languageScore || 0}<span className="text-sm text-slate-400">/5</span></p>
+        {/* Detailed Scores Breakdown */}
+        <div>
+          <h4 className="flex items-center gap-2 text-xl font-black text-slate-800 mb-6">
+            <BarChart2 className="h-6 w-6 text-pink-500" />
+            ผลประเมินรายหัวข้อ (เชิงลึก)
+          </h4>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <ScoreDetailBox title="1. จุดประสงค์ (K/P/A)" data={detailedScores.objectives} />
+            <ScoreDetailBox title="2. กิจกรรมการเรียนรู้" data={detailedScores.activities} />
+            <ScoreDetailBox title="3. การวัดและประเมินผล" data={detailedScores.assessment} />
+            <ScoreDetailBox title="4. Rubric" data={detailedScores.rubric} />
+            <ScoreDetailBox title="5. ความสอดคล้อง" data={detailedScores.alignment} />
+            <ScoreDetailBox title="6. การใช้ภาษา" data={detailedScores.language} />
           </div>
         </div>
 
         {/* PA 8 Indicators Checklist */}
         {result.pa8Indicators && result.pa8Indicators.length > 0 && (
-          <div className="rounded-[1.5rem] bg-indigo-50/50 p-6 border border-indigo-100 mt-6 mb-6">
-            <h4 className="flex items-center gap-2 text-lg font-black text-indigo-900 mb-4">
-              <ClipboardCheck className="h-5 w-5 text-indigo-500" />
+          <div>
+            <h4 className="flex items-center gap-2 text-xl font-black text-slate-800 mb-6 mt-8">
+              <ShieldCheck className="h-6 w-6 text-pink-500" />
               การประเมิน 8 ตัวชี้วัดวิทยฐานะ (ว9 / วPA)
             </h4>
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2">
               {result.pa8Indicators.map((item: any, i: number) => (
-                <div key={i} className="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-sm">
+                <div key={i} className="flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-sm border border-slate-100">
                   <div className="flex items-start gap-3">
-                    <div className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.met ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}>
-                      {item.met ? <CheckCircle className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
+                    <div className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${item.met ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}>
+                      {item.met ? <CheckCircle className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />}
                     </div>
                     <div>
-                      <p className={`text-sm font-bold ${item.met ? 'text-slate-800' : 'text-rose-900'}`}>{item.indicator}</p>
-                      <p className="mt-1 text-xs font-medium text-slate-500">{item.reason}</p>
+                      <p className={`text-base font-black ${item.met ? 'text-slate-800' : 'text-rose-900'}`}>{item.indicator}</p>
                     </div>
+                  </div>
+                  <div className="bg-slate-50 p-4 rounded-xl text-sm font-medium text-slate-600 leading-relaxed border border-slate-100">
+                    {item.details}
                   </div>
                 </div>
               ))}
@@ -1042,93 +1018,50 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
           </div>
         )}
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Strengths */}
-          <div className="rounded-[1.5rem] bg-emerald-50/50 p-6 border border-emerald-100">
-            <h4 className="flex items-center gap-2 text-lg font-black text-emerald-800 mb-4">
-              <CheckCircle className="h-5 w-5 text-emerald-500" />
-              จุดแข็งและสิ่งที่ทำได้ดี
-            </h4>
-            <ul className="space-y-3">
-              {strengths.length > 0 ? strengths.map((item: string, i: number) => (
-                <li key={i} className="flex gap-3 text-sm font-medium text-emerald-900 bg-white p-3 rounded-xl shadow-sm">
-                  <span className="text-emerald-500 font-bold">•</span>
-                  <span>{item}</span>
-                </li>
-              )) : <li className="text-sm text-emerald-600">ไม่มีข้อมูล</li>}
-            </ul>
-          </div>
-
-          {/* Improvements & Errors */}
-          <div className="space-y-6">
-            <div className="rounded-[1.5rem] bg-amber-50/50 p-6 border border-amber-100">
-              <h4 className="flex items-center gap-2 text-lg font-black text-amber-800 mb-4">
-                <AlertTriangle className="h-5 w-5 text-amber-500" />
-                จุดที่ควรปรับปรุง
-              </h4>
-              <ul className="space-y-3">
-                {improvements.length > 0 ? improvements.map((item: string, i: number) => (
-                  <li key={i} className="flex gap-3 text-sm font-medium text-amber-900 bg-white p-3 rounded-xl shadow-sm">
-                    <span className="text-amber-500 font-bold">•</span>
-                    <span>{item}</span>
-                  </li>
-                )) : <li className="text-sm text-amber-600">ไม่มีข้อมูล</li>}
-              </ul>
-            </div>
-            
-            {errorsFound.length > 0 && (
-              <div className="rounded-[1.5rem] bg-rose-50/50 p-6 border border-rose-100">
-                <h4 className="flex items-center gap-2 text-lg font-black text-rose-800 mb-4">
-                  <ShieldCheck className="h-5 w-5 text-rose-500" />
-                  ข้อผิดพลาดที่พบ (Errors)
-                </h4>
-                <ul className="space-y-3">
-                  {errorsFound.map((item: string, i: number) => (
-                    <li key={i} className="flex gap-3 text-sm font-medium text-rose-900 bg-white p-3 rounded-xl shadow-sm">
-                      <span className="text-rose-500 font-bold">!</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Suggestions & Auto Fix */}
-        {(suggestions || (result.autoFixAvailable && result.planId !== 'uploaded' && !result.isFixed)) && (
-          <div className="rounded-[1.5rem] bg-indigo-600 p-8 text-white shadow-lg shadow-indigo-600/20">
-            <div className="flex flex-col md:flex-row gap-6 justify-between items-center">
+        {/* Action Buttons */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
+          {!result.hasUnsavedChanges ? (
+            <>
+              <button
+                onClick={onFixAll}
+                disabled={isFixing}
+                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-pink-600 px-8 py-4 text-base font-black text-white shadow-lg shadow-pink-600/30 transition-all hover:scale-105 hover:bg-pink-700 disabled:bg-slate-300 disabled:scale-100"
+              >
+                {isFixing ? (
+                  <><Loader2 className="h-5 w-5 animate-spin" /> กำลังปรับปรุงแผน...</>
+                ) : (
+                  <><Sparkles className="h-5 w-5" /> ให้ AI ปรับปรุงแผนทั้งหมดให้สมบูรณ์</>
+                )}
+              </button>
+              <button
+                onClick={onCancel}
+                disabled={isFixing}
+                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-slate-100 px-8 py-4 text-base font-bold text-slate-600 transition-colors hover:bg-slate-200 disabled:opacity-50"
+              >
+                สิ้นสุดการตรวจ (ไม่บันทึก)
+              </button>
+            </>
+          ) : (
+            <>
               <div className="flex-1">
-                <h4 className="flex items-center gap-2 text-xl font-black text-white mb-3">
-                  <Sparkles className="h-6 w-6 text-indigo-200" />
-                  ข้อเสนอแนะและแนวทางแก้ไข (AI Auto-Fix)
-                </h4>
-                <p className="text-sm font-medium leading-7 text-indigo-100">
-                  {suggestions}
-                </p>
+                <p className="text-sm font-black text-emerald-600 mb-1">🎉 AI ปรับปรุงแผนเสร็จสมบูรณ์!</p>
+                <p className="text-xs font-medium text-slate-500">กรุณากดบันทึกเพื่อจัดเก็บเป็นฉบับร่าง หรือกดยกเลิกเพื่อทิ้งการเปลี่ยนแปลง</p>
               </div>
-              
-              {result.autoFixAvailable && result.planId !== 'uploaded' && !result.isFixed && (
-                <div className="shrink-0 w-full md:w-auto">
-                  <button
-                    onClick={() => onFixPartial('overall', suggestions, 'overall')}
-                    disabled={isFixing}
-                    className="flex w-full md:w-auto items-center justify-center gap-2 rounded-xl bg-white text-indigo-600 px-6 py-4 text-sm font-black shadow-md transition-all hover:scale-105 disabled:bg-indigo-400 disabled:text-indigo-200 disabled:scale-100"
-                  >
-                    {fixingId === `${result.planId}-partial-overall` ? (
-                      <><Loader2 className="h-5 w-5 animate-spin" /> กำลังปรับปรุงแผนทั้งหมด...</>
-                    ) : result.fixedRecs?.['overall'] ? (
-                      <><CheckCircle className="h-5 w-5" /> ปรับปรุงแผนแล้ว</>
-                    ) : (
-                      <><Zap className="h-5 w-5" /> ให้ AI ปรับปรุงแผนให้สมบูรณ์</>
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+              <button
+                onClick={onSaveDraft}
+                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-emerald-500 px-8 py-4 text-base font-black text-white shadow-lg shadow-emerald-500/30 transition-all hover:scale-105 hover:bg-emerald-600"
+              >
+                <CheckSquare className="h-5 w-5" /> บันทึกแผนฉบับ AI ปรับปรุง
+              </button>
+              <button
+                onClick={onCancel}
+                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-rose-50 px-8 py-4 text-base font-bold text-rose-600 transition-colors hover:bg-rose-100"
+              >
+                ยกเลิก (ไม่บันทึก)
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </motion.section>
   );

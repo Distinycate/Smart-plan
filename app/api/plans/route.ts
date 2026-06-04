@@ -11,12 +11,26 @@ export async function GET(req: NextRequest) {
     const statusFilter = searchParams.get('status');
     const { data: { user } } = await supabase.auth.getUser();
 
-    // The RLS policies in the database will automatically filter plans by user_id
-    // or return all plans if the user is an admin.
+    if (!user) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check if user is an admin
+    let isAdmin = false;
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+    if (profile?.role === 'admin') {
+      isAdmin = true;
+    }
+
+    // Return all plans if the user is an admin, otherwise only their own plans
     let query = supabase
       .from('LessonPlans')
-      .select('planId, planStatus, subjectCode, subjectName, unitName, lessonTopic, gradeLevel, semester, academicYear, totalHours, createdAt, updatedAt')
+      .select('planId, planStatus, subjectCode, subjectName, unitName, lessonTopic, gradeLevel, semester, academicYear, totalHours, createdAt, updatedAt, user_id')
       .order('updatedAt', { ascending: false });
+
+    if (!isAdmin) {
+      query = query.eq('user_id', user.id);
+    }
 
     if (statusFilter === 'archived') {
       query = query.eq('planStatus', 'archived');
@@ -26,13 +40,33 @@ export async function GET(req: NextRequest) {
       query = query.neq('planStatus', 'archived').neq('planStatus', 'ai_fixed');
     }
 
-    const { data, error } = await query;
+    const { data: plansData, error } = await query;
 
     if (error) throw error;
 
+    let finalData = plansData;
+
+    // If admin, attach author email to each plan
+    if (isAdmin && plansData) {
+      const userIds = Array.from(new Set(plansData.map(p => p.user_id).filter(Boolean)));
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase.from('profiles').select('id, email, full_name').in('id', userIds);
+        const profileMap = (profiles || []).reduce((acc: any, p: any) => {
+          acc[p.id] = p;
+          return acc;
+        }, {});
+
+        finalData = plansData.map(p => ({
+          ...p,
+          author_email: p.user_id ? profileMap[p.user_id]?.email : null,
+          author_name: p.user_id ? profileMap[p.user_id]?.full_name : null,
+        }));
+      }
+    }
+
     return NextResponse.json({
       success: true,
-      data
+      data: finalData
     });
   } catch (error: any) {
     console.error('Error fetching plans:', error);

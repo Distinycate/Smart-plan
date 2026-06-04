@@ -30,34 +30,59 @@ export const evaluatorPromptTemplate = `MASTER SELF-CHECK PROMPT
 
 ให้รายงานและตอบกลับเป็นรูปแบบ JSON (เท่านั้น ห้ามมีข้อความอื่นปน) ตามโครงสร้างนี้:
 {
-  "scores": {
-    "objectivesQualitative": (คะแนนความเหมาะสมของจุดประสงค์ K/P/A เต็ม 5),
-    "activitiesQualitative": (คะแนนความเหมาะสมและน่าสนใจของกิจกรรม เต็ม 5),
-    "assessmentQualitative": (คะแนนความเหมาะสมของการวัดผล เต็ม 5),
-    "rubricQualitative": (คะแนนความเหมาะสมของ Rubric เต็ม 5),
-    "alignmentScore": (คะแนนความสอดคล้องของทุกองค์ประกอบ เต็ม 5),
-    "languageScore": (คะแนนความถูกต้องของภาษาทางราชการ เต็ม 5)
+  "detailedScores": {
+    "objectives": {
+      "score": (คะแนนจุดประสงค์ K/P/A เต็ม 5),
+      "strengths": "จุดดี หรือส่วนที่ทำได้ดี",
+      "weaknesses": "จุดที่บกพร่อง หรือขาดหาย",
+      "suggestions": "ข้อเสนอแนะในการแก้ไข"
+    },
+    "activities": {
+      "score": (คะแนนกิจกรรม เต็ม 5),
+      "strengths": "จุดดีของกิจกรรม",
+      "weaknesses": "จุดที่ควรปรับปรุง",
+      "suggestions": "ข้อเสนอแนะเพิ่มเติม"
+    },
+    "assessment": {
+      "score": (คะแนนการวัดผล เต็ม 5),
+      "strengths": "จุดดีของการวัดผล",
+      "weaknesses": "จุดที่ควรปรับปรุง",
+      "suggestions": "ข้อเสนอแนะ"
+    },
+    "rubric": {
+      "score": (คะแนน Rubric เต็ม 5),
+      "strengths": "จุดดีของ Rubric",
+      "weaknesses": "จุดที่ควรปรับปรุง",
+      "suggestions": "ข้อเสนอแนะ"
+    },
+    "alignment": {
+      "score": (คะแนนความสอดคล้อง เต็ม 5),
+      "strengths": "ความสอดคล้องที่ดี",
+      "weaknesses": "จุดที่ขัดแย้งกัน",
+      "suggestions": "ข้อเสนอแนะ"
+    },
+    "language": {
+      "score": (คะแนนการใช้ภาษา เต็ม 5),
+      "strengths": "จุดที่ใช้ภาษาได้ดี",
+      "weaknesses": "จุดที่ควรแก้คำผิดหรือรูปประโยค",
+      "suggestions": "ข้อเสนอแนะ"
+    }
   },
   "overallScore": (คะแนนรวมของส่วน AI ประเมิน เต็ม 30),
-  "strengths": ["จุดแข็ง 1", "จุดแข็ง 2"],
-  "improvements": ["จุดที่ควรปรับปรุง 1", "จุดที่ควรปรับปรุง 2"],
-  "errorsFound": ["ข้อผิดพลาดที่พบ 1", "ข้อผิดพลาดที่พบ 2"],
-  "suggestions": "ข้อเสนอแนะในการนำไปใช้หรือปรับปรุง",
   "summary": "สรุปภาพรวมสั้นๆ",
   "pa8Indicators": [
     {
       "indicator": "1. ผู้เรียนสามารถเข้าถึงสิ่งที่เรียนและเข้าใจบทเรียน",
       "met": true,
-      "reason": "เหตุผลสั้นๆ"
+      "details": "อธิบายรวมๆ อย่างสอดคล้องและเป็นย่อหน้าเดียว ว่าในแผนนี้มีจุดไหนที่สะท้อนตัวชี้วัดนี้ จุดไหนที่ไม่ตรง และควรเพิ่มหรือแก้ไขอย่างไร"
     },
     {
       "indicator": "2. ผู้เรียนสามารถเชื่อมโยงความรู้หรือประสบการณ์เดิมกับการเรียนรู้ใหม่",
       "met": false,
-      "reason": "เหตุผลสั้นๆ"
+      "details": "อธิบายรวมๆ ..."
     }
     // ... ให้ครบทั้ง 8 ข้อ
-  ],
-  "autoFixAvailable": true
+  ]
 }`;
 
 export const autoFixPromptTemplate = `MASTER AUTO-FIX PROMPT
@@ -83,18 +108,4 @@ export const autoFixPromptTemplate = `MASTER AUTO-FIX PROMPT
 เพิ่ม key พิเศษ "fixReason" เพื่อระบุเหตุผลการแก้ไข (เป็น string สั้นๆ)
 ห้ามตัด key ใดๆ ทิ้ง หากไม่ได้แก้ ให้คง value เดิมไว้`;
 
-export const partialFixPromptTemplate = `MASTER AUTO-FIX PROMPT (Partial)
-คุณได้รับหน้าที่ปรับปรุงแผนการจัดการเรียนรู้ "เฉพาะจุดเดียว"
 
-นี่คือข้อมูลแผนเดิม:
-<<<PLAN_CONTENT>>>
-
-หัวข้อที่ต้องแก้ไข: <<<SECTION_NAME>>>
-คำแนะนำ: <<<SUGGESTION>>>
-
-ข้อกำหนด:
-1. ห้ามลบข้อมูลเดิมโดยไม่จำเป็น
-2. ปรับเฉพาะส่วนที่ได้รับข้อเสนอแนะ
-3. ผลลัพธ์ต้องเป็น JSON ที่มีโครงสร้างเดิม
-
-ตอบกลับเป็น JSON ที่มีโครงสร้างตรงกับข้อมูลแผนเดิมเป๊ะ โดยเปลี่ยนเฉพาะ value ของหัวข้อที่ต้องแก้ไขเท่านั้น ห้ามตัด key ทิ้ง`;

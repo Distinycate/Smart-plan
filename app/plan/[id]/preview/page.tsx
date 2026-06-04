@@ -47,7 +47,7 @@ export default function PlanPreview() {
       <div style={{ padding: '40px', textAlign: 'center', fontFamily: 'Sarabun, sans-serif' }}>
         <h2 style={{ color: '#dc2626' }}>เกิดข้อผิดพลาดในการโหลดเอกสาร</h2>
         <p>{error || 'ไม่พบแผนการสอนในระบบ'}</p>
-        <button onClick={() => router.push('/')} style={{ marginTop: '16px', padding: '8px 16px', background: '#4f46e5', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
+        <button onClick={() => router.push('/dashboard')} style={{ marginTop: '16px', padding: '8px 16px', background: '#4f46e5', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
           กลับหน้าหลัก
         </button>
       </div>
