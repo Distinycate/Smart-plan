@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
     const supabase = createClient();
     const { searchParams } = new URL(req.url);
     const statusFilter = searchParams.get('status');
+    const targetUserId = searchParams.get('userId');
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
@@ -30,6 +31,9 @@ export async function GET(req: NextRequest) {
 
     if (!isAdmin) {
       query = query.eq('user_id', user.id);
+    } else if (targetUserId) {
+      // Admin is requesting a specific user's plans
+      query = query.eq('user_id', targetUserId);
     }
 
     if (statusFilter === 'archived') {

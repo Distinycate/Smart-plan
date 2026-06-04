@@ -43,6 +43,14 @@ export default function TeacherDashboard() {
       let qs = '';
       if (tab === 'archived') qs = '?status=archived';
       if (tab === 'ai_fixed') qs = '?status=ai_fixed';
+      
+      if (typeof window !== 'undefined') {
+        const userId = new URLSearchParams(window.location.search).get('userId');
+        if (userId) {
+          qs += qs ? `&userId=${userId}` : `?userId=${userId}`;
+        }
+      }
+
       const [plansRes, initRes] = await Promise.all([
         fetch(`/api/plans${qs}`),
         fetch('/api/initial-data')
@@ -197,11 +205,16 @@ export default function TeacherDashboard() {
                 <RefreshCw size={14} className={refreshing ? 'spin-icon' : ''} />
                 {refreshing ? 'กำลังรีเฟรช...' : 'รีเฟรช'}
               </button>
+              {typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('userId') && (
+                <button className="btn btn-hero-outline" style={{ borderColor: '#ef4444', color: '#ef4444', backgroundColor: '#fef2f2' }} onClick={() => router.push('/admin')}>
+                  ← กลับหน้า Admin
+                </button>
+              )}
             </div>
           </div>
           <div className="hero-img-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/magical_book.png" alt="illustration" className="hero-img" />
+            <img src="/assets/lesson_plan_pastel.png" alt="illustration" className="hero-img" />
           </div>
         </div>
 
@@ -536,7 +549,7 @@ export default function TeacherDashboard() {
 
         /* ── HERO ── */
         .hero-wrap {
-          background: linear-gradient(135deg, #be185d 0%, #db2777 45%, #ec4899 80%, #f43f5e 100%);
+          background: linear-gradient(135deg, #f9a8d4 0%, #f472b6 60%, #fb7185 100%);
           border-radius: 24px;
           overflow: hidden;
           margin-bottom: 20px;
@@ -597,7 +610,7 @@ export default function TeacherDashboard() {
         }
         .home-hero-actions { display:flex; gap:10px; flex-wrap:wrap; }
         .btn-hero {
-          background:#fff; color:#db2777;
+          background:#fff; color:#f472b6;
           box-shadow: 0 14px 30px rgba(0,0,0,0.18);
         }
         .btn-hero-outline {

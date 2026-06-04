@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts'
 import toast from 'react-hot-toast'
-import { Trash2, Shield, User as UserIcon } from 'lucide-react'
+import { Trash2, Shield, User as UserIcon, LayoutDashboard } from 'lucide-react'
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1']
 
@@ -206,14 +206,23 @@ export default function AdminDashboardClient({
                   <td className="px-6 py-4">{new Date(u.created_at).toLocaleDateString('th-TH')}</td>
                   <td className="px-6 py-4 text-right">
                     {u.role !== 'admin' && (
-                      <button 
-                        onClick={() => handleDeleteUser(u.id, u.email)}
-                        disabled={deleting === u.id}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                        title="ลบผู้ใช้ถาวร"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                      <div className="flex justify-end gap-2">
+                        <button 
+                          onClick={() => router.push(`/dashboard?userId=${u.id}`)}
+                          className="p-2 text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
+                          title="ดู Dashboard ผู้ใช้นี้"
+                        >
+                          <LayoutDashboard size={18} />
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteUser(u.id, u.email)}
+                          disabled={deleting === u.id}
+                          className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                          title="ลบผู้ใช้ถาวร"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>
