@@ -100,12 +100,20 @@ ${errorMemoryText}
     }
 
     let cleanedText = aiText.trim();
-    if (cleanedText.startsWith('```')) {
-      cleanedText = cleanedText.replace(/^```(json)?\n?/, '').replace(/\n?```$/, '');
+    const match = cleanedText.match(/```(?:json)?([\\s\\S]*?)```/);
+    if (match) {
+      cleanedText = match[1].trim();
+    } else {
+      cleanedText = cleanedText.replace(/^```(?:json)?\\n?/, '').replace(/\\n?```$/, '').trim();
     }
-    cleanedText = cleanedText.trim();
-
-    const parsedData = JSON.parse(cleanedText);
+    
+    let parsedData;
+    try {
+      parsedData = JSON.parse(cleanedText);
+    } catch (parseError) {
+      console.error("Failed to parse JSON. Raw AI Output:", aiText);
+      throw new Error(`AI output parsing failed: ${parseError.message}`);
+    }
 
     return NextResponse.json({
       success: true,

@@ -45,10 +45,20 @@ export async function POST(req: Request) {
     if (!aiText) throw new Error('Invalid response from Gemini');
 
     let cleanedText = aiText.trim();
-    if (cleanedText.startsWith('```')) {
-      cleanedText = cleanedText.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+    const match = cleanedText.match(/```(?:json)?([\\s\\S]*?)```/);
+    if (match) {
+      cleanedText = match[1].trim();
+    } else {
+      cleanedText = cleanedText.replace(/^```(?:json)?\\n?/, '').replace(/\\n?```$/, '').trim();
     }
-    const parsedData = JSON.parse(cleanedText);
+    
+    let parsedData;
+    try {
+      parsedData = JSON.parse(cleanedText);
+    } catch (parseError) {
+      console.error("Failed to parse JSON. Raw AI Output:", aiText);
+      throw new Error(`AI output parsing failed: ${parseError.message}`);
+    }
 
     // --- RULE-BASED SCORING INTEGRATION ---
     const { evaluatePlanRuleBased } = await import('@/lib/evaluationEngine');
