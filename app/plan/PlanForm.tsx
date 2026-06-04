@@ -420,7 +420,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     gradeLevel: '',
     semester: '1',
     academicYear: '2569',
-    totalHours: 2,
+    totalHours: 1,
     
     unitId: '',
     unitName: '',
@@ -497,7 +497,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                 else if (key === 'criteriaP' || key === 'criteriaA') cleanedData[key] = 'ผ่านเกณฑ์ระดับคุณภาพระดับดีขึ้นไป';
                 else if (key === 'semester') cleanedData[key] = '1';
                 else if (key === 'academicYear') cleanedData[key] = '2569';
-                else if (key === 'totalHours') cleanedData[key] = 2;
+                else if (key === 'totalHours') cleanedData[key] = 1;
                 else if (key === 'planStatus') cleanedData[key] = 'draft';
                 else cleanedData[key] = '';
               } else if (typeof val === 'string') {
@@ -695,7 +695,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
       unitName: '',
       topicId: '',
       lessonTopic: '',
-      totalHours: 2,
+      totalHours: 1,
       indicatorSelectedIds: ''
     }));
   };
@@ -716,7 +716,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         unitName: '',
         topicId: '',
         lessonTopic: '',
-        totalHours: 2,
+        totalHours: 1,
         indicatorSelectedIds: ''
       }));
     }
@@ -753,7 +753,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         // Reset topic
         topicId: '',
         lessonTopic: '',
-        totalHours: 2
+        totalHours: 1
       }));
     } else {
       // Custom unit name typed by teacher
@@ -797,7 +797,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           unitName: prev.unitName || selectedUnit?.unitName || '',
           topicId: selected.topicId,
           lessonTopic: selected.lessonTopic,
-          totalHours: selected.defaultHours || 2
+          totalHours: selected.defaultHours || 1
         }, selected)
       }));
     } else {
@@ -832,7 +832,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         unitName: selectedUnit?.unitName || prev.unitName || '',
         topicId: selected.topicId,
         lessonTopic: selected.lessonTopic,
-        totalHours: selected.defaultHours || 2,
+        totalHours: selected.defaultHours || 1,
         indicatorSelectedIds: selectedUnit?.indicatorIds || prev.indicatorSelectedIds || '',
       }, selected)
     }));
@@ -1269,7 +1269,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
             </div>
 
-            <hr className="divider" style={{ borderTopStyle: 'dashed' }} />
+            <hr className="divider" />
             
             <h3>รายวิชาและหัวข้อสอน</h3>
 
@@ -1286,44 +1286,50 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
 
               <label className="field">
-                เลือกวิชา (เฉพาะ 8 กลุ่มสาระหลัก)
+                เลือกรหัสวิชา
                 <select 
-                  value={fields.subjectName || ''}
+                  value={fields.subjectCode || ''}
                   onChange={e => {
-                    const subjName = e.target.value;
-                    if (!subjName) {
+                    const subjCode = e.target.value;
+                    if (!subjCode) {
                       setFields(prev => ({ ...prev, subjectName: '', subjectCode: '', subjectId: '' }));
                       return;
                     }
                     if (fields.gradeLevel) {
                       const subjects = getSubjectsByGrade(fields.gradeLevel);
-                      const selected = subjects.find(s => s.subjectName === subjName);
+                      const selected = subjects.find(s => s.subjectCode === subjCode);
                       if (selected) {
+                        // Infer semester from subjectCode (usually ends with 2 or 02 for semester 2)
+                        let sem = '1';
+                        if (subjCode.endsWith('2') || subjCode.endsWith('02')) sem = '2';
+                        else if (subjCode.endsWith('1') || subjCode.endsWith('01')) sem = '1';
+
                         setFields(prev => ({ 
                           ...prev, 
-                          subjectName: subjName, 
-                          subjectCode: selected.subjectCode,
-                          subjectId: selected.subjectKey // used for unit filtering if needed
+                          subjectName: selected.subjectName, 
+                          subjectCode: subjCode,
+                          subjectId: selected.subjectKey,
+                          semester: sem
                         }));
                       } else {
-                        setFields(prev => ({ ...prev, subjectName: subjName, subjectCode: '', subjectId: '' }));
+                        setFields(prev => ({ ...prev, subjectCode: subjCode, subjectId: '' }));
                       }
                     } else {
-                      setFields(prev => ({ ...prev, subjectName: subjName }));
+                      setFields(prev => ({ ...prev, subjectCode: subjCode }));
                     }
                   }}
                   disabled={!fields.gradeLevel}
                 >
-                  <option value="">-- เลือกวิชา --</option>
+                  <option value="">-- เลือกรหัสวิชา --</option>
                   {fields.gradeLevel && getSubjectsByGrade(fields.gradeLevel).map((s: any) => (
-                    <option key={s.subjectKey} value={s.subjectName}>{s.subjectName}</option>
+                    <option key={s.subjectKey} value={s.subjectCode}>{s.subjectCode}</option>
                   ))}
                 </select>
               </label>
 
               <label className="field">
-                รหัสวิชา (แสดงในหัวกระดาษ)
-                <input value={fields.subjectCode} onChange={e => setFields({ ...fields, subjectCode: e.target.value })} required />
+                รายวิชา (อัตโนมัติ / แก้ไขได้)
+                <input value={fields.subjectName} onChange={e => setFields({ ...fields, subjectName: e.target.value })} required />
               </label>
             </div>
 
@@ -1337,11 +1343,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
               <label className="field">
                 ปีการศึกษา
-                <input value={fields.academicYear} onChange={e => setFields({ ...fields, academicYear: e.target.value })} />
+                <input value={fields.academicYear} onChange={e => setFields({ ...fields, academicYear: e.target.value })} placeholder="เช่น 2569" />
               </label>
               <label className="field">
                 จำนวนชั่วโมงสอนของแผนนี้
-                <input type="number" value={fields.totalHours} onChange={e => setFields({ ...fields, totalHours: parseInt(e.target.value) || 2 })} />
+                <input type="number" min="1" value={fields.totalHours} onChange={e => setFields({ ...fields, totalHours: parseInt(e.target.value) || 1 })} />
               </label>
             </div>
 
