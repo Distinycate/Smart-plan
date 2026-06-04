@@ -818,7 +818,12 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         })
       });
 
-      const json = await response.json();
+      let json;
+      try {
+        json = await response.json();
+      } catch (parseError) {
+        throw new Error('ไม่สามารถอ่านข้อมูลที่ตอบกลับมาจาก AI ได้ (กรุณาลองใหม่อีกครั้ง)');
+      }
       if (json.success && json.data) {
         const ai = json.data;
         

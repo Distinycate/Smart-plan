@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       generationConfig: { responseMimeType: 'application/json' }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 5);
 
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
