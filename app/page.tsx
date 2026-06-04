@@ -108,8 +108,8 @@ export default function LandingPage() {
               </div>
               
               {/* Floating Element */}
-              <div className="absolute -right-8 -bottom-10 h-44 w-44 animate-[bounce_4s_ease-in-out_infinite] hover:scale-110 transition-transform z-20">
-                <Image src="/assets/ai_lesson_plan_icon.png" alt="AI Lesson Plan Icon" width={176} height={176} className="drop-shadow-2xl object-contain" priority />
+              <div className="absolute -right-12 -bottom-12 h-48 w-48 animate-[bounce_4s_ease-in-out_infinite] hover:scale-110 transition-transform z-20 mix-blend-multiply">
+                <Image src="/assets/cute_robot.png" alt="Cute AI Robot" width={192} height={192} className="object-contain drop-shadow-md" priority />
               </div>
             </motion.div>
           </div>
