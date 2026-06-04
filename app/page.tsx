@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, 
@@ -40,7 +41,7 @@ export default function LandingPage() {
                 <Zap className="h-4 w-4" />
                 AI Assistant For Thai Teachers
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.15]">
+              <h1 className="text-4xl sm:text-5xl lg:text-5xl font-black tracking-tight text-slate-900 leading-snug">
                 ออกแบบแผนการสอนอัจฉริยะ <br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">
                   เสร็จสมบูรณ์ใน 30 วินาทีด้วย AI
@@ -106,16 +107,8 @@ export default function LandingPage() {
               </div>
               
               {/* Floating Element */}
-              <div className="absolute -right-6 -bottom-6 rounded-2xl bg-white p-4 shadow-xl shadow-slate-200/50 border border-slate-100 animate-[bounce_4s_ease-in-out_infinite]">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-                    <CheckCircle2 className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Status</p>
-                    <p className="text-sm font-black text-slate-800">100% Ready</p>
-                  </div>
-                </div>
+              <div className="absolute -right-8 -bottom-10 h-44 w-44 animate-[bounce_4s_ease-in-out_infinite] hover:scale-110 transition-transform z-20">
+                <Image src="/assets/ai_lesson_plan_icon.png" alt="AI Lesson Plan Icon" width={176} height={176} className="drop-shadow-2xl object-contain" priority />
               </div>
             </motion.div>
           </div>
@@ -142,46 +135,62 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 3. CORE FEATURES SECTION */}
-      <section className="py-24 bg-white relative">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">จัดการทุกขั้นตอนของแผนการสอน<br/> ครบจบในที่เดียว</h2>
-            <p className="text-lg font-medium text-slate-500">ระบบถูกออกแบบมาให้ครอบคลุมการทำงานของคุณครูตั้งแต่เริ่มคิดจนถึงพิมพ์ใช้งาน</p>
+      {/* 3. CORE FEATURES SECTION (WOW DESIGN) */}
+      <section className="py-32 bg-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-pink-900/40 via-slate-900 to-slate-900"></div>
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-pink-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-rose-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+        
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <div className="inline-flex items-center gap-2 rounded-full bg-pink-500/10 border border-pink-500/20 px-4 py-2 text-sm font-black text-pink-400 mb-6 backdrop-blur-md">
+              <Sparkles className="h-4 w-4" /> ฟีเจอร์หลักอันทรงพลัง
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">จัดการทุกขั้นตอนของแผนการสอน<br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">ครบจบในที่เดียว</span></h2>
+            <p className="text-xl font-medium text-slate-400">ระบบถูกออกแบบมาให้ครอบคลุมการทำงานของคุณครูตั้งแต่เริ่มคิดจนถึงพิมพ์ใช้งาน พร้อมพลัง AI ที่ช่วยยกระดับความเร็วและคุณภาพอย่างที่ไม่เคยมีมาก่อน</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="rounded-[2rem] bg-white p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(255,20,147,0.08)]">
-              <div className="h-14 w-14 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-600 mb-6">
-                <Edit3 className="h-7 w-7" />
+            <div className="group relative rounded-[2.5rem] bg-slate-800/50 p-10 border border-slate-700/50 backdrop-blur-xl transition-all duration-500 hover:-translate-y-3 hover:bg-slate-800 hover:border-pink-500/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]">
+              <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
+              <div className="relative z-10">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white mb-8 shadow-lg shadow-pink-500/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  <Edit3 className="h-8 w-8" />
+                </div>
+                <h3 className="text-2xl font-black text-white mb-4">สร้างแผน (Generate)</h3>
+                <p className="text-slate-400 font-medium leading-relaxed text-lg">
+                  เพียงใส่หัวข้อวิชาหรือตัวชี้วัด AI จะช่วยร่างโครงสร้างแผนการสอน จุดประสงค์การเรียนรู้ และกิจกรรมกลุ่มให้ทันทีอย่างมืออาชีพ
+                </p>
               </div>
-              <h3 className="text-xl font-black text-slate-900 mb-3">✍️ สร้างแผน (Generate)</h3>
-              <p className="text-slate-600 font-medium leading-relaxed">
-                เพียงใส่หัวข้อวิชาหรือตัวชี้วัด AI จะช่วยร่างโครงสร้างแผนการสอน จุดประสงค์การเรียนรู้ และกิจกรรมกลุ่มให้ทันทีอย่างมืออาชีพ
-              </p>
             </div>
 
             {/* Feature 2 */}
-            <div className="rounded-[2rem] bg-white p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(255,20,147,0.08)]">
-              <div className="h-14 w-14 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-600 mb-6">
-                <Search className="h-7 w-7" />
+            <div className="group relative rounded-[2.5rem] bg-slate-800/50 p-10 border border-slate-700/50 backdrop-blur-xl transition-all duration-500 hover:-translate-y-3 hover:bg-slate-800 hover:border-pink-500/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]">
+              <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
+              <div className="relative z-10">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white mb-8 shadow-lg shadow-pink-500/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  <Search className="h-8 w-8" />
+                </div>
+                <h3 className="text-2xl font-black text-white mb-4">ตรวจแผน (Verify & Audit)</h3>
+                <p className="text-slate-400 font-medium leading-relaxed text-lg">
+                  ระบบตรวจสอบความสอดคล้อง (Alignment) ระหว่างเนื้อหา กิจกรรม และการวัดผล เพื่อให้มั่นใจว่าแผนผ่านเกณฑ์มาตรฐานอย่างถูกต้อง
+                </p>
               </div>
-              <h3 className="text-xl font-black text-slate-900 mb-3">🔍 ตรวจแผน (Verify & Audit)</h3>
-              <p className="text-slate-600 font-medium leading-relaxed">
-                ระบบตรวจสอบความสอดคล้อง (Alignment) ระหว่างเนื้อหา กิจกรรม และการวัดผล เพื่อให้มั่นใจว่าแผนผ่านเกณฑ์มาตรฐานอย่างถูกต้อง
-              </p>
             </div>
 
             {/* Feature 3 */}
-            <div className="rounded-[2rem] bg-white p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 transition-all hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(255,20,147,0.08)]">
-              <div className="h-14 w-14 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-600 mb-6">
-                <PenTool className="h-7 w-7" />
+            <div className="group relative rounded-[2.5rem] bg-slate-800/50 p-10 border border-slate-700/50 backdrop-blur-xl transition-all duration-500 hover:-translate-y-3 hover:bg-slate-800 hover:border-pink-500/30 hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]">
+              <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
+              <div className="relative z-10">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white mb-8 shadow-lg shadow-pink-500/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  <PenTool className="h-8 w-8" />
+                </div>
+                <h3 className="text-2xl font-black text-white mb-4">แก้แผน (Customize)</h3>
+                <p className="text-slate-400 font-medium leading-relaxed text-lg">
+                  ปรับแต่ง ยืดหยุ่น และแก้ไขเนื้อหาเฉพาะจุดได้อย่างอิสระผ่านโปรแกรมแก้ไขที่ใช้งานง่าย พร้อมส่งออก (Export) เป็นไฟล์พร้อมใช้งาน
+                </p>
               </div>
-              <h3 className="text-xl font-black text-slate-900 mb-3">🛠️ แก้แผน (Customize)</h3>
-              <p className="text-slate-600 font-medium leading-relaxed">
-                ปรับแต่ง ยืดหยุ่น และแก้ไขเนื้อหาเฉพาะจุดได้อย่างอิสระผ่านโปรแกรมแก้ไขที่ใช้งานง่าย พร้อมส่งออก (Export) เป็นไฟล์พร้อมใช้งาน
-              </p>
             </div>
           </div>
         </div>
@@ -193,14 +202,8 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left: Image Placeholder */}
             <div className="relative">
-              <div className="aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-pink-200 to-rose-100 overflow-hidden shadow-inner flex items-center justify-center">
-                {/* Normally an image goes here. We use an aesthetic placeholder */}
-                <div className="text-center p-8">
-                  <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-white text-pink-500 shadow-xl mb-6">
-                    <Sparkles className="h-10 w-10" />
-                  </div>
-                  <h3 className="text-2xl font-black text-pink-900/60">Happy Teacher Workspace</h3>
-                </div>
+              <div className="aspect-[4/3] rounded-[2.5rem] bg-gradient-to-br from-pink-200 to-rose-100 overflow-hidden shadow-2xl flex items-center justify-center relative">
+                <Image src="/assets/happy_thai_teacher.png" alt="Happy Thai Teacher" fill className="object-cover transition-transform duration-700 hover:scale-105" />
               </div>
               <div className="absolute -bottom-6 -right-6 h-32 w-32 bg-pink-500 rounded-full blur-[80px] opacity-30 z-0" />
             </div>
