@@ -4,12 +4,18 @@ export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetr
 
   while (attempt < maxRetries) {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s timeout
+
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-        next: { revalidate: 0 } // bypass cache
+        next: { revalidate: 0 }, // bypass cache
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
 
       if (response.ok) {
         return response; // Success

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { autoFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
+import { fetchGroqWithRetry } from '@/lib/groqClient';
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
@@ -10,27 +11,34 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { planData, feedbackContent } = body;
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) throw new Error("GEMINI_API_KEY is not configured.");
-    
-    // Choose the best model
-    const model = 'gemini-flash-latest';
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
     let prompt = autoFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
     prompt = prompt.replace('<<<FEEDBACK_CONTENT>>>', feedbackContent || 'ปรับปรุงให้สมบูรณ์ตามเกณฑ์ประเมินแผน');
 
-    const payload = {
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { responseMimeType: 'application/json' }
-    };
+    let aiText = '';
+    try {
+      // Primary: Groq (Best for editing/fixing context)
+      const response = await fetchGroqWithRetry(prompt, 2);
+      const resJson = await response.json();
+      aiText = resJson.choices?.[0]?.message?.content;
+      if (!aiText) throw new Error('Invalid response from Groq');
+    } catch (groqError: any) {
+      console.warn("Groq Failed, falling back to Gemini:", groqError.message);
+      
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) throw new Error("GEMINI_API_KEY is not configured.");
+      const model = 'gemini-flash-latest';
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { responseMimeType: 'application/json' }
+      };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
-
-    const resJson = await response.json();
-    const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
-    
-    if (!aiText) throw new Error('Invalid response from Gemini');
+      const response = await fetchGeminiWithRetry(apiUrl, payload, 2);
+      const resJson = await response.json();
+      aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      if (!aiText) throw new Error('Invalid response from Gemini');
+    }
 
     let cleanedText = aiText.trim();
     const match = cleanedText.match(/```(?:json)?([\s\S]*?)```/);
