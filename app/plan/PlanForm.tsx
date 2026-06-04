@@ -316,6 +316,70 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     }, 3000);
   };
 
+  // --- RUBRIC LIBRARY STATE ---
+  type SavedRubric = { id: string; name: string; content: string; type: 'K' | 'P' | 'A' };
+  const [savedRubrics, setSavedRubrics] = useState<SavedRubric[]>([]);
+  const [showRubricModal, setShowRubricModal] = useState<'K' | 'P' | 'A' | null>(null);
+  const [rubricNameInput, setRubricNameInput] = useState('');
+  const [rubricSaveType, setRubricSaveType] = useState<'K' | 'P' | 'A' | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('savedRubrics');
+      if (stored) {
+        setSavedRubrics(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error('Failed to load saved rubrics', e);
+    }
+  }, []);
+
+  const handleSaveRubric = () => {
+    if (!rubricNameInput.trim() || !rubricSaveType) return;
+    
+    let content = '';
+    if (rubricSaveType === 'K') content = fields.rubricK;
+    if (rubricSaveType === 'P') content = fields.rubricP;
+    if (rubricSaveType === 'A') content = fields.rubricA;
+
+    if (!content.trim()) {
+      triggerToast('กรุณากรอกข้อความ Rubric ก่อนบันทึก', 'error');
+      return;
+    }
+
+    const newRubric: SavedRubric = {
+      id: Date.now().toString(),
+      name: rubricNameInput.trim(),
+      content,
+      type: rubricSaveType
+    };
+
+    const updated = [...savedRubrics, newRubric];
+    setSavedRubrics(updated);
+    localStorage.setItem('savedRubrics', JSON.stringify(updated));
+    
+    setRubricSaveType(null);
+    setRubricNameInput('');
+    triggerToast('บันทึก Rubric ลงในคลังส่วนตัวสำเร็จ!', 'success');
+  };
+
+  const handleLoadRubric = (r: SavedRubric) => {
+    if (r.type === 'K') setFields(prev => ({ ...prev, rubricK: r.content }));
+    if (r.type === 'P') setFields(prev => ({ ...prev, rubricP: r.content }));
+    if (r.type === 'A') setFields(prev => ({ ...prev, rubricA: r.content }));
+    setShowRubricModal(null);
+    triggerToast(`ดึงข้อมูล "${r.name}" เรียบร้อย`, 'success');
+  };
+
+  const handleDeleteRubric = (id: string) => {
+    const updated = savedRubrics.filter(r => r.id !== id);
+    setSavedRubrics(updated);
+    localStorage.setItem('savedRubrics', JSON.stringify(updated));
+    triggerToast('ลบ Rubric ออกจากคลังแล้ว', 'info');
+  };
+  // ----------------------------
+
+
   // 19+ Document fields states
   const [fields, setFields] = useState<Record<string, any>>({
     planStatus: 'draft',
@@ -1617,7 +1681,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <input value={fields.criteriaK} onChange={e => setFields({ ...fields, criteriaK: e.target.value })} />
                 </label>
                 <label className="field fw">
-                  เกณฑ์การประเมินแบบ Rubric (ด้าน K)
+                  <div className="flex justify-between items-end mb-1">
+                    <span>เกณฑ์การประเมินแบบ Rubric (ด้าน K)</span>
+                    <div className="flex gap-2">
+                      <button type="button" onClick={() => setRubricSaveType('K')} className="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 flex items-center gap-1 transition-colors border border-indigo-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setShowRubricModal('K')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
+                    </div>
+                  </div>
                   <textarea value={fields.rubricK} onChange={e => setFields({ ...fields, rubricK: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
                 </label>
               </div>
@@ -1646,7 +1716,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <input value={fields.criteriaP} onChange={e => setFields({ ...fields, criteriaP: e.target.value })} />
                 </label>
                 <label className="field fw">
-                  เกณฑ์การประเมินแบบ Rubric (ด้าน P)
+                  <div className="flex justify-between items-end mb-1">
+                    <span>เกณฑ์การประเมินแบบ Rubric (ด้าน P)</span>
+                    <div className="flex gap-2">
+                      <button type="button" onClick={() => setRubricSaveType('P')} className="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 flex items-center gap-1 transition-colors border border-indigo-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setShowRubricModal('P')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
+                    </div>
+                  </div>
                   <textarea value={fields.rubricP} onChange={e => setFields({ ...fields, rubricP: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
                 </label>
               </div>
@@ -1675,7 +1751,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <input value={fields.criteriaA} onChange={e => setFields({ ...fields, criteriaA: e.target.value })} />
                 </label>
                 <label className="field fw">
-                  เกณฑ์การประเมินแบบ Rubric (ด้าน A)
+                  <div className="flex justify-between items-end mb-1">
+                    <span>เกณฑ์การประเมินแบบ Rubric (ด้าน A)</span>
+                    <div className="flex gap-2">
+                      <button type="button" onClick={() => setRubricSaveType('A')} className="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 flex items-center gap-1 transition-colors border border-indigo-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setShowRubricModal('A')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
+                    </div>
+                  </div>
                   <textarea value={fields.rubricA} onChange={e => setFields({ ...fields, rubricA: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
                 </label>
               </div>
@@ -1761,6 +1843,67 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             <div className="btn-row" style={{ justifyContent: 'flex-end', marginTop: '16px' }}>
               <button type="button" className="btn btn-ghost" onClick={() => setShowBackupReason(false)}>ยกเลิก</button>
               <button type="button" className="btn btn-primary" onClick={confirmUpdate}>ตกลง (บันทึก)</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── RUBRIC SAVE MODAL ─── */}
+      {rubricSaveType && (
+        <div className="modal-bg">
+          <div className="modal-box max-w-md w-full">
+            <h3 className="text-lg font-bold mb-2">บันทึก Rubric ลงคลัง (ด้าน {rubricSaveType})</h3>
+            <p className="text-sm text-slate-500 mb-4">โปรดตั้งชื่อให้เกณฑ์การประเมินนี้ เพื่อความสะดวกในการดึงกลับมาใช้ในอนาคต</p>
+            <label className="field mb-4">
+              ชื่อเกณฑ์ประเมิน
+              <input 
+                value={rubricNameInput} 
+                onChange={e => setRubricNameInput(e.target.value)} 
+                placeholder="เช่น เกณฑ์การทดลองวิทย์, ทักษะการนำเสนอ"
+                autoFocus
+              />
+            </label>
+            <div className="flex justify-end gap-2 mt-4">
+              <button type="button" className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors font-medium text-sm" onClick={() => setRubricSaveType(null)}>ยกเลิก</button>
+              <button type="button" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-bold text-sm shadow-md" onClick={handleSaveRubric}>บันทึกเก็บไว้</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── RUBRIC LOAD MODAL ─── */}
+      {showRubricModal && (
+        <div className="modal-bg">
+          <div className="modal-box max-w-2xl w-full max-h-[80vh] flex flex-col">
+            <div className="flex justify-between items-center mb-4 pb-4 border-b border-slate-100">
+              <h3 className="text-xl font-black text-slate-800 m-0 flex items-center gap-2">
+                <span role="img" aria-label="library">📂</span> คลังเก็บ Rubric (ด้าน {showRubricModal})
+              </h3>
+              <button type="button" onClick={() => setShowRubricModal(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors">✕</button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-3 min-h-[300px]">
+              {savedRubrics.filter(r => r.type === showRubricModal).length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full text-slate-400 p-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                  <div className="text-4xl mb-3">📭</div>
+                  <p className="font-bold">ยังไม่มีข้อมูลในคลัง</p>
+                  <p className="text-sm">พิมพ์รายละเอียดที่กล่อง Rubric แล้วกด "บันทึกเก็บไว้" เพื่อเพิ่มเข้าคลังส่วนตัวของคุณครู</p>
+                </div>
+              ) : (
+                savedRubrics.filter(r => r.type === showRubricModal).map(r => (
+                  <div key={r.id} className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-200 transition-all group relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500 rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-slate-800 text-base">{r.name}</h4>
+                      <div className="flex gap-2">
+                        <button type="button" onClick={() => handleLoadRubric(r)} className="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 text-xs font-bold transition-colors">ใช้เกณฑ์นี้</button>
+                        <button type="button" onClick={() => { if(confirm('ต้องการลบ Rubric นี้ออกจากคลังใช่หรือไม่?')) handleDeleteRubric(r.id); }} className="px-2 py-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg text-xs transition-colors" title="ลบออกจากคลัง">ลบ</button>
+                      </div>
+                    </div>
+                    <p className="text-sm text-slate-600 whitespace-pre-line bg-slate-50 p-3 rounded-lg font-medium border border-slate-100">{r.content}</p>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
