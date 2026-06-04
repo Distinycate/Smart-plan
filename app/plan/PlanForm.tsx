@@ -938,8 +938,10 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         
         if (json.success) {
           triggerToast('บันทึกแผนการสอนใหม่เรียบร้อยแล้ว', 'success');
-          router.push('/');
-          router.refresh();
+          setTimeout(() => {
+            router.push('/');
+            router.refresh();
+          }, 1500);
         } else {
           triggerToast('ไม่สามารถบันทึกข้อมูล: ' + json.error, 'error');
         }
@@ -971,8 +973,10 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
       
       if (json.success) {
         triggerToast('อัปเดตรายละเอียดแผนการสอนและสำรองข้อมูลรุ่นเก่าเรียบร้อยแล้ว', 'success');
-        router.push('/');
-        router.refresh();
+        setTimeout(() => {
+          router.push('/');
+          router.refresh();
+        }, 1500);
       } else {
         triggerToast('ไม่สามารถบันทึกข้อมูล: ' + json.error, 'error');
       }

@@ -91,9 +91,9 @@ ${formatFinalIndicators(curriculum)}
 5. คำนึงถึงเวลาเรียนที่กำหนด
 6. ทุกกิจกรรมต้องสนับสนุนจุดประสงค์การเรียนรู้
 7. ทุกการประเมินต้องเชื่อมโยงกับจุดประสงค์ K/P/A
-8. ห้ามส่งคำตอบที่ไม่ครบถ้วน
-9. หากข้อมูลไม่เพียงพอ ให้ระบุข้อมูลที่ต้องการเพิ่มเติม
-10. ผลลัพธ์ต้องพร้อมใช้งานจริง
+8. ห้ามส่งคำตอบที่ไม่ครบถ้วน หรือตัดจบทิ้งกลางคัน (ต้องตอบกลับให้ครบถ้วนทุกข้อจนถึงข้อสุดท้าย)
+9. รูบริก (Rubrics) ต้องพิมพ์รายละเอียดให้ครบทั้ง 5 ระดับ (5, 4, 3, 2, 1) ห้ามเว้นว่าง
+10. ตัวชี้วัดต้องคัดเลือกมาเฉพาะที่เกี่ยวข้องกับเรื่องที่สอนที่สุด (1-3 ข้อ) ห้ามคัดลอกมาทั้งหมด
 11. ตัวชี้วัดต้องตรงตามรายวิชาที่กำหนด ห้ามนำตัวชี้วัดของวิชาอื่นมาปะปนเด็ดขาด
 ${errorMemoryText}${knowledgeBaseText}
 ให้ตอบกลับเป็น JSON Object เท่านั้น (ห้ามมีอักขระอื่นนอกเหนือจาก JSON) โดยมีคีย์ดังต่อไปนี้:
@@ -135,7 +135,10 @@ ${errorMemoryText}${knowledgeBaseText}
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { responseMimeType: 'application/json' }
+      generationConfig: { 
+        responseMimeType: 'application/json',
+        maxOutputTokens: 8192
+      }
     };
 
     const response = await fetchGeminiWithRetry(apiUrl, payload, 3);

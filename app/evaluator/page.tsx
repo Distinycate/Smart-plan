@@ -1017,6 +1017,31 @@ function EvaluationResultCard({ result, index, onFixPartial, onSaveDraft, isFixi
           </div>
         </div>
 
+        {/* PA 8 Indicators Checklist */}
+        {result.pa8Indicators && result.pa8Indicators.length > 0 && (
+          <div className="rounded-[1.5rem] bg-indigo-50/50 p-6 border border-indigo-100 mt-6 mb-6">
+            <h4 className="flex items-center gap-2 text-lg font-black text-indigo-900 mb-4">
+              <ClipboardCheck className="h-5 w-5 text-indigo-500" />
+              การประเมิน 8 ตัวชี้วัดวิทยฐานะ (ว9 / วPA)
+            </h4>
+            <div className="grid gap-3 md:grid-cols-2">
+              {result.pa8Indicators.map((item: any, i: number) => (
+                <div key={i} className="flex flex-col gap-2 rounded-xl bg-white p-4 shadow-sm">
+                  <div className="flex items-start gap-3">
+                    <div className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.met ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}>
+                      {item.met ? <CheckCircle className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
+                    </div>
+                    <div>
+                      <p className={`text-sm font-bold ${item.met ? 'text-slate-800' : 'text-rose-900'}`}>{item.indicator}</p>
+                      <p className="mt-1 text-xs font-medium text-slate-500">{item.reason}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="grid gap-6 md:grid-cols-2">
           {/* Strengths */}
           <div className="rounded-[1.5rem] bg-emerald-50/50 p-6 border border-emerald-100">
