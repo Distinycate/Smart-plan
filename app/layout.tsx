@@ -88,7 +88,7 @@ export default async function RootLayout({
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <Link href="/login" className="hidden rounded-full px-4 py-2 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 sm:block">
+                  <Link href="/login" className="flex items-center justify-center rounded-full bg-white border border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-600 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-slate-50 hover:text-pink-600">
                     เข้าสู่ระบบ
                   </Link>
                   <Link href="/register" className="flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-5 py-2.5 text-sm font-black text-white shadow-md shadow-pink-500/25 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-pink-500/40">
