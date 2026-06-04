@@ -6,9 +6,9 @@ import { Sparkles } from 'lucide-react'
 
 export default function RegisterPage({ searchParams }: { searchParams: { message: string } }) {
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-50 py-10 px-4">
+    <div className="min-h-screen flex items-center justify-center relative bg-slate-50 py-10 px-4">
       {/* Pastel Gradient Background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 fixed">
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 fixed pointer-events-none">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-pink-200/60 blur-[120px] mix-blend-multiply animate-blob"></div>
         <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-rose-200/60 blur-[120px] mix-blend-multiply animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-pink-100/60 blur-[120px] mix-blend-multiply animate-blob animation-delay-4000"></div>
