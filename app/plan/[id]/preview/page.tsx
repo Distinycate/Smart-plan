@@ -135,11 +135,17 @@ export default function PlanPreview() {
       .split('\n')
       .map(line => line.trim())
       .filter(Boolean)
-      .map((line, idx) => (
-        <div key={idx} className="indicator-line">
-          {line}
-        </div>
-      ));
+      .map((line, i) => <div key={i} style={{ paddingLeft: '1.25cm', textIndent: '-1.25cm' }}>{line}</div>);
+  };
+
+  const renderStandards = (val: any) => {
+    if (!val) return '-';
+    const lines = String(val)
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.startsWith('มาตรฐาน'));
+    if (lines.length === 0) return '-';
+    return lines.map((line, i) => <div key={i} style={{ paddingLeft: '1.25cm', textIndent: '-1.25cm' }}>{line}</div>);
   };
 
   // Clean list formatting (e.g. - chips to 1) 2) 3)) with 0.75cm indent
@@ -412,7 +418,7 @@ export default function PlanPreview() {
         <div className="section">
           <div className="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
-            <p><span className="label">มาตรฐานการเรียนรู้:</span><br />{renderIndicators(plan.learningStandard)}</p>
+            <p><span className="label">มาตรฐานการเรียนรู้:</span><br />{renderStandards(plan.learningStandard)}</p>
             <p style={{ marginTop: '6px' }}><span className="label">ตัวชี้วัดระหว่างทาง:</span><br />{renderIndicators(plan.indicatorDuring)}</p>
             <p style={{ marginTop: '6px' }}><span className="label">ตัวชี้วัดปลายทาง:</span><br />{renderIndicators(plan.indicatorFinal)}</p>
           </div>

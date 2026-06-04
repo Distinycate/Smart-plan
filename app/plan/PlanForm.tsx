@@ -13,7 +13,9 @@ import {
   HelpCircle,
   FileDown,
   BookOpen,
-  Layers
+  Layers,
+  Maximize2,
+  X
 } from 'lucide-react';
 import SmartDropdown from '../components/SmartDropdown';
 import {
@@ -322,6 +324,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   const [showMedia, setShowMedia] = useState(false);
   const [showSource, setShowSource] = useState(false);
   const [showTask, setShowTask] = useState(false);
+  const [showProcessModal, setShowProcessModal] = useState(false);
 
   // Toast notifications
   const [toast, setToast] = useState<{ show: boolean; msg: string; type: 'success' | 'info' | 'error' }>({
@@ -1760,8 +1763,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           <div className="tab-panel card">
             <h3>8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
             <label className="field">
-              กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)
-              <textarea className="lg" style={{ minHeight: '220px' }} value={fields.learningProcess} onChange={e => setFields({ ...fields, learningProcess: e.target.value })} />
+              <div className="flex justify-between items-center w-full mb-2">
+                <span>กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)</span>
+                <button type="button" className="btn btn-sm btn-ghost text-indigo-600 flex items-center gap-1" onClick={() => setShowProcessModal(true)}>
+                  <Maximize2 size={14} /> ขยายเต็มจอ
+                </button>
+              </div>
+              <textarea className="lg" style={{ minHeight: '400px' }} value={fields.learningProcess} onChange={e => setFields({ ...fields, learningProcess: e.target.value })} />
             </label>
 
             <hr className="divider" />
@@ -2016,6 +2024,30 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   </div>
                 ))
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showProcessModal && (
+        <div className="modal-overlay" style={{ zIndex: 9999 }}>
+          <div className="modal-content flex flex-col" style={{ maxWidth: '90vw', width: '1200px', height: '90vh', padding: '24px' }}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-slate-800 m-0 flex items-center gap-2"><Maximize2 className="text-indigo-600" /> กระบวนการสอน (แก้ไขเต็มหน้าจอ)</h2>
+              <button type="button" className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors" onClick={() => setShowProcessModal(false)}>
+                <X size={24} />
+              </button>
+            </div>
+            <textarea 
+              className="flex-1 w-full p-6 border border-slate-300 rounded-xl resize-none text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 leading-relaxed"
+              value={fields.learningProcess} 
+              onChange={e => setFields({ ...fields, learningProcess: e.target.value })} 
+              placeholder="พิมพ์กระบวนการสอนที่นี่..."
+            />
+            <div className="mt-6 flex justify-end">
+              <button type="button" className="btn btn-primary px-8 py-3 text-lg" onClick={() => setShowProcessModal(false)}>
+                ตกลง / ปิดหน้าต่าง
+              </button>
             </div>
           </div>
         </div>

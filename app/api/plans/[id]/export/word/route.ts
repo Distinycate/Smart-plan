@@ -91,6 +91,16 @@ const renderIndicatorsWord = (val: any) => {
     .join('');
 };
 
+const renderStandardsWord = (val: any) => {
+  if (!val) return '';
+  const lines = String(val)
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.startsWith('มาตรฐาน'));
+  if (lines.length === 0) return '-';
+  return lines.map(line => `<div style="margin-left: 35pt; text-indent: 0; margin-bottom: 2px; text-align: left;">${escapeHtml(line)}</div>`).join('');
+};
+
 // Parse learning process steps and apply bold & indents for Word
 const renderLearningProcessWord = (val: any) => {
   if (val === undefined || val === null) return '';
@@ -485,7 +495,7 @@ export async function GET(
      <div class="section">
        <div class="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
        <div class="section-content" style="margin-left: 0;">
-         <p><span class="label">มาตรฐานการเรียนรู้:</span><br>${renderIndicatorsWord(plan.learningStandard)}</p>
+         <p><span class="label">มาตรฐานการเรียนรู้:</span><br>${renderStandardsWord(plan.learningStandard)}</p>
          <p style="margin-top: 6px;"><span class="label">ตัวชี้วัดระหว่างทาง:</span><br>${renderIndicatorsWord(plan.indicatorDuring)}</p>
          <p style="margin-top: 6px;"><span class="label">ตัวชี้วัดปลายทาง:</span><br>${renderIndicatorsWord(plan.indicatorFinal)}</p>
        </div>

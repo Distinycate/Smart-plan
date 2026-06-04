@@ -206,11 +206,11 @@ export default function EvaluatorPage() {
     const result = evaluationResults[resultIndex];
     if (!result || !result.originalPlanData) return;
     try {
-      // Generate a new ID for the draft
+      // Generate a new ID for the ai_fixed plan
       const draftData = {
         ...result.originalPlanData,
-        planId: `draft-${Date.now()}`,
-        planStatus: 'draft',
+        planId: `ai-fixed-${Date.now()}`,
+        planStatus: 'ai_fixed',
         lessonTopic: result.originalPlanData.lessonTopic + ' (AI แก้ไข)',
       };
       const res = await fetch('/api/plans', {
@@ -220,12 +220,12 @@ export default function EvaluatorPage() {
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      toast.success('บันทึกแผนร่าง (Draft) สำเร็จ! คุณสามารถดูได้ที่หน้าระบบหลัก');
+      toast.success('บันทึกแผนที่ AI ปรับปรุงสำเร็จ! คุณสามารถดูได้ที่แท็บ "AI ปรับปรุง" ในหน้าแรก');
       const newResults = [...evaluationResults];
       newResults[resultIndex].hasUnsavedChanges = false;
       setEvaluationResults(newResults);
     } catch (err: any) {
-      toast.error(err.message || 'เกิดข้อผิดพลาดในการบันทึกแผนร่าง');
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการบันทึกแผน');
     }
   };
 
