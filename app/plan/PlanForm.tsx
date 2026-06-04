@@ -1656,7 +1656,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               <textarea className="lg" style={{ minHeight: '120px' }} value={fields.learningContent} onChange={e => setFields({ ...fields, learningContent: e.target.value })} placeholder="คำศัพท์ โครงสร้างประโยค หรือเนื้อหาหลักที่เรียน..." />
             </label>
 
-            <h3 style={{ color: '#db2777', marginTop: '24px', marginBottom: '16px' }}>* สื่อและแหล่งการเรียนรู้ (สื่อ แหล่งเรียนรู้ และภาระงาน)</h3>
+            <h3 style={{ color: '#db2777', marginTop: '24px', marginBottom: '16px' }}>8. สื่อและแหล่งการเรียนรู้ (สื่อ แหล่งเรียนรู้ และภาระงาน)</h3>
             {/* Media & Sources Fields */}
             <div className="g3">
               <label className="field">
@@ -1762,7 +1762,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         {/* ─── TAB 4: PROCESS & ASSESSMENT (ข้อ 8-9) ─── */}
         {activeTab === 4 && (
           <div className="tab-panel card">
-            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>9. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
             <label className="field">
               <div className="flex justify-between items-center w-full mb-2">
                 <span>กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)</span>
@@ -1774,13 +1774,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             </label>
 
             <div className="flex justify-between items-center mb-4" style={{ marginTop: '24px' }}>
-              <h3 className="m-0" style={{ color: '#ec4899' }}>9. การวัดและการประเมินผล (K/P/A Assessment)</h3>
+              <h3 className="m-0" style={{ color: '#ec4899' }}>10. การวัดและการประเมินผล (K/P/A Assessment)</h3>
             </div>
             
             {/* K Assessment Card */}
             <div className="assess-card">
               <div className="assess-header">
-                <h4>9.1 ประเมินด้านความรู้ (Knowledge - K)</h4>
+                <h4>10.1 ประเมินด้านความรู้ (Knowledge - K)</h4>
               </div>
               <div className="g2">
                 <label className="field">
@@ -1803,11 +1803,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <div className="flex justify-between items-end mb-1">
                     <span>เกณฑ์การประเมินแบบ Rubric (ด้าน K)</span>
                     <div className="flex gap-2">
-                      <button type="button" onClick={() => setRubricSaveType('K')} className="text-xs bg-pink-50 text-pink-500 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
-                      <button type="button" onClick={() => setShowRubricModal('K')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
+                      <button type="button" onClick={() => setRubricSaveType('K')} className="text-xs bg-pink-500 text-white px-3 py-1.5 rounded-md hover:bg-pink-600 shadow-sm transition-colors font-medium">บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setShowRubricModal('K')} className="text-xs bg-fuchsia-100 text-fuchsia-700 px-3 py-1.5 rounded-md hover:bg-fuchsia-200 shadow-sm transition-colors font-medium">เลือกจากคลัง</button>
                     </div>
                   </div>
-                  <textarea value={fields.rubricK} onChange={e => setFields({ ...fields, rubricK: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
+                  <textarea value={fields.rubricK} onChange={e => setFields({ ...fields, rubricK: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '150px' }} />
                 </label>
               </div>
             </div>
@@ -1815,7 +1815,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             {/* P Assessment Card */}
             <div className="assess-card">
               <div className="assess-header">
-                <h4>9.2 ประเมินด้านทักษะกระบวนการ (Process - P)</h4>
+                <h4>10.2 ประเมินด้านทักษะกระบวนการ (Process - P)</h4>
               </div>
               <div className="g2">
                 <label className="field">
@@ -1838,11 +1838,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <div className="flex justify-between items-end mb-1">
                     <span>เกณฑ์การประเมินแบบ Rubric (ด้าน P)</span>
                     <div className="flex gap-2">
-                      <button type="button" onClick={() => setRubricSaveType('P')} className="text-xs bg-pink-50 text-pink-500 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
-                      <button type="button" onClick={() => setShowRubricModal('P')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
+                      <button type="button" onClick={() => setRubricSaveType('P')} className="text-xs bg-pink-500 text-white px-3 py-1.5 rounded-md hover:bg-pink-600 shadow-sm transition-colors font-medium">บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setShowRubricModal('P')} className="text-xs bg-fuchsia-100 text-fuchsia-700 px-3 py-1.5 rounded-md hover:bg-fuchsia-200 shadow-sm transition-colors font-medium">เลือกจากคลัง</button>
                     </div>
                   </div>
-                  <textarea value={fields.rubricP} onChange={e => setFields({ ...fields, rubricP: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
+                  <textarea value={fields.rubricP} onChange={e => setFields({ ...fields, rubricP: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '150px' }} />
                 </label>
               </div>
             </div>
@@ -1850,7 +1850,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             {/* A Assessment Card */}
             <div className="assess-card">
               <div className="assess-header">
-                <h4>9.3 ประเมินด้านคุณลักษณะ (Attitude - A)</h4>
+                <h4>10.3 ประเมินด้านคุณลักษณะ (Attitude - A)</h4>
               </div>
               <div className="g2">
                 <label className="field">
@@ -1873,11 +1873,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <div className="flex justify-between items-end mb-1">
                     <span>เกณฑ์การประเมินแบบ Rubric (ด้าน A)</span>
                     <div className="flex gap-2">
-                      <button type="button" onClick={() => setRubricSaveType('A')} className="text-xs bg-pink-50 text-pink-500 px-2 py-1 rounded hover:bg-pink-100 flex items-center gap-1 transition-colors border border-pink-100"><span role="img" aria-label="save">💾</span> บันทึกเก็บไว้</button>
-                      <button type="button" onClick={() => setShowRubricModal('A')} className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded hover:bg-amber-100 flex items-center gap-1 transition-colors border border-amber-100"><span role="img" aria-label="load">📂</span> เลือกจากคลัง</button>
+                      <button type="button" onClick={() => setRubricSaveType('A')} className="text-xs bg-pink-500 text-white px-3 py-1.5 rounded-md hover:bg-pink-600 shadow-sm transition-colors font-medium">บันทึกเก็บไว้</button>
+                      <button type="button" onClick={() => setShowRubricModal('A')} className="text-xs bg-fuchsia-100 text-fuchsia-700 px-3 py-1.5 rounded-md hover:bg-fuchsia-200 shadow-sm transition-colors font-medium">เลือกจากคลัง</button>
                     </div>
                   </div>
-                  <textarea value={fields.rubricA} onChange={e => setFields({ ...fields, rubricA: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '70px' }} />
+                  <textarea value={fields.rubricA} onChange={e => setFields({ ...fields, rubricA: e.target.value })} placeholder="ระดับ 5 = ..., ระดับ 4 = ..., ระดับ 3 = ..., ระดับ 2 = ..., ระดับ 1 = ..." style={{ minHeight: '150px' }} />
                 </label>
               </div>
             </div>
@@ -1892,7 +1892,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         {/* ─── TAB 5: AFTER ACTION REVIEW ─── */}
         {activeTab === 5 && (
           <div className="tab-panel card">
-            <h3>10. บันทึกหลังการจัดกระบวนการเรียนรู้ (After Action Review)</h3>
+            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>11. บันทึกหลังการจัดกระบวนการเรียนรู้ (After Action Review)</h3>
             <div className="g3">
               <label className="field">
                 ผลการเรียนรู้ด้านความรู้ (K)

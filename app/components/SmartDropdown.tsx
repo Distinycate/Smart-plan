@@ -55,9 +55,9 @@ export default function SmartDropdown({
           value={search}
           onChange={e => setSearch(e.target.value)}
           onFocus={() => setIsOpen(true)}
-          style={{ width: '100%', paddingLeft: '30px', fontSize: '12px', padding: '6px 12px 6px 30px', borderRadius: '4px', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc', color: '#475569' }}
+          style={{ width: '100%', fontSize: '12px', padding: '6px 12px 6px 30px', borderRadius: '6px', border: '2px solid #fbcfe8', backgroundColor: '#fdf2f8', color: '#831843', boxShadow: '0 3px 0 #f472b6, 0 4px 6px rgba(244, 114, 182, 0.2)', outline: 'none', transition: 'all 0.2s ease', transform: 'translateY(-1px)' }}
         />
-        <Search size={14} color="#9ca3af" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+        <Search size={14} color="#f472b6" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
       </div>
 
       {isOpen && (

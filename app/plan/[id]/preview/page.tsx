@@ -90,14 +90,14 @@ export default function PlanPreview() {
     return lines.map((line, idx) => {
       if (isStepHeader(line)) {
         return (
-          <div key={idx} className="sub-heading" style={{ marginTop: idx > 0 ? '12px' : '4px' }}>
-            {line}
+          <div key={idx} className="sub-heading" style={{ marginTop: idx > 0 ? '12px' : '4px', fontWeight: 'bold', textIndent: '0' }}>
+            {line.replace(/^[-*•]\s*/, '')}
           </div>
         );
       } else {
         return (
-          <div key={idx} className="sub-content" style={{ marginTop: '2px', textIndent: '0.5cm' }}>
-            {line}
+          <div key={idx} className="sub-content" style={{ marginTop: '2px', textIndent: '1.25cm' }}>
+            {line.replace(/^[-*•]\s*/, '')}
           </div>
         );
       }
@@ -130,12 +130,13 @@ export default function PlanPreview() {
 
   // Render multiple indicators line by line, ensuring same left indentation (1.25cm)
   const renderIndicators = (val: any) => {
-    if (!val) return '';
-    return String(val)
+    if (!val) return '-';
+    const lines = String(val)
       .split('\n')
       .map(line => line.trim())
-      .filter(Boolean)
-      .map((line, i) => <div key={i} style={{ paddingLeft: '1.25cm', textIndent: '-1.25cm' }}>{line}</div>);
+      .filter(Boolean);
+    if (lines.length === 0) return '-';
+    return lines.map((line, i) => <div key={i} style={{ paddingLeft: '1.25cm' }}>{line}</div>);
   };
 
   const renderStandards = (val: any) => {
@@ -145,11 +146,11 @@ export default function PlanPreview() {
       .map(line => line.trim())
       .filter(line => line.startsWith('มาตรฐาน'));
     if (lines.length === 0) return '-';
-    return lines.map((line, i) => <div key={i} style={{ paddingLeft: '1.25cm', textIndent: '-1.25cm' }}>{line}</div>);
+    return lines.map((line, i) => <div key={i} style={{ paddingLeft: '1.25cm' }}>{line}</div>);
   };
 
-  // Clean list formatting (e.g. - chips to 1) 2) 3)) with 0.75cm indent
-  const renderList = (val: any) => {
+  // Clean list formatting
+  const renderList = (val: any, prefix?: string) => {
     if (!val) return '';
     
     let rawStr = String(val).trim();
@@ -191,8 +192,8 @@ export default function PlanPreview() {
     return (
       <div className="list-wrapper">
         {cleanedLines.map((line, idx) => (
-          <div key={idx} className="list-item">
-            {idx + 1}. {line}
+          <div key={idx} className="list-item" style={{ paddingLeft: '1.25cm', textIndent: '-1.25cm' }}>
+            {prefix ? `${prefix}.${idx + 1}` : `${idx + 1}.`} {line}
           </div>
         ))}
       </div>
@@ -426,17 +427,17 @@ export default function PlanPreview() {
 
         <div className="section">
           <div className="section-title">3. สมรรถนะสำคัญของผู้เรียน</div>
-          <div className="section-content-list">{renderList(plan.competencies)}</div>
+          <div className="section-content-list">{renderList(plan.competencies, '3')}</div>
         </div>
 
         <div className="section">
           <div className="section-title">4. คุณลักษณะอันพึงประสงค์</div>
-          <div className="section-content-list">{renderList(plan.desiredAttributes)}</div>
+          <div className="section-content-list">{renderList(plan.desiredAttributes, '4')}</div>
         </div>
 
         <div className="section">
           <div className="section-title">5. ทักษะที่จำเป็นในศตวรรษที่ 21</div>
-          <div className="section-content-list">{renderList(plan.skills21)}</div>
+          <div className="section-content-list">{renderList(plan.skills21, '5')}</div>
         </div>
 
         <div className="section">
@@ -450,30 +451,30 @@ export default function PlanPreview() {
 
         {plan.learningContent && (
           <div className="section">
-            <div className="section-title">เนื้อหาสาระ</div>
+            <div className="section-title">7. เนื้อหาสาระ / สาระการเรียนรู้</div>
             <div className="section-content">{cleanVal(plan.learningContent)}</div>
           </div>
         )}
 
         <div className="section">
-          <div className="section-title">7. สื่อและแหล่งการเรียนรู้</div>
+          <div className="section-title">8. สื่อและแหล่งการเรียนรู้</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
-            <div className="sub-heading">1) สื่อการเรียนรู้:</div>
+            <div className="sub-heading">8.1 สื่อการเรียนรู้:</div>
             <div className="sub-content">{cleanVal(plan.learningMedia) || '..................................................'}</div>
-            <div className="sub-heading" style={{ marginTop: '6px' }}>2) แหล่งเรียนรู้:</div>
+            <div className="sub-heading" style={{ marginTop: '6px' }}>8.2 แหล่งเรียนรู้:</div>
             <div className="sub-content">{cleanVal(plan.learningSources) || '..................................................'}</div>
-            <div className="sub-heading" style={{ marginTop: '6px' }}>3) ชิ้นงาน / ภาระงาน:</div>
+            <div className="sub-heading" style={{ marginTop: '6px' }}>8.3 ชิ้นงาน / ภาระงาน:</div>
             <div className="sub-content">{cleanVal(plan.tasks) || '..................................................'}</div>
           </div>
         </div>
 
         <div className="section">
-          <div className="section-title">8. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</div>
+          <div className="section-title">9. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</div>
           <div className="section-content" style={{ marginLeft: '0' }}>{renderLearningProcess(plan.learningProcess)}</div>
         </div>
 
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
-          <div className="section-title">9. การวัดและการประเมินผล</div>
+          <div className="section-title">10. การวัดและการประเมินผล</div>
           <table className="assessment-table">
             <thead>
               <tr>
@@ -507,7 +508,7 @@ export default function PlanPreview() {
         </div>
 
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
-          <div className="section-title">9.1 เกณฑ์การประเมินผลการเรียนรู้ (Rubrics)</div>
+          <div className="section-title">10.1 เกณฑ์การประเมินผลการเรียนรู้ (Rubrics)</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
             {plan.rubricK && (
               <>
@@ -531,7 +532,7 @@ export default function PlanPreview() {
         </div>
 
         <div className="section" style={{ pageBreakInside: 'avoid' }}>
-          <div className="section-title">10. บันทึกหลังการจัดกระบวนการเรียนรู้</div>
+          <div className="section-title">11. บันทึกหลังการจัดกระบวนการเรียนรู้</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
             <div className="sub-heading">1) ผลการจัดการเรียนรู้</div>
             <div className="sub-content" style={{ marginTop: '2px' }}>
@@ -555,27 +556,14 @@ export default function PlanPreview() {
         </div>
 
         {/* Lesson Plan Signatures Block */}
-        <table className="sig-table">
+        <table className="sig-table" style={{ width: '100%', marginTop: '30px' }}>
           <tbody>
             <tr>
-              <td>
-                <div className="sig-line"></div>
+              <td style={{ width: '50%' }}></td>
+              <td style={{ width: '50%', textAlign: 'center' }}>
+                <div className="sig-line" style={{ width: '70%', margin: '0 auto 4px' }}></div>
                 <p>({plan.teacherName})</p>
                 <p>ครูผู้สอน</p>
-                <p>วันที่ ........../........../..........</p>
-              </td>
-              <td>
-                <div className="sig-line"></div>
-                <p>(...................................)</p>
-                <p>หัวหน้ากลุ่มสาระการเรียนรู้</p>
-                <p>วันที่ ........../........../..........</p>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2} style={{ textAlign: 'center', paddingTop: '16px' }}>
-                <div className="sig-line" style={{ width: '40%', margin: '24px auto 4px' }}></div>
-                <p>(...................................)</p>
-                <p>รองผู้อำนวยการฝ่ายวิชาการ / ผู้อำนวยการโรงเรียน</p>
                 <p>วันที่ ........../........../..........</p>
               </td>
             </tr>
