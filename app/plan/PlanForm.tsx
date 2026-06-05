@@ -291,6 +291,35 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
+  const [aiLoadingMessage, setAiLoadingMessage] = useState('Gemini AI กำลังเริ่มต้นทำงาน...');
+  
+  // Dynamic Loading Messages
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (aiLoading) {
+      const messages = [
+        "กำลังวิเคราะห์ข้อมูลโครงสร้างแผนการสอน...",
+        "กำลังออกแบบกระบวนการจัดการเรียนรู้ (Active Learning)...",
+        "กำลังสร้างสรรค์ชิ้นงาน ภาระงาน และสื่อการเรียน...",
+        "กำลังกำหนดเกณฑ์การประเมิน (Rubric) ให้ครอบคลุม K-P-A...",
+        "กำลังเรียบเรียงและขัดเกลาภาษาให้สละสลวย...",
+        "ใกล้เสร็จแล้ว โปรดรออีกนิดนะครับ (อาจใช้เวลาถึง 60 วินาที)..."
+      ];
+      let i = 0;
+      setAiLoadingMessage(messages[0]);
+      interval = setInterval(() => {
+        i = i + 1;
+        if (i >= messages.length) {
+          i = messages.length - 1; // Keep at the last message
+          clearInterval(interval);
+        }
+        setAiLoadingMessage(messages[i]);
+      }, 7000); // Change every 7 seconds
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [aiLoading]);
   
   // Phase 3: AI Draft & Hallucination States
   const [isAiDraft, setIsAiDraft] = useState(false);
@@ -1939,9 +1968,18 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
       {/* ─── AI LOADING SPINNER OVERLAY ─── */}
       {aiLoading && (
         <div className="loading-overlay">
-          <div className="spinner" />
-          <strong>Gemini AI กำลังวิเคราะห์และร่างข้อความแผนการสอน...</strong>
-          <span style={{ fontSize: '12px', fontWeight: 'normal', opacity: 0.85 }}>วิเคราะห์สัมพันธ์ มาตรฐานและตัวชี้วัด (อาจใช้เวลา 5-10 วินาที)</span>
+          <div className="spinner" style={{ marginBottom: '16px' }} />
+          <strong style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#db2777' }}>✨ AI กำลังทำงาน... ✨</strong>
+          <strong style={{ fontSize: '1rem', color: '#475569' }}>{aiLoadingMessage}</strong>
+          <div style={{ marginTop: '16px', maxWidth: '300px', width: '100%', height: '4px', background: '#e2e8f0', borderRadius: '4px', overflow: 'hidden' }}>
+             <div className="loading-bar-animated" style={{ height: '100%', background: 'linear-gradient(90deg, #ec4899, #f43f5e)', width: '50%', animation: 'progress 2s infinite linear' }} />
+          </div>
+          <style>{`
+            @keyframes progress {
+              0% { transform: translateX(-100%); }
+              100% { transform: translateX(200%); }
+            }
+          `}</style>
         </div>
       )}
 
