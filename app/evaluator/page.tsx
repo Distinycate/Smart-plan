@@ -22,7 +22,34 @@ export default function EvaluatorPage() {
   const [evaluationResults, setEvaluationResults] = useState<any[]>([]);
   const [fixingPlanId, setFixingPlanId] = useState<string | null>(null);
   const [loadingText, setLoadingText] = useState('กำลังเชื่อมต่อกับ AI...');
+  const [fixLoadingMessage, setFixLoadingMessage] = useState('Gemini AI กำลังเริ่มต้นทำงาน...');
   
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (fixingPlanId) {
+      const messages = [
+        "กำลังวิเคราะห์ข้อบกพร่องของแผนการสอน...",
+        "กำลังออกแบบกิจกรรมและสื่อเพิ่มเติมตามคำแนะนำ...",
+        "กำลังปรับปรุงเกณฑ์การประเมิน (Rubric) ให้ครอบคลุม...",
+        "กำลังเรียบเรียงและเขียนแผนการสอนฉบับใหม่...",
+        "ใกล้เสร็จแล้ว โปรดรออีกนิดนะครับ (อาจใช้เวลาถึง 60 วินาที)..."
+      ];
+      let i = 0;
+      setFixLoadingMessage(messages[0]);
+      interval = setInterval(() => {
+        i = i + 1;
+        if (i >= messages.length) {
+          i = messages.length - 1;
+          clearInterval(interval);
+        }
+        setFixLoadingMessage(messages[i]);
+      }, 7000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [fixingPlanId]);
+
   const [activeTab, setActiveTab] = useState<'system' | 'upload'>('system');
   const [error, setError] = useState<string | null>(null);
   const [batchProgress, setBatchProgress] = useState({ current: 0, total: 0 });
@@ -575,6 +602,27 @@ export default function EvaluatorPage() {
           </div>
         )}
       </div>
+
+      {/* ─── AI LOADING SPINNER OVERLAY (FIXING) ─── */}
+      {fixingPlanId && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm transition-opacity" style={{ zIndex: 9999 }}>
+          <div className="flex flex-col items-center justify-center rounded-[2rem] bg-white p-10 shadow-2xl shadow-pink-200/50 border border-pink-100 max-w-md w-full mx-4 text-center">
+            <div className="spinner" style={{ marginBottom: '16px' }} />
+            <strong style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#db2777' }}>✨ AI กำลังทำงาน... ✨</strong>
+            <strong style={{ fontSize: '1rem', color: '#475569' }}>{fixLoadingMessage}</strong>
+            <div style={{ marginTop: '16px', width: '100%', height: '4px', background: '#e2e8f0', borderRadius: '4px', overflow: 'hidden' }}>
+               <div style={{ height: '100%', background: 'linear-gradient(90deg, #ec4899, #f43f5e)', width: '50%', animation: 'progress 2s infinite linear' }} />
+            </div>
+          </div>
+          <style>{`
+            @keyframes progress {
+              0% { transform: translateX(-100%); }
+              100% { transform: translateX(200%); }
+            }
+          `}</style>
+        </div>
+      )}
+
       <style dangerouslySetInnerHTML={{__html:`
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
