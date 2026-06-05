@@ -12,8 +12,10 @@ import * as mammoth from 'mammoth';
 import { toast, Toaster } from 'react-hot-toast';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 export default function EvaluatorPage() {
+  const router = useRouter();
   const [plans, setPlans] = useState<any[]>([]);
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [fileText, setFileText] = useState<string | null>(null);
@@ -252,10 +254,39 @@ export default function EvaluatorPage() {
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      toast.success('บันทึกแผนที่ AI ปรับปรุงสำเร็จ! คุณสามารถดูได้ที่แท็บ "AI ปรับปรุง" ในหน้าแรก');
+      
+      toast.custom((t) => (
+        <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white shadow-2xl rounded-[2rem] pointer-events-auto flex ring-1 ring-black ring-opacity-5 border-2 border-emerald-400 p-4`}>
+          <div className="flex-1 w-0 p-4">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 pt-0.5">
+                <div className="h-12 w-12 rounded-full bg-emerald-100 flex items-center justify-center animate-bounce">
+                  <CheckCircle className="h-6 w-6 text-emerald-600" />
+                </div>
+              </div>
+              <div className="ml-4 flex-1">
+                <p className="text-lg font-black text-slate-900">
+                  🎉 บันทึกแผนสำเร็จ!
+                </p>
+                <p className="mt-1 text-sm font-medium text-slate-500">
+                  AI ได้ปรับปรุงแผนของคุณเรียบร้อยแล้ว ระบบกำลังพาไปยังหน้าจัดการแผน...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ), { duration: 4000 });
+
+      // Clean up UI state
       const newResults = [...evaluationResults];
       newResults[resultIndex].hasUnsavedChanges = false;
       setEvaluationResults(newResults);
+      
+      // Redirect to the newly created plan
+      setTimeout(() => {
+        router.push(`/plan/${draftData.planId}`);
+      }, 1500);
+
     } catch (err: any) {
       toast.error(err.message || 'เกิดข้อผิดพลาดในการบันทึกแผน');
     }
