@@ -12,14 +12,14 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { planData, externalText } = body;
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY_EVALUATE || process.env.GEMINI_API_KEY;
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY is not configured.");
     }
     
     // Choose the best model
     const model = 'gemini-flash-latest';
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     let planContentString = '';
     if (externalText) {
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
       generationConfig: { responseMimeType: 'application/json' }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

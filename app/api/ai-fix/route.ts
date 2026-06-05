@@ -10,11 +10,11 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { planData, feedbackContent } = body;
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY_FIX || process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY is not configured.");
     
     const model = 'gemini-flash-latest';
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     let prompt = autoFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
     prompt = prompt.replace('<<<FEEDBACK_CONTENT>>>', feedbackContent || 'ปรับปรุงให้สมบูรณ์ตามเกณฑ์ประเมินแผน');
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       generationConfig: { responseMimeType: 'application/json' }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

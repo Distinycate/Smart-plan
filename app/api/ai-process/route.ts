@@ -16,14 +16,14 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY_PROCESS || process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({
         success: false,
         error: 'Missing GEMINI_API_KEY environment variable.'
       }, { status: 500 });
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
 
     // Fetch Best Practices (Error Memory)
     const { data: bestPractices } = await supabase.from('ai_best_practices').select('*').limit(5);
@@ -125,7 +125,7 @@ ${errorMemoryText}
       }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

@@ -22,14 +22,14 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY_COMPLETION || process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({
         success: false,
         error: 'Missing GEMINI_API_KEY environment variable.'
       }, { status: 500 });
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
 
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 2: COMPLETION & ALIGNMENT)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
@@ -90,7 +90,7 @@ ${learningProcess}
       }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     
