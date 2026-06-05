@@ -1114,85 +1114,88 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
       className="relative overflow-hidden rounded-[2.5rem] bg-slate-50 shadow-sm border border-slate-200"
     >
       <div className="relative space-y-8 p-4 sm:p-8 md:p-10">
-        <div className="grid gap-6 lg:grid-cols-[1fr_280px_320px]">
-          <div className="relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-sm md:p-8 border border-slate-100">
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-pink-50 text-pink-500 shadow-inner">
-                <ClipboardCheck className="h-8 w-8" />
-              </div>
-              <div className="min-w-0">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  AI Evaluation
+        <div className="flex flex-col gap-6">
+          {/* Row 1: Title and AI Score */}
+          <div className="flex flex-col lg:flex-row gap-6">
+            <div className="flex-1 relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-sm md:p-8 border border-slate-100 flex flex-col justify-center">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-pink-50 text-pink-500 shadow-inner">
+                  <ClipboardCheck className="h-8 w-8" />
                 </div>
-                <h3 className="text-2xl font-black tracking-tight text-slate-900 md:text-3xl">
-                  {result.title}
-                </h3>
-                <p className="mt-3 text-sm font-medium leading-7 text-slate-600">{summary}</p>
+                <div className="min-w-0">
+                  <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    AI Evaluation
+                  </div>
+                  <h3 className="text-2xl font-black tracking-tight text-slate-900 md:text-3xl">
+                    {result.title}
+                  </h3>
+                  <p className="mt-3 text-sm font-medium leading-7 text-slate-600">{summary}</p>
+                </div>
               </div>
             </div>
+
+            <motion.div
+              whileHover={{ y: -5, scale: 1.02 }}
+              className={`group w-full lg:w-[320px] shrink-0 relative overflow-hidden rounded-[2rem] p-6 shadow-xl transition-all duration-300 flex flex-col justify-between ${toneStyle.bg} border-2 ${tone === 'green' ? 'border-emerald-200' : tone === 'yellow' ? 'border-amber-200' : 'border-rose-200'}`}
+            >
+              <div>
+                <div className="mb-2 flex items-center justify-between">
+                  <div>
+                    <p className={`text-xs font-black uppercase tracking-[0.15em] ${toneStyle.text} opacity-80`}>AI Score</p>
+                    <p className={`mt-1 text-sm font-bold ${toneStyle.text}`}>{toneStyle.label}</p>
+                  </div>
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-[1.25rem] bg-gradient-to-br ${toneStyle.gradient} text-white shadow-lg`}>
+                    <Trophy className="h-6 w-6" />
+                  </div>
+                </div>
+                
+                {/* Dynamic feedback text */}
+                <div className="mt-3">
+                  <p className={`text-xs font-medium leading-relaxed opacity-80 ${toneStyle.text}`}>
+                    {tone === 'green' ? 'ยอดเยี่ยม! แผนการสอนนี้มีคุณภาพระดับมืออาชีพ ครบถ้วนและพร้อมนำไปใช้สอนจริงได้เลย' :
+                     tone === 'yellow' ? 'ทำได้ดี! แต่ยังมีบางจุดที่สามารถปรับให้คมชัดขึ้นได้ AI พร้อมช่วยคุณปรับปรุงทันที' :
+                     'ไม่ต้องกังวล! ให้ AI ช่วยจัดการซ่อมแซมจุดที่บกพร่อง เพื่อให้แผนสมบูรณ์แบบยิ่งขึ้น'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex items-end gap-2 mb-2">
+                  <span className={`text-6xl font-black tracking-tight ${toneStyle.text}`}>{score}</span>
+                  <span className={`pb-2 text-xl font-black ${toneStyle.text} opacity-50`}>/{maxScore}</span>
+                </div>
+                {/* Progress bar */}
+                <div className="h-2 w-full bg-white/40 rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${percentage}%` }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    className={`h-full bg-gradient-to-r ${toneStyle.gradient}`} 
+                  />
+                </div>
+              </div>
+            </motion.div>
           </div>
 
-          {/* Radar Chart */}
-          <div className="relative overflow-hidden rounded-[2rem] bg-white p-4 shadow-sm border border-slate-100 flex flex-col items-center justify-center min-h-[220px]">
-            <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">
-              <Gauge className="h-3 w-3" />
-              สมดุลแผน
+          {/* Row 2: Radar Chart Centerpiece */}
+          <div className="relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-sm border border-slate-100 flex flex-col items-center justify-center min-h-[380px]">
+            <div className="absolute top-6 left-6 inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-slate-400">
+              <Gauge className="h-4 w-4" />
+              ภาพรวมความสมดุลของแผน
             </div>
-            <div className="h-[180px] w-full mt-4">
+            <div className="h-[320px] w-full max-w-3xl mt-8">
               <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="65%" data={buildRadarDataFromScores(detailedScores)}>
-                  <PolarGrid stroke="#f1f5f9" strokeWidth={1.5} />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 10, fontWeight: 700 }} />
+                <RadarChart cx="50%" cy="50%" outerRadius="75%" data={buildRadarDataFromScores(detailedScores)}>
+                  <PolarGrid stroke="#f1f5f9" strokeWidth={2} />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 13, fontWeight: 800 }} />
                   <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                  <Radar name="เปอร์เซ็นต์" dataKey="value" stroke={tone === 'green' ? '#10b981' : tone === 'yellow' ? '#f59e0b' : '#f43f5e'} strokeWidth={2} fill={tone === 'green' ? '#10b981' : tone === 'yellow' ? '#f59e0b' : '#f43f5e'} fillOpacity={0.3} />
-                  <RechartsTooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px', fontWeight: 'bold' }} />
+                  <Radar name="เปอร์เซ็นต์" dataKey="value" stroke={tone === 'green' ? '#10b981' : tone === 'yellow' ? '#f59e0b' : '#f43f5e'} strokeWidth={3} fill={tone === 'green' ? '#10b981' : tone === 'yellow' ? '#f59e0b' : '#f43f5e'} fillOpacity={0.3} />
+                  <RechartsTooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)', fontSize: '14px', fontWeight: 'bold' }} />
                 </RadarChart>
               </ResponsiveContainer>
             </div>
           </div>
-
-          <motion.div
-            whileHover={{ y: -5, scale: 1.02 }}
-            className={`group relative overflow-hidden rounded-[2rem] p-6 shadow-xl transition-all duration-300 flex flex-col justify-between ${toneStyle.bg} border-2 ${tone === 'green' ? 'border-emerald-200' : tone === 'yellow' ? 'border-amber-200' : 'border-rose-200'}`}
-          >
-            <div>
-              <div className="mb-2 flex items-center justify-between">
-                <div>
-                  <p className={`text-xs font-black uppercase tracking-[0.15em] ${toneStyle.text} opacity-80`}>AI Score</p>
-                  <p className={`mt-1 text-sm font-bold ${toneStyle.text}`}>{toneStyle.label}</p>
-                </div>
-                <div className={`flex h-12 w-12 items-center justify-center rounded-[1.25rem] bg-gradient-to-br ${toneStyle.gradient} text-white shadow-lg`}>
-                  <Trophy className="h-6 w-6" />
-                </div>
-              </div>
-              
-              {/* Dynamic feedback text */}
-              <div className="mt-3">
-                <p className={`text-xs font-medium leading-relaxed opacity-80 ${toneStyle.text}`}>
-                  {tone === 'green' ? 'ยอดเยี่ยม! แผนการสอนนี้มีคุณภาพระดับมืออาชีพ ครบถ้วนและพร้อมนำไปใช้สอนจริงได้เลย' :
-                   tone === 'yellow' ? 'ทำได้ดี! แต่ยังมีบางจุดที่สามารถปรับให้คมชัดขึ้นได้ AI พร้อมช่วยคุณปรับปรุงทันที' :
-                   'ไม่ต้องกังวล! ให้ AI ช่วยจัดการซ่อมแซมจุดที่บกพร่อง เพื่อให้แผนสมบูรณ์แบบยิ่งขึ้น'}
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <div className="flex items-end gap-2 mb-2">
-                <span className={`text-6xl font-black tracking-tight ${toneStyle.text}`}>{score}</span>
-                <span className={`pb-2 text-xl font-black ${toneStyle.text} opacity-50`}>/{maxScore}</span>
-              </div>
-              {/* Progress bar */}
-              <div className="h-2 w-full bg-white/40 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${percentage}%` }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className={`h-full bg-gradient-to-r ${toneStyle.gradient}`} 
-                />
-              </div>
-            </div>
-          </motion.div>
         </div>
 
         {/* Detailed Scores Breakdown */}
