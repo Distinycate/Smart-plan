@@ -236,6 +236,11 @@ export default function EvaluatorPage() {
         planStatus: 'ai_fixed',
         lessonTopic: result.originalPlanData.lessonTopic + ' (AI แก้ไข)',
       };
+      // Clean up extra fields added by AI
+      delete draftData.fixReason;
+      delete draftData.summary;
+      delete draftData.overallScore;
+
       const res = await fetch('/api/plans', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
