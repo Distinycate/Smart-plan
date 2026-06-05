@@ -62,7 +62,7 @@ export async function POST(req: Request) {
     const { evaluatePlanRuleBased } = await import('@/lib/evaluationEngine');
     const ruleResult = evaluatePlanRuleBased(planData);
     
-    // Hybrid Score = Rule-based (Max 30) + AI Qualitative (Max 70)
+    // Hybrid Score = Rule-based (Max 40) + AI Qualitative (Max 60)
     const aiTotal = parsedData.overallScore || 0;
     const ruleTotal = ruleResult.totalScore || 0;
     const finalScore = ruleTotal + aiTotal;
@@ -85,20 +85,20 @@ export async function POST(req: Request) {
     const userId = planData?.userId || planData?.author_id || null;
 
     if (planId) {
-      const aiScores = parsedData.scores || {};
+      const aiScores = parsedData.detailedScores || {};
       
       // 1. Log Lesson Quality Scores
       await supabase.from('lesson_quality_scores').insert({
          plan_id: planId,
          user_id: userId,
-         structure_score: (ruleResult.details?.objectivesScore || 0) + (ruleResult.details?.activitiesScore || 0) + (ruleResult.details?.assessmentScore || 0) + (ruleResult.details?.rubricScore || 0),
+         structure_score: ruleResult.details?.structureScore || 0,
          indicators_score: ruleResult.details?.standardsScore || 0,
-         objectives_score: aiScores.objectivesQualitative || 0,
-         activities_score: aiScores.activitiesQualitative || 0,
-         assessment_score: aiScores.assessmentQualitative || 0,
-         rubric_score: aiScores.rubricQualitative || 0,
-         alignment_score: aiScores.alignmentScore || 0,
-         language_score: aiScores.languageScore || 0,
+         objectives_score: aiScores.objectives?.score || 0,
+         activities_score: aiScores.activities?.score || 0,
+         assessment_score: aiScores.assessment?.score || 0,
+         rubric_score: ruleResult.details?.rubricScore || 0,
+         alignment_score: aiScores.alignment?.score || 0,
+         language_score: aiScores.language?.score || 0,
          ai_review_score: aiTotal,
          total_score: finalScore
       });

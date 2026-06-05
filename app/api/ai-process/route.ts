@@ -7,7 +7,7 @@ export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {
-    const { gradeLevel, subjectName, lessonTopic, learningArea } = await req.json();
+    const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal } = await req.json();
 
     if (!gradeLevel || !subjectName || !lessonTopic) {
       return NextResponse.json({
@@ -38,7 +38,22 @@ export async function POST(req: NextRequest) {
 
     let indicatorPrompt = '';
     
-    if (learningArea && gradeLevel) {
+    const hasSelectedIndicators = learningStandard || indicatorDuring || indicatorFinal;
+    
+    if (hasSelectedIndicators) {
+      indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัดที่ผู้สอนเลือกไว้แล้ว (บังคับใช้ตามข้อมูลนี้ ห้ามคิดขึ้นมาใหม่เด็ดขาด):
+[มาตรฐานการเรียนรู้]
+${learningStandard || '-'}
+
+[ตัวชี้วัดระหว่างทาง]
+${indicatorDuring || '-'}
+
+[ตัวชี้วัดปลายทาง]
+${indicatorFinal || '-'}
+
+** คำสั่งพิเศษ ** 
+ให้ออกแบบจุดประสงค์ K/P/A และกระบวนการสอนให้สอดคล้องกับตัวชี้วัดเหล่านี้ และให้คัดลอกมาตรฐานและตัวชี้วัดเหล่านี้ส่งกลับมาใน JSON ด้วยห้ามดัดแปลง`;
+    } else if (learningArea && gradeLevel) {
       // Fetch dynamic curriculum from DB instead of hardcoded fallback
       const { data: dbIndicators, error: dbError } = await supabase
         .from('Indicators')
@@ -81,12 +96,18 @@ ${duringInds.length > 0 ? duringInds.join('\n') : 'ไม่มีข้อม�
 ${finalInds.length > 0 ? finalInds.join('\n') : 'ไม่มีข้อมูลตัวชี้วัดปลายทาง'}
 
 ** คำสั่งพิเศษ ** 
-เลือกเฉพาะตัวชี้วัดที่สอดคล้องกับเรื่องที่สอน (${lessonTopic}) มากที่สุด (1-3 ข้อ) ห้ามนำตัวชี้วัดของวิชาอื่นมาปะปนเด็ดขาด`;
+1. วิเคราะห์เรื่องที่สอน (${lessonTopic}) และเวลาเรียน (${totalHours || 1} ชั่วโมง)
+2. เลือกมาตรฐานการเรียนรู้ และตัวชี้วัด ที่สอดคล้องกับเรื่องนี้ที่สุด จากรายการด้านบนเท่านั้น ห้ามคิดตัวชี้วัดขึ้นมาเอง
+3. เลือกจำนวนตัวชี้วัดให้เหมาะสมกับเวลาเรียน:
+   - หากเวลาเรียน 1 ชั่วโมง ไม่ควรเกิน 2-3 ตัวชี้วัด
+   - หากเวลาเรียน 2-3 ชั่วโมง ไม่ควรเกิน 3-5 ตัวชี้วัด
+   เพื่อให้สามารถออกแบบกิจกรรมและการวัดผลได้อย่างมีคุณภาพ ไม่มากเกินไปจนสอนและประเมินไม่ทัน
+4. ห้ามนำตัวชี้วัดของวิชาอื่นมาปะปนเด็ดขาด`;
       } else {
-        indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัด: ให้วิเคราะห์เองจากเรื่องที่สอนตามหลักสูตรแกนกลาง`;
+        indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัด: ให้วิเคราะห์เองจากเรื่องที่สอน (${lessonTopic}) ตามหลักสูตรแกนกลาง โดยให้เลือกจำนวนตัวชี้วัดให้เหมาะสมกับเวลาเรียน (แผน 1 ชั่วโมง ไม่เกิน 2-3 ตัวชี้วัด, แผน 2-3 ชั่วโมง ไม่เกิน 3-5 ตัวชี้วัด)`;
       }
     } else {
-      indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัด: ให้วิเคราะห์เองจากเรื่องที่สอนตามหลักสูตรแกนกลาง`;
+      indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัด: ให้วิเคราะห์เองจากเรื่องที่สอน (${lessonTopic}) ตามหลักสูตรแกนกลาง โดยให้เลือกจำนวนตัวชี้วัดให้เหมาะสมกับเวลาเรียน (แผน 1 ชั่วโมง ไม่เกิน 2-3 ตัวชี้วัด, แผน 2-3 ชั่วโมง ไม่เกิน 3-5 ตัวชี้วัด)`;
     }
 
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: LEARNING PROCESS & CORE STRUCTURE)

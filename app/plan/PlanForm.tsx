@@ -929,7 +929,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           gradeLevel: fields.gradeLevel,
           subjectName: fields.subjectName,
           lessonTopic: fields.lessonTopic,
-          learningArea: activeLearningArea
+          learningArea: activeLearningArea,
+          totalHours: fields.totalHours,
+          learningStandard: fields.learningStandard,
+          indicatorDuring: fields.indicatorDuring,
+          indicatorFinal: fields.indicatorFinal
         })
       });
 
