@@ -284,7 +284,7 @@ export default function EvaluatorPage() {
       
       // Redirect to the newly created plan
       setTimeout(() => {
-        router.push(`/plan/${draftData.planId}`);
+        router.push(`/`);
       }, 1500);
 
     } catch (err: any) {
