@@ -1,9 +1,19 @@
-export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetries = 4, customApiKey?: string) {
+export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetries = 6, customApiKey?: string) {
   let attempt = 0;
   const baseDelay = 1500; // 1.5s base delay
-  const finalApiKey = customApiKey || process.env.GEMINI_API_KEY || '';
+  
+  // Extract pool of keys (comma separated)
+  const envKeys = process.env.GEMINI_API_KEYS || customApiKey || process.env.GEMINI_API_KEY || '';
+  const apiKeys = envKeys.split(',').map(k => k.trim()).filter(Boolean);
+
+  if (apiKeys.length === 0) {
+    throw new Error('API Key is not configured.');
+  }
 
   while (attempt < maxRetries) {
+    // Round-robin key selection based on attempt count
+    const currentKey = apiKeys[attempt % apiKeys.length];
+
     try {
       const controller = new AbortController();
       // Increase timeout slightly to allow for longer retries if needed
@@ -13,7 +23,7 @@ export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetr
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'x-goog-api-key': finalApiKey
+          'x-goog-api-key': currentKey
         },
         body: JSON.stringify(payload),
         next: { revalidate: 0 }, // bypass cache
@@ -44,10 +54,15 @@ export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetr
         // Adjust delay: if 429 (rate limit), we should wait much longer (e.g. 8-12 seconds)
         let delay = baseDelay * Math.pow(2, attempt) + Math.random() * 500;
         if (response.status === 429) {
-           delay = 8000 + (attempt * 2000) + Math.random() * 1000; // 10s, 12s, 14s
+           // If we have multiple keys, we can retry almost immediately with the next key
+           if (apiKeys.length > 1) {
+             delay = 500 + Math.random() * 500; // short delay to switch key
+           } else {
+             delay = 8000 + (attempt * 2000) + Math.random() * 1000; // 10s, 12s, 14s
+           }
         }
         
-        console.warn(`[Gemini API] Status ${response.status}. Retrying in ${Math.round(delay)}ms...`);
+        console.warn(`[Gemini API] Status ${response.status}. Attempt ${attempt + 1}/${maxRetries}. Retrying in ${Math.round(delay)}ms with a key...`);
         await new Promise(res => setTimeout(res, delay));
         continue;
       } else {
