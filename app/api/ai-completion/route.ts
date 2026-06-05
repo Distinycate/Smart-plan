@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         error: 'Missing GEMINI_API_KEY environment variable.'
       }, { status: 500 });
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 2: COMPLETION & ALIGNMENT)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
