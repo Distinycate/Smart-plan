@@ -237,7 +237,11 @@ export default function EvaluatorPage() {
         lessonTopic: result.originalPlanData.lessonTopic + ' (AI แก้ไข)',
       };
       // Clean up extra fields added by AI
-      delete draftData.fixReason;
+      Object.keys(draftData).forEach(key => {
+        if (key.startsWith('fixReason')) {
+          delete (draftData as any)[key];
+        }
+      });
       delete draftData.summary;
       delete draftData.overallScore;
 

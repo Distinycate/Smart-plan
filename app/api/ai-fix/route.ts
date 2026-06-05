@@ -60,7 +60,11 @@ export async function POST(req: Request) {
 
     // Remove fields that might cause issues if they exist
     delete standardData.id;
-    delete standardData.fixReason;
+    Object.keys(standardData).forEach(key => {
+      if (key.startsWith('fixReason')) {
+        delete standardData[key];
+      }
+    });
     
     // DO NOT insert automatically. Let the frontend handle saving.
     return NextResponse.json({ success: true, fixedPlanId: newPlanId, newPlanData: standardData });
