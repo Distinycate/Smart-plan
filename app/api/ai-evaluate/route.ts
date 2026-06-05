@@ -4,7 +4,6 @@ import { supabase } from '@/lib/supabase';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 
 export const maxDuration = 60; // Set longer timeout if supported by hosting
-export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
@@ -18,7 +17,7 @@ export async function POST(req: Request) {
     }
     
     // Choose the best model
-    const model = 'gemini-2.5-flash';
+    const model = 'gemini-1.5-flash';
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     let planContentString = '';
