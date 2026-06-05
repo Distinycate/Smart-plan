@@ -2,6 +2,7 @@ export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetr
   let attempt = 0;
   const baseDelay = 1500; // 1.5s base delay
   const finalApiKey = customApiKey || process.env.GEMINI_API_KEY || '';
+  console.log("DEBUG: fetchGeminiWithRetry called with API Key:", finalApiKey.substring(0, 10) + "...");
 
   while (attempt < maxRetries) {
     try {
@@ -45,7 +46,7 @@ export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetr
            delay = 8000 + (attempt * 2000) + Math.random() * 1000; // 10s, 12s, 14s
         }
         
-        console.warn(`[Gemini API] Status ${response.status}. Retrying in ${Math.round(delay)}ms... (Attempt ${attempt}/${maxRetries})`);
+        console.warn(`[Gemini API] Status ${response.status}. Err: ${errText.substring(0, 100)}. Retrying in ${Math.round(delay)}ms... (Attempt ${attempt}/${maxRetries})`);
         
         await new Promise(res => setTimeout(res, delay));
         continue;
