@@ -1,4 +1,4 @@
-const VALID_PLAN_STATUSES = ['draft', 'complete', 'archived'];
+const VALID_PLAN_STATUSES = ['draft', 'complete', 'archived', 'ai_fixed'];
 
 const FIELD_LABELS: Record<string, string> = {
   teacherName: 'ชื่อครูผู้สอน',
