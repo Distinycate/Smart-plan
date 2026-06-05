@@ -1076,22 +1076,28 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
     if (!data) return null;
     return (
       <div className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-slate-100">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
           <h4 className="text-lg font-black text-slate-800">{title}</h4>
-          <span className="text-xl font-black text-pink-500 bg-pink-50 px-3 py-1 rounded-xl">{data.score}/5</span>
+          <span className="text-xl font-black text-pink-500 bg-pink-50 px-4 py-1.5 rounded-xl border border-pink-100">{data.score}/5</span>
         </div>
-        <div className="space-y-4">
-          <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
-            <h5 className="text-xs font-black text-emerald-800 uppercase tracking-widest mb-1">จุดดี</h5>
-            <p className="text-sm font-medium text-emerald-900">{data.strengths}</p>
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="bg-emerald-50 rounded-xl p-5 border border-emerald-100 h-full">
+            <h5 className="text-xs font-black text-emerald-800 uppercase tracking-widest mb-2 flex items-center gap-2">
+              <CheckCircle className="h-4 w-4" /> จุดดี
+            </h5>
+            <p className="text-sm font-medium text-emerald-900 leading-relaxed">{data.strengths}</p>
           </div>
-          <div className="bg-rose-50 rounded-xl p-4 border border-rose-100">
-            <h5 className="text-xs font-black text-rose-800 uppercase tracking-widest mb-1">จุดที่บกพร่อง</h5>
-            <p className="text-sm font-medium text-rose-900">{data.weaknesses}</p>
+          <div className="bg-rose-50 rounded-xl p-5 border border-rose-100 h-full">
+            <h5 className="text-xs font-black text-rose-800 uppercase tracking-widest mb-2 flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4" /> จุดที่บกพร่อง
+            </h5>
+            <p className="text-sm font-medium text-rose-900 leading-relaxed">{data.weaknesses}</p>
           </div>
-          <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
-            <h5 className="text-xs font-black text-amber-800 uppercase tracking-widest mb-1">ข้อเสนอแนะ</h5>
-            <p className="text-sm font-medium text-amber-900">{data.suggestions}</p>
+          <div className="bg-amber-50 rounded-xl p-5 border border-amber-100 h-full">
+            <h5 className="text-xs font-black text-amber-800 uppercase tracking-widest mb-2 flex items-center gap-2">
+              <Sparkles className="h-4 w-4" /> ข้อเสนอแนะ
+            </h5>
+            <p className="text-sm font-medium text-amber-900 leading-relaxed">{data.suggestions}</p>
           </div>
         </div>
       </div>
@@ -1148,20 +1154,43 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
 
           <motion.div
             whileHover={{ y: -5, scale: 1.02 }}
-            className={`group relative overflow-hidden rounded-[2rem] p-6 shadow-xl transition-all duration-300 ${toneStyle.bg} border-2 ${tone === 'green' ? 'border-emerald-200' : tone === 'yellow' ? 'border-amber-200' : 'border-rose-200'}`}
+            className={`group relative overflow-hidden rounded-[2rem] p-6 shadow-xl transition-all duration-300 flex flex-col justify-between ${toneStyle.bg} border-2 ${tone === 'green' ? 'border-emerald-200' : tone === 'yellow' ? 'border-amber-200' : 'border-rose-200'}`}
           >
-            <div className="mb-2 flex items-center justify-between">
-              <div>
-                <p className={`text-xs font-black uppercase tracking-[0.15em] ${toneStyle.text} opacity-80`}>AI Score</p>
-                <p className={`mt-1 text-sm font-bold ${toneStyle.text}`}>{toneStyle.label}</p>
+            <div>
+              <div className="mb-2 flex items-center justify-between">
+                <div>
+                  <p className={`text-xs font-black uppercase tracking-[0.15em] ${toneStyle.text} opacity-80`}>AI Score</p>
+                  <p className={`mt-1 text-sm font-bold ${toneStyle.text}`}>{toneStyle.label}</p>
+                </div>
+                <div className={`flex h-12 w-12 items-center justify-center rounded-[1.25rem] bg-gradient-to-br ${toneStyle.gradient} text-white shadow-lg`}>
+                  <Trophy className="h-6 w-6" />
+                </div>
               </div>
-              <div className={`flex h-12 w-12 items-center justify-center rounded-[1.25rem] bg-gradient-to-br ${toneStyle.gradient} text-white shadow-lg`}>
-                <Trophy className="h-6 w-6" />
+              
+              {/* Dynamic feedback text */}
+              <div className="mt-3">
+                <p className={`text-xs font-medium leading-relaxed opacity-80 ${toneStyle.text}`}>
+                  {tone === 'green' ? 'ยอดเยี่ยม! แผนการสอนนี้มีคุณภาพระดับมืออาชีพ ครบถ้วนและพร้อมนำไปใช้สอนจริงได้เลย' :
+                   tone === 'yellow' ? 'ทำได้ดี! แต่ยังมีบางจุดที่สามารถปรับให้คมชัดขึ้นได้ AI พร้อมช่วยคุณปรับปรุงทันที' :
+                   'ไม่ต้องกังวล! ให้ AI ช่วยจัดการซ่อมแซมจุดที่บกพร่อง เพื่อให้แผนสมบูรณ์แบบยิ่งขึ้น'}
+                </p>
               </div>
             </div>
-            <div className="flex items-end gap-2 mt-4">
-              <span className={`text-6xl font-black tracking-tight ${toneStyle.text}`}>{score}</span>
-              <span className={`pb-2 text-xl font-black ${toneStyle.text} opacity-50`}>/{maxScore}</span>
+
+            <div className="mt-4">
+              <div className="flex items-end gap-2 mb-2">
+                <span className={`text-6xl font-black tracking-tight ${toneStyle.text}`}>{score}</span>
+                <span className={`pb-2 text-xl font-black ${toneStyle.text} opacity-50`}>/{maxScore}</span>
+              </div>
+              {/* Progress bar */}
+              <div className="h-2 w-full bg-white/40 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${percentage}%` }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  className={`h-full bg-gradient-to-r ${toneStyle.gradient}`} 
+                />
+              </div>
             </div>
           </motion.div>
         </div>
@@ -1172,7 +1201,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
             <BarChart2 className="h-6 w-6 text-pink-400" />
             ผลประเมินรายหัวข้อ (เชิงลึก)
           </h4>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-6">
             <ScoreDetailBox title="1. จุดประสงค์ (K/P/A)" data={detailedScores.objectives} />
             <ScoreDetailBox title="2. กิจกรรมการเรียนรู้" data={detailedScores.activities} />
             <ScoreDetailBox title="3. การวัดและประเมินผล" data={detailedScores.assessment} />
