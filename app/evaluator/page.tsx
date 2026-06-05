@@ -215,9 +215,9 @@ export default function EvaluatorPage() {
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      toast.success(`AI ปรับปรุงแผนทั้งหมดสำเร็จ! กรุณากดบันทึกเป็นร่างใหม่`);
+      toast.success(`AI ปรับปรุงแผนทั้งหมดสำเร็จ! ตรวจสอบความเปลี่ยนแปลงด้านล่าง`);
       const newResults = [...evaluationResults];
-      newResults[resultIndex].originalPlanData = json.newPlanData;
+      newResults[resultIndex].aiFixedPlanData = json.newPlanData;
       newResults[resultIndex].hasUnsavedChanges = true;
       setEvaluationResults(newResults);
     } catch (err: any) {
@@ -229,14 +229,14 @@ export default function EvaluatorPage() {
 
   const saveToDraft = async (resultIndex: number) => {
     const result = evaluationResults[resultIndex];
-    if (!result || !result.originalPlanData) return;
+    if (!result || !result.aiFixedPlanData) return;
     try {
       // Generate a new ID for the ai_fixed plan
       const draftData = {
-        ...result.originalPlanData,
+        ...result.aiFixedPlanData,
         planId: `ai-fixed-${Date.now()}`,
         planStatus: 'ai_fixed',
-        lessonTopic: result.originalPlanData.lessonTopic + ' (AI แก้ไข)',
+        lessonTopic: result.aiFixedPlanData.lessonTopic + ' (AI แก้ไข)',
       };
       // Clean up extra fields added by AI
       Object.keys(draftData).forEach(key => {
@@ -844,20 +844,19 @@ const normalizeChecklist = (result: any) => {
   }));
 };
 
-const buildRadarData = (checklist: any[], overallPercentage: number) => {
-  const findScore = (keywords: string[], fallbackOffset = 0) => {
-    const matched = checklist.find(item =>
-      keywords.some(keyword => String(item.topic || '').toLowerCase().includes(keyword.toLowerCase()))
-    );
-    if (matched) return percentOf(matched.score, matched.maxScore);
-    return Math.max(45, Math.min(96, Math.round(overallPercentage + fallbackOffset)));
+const buildRadarDataFromScores = (detailedScores: any) => {
+  const getScore = (key: string) => {
+    if (!detailedScores || !detailedScores[key] || !detailedScores[key].score) return 0;
+    return percentOf(Number(detailedScores[key].score), 5); // maxScore is 5 for each category
   };
 
   return [
-    { subject: 'เนื้อหา', value: findScore(['มาตรฐาน', 'ตัวชี้วัด', 'เนื้อหา'], 3), fullMark: 100 },
-    { subject: 'กิจกรรม', value: findScore(['กิจกรรม', 'active', 'pbl'], -2), fullMark: 100 },
-    { subject: 'การวัดผล', value: findScore(['วัด', 'ประเมิน', 'เครื่องมือ', 'rubric'], -4), fullMark: 100 },
-    { subject: 'เวลาเรียน', value: findScore(['เวลา', 'timing'], 1), fullMark: 100 }
+    { subject: 'จุดประสงค์', value: getScore('objectives'), fullMark: 100 },
+    { subject: 'กิจกรรม', value: getScore('activities'), fullMark: 100 },
+    { subject: 'วัดผล', value: getScore('assessment'), fullMark: 100 },
+    { subject: 'รูบริก', value: getScore('rubric'), fullMark: 100 },
+    { subject: 'ความสอดคล้อง', value: getScore('alignment'), fullMark: 100 },
+    { subject: 'การใช้ภาษา', value: getScore('language'), fullMark: 100 }
   ];
 };
 
@@ -958,6 +957,74 @@ function TrafficLightCard({
   );
 }
 
+const DIFF_FIELDS = [
+  { key: 'essentialConcept', label: 'สาระสำคัญ' },
+  { key: 'objectiveK', label: 'จุดประสงค์ (K)' },
+  { key: 'objectiveP', label: 'จุดประสงค์ (P)' },
+  { key: 'objectiveA', label: 'จุดประสงค์ (A)' },
+  { key: 'learningProcess', label: 'กิจกรรมการเรียนรู้' },
+  { key: 'measureK', label: 'การวัดผล (K)' },
+  { key: 'measureP', label: 'การวัดผล (P)' },
+  { key: 'measureA', label: 'การวัดผล (A)' },
+  { key: 'rubricK', label: 'เกณฑ์ประเมิน (Rubric K)' },
+  { key: 'rubricP', label: 'เกณฑ์ประเมิน (Rubric P)' },
+  { key: 'rubricA', label: 'เกณฑ์ประเมิน (Rubric A)' },
+];
+
+function PlanDiffViewer({ original, fixed }: { original: any, fixed: any }) {
+  if (!original || !fixed) return null;
+
+  const changes = DIFF_FIELDS.filter(field => {
+    const origVal = String(original[field.key] || '').trim();
+    const fixVal = String(fixed[field.key] || '').trim();
+    return origVal !== fixVal && origVal !== '' && fixVal !== '';
+  });
+
+  if (changes.length === 0) return (
+    <div className="mt-8 p-4 bg-emerald-50 text-emerald-700 rounded-xl font-medium border border-emerald-100 flex items-center gap-3">
+      <CheckCircle className="h-5 w-5" />
+      ไม่พบการเปลี่ยนแปลงในข้อความหลัก (AI อาจปรับปรุงโครงสร้างหรือจัดหน้าให้ใหม่)
+    </div>
+  );
+
+  return (
+    <div className="space-y-6 mt-12 border-t border-slate-100 pt-10">
+      <div className="flex flex-col gap-2">
+        <h4 className="text-xl font-black text-slate-800 flex items-center gap-2">
+          <Sparkles className="h-6 w-6 text-pink-500" />
+          สรุปการปรับปรุงโดย AI (Before & After)
+        </h4>
+        <p className="text-sm font-medium text-slate-500">
+          ตรวจสอบความเปลี่ยนแปลงก่อนกดบันทึก (แสดงเฉพาะหัวข้อที่มีการปรับแก้)
+        </p>
+      </div>
+      <div className="space-y-6">
+        {changes.map((field, idx) => (
+          <div key={idx} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="bg-slate-50 px-5 py-3 border-b border-slate-200 font-black text-slate-700">
+              {field.label}
+            </div>
+            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+              <div className="p-5 bg-rose-50/30">
+                <p className="text-xs font-black text-rose-500 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-rose-500"></span> เนื้อหาเดิม
+                </p>
+                <div className="text-sm text-slate-600 prose prose-sm prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 max-w-none" dangerouslySetInnerHTML={{ __html: original[field.key] }} />
+              </div>
+              <div className="p-5 bg-emerald-50/30">
+                <p className="text-xs font-black text-emerald-500 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span> AI ปรับปรุงใหม่
+                </p>
+                <div className="text-sm text-slate-800 font-medium prose prose-sm prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 max-w-none" dangerouslySetInnerHTML={{ __html: fixed[field.key] }} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── COMPONENT: EvaluationResultCard ──
 function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, onRetry, isFixing }: { result: any, index: number, onFixAll: () => void, onSaveDraft: () => void, onCancel: () => void, onRetry: () => void, isFixing: boolean }) {
   if (result.error) {
@@ -1041,7 +1108,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
       className="relative overflow-hidden rounded-[2.5rem] bg-slate-50 shadow-sm border border-slate-200"
     >
       <div className="relative space-y-8 p-4 sm:p-8 md:p-10">
-        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+        <div className="grid gap-6 lg:grid-cols-[1fr_280px_320px]">
           <div className="relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-sm md:p-8 border border-slate-100">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-pink-50 text-pink-500 shadow-inner">
@@ -1057,6 +1124,25 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
                 </h3>
                 <p className="mt-3 text-sm font-medium leading-7 text-slate-600">{summary}</p>
               </div>
+            </div>
+          </div>
+
+          {/* Radar Chart */}
+          <div className="relative overflow-hidden rounded-[2rem] bg-white p-4 shadow-sm border border-slate-100 flex flex-col items-center justify-center min-h-[220px]">
+            <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">
+              <Gauge className="h-3 w-3" />
+              สมดุลแผน
+            </div>
+            <div className="h-[180px] w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart cx="50%" cy="50%" outerRadius="65%" data={buildRadarDataFromScores(detailedScores)}>
+                  <PolarGrid stroke="#f1f5f9" strokeWidth={1.5} />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 10, fontWeight: 700 }} />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                  <Radar name="เปอร์เซ็นต์" dataKey="value" stroke={tone === 'green' ? '#10b981' : tone === 'yellow' ? '#f59e0b' : '#f43f5e'} strokeWidth={2} fill={tone === 'green' ? '#10b981' : tone === 'yellow' ? '#f59e0b' : '#f43f5e'} fillOpacity={0.3} />
+                  <RechartsTooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px', fontWeight: 'bold' }} />
+                </RadarChart>
+              </ResponsiveContainer>
             </div>
           </div>
 
@@ -1121,6 +1207,11 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
               ))}
             </div>
           </div>
+        )}
+
+        {/* Plan Diff Viewer (Before & After) */}
+        {result.hasUnsavedChanges && (
+          <PlanDiffViewer original={result.originalPlanData} fixed={result.aiFixedPlanData} />
         )}
 
         {/* Action Buttons */}
