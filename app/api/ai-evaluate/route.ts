@@ -77,7 +77,8 @@ export async function POST(req: Request) {
       ...parsedData,
       ruleBasedScore: ruleTotal,
       overallScore: finalScore,
-      summary: combinedSummary
+      summary: combinedSummary,
+      ruleBasedDetails: ruleResult.details
     };
 
     // --- DB INSERTIONS ---

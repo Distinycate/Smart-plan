@@ -844,19 +844,22 @@ const normalizeChecklist = (result: any) => {
   }));
 };
 
-const buildRadarDataFromScores = (detailedScores: any) => {
-  const getScore = (key: string) => {
-    if (!detailedScores || !detailedScores[key] || !detailedScores[key].score) return 0;
-    return percentOf(Number(detailedScores[key].score), 5); // maxScore is 5 for each category
+const buildRadarDataFromScores = (result: any) => {
+  const aiScores = result.detailedScores || {};
+  const ruleScores = result.ruleBasedDetails || {};
+
+  const getPercent = (score: number, maxScore: number) => {
+    if (!score || isNaN(score)) return 0;
+    return Math.round((score / maxScore) * 100);
   };
 
   return [
-    { subject: 'จุดประสงค์', value: getScore('objectives'), fullMark: 100 },
-    { subject: 'กิจกรรม', value: getScore('activities'), fullMark: 100 },
-    { subject: 'วัดผล', value: getScore('assessment'), fullMark: 100 },
-    { subject: 'รูบริก', value: getScore('rubric'), fullMark: 100 },
-    { subject: 'ความสอดคล้อง', value: getScore('alignment'), fullMark: 100 },
-    { subject: 'การใช้ภาษา', value: getScore('language'), fullMark: 100 }
+    { subject: 'จุดประสงค์', value: getPercent(aiScores.objectives?.score, 15), fullMark: 100 },
+    { subject: 'กิจกรรม', value: getPercent(aiScores.activities?.score, 15), fullMark: 100 },
+    { subject: 'วัดผล', value: getPercent(aiScores.assessment?.score, 15), fullMark: 100 },
+    { subject: 'รูบริก', value: getPercent(ruleScores.rubricScore, 10), fullMark: 100 },
+    { subject: 'ความสอดคล้อง', value: getPercent(aiScores.alignment?.score, 10), fullMark: 100 },
+    { subject: 'การใช้ภาษา', value: getPercent(aiScores.language?.score, 5), fullMark: 100 }
   ];
 };
 
@@ -1064,7 +1067,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
   }
 
   const score = result.overallScore || 0;
-  const maxScore = 30; // Max AI score
+  const maxScore = 100; // Max Hybrid score
   const percentage = percentOf(score, maxScore);
   const tone = getScoreTone(percentage);
   const toneStyle = toneStyles[tone];
@@ -1186,7 +1189,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
             </div>
             <div className="h-[320px] w-full max-w-3xl mt-8">
               <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="75%" data={buildRadarDataFromScores(detailedScores)}>
+                <RadarChart cx="50%" cy="50%" outerRadius="75%" data={buildRadarDataFromScores(result)}>
                   <PolarGrid stroke="#f1f5f9" strokeWidth={2} />
                   <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 13, fontWeight: 800 }} />
                   <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
