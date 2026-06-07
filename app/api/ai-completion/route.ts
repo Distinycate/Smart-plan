@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
+import { supabase } from '@/lib/supabase';
 
 export const maxDuration = 60;
 
