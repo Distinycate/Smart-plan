@@ -24,6 +24,20 @@ export default async function AdminPage() {
   const { count: plansCount } = await adminDb.from('LessonPlans').select('*', { count: 'exact', head: true })
 
   const { data: allUsers } = await adminDb.from('profiles').select('*').order('created_at', { ascending: false })
+  
+  // Fetch data for usage patterns
+  const { data: allPlans } = await adminDb.from('LessonPlans').select('user_id, planStatus, createdAt')
+  const { data: systemLogs } = await adminDb.from('System_Logs').select('*').order('timestamp', { ascending: false }).limit(1000)
+  
+  // Fetch feedbacks. Since we might not have a direct foreign key configured, we can map it later or use a join if configured.
+  // Using join assuming user_id references profiles(id)
+  const { data: feedbacks } = await adminDb.from('feedbacks').select(`
+    *,
+    profiles (
+      full_name,
+      email
+    )
+  `).order('created_at', { ascending: false })
 
   return (
     <main className="p-8 max-w-7xl mx-auto bg-slate-50 min-h-screen">
@@ -45,7 +59,10 @@ export default async function AdminPage() {
       <AdminDashboardClient 
         usersCount={usersCount || 0} 
         plansCount={plansCount || 0} 
-        allUsers={allUsers || []} 
+        allUsers={allUsers || []}
+        allPlans={allPlans || []}
+        systemLogs={systemLogs || []}
+        feedbacks={feedbacks || []}
       />
     </main>
   )

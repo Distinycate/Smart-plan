@@ -4,18 +4,24 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts'
 import toast from 'react-hot-toast'
-import { Trash2, Shield, User as UserIcon, LayoutDashboard } from 'lucide-react'
+import { Trash2, Shield, User as UserIcon, LayoutDashboard, Download, MessageSquare, Activity } from 'lucide-react'
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1']
 
 export default function AdminDashboardClient({ 
   usersCount, 
   plansCount, 
-  allUsers 
+  allUsers,
+  allPlans = [],
+  systemLogs = [],
+  feedbacks = []
 }: { 
   usersCount: number, 
   plansCount: number, 
-  allUsers: any[] 
+  allUsers: any[],
+  allPlans?: any[],
+  systemLogs?: any[],
+  feedbacks?: any[]
 }) {
   const router = useRouter()
   const [deleting, setDeleting] = useState<string | null>(null)
@@ -42,15 +48,51 @@ export default function AdminDashboardClient({
     }
   }
 
+  const handleExportCSV = () => {
+    // CSV Header
+    const headers = ['User ID', 'Name', 'Email', 'Age', 'Gender', 'Subject Group', 'Grade Levels', 'Role', 'Plans Created', 'Joined Date']
+    
+    // CSV Rows
+    const rows = allUsers.map(u => {
+      const userPlansCount = allPlans.filter(p => p.user_id === u.id).length
+      return [
+        u.id,
+        `"${u.full_name || ''}"`,
+        u.email,
+        u.age || '',
+        u.gender || '',
+        `"${u.subject_group || ''}"`,
+        `"${(u.grade_levels || '').replace(/"/g, '""')}"`,
+        u.role,
+        userPlansCount,
+        new Date(u.created_at).toLocaleDateString('en-CA') // YYYY-MM-DD
+      ].join(',')
+    })
+    
+    // Add BOM for Excel UTF-8 support
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(','), ...rows].join('\n')
+    const encodedUri = encodeURI(csvContent)
+    const link = document.createElement("a")
+    link.setAttribute("href", encodedUri)
+    link.setAttribute("download", `research_data_users_${new Date().toISOString().split('T')[0]}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    toast.success('ดาวน์โหลดไฟล์ CSV เรียบร้อยแล้ว')
+  }
+
   // --- Calculate Stats ---
-  // Gender
   const genderMap: any = {}
-  // Age Group
   const ageMap: any = { 'น้อยกว่า 25': 0, '25-35': 0, '36-45': 0, '46-55': 0, 'มากกว่า 55': 0 }
-  // Subject Group
   const subjectMap: any = {}
-  // Grade Level
   const gradeMap: any = {}
+  
+  // Calculate action logs stats
+  const actionMap: any = {}
+  systemLogs.forEach(log => {
+    const act = log.action || 'UNKNOWN'
+    actionMap[act] = (actionMap[act] || 0) + 1
+  })
 
   allUsers.forEach(u => {
     // Gender
@@ -86,9 +128,21 @@ export default function AdminDashboardClient({
   const ageData = Object.keys(ageMap).filter(k => ageMap[k] > 0).map(k => ({ name: k, value: ageMap[k] }))
   const subjectData = Object.keys(subjectMap).map(k => ({ name: k, value: subjectMap[k] }))
   const gradeData = Object.keys(gradeMap).map(k => ({ name: k, value: gradeMap[k] }))
+  const logData = Object.keys(actionMap).map(k => ({ name: k, value: actionMap[k] })).sort((a,b) => b.value - a.value)
 
   return (
     <div>
+      {/* Top Action Bar */}
+      <div className="flex justify-end mb-6">
+        <button 
+          onClick={handleExportCSV} 
+          className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl transition-all duration-300 font-medium shadow-md shadow-emerald-500/20 transform hover:-translate-y-0.5"
+        >
+          <Download size={18} /> Export Data to CSV
+        </button>
+      </div>
+
+      {/* Main Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-center items-center">
           <h2 className="text-lg font-medium text-slate-500 mb-2">จำนวนผู้ใช้ทั้งหมด</h2>
@@ -133,18 +187,20 @@ export default function AdminDashboardClient({
         </div>
       </div>
 
-      {/* Chart: Age Group & Grades */}
+      {/* Chart: Age Group & System Logs */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-80">
-          <h3 className="text-md font-semibold text-slate-700 mb-4 text-center">ช่วงอายุของผู้ใช้งาน</h3>
+          <h3 className="text-md font-semibold text-slate-700 mb-4 text-center flex items-center justify-center gap-2">
+            <Activity size={18} className="text-amber-500" /> สถิติการใช้งานระบบ (System Activity)
+          </h3>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={ageData}>
-              <XAxis dataKey="name" />
-              <YAxis />
+            <BarChart data={logData} layout="vertical" margin={{ left: 40, right: 20 }}>
+              <XAxis type="number" />
+              <YAxis dataKey="name" type="category" width={80} tick={{ fontSize: 11 }} />
               <Tooltip />
-              <Bar dataKey="value" fill="#8884d8">
-                {ageData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Bar dataKey="value" fill="#ffc658" radius={[0, 4, 4, 0]}>
+                {logData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[(index+7) % COLORS.length]} />
                 ))}
               </Bar>
             </BarChart>
@@ -152,19 +208,58 @@ export default function AdminDashboardClient({
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-80">
-          <h3 className="text-md font-semibold text-slate-700 mb-4 text-center">ระดับชั้นที่สอน (ผู้ใช้ 1 คนสอนได้หลายระดับ)</h3>
+          <h3 className="text-md font-semibold text-slate-700 mb-4 text-center">ช่วงอายุของผู้ใช้งาน</h3>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={gradeData}>
+            <BarChart data={ageData}>
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="value" fill="#82ca9d">
-                {gradeData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[(index+5) % COLORS.length]} />
+              <Bar dataKey="value" fill="#8884d8" radius={[4, 4, 0, 0]}>
+                {ageData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Feedback Section */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+        <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+          <h3 className="font-semibold text-slate-800 flex items-center gap-2">
+            <MessageSquare size={18} className="text-blue-500" /> ข้อเสนอแนะจากผู้ใช้งาน (Feedback Inbox)
+          </h3>
+          <span className="text-xs text-slate-500 font-medium bg-slate-200 px-2 py-1 rounded-md">Total: {feedbacks.length}</span>
+        </div>
+        <div className="p-6 max-h-96 overflow-y-auto">
+          {feedbacks.length === 0 ? (
+            <div className="text-center py-8 text-slate-400">ยังไม่มีข้อเสนอแนะจากผู้ใช้งาน</div>
+          ) : (
+            <div className="space-y-4">
+              {feedbacks.map(f => (
+                <div key={f.id} className="p-5 border border-slate-100 rounded-xl bg-slate-50 hover:bg-slate-100/50 transition-colors">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">
+                        {(f.profiles?.full_name || '?').charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-slate-800 text-sm">{f.profiles?.full_name || 'ไม่ทราบชื่อ'}</div>
+                        <div className="text-xs text-slate-500">{f.profiles?.email || 'ไม่มีอีเมล'}</div>
+                      </div>
+                    </div>
+                    <span className="text-xs font-medium text-slate-400 bg-white px-2 py-1 rounded border border-slate-100 shadow-sm">
+                      {new Date(f.created_at).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' })}
+                    </span>
+                  </div>
+                  <p className="text-slate-700 text-sm whitespace-pre-wrap pl-10 border-l-2 border-blue-200 ml-4 py-1">
+                    {f.message}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -179,57 +274,68 @@ export default function AdminDashboardClient({
               <tr>
                 <th scope="col" className="px-6 py-4">ผู้ใช้</th>
                 <th scope="col" className="px-6 py-4">ข้อมูลส่วนตัว</th>
+                <th scope="col" className="px-6 py-4 text-center">แผนที่สร้าง</th>
                 <th scope="col" className="px-6 py-4">บทบาท</th>
                 <th scope="col" className="px-6 py-4">วันที่สมัคร</th>
                 <th scope="col" className="px-6 py-4 text-right">จัดการ</th>
               </tr>
             </thead>
             <tbody>
-              {allUsers?.map((u) => (
-                <tr key={u.id} className="bg-white border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="font-medium text-slate-900">{u.full_name || 'ไม่ระบุชื่อ'}</div>
-                    <div className="text-slate-500 text-xs mt-1">{u.email}</div>
-                  </td>
-                  <td className="px-6 py-4 text-xs">
-                    <div><span className="font-medium">อายุ:</span> {u.age || '-'} | <span className="font-medium">เพศ:</span> {u.gender || '-'}</div>
-                    <div className="mt-1"><span className="font-medium text-indigo-600">{u.subject_group || '-'}</span></div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
-                      u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'
-                    }`}>
-                      {u.role === 'admin' ? <Shield size={12}/> : <UserIcon size={12}/>}
-                      {u.role}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">{new Date(u.created_at).toLocaleDateString('th-TH')}</td>
-                  <td className="px-6 py-4 text-right">
-                    {u.role !== 'admin' && (
-                      <div className="flex justify-end gap-2">
-                        <button 
-                          onClick={() => router.push(`/dashboard?userId=${u.id}`)}
-                          className="p-2 text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
-                          title="ดู Dashboard ผู้ใช้นี้"
-                        >
-                          <LayoutDashboard size={18} />
-                        </button>
-                        <button 
-                          onClick={() => handleDeleteUser(u.id, u.email)}
-                          disabled={deleting === u.id}
-                          className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                          title="ลบผู้ใช้ถาวร"
-                        >
-                          <Trash2 size={18} />
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {allUsers?.map((u) => {
+                const userPlansCount = allPlans.filter(p => p.user_id === u.id).length;
+                return (
+                  <tr key={u.id} className="bg-white border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="font-medium text-slate-900">{u.full_name || 'ไม่ระบุชื่อ'}</div>
+                      <div className="text-slate-500 text-xs mt-1">{u.email}</div>
+                    </td>
+                    <td className="px-6 py-4 text-xs">
+                      <div><span className="font-medium">อายุ:</span> {u.age || '-'} | <span className="font-medium">เพศ:</span> {u.gender || '-'}</div>
+                      <div className="mt-1"><span className="font-medium text-indigo-600">{u.subject_group || '-'}</span></div>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <span className={`inline-flex items-center justify-center min-w-8 h-8 rounded-full font-bold ${
+                        userPlansCount > 0 ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-400'
+                      }`}>
+                        {userPlansCount}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
+                        u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'
+                      }`}>
+                        {u.role === 'admin' ? <Shield size={12}/> : <UserIcon size={12}/>}
+                        {u.role}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">{new Date(u.created_at).toLocaleDateString('th-TH')}</td>
+                    <td className="px-6 py-4 text-right">
+                      {u.role !== 'admin' && (
+                        <div className="flex justify-end gap-2">
+                          <button 
+                            onClick={() => router.push(`/dashboard?userId=${u.id}`)}
+                            className="p-2 text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
+                            title="ดู Dashboard ผู้ใช้นี้"
+                          >
+                            <LayoutDashboard size={18} />
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteUser(u.id, u.email)}
+                            disabled={deleting === u.id}
+                            className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                            title="ลบผู้ใช้ถาวร"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                )
+              })}
               {(!allUsers || allUsers.length === 0) && (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-8 text-center text-slate-500">
                     ไม่มีข้อมูลผู้ใช้
                   </td>
                 </tr>
