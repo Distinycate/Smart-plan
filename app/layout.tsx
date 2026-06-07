@@ -75,8 +75,8 @@ export default async function RootLayout({
                   </Link>
 
                   {isAdmin && (
-                    <Link href="/admin" className="hidden sm:flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-bold text-pink-500 transition-colors hover:bg-indigo-100">
-                      จัดการแอดมิน
+                    <Link href="/admin" className="flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-bold text-indigo-600 transition-colors hover:bg-indigo-100">
+                      <LayoutDashboard className="h-4 w-4" /> ควบคุมระบบ (Admin)
                     </Link>
                   )}
                   
