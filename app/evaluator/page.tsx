@@ -844,22 +844,18 @@ const normalizeChecklist = (result: any) => {
   }));
 };
 
-const buildRadarDataFromScores = (result: any) => {
-  const aiScores = result.detailedScores || {};
-  const ruleScores = result.ruleBasedDetails || {};
-
+const buildRadarDataFromScores = (combinedData: any) => {
   const getPercent = (score: number, maxScore: number) => {
     if (!score || isNaN(score)) return 0;
     return Math.round((score / maxScore) * 100);
   };
 
   return [
-    { subject: 'จุดประสงค์', value: getPercent(aiScores.objectives?.score, 15), fullMark: 100 },
-    { subject: 'กิจกรรม', value: getPercent(aiScores.activities?.score, 15), fullMark: 100 },
-    { subject: 'วัดผล', value: getPercent(aiScores.assessment?.score, 15), fullMark: 100 },
-    { subject: 'รูบริก', value: getPercent(ruleScores.rubricScore, 10), fullMark: 100 },
-    { subject: 'ความสอดคล้อง', value: getPercent(aiScores.alignment?.score, 10), fullMark: 100 },
-    { subject: 'การใช้ภาษา', value: getPercent(aiScores.language?.score, 5), fullMark: 100 }
+    { subject: 'จุดประสงค์', value: getPercent(combinedData?.objectives?.score, 20), fullMark: 100 },
+    { subject: 'กิจกรรม', value: getPercent(combinedData?.activities?.score, 20), fullMark: 100 },
+    { subject: 'วัดและประเมิน', value: getPercent(combinedData?.assessment?.score, 20), fullMark: 100 },
+    { subject: 'ความสอดคล้อง', value: getPercent(combinedData?.alignment?.score, 20), fullMark: 100 },
+    { subject: 'การใช้ภาษา', value: getPercent(combinedData?.language?.score, 20), fullMark: 100 }
   ];
 };
 
@@ -1066,22 +1062,45 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
     );
   }
 
-  const score = result.overallScore || 0;
-  const maxScore = 100; // Max Hybrid score
+  const detailedScores = result.detailedScores || {};
+  const ruleScores = result.ruleBasedDetails || {};
+
+  // Combine AI and Rule-based scores and scale each to 20 points
+  const rawObj = (detailedScores.objectives?.score || 0) + (ruleScores.standardsScore || 0); // Max 25
+  const rawAct = (detailedScores.activities?.score || 0) + ((ruleScores.structureScore || 0) / 2); // Max 25
+  const rawAss = (detailedScores.assessment?.score || 0) + (ruleScores.rubricScore || 0); // Max 25
+  const rawAli = (detailedScores.alignment?.score || 0) + ((ruleScores.structureScore || 0) / 2); // Max 20
+  const rawLan = (detailedScores.language?.score || 0); // Max 5
+
+  const scaledObj = Math.round((rawObj / 25) * 20);
+  const scaledAct = Math.round((rawAct / 25) * 20);
+  const scaledAss = Math.round((rawAss / 25) * 20);
+  const scaledAli = Math.round((rawAli / 20) * 20);
+  const scaledLan = Math.round((rawLan / 5) * 20);
+
+  // Recalculate overall score based on the scaled sections
+  const score = scaledObj + scaledAct + scaledAss + scaledAli + scaledLan;
+  const maxScore = 100;
   const percentage = percentOf(score, maxScore);
   const tone = getScoreTone(percentage);
   const toneStyle = toneStyles[tone];
   const summary = result.summary || 'AI วิเคราะห์แผนการจัดการเรียนรู้เสร็จสมบูรณ์';
-  
-  const detailedScores = result.detailedScores || {};
 
-  const ScoreDetailBox = ({ title, data }: { title: string, data: any }) => {
+  const combinedData = {
+    objectives: { ...detailedScores.objectives, score: scaledObj },
+    activities: { ...detailedScores.activities, score: scaledAct },
+    assessment: { ...detailedScores.assessment, score: scaledAss },
+    alignment: { ...detailedScores.alignment, score: scaledAli },
+    language: { ...detailedScores.language, score: scaledLan }
+  };
+
+  const ScoreDetailBox = ({ title, data, maxScore }: { title: string, data: any, maxScore: number }) => {
     if (!data) return null;
     return (
       <div className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-slate-100">
         <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
           <h4 className="text-lg font-black text-slate-800">{title}</h4>
-          <span className="text-xl font-black text-pink-500 bg-pink-50 px-4 py-1.5 rounded-xl border border-pink-100">{data.score}/5</span>
+          <span className="text-xl font-black text-pink-500 bg-pink-50 px-4 py-1.5 rounded-xl border border-pink-100">{data.score}/{maxScore}</span>
         </div>
         <div className="grid md:grid-cols-3 gap-4">
           <div className="bg-emerald-50 rounded-xl p-5 border border-emerald-100 h-full">
@@ -1189,7 +1208,7 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
             </div>
             <div className="h-[320px] w-full max-w-3xl mt-8">
               <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="75%" data={buildRadarDataFromScores(result)}>
+                <RadarChart cx="50%" cy="50%" outerRadius="75%" data={buildRadarDataFromScores(combinedData)}>
                   <PolarGrid stroke="#f1f5f9" strokeWidth={2} />
                   <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 13, fontWeight: 800 }} />
                   <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
@@ -1208,12 +1227,11 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
             ผลประเมินรายหัวข้อ (เชิงลึก)
           </h4>
           <div className="space-y-6">
-            <ScoreDetailBox title="1. จุดประสงค์ (K/P/A)" data={detailedScores.objectives} />
-            <ScoreDetailBox title="2. กิจกรรมการเรียนรู้" data={detailedScores.activities} />
-            <ScoreDetailBox title="3. การวัดและประเมินผล" data={detailedScores.assessment} />
-            <ScoreDetailBox title="4. Rubric" data={detailedScores.rubric} />
-            <ScoreDetailBox title="5. ความสอดคล้อง" data={detailedScores.alignment} />
-            <ScoreDetailBox title="6. การใช้ภาษา" data={detailedScores.language} />
+            <ScoreDetailBox title="1. จุดประสงค์และมาตรฐาน" data={combinedData.objectives} maxScore={20} />
+            <ScoreDetailBox title="2. กิจกรรมการเรียนรู้" data={combinedData.activities} maxScore={20} />
+            <ScoreDetailBox title="3. การวัดและประเมินผล" data={combinedData.assessment} maxScore={20} />
+            <ScoreDetailBox title="4. ความสอดคล้อง" data={combinedData.alignment} maxScore={20} />
+            <ScoreDetailBox title="5. การใช้ภาษา" data={combinedData.language} maxScore={20} />
           </div>
         </div>
 
