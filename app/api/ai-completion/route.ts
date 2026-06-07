@@ -31,6 +31,36 @@ export async function POST(req: NextRequest) {
     }
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
+    // Fetch Error Memory from ai_error_logs
+    const { data: errorLogs } = await supabase
+      .from('ai_error_logs')
+      .select('error_message, resolution_hint')
+      .order('created_at', { ascending: false })
+      .limit(30);
+
+    let errorMemoryText = '';
+    if (errorLogs && errorLogs.length > 0) {
+      // Deduplicate and categorize
+      const uniqueErrors = new Map<string, string>();
+      errorLogs.forEach((log: any) => {
+        const key = log.error_message?.trim();
+        if (key && !uniqueErrors.has(key)) {
+          uniqueErrors.set(key, log.resolution_hint || 'ควรปรับปรุงและตรวจสอบให้ถูกต้อง');
+        }
+      });
+
+      // Take up to 10 unique errors to avoid confusing the AI
+      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 10);
+
+      if (distinctErrors.length > 0) {
+        errorMemoryText = `\n\n[ข้อมูลอ้างอิง: ข้อผิดพลาดที่เคยพบในอดีต กรุณาเรียนรู้และห้ามทำผิดซ้ำ]\n`;
+        distinctErrors.forEach(([issue, hint], idx) => {
+          errorMemoryText += `${idx + 1}. ปัญหาที่เคยพบ: ${issue}\n   แนวทางแก้ไข: ${hint}\n`;
+        });
+        errorMemoryText += `** คำสั่งสำคัญ: ให้นำแนวทางแก้ไขเหล่านี้ไปปรับใช้ในการสร้างส่วนที่เหลือของแผนนี้ เพื่อไม่ให้เกิดข้อผิดพลาดเดิมซ้ำอีก **\n`;
+      }
+    }
+
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 2: COMPLETION & ALIGNMENT)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
@@ -55,6 +85,7 @@ ${learningProcess}
 3. เกณฑ์ Rubric 5 ระดับ ต้องเขียนให้ชัดเจน วัดได้จริง (5=ดีเยี่ยม, 4=ดีมาก, 3=ดี, 2=พอใช้, 1=ปรับปรุง)
 4. ส่วน "บันทึกหลังการจัดกระบวนการเรียนรู้" (result, problems, solutions) ให้เขียนเตรียมไว้ล่วงหน้าโดยอิงจากกิจกรรมที่ทำ
 5. ใช้ภาษาราชการทางการศึกษา
+${errorMemoryText}
 
 ให้ตอบกลับเป็น JSON Object เท่านั้น โดยมีคีย์ดังต่อไปนี้:
 1. learningContent: (เนื้อหาสาระการเรียนรู้ทั้งหมด)

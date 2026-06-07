@@ -25,15 +25,34 @@ export async function POST(req: NextRequest) {
     }
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
-    // Fetch Best Practices (Error Memory)
-    const { data: bestPractices } = await supabase.from('ai_best_practices').select('*').limit(5);
+    // Fetch Error Memory from ai_error_logs
+    const { data: errorLogs } = await supabase
+      .from('ai_error_logs')
+      .select('error_message, resolution_hint')
+      .order('created_at', { ascending: false })
+      .limit(20);
+
     let errorMemoryText = '';
-    if (bestPractices && bestPractices.length > 0) {
-      errorMemoryText = `\n\nMASTER ERROR MEMORY PROMPT\nข้อผิดพลาดที่เคยพบในระบบ:\n`;
-      bestPractices.forEach((bp: any, idx: number) => {
-        errorMemoryText += `${idx + 1}.\nประเภท:\n${bp.category}\nปัญหา:\n${bp.title}\nแนวทางแก้ไข:\n${bp.solution_pattern}\n`;
+    if (errorLogs && errorLogs.length > 0) {
+      // Deduplicate and categorize
+      const uniqueErrors = new Map<string, string>();
+      errorLogs.forEach((log: any) => {
+        const key = log.error_message?.trim();
+        if (key && !uniqueErrors.has(key)) {
+          uniqueErrors.set(key, log.resolution_hint || 'ควรปรับปรุงและตรวจสอบให้ถูกต้อง');
+        }
       });
-      errorMemoryText += `กรุณาหลีกเลี่ยงข้อผิดพลาดเหล่านี้\n`;
+
+      // Take up to 10 unique errors to avoid confusing the AI
+      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 10);
+
+      if (distinctErrors.length > 0) {
+        errorMemoryText = `\n\nMASTER ERROR MEMORY PROMPT\n[ข้อมูลอ้างอิง: ข้อผิดพลาดที่เคยพบในอดีต กรุณาเรียนรู้และห้ามทำผิดซ้ำ]\n`;
+        distinctErrors.forEach(([issue, hint], idx) => {
+          errorMemoryText += `${idx + 1}. ปัญหาที่เคยพบ: ${issue}\n   แนวทางแก้ไข: ${hint}\n`;
+        });
+        errorMemoryText += `\n** คำสั่งสำคัญ: ให้นำแนวทางแก้ไขเหล่านี้ไปปรับใช้ในการสร้างแผนครั้งนี้ เพื่อไม่ให้เกิดข้อผิดพลาดเดิมซ้ำอีก **\n`;
+      }
     }
 
     let indicatorPrompt = '';
