@@ -12,10 +12,16 @@ const escapeHtml = (text: string) => {
     .replace(/'/g, "&#039;");
 };
 
+// Helper to sanitize AI tags (like "(แก้ไขโดย AI)") from the text
+const sanitize = (val: any) => {
+  if (val === undefined || val === null) return '';
+  return String(val).replace(/\s*[\(\[]?(แก้ไข|ปรับปรุง|แนะนำ)?โดย\s*(AI|เอไอ)[\)\]]?\s*/gi, ' ').trim();
+};
+
 // Helper to escape HTML tags for presentation inside Word
 const cleanVal = (val: any) => {
   if (val === undefined || val === null) return '';
-  return escapeHtml(String(val))
+  return escapeHtml(sanitize(val))
     .replace(/\n/g, '<br>')
     .replace(/\r/g, '');
 };
@@ -24,7 +30,7 @@ const cleanVal = (val: any) => {
 const renderListWord = (val: any) => {
   if (!val) return '';
   
-  let rawStr = String(val).trim();
+  let rawStr = sanitize(val).trim();
   let items: string[] = [];
   
   // Check if it's a JSON array or object
@@ -50,8 +56,8 @@ const renderListWord = (val: any) => {
   
   const cleanedLines = items
     .map(line => {
-      // remove leading bullet points like -, *, •, or numbers like 1., 1)
-      let cleaned = line.replace(/^([-*•]|\d+[\s.)])\s*/, '');
+      // remove leading bullet points like -, *, • but preserve numbers like 3.1
+      let cleaned = line.replace(/^[-*•]\s+/, '');
       // remove residual JSON brackets, quotes, braces
       cleaned = cleaned.replace(/[{}|[\]"]/g, '').trim();
       return cleaned;
@@ -61,14 +67,14 @@ const renderListWord = (val: any) => {
   if (cleanedLines.length === 0) return '';
   
   return `<div style="margin: 4px 0;">` + cleanedLines.map((line, idx) => {
-    return `<div style="margin-left: 35pt; text-indent: -15pt; margin-bottom: 4px; text-align: left;">${idx + 1}. ${escapeHtml(line)}</div>`;
+    return `<div style="margin-left: 35pt; margin-bottom: 4px; text-align: left;">${escapeHtml(line)}</div>`;
   }).join('') + `</div>`;
 };
 
 // Clean paragraph elements with small indents for Word
 const cleanParagraphsWord = (val: any) => {
   if (val === undefined || val === null) return '';
-  return String(val)
+  return sanitize(val)
     .split('\n')
     .map(line => line.trim())
     .filter(Boolean)
@@ -81,7 +87,7 @@ const cleanParagraphsWord = (val: any) => {
 // Format multiple indicators with consistent indentation (35pt)
 const renderIndicatorsWord = (val: any) => {
   if (!val) return '';
-  return String(val)
+  return sanitize(val)
     .split('\n')
     .map(line => line.trim())
     .filter(Boolean)
@@ -104,7 +110,7 @@ const renderStandardsWord = (val: any) => {
 // Parse learning process steps and apply bold & indents for Word
 const renderLearningProcessWord = (val: any) => {
   if (val === undefined || val === null) return '';
-  const lines = String(val)
+  const lines = sanitize(val)
     .split('\n')
     .map(line => line.trim())
     .filter(Boolean);
@@ -133,7 +139,7 @@ const renderLearningProcessWord = (val: any) => {
 // Format sub-content body text with paragraph indentation for Word
 const cleanSubContentWord = (val: any) => {
   if (val === undefined || val === null) return '';
-  return String(val)
+  return sanitize(val)
     .split('\n')
     .map(line => line.trim())
     .filter(Boolean)
@@ -146,6 +152,7 @@ const cleanSubContentWord = (val: any) => {
 const parseRubricText = (text: string) => {
   if (!text) return [];
   
+  text = sanitize(text);
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
   
   const levels = [
@@ -501,6 +508,8 @@ export async function GET(
        </div>
      </div>
 
+
+
      <div class="section">
        <div class="section-title">3. สมรรถนะสำคัญของผู้เรียน</div>
        <div class="section-content-list">${renderListWord(plan.competencies)}</div>
@@ -519,9 +528,24 @@ export async function GET(
      <div class="section">
        <div class="section-title">6. จุดประสงค์การเรียนรู้</div>
        <div class="section-content" style="margin-left: 0;">
-         <p><span class="label">ด้านความรู้ (K):</span><br>${cleanParagraphsWord(plan.objectiveK)}</p>
-         <p style="margin-top: 6px;"><span class="label">ด้านทักษะกระบวนการ (P):</span><br>${cleanParagraphsWord(plan.objectiveP)}</p>
-         <p style="margin-top: 6px;"><span class="label">ด้านคุณลักษณะ (A):</span><br>${cleanParagraphsWord(plan.objectiveA)}</p>
+          <div style="margin-left: 20pt; margin-top: 4px;">
+            <div class="label">ด้านความรู้ (K):</div>
+            <div style="margin-left: 20pt; margin-top: 2px;">
+              ${sanitize(plan.objectiveK).split('\n').map(l => l.trim()).filter(Boolean).map(l => `<div style="margin-bottom: 2px;">${escapeHtml(l)}</div>`).join('')}
+            </div>
+          </div>
+          <div style="margin-left: 20pt; margin-top: 6px;">
+            <div class="label">ด้านทักษะกระบวนการ (P):</div>
+            <div style="margin-left: 20pt; margin-top: 2px;">
+              ${sanitize(plan.objectiveP).split('\n').map(l => l.trim()).filter(Boolean).map(l => `<div style="margin-bottom: 2px;">${escapeHtml(l)}</div>`).join('')}
+            </div>
+          </div>
+          <div style="margin-left: 20pt; margin-top: 6px;">
+            <div class="label">ด้านคุณลักษณะ (A):</div>
+            <div style="margin-left: 20pt; margin-top: 2px;">
+              ${sanitize(plan.objectiveA).split('\n').map(l => l.trim()).filter(Boolean).map(l => `<div style="margin-bottom: 2px;">${escapeHtml(l)}</div>`).join('')}
+            </div>
+          </div>
        </div>
      </div>
 

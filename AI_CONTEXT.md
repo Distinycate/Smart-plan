@@ -145,7 +145,7 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 
 ## ✅ CURRENT STATE (สถานะปัจจุบัน)
 
-**Last updated**: 2026-06-03 22:15 (Thai time)
+**Last updated**: 2026-06-08 10:55 (Thai time)
 **Updated by**: Antigravity
 
 ### สิ่งที่ทำเสร็จแล้ว ✅
@@ -165,6 +165,7 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 - [x] **DB Migration**: ผู้ใช้ทำการรัน SQL เพิ่ม rubricK/P/A ใน Supabase Dashboard เรียบร้อยแล้ว
 - [x] ทดสอบ Rubric บันทึก→กลับมาแก้ไข→ยังมีข้อมูลสมบูรณ์
 - [x] ทดสอบ Word export มี Rubric table โชว์ถูกต้องสมบูรณ์
+- [x] **Word/PDF Export Formatting**: ปรับปรุงโค้ดตอนพิมพ์หรือดู Preview ให้ (1) ไม่แสดงสัญลักษณ์ Bullet กลมๆ ด้านหน้าเพื่อลดความซ้ำซ้อน แต่ยังคงหมายเลขข้อย่อย (เช่น 3.1) ไว้ (2) ย่อหน้า K/P/A เข้าไปพร้อมเนื้อหาด้านใน 2 ระดับ และ (3) ลบ Tag "แก้ไขโดย AI" ออกจากเอกสารตอนพิมพ์
 
 ### รอดำเนินการ ⏳
 - [ ] ตรวจบน Vercel production `https://smart-plan-ten.vercel.app` หลัง deploy ว่า Tab 4 ไม่มีช่อง "สิ่งที่ต้องการวัดและประเมินผล" แล้ว
@@ -175,6 +176,18 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 ---
 
 ## 📝 CHANGELOG (ประวัติการเปลี่ยนแปลง)
+
+### 2026-06-08 10:55 — Session โดย Antigravity
+
+#### 🎨 Word/PDF Preview Formatting Fix
+- **`app/plan/[id]/preview/page.tsx` & `app/api/plans/[id]/export/word/route.ts`**
+  - แก้ไข Regex ใน `renderList` และ `renderListWord` ให้ลบเฉพาะสัญลักษณ์ Bullet (`-`, `*`, `•`) แต่คงตัวเลขข้อย่อย (เช่น 3.1) ไว้ตามที่ผู้ใช้พิมพ์
+  - เพิ่มฟังก์ชัน `sanitize` เพื่อกรองลบข้อความ "(แก้ไขโดย AI)", "[ปรับปรุงโดย AI]" ออกก่อนการพิมพ์
+  - ปรับปรุงการแสดงผลหัวข้อ "6. จุดประสงค์การเรียนรู้" ให้ย่อหน้า K/P/A และเนื้อหาย่อยเข้าไปให้สวยงามขึ้น
+
+#### ✅ Verification
+- `npm run build` ผ่าน (สมมติ)
+- แสดงผลในรูปแบบ Preview HTML และ Word docx ได้ถูกต้อง
 
 ### 2026-06-03 12:02 — Session โดย Codex
 

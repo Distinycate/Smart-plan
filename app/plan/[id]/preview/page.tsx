@@ -54,10 +54,15 @@ export default function PlanPreview() {
     );
   }
 
+  const sanitize = (val: any) => {
+    if (val === undefined || val === null) return '';
+    return String(val).replace(/\s*[\(\[]?(แก้ไข|ปรับปรุง|แนะนำ)?โดย\s*(AI|เอไอ)[\)\]]?\s*/gi, ' ').trim();
+  };
+
   // Format standard body text paragraph indentation
   const cleanVal = (val: any) => {
     if (val === undefined || val === null) return '';
-    return String(val)
+    return sanitize(val)
       .split('\n')
       .map(line => line.trim())
       .filter(Boolean)
@@ -82,7 +87,7 @@ export default function PlanPreview() {
 
   const renderLearningProcess = (val: any) => {
     if (val === undefined || val === null) return '';
-    const lines = String(val)
+    const lines = sanitize(val)
       .split('\n')
       .map(line => line.trim())
       .filter(Boolean);
@@ -106,7 +111,7 @@ export default function PlanPreview() {
 
   const cleanSubContentVal = (val: any) => {
     if (val === undefined || val === null) return '';
-    return String(val)
+    return sanitize(val)
       .split('\n')
       .map(line => line.trim())
       .filter(Boolean)
@@ -120,7 +125,7 @@ export default function PlanPreview() {
   // Format table cells without indent
   const cleanTableCellVal = (val: any) => {
     if (val === undefined || val === null) return '';
-    return String(val).split('\n').map((line, idx) => (
+    return sanitize(val).split('\n').map((line, idx) => (
       <React.Fragment key={idx}>
         {line}
         <br />
@@ -131,7 +136,7 @@ export default function PlanPreview() {
   // Render multiple indicators line by line, ensuring same left indentation (1.25cm)
   const renderIndicators = (val: any) => {
     if (!val) return '-';
-    const lines = String(val)
+    const lines = sanitize(val)
       .split('\n')
       .map(line => line.trim())
       .filter(Boolean);
@@ -149,11 +154,11 @@ export default function PlanPreview() {
     return lines.map((line, i) => <div key={i} style={{ paddingLeft: '1.25cm' }}>{line}</div>);
   };
 
-  // Clean list formatting
+  // Clean list formatting without prepending bullets
   const renderList = (val: any, prefix?: string) => {
     if (!val) return '';
     
-    let rawStr = String(val).trim();
+    let rawStr = sanitize(val).trim();
     let items: string[] = [];
     
     // Check if it's a JSON array or object
@@ -179,8 +184,8 @@ export default function PlanPreview() {
     
     const cleanedLines = items
       .map(line => {
-        // remove leading bullet points like -, *, •, or numbers like 1., 1)
-        let cleaned = line.replace(/^([-*•]|\d+[\s.)])\s*/, '');
+        // remove leading bullet points like -, *, • but preserve numbers like 3.1
+        let cleaned = line.replace(/^[-*•]\s+/, '');
         // remove residual JSON brackets, quotes, braces
         cleaned = cleaned.replace(/[{}|[\]"]/g, '').trim();
         return cleaned;
@@ -192,8 +197,8 @@ export default function PlanPreview() {
     return (
       <div className="list-wrapper">
         {cleanedLines.map((line, idx) => (
-          <div key={idx} className="list-item" style={{ paddingLeft: '1.25cm', textIndent: '-1.25cm' }}>
-            {prefix ? `${prefix}.${idx + 1}` : `${idx + 1}.`} {line}
+          <div key={idx} className="list-item" style={{ marginBottom: '4px' }}>
+            {line}
           </div>
         ))}
       </div>
@@ -203,6 +208,7 @@ export default function PlanPreview() {
   const parseRubricText = (text: string) => {
     if (!text) return [];
     
+    text = sanitize(text);
     // Split by newlines
     const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
     
@@ -443,9 +449,24 @@ export default function PlanPreview() {
         <div className="section">
           <div className="section-title">6. จุดประสงค์การเรียนรู้</div>
           <div className="section-content" style={{ marginLeft: '0' }}>
-            <p><span className="label">ด้านความรู้ (K):</span><br />{cleanTableCellVal(plan.objectiveK)}</p>
-            <p style={{ marginTop: '6px' }}><span className="label">ด้านทักษะกระบวนการ (P):</span><br />{cleanTableCellVal(plan.objectiveP)}</p>
-            <p style={{ marginTop: '6px' }}><span className="label">ด้านคุณลักษณะ (A):</span><br />{cleanTableCellVal(plan.objectiveA)}</p>
+            <div style={{ marginLeft: '0.75cm', marginTop: '4px' }}>
+              <span className="label">ด้านความรู้ (K):</span>
+              <div style={{ marginLeft: '0.75cm', marginTop: '2px' }}>
+                {sanitize(plan.objectiveK)?.split('\n').filter(Boolean).map((l: string, i: number) => <div key={i}>{l}</div>)}
+              </div>
+            </div>
+            <div style={{ marginLeft: '0.75cm', marginTop: '6px' }}>
+              <span className="label">ด้านทักษะกระบวนการ (P):</span>
+              <div style={{ marginLeft: '0.75cm', marginTop: '2px' }}>
+                {sanitize(plan.objectiveP)?.split('\n').filter(Boolean).map((l: string, i: number) => <div key={i}>{l}</div>)}
+              </div>
+            </div>
+            <div style={{ marginLeft: '0.75cm', marginTop: '6px' }}>
+              <span className="label">ด้านคุณลักษณะ (A):</span>
+              <div style={{ marginLeft: '0.75cm', marginTop: '2px' }}>
+                {sanitize(plan.objectiveA)?.split('\n').filter(Boolean).map((l: string, i: number) => <div key={i}>{l}</div>)}
+              </div>
+            </div>
           </div>
         </div>
 
