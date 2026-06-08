@@ -3665,12 +3665,18 @@ export const ALL_SUBJECT_CURRICULUM: SubjectCurriculumData[] = [
 ];
 
 
-export function getCurriculumBySubject(gradeLevel: string, subjectName: string): SubjectCurriculumData | null {
+export function getCurriculumBySubject(gradeLevel: string, subjectName: string, learningArea?: string): SubjectCurriculumData | null {
   const grade = gradeLevel.trim();
   const name = subjectName.trim();
-  return ALL_SUBJECT_CURRICULUM.find(
+  let found = ALL_SUBJECT_CURRICULUM.find(
     s => s.gradeLevel === grade && s.subjectName === name
-  ) || null;
+  );
+  if (!found && learningArea) {
+    found = ALL_SUBJECT_CURRICULUM.find(
+      s => s.gradeLevel === grade && s.learningArea === learningArea
+    );
+  }
+  return found || null;
 }
 
 export function getSubjectsByGrade(gradeLevel: string): SubjectCurriculumData[] {

@@ -25,6 +25,8 @@ import {
   formatStandards,
   formatDuringIndicators,
   formatFinalIndicators,
+  getCurriculumBySubject,
+  ALL_SUBJECT_CURRICULUM
 } from '../../lib/subjectStandardsData';
 
 interface PlanFormProps {
@@ -649,15 +651,34 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     : [];
 
   const activeSubject = subjects.find((s: any) => s.subjectId === activeSubjectId);
-  const activeLearningArea = activeSubject?.learningArea;
+  const currentLearningArea = fields.learningArea || activeSubject?.learningArea;
+  const currentSubjectName = fields.subjectName || activeSubject?.subjectName;
+  
+  // Get authoritative local curriculum
+  let localCurriculum = getCurriculumBySubject(fields.gradeLevel, currentSubjectName, currentLearningArea);
 
-  const filteredIndicators = fields.gradeLevel
-    ? indicators.filter((ind: any) => {
-        const gradeMatch = ind.gradeLevel === fields.gradeLevel;
-        const areaMatch = activeLearningArea ? ind.learningArea === activeLearningArea : true;
-        return gradeMatch && areaMatch;
-      })
-    : [];
+  // Generate robust indicators prioritizing local curriculum data
+  let filteredIndicators: any[] = [];
+  
+  if (localCurriculum) {
+    filteredIndicators = localCurriculum.indicators.map(i => ({
+      indicatorId: i.id,
+      indicatorCode: i.code,
+      indicatorText: i.text,
+      indicatorType: i.type,
+      gradeLevel: localCurriculum!.gradeLevel,
+      learningArea: localCurriculum!.learningArea,
+      standardCode: i.code.split(' ')[0] + ' ' + i.code.split(' ')[1]
+    }));
+  } else {
+    filteredIndicators = fields.gradeLevel
+      ? indicators.filter((ind: any) => {
+          const gradeMatch = ind.gradeLevel === fields.gradeLevel;
+          const areaMatch = currentLearningArea ? ind.learningArea === currentLearningArea : true;
+          return gradeMatch && areaMatch;
+        })
+      : [];
+  }
 
   // ── Hardcoded Curriculum Computed Lists ──
   const hardcodedGradeLevels = getAllGradeLevels();
@@ -886,11 +907,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     }
     // Recompute values for textareas
     const updatedIds = selectedArr.join(',');
-    const matchedInds = indicators.filter((ind: any) => selectedArr.includes(ind.indicatorId));
+    const matchedInds = filteredIndicators.filter((ind: any) => selectedArr.includes(ind.indicatorId));
     
     const duringList = matchedInds.filter((ind: any) => ind.indicatorType === 'during').map((ind: any) => `${ind.indicatorCode} ${ind.indicatorText}`).join('\n');
     const finalList = matchedInds.filter((ind: any) => ind.indicatorType === 'final').map((ind: any) => `${ind.indicatorCode} ${ind.indicatorText}`).join('\n');
-    const uniqueStandards = Array.from(new Set(matchedInds.map((ind: any) => `${ind.standardCode} ${ind.standardText}`))).join('\n');
+    const uniqueStandards = Array.from(new Set(matchedInds.map((ind: any) => `${ind.standardCode || ''} ${ind.standardText || ''}`.trim()))).join('\n');
 
     setFields(prev => ({
       ...prev,
@@ -929,7 +950,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           gradeLevel: fields.gradeLevel,
           subjectName: fields.subjectName,
           lessonTopic: fields.lessonTopic,
-          learningArea: activeLearningArea,
+          learningArea: currentLearningArea,
           totalHours: fields.totalHours,
           learningStandard: fields.learningStandard,
           indicatorDuring: fields.indicatorDuring,
@@ -1489,14 +1510,22 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
 
               {/* Standards Smart Dropdown */}
-              {options.standard && options.standard.length > 0 && (
+              {(localCurriculum ? localCurriculum.standards.length > 0 : (options.standard && options.standard.length > 0)) && (
                 <SmartDropdown 
-                  options={options.standard.map((opt: any) => ({
-                    id: opt.optionId,
-                    label: opt.optionName,
-                    value: opt.optionText || '',
-                    selected: (fields.learningStandard || '').includes(opt.optionName)
-                  }))}
+                  options={localCurriculum 
+                    ? localCurriculum.standards.map((s: any) => ({
+                        id: s.code,
+                        label: `มาตรฐาน ${s.code}`,
+                        value: s.text,
+                        selected: (fields.learningStandard || '').includes(`มาตรฐาน ${s.code}`)
+                      }))
+                    : options.standard.map((opt: any) => ({
+                        id: opt.optionId,
+                        label: opt.optionName,
+                        value: opt.optionText || '',
+                        selected: (fields.learningStandard || '').includes(opt.optionName)
+                      }))
+                  }
                   placeholder="ค้นหาหรือเลือกจากคลังมาตรฐานการเรียนรู้..."
                   onSelect={(opt) => {
                     const currentVal = fields.learningStandard || '';
