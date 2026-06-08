@@ -3577,7 +3577,7 @@ const ENG_ม4_6: SubjectCurriculumData = {
   ]
 };
 
-const ALL_SUBJECT_CURRICULUM: SubjectCurriculumData[] = [
+export const ALL_SUBJECT_CURRICULUM: SubjectCurriculumData[] = [
   THAI_ป1,
   THAI_ป2,
   THAI_ป3,
