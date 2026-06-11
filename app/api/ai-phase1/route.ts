@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 6);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

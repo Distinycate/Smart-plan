@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
         error: 'Missing GEMINI_API_KEY environment variable.'
       }, { status: 500 });
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
 
     // Fetch Error Memory from ai_error_logs
     const { data: errorLogs } = await supabase
@@ -200,7 +200,7 @@ ${errorMemoryText}
       }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 6, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

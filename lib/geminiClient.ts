@@ -19,11 +19,14 @@ export async function fetchGeminiWithRetry(apiUrl: string, payload: any, maxRetr
       // Increase timeout slightly to allow for longer retries if needed
       const timeoutId = setTimeout(() => controller.abort(), 55000); 
 
-      const response = await fetch(apiUrl, {
+      // Remove existing ?key= if present to avoid conflicts with header
+      const baseUrl = apiUrl.split('?')[0];
+      const finalUrl = `${baseUrl}?key=${currentKey}`;
+
+      const response = await fetch(finalUrl, {
         method: 'POST',
         headers: { 
-          'Content-Type': 'application/json',
-          'x-goog-api-key': currentKey
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload),
         next: { revalidate: 0 }, // bypass cache
