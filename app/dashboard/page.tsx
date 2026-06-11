@@ -366,7 +366,7 @@ export default function TeacherDashboard() {
                 style={{ background: activeTab === 'ai_fixed' ? '#fff' : 'transparent', color: activeTab === 'ai_fixed' ? '#ec4899' : 'var(--c-gray-500)', boxShadow: activeTab === 'ai_fixed' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5, display: 'flex', alignItems: 'center', gap: 4 }}
                 className="rounded-full font-medium transition-all"
               >
-                <Sparkles size={12} /> AI ปรับปรุง
+                <Sparkles size={12} /> แผนที่เอไอปรับปรุง
               </button>
               <button 
                 className={`btn btn-sm ${activeTab === 'archived' ? 'btn-primary' : ''}`}
@@ -374,13 +374,6 @@ export default function TeacherDashboard() {
                 onClick={() => setActiveTab('archived')}
               >
                 <Archive size={12} /> ที่เก็บถาวร
-              </button>
-              <button 
-                className={`btn btn-sm ${activeTab === 'ai_fixed' ? 'btn-primary' : ''}`}
-                style={{ background: activeTab === 'ai_fixed' ? '#fff' : 'transparent', color: activeTab === 'ai_fixed' ? 'var(--c-primary)' : 'var(--c-gray-500)', boxShadow: activeTab === 'ai_fixed' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none', border: 'none', padding: '4px 10px', fontSize: 12.5, display: 'flex', alignItems: 'center', gap: 4 }}
-                onClick={() => setActiveTab('ai_fixed')}
-              >
-                <Sparkles size={12} /> แผนที่แก้ไขโดย AI
               </button>
             </div>
             <button className="btn btn-hero btn-sm" style={{ background: 'var(--c-primary)', color: '#fff', height: '100%' }} onClick={() => router.push('/plan/new')}>

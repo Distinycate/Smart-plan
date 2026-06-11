@@ -29,8 +29,8 @@ export default function SmartDropdown({
 
   // Filter options based on search text
   const filteredOptions = options.filter(opt => 
-    opt.label.toLowerCase().includes(search.toLowerCase()) || 
-    opt.value.toLowerCase().includes(search.toLowerCase())
+    (opt.label || '').toLowerCase().includes(search.toLowerCase()) || 
+    (opt.value || '').toLowerCase().includes(search.toLowerCase())
   );
 
   // Close dropdown when clicking outside

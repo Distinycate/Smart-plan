@@ -489,7 +489,7 @@ export async function GET(
            <td style="width: 10%; font-weight: bold; padding: 0px; font-size: 16pt;">วันที่สอน</td>
            <td style="width: 30%; padding: 0px; font-size: 16pt;"></td>
            <td style="width: 8%; font-weight: bold; padding: 0px; font-size: 16pt;">เรื่อง</td>
-           <td style="width: 52%; padding: 0px; font-size: 16pt;">${cleanVal(plan.lessonTopic)}</td>
+           <td style="width: 52%; padding: 0px; font-size: 16pt;">${cleanVal(plan.lessonTopic?.replace(/\s*\(AI แก้ไข\)$/, ''))}</td>
          </tr>
        </tbody>
      </table>
@@ -500,7 +500,7 @@ export async function GET(
      </div>
 
      <div class="section">
-       <div class="section-title">2. มาตรฐานการเรียนรู้และตัวชี้วัด</div>
+       <div class="section-title">มาตรฐานการเรียนรู้และตัวชี้วัด</div>
        <div class="section-content" style="margin-left: 0;">
          <p><span class="label">มาตรฐานการเรียนรู้:</span><br>${renderStandardsWord(plan.learningStandard)}</p>
          <p style="margin-top: 6px;"><span class="label">ตัวชี้วัดระหว่างทาง:</span><br>${renderIndicatorsWord(plan.indicatorDuring)}</p>
@@ -511,12 +511,12 @@ export async function GET(
 
 
      <div class="section">
-       <div class="section-title">3. สมรรถนะสำคัญของผู้เรียน</div>
+       <div class="section-title">สมรรถนะสำคัญของผู้เรียน</div>
        <div class="section-content-list">${renderListWord(plan.competencies)}</div>
      </div>
 
      <div class="section">
-       <div class="section-title">4. คุณลักษณะอันพึงประสงค์</div>
+       <div class="section-title">คุณลักษณะอันพึงประสงค์</div>
        <div class="section-content-list">${renderListWord(plan.desiredAttributes)}</div>
      </div>
 
@@ -739,7 +739,7 @@ export async function GET(
     `;
 
     // 3. Update the plan metadata to log Word export details
-    const cleanFileName = `PLAN_${plan.gradeLevel || 'GRADE'}_${plan.lessonTopic || 'LESSON'}`.replace(/\s+/g, '_');
+    const cleanFileName = `PLAN_${plan.gradeLevel || 'GRADE'}_${plan.lessonTopic?.replace(/\s*\(AI แก้ไข\)$/, '') || 'LESSON'}`.replace(/\s+/g, '_');
     const timestamp = new Date().toISOString();
     const downloadUrl = `/api/plans/${id}/export/word`;
 
