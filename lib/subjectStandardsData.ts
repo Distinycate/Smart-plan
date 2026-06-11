@@ -3666,6 +3666,7 @@ export const ALL_SUBJECT_CURRICULUM: SubjectCurriculumData[] = [
 
 
 export function getCurriculumBySubject(gradeLevel: string, subjectName: string, learningArea?: string): SubjectCurriculumData | null {
+  if (!gradeLevel || !subjectName) return null;
   const grade = gradeLevel.trim();
   const name = subjectName.trim();
   let found = ALL_SUBJECT_CURRICULUM.find(
@@ -3680,6 +3681,7 @@ export function getCurriculumBySubject(gradeLevel: string, subjectName: string, 
 }
 
 export function getSubjectsByGrade(gradeLevel: string): SubjectCurriculumData[] {
+  if (!gradeLevel) return [];
   return ALL_SUBJECT_CURRICULUM.filter(s => s.gradeLevel === gradeLevel.trim());
 }
 
