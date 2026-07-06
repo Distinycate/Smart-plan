@@ -12,8 +12,11 @@ export async function retryWithBackoff<T>(
   fn: () => Promise<T>,
   options: RetryOptions = {}
 ): Promise<T> {
-  const maxRetries = options.maxRetries ?? Number(process.env.AI_RETRY_MAX ?? '3');
-  const baseDelayMs = options.baseDelayMs ?? Number(process.env.AI_RETRY_BASE_DELAY_MS ?? '2000');
+  const envRetries = typeof process !== 'undefined' && process.env ? process.env.AI_RETRY_MAX : undefined;
+  const envDelay = typeof process !== 'undefined' && process.env ? process.env.AI_RETRY_BASE_DELAY_MS : undefined;
+  
+  const maxRetries = options.maxRetries ?? Number(envRetries ?? '3');
+  const baseDelayMs = options.baseDelayMs ?? Number(envDelay ?? '2000');
 
   let attempt = 0;
 

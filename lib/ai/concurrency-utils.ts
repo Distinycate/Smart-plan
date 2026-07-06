@@ -19,14 +19,17 @@ export async function runWithRetry<T>(
   let finalErrorType: string | undefined = undefined;
 
   try {
+    const envRetries = typeof process !== 'undefined' && process.env ? process.env.NEXT_PUBLIC_AI_RETRY_MAX : undefined;
+    const envDelay = typeof process !== 'undefined' && process.env ? process.env.NEXT_PUBLIC_AI_RETRY_BASE_DELAY_MS : undefined;
+
     const data = await retryWithBackoff(
       async () => {
         attemptCount++;
         return await fn();
       },
       {
-        maxRetries: Number(process.env.NEXT_PUBLIC_AI_RETRY_MAX || '2'),
-        baseDelayMs: Number(process.env.NEXT_PUBLIC_AI_RETRY_BASE_DELAY_MS || '1500'),
+        maxRetries: Number(envRetries || '2'),
+        baseDelayMs: Number(envDelay || '1500'),
         onRetry: (attempt, error, delay) => {
           finalErrorType = error?.message || 'unknown_error';
           console.warn(`[AI Task: ${taskName}] Attempt ${attempt} failed: ${finalErrorType}. Retrying in ${delay}ms...`);
@@ -58,8 +61,11 @@ export async function runWithRetry<T>(
 
 export async function runLimitedConcurrency<T>(
   tasks: (() => Promise<T>)[],
-  maxConcurrent: number = Number(process.env.NEXT_PUBLIC_AI_PHASE2_MAX_CONCURRENT || '2')
+  maxConcurrent?: number
 ): Promise<PromiseSettledResult<T>[]> {
+  const envConcurrent = typeof process !== 'undefined' && process.env ? process.env.NEXT_PUBLIC_AI_PHASE2_MAX_CONCURRENT : undefined;
+  const actualMaxConcurrent = maxConcurrent ?? Number(envConcurrent || '2');
+
   const results: PromiseSettledResult<T>[] = new Array(tasks.length);
   let currentIndex = 0;
 
@@ -75,7 +81,7 @@ export async function runLimitedConcurrency<T>(
     }
   };
 
-  const workers = Array.from({ length: Math.min(maxConcurrent, tasks.length) }, () => executeWorker());
+  const workers = Array.from({ length: Math.min(actualMaxConcurrent, tasks.length) }, () => executeWorker());
   await Promise.all(workers);
   
   return results;
