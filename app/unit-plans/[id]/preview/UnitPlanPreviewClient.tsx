@@ -101,9 +101,19 @@ export default function UnitPlanPreviewClient({ unitPlan }: { unitPlan: any }) {
         .unit-document pre { white-space: pre-wrap; font-family: inherit; font-size: 14pt; }
         @media print {
           @page { size: A4; margin: 0; }
+          body, html { min-height: auto !important; height: auto !important; overflow: visible !important; }
           .no-print { display: none !important; }
-          .unit-preview-shell { padding: 0; background: white; }
-          .unit-document { box-shadow: none; margin: 0; }
+          .unit-preview-shell { padding: 0 !important; background: white !important; min-height: auto !important; height: auto !important; overflow: visible !important; }
+          .unit-document { 
+            box-shadow: none !important; 
+            margin: 0 !important; 
+            width: 210mm !important;
+            min-height: auto !important;
+            height: auto !important;
+            overflow: visible !important;
+            zoom: 1 !important;
+            transform: none !important;
+          }
         }
       `}</style>
     </div>

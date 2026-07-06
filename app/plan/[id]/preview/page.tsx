@@ -922,23 +922,33 @@ export default function PlanPreview() {
         @media print {
           @page {
             size: A4;
-            margin: 20mm 20mm 20mm 25mm;
+            margin: 0;
           }
-          body {
-            background: #fff;
+          body, html {
+            background: #fff !important;
+            min-height: auto !important;
+            height: auto !important;
+            overflow: visible !important;
           }
           .no-print {
             display: none !important;
           }
           .preview-container {
-            padding-top: 0;
+            padding-top: 0 !important;
+            min-height: auto !important;
+            height: auto !important;
+            overflow: visible !important;
           }
           .a4-sheet {
-            width: 100% !important;
-            padding: 0 !important;
+            width: 210mm !important;
+            min-height: auto !important;
+            height: auto !important;
+            padding: 20mm 20mm 20mm 25mm !important;
             margin: 0 !important;
             box-shadow: none !important;
-            zoom: 100% !important;
+            zoom: 1 !important;
+            transform: none !important;
+            overflow: visible !important;
           }
         }
       `}</style>
