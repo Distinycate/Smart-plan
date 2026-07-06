@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
-import { validateAiQueueAdmission } from '@/lib/aiQueueServer';
+import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {
-    const admissionError = await validateAiQueueAdmission(req);
-    if (admissionError) return admissionError;
 
     const { 
       gradeLevel, 
@@ -34,14 +32,14 @@ export async function POST(req: NextRequest) {
         error: 'Missing GEMINI_API_KEY environment variable.'
       }, { status: 500 });
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
+    const apiUrl = fastGeminiUrl();
 
     // Fetch Error Memory from ai_error_logs
     const { data: errorLogs } = await supabase
       .from('ai_error_logs')
       .select('error_message, resolution_hint')
       .order('created_at', { ascending: false })
-      .limit(30);
+      .limit(3);
 
     let errorMemoryText = '';
     if (errorLogs && errorLogs.length > 0) {
@@ -55,7 +53,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Take up to 10 unique errors to avoid confusing the AI
-      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 10);
+      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 3);
 
       if (distinctErrors.length > 0) {
         errorMemoryText = `\n\n[ข้อมูลอ้างอิง: ข้อผิดพลาดที่เคยพบในอดีต กรุณาเรียนรู้และห้ามทำผิดซ้ำ]\n`;
@@ -66,7 +64,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const prompt = `MASTER SYSTEM PROMPT V1 (STEP 2: COMPLETION & ALIGNMENT - PART 2)
+    const boundedLearningProcess = clipForAi(learningProcess, 6000);
+    const prompt = `MASTER SYSTEM PROMPT V1 (STEP 2: COMPLETION - P RUBRIC)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
 คุณคือผู้เชี่ยวชาญด้านการวัดและประเมินผลตามสภาพจริง
@@ -75,47 +74,32 @@ export async function POST(req: NextRequest) {
 วิชา: ${subjectName} ชั้น: ${gradeLevel} เรื่อง: ${lessonTopic}
 
 จุดประสงค์ทักษะ (P): ${objectiveP || '-'}
-จุดประสงค์คุณลักษณะ (A): ${objectiveA || '-'}
 
 กระบวนการจัดการเรียนรู้ที่ใช้:
-${learningProcess}
+${boundedLearningProcess}
 ---
 
-หน้าที่ของคุณคือ "สร้างเกณฑ์การประเมินด้านทักษะ (P) และคุณลักษณะ (A) พร้อมบันทึกหลังสอน" ให้สอดคล้องกับกระบวนการเรียนรู้และจุดประสงค์ที่กำหนดไว้อย่างสมบูรณ์แบบที่สุด
+หน้าที่ของคุณคือ "สร้างเกณฑ์การประเมินด้านทักษะ (P)" ให้สอดคล้องกับกระบวนการเรียนรู้และจุดประสงค์ที่กำหนดไว้อย่างสมบูรณ์แบบที่สุด
 
 หลักการสำคัญ
-1. การวัดผล (Measure P/A) ต้องตอบโจทย์จุดประสงค์การเรียนรู้ P และ A ด้านบนอย่างแม่นยำ
+1. การวัดผล (Measure P) ต้องตอบโจทย์จุดประสงค์การเรียนรู้ P ด้านบนอย่างแม่นยำ
 2. เกณฑ์ Rubric 5 ระดับ ต้องเขียนให้ชัดเจน วัดได้จริง (5=ดีเยี่ยม, 4=ดีมาก, 3=ดี, 2=พอใช้, 1=ปรับปรุง) ห้ามเขียนข้ามระดับ ห้ามรวบรัดอย่างเด็ดขาด และเขียนคำอธิบายคุณภาพงานในแต่ละระดับให้ครบถ้วนทั้ง 5 ระดับ
-3. ส่วน "บันทึกหลังการจัดกระบวนการเรียนรู้" (result, problems, solutions) ให้เขียนเตรียมไว้ล่วงหน้าโดยอิงจากกิจกรรมที่ทำ
-4. ใช้ภาษาราชการทางการศึกษา
+3. ใช้ภาษาราชการทางการศึกษา
 ${errorMemoryText}
 
 ให้ตอบกลับเป็น JSON Object เท่านั้น โดยมีคีย์ดังต่อไปนี้:
 1. measureP: (สิ่งที่ต้องการวัดและประเมินผล P)
 2. methodP: (วิธีการวัด P)
 3. toolP: (เครื่องมือวัด P)
-4. criteriaP: (เกณฑ์ประเมิน P)
-5. rubricP: (คำอธิบายเกณฑ์ Rubric P แบ่งเป็น 5 ระดับอย่างละเอียด: 5, 4, 3, 2, 1 ห้ามตัดตอน)
-6. measureA: (สิ่งที่ต้องการวัดและประเมินผล A)
-7. methodA: (วิธีการวัด A)
-8. toolA: (เครื่องมือวัด A)
-9. criteriaA: (เกณฑ์ประเมิน A)
-10. rubricA: (คำอธิบายเกณฑ์ Rubric A แบ่งเป็น 5 ระดับอย่างละเอียด: 5, 4, 3, 2, 1 ห้ามตัดตอน)
-11. resultK: (บันทึกหลังสอน ผลการเรียนรู้ด้าน K)
-12. resultP: (บันทึกหลังสอน ผลการเรียนรู้ด้าน P)
-13. resultA: (บันทึกหลังสอน ผลการเรียนรู้ด้าน A)
-14. problems: (บันทึกหลังสอน ปัญหาและอุปสรรคที่คาดว่าจะพบ)
-15. solutions: (บันทึกหลังสอน แนวทางแก้ไข)`;
+4. criteriaP: (เกณฑ์ประเมิน P - ระบุระดับคะแนนที่ผ่าน)
+5. rubricP: (คำอธิบายเกณฑ์ Rubric P แบ่งเป็น 5 ระดับอย่างละเอียด: 5, 4, 3, 2, 1 ห้ามตัดตอน)`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { 
-        responseMimeType: 'application/json',
-        maxOutputTokens: 8192
-      }
+      generationConfig: fastJsonGenerationConfig(1536)
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 6, apiKey);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 2, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

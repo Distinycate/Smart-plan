@@ -26,23 +26,23 @@ export async function fetchGeminiWithRetry(
     throw new Error('API Key is not configured.');
   }
 
-  // Queue admission already limits concurrency. Keep retries inside Vercel's
-  // 60-second function budget instead of forcing 15 potentially long calls.
+  // Reserve enough time for JSON parsing and the route response before
+  // Vercel's 60-second hard limit.
   const maxAttempts = geminiAttemptLimit(requestedMaxAttempts, apiKeys.length);
-  const deadline = Date.now() + 52_000;
+  const deadline = Date.now() + 46_000;
   let lastStatus = 0;
   const rejectedKeyIndexes = new Set<number>();
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const remainingMs = deadline - Date.now();
-    if (remainingMs < 4_000) break;
+    if (remainingMs < 2_500) break;
 
     const keyIndex = attempt % apiKeys.length;
     const currentKey = apiKeys[keyIndex];
     const baseUrl = apiUrl.split('?')[0];
     const finalUrl = `${baseUrl}?key=${encodeURIComponent(currentKey)}`;
     const controller = new AbortController();
-    const attemptTimeoutMs = Math.max(3_000, Math.min(55_000, remainingMs - 1_500));
+    const attemptTimeoutMs = Math.max(3_000, Math.min(22_000, remainingMs - 2_000));
     const timeoutId = setTimeout(() => controller.abort(), attemptTimeoutMs);
 
     try {
@@ -69,7 +69,7 @@ export async function fetchGeminiWithRetry(
       const remainingUntriedKeys = apiKeys.length - rejectedKeyIndexes.size;
       const rotateKey = shouldRotateGeminiKey(response.status, remainingUntriedKeys);
       const retryable = rotateKey || [500, 503].includes(response.status);
-      const hasAnotherAttempt = attempt + 1 < maxAttempts && deadline - Date.now() > 4_000;
+      const hasAnotherAttempt = attempt + 1 < maxAttempts && deadline - Date.now() > 2_500;
       if (!retryable || !hasAnotherAttempt) {
         throw new Error(friendlyHttpError(response.status));
       }
@@ -88,7 +88,7 @@ export async function fetchGeminiWithRetry(
         throw error;
       }
 
-      const hasAnotherAttempt = attempt + 1 < maxAttempts && deadline - Date.now() > 4_000;
+      const hasAnotherAttempt = attempt + 1 < maxAttempts && deadline - Date.now() > 2_500;
       if (!hasAnotherAttempt) {
         if (error?.name === 'AbortError') {
           throw new Error('การประมวลผล AI ใช้เวลานานเกินไป กรุณาลองใหม่อีกครั้ง');

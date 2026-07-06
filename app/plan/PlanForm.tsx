@@ -299,118 +299,11 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   const queueJobRef = useRef<{ id: string, cancelled: boolean } | null>(null);
 
   const fetchWithQueue = async (url: string, requestInit: RequestInit) => {
-    setIsQueuing(true);
-    setAiLoading(true);
-    setQueueJob({ id: '', position: -1, status: 'requesting' });
-    setAiLoadingMessage('กำลังจองคิวรับบริการ AI...');
-    queueJobRef.current = { id: '', cancelled: false };
-
-    let activeJobId = '';
-    let queueFinalized = false;
-    const finalizeQueue = async (action: 'complete' | 'cancel' | 'failed', errorCode?: string) => {
-      if (!activeJobId || queueFinalized) return;
-      queueFinalized = true;
-      try {
-        await fetch('/api/queue', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action, jobId: activeJobId, errorCode })
-        });
-      } catch (queueError) {
-        console.error('Unable to finalize AI queue job:', queueError);
-      }
-    };
-
-    try {
-      const enqRes = await fetch('/api/queue', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'enqueue' })
-      });
-      const enqData = await enqRes.json();
-      if (!enqRes.ok || !enqData.success) {
-        throw new Error(enqData.error || 'ไม่สามารถจองคิว AI ได้');
-      }
-
-      const jobId = enqData.jobId;
-      activeJobId = jobId;
-      setQueueJob({ id: jobId, position: -1, status: 'waiting' });
-      queueJobRef.current = { id: jobId, cancelled: false };
-
-      const queueStartedAt = Date.now();
-      let consecutivePollErrors = 0;
-      while (true) {
-        if (queueJobRef.current.cancelled) {
-          await finalizeQueue('cancel');
-          throw new Error('คิวถูกยกเลิก');
-        }
-
-        if (Date.now() - queueStartedAt > 5 * 60 * 1000) {
-          await finalizeQueue('failed', 'E_QUEUE_WAIT_TIMEOUT');
-          throw new Error('รอคิวเกิน 5 นาที กรุณาลองใหม่อีกครั้ง');
-        }
-
-        await new Promise(res => setTimeout(res, 3000));
-
-        if (queueJobRef.current.cancelled) {
-          await finalizeQueue('cancel');
-          throw new Error('คิวถูกยกเลิก');
-        }
-
-        const statusRes = await fetch(`/api/queue?jobId=${jobId}`, { cache: 'no-store' });
-        const statusData = await statusRes.json();
-
-        if (!statusRes.ok || !statusData.success) {
-          consecutivePollErrors += 1;
-          if (consecutivePollErrors >= 3) {
-            await finalizeQueue('failed', statusData.errorCode || 'E_QUEUE_POLL_FAILED');
-            throw new Error(statusData.error || 'ไม่สามารถตรวจสอบคิว AI ได้');
-          }
-          continue;
-        }
-        consecutivePollErrors = 0;
-
-        setQueueJob({ id: jobId, position: statusData.position, status: statusData.status });
-
-        if (['cancel', 'failed', 'expired'].includes(statusData.status)) {
-          queueFinalized = true;
-          throw new Error(
-            statusData.status === 'cancel'
-              ? 'คิวถูกยกเลิก'
-              : 'คิวหมดอายุหรือประมวลผลไม่สำเร็จ กรุณาลองใหม่อีกครั้ง'
-          );
-        }
-
-        if (statusData.status === 'processing' || statusData.position === 0) {
-          break;
-        }
-      }
-
-      setQueueJob({ id: jobId, position: 0, status: 'processing' });
-      setAiLoadingMessage('ถึงคิวแล้ว! กำลังประมวลผลคำสั่ง...');
-
-      // Preserve the caller's original RequestInit. The former wrapper
-      // stringified this object and sent an invalid payload to the AI route.
-      const requestHeaders = new Headers(requestInit.headers);
-      requestHeaders.set('X-AI-Queue-Job', jobId);
-      const response = await fetch(url, { ...requestInit, headers: requestHeaders });
-      await finalizeQueue(response.ok ? 'complete' : 'failed', response.ok ? undefined : `HTTP_${response.status}`);
-      return response;
-    } catch (error) {
-      await finalizeQueue('failed', 'E_AI_REQUEST_FAILED');
-      throw error;
-    } finally {
-      setIsQueuing(false);
-      setQueueJob(null);
-      queueJobRef.current = null;
-    }
+    return fetch(url, requestInit);
   };
 
   const cancelQueue = () => {
-    if (queueJobRef.current) {
-      queueJobRef.current.cancelled = true;
-    }
-    triggerToast('กำลังยกเลิกคิว...', 'info');
+    // No-op for now, as queue is removed.
   };
   
   // Dynamic Loading Messages
@@ -1056,55 +949,61 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     }
 
     setAiLoading(true);
-    triggerToast('Gemini AI กำลังวิเคราะห์โครงสร้างแผนและกระบวนการจัดการเรียนรู้ (ขั้นที่ 1/2)...', 'info');
+    triggerToast('Gemini AI กำลังวิเคราะห์โครงสร้างแผนและกระบวนการจัดการเรียนรู้...', 'info');
 
     try {
-      const response = await fetchWithQueue('/api/ai-process', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          gradeLevel: fields.gradeLevel,
-          subjectName: fields.subjectName,
-          lessonTopic: fields.lessonTopic,
-          learningArea: currentLearningArea,
-          totalHours: fields.totalHours,
-          learningStandard: fields.learningStandard,
-          indicatorDuring: fields.indicatorDuring,
-          indicatorFinal: fields.indicatorFinal
+      const requestBody = {
+        gradeLevel: fields.gradeLevel,
+        subjectName: fields.subjectName,
+        lessonTopic: fields.lessonTopic,
+        learningArea: currentLearningArea,
+        totalHours: fields.totalHours,
+        learningStandard: fields.learningStandard,
+        indicatorDuring: fields.indicatorDuring,
+        indicatorFinal: fields.indicatorFinal
+      };
+
+      const [responseCore, responseActivity] = await Promise.all([
+        fetch('/api/ai-process-core', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        }),
+        fetch('/api/ai-process-activity', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
         })
-      });
+      ]);
 
-      let json;
-      try {
-        json = await response.json();
-      } catch (parseError) {
-        throw new Error('ไม่สามารถอ่านข้อมูลที่ตอบกลับมาจาก AI ได้ (กรุณาลองใหม่อีกครั้ง)');
-      }
-      if (json.success && json.data) {
-        const ai = json.data;
-        
-        // Auto populate fields from phase 1
-        setFields(prev => ({
-          ...prev,
-          essentialConcept: cleanJSONString(ai.essentialConcept) || prev.essentialConcept,
-          learningStandard: cleanJSONString(ai.learningStandard) || prev.learningStandard,
-          indicatorDuring: cleanJSONString(ai.indicatorDuring) || prev.indicatorDuring,
-          indicatorFinal: cleanJSONString(ai.indicatorFinal) || prev.indicatorFinal,
-          objectiveK: cleanJSONString(ai.objectiveK) || prev.objectiveK,
-          objectiveP: cleanJSONString(ai.objectiveP) || prev.objectiveP,
-          objectiveA: cleanJSONString(ai.objectiveA) || prev.objectiveA,
-          competencies: ensureBulletString(ai.competencies) || prev.competencies,
-          desiredAttributes: ensureBulletString(ai.desiredAttributes) || prev.desiredAttributes,
-          skills21: ensureBulletString(ai.skills21) || prev.skills21,
-          learningProcess: cleanJSONString(ai.learningProcess) || prev.learningProcess,
-        }));
+      const [jsonCore, jsonActivity] = await Promise.all([
+        responseCore.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Core ได้' })),
+        responseActivity.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Activity ได้' }))
+      ]);
 
-        triggerToast('AI ร่างโครงสร้างและกระบวนการสำเร็จ! ไปที่ Tab 3 เพื่อสร้างส่วนที่เหลือต่อ', 'success');
-      } else {
-        throw new Error(json.error || 'เกิดข้อผิดพลาดจาก AI');
+      if (!jsonCore.success || !jsonCore.data || !jsonActivity.success || !jsonActivity.data) {
+        throw new Error(jsonCore.error || jsonActivity.error || 'เกิดข้อผิดพลาดจาก AI');
       }
+
+      const core = jsonCore.data;
+      const activity = jsonActivity.data;
+      
+      setFields(prev => ({
+        ...prev,
+        essentialConcept: cleanJSONString(core.essentialConcept) || prev.essentialConcept,
+        learningStandard: cleanJSONString(core.learningStandard) || prev.learningStandard,
+        indicatorDuring: cleanJSONString(core.indicatorDuring) || prev.indicatorDuring,
+        indicatorFinal: cleanJSONString(core.indicatorFinal) || prev.indicatorFinal,
+        objectiveK: cleanJSONString(core.objectiveK) || prev.objectiveK,
+        objectiveP: cleanJSONString(core.objectiveP) || prev.objectiveP,
+        objectiveA: cleanJSONString(core.objectiveA) || prev.objectiveA,
+        competencies: ensureBulletString(core.competencies) || prev.competencies,
+        desiredAttributes: ensureBulletString(core.desiredAttributes) || prev.desiredAttributes,
+        skills21: ensureBulletString(core.skills21) || prev.skills21,
+        learningProcess: cleanJSONString(activity.learningProcess) || prev.learningProcess,
+      }));
+
+      triggerToast('AI ร่างโครงสร้างและกระบวนการสำเร็จ! ไปที่ Tab 3 เพื่อสร้างส่วนที่เหลือต่อ', 'success');
     } catch (err: any) {
       console.error(err);
       triggerToast(`ล้มเหลวในการเชื่อมต่อกับ AI: ${err.message}`, 'error');
@@ -1121,81 +1020,83 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     }
 
     setAiLoading(true);
-    triggerToast('Gemini AI กำลังสร้างเนื้อหาและเกณฑ์ประเมิน K (ส่วนที่ 1/2)...', 'info');
+    triggerToast('Gemini AI กำลังสร้างเกณฑ์ประเมิน K, P, A และบันทึกหลังสอนพร้อมกัน...', 'info');
 
     try {
-      const response1 = await fetchWithQueue('/api/ai-completion-1', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          gradeLevel: fields.gradeLevel,
-          subjectName: fields.subjectName,
-          lessonTopic: fields.lessonTopic,
-          objectiveK: fields.objectiveK,
-          learningProcess: fields.learningProcess
+      const requestBody = {
+        gradeLevel: fields.gradeLevel,
+        subjectName: fields.subjectName,
+        lessonTopic: fields.lessonTopic,
+        learningProcess: fields.learningProcess,
+        objectiveK: fields.objectiveK,
+        objectiveP: fields.objectiveP,
+        objectiveA: fields.objectiveA
+      };
+
+      const [resK, resP, resA, resReflect] = await Promise.all([
+        fetch('/api/ai-completion-k', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        }),
+        fetch('/api/ai-completion-p', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        }),
+        fetch('/api/ai-completion-a', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        }),
+        fetch('/api/ai-completion-reflection', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
         })
-      });
+      ]);
 
-      let json1;
-      try { json1 = await response1.json(); } catch (e) {
-        throw new Error('ไม่สามารถอ่านข้อมูลที่ตอบกลับมาจาก AI ส่วนที่ 1 ได้');
-      }
-      if (!json1.success || !json1.data) {
-        throw new Error(json1.error || 'เกิดข้อผิดพลาดจาก AI ส่วนที่ 1');
+      const [jsonK, jsonP, jsonA, jsonReflect] = await Promise.all([
+        resK.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล K ได้' })),
+        resP.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล P ได้' })),
+        resA.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล A ได้' })),
+        resReflect.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Reflection ได้' }))
+      ]);
+
+      if (!jsonK.success || !jsonK.data || !jsonP.success || !jsonP.data || !jsonA.success || !jsonA.data || !jsonReflect.success || !jsonReflect.data) {
+        throw new Error(jsonK.error || jsonP.error || jsonA.error || jsonReflect.error || 'เกิดข้อผิดพลาดจาก AI ในบางส่วน');
       }
 
-      // Update fields immediately for Part 1
-      const ai1 = json1.data;
+      const aiK = jsonK.data;
+      const aiP = jsonP.data;
+      const aiA = jsonA.data;
+      const aiReflect = jsonReflect.data;
+
       setFields(prev => ({
         ...prev,
-        measureK: cleanJSONString(ai1.measureK) || prev.measureK,
-        methodK: cleanJSONString(ai1.methodK) || prev.methodK,
-        toolK: cleanJSONString(ai1.toolK) || prev.toolK,
-        criteriaK: cleanJSONString(ai1.criteriaK) || prev.criteriaK,
-        rubricK: cleanJSONString(ai1.rubricK) || prev.rubricK,
-      }));
+        measureK: cleanJSONString(aiK.measureK) || prev.measureK,
+        methodK: cleanJSONString(aiK.methodK) || prev.methodK,
+        toolK: cleanJSONString(aiK.toolK) || prev.toolK,
+        criteriaK: cleanJSONString(aiK.criteriaK) || prev.criteriaK,
+        rubricK: cleanJSONString(aiK.rubricK) || prev.rubricK,
 
-      triggerToast('Gemini AI กำลังสร้างเกณฑ์ประเมิน P/A และบันทึกหลังสอน (ส่วนที่ 2/2)...', 'info');
+        measureP: cleanJSONString(aiP.measureP) || prev.measureP,
+        methodP: cleanJSONString(aiP.methodP) || prev.methodP,
+        toolP: cleanJSONString(aiP.toolP) || prev.toolP,
+        criteriaP: cleanJSONString(aiP.criteriaP) || prev.criteriaP,
+        rubricP: cleanJSONString(aiP.rubricP) || prev.rubricP,
 
-      const response2 = await fetchWithQueue('/api/ai-completion-2', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          gradeLevel: fields.gradeLevel,
-          subjectName: fields.subjectName,
-          lessonTopic: fields.lessonTopic,
-          objectiveP: fields.objectiveP,
-          objectiveA: fields.objectiveA,
-          learningProcess: fields.learningProcess
-        })
-      });
+        measureA: cleanJSONString(aiA.measureA) || prev.measureA,
+        methodA: cleanJSONString(aiA.methodA) || prev.methodA,
+        toolA: cleanJSONString(aiA.toolA) || prev.toolA,
+        criteriaA: cleanJSONString(aiA.criteriaA) || prev.criteriaA,
+        rubricA: cleanJSONString(aiA.rubricA) || prev.rubricA,
 
-      let json2;
-      try { json2 = await response2.json(); } catch (e) {
-        throw new Error('ไม่สามารถอ่านข้อมูลที่ตอบกลับมาจาก AI ส่วนที่ 2 ได้');
-      }
-      if (!json2.success || !json2.data) {
-        throw new Error(json2.error || 'เกิดข้อผิดพลาดจาก AI ส่วนที่ 2');
-      }
-
-      const ai2 = json2.data;
-      setFields(prev => ({
-        ...prev,
-        measureP: cleanJSONString(ai2.measureP) || prev.measureP,
-        methodP: cleanJSONString(ai2.methodP) || prev.methodP,
-        toolP: cleanJSONString(ai2.toolP) || prev.toolP,
-        criteriaP: cleanJSONString(ai2.criteriaP) || prev.criteriaP,
-        rubricP: cleanJSONString(ai2.rubricP) || prev.rubricP,
-        measureA: cleanJSONString(ai2.measureA) || prev.measureA,
-        methodA: cleanJSONString(ai2.methodA) || prev.methodA,
-        toolA: cleanJSONString(ai2.toolA) || prev.toolA,
-        criteriaA: cleanJSONString(ai2.criteriaA) || prev.criteriaA,
-        rubricA: cleanJSONString(ai2.rubricA) || prev.rubricA,
-        resultK: cleanJSONString(ai2.resultK) || prev.resultK,
-        resultP: cleanJSONString(ai2.resultP) || prev.resultP,
-        resultA: cleanJSONString(ai2.resultA) || prev.resultA,
-        problems: cleanJSONString(ai2.problems) || prev.problems,
-        solutions: cleanJSONString(ai2.solutions) || prev.solutions,
+        resultK: cleanJSONString(aiReflect.resultK) || prev.resultK,
+        resultP: cleanJSONString(aiReflect.resultP) || prev.resultP,
+        resultA: cleanJSONString(aiReflect.resultA) || prev.resultA,
+        problems: cleanJSONString(aiReflect.problems) || prev.problems,
+        solutions: cleanJSONString(aiReflect.solutions) || prev.solutions,
       }));
 
       triggerToast('AI เติมเต็มแผนการสอนสำเร็จเรียบร้อยแล้ว!', 'success');

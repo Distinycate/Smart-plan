@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
-import { validateAiQueueAdmission } from '@/lib/aiQueueServer';
+import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {
-    const admissionError = await validateAiQueueAdmission(req);
-    if (admissionError) return admissionError;
 
     const { 
       gradeLevel, 
@@ -34,14 +32,14 @@ export async function POST(req: NextRequest) {
         error: 'Missing GEMINI_API_KEY environment variable.'
       }, { status: 500 });
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
+    const apiUrl = fastGeminiUrl();
 
     // Fetch Error Memory from ai_error_logs
     const { data: errorLogs } = await supabase
       .from('ai_error_logs')
       .select('error_message, resolution_hint')
       .order('created_at', { ascending: false })
-      .limit(30);
+      .limit(3);
 
     let errorMemoryText = '';
     if (errorLogs && errorLogs.length > 0) {
@@ -55,7 +53,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Take up to 10 unique errors to avoid confusing the AI
-      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 10);
+      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 3);
 
       if (distinctErrors.length > 0) {
         errorMemoryText = `\n\n[ข้อมูลอ้างอิง: ข้อผิดพลาดที่เคยพบในอดีต กรุณาเรียนรู้และห้ามทำผิดซ้ำ]\n`;
@@ -66,6 +64,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    const boundedLearningProcess = clipForAi(learningProcess, 6000);
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 2: COMPLETION & ALIGNMENT - PART 1)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
@@ -77,7 +76,7 @@ export async function POST(req: NextRequest) {
 จุดประสงค์ความรู้ (K): ${objectiveK || '-'}
 
 กระบวนการจัดการเรียนรู้ที่ใช้:
-${learningProcess}
+${boundedLearningProcess}
 ---
 
 หน้าที่ของคุณคือ "สร้างเกณฑ์การประเมินด้านความรู้ (K)" ให้สอดคล้องกับกระบวนการเรียนรู้และจุดประสงค์ที่กำหนดไว้อย่างสมบูรณ์แบบที่สุด
@@ -97,13 +96,10 @@ ${errorMemoryText}
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { 
-        responseMimeType: 'application/json',
-        maxOutputTokens: 8192
-      }
+      generationConfig: fastJsonGenerationConfig(1536)
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 6, apiKey);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 2, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

@@ -2,15 +2,12 @@ import { NextResponse } from 'next/server';
 import { evaluatorPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { supabase } from '@/lib/supabase';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
-import { validateAiQueueAdmission } from '@/lib/aiQueueServer';
 
 export const maxDuration = 60; // Set longer timeout if supported by hosting
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-    const admissionError = await validateAiQueueAdmission(req);
-    if (admissionError) return admissionError;
 
     const body = await req.json();
     const { planData, externalText } = body;

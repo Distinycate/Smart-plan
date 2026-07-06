@@ -2,14 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
-import { validateAiQueueAdmission } from '@/lib/aiQueueServer';
+import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {
-    const admissionError = await validateAiQueueAdmission(req);
-    if (admissionError) return admissionError;
 
     const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal } = await req.json();
 
@@ -27,14 +25,14 @@ export async function POST(req: NextRequest) {
         error: 'Missing GEMINI_API_KEY environment variable.'
       }, { status: 500 });
     }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`;
+    const apiUrl = fastGeminiUrl();
 
     // Fetch Error Memory from ai_error_logs
     const { data: errorLogs } = await supabase
       .from('ai_error_logs')
       .select('error_message, resolution_hint')
       .order('created_at', { ascending: false })
-      .limit(20);
+      .limit(3);
 
     let errorMemoryText = '';
     if (errorLogs && errorLogs.length > 0) {
@@ -48,7 +46,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Take up to 10 unique errors to avoid confusing the AI
-      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 10);
+      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 3);
 
       if (distinctErrors.length > 0) {
         errorMemoryText = `\n\nMASTER ERROR MEMORY PROMPT\n[ข้อมูลอ้างอิง: ข้อผิดพลาดที่เคยพบในอดีต กรุณาเรียนรู้และห้ามทำผิดซ้ำ]\n`;
@@ -168,43 +166,31 @@ ${finalInds || 'ไม่มีข้อมูลตัวชี้วัดป�
       indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัด: ให้วิเคราะห์เองจากเรื่องที่สอน (${lessonTopic}) ตามหลักสูตรแกนกลาง โดยให้เลือกจำนวนตัวชี้วัดให้เหมาะสมกับเวลาเรียน (แผน 1 ชั่วโมง ไม่เกิน 2-3 ตัวชี้วัด, แผน 2-3 ชั่วโมง ไม่เกิน 3-5 ตัวชี้วัด) และต้องระบุรหัสตัวชี้วัดมาด้วยให้ครบถ้วน`;
     }
 
-    const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: LEARNING PROCESS & CORE STRUCTURE)
+    const boundedIndicatorPrompt = clipForAi(indicatorPrompt, 8000);
+    const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: LEARNING PROCESS)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
 คุณคือผู้เชี่ยวชาญด้าน Active Learning
-หน้าที่ของคุณคือออกแบบโครงสร้างหลัก และ "กระบวนการจัดการเรียนรู้" ที่มีคุณภาพสูงและสามารถนำไปใช้จริงได้
+หน้าที่ของคุณคือออกแบบ "กระบวนการจัดการเรียนรู้" ที่มีคุณภาพสูงและสามารถนำไปใช้จริงได้
 สำหรับระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
 
-${indicatorPrompt}
+${boundedIndicatorPrompt}
 
 หลักการสำคัญ
-1. ให้สร้างข้อมูลเฉพาะ 8 ส่วนแรกของแผนการสอนเท่านั้น (เพื่อความรวดเร็ว) ได้แก่ มาตรฐาน, ตัวชี้วัด, จุดประสงค์ K/P/A, สมรรถนะ, คุณลักษณะ, ทักษะศตวรรษที่ 21 และ กระบวนการสอน (5 ขั้นตอน: นำ, สอน, ฝึก, ประยุกต์, สรุป)
+1. ให้สร้างข้อมูลเฉพาะ กระบวนการสอน (GPAS 5 ขั้นตอน: นำ, สอน, ฝึก, ประยุกต์, สรุป)
 2. ทุกองค์ประกอบต้องสัมพันธ์กัน
 3. ใช้ภาษาราชการทางการศึกษา
 ${errorMemoryText}
 
 ให้ตอบกลับเป็น JSON Object เท่านั้น โดยมีคีย์ดังต่อไปนี้:
-1. essentialConcept: (เนื้อหาสาระสำคัญแบบสรุป)
-2. learningStandard: (ระบุมาตรฐานที่ใช้)
-3. indicatorDuring: (ระบุตัวชี้วัดระหว่างทางที่ใช้)
-4. indicatorFinal: (ระบุตัวชี้วัดปลายทางที่ใช้)
-5. objectiveK: (จุดประสงค์การเรียนรู้ ด้านความรู้ K)
-6. objectiveP: (จุดประสงค์การเรียนรู้ ด้านทักษะกระบวนการ P)
-7. objectiveA: (จุดประสงค์การเรียนรู้ ด้านคุณลักษณะ A)
-8. competencies: (วิเคราะห์สมรรถนะสำคัญ แจกแจงเป็นข้อๆ)
-9. desiredAttributes: (วิเคราะห์คุณลักษณะอันพึงประสงค์ แจกแจงเป็นข้อๆ)
-10. skills21: (วิเคราะห์ทักษะในศตวรรษที่ 21 แจกแจงเป็นข้อๆ)
-11. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าใครทำอะไร อย่างไร)`;
+1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าใครทำอะไร อย่างไร)`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { 
-        responseMimeType: 'application/json',
-        maxOutputTokens: 8192
-      }
+      generationConfig: fastJsonGenerationConfig(3072)
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 6, apiKey);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 2, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

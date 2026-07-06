@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AlertTriangle, CheckCircle2, Loader2, SearchCheck, Sparkles } from 'lucide-react';
-import { queuedAiFetch } from '@/lib/aiQueueClient';
+
 
 const dimensionLabels: Record<string, string> = {
   indicatorAlignment: 'ตัวชี้วัด',
@@ -26,18 +26,13 @@ export default function AlignmentPreview({ unitPlanId }: { unitPlanId: string })
     setError('');
     setQueueText('กำลังจองคิว AI...');
     try {
-      const response = await queuedAiFetch(
+      const response = await fetch(
         '/api/alignment-check',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ scope: 'unitPlan', scopeId: unitPlanId }),
-        },
-        status => setQueueText(
-          status.status === 'processing'
-            ? 'กำลังวิเคราะห์ความสอดคล้อง...'
-            : `กำลังรอคิว ลำดับที่ ${status.position}`
-        )
+        }
       );
       const result = await response.json();
       if (!response.ok || !result.ok) throw new Error(result.message || result.error || 'ตรวจไม่สำเร็จ');

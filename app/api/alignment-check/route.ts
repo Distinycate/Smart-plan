@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
-import { validateAiQueueAdmission } from '@/lib/aiQueueServer';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { validateAlignmentResult } from '@/lib/alignmentResultValidation';
 import { newEntityId, unitError, unitSuccess } from '@/lib/unitPlanApi';
@@ -16,8 +15,6 @@ const parseIds = (value: unknown) =>
 
 export async function POST(req: NextRequest) {
   try {
-    const admissionError = await validateAiQueueAdmission(req);
-    if (admissionError) return admissionError;
 
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();

@@ -1,15 +1,12 @@
 import { NextResponse } from 'next/server';
 import { autoFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
-import { validateAiQueueAdmission } from '@/lib/aiQueueServer';
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-    const admissionError = await validateAiQueueAdmission(req);
-    if (admissionError) return admissionError;
 
     const body = await req.json();
     const { planData, feedbackContent } = body;
