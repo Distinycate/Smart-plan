@@ -1148,10 +1148,6 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
       const ai1 = json1.data;
       setFields(prev => ({
         ...prev,
-        learningContent: cleanJSONString(ai1.learningContent) || prev.learningContent,
-        learningMedia: ensureBulletString(ai1.learningMedia) || prev.learningMedia,
-        learningSources: ensureBulletString(ai1.learningSources) || prev.learningSources,
-        tasks: ensureBulletString(ai1.tasks) || prev.tasks,
         measureK: cleanJSONString(ai1.measureK) || prev.measureK,
         methodK: cleanJSONString(ai1.methodK) || prev.methodK,
         toolK: cleanJSONString(ai1.toolK) || prev.toolK,
