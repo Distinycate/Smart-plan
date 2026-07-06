@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { 
   CheckCircle, AlertTriangle, Upload, Zap, Loader2, ArrowLeft,
   BarChart2, Star, Layers, ListChecks, ClipboardCheck, Trophy,
@@ -13,6 +13,9 @@ import { toast, Toaster } from 'react-hot-toast';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import EvaluationModeSelector, { type EvaluationMode } from '@/components/evaluator/EvaluationModeSelector';
+import EvaluationProgressPanel, { type SectionStatus } from '@/components/evaluator/EvaluationProgressPanel';
+import EvaluationResultDashboard from '@/components/evaluator/EvaluationResultDashboard';
 
 const adaptQualityPlatformResult = (result: any) => {
   const sections = Array.isArray(result?.sections) ? result.sections : [];
@@ -123,6 +126,151 @@ export default function EvaluatorPage() {
   const [batchProgress, setBatchProgress] = useState({ current: 0, total: 0 });
   const flowStep = isEvaluating ? 2 : (evaluationResults.length > 0 ? 3 : 1);
 
+  // ── Phase 9: Quality Platform state ───────────────────────────────────────
+  const [evaluationMode, setEvaluationMode] = useState<EvaluationMode>('lesson_plan_basic');
+  const [activeJobId, setActiveJobId] = useState<string | null>(null);
+  const [jobSections, setJobSections] = useState<SectionStatus[]>([]);
+  const [jobProgress, setJobProgress] = useState(0);
+  const [currentSection, setCurrentSection] = useState<string | undefined>(undefined);
+  const [qualityResult, setQualityResult] = useState<any | null>(null);
+  const [isPatching, setIsPatching] = useState(false);
+  const [recheckJobId, setRecheckJobId] = useState<string | null>(null);
+  const pollingRef = useRef<NodeJS.Timeout | null>(null);
+
+  // ── Phase 9: Stop polling on unmount ──────────────────────────────────────
+  useEffect(() => {
+    return () => {
+      if (pollingRef.current) clearTimeout(pollingRef.current);
+    };
+  }, []);
+
+  // ── Phase 9: Poll status every 2.5s ──────────────────────────────────────
+  const pollJobStatus = useCallback(async (jobId: string) => {
+    try {
+      const statusRes = await fetch(`/api/evaluations/status/${jobId}`);
+      const statusJson = await statusRes.json();
+      if (!statusJson.ok) return;
+      const d = statusJson.data;
+      setJobProgress(d.progress ?? 0);
+      setCurrentSection(d.currentSection ?? undefined);
+      if (Array.isArray(d.sections)) {
+        setJobSections(d.sections.map((s: any) => ({
+          id: s.section ?? s.id,
+          label: s.section ?? s.id,
+          status: s.status,
+        })));
+      }
+      if (d.status === 'completed') {
+        // Fetch final result
+        const resultRes = await fetch(`/api/evaluations/result/${jobId}`);
+        const resultJson = await resultRes.json();
+        if (resultJson.ok && resultJson.data?.completed) {
+          setQualityResult(resultJson.data.result);
+          const adapted = adaptQualityPlatformResult(resultJson.data.result);
+          setEvaluationResults(prev => {
+            const idx = prev.findIndex((r: any) => r.jobId === jobId || r.planId === selectedPlanId);
+            if (idx >= 0) {
+              const next = [...prev];
+              next[idx] = { ...next[idx], ...adapted, jobId, qualityPlatformResult: resultJson.data.result };
+              return next;
+            }
+            return prev;
+          });
+        }
+        setIsEvaluating(false);
+        setActiveJobId(null);
+        return;
+      }
+      if (d.status === 'failed') {
+        setError('การประเมินล้มเหลว — กรุณาลอง Retry');
+        setIsEvaluating(false);
+        return;
+      }
+      if (d.status === 'lesson_plan_not_ready') {
+        setError('แผนการสอนยังไม่พร้อม กรุณาแก้ไขก่อนประเมิน');
+        setIsEvaluating(false);
+        return;
+      }
+      // Still processing — schedule next poll
+      pollingRef.current = setTimeout(() => pollJobStatus(jobId), 2500);
+    } catch {
+      pollingRef.current = setTimeout(() => pollJobStatus(jobId), 3000);
+    }
+  }, [selectedPlanId]);
+
+  // ── Phase 9: Kick off process loop after job is created ──────────────────
+  const processJobSections = useCallback(async (jobId: string) => {
+    let processNext = true;
+    let safety = 0;
+    while (processNext && safety < 20) {
+      safety++;
+      try {
+        const res = await fetch('/api/evaluations/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jobId }),
+        });
+        const json = await res.json();
+        if (!json.ok) {
+          setError(json.message || 'AI ประเมิน section ไม่สำเร็จ');
+          break;
+        }
+        setJobProgress(json.data?.progress ?? 0);
+        if (json.data?.sectionResult) {
+          setJobSections(prev => prev.map(s =>
+            s.id === json.data?.section ? { ...s, status: 'completed' } : s
+          ));
+        }
+        processNext = Boolean(json.data?.processNext);
+        if (json.data?.result) {
+          setQualityResult(json.data.result);
+        }
+      } catch {
+        // Network error — will be caught by polling
+        break;
+      }
+    }
+    // Fetch final result once done
+    pollJobStatus(jobId);
+  }, [pollJobStatus]);
+
+  // ── Phase 9: Auto Fix handler ─────────────────────────────────────────────
+  const handleAutoFix = useCallback(async (mode: 'auto_fix_critical' | 'auto_fix_critical_high' | 'full_improvement') => {
+    const jobId = activeJobId || (evaluationResults[0]?.jobId);
+    const planId = selectedPlanId;
+    if (!planId || !jobId) {
+      toast.error('กรุณาเลือกแผนและประเมินก่อนแก้ไข');
+      return;
+    }
+    setIsPatching(true);
+    try {
+      const res = await fetch('/api/lesson-plans/patch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lessonPlanId: planId, jobId, mode }),
+      });
+      const json = await res.json();
+      if (!json.ok) {
+        toast.error(json.message || 'ไม่สามารถแก้ไขแผนได้');
+        return;
+      }
+      toast.success(`แก้ไขสำเร็จ ${json.patchCount} จุด — เริ่ม Recheck...`);
+      if (json.recheckJobId) {
+        setRecheckJobId(json.recheckJobId);
+        setActiveJobId(json.recheckJobId);
+        setIsEvaluating(true);
+        setQualityResult(null);
+        setJobProgress(0);
+        await processJobSections(json.recheckJobId);
+      }
+    } catch (err: any) {
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการแก้ไข');
+    } finally {
+      setIsPatching(false);
+    }
+  }, [activeJobId, evaluationResults, selectedPlanId, processJobSections]);
+
+
   useEffect(() => {
     fetchPlans();
   }, []);
@@ -223,7 +371,7 @@ export default function EvaluatorPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         lessonPlanId,
-        evaluationMode: payload.evaluationMode || 'lesson_plan_basic'
+        evaluationMode: payload.evaluationMode || evaluationMode,
       })
     });
     const createJson = await createRes.json();
@@ -236,40 +384,72 @@ export default function EvaluatorPage() {
     }
 
     const jobId = createJson.data.jobId;
-    let finalResult = createJson.data.cacheHit ? null : undefined;
-    let processNext = !createJson.data.cacheHit;
-    let safetyCounter = 0;
+    setActiveJobId(jobId);
+    setQualityResult(null);
+    setJobProgress(0);
 
-    while (processNext && safetyCounter < 20) {
-      safetyCounter += 1;
-      setLoadingText(`กำลังประเมินทีละส่วน (${safetyCounter}) เพื่อป้องกัน timeout...`);
-      const processRes = await fetch('/api/evaluations/process', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobId })
-      });
-      const processJson = await processRes.json();
-      if (!processJson.ok) {
-        throw new Error(processJson.message || 'AI ประเมิน section ไม่สำเร็จ');
-      }
-      processNext = Boolean(processJson.data?.processNext);
-      if (processJson.data?.result) finalResult = processJson.data.result;
+    // Initialise section chips from create response
+    if (Array.isArray(createJson.data.sections)) {
+      setJobSections(createJson.data.sections.map((s: any) => ({
+        id: s.id ?? s.section,
+        label: s.label ?? s.id ?? s.section,
+        status: 'pending' as const,
+      })));
     }
 
-    if (safetyCounter >= 20 && processNext) {
-      throw new Error('จำนวน section เกินขอบเขตความปลอดภัย กรุณาตรวจสถานะ job');
-    }
-    if (!finalResult) {
+    let finalResult;
+    // Cache hit → fetch result directly, no AI call needed
+    if (createJson.data.cacheHit) {
+      setJobProgress(100);
       const resultRes = await fetch(`/api/evaluations/result/${jobId}`);
       const resultJson = await resultRes.json();
       if (!resultJson.ok || !resultJson.data?.completed) {
-        throw new Error(resultJson.message || 'ยังไม่สามารถโหลดผลประเมินได้');
+        throw new Error(resultJson.message || 'ยังไม่สามารถโหลดผลประเมินได้จาก Cache');
       }
       finalResult = resultJson.data.result;
+    } else {
+      // Process sections sequentially (non-blocking, updates UI between each)
+      let processNext = true;
+      let safety = 0;
+      while (processNext && safety < 20) {
+        safety++;
+        setLoadingText(`กำลังประเมินส่วนที่ ${safety} เพื่อป้องกัน timeout...`);
+        const res = await fetch('/api/evaluations/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jobId }),
+        });
+        const json = await res.json();
+        if (!json.ok) {
+          throw new Error(json.message || 'AI ประเมิน section ไม่สำเร็จ');
+        }
+        setJobProgress(json.data?.progress ?? 0);
+        if (json.data?.section) {
+          const finishedSection = json.data.section;
+          setJobSections(prev => prev.map(s =>
+            s.id === finishedSection ? { ...s, status: 'completed' } : s
+          ));
+        }
+        processNext = Boolean(json.data?.processNext);
+        if (json.data?.result) {
+          finalResult = json.data.result;
+        }
+      }
+      
+      if (!finalResult) {
+        const resultRes = await fetch(`/api/evaluations/result/${jobId}`);
+        const resultJson = await resultRes.json();
+        if (!resultJson.ok || !resultJson.data?.completed) {
+          throw new Error(resultJson.message || 'ยังไม่สามารถโหลดผลประเมินได้');
+        }
+        finalResult = resultJson.data.result;
+      }
     }
 
+    setQualityResult(finalResult);
     return adaptQualityPlatformResult(finalResult);
   };
+
 
   const startEvaluation = async () => {
     setIsEvaluating(true);
@@ -721,6 +901,15 @@ export default function EvaluatorPage() {
               </div>
             )}
 
+            {/* ── Phase 9: Evaluation Mode Selector ── */}
+            <div style={{ marginTop: 24, marginBottom: 8 }}>
+              <EvaluationModeSelector
+                value={evaluationMode}
+                onChange={setEvaluationMode}
+                disabled={isEvaluating}
+              />
+            </div>
+
             <div className="mt-8 flex flex-col gap-4 rounded-2xl bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Evaluation Queue</p>
@@ -760,29 +949,27 @@ export default function EvaluatorPage() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="mx-auto max-w-xl rounded-2xl bg-white p-8 text-center shadow-sm sm:p-12"
+            className="mx-auto max-w-2xl"
           >
-            <div className="relative mx-auto mb-8 h-28 w-28">
-              <div className="absolute inset-0 rounded-full border-4 border-pink-100" />
-              <div className="absolute inset-0 animate-spin rounded-full border-4 border-pink-600 border-t-transparent" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-50 text-pink-500">
-                  <Sparkles className="h-8 w-8 animate-pulse" />
+            {/* ── Phase 9: Live progress panel ── */}
+            <EvaluationProgressPanel
+              progress={jobProgress}
+              currentSection={currentSection}
+              sections={jobSections}
+              isProcessing={true}
+              loadingText={loadingText}
+            />
+            <div className="rounded-2xl bg-white p-8 text-center shadow-sm">
+              <div className="relative mx-auto mb-8 h-20 w-20">
+                <div className="absolute inset-0 rounded-full border-4 border-pink-100" />
+                <div className="absolute inset-0 animate-spin rounded-full border-4 border-pink-600 border-t-transparent" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Sparkles className="h-8 w-8 animate-pulse text-pink-500" />
                 </div>
               </div>
+              <h2 className="text-xl font-black text-slate-900">AI กำลังประเมิน...</h2>
+              <p className="mt-2 text-sm text-slate-500">{loadingText}</p>
             </div>
-            <h2 className="text-2xl font-black text-slate-900">AI กำลังทำงาน...</h2>
-            <p className="mt-3 min-h-6 text-sm font-bold text-slate-500">{loadingText}</p>
-            {batchProgress.total > 0 && (
-              <div className="mt-6 rounded-2xl bg-slate-50 p-4">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Progress</p>
-                <p className="mt-1 text-sm font-bold text-slate-700">
-                  {batchProgress.total > 1
-                    ? `กำลังตรวจแผนที่ ${batchProgress.current} จาก ${batchProgress.total}`
-                    : 'กำลังตรวจ 1 รายการ'}
-                </p>
-              </div>
-            )}
           </motion.div>
         )}
 
@@ -829,6 +1016,26 @@ export default function EvaluatorPage() {
                 isEvaluatingV4={evaluatingV4PlanId === result.planId}
               />
             ))}
+
+            {/* ── Phase 9: Quality Platform Result Dashboard ── */}
+            {qualityResult && (
+              <div className="rounded-[2rem] bg-slate-900 p-6 shadow-lg">
+                <EvaluationResultDashboard
+                  result={qualityResult}
+                  onAutoFix={handleAutoFix}
+                  onRecheck={() => {
+                    const jobId = activeJobId || evaluationResults[0]?.jobId;
+                    if (jobId) {
+                      setIsEvaluating(true);
+                      setQualityResult(null);
+                      processJobSections(jobId);
+                    }
+                  }}
+                  isPatching={isPatching}
+                  recheckJobId={recheckJobId}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

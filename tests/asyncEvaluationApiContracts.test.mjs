@@ -39,4 +39,30 @@ assert.doesNotMatch(
   /\/api\/evaluation-jobs\/process-section/
 );
 
+// ── Phase 6-9 Contract Assertions ──────────────────────────────────────────
+const patchRoute = read('app/api/lesson-plans/patch/route.ts');
+const cacheStatusRoute = read('app/api/evaluations/cache-status/route.ts');
+const invalidateCacheRoute = read('app/api/evaluations/invalidate-cache/route.ts');
+
+// Check patch route contract
+assert.match(patchRoute, /generatePatches\(/);
+assert.match(patchRoute, /applyPatchBundle\(/);
+assert.match(patchRoute, /validatePatchResult\(/);
+assert.match(patchRoute, /getSectionsToRecheck\(/);
+assert.match(patchRoute, /\.from\('lesson_plan_versions'\)[\s\S]*\.insert/);
+assert.match(patchRoute, /\.from\('lesson_plan_patches'\)[\s\S]*\.insert/);
+assert.match(patchRoute, /\.from\('evaluation_jobs'\)[\s\S]*\.insert/);
+
+// Check cache routes contract
+assert.match(cacheStatusRoute, /\.from\('evaluation_cache'\)[\s\S]*\.select/);
+assert.match(invalidateCacheRoute, /\.from\('evaluation_cache'\)[\s\S]*\.delete/);
+
+// Check evaluator page component imports
+assert.match(evaluatorPage, /import EvaluationModeSelector/);
+assert.match(evaluatorPage, /import EvaluationProgressPanel/);
+assert.match(evaluatorPage, /import EvaluationResultDashboard/);
+assert.match(evaluatorPage, /handleAutoFix/);
+
 console.log('async evaluation API contract tests passed');
+
+
