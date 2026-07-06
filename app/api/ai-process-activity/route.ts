@@ -203,7 +203,8 @@ ${errorMemoryText}
             learningMedia: { type: "ARRAY", items: { type: "STRING" } },
             learningSources: { type: "ARRAY", items: { type: "STRING" } },
             tasks: { type: "ARRAY", items: { type: "STRING" } }
-          }
+          },
+          required: ["learningProcess", "learningContent", "learningMedia", "learningSources", "tasks"]
         }
       }
     };
