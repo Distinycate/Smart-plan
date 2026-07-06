@@ -7,9 +7,9 @@ import {
 
 export type LegacyLessonPlanRecord = Readonly<Record<string, unknown>>;
 
-const text = (value: unknown) => String(value ?? '').trim();
+export const safeText = (value: unknown): string => String(value ?? '').trim();
 
-const parseJson = (value: string): unknown => {
+export const parseMaybeJson = (value: string): unknown => {
   if (!value || (!value.startsWith('[') && !value.startsWith('{'))) return value;
   try {
     return JSON.parse(value);
@@ -18,30 +18,34 @@ const parseJson = (value: string): unknown => {
   }
 };
 
-export const normalizeTextList = (value: unknown): string[] => {
-  if (Array.isArray(value)) {
-    return value.flatMap(normalizeTextList).filter(Boolean);
-  }
-
-  if (value && typeof value === 'object') {
-    return Object.values(value as Record<string, unknown>)
-      .flatMap(normalizeTextList)
-      .filter(Boolean);
-  }
-
-  const raw = text(value);
-  const parsed = parseJson(raw);
-  if (parsed !== raw) return normalizeTextList(parsed);
-
-  return raw
+export const splitIndicators = (value: string): string[] => {
+  return value
     .split(/\r?\n/)
     .map(item => item.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').trim())
     .filter(Boolean);
 };
 
+export const textToList = (value: unknown): string[] => {
+  if (Array.isArray(value)) {
+    return value.flatMap(textToList).filter(Boolean);
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.values(value as Record<string, unknown>)
+      .flatMap(textToList)
+      .filter(Boolean);
+  }
+
+  const raw = safeText(value);
+  const parsed = parseMaybeJson(raw);
+  if (parsed !== raw) return textToList(parsed);
+
+  return splitIndicators(raw);
+};
+
 const firstText = (...values: unknown[]) => {
   for (const value of values) {
-    const normalized = text(value);
+    const normalized = safeText(value);
     if (normalized) return normalized;
   }
   return '';
@@ -69,13 +73,13 @@ const parseCodeAndDescription = (
 };
 
 const normalizeStandards = (value: unknown): LessonPlan['curriculum']['standards'] =>
-  normalizeTextList(value).map(item => parseCodeAndDescription(item, standardCodePattern));
+  textToList(value).map(item => parseCodeAndDescription(item, standardCodePattern));
 
 const normalizeIndicators = (
   value: unknown,
   type: IndicatorType
 ): LessonPlan['curriculum']['indicators'] =>
-  normalizeTextList(value).map(item => ({
+  textToList(value).map(item => ({
     ...parseCodeAndDescription(item, indicatorCodePattern),
     type,
   }));
@@ -116,7 +120,7 @@ const activeLearningTechniques = (process: string) => {
 };
 
 const extractGpas = (process: string): LessonPlan['gpas'] => {
-  const lines = normalizeTextList(process);
+  const lines = textToList(process);
   const find = (patterns: RegExp[]) =>
     lines.find(line => patterns.some(pattern => pattern.test(line)));
 
@@ -177,7 +181,7 @@ const normalizeAssessment = (
   ] as const;
 
   const methods = domains.flatMap(domain =>
-    normalizeTextList(source[`method${domain.key}`]).map(name => ({
+    textToList(source[`method${domain.key}`]).map(name => ({
       name,
       type: 'unspecified' as const,
       targetObjectives: domain.objectives,
@@ -186,11 +190,11 @@ const normalizeAssessment = (
   );
 
   const tools = domains.flatMap(domain =>
-    normalizeTextList(source[`tool${domain.key}`]).map(name => ({
+    textToList(source[`tool${domain.key}`]).map(name => ({
       name,
       type: inferToolType(name),
       targetObjectives: domain.objectives,
-      criteria: normalizeTextList(source[`criteria${domain.key}`]),
+      criteria: textToList(source[`criteria${domain.key}`]),
     }))
   );
 
@@ -199,7 +203,7 @@ const normalizeAssessment = (
     tools,
     evidence: [
       ...taskEvidence,
-      ...domains.flatMap(domain => normalizeTextList(source[`measure${domain.key}`])),
+      ...domains.flatMap(domain => textToList(source[`measure${domain.key}`])),
     ],
   };
 };
@@ -208,7 +212,7 @@ const normalizeRubric = (
   source: LegacyLessonPlanRecord
 ): LessonPlan['rubric'] =>
   (['K', 'P', 'A'] as const).flatMap(domain => {
-    const criteria = normalizeTextList(source[`rubric${domain}`]);
+    const criteria = textToList(source[`rubric${domain}`]);
     if (criteria.length === 0) return [];
     return [{
       title: `เกณฑ์การประเมินด้าน ${domain}`,
@@ -228,30 +232,30 @@ export function normalizeLegacyLessonPlan(input: unknown): LessonPlan {
       : {};
 
   const objectives: LessonPlan['objectives'] = {
-    knowledge: normalizeTextList(source.objectiveK),
-    process: normalizeTextList(source.objectiveP),
-    attitude: normalizeTextList(source.objectiveA),
-    competencyObjectives: normalizeTextList(source.skills21),
+    knowledge: textToList(source.objectiveK),
+    process: textToList(source.objectiveP),
+    attitude: textToList(source.objectiveA),
+    competencyObjectives: textToList(source.skills21),
   };
   const indicators = uniqueIndicators([
     ...normalizeIndicators(source.indicatorDuring, 'during'),
     ...normalizeIndicators(source.indicatorFinal, 'terminal'),
   ]);
   const indicatorCodes = indicators.map(indicator => indicator.code).filter(Boolean);
-  const tasks = normalizeTextList(source.tasks);
-  const process = text(source.learningProcess);
-  const media = normalizeTextList(source.learningMedia).map(name => ({
+  const tasks = textToList(source.tasks);
+  const process = safeText(source.learningProcess);
+  const media = textToList(source.learningMedia).map(name => ({
     name,
     type: 'learning_media',
   }));
-  const learningSources = normalizeTextList(source.learningSources).map(name => ({
+  const learningSources = textToList(source.learningSources).map(name => ({
     name,
     type: 'learning_source',
   }));
   const reflectionResults = [
-    ...normalizeTextList(source.resultK),
-    ...normalizeTextList(source.resultP),
-    ...normalizeTextList(source.resultA),
+    ...textToList(source.resultK),
+    ...textToList(source.resultP),
+    ...textToList(source.resultA),
   ];
 
   return {
@@ -262,30 +266,30 @@ export function normalizeLegacyLessonPlan(input: unknown): LessonPlan {
         source.headerLearningArea,
         source.subjectGroup
       ),
-      subjectName: text(source.subjectName),
-      subjectCode: text(source.subjectCode) || undefined,
+      subjectName: safeText(source.subjectName),
+      subjectCode: safeText(source.subjectCode) || undefined,
       gradeLevel: firstText(source.gradeLevel, source.headerGradeLevel),
-      unitName: text(source.unitName),
-      unitNumber: text(source.unitNumber) || undefined,
+      unitName: safeText(source.unitName),
+      unitNumber: safeText(source.unitNumber) || undefined,
       planNumber: firstText(source.planNumber, source.planId) || undefined,
       lessonTitle: firstText(source.lessonTopic, source.lessonTitle),
       totalHours: positiveNumber(source.totalHours),
-      teacherName: text(source.teacherName) || undefined,
-      schoolName: text(source.schoolName) || undefined,
+      teacherName: safeText(source.teacherName) || undefined,
+      schoolName: safeText(source.schoolName) || undefined,
     },
     curriculum: {
       standards: normalizeStandards(source.learningStandard),
       indicators,
-      coreContent: normalizeTextList(source.learningContent),
-      localContent: normalizeTextList(source.localContent),
+      coreContent: textToList(source.learningContent),
+      localContent: textToList(source.localContent),
     },
     essence: {
       mainConcept: firstText(source.essentialConcept, source.essence),
-      keyConcepts: normalizeTextList(source.keyConcepts),
+      keyConcepts: textToList(source.keyConcepts),
     },
     objectives,
-    competencies: normalizeTextList(source.competencies).map(name => ({ name })),
-    desirableCharacteristics: normalizeTextList(source.desiredAttributes)
+    competencies: textToList(source.competencies).map(name => ({ name })),
+    desirableCharacteristics: textToList(source.desiredAttributes)
       .map(name => ({ name })),
     learningActivities: normalizeActivities(
       process,
@@ -294,14 +298,14 @@ export function normalizeLegacyLessonPlan(input: unknown): LessonPlan {
       tasks
     ),
     activeLearning: {
-      model: text(source.activeLearningModel) || undefined,
+      model: safeText(source.activeLearningModel) || undefined,
       techniques: activeLearningTechniques(process),
       evidence: tasks,
       studentCenteredEvidence: sentencesContaining(
         process,
         /นักเรียน|ผู้เรียน/
       )
-        ? normalizeTextList(sentencesContaining(process, /นักเรียน|ผู้เรียน/))
+        ? textToList(sentencesContaining(process, /นักเรียน|ผู้เรียน/))
         : [],
     },
     gpas: extractGpas(process),
@@ -310,15 +314,15 @@ export function normalizeLegacyLessonPlan(input: unknown): LessonPlan {
     rubric: normalizeRubric(source),
     reflection: {
       studentReflection: reflectionResults,
-      teacherReflection: normalizeTextList(source.problems),
-      improvementPlan: normalizeTextList(source.solutions),
+      teacherReflection: textToList(source.problems),
+      improvementPlan: textToList(source.solutions),
     },
-    homework: normalizeTextList(source.homework),
+    homework: textToList(source.homework),
     aiMetadata: {
-      generatedBy: text(source.generatedBy) || undefined,
-      generatedAt: text(source.generatedAt) || undefined,
+      generatedBy: safeText(source.generatedBy) || undefined,
+      generatedAt: safeText(source.generatedAt) || undefined,
       sourceKnowledgeBaseVersion:
-        text(source.sourceKnowledgeBaseVersion) || undefined,
+        safeText(source.sourceKnowledgeBaseVersion) || undefined,
       schemaVersion: LESSON_PLAN_SCHEMA_VERSION,
     },
   };

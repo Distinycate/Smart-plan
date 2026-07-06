@@ -35,13 +35,18 @@ export async function GET(
       return fail('SUPABASE_SELECT_FAILED', 'โหลดสถานะส่วนประเมินไม่สำเร็จ', { step, debugMessage: JSON.stringify(error) });
     }
 
+    let message = 'โหลดสถานะงานประเมินสำเร็จ';
+    if (job.status === 'pending' && (!sections || sections.length === 0)) {
+      message = 'รอเริ่มประเมิน';
+    }
+
     return ok({
       jobId: job.id,
       lessonPlanId: job.lesson_plan_id,
       evaluationMode: job.evaluation_mode,
       status: job.status,
-      progress: job.progress,
-      currentSection: job.current_section,
+      progress: job.progress || 0,
+      currentSection: job.current_section || null,
       finalScore: job.final_score,
       finalLevel: job.final_level,
       readinessStatus: job.readiness_status,
@@ -50,7 +55,7 @@ export async function GET(
       createdAt: job.created_at,
       updatedAt: job.updated_at,
       completedAt: job.completed_at,
-    }, 'โหลดสถานะงานประเมินสำเร็จ');
+    }, message);
   } catch (error) {
     logApiError(context, error, { step });
     return fail('UNKNOWN_ERROR', 'เกิดข้อผิดพลาดภายในระบบ', { step, debugMessage: error instanceof Error ? error.message : String(error) });

@@ -129,7 +129,19 @@ export async function POST(request: NextRequest) {
       
     if (jobError || !job) {
       logApiError(context, jobError || new Error('Job insert failed'), { step, lessonPlanId, userId: userIdToUse, evaluationMode });
-      return fail('SUPABASE_INSERT_FAILED', 'ไม่สามารถสร้างงานประเมินได้', { step, debugMessage: JSON.stringify(jobError) });
+      
+      let debugMessage = String(jobError);
+      if (jobError && typeof jobError === 'object') {
+        const je = jobError as any;
+        debugMessage = JSON.stringify({
+          code: je.code,
+          message: je.message,
+          details: je.details,
+          hint: je.hint,
+        });
+      }
+
+      return fail('SUPABASE_INSERT_FAILED', 'ไม่สามารถสร้างงานประเมินได้', { step, debugMessage });
     }
 
     step = 'persist_validation_issues';
