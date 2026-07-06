@@ -20,3 +20,4 @@ export * from './validators/pre-validator';
 export * from './validators/alignment-validator';
 export * from './validators/gpas-validator';
 export * from './validators/assessment-validator';
+export * from './patch/index';
