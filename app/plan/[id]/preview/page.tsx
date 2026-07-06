@@ -930,8 +930,10 @@ export default function PlanPreview() {
             height: auto !important;
             overflow: visible !important;
           }
-          .no-print {
+          .no-print, .control-bar {
             display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
           }
           .preview-container {
             padding-top: 0 !important;

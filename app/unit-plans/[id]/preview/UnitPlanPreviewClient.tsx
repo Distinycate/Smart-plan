@@ -102,7 +102,11 @@ export default function UnitPlanPreviewClient({ unitPlan }: { unitPlan: any }) {
         @media print {
           @page { size: A4; margin: 20mm 18mm 20mm 25mm; }
           body, html { min-height: auto !important; height: auto !important; overflow: visible !important; }
-          .no-print { display: none !important; }
+          .no-print, .unit-preview-toolbar { 
+            display: none !important; 
+            opacity: 0 !important;
+            visibility: hidden !important;
+          }
           .unit-preview-shell { padding: 0 !important; background: white !important; min-height: auto !important; height: auto !important; overflow: visible !important; }
           .unit-document { 
             box-shadow: none !important; 
