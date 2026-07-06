@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.0.4-phase1-learning-resources] - 2026-07-06
+
+### Fixed
+- Phase 1 now owns and validates Learning Content, Media, Learning Sources and Tasks.
+- AI Activity responses with empty required fields are rejected instead of returning false success.
+- Existing teacher-entered content/resource fields are preserved.
+- Phase 2 wording now matches its actual K/P/A, rubric and reflection scope.
+
+### QA
+- Activity result normalization tests passed.
+- Live Phase 1 completed in 32.338s: Core 18.744s and Activity 13.594s.
+- Live result contained Learning Content plus two Media, two Learning Sources and two Tasks.
+- `npm run build` passed; ESLint was not executed because it is not installed.
+
+### Known Issues
+- Production Vercel deployment was not executed in this environment.
+- Full browser/save/export regression requires manual verification after deploy.
+
+### Rollback
+- Revert the Phase 1 activity validator/helper and PlanForm copy/mapping changes; no database rollback is required.
+
 ## [1.0.3-ai-latency-hotfix] - 2026-07-06
 
 ### Changed

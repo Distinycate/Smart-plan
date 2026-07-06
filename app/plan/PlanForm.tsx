@@ -949,7 +949,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     }
 
     setAiLoading(true);
-    triggerToast('Gemini AI กำลังวิเคราะห์โครงสร้างแผนและกระบวนการจัดการเรียนรู้...', 'info');
+    triggerToast('Gemini AI กำลังสร้างโครงสร้าง เนื้อหา สื่อ ภาระงาน และกิจกรรมการเรียนรู้...', 'info');
 
     try {
       const requestBody = {
@@ -1016,13 +1016,13 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
       setFields(prev => ({
         ...prev,
         learningProcess: cleanJSONString(activity.learningProcess) || prev.learningProcess,
-        learningContent: cleanJSONString(activity.learningContent) || prev.learningContent,
-        learningMedia: ensureBulletString(activity.learningMedia) || prev.learningMedia,
-        learningSources: ensureBulletString(activity.learningSources) || prev.learningSources,
-        tasks: ensureBulletString(activity.tasks) || prev.tasks,
+        learningContent: String(prev.learningContent || '').trim() ? prev.learningContent : cleanJSONString(activity.learningContent),
+        learningMedia: String(prev.learningMedia || '').trim() ? prev.learningMedia : ensureBulletString(activity.learningMedia),
+        learningSources: String(prev.learningSources || '').trim() ? prev.learningSources : ensureBulletString(activity.learningSources),
+        tasks: String(prev.tasks || '').trim() ? prev.tasks : ensureBulletString(activity.tasks),
       }));
 
-      triggerToast('AI ร่างโครงสร้างและกระบวนการสำเร็จ! ไปที่ Tab 3 เพื่อสร้างส่วนที่เหลือต่อ', 'success');
+      triggerToast('AI สร้างโครงสร้าง เนื้อหาสาระ สื่อ แหล่งเรียนรู้ ภาระงาน และกิจกรรมครบแล้ว!', 'success');
     } catch (err: any) {
       console.error(err);
       triggerToast(`ล้มเหลวในการเชื่อมต่อกับ AI: ${err.message}`, 'error');
@@ -1039,7 +1039,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     }
 
     setAiLoading(true);
-    triggerToast('Gemini AI กำลังสร้างเนื้อหา สื่อ เกณฑ์ประเมิน K, P, A และบันทึกหลังสอนพร้อมกัน...', 'info');
+    triggerToast('Gemini AI กำลังสร้างเกณฑ์ประเมิน K, P, A และบันทึกหลังสอนพร้อมกัน...', 'info');
 
     try {
       const requestBody = {
@@ -1522,7 +1522,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <strong>พลังสร้างสรรค์แผนการสอนด้วย Gemini AI (ขั้นที่ 1/2)</strong>
                   <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#be185d' }}>
                     หลังจากกรอกข้อมูลระดับชั้น วิชา และเรื่องที่สอนเสร็จแล้ว <br/>
-                    กดปุ่มด้านล่างเพื่อให้ AI ร่าง <b>ตัวชี้วัด, จุดประสงค์, สมรรถนะ, และกระบวนการสอน (Active Learning)</b> ให้อัตโนมัติ
+                    กดปุ่มด้านล่างเพื่อให้ AI ร่าง <b>ตัวชี้วัด, จุดประสงค์, เนื้อหาสาระ, สื่อ, แหล่งเรียนรู้, ภาระงาน และกระบวนการสอน (Active Learning)</b> ให้อัตโนมัติ
                   </p>
                 </div>
               </div>
@@ -1538,7 +1538,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   padding: '10px 16px'
                 }}
               >
-                <Sparkles size={16} /> {aiLoading ? 'กำลังวิเคราะห์และร่างโครงสร้างแผน...' : '✨ สร้างกระบวนการเรียนรู้ด้วย AI (รอบที่ 1)'}
+                <Sparkles size={16} /> {aiLoading ? 'กำลังสร้างโครงสร้าง เนื้อหา สื่อ และกิจกรรม...' : '✨ สร้างโครงสร้าง เนื้อหา และกิจกรรมด้วย AI (รอบที่ 1)'}
               </button>
             </div>
 
@@ -1852,7 +1852,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                   <strong>เติมเต็มแผนการสอนให้สมบูรณ์ (ขั้นที่ 2/2)</strong>
                   <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#be185d' }}>
                     ระบบจะนำกระบวนการจัดการเรียนรู้ที่คุณครูหรือ AI ได้สร้างไว้ (ในรอบที่ 1) <br/>
-                    มาวิเคราะห์เพื่อสร้าง <b>เนื้อหาสาระ, สื่อ/ชิ้นงาน, เครื่องมือวัดผล, Rubrics 5 ระดับ และบันทึกหลังสอน</b> ให้สอดคล้องกันแบบ 100%
+                    มาวิเคราะห์เพื่อสร้าง <b>เครื่องมือวัดผล K/P/A, Rubrics 5 ระดับ และบันทึกหลังสอน</b> ให้สอดคล้องกัน
                   </p>
                 </div>
               </div>

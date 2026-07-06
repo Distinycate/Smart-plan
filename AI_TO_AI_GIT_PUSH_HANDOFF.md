@@ -3,6 +3,52 @@
 Date: 2026-07-06  
 Repository: `/Users/distinycate/Desktop/smart plan/ระบบแผนการสอน`
 
+## Latest Phase 1 Content/Resources Hotfix
+
+Current HEAD observed before this uncommitted hotfix: `d5a9e18`.
+
+The hotfix makes Phase 1 solely responsible for:
+
+- `learningContent`
+- `learningMedia`
+- `learningSources`
+- `tasks`
+
+It adds server-side non-empty validation and preserves teacher-entered values. Phase 2
+remains limited to K/P/A assessment, rubrics and reflection.
+
+Files to review and stage:
+
+```text
+AI_TO_AI_GIT_PUSH_HANDOFF.md
+CHANGELOG.md
+QA_TEST_CASE.md
+app/api/ai-process-activity/route.ts
+app/plan/PlanForm.tsx
+lib/aiActivityResult.ts
+tests/aiActivityResult.test.ts
+```
+
+Verified locally:
+
+- normalization test passed
+- `npm run build` passed
+- live Core 18.744s
+- live Activity 13.594s
+- total Phase 1 32.338s
+- Learning Content was non-empty
+- Media, Learning Sources and Tasks each contained two entries
+- production/browser/save/export regression not executed
+
+Suggested commit:
+
+```text
+fix: generate learning content and resources in phase one
+```
+
+Deploy to Vercel after push, then test Phase 1 from a real teacher account and verify
+sections 7 and 8 before testing save and Lesson PDF/Word export.
+
 ## Current Git State Observed
 
 - branch: `main`

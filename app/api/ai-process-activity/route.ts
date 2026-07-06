@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
 import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
 import { ACTIVE_LEARNING_MASTER_FRAMEWORK } from '@/lib/activeLearningFramework';
+import { normalizeActivityGeneration } from '@/lib/aiActivityResult';
 
 export const maxDuration = 60;
 
@@ -215,7 +216,7 @@ ${hasExistingProcess ? 'หมายเหตุ: ให้อ่านกระ
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
-        ...fastJsonGenerationConfig(8192),
+        ...fastJsonGenerationConfig(hasExistingProcess ? 2048 : 4096),
         responseSchema: {
           type: "OBJECT",
           properties: schemaProperties,
@@ -248,9 +249,16 @@ ${hasExistingProcess ? 'หมายเหตุ: ให้อ่านกระ
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }
 
+    const normalizedResult = normalizeActivityGeneration(parsedData, !hasExistingProcess);
+    if (!normalizedResult.ok) {
+      throw new Error(
+        `AI สร้างข้อมูลข้อ 7-8 ไม่ครบ (${normalizedResult.missing.join(', ')}) กรุณาลองใหม่อีกครั้ง`
+      );
+    }
+
     return NextResponse.json({
       success: true,
-      data: parsedData
+      data: normalizedResult.data
     });
 
   } catch (error: any) {

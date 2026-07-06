@@ -17,6 +17,17 @@
 - TC-AI-LAT-007 production Vercel execution: Not executed in this environment. Manual verification required after deploy.
 - TC-AI-LAT-008 two simultaneous production users: Not executed in this environment. Manual verification required.
 
+## Phase 1 Learning Content and Resources — 2026-07-06
+
+- TC-AI-P1-001 incomplete activity response detection: Passed.
+- TC-AI-P1-002 string/array resource normalization: Passed.
+- TC-AI-P1-003 live Phase 1 Core: Passed in 18.744s.
+- TC-AI-P1-004 live Learning Content generation: Passed; 305 characters returned.
+- TC-AI-P1-005 live Media/Sources/Tasks generation: Passed; two entries returned for each field.
+- TC-AI-P1-006 total Phase 1 execution: Passed in 32.338s.
+- TC-AI-P1-007 teacher-entered fields are preserved by mapping: Verified by code path; browser edit regression not executed.
+- TC-AI-P1-008 production Vercel/browser/save/export: Not executed in this environment. Manual verification required.
+
 ## Regression
 
 - TC-REG-001 เปิดระบบและ login
