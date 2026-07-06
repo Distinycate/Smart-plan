@@ -47,7 +47,7 @@ export function fail(code: ApiErrorCode, message: string, options: ApiErrorOptio
     error: {
       code,
       message,
-      debugMessage: process.env.NODE_ENV !== 'production' ? options.debugMessage : undefined,
+      debugMessage: options.debugMessage,
       retryable: options.retryable ?? false,
       step: options.step,
       metadata: options.metadata
