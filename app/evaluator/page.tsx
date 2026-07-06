@@ -14,6 +14,69 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Responsi
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
+const adaptQualityPlatformResult = (result: any) => {
+  const sections = Array.isArray(result?.sections) ? result.sections : [];
+  const findSections = (keys: string[]) =>
+    sections.filter((section: any) => keys.includes(section.section));
+  const summarize = (keys: string[]) => {
+    const matched = findSections(keys);
+    const score = matched.reduce((sum: number, item: any) => sum + Number(item.score || 0), 0);
+    const max = matched.reduce((sum: number, item: any) => sum + Number(item.max_score || 0), 0);
+    return {
+      ratio: max > 0 ? score / max : 0,
+      strengths: matched.flatMap((item: any) => item.strengths || []).join(' • ') || 'ยังไม่พบหลักฐานจุดเด่น',
+      weaknesses: matched.flatMap((item: any) => item.weaknesses || []).join(' • ') || 'ไม่พบข้อบกพร่องสำคัญ',
+      suggestions: matched.flatMap((item: any) => item.suggestions || []).join(' • ') || 'รักษาคุณภาพและตรวจทานหลักฐานต่อเนื่อง',
+    };
+  };
+  const objectives = summarize(['objectives_kpa', 'learner_outcome_evidence']);
+  const activities = summarize([
+    'learning_activities',
+    'active_learning',
+    'active_learning_design',
+    'instructional_design_reviewer',
+  ]);
+  const assessment = summarize([
+    'assessment_quality',
+    'authentic_assessment',
+    'assessment_expert',
+  ]);
+  const alignment = summarize([
+    'curriculum_alignment',
+    'constructive_alignment',
+    'curriculum_validator',
+  ]);
+  const language = summarize([
+    'structure',
+    'readiness',
+    'wpa_w9_readiness',
+    'pa_w9_committee_reviewer',
+  ]);
+  const detail = (item: ReturnType<typeof summarize>, max: number) => ({
+    score: Math.round(item.ratio * max),
+    strengths: item.strengths,
+    weaknesses: item.weaknesses,
+    suggestions: item.suggestions,
+  });
+
+  return {
+    overallScore: result?.aggregate?.percentage || 0,
+    summary: `ผลประเมินแบบ ${result?.evaluationMode || 'lesson_plan_basic'}: ${result?.aggregate?.level || 'ไม่ระบุระดับ'} (${result?.aggregate?.percentage || 0}%)`,
+    detailedScores: {
+      objectives: detail(objectives, 20),
+      activities: detail(activities, 25),
+      assessment: detail(assessment, 20),
+      alignment: detail(alignment, 20),
+      language: detail(language, 5),
+    },
+    ruleBasedDetails: {
+      standardsScore: 0,
+      structureScore: 0,
+      rubricScore: Math.round(assessment.ratio * 5),
+    },
+    qualityPlatformResult: result,
+  };
+};
 
 export default function EvaluatorPage() {
   const router = useRouter();
@@ -152,53 +215,60 @@ export default function EvaluatorPage() {
   };
 
   const evaluateWithJob = async (payload: any) => {
-    // 1. Create Job
-    const createRes = await fetch('/api/evaluation-jobs/create', {
+    const lessonPlanId = payload.planData?.planId || payload.planData?.id;
+    if (!lessonPlanId) throw new Error('ไม่พบรหัสแผนการสอนสำหรับสร้างงานประเมิน');
+
+    const createRes = await fetch('/api/evaluations/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        lessonPlanId,
+        evaluationMode: payload.evaluationMode || 'lesson_plan_basic'
+      })
     });
     const createJson = await createRes.json();
-    if (!createJson.success) throw new Error(createJson.error);
-    const { jobId, sections } = createJson;
-
-    // 2. Process Sections one by one
-    for (let i = 0; i < sections.length; i++) {
-      const section = sections[i];
-      if (section.id === 'final_summary') continue;
-      
-      setLoadingText(`กำลังประเมินส่วนที่ ${i + 1}/${sections.length - 1}: ${section.label}...`);
-      
-      const secRes = await fetch('/api/evaluation-jobs/process-section', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...payload, jobId, sectionName: section.id })
-      });
-      const secJson = await secRes.json();
-      if (!secJson.success) {
-        throw new Error(`การประเมินล้มเหลวที่ส่วน: ${section.label} (${secJson.error})`);
-      }
+    if (!createJson.ok) {
+      throw new Error(createJson.message || 'ไม่สามารถสร้าง Evaluation Job ได้');
+    }
+    if (!createJson.data?.ready) {
+      const count = createJson.data?.issues?.length || 0;
+      throw new Error(`แผนการสอนยังไม่พร้อมประเมิน พบปัญหา ${count} จุด กรุณาแก้ไขก่อนส่งประเมิน`);
     }
 
-    // 3. Finalize
-    setLoadingText('กำลังสรุปผลคะแนนและประมวลผลขั้นสุดท้าย...');
-    const finRes = await fetch('/api/evaluation-jobs/process-section', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...payload, jobId, sectionName: 'final_summary' })
-    });
-    const finJson = await finRes.json();
-    if (!finJson.success) throw new Error(finJson.error);
+    const jobId = createJson.data.jobId;
+    let finalResult = createJson.data.cacheHit ? null : undefined;
+    let processNext = !createJson.data.cacheHit;
+    let safetyCounter = 0;
 
-    const aggRes = await fetch('/api/evaluation-jobs/finalize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jobId, planData: payload.planData })
-    });
-    const aggJson = await aggRes.json();
-    if (!aggJson.success) throw new Error(aggJson.error);
+    while (processNext && safetyCounter < 20) {
+      safetyCounter += 1;
+      setLoadingText(`กำลังประเมินทีละส่วน (${safetyCounter}) เพื่อป้องกัน timeout...`);
+      const processRes = await fetch('/api/evaluations/process', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobId })
+      });
+      const processJson = await processRes.json();
+      if (!processJson.ok) {
+        throw new Error(processJson.message || 'AI ประเมิน section ไม่สำเร็จ');
+      }
+      processNext = Boolean(processJson.data?.processNext);
+      if (processJson.data?.result) finalResult = processJson.data.result;
+    }
 
-    return aggJson.evaluation;
+    if (safetyCounter >= 20 && processNext) {
+      throw new Error('จำนวน section เกินขอบเขตความปลอดภัย กรุณาตรวจสถานะ job');
+    }
+    if (!finalResult) {
+      const resultRes = await fetch(`/api/evaluations/result/${jobId}`);
+      const resultJson = await resultRes.json();
+      if (!resultJson.ok || !resultJson.data?.completed) {
+        throw new Error(resultJson.message || 'ยังไม่สามารถโหลดผลประเมินได้');
+      }
+      finalResult = resultJson.data.result;
+    }
+
+    return adaptQualityPlatformResult(finalResult);
   };
 
   const startEvaluation = async () => {
@@ -232,7 +302,9 @@ export default function EvaluatorPage() {
       } else {
         if (!fileText) throw new Error("กรุณาอัปโหลดไฟล์ที่อ่านได้ก่อน");
         setBatchProgress({ current: 1, total: 1 });
-        const evaluation = await evaluateWithJob({ externalText: fileText });
+        // Uploaded files do not have a persisted lessonPlanId yet, so retain the
+        // existing endpoint until the import/preview workflow is implemented.
+        const evaluation = await evaluateSingle({ externalText: fileText });
         setEvaluationResults([{ planId: 'uploaded', title: 'เอกสารอัปโหลด (DOCX)', ...evaluation }]);
       }
     } catch (err: any) {

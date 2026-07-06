@@ -1,0 +1,111 @@
+import type { EvaluationRubric } from './master-rubric';
+
+export const lessonPlanBasicRubric = {
+  mode: 'lesson_plan_basic',
+  totalScore: 100,
+  criteria: [
+    {
+      key: 'structure',
+      title: 'โครงสร้างแผน',
+      maxScore: 10,
+      requiredEvidence: ['metadata', 'essence', 'objectives', 'activities', 'assessment'],
+      anchors: [
+        { score: 0, label: 'ไม่พบ', description: 'ไม่พบโครงสร้างสำคัญของแผน' },
+        { score: 3, label: 'น้อย', description: 'มีบางส่วนแต่ขาดองค์ประกอบหลักหลายส่วน' },
+        { score: 6, label: 'พอใช้', description: 'โครงสร้างครบส่วนใหญ่แต่ยังไม่ชัดเจน' },
+        { score: 8, label: 'ดี', description: 'โครงสร้างครบ ชัดเจน ใช้งานได้' },
+        { score: 10, label: 'ดีเยี่ยม', description: 'โครงสร้างครบถ้วน ชัดเจน เป็นระบบ พร้อมใช้จริง' },
+      ],
+    },
+    {
+      key: 'curriculum_alignment',
+      title: 'ความสอดคล้องกับหลักสูตร',
+      maxScore: 15,
+      requiredEvidence: ['standards', 'indicators', 'coreContent'],
+      anchors: [
+        { score: 0, label: 'ไม่พบ', description: 'ไม่พบมาตรฐานหรือตัวชี้วัด' },
+        { score: 5, label: 'ต่ำ', description: 'มีมาตรฐาน/ตัวชี้วัดแต่ไม่สัมพันธ์กับบทเรียน' },
+        { score: 10, label: 'ดี', description: 'สัมพันธ์กับบทเรียนบางส่วน' },
+        { score: 13, label: 'ดีมาก', description: 'สัมพันธ์ชัดเจนเกือบครบ' },
+        { score: 15, label: 'ดีเยี่ยม', description: 'สัมพันธ์ครบถ้วนกับหน่วย จุดประสงค์ กิจกรรม และการวัดผล' },
+      ],
+    },
+    {
+      key: 'objectives_kpa',
+      title: 'จุดประสงค์ K/P/A',
+      maxScore: 10,
+      requiredEvidence: ['knowledgeObjectives', 'processObjectives', 'attitudeObjectives'],
+      anchors: [
+        { score: 0, label: 'ไม่พบ', description: 'ไม่พบจุดประสงค์' },
+        { score: 3, label: 'ไม่ครบ', description: 'มีจุดประสงค์แต่ K/P/A ไม่ครบ' },
+        { score: 6, label: 'พอใช้', description: 'K/P/A ครบแต่ยังไม่วัดได้ชัดเจน' },
+        { score: 8, label: 'ดี', description: 'K/P/A ครบและวัดได้' },
+        { score: 10, label: 'ดีเยี่ยม', description: 'K/P/A ครบ วัดได้ สอดคล้องตัวชี้วัดและกิจกรรม' },
+      ],
+    },
+    {
+      key: 'learning_activities',
+      title: 'กิจกรรมการเรียนรู้',
+      maxScore: 15,
+      requiredEvidence: ['teacherRole', 'studentRole', 'activitySteps', 'timeAllocation'],
+      anchors: [
+        { score: 0, label: 'ไม่พบ', description: 'ไม่พบกิจกรรมการเรียนรู้' },
+        { score: 5, label: 'ครูเป็นศูนย์กลาง', description: 'กิจกรรมเน้นครูบรรยายเป็นหลัก' },
+        { score: 10, label: 'พอใช้', description: 'ผู้เรียนมีส่วนร่วมบางช่วง' },
+        { score: 13, label: 'ดี', description: 'ผู้เรียนลงมือปฏิบัติ คิด อภิปราย และสร้างงาน' },
+        { score: 15, label: 'ดีเยี่ยม', description: 'กิจกรรมเป็น Active Learning ชัดเจน เชื่อมโยงชีวิตจริงและผลลัพธ์ผู้เรียน' },
+      ],
+    },
+    {
+      key: 'active_learning',
+      title: 'Active Learning',
+      maxScore: 15,
+      requiredEvidence: ['studentAction', 'collaboration', 'reflection', 'productOrPerformance'],
+      anchors: [
+        { score: 0, label: 'ไม่พบ', description: 'ไม่พบหลักฐาน Active Learning' },
+        { score: 5, label: 'ต่ำ', description: 'มีคำว่า Active Learning แต่กิจกรรมยังเป็น passive' },
+        { score: 10, label: 'พอใช้', description: 'มีผู้เรียนลงมือทำบางส่วน' },
+        { score: 13, label: 'ดี', description: 'มีการคิด วิเคราะห์ สื่อสาร ร่วมมือ และสะท้อนผล' },
+        { score: 15, label: 'ดีเยี่ยม', description: 'Active Learning ชัดเจนทั้งกระบวนการ มีผลงาน/ภาระงานและ reflection' },
+      ],
+    },
+    {
+      key: 'assessment_quality',
+      title: 'การวัดและประเมินผล',
+      maxScore: 15,
+      requiredEvidence: ['assessmentMethods', 'assessmentTools', 'rubric', 'objectiveAlignment'],
+      anchors: [
+        { score: 0, label: 'ไม่พบ', description: 'ไม่พบการวัดและประเมินผล' },
+        { score: 5, label: 'ต่ำ', description: 'มีการประเมินแต่ไม่สัมพันธ์กับจุดประสงค์' },
+        { score: 10, label: 'พอใช้', description: 'สัมพันธ์บางส่วน มีเครื่องมือบางส่วน' },
+        { score: 13, label: 'ดี', description: 'มีวิธีและเครื่องมือหลากหลาย สัมพันธ์กับจุดประสงค์' },
+        { score: 15, label: 'ดีเยี่ยม', description: 'มี assessment for/as/of learning เครื่องมือชัด และ rubric วัดได้จริง' },
+      ],
+    },
+    {
+      key: 'constructive_alignment',
+      title: 'Constructive Alignment',
+      maxScore: 15,
+      requiredEvidence: ['indicatorObjectiveActivityAssessmentChain'],
+      anchors: [
+        { score: 0, label: 'ไม่พบ', description: 'ไม่พบความเชื่อมโยงระหว่างองค์ประกอบหลัก' },
+        { score: 5, label: 'ต่ำ', description: 'เชื่อมโยงบางส่วนแต่ขาดหลายจุด' },
+        { score: 10, label: 'พอใช้', description: 'เชื่อมโยงส่วนใหญ่แต่ยังมีช่องว่าง' },
+        { score: 13, label: 'ดี', description: 'เชื่อมโยงชัดเจนเกือบครบ' },
+        { score: 15, label: 'ดีเยี่ยม', description: 'มาตรฐาน ตัวชี้วัด จุดประสงค์ กิจกรรม สื่อ การวัดผล เชื่อมโยงครบถ้วน' },
+      ],
+    },
+    {
+      key: 'readiness',
+      title: 'ความพร้อมใช้จริง',
+      maxScore: 5,
+      requiredEvidence: ['timeFeasibility', 'classroomFeasibility'],
+      anchors: [
+        { score: 0, label: 'ไม่พร้อม', description: 'ยังนำไปใช้จริงไม่ได้' },
+        { score: 2, label: 'ต้องปรับ', description: 'ใช้ได้บางส่วนแต่ต้องปรับมาก' },
+        { score: 4, label: 'พร้อม', description: 'ใช้ได้จริงโดยปรับเล็กน้อย' },
+        { score: 5, label: 'พร้อมมาก', description: 'พร้อมใช้จริงในชั้นเรียน' },
+      ],
+    },
+  ],
+} as const satisfies EvaluationRubric;

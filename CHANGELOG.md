@@ -1,5 +1,142 @@
 # Changelog
 
+## [2.5.0-async-quality-evaluation] - 2026-07-06
+
+### Added
+- Authenticated async create, single-section process, status, result and retry APIs.
+- Ownership checks, hash-staleness guard, cache-backed completed jobs and per-section failures.
+- Evaluator integration that processes one section per request to avoid a single 60-second request.
+- AI-to-AI deployment and verification handoff.
+
+### Changed
+- System-plan evaluation now uses the Quality Platform pipeline.
+- Uploaded DOCX evaluation retains the legacy endpoint until a persisted import flow exists.
+- Experimental quality-platform create route is a compatibility alias to the canonical API.
+
+### Migration
+- None. Uses migration 09, which the user reports was run successfully.
+
+### QA
+- Production build and TypeScript route generation passed.
+- Async API static contract test passed.
+- Authenticated staging, concurrent worker and production Vercel tests require manual verification.
+
+### Known Issues
+- ESLint is not installed.
+- Uploaded DOCX does not use the new job pipeline.
+
+### Rollback
+- Revert evaluator integration and remove Phase 5 routes/job helpers; do not drop additive tables.
+
+## [2.4.0-unified-evaluation-engine] - 2026-07-06
+
+### Added
+- Unified section registry for all three evaluation modes.
+- Section-scoped prompt builder and strict JSON output schema.
+- Gemini section evaluator with temperature 0, topP 0.1 and anchor validation.
+- Deterministic score aggregator, consistency checker and issue prioritizer.
+- One repair/retry within a shared 45-second section deadline.
+
+### Changed
+- Existing evaluation APIs remain untouched; Phase 4 is an additive engine.
+
+### Migration
+- None.
+
+### QA
+- Section/rubric registry, prompt isolation, JSON repair, anchor rejection,
+  consistency retry, aggregation and issue priority tests passed.
+- Production build and TypeScript validation passed.
+- Live synthetic Gemini section evaluation passed in 9.887s with valid anchor/evidence output.
+
+### Known Issues
+- Phase 5 async job APIs are not implemented in this phase.
+- Production authenticated job integration remains for Phase 5.
+
+### Rollback
+- Remove new evaluation engine modules/exports without changing legacy evaluator behavior.
+
+## [2.3.0-quality-platform-validator] - 2026-07-06
+
+### Added
+- Rule-based pre, alignment, GPAS and assessment validators.
+- Authenticated `POST /api/lesson-plans/validate`.
+- Canonical/legacy plan detection before validation.
+- Critical readiness status `lesson_plan_not_ready`.
+
+### Changed
+- No existing evaluator API or UI flow was replaced in Phase 3.
+
+### Migration
+- No new migration. User reported Phase 2 SQL completed successfully.
+
+### QA
+- Complete, critical-missing, mode-specific rubric, GPAS and assessment-gap tests passed.
+- Production build and TypeScript validation passed.
+- Unauthenticated API request returned 401 `E_PERMISSION_DENIED`.
+- Authenticated database-owner/RLS test was not executed in this environment.
+
+### Known Issues
+- Phase 4 must connect the readiness gate to evaluation job creation.
+- Rule-based lexical alignment is conservative and may require manual review for indirect links.
+
+### Rollback
+- Remove the new validation route/modules; existing evaluation remains unchanged.
+
+## [2.2.1-quality-platform-database] - 2026-07-06
+
+### Added
+- Non-destructive migration for evaluation jobs/results, issues, versions, patches and cache.
+- Ownership-based read RLS and service-role-only writes.
+- Constraints for modes, statuses, severities, score ranges, JSON shapes and SHA-256 hashes.
+- Required lookup, processing, history and cache indexes.
+
+### Changed
+- No existing table, record, API or legacy `ai_evaluation_*` workflow was modified.
+- `lesson_plan_id` uses `VARCHAR(255)` to match existing `LessonPlans.planId`.
+
+### Migration
+- Run `database/migrations/09_lesson_plan_quality_platform.sql` twice on staging.
+
+### QA
+- Migration static safety/contract tests passed.
+- No destructive SQL was found.
+- Live Supabase migration was not executed in this environment.
+
+### Known Issues
+- Phase 3+ APIs must use server-side service role for writes.
+- Staging idempotency, RLS and query-plan verification remain required.
+
+### Rollback
+- Disable new Quality Platform consumers and retain additive data; do not drop populated tables.
+
+## [2.2.0-quality-platform-foundation] - 2026-07-06
+
+### Added
+- Canonical type-safe Lesson Plan interface and runtime JSON Schema.
+- Pure normalizer from existing flat `LessonPlans` records to the canonical schema.
+- Stable SHA-256 `lesson_plan_hash` helper.
+- Evaluation Mode Registry for `lesson_plan_basic`, `wpa_w9` and `committee_4d`.
+- Locked-anchor Master Rubrics totaling 100 points for all three modes.
+
+### Changed
+- No existing evaluator, API, database, UI or export behavior was changed.
+
+### Migration
+- None in Phase 1.
+
+### QA
+- Foundation contract tests passed.
+- Stable hash, legacy field mapping, mode/rubric alignment and score totals were verified.
+- `npm run build` passed; ESLint was not executed because it is not installed.
+
+### Known Issues
+- Runtime JSON Schema validation will be connected in a later phase.
+- Validators, database migration, async integration and cache persistence are not part of Phase 1.
+
+### Rollback
+- Remove `lib/lesson-plan/`, its test and Phase 1 documentation only.
+
 ## [1.0.4-phase1-learning-resources] - 2026-07-06
 
 ### Fixed

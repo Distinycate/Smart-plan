@@ -6,6 +6,83 @@
 - ESLint — Not executed: package is not installed in this project.
 - Database, browser and manual regression — Not executed in this environment. Manual verification required.
 
+## Lesson Plan Quality Platform Phase 1 — 2026-07-06
+
+- TC-QP-P1-001 legacy flat LessonPlan normalization: Passed.
+- TC-QP-P1-002 standard/indicator code and type mapping: Passed.
+- TC-QP-P1-003 K/P/A, activity, media, assessment and rubric mapping: Passed.
+- TC-QP-P1-004 stable stringify across object key order: Passed.
+- TC-QP-P1-005 SHA-256 hash stability and 64-character format: Passed.
+- TC-QP-P1-006 three evaluation modes and section registry: Passed.
+- TC-QP-P1-007 rubric sections match mode sections: Passed.
+- TC-QP-P1-008 each rubric totals 100 and anchors stay within max score: Passed.
+- TC-QP-P1-009 production build and TypeScript validation: Passed.
+- TC-QP-P1-010 existing evaluator/browser/database/export regression: Not executed; no existing runtime files were changed.
+
+## Lesson Plan Quality Platform Phase 2 — 2026-07-06
+
+- TC-QP-P2-001 six additive `CREATE TABLE IF NOT EXISTS` declarations: Passed.
+- TC-QP-P2-002 no DROP TABLE/COLUMN, TRUNCATE or DELETE FROM: Passed.
+- TC-QP-P2-003 `LessonPlans.planId` VARCHAR compatibility/FK: Passed static check.
+- TC-QP-P2-004 mode/status/severity/hash/score constraints: Passed static check.
+- TC-QP-P2-005 required unique and lookup indexes: Passed static check.
+- TC-QP-P2-006 updated_at trigger and SchemaVersions entry: Passed static check.
+- TC-QP-P2-007 RLS enabled on all six tables: Passed static check.
+- TC-QP-P2-008 live staging first run: Not executed in this environment.
+- TC-QP-P2-009 live staging second/idempotency run: Not executed in this environment.
+- TC-QP-P2-010 RLS ownership/service-role verification: Not executed in this environment.
+
+User-reported update: Phase 2 SQL run completed successfully on 2026-07-06.
+This was not independently rerun or queried by the implementation environment.
+
+## Lesson Plan Quality Platform Phase 3 — 2026-07-06
+
+- TC-QP-P3-001 complete lesson returns ready/status ready: Passed.
+- TC-QP-P3-002 missing standards/indicators/objectives/activities blocks evaluation: Passed.
+- TC-QP-P3-003 missing methods/tools is critical: Passed.
+- TC-QP-P3-004 rubric optional for basic but critical for WPA/committee: Passed.
+- TC-QP-P3-005 complete and incomplete GPAS detection: Passed.
+- TC-QP-P3-006 objective assessment coverage/gap detection: Passed.
+- TC-QP-P3-007 complete constructive-alignment matrix score: Passed.
+- TC-QP-P3-008 legacy and canonical plan routing: Passed.
+- TC-QP-P3-009 validation API route TypeScript/build contract: Passed.
+- TC-QP-P3-010 unauthenticated API request returns 401: Passed.
+- TC-QP-P3-011 authenticated live API and Supabase RLS: Not executed in this environment.
+
+## Lesson Plan Quality Platform Phase 4 — 2026-07-06
+
+- TC-QP-P4-001 mode sections match rubric and section registry: Passed.
+- TC-QP-P4-002 prompt contains only relevant section/rule data: Passed.
+- TC-QP-P4-003 teacher/subject metadata isolation for Active Learning: Passed.
+- TC-QP-P4-004 required JSON evidence arrays: Passed.
+- TC-QP-P4-005 invalid JSON repair retry: Passed.
+- TC-QP-P4-006 score outside rubric anchor rejection: Passed.
+- TC-QP-P4-007 evidence/score contradiction consistency retry: Passed.
+- TC-QP-P4-008 score aggregation uses section results only: Passed.
+- TC-QP-P4-009 duplicate section aggregation guard: Passed.
+- TC-QP-P4-010 deterministic severity issue priority: Passed.
+- TC-QP-P4-011 production build and TypeScript validation: Passed.
+- TC-QP-P4-012 live synthetic Gemini section evaluation: Passed in 9.887s;
+  score matched anchor, evidence arrays were present and consistency flags were empty.
+
+## Lesson Plan Quality Platform Phase 5 — 2026-07-06
+
+- TC-QP-P5-001 create API contains no AI evaluation call: Passed static contract.
+- TC-QP-P5-002 not-ready and cache paths create owned jobs: Passed static contract.
+- TC-QP-P5-003 process claims only pending section: Passed static contract.
+- TC-QP-P5-004 process evaluates one section and uses 60-second route budget: Passed static contract.
+- TC-QP-P5-005 aggregation/cache occur only after section completion: Passed static contract.
+- TC-QP-P5-006 status/result/retry enforce job ownership: Passed static contract.
+- TC-QP-P5-007 evaluator no longer mixes new job with legacy section API: Passed static contract.
+- TC-QP-P5-008 production build and TypeScript validation: Passed.
+- TC-QP-P5-009 authenticated Supabase create/process/result: Not executed in this environment.
+- TC-QP-P5-010 simultaneous worker claim: Not executed in this environment.
+- TC-QP-P5-011 Vercel Hobby timeout/retry/cache: Not executed in this environment.
+
+Phase 1/3/4 TypeScript test rerun note: execution was attempted on 2026-07-06 but
+the current `node_modules` has no `tsx` package. Previous recorded evidence is
+retained; this round does not claim a new pass for those test files.
+
 ## AI Latency Hotfix Evidence — 2026-07-06
 
 - TC-AI-LAT-001 fast-model availability: Passed (`gemini-2.5-flash-lite` returned HTTP 200).
