@@ -34,7 +34,7 @@ export default async function RootLayout({
         <Toaster position="top-center" toastOptions={{ duration: 4000, style: { background: '#333', color: '#fff', padding: '16px', borderRadius: '8px' } }} />
         
         {/* HEADER: Minimal White & Pink */}
-        <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <header className="print:hidden sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm">
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             
             {/* BRAND */}
@@ -111,7 +111,7 @@ export default async function RootLayout({
         </main>
 
         {/* FOOTER */}
-        <footer className="border-t border-slate-200 bg-white py-8">
+        <footer className="print:hidden border-t border-slate-200 bg-white py-8">
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-slate-900">
               <div className="flex h-6 w-6 items-center justify-center rounded-md bg-pink-200 text-pink-900">
