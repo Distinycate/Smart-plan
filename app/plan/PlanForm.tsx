@@ -1121,67 +1121,89 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     }
 
     setAiLoading(true);
-    triggerToast('Gemini AI กำลังเติมเต็มแผนการสอน สื่อ การวัดผล และบันทึกหลังสอน (ขั้นที่ 2/2)...', 'info');
+    triggerToast('Gemini AI กำลังสร้างเนื้อหาและเกณฑ์ประเมิน K (ส่วนที่ 1/2)...', 'info');
 
     try {
-      const response = await fetchWithQueue('/api/ai-completion', {
+      const response1 = await fetchWithQueue('/api/ai-completion-1', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           gradeLevel: fields.gradeLevel,
           subjectName: fields.subjectName,
           lessonTopic: fields.lessonTopic,
           objectiveK: fields.objectiveK,
+          learningProcess: fields.learningProcess
+        })
+      });
+
+      let json1;
+      try { json1 = await response1.json(); } catch (e) {
+        throw new Error('ไม่สามารถอ่านข้อมูลที่ตอบกลับมาจาก AI ส่วนที่ 1 ได้');
+      }
+      if (!json1.success || !json1.data) {
+        throw new Error(json1.error || 'เกิดข้อผิดพลาดจาก AI ส่วนที่ 1');
+      }
+
+      // Update fields immediately for Part 1
+      const ai1 = json1.data;
+      setFields(prev => ({
+        ...prev,
+        learningContent: cleanJSONString(ai1.learningContent) || prev.learningContent,
+        learningMedia: ensureBulletString(ai1.learningMedia) || prev.learningMedia,
+        learningSources: ensureBulletString(ai1.learningSources) || prev.learningSources,
+        tasks: ensureBulletString(ai1.tasks) || prev.tasks,
+        measureK: cleanJSONString(ai1.measureK) || prev.measureK,
+        methodK: cleanJSONString(ai1.methodK) || prev.methodK,
+        toolK: cleanJSONString(ai1.toolK) || prev.toolK,
+        criteriaK: cleanJSONString(ai1.criteriaK) || prev.criteriaK,
+        rubricK: cleanJSONString(ai1.rubricK) || prev.rubricK,
+      }));
+
+      triggerToast('Gemini AI กำลังสร้างเกณฑ์ประเมิน P/A และบันทึกหลังสอน (ส่วนที่ 2/2)...', 'info');
+
+      const response2 = await fetchWithQueue('/api/ai-completion-2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
           objectiveP: fields.objectiveP,
           objectiveA: fields.objectiveA,
           learningProcess: fields.learningProcess
         })
       });
 
-      let json;
-      try {
-        json = await response.json();
-      } catch (parseError) {
-        throw new Error('ไม่สามารถอ่านข้อมูลที่ตอบกลับมาจาก AI ได้ (กรุณาลองใหม่อีกครั้ง)');
+      let json2;
+      try { json2 = await response2.json(); } catch (e) {
+        throw new Error('ไม่สามารถอ่านข้อมูลที่ตอบกลับมาจาก AI ส่วนที่ 2 ได้');
       }
-      if (json.success && json.data) {
-        const ai = json.data;
-        
-        // Auto populate fields from phase 2
-        setFields(prev => ({
-          ...prev,
-          learningContent: cleanJSONString(ai.learningContent) || prev.learningContent,
-          learningMedia: ensureBulletString(ai.learningMedia) || prev.learningMedia,
-          learningSources: ensureBulletString(ai.learningSources) || prev.learningSources,
-          tasks: ensureBulletString(ai.tasks) || prev.tasks,
-          measureK: cleanJSONString(ai.measureK) || prev.measureK,
-          methodK: cleanJSONString(ai.methodK) || prev.methodK,
-          toolK: cleanJSONString(ai.toolK) || prev.toolK,
-          criteriaK: cleanJSONString(ai.criteriaK) || prev.criteriaK,
-          rubricK: cleanJSONString(ai.rubricK) || prev.rubricK,
-          measureP: cleanJSONString(ai.measureP) || prev.measureP,
-          methodP: cleanJSONString(ai.methodP) || prev.methodP,
-          toolP: cleanJSONString(ai.toolP) || prev.toolP,
-          criteriaP: cleanJSONString(ai.criteriaP) || prev.criteriaP,
-          rubricP: cleanJSONString(ai.rubricP) || prev.rubricP,
-          measureA: cleanJSONString(ai.measureA) || prev.measureA,
-          methodA: cleanJSONString(ai.methodA) || prev.methodA,
-          toolA: cleanJSONString(ai.toolA) || prev.toolA,
-          criteriaA: cleanJSONString(ai.criteriaA) || prev.criteriaA,
-          rubricA: cleanJSONString(ai.rubricA) || prev.rubricA,
-          resultK: cleanJSONString(ai.resultK) || prev.resultK,
-          resultP: cleanJSONString(ai.resultP) || prev.resultP,
-          resultA: cleanJSONString(ai.resultA) || prev.resultA,
-          problems: cleanJSONString(ai.problems) || prev.problems,
-          solutions: cleanJSONString(ai.solutions) || prev.solutions,
-        }));
+      if (!json2.success || !json2.data) {
+        throw new Error(json2.error || 'เกิดข้อผิดพลาดจาก AI ส่วนที่ 2');
+      }
 
-        triggerToast('AI เติมเต็มแผนการสอนสำเร็จเรียบร้อยแล้ว!', 'success');
-      } else {
-        throw new Error(json.error || 'เกิดข้อผิดพลาดจาก AI');
-      }
+      const ai2 = json2.data;
+      setFields(prev => ({
+        ...prev,
+        measureP: cleanJSONString(ai2.measureP) || prev.measureP,
+        methodP: cleanJSONString(ai2.methodP) || prev.methodP,
+        toolP: cleanJSONString(ai2.toolP) || prev.toolP,
+        criteriaP: cleanJSONString(ai2.criteriaP) || prev.criteriaP,
+        rubricP: cleanJSONString(ai2.rubricP) || prev.rubricP,
+        measureA: cleanJSONString(ai2.measureA) || prev.measureA,
+        methodA: cleanJSONString(ai2.methodA) || prev.methodA,
+        toolA: cleanJSONString(ai2.toolA) || prev.toolA,
+        criteriaA: cleanJSONString(ai2.criteriaA) || prev.criteriaA,
+        rubricA: cleanJSONString(ai2.rubricA) || prev.rubricA,
+        resultK: cleanJSONString(ai2.resultK) || prev.resultK,
+        resultP: cleanJSONString(ai2.resultP) || prev.resultP,
+        resultA: cleanJSONString(ai2.resultA) || prev.resultA,
+        problems: cleanJSONString(ai2.problems) || prev.problems,
+        solutions: cleanJSONString(ai2.solutions) || prev.solutions,
+      }));
+
+      triggerToast('AI เติมเต็มแผนการสอนสำเร็จเรียบร้อยแล้ว!', 'success');
+
     } catch (err: any) {
       console.error(err);
       triggerToast(`ล้มเหลวในการเชื่อมต่อกับ AI: ${err.message}`, 'error');
