@@ -151,6 +151,56 @@ export default function EvaluatorPage() {
     return evalJson.evaluation;
   };
 
+  const evaluateWithJob = async (payload: any) => {
+    // 1. Create Job
+    const createRes = await fetch('/api/evaluation-jobs/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const createJson = await createRes.json();
+    if (!createJson.success) throw new Error(createJson.error);
+    const { jobId, sections } = createJson;
+
+    // 2. Process Sections one by one
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i];
+      if (section.id === 'final_summary') continue;
+      
+      setLoadingText(`กำลังประเมินส่วนที่ ${i + 1}/${sections.length - 1}: ${section.label}...`);
+      
+      const secRes = await fetch('/api/evaluation-jobs/process-section', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...payload, jobId, sectionName: section.id })
+      });
+      const secJson = await secRes.json();
+      if (!secJson.success) {
+        throw new Error(`การประเมินล้มเหลวที่ส่วน: ${section.label} (${secJson.error})`);
+      }
+    }
+
+    // 3. Finalize
+    setLoadingText('กำลังสรุปผลคะแนนและประมวลผลขั้นสุดท้าย...');
+    const finRes = await fetch('/api/evaluation-jobs/process-section', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...payload, jobId, sectionName: 'final_summary' })
+    });
+    const finJson = await finRes.json();
+    if (!finJson.success) throw new Error(finJson.error);
+
+    const aggRes = await fetch('/api/evaluation-jobs/finalize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jobId, planData: payload.planData })
+    });
+    const aggJson = await aggRes.json();
+    if (!aggJson.success) throw new Error(aggJson.error);
+
+    return aggJson.evaluation;
+  };
+
   const startEvaluation = async () => {
     setIsEvaluating(true);
     setError(null);
@@ -167,7 +217,7 @@ export default function EvaluatorPage() {
           const res = await fetch(`/api/plans/${selectedPlanId}`);
           const json = await res.json();
           if (!json.success) throw new Error("โหลดข้อมูลแผนไม่สำเร็จ");
-          const evaluation = await evaluateSingle({ planData: json.data });
+          const evaluation = await evaluateWithJob({ planData: json.data });
           newResults.push({
             planId: selectedPlanId,
             title: json.data.lessonTopic || 'ไม่มีชื่อแผน',
@@ -182,7 +232,7 @@ export default function EvaluatorPage() {
       } else {
         if (!fileText) throw new Error("กรุณาอัปโหลดไฟล์ที่อ่านได้ก่อน");
         setBatchProgress({ current: 1, total: 1 });
-        const evaluation = await evaluateSingle({ externalText: fileText });
+        const evaluation = await evaluateWithJob({ externalText: fileText });
         setEvaluationResults([{ planId: 'uploaded', title: 'เอกสารอัปโหลด (DOCX)', ...evaluation }]);
       }
     } catch (err: any) {
