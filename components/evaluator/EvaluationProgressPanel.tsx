@@ -6,7 +6,7 @@ import { CheckCircle, AlertTriangle, Loader2, Circle, XCircle } from 'lucide-rea
 export interface SectionStatus {
   id: string;
   label?: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: 'pending' | 'processing' | 'completed' | 'failed' | 'failed_rate_limited';
 }
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 
 const statusIcon = (status: SectionStatus['status']) => {
   if (status === 'completed') return <CheckCircle size={14} color="#34d399" />;
-  if (status === 'failed') return <XCircle size={14} color="#f87171" />;
+  if (status === 'failed' || status === 'failed_rate_limited') return <XCircle size={14} color="#f87171" />;
   if (status === 'processing') return <Loader2 size={14} color="#818cf8" className="spin" />;
   return <Circle size={14} color="#475569" />;
 };
@@ -32,7 +32,7 @@ export default function EvaluationProgressPanel({
   loadingText,
 }: Props) {
   const completed = sections.filter(s => s.status === 'completed').length;
-  const failed = sections.filter(s => s.status === 'failed').length;
+  const failed = sections.filter(s => s.status === 'failed' || s.status === 'failed_rate_limited').length;
 
   return (
     <div style={{

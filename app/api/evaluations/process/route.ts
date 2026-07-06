@@ -91,12 +91,23 @@ export async function POST(request: NextRequest) {
         .eq('job_id', jobId);
       if (error) throw error;
       const hasProcessing = allResults?.some(result => result.status === 'processing');
-      const hasFailed = allResults?.some(result => result.status === 'failed');
+      const hasFailed = allResults?.some(result => result.status === 'failed' || result.status === 'failed_rate_limited');
+      
+      const finalStatus = hasProcessing ? 'processing' : hasFailed ? 'failed' : job.status;
+      
+      if (finalStatus === 'failed' && job.status !== 'failed') {
+        await admin.from('evaluation_jobs').update({
+          status: 'failed',
+          error_message: 'ประเมินไม่ครบทุกส่วนเนื่องจากมีข้อผิดพลาด กรุณา Retry',
+          current_section: null
+        }).eq('id', jobId);
+      }
+      
       return NextResponse.json({
         ok: true,
         data: {
           jobId,
-          status: hasProcessing ? 'processing' : hasFailed ? 'failed' : job.status,
+          status: finalStatus,
           claimed: false,
           processNext: false,
         },
@@ -300,11 +311,22 @@ export async function POST(request: NextRequest) {
         last_retry_at: new Date().toISOString(),
       }).eq('id', claimedResult.id);
 
-      await admin.from('evaluation_jobs').update({
-        status: 'failed',
-        current_section: claimedResult.section,
-        error_message: `${errorType}: ${message}`,
-      }).eq('id', jobId);
+      // We DO NOT update evaluation_jobs to 'failed' here. 
+      // The job remains 'processing' so the frontend can continue with other sections.
+      
+      return NextResponse.json({
+        ok: true,
+        data: {
+          jobId,
+          section: claimedResult.section,
+          status: 'processing',
+          processNext: errorType !== 'rate_limit'
+        },
+        message: errorType === 'rate_limit' 
+          ? 'การประเมินถูกระงับชั่วคราวเนื่องจาก Rate Limit' 
+          : 'การประเมิน section ล้มเหลว แต่จะข้ามไปทำส่วนอื่นต่อ',
+        warnings: [message],
+      });
     }
     return evaluationErrorResponse(error);
   }

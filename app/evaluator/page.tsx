@@ -390,6 +390,29 @@ export default function EvaluatorPage() {
     }
   }, [patchJobId, processPatchJob]);
 
+  const handleEvaluationRetry = useCallback(async (jobId: string) => {
+    if (!jobId) return;
+    setIsEvaluating(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/evaluations/retry/${jobId}`, { method: 'POST' });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.message);
+      
+      setActiveJobId(jobId);
+      toast.success('กำลังทำซ้ำการประเมินส่วนที่ล้มเหลว...');
+      
+      // Update local state to show it's pending again
+      setJobSections(prev => prev.map(s => 
+        s.status === 'failed' || s.status === 'failed_rate_limited' ? { ...s, status: 'pending' } : s
+      ));
+      
+      await processJobSections(jobId);
+    } catch (err: any) {
+      toast.error(err.message || 'ไม่สามารถทำซ้ำได้');
+      setIsEvaluating(false);
+    }
+  }, [processJobSections]);
 
 
   useEffect(() => {
@@ -560,8 +583,14 @@ export default function EvaluatorPage() {
       if (!finalResult) {
         const resultRes = await fetch(`/api/evaluations/result/${jobId}`);
         const resultJson = await resultRes.json();
-        if (!resultJson.ok || !resultJson.data?.completed) {
-          throw new Error(resultJson.message || 'ยังไม่สามารถโหลดผลประเมินได้');
+        if (!resultJson.ok) {
+          throw new Error(resultJson.message || 'ดึงผลประเมินไม่สำเร็จ');
+        }
+        if (resultJson.data?.status === 'failed' || resultJson.data?.status === 'failed_rate_limited') {
+          throw new Error('การประเมินถูกระงับ (Rate Limit) หรือมีข้อผิดพลาดบางส่วน');
+        }
+        if (!resultJson.data?.completed) {
+          throw new Error('งานประเมินยังไม่เสร็จสมบูรณ์');
         }
         finalResult = resultJson.data.result;
       }
@@ -583,6 +612,7 @@ export default function EvaluatorPage() {
         
         setBatchProgress({ current: 1, total: 1 });
         const newResults = [];
+        let currentJobId = activeJobId;
         
         try {
           const res = await fetch(`/api/plans/${selectedPlanId}`);
@@ -597,10 +627,17 @@ export default function EvaluatorPage() {
           });
           setEvaluationResults(newResults);
         } catch (e: any) {
-          newResults.push({ planId: selectedPlanId, title: `พบข้อผิดพลาด: ${e.message}`, overallScore: 0, error: true });
+          newResults.push({ 
+            planId: selectedPlanId, 
+            title: `พบข้อผิดพลาด: ${e.message}`, 
+            overallScore: 0, 
+            error: true,
+            jobId: activeJobId // Pass jobId so we can retry the same job!
+          });
           setEvaluationResults(newResults);
         }
       } else {
+
         if (!fileText) throw new Error("กรุณาอัปโหลดไฟล์ที่อ่านได้ก่อน");
         setBatchProgress({ current: 1, total: 1 });
         // Uploaded files do not have a persisted lessonPlanId yet, so retain the
@@ -1129,7 +1166,7 @@ export default function EvaluatorPage() {
                 onFixAll={() => startFixAll(index)}
                 onSaveDraft={() => saveToDraft(index)}
                 onCancel={resetEvaluationFlow}
-                onRetry={startEvaluation}
+                onRetry={() => result.jobId ? handleEvaluationRetry(result.jobId) : startEvaluation()}
                 isFixing={fixingPlanId !== null && fixingPlanId.startsWith(`${result.planId}-all`)}
                 onEvaluatePA8={() => startEvaluatePA8(index)}
                 isEvaluatingPA8={evaluatingPA8PlanId === result.planId}
