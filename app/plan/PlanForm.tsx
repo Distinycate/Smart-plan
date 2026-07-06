@@ -28,6 +28,7 @@ import {
   getCurriculumBySubject,
   ALL_SUBJECT_CURRICULUM
 } from '../../lib/subjectStandardsData';
+import { runLimitedConcurrency, runWithRetry, FALLBACK_TEMPLATES } from '@/lib/ai/concurrency-utils';
 
 interface PlanFormProps {
   planId?: string;
@@ -1052,50 +1053,50 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         objectiveA: fields.objectiveA
       };
 
-      const [resK, resP] = await Promise.all([
-        fetch('/api/ai-completion-k', {
+      const fetchSection = async (endpoint: string) => {
+        const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestBody)
-        }),
-        fetch('/api/ai-completion-p', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        })
-      ]);
+        });
+        const json = await res.json();
+        if (!json.success || !json.data) {
+          throw new Error(json.error || `Failed to fetch ${endpoint}`);
+        }
+        return json.data;
+      };
 
-      const [resA, resReflect] = await Promise.all([
-        fetch('/api/ai-completion-a', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        }),
-        fetch('/api/ai-completion-reflection', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        })
-      ]);
+      const tasks = [
+        () => runWithRetry('generateCriteriaK', () => fetchSection('/api/ai-completion-k'), FALLBACK_TEMPLATES.K),
+        () => runWithRetry('generateCriteriaP', () => fetchSection('/api/ai-completion-p'), FALLBACK_TEMPLATES.P),
+        () => runWithRetry('generateCriteriaA', () => fetchSection('/api/ai-completion-a'), FALLBACK_TEMPLATES.A),
+        () => runWithRetry('generatePostTeachingNote', () => fetchSection('/api/ai-completion-reflection'), FALLBACK_TEMPLATES.Reflection)
+      ];
 
-      const [jsonK, jsonP] = await Promise.all([
-        resK.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล K ได้' })),
-        resP.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล P ได้' }))
-      ]);
+      const results = await runLimitedConcurrency(tasks);
+      let fallbackCount = 0;
 
-      const [jsonA, jsonReflect] = await Promise.all([
-        resA.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล A ได้' })),
-        resReflect.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Reflection ได้' }))
-      ]);
+      const getTaskData = (index: number) => {
+        const result = results[index];
+        if (result.status === 'fulfilled') {
+          const taskResult = result.value;
+          console.log(`[Phase2] ${taskResult.taskName} finished in ${taskResult.durationMs}ms (attempts: ${taskResult.attemptCount}) - Status: ${taskResult.status}`);
+          if (taskResult.status === 'fallback') fallbackCount++;
+          return taskResult.data;
+        } else {
+          fallbackCount++;
+          console.error(`[Phase2] Task ${index} rejected critically:`, result.reason);
+          // Return raw fallback if the task wrapper itself threw an error (shouldn't happen with runWithRetry)
+          return index === 0 ? FALLBACK_TEMPLATES.K :
+                 index === 1 ? FALLBACK_TEMPLATES.P :
+                 index === 2 ? FALLBACK_TEMPLATES.A : FALLBACK_TEMPLATES.Reflection;
+        }
+      };
 
-      if (!jsonK.success || !jsonK.data || !jsonP.success || !jsonP.data || !jsonA.success || !jsonA.data || !jsonReflect.success || !jsonReflect.data) {
-        throw new Error(jsonK.error || jsonP.error || jsonA.error || jsonReflect.error || 'เกิดข้อผิดพลาดจาก AI ในบางส่วน');
-      }
-
-      const aiK = jsonK.data;
-      const aiP = jsonP.data;
-      const aiA = jsonA.data;
-      const aiReflect = jsonReflect.data;
+      const aiK = getTaskData(0);
+      const aiP = getTaskData(1);
+      const aiA = getTaskData(2);
+      const aiReflect = getTaskData(3);
 
       setFields(prev => ({
         ...prev,
@@ -1124,11 +1125,15 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         solutions: cleanJSONString(aiReflect.solutions) || prev.solutions,
       }));
 
-      triggerToast('AI เติมเต็มแผนการสอนสำเร็จเรียบร้อยแล้ว!', 'success');
+      if (fallbackCount > 0) {
+        triggerToast(`AI เติมเต็มแผนสำเร็จ แต่มี ${fallbackCount} ส่วนที่ใช้ข้อความพื้นฐานเนื่องจากระบบขัดข้อง`, 'info');
+      } else {
+        triggerToast('AI เติมเต็มแผนการสอนสำเร็จเรียบร้อยแล้ว!', 'success');
+      }
 
     } catch (err: any) {
       console.error(err);
-      triggerToast(`ล้มเหลวในการเชื่อมต่อกับ AI: ${err.message}`, 'error');
+      triggerToast(`เกิดข้อผิดพลาดในการประมวลผล: ${err.message}`, 'error');
     } finally {
       setAiLoading(false);
     }
