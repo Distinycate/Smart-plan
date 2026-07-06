@@ -185,11 +185,27 @@ ${boundedIndicatorPrompt}
 ${errorMemoryText}
 
 ให้ตอบกลับเป็น JSON Object เท่านั้น โดยมีคีย์ดังต่อไปนี้:
-1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าครูทำอะไร และนักเรียนทำอะไร)`;
+1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าครูทำอะไร และนักเรียนทำอะไร)
+2. learningContent: (เนื้อหาสาระสำคัญแบบสรุปสั้นๆ สกัดจากกระบวนการสอนข้างต้น)
+3. learningMedia: (สื่อการเรียนรู้ 1-2 อย่าง ที่สกัดจากกระบวนการสอนข้างต้น)
+4. learningSources: (แหล่งเรียนรู้ 1-2 อย่าง ที่สกัดจากกระบวนการสอนข้างต้น)
+5. tasks: (ชิ้นงานหรือภาระงาน 1-2 อย่าง ที่สกัดจากกระบวนการสอนข้างต้น)`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: fastJsonGenerationConfig(3072)
+      generationConfig: {
+        ...fastJsonGenerationConfig(4096),
+        responseSchema: {
+          type: "OBJECT",
+          properties: {
+            learningProcess: { type: "STRING" },
+            learningContent: { type: "STRING" },
+            learningMedia: { type: "ARRAY", items: { type: "STRING" } },
+            learningSources: { type: "ARRAY", items: { type: "STRING" } },
+            tasks: { type: "ARRAY", items: { type: "STRING" } }
+          }
+        }
+      }
     };
 
     const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey, 'process-activity');

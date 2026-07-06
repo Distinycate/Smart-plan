@@ -1012,6 +1012,10 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
       setFields(prev => ({
         ...prev,
         learningProcess: cleanJSONString(activity.learningProcess) || prev.learningProcess,
+        learningContent: cleanJSONString(activity.learningContent) || prev.learningContent,
+        learningMedia: ensureBulletString(activity.learningMedia) || prev.learningMedia,
+        learningSources: ensureBulletString(activity.learningSources) || prev.learningSources,
+        tasks: ensureBulletString(activity.tasks) || prev.tasks,
       }));
 
       triggerToast('AI ร่างโครงสร้างและกระบวนการสำเร็จ! ไปที่ Tab 3 เพื่อสร้างส่วนที่เหลือต่อ', 'success');
@@ -1064,24 +1068,18 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestBody)
-        }),
-        fetch('/api/ai-completion-content', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
         })
       ]);
 
-      const [jsonK, jsonP, jsonA, jsonReflect, jsonContent] = await Promise.all([
+      const [jsonK, jsonP, jsonA, jsonReflect] = await Promise.all([
         resK.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล K ได้' })),
         resP.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล P ได้' })),
         resA.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล A ได้' })),
-        resReflect.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Reflection ได้' })),
-        resContent.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Content ได้' }))
+        resReflect.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Reflection ได้' }))
       ]);
 
-      if (!jsonK.success || !jsonK.data || !jsonP.success || !jsonP.data || !jsonA.success || !jsonA.data || !jsonReflect.success || !jsonReflect.data || !jsonContent.success || !jsonContent.data) {
-        throw new Error(jsonK.error || jsonP.error || jsonA.error || jsonReflect.error || jsonContent.error || 'เกิดข้อผิดพลาดจาก AI ในบางส่วน');
+      if (!jsonK.success || !jsonK.data || !jsonP.success || !jsonP.data || !jsonA.success || !jsonA.data || !jsonReflect.success || !jsonReflect.data) {
+        throw new Error(jsonK.error || jsonP.error || jsonA.error || jsonReflect.error || 'เกิดข้อผิดพลาดจาก AI ในบางส่วน');
       }
 
       const aiK = jsonK.data;
@@ -1114,11 +1112,6 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         resultA: cleanJSONString(aiReflect.resultA) || prev.resultA,
         problems: cleanJSONString(aiReflect.problems) || prev.problems,
         solutions: cleanJSONString(aiReflect.solutions) || prev.solutions,
-        
-        learningContent: cleanJSONString(jsonContent.data.learningContent) || prev.learningContent,
-        learningMedia: ensureBulletString(jsonContent.data.learningMedia) || prev.learningMedia,
-        learningSources: ensureBulletString(jsonContent.data.learningSources) || prev.learningSources,
-        tasks: ensureBulletString(jsonContent.data.tasks) || prev.tasks,
       }));
 
       triggerToast('AI เติมเต็มแผนการสอนสำเร็จเรียบร้อยแล้ว!', 'success');
