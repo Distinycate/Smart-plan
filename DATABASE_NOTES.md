@@ -34,3 +34,13 @@ This project connects to a Supabase PostgreSQL database.
 - `claim_ai_job()` uses a transaction advisory lock so queue promotion is atomic.
 - Queue records are server-only through the service-role client and are ownership-checked against the authenticated user.
 - Processing leases prevent abandoned jobs from blocking later users.
+
+## 7. Lesson Plan Quality Platform Phase 2
+
+- Migration: `database/migrations/09_lesson_plan_quality_platform.sql`
+- Adds six lowercase Quality Platform tables without modifying legacy evaluation tables.
+- Uses existing `LessonPlans.planId VARCHAR(255)` instead of incompatible UUID conversion.
+- Enables RLS; authenticated users receive read-only ownership policies.
+- All mutations and shared cache access are reserved for authenticated server-side APIs
+  using the service role.
+- Migration execution is deferred to a staging/manual runner and must be tested twice.

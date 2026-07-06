@@ -13,6 +13,18 @@
 - Alignment endpoint ต้องมี queue admission ที่เป็นของผู้ใช้และยังไม่หมด lease
 - Prompt alignment ไม่ส่งชื่อครู โรงเรียน อีเมล หรือ secret
 - Word export escape ข้อมูลครู/AI ก่อนประกอบ HTML
+- Quality Platform tables เปิด RLS และให้ผู้ใช้ read เฉพาะ job/plan ของตน.
+- Quality Platform ไม่มี direct client write policy; jobs/results/issues/versions/patches/cache
+  ต้องเขียนผ่าน server-side service role หลังตรวจ auth และ ownership.
+- `evaluation_cache` เป็น service-role only เพื่อป้องกันผลประเมินข้ามผู้ใช้รั่วไหล.
+- Validation API บังคับ auth; การโหลด `lessonPlanId` ใช้ Supabase RLS และไม่คืน raw plan.
+- Rule-based validation ไม่ส่งข้อมูลแผนออกไปยัง AI หรือ third party.
+- Evaluation prompt ส่งเฉพาะ section data ที่ registry อนุญาต ไม่ส่งแผนทั้งฉบับ.
+- Evaluation engine ไม่ส่ง metadata ครู/โรงเรียนใน section ที่ไม่เกี่ยวข้อง.
+- Evaluation API key อ่านจาก server environment เท่านั้น.
+- Phase 5 status/result/process/retry ตรวจ `evaluation_jobs.user_id` กับ authenticated user.
+- Phase 5 โหลด LessonPlan ด้วย RLS ตอน create และตรวจ SHA-256 hash ซ้ำก่อน process.
+- Cache hit ต้องสร้าง completed job ของผู้ใช้ก่อนคืนผล ห้ามคืน shared cache โดยไม่มี ownership record.
 
 ## Known Security Risks
 

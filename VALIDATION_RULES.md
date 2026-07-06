@@ -28,3 +28,20 @@
 
 Foundation UI เปิดเฉพาะ Draft จนกว่า UnitLessons จะพร้อม
 
+## Quality Platform Pre-Evaluation
+
+ก่อนส่งแผนเข้า AI ให้ normalize เป็น canonical `LessonPlan` และเรียก
+`preValidateLessonPlan(plan, mode)`.
+
+Critical ที่ block การประเมิน:
+
+- ไม่มีมาตรฐาน
+- ไม่มีตัวชี้วัด
+- ไม่มีจุดประสงค์
+- ไม่มีกิจกรรม
+- ไม่มี assessment methods
+- ไม่มี assessment tools
+- ไม่มี rubric สำหรับ `wpa_w9` หรือ `committee_4d`
+
+ถ้ามี critical issue ต้องคืน `ready=false` และ
+`status=lesson_plan_not_ready`; ห้ามเรียก AI.

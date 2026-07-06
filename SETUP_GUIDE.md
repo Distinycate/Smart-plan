@@ -41,3 +41,19 @@
 - ลบ key เก่าที่หมดอายุออกจาก Vercel แล้ว redeploy ทุกครั้งหลังแก้ Environment Variables.
 - อย่าตั้ง `GEMINI_API_KEYS` ซ้ำกับ `GEMINI_API_KEY` เพียงค่าเดียว หากต้องการรองรับผู้ใช้พร้อมกันจริง.
 - ตรวจ Vercel Function Logs ว่าไม่มี 401/403/429/503 ต่อเนื่องก่อนเปิด production.
+
+## Quality Platform Phase 2 Migration
+
+1. สำรอง staging database.
+2. ตรวจ `LessonPlans.planId` เป็น `VARCHAR(255)` และมี `user_id`.
+3. รัน `database/migrations/09_lesson_plan_quality_platform.sql`.
+4. รันไฟล์เดิมซ้ำอีกครั้งเพื่อตรวจ idempotency.
+5. ตรวจ 6 tables, constraints, indexes, trigger, RLS และ `SchemaVersions`.
+6. ห้าม deploy production ก่อนผ่าน staging verification.
+
+## Quality Platform Phase 5 Runtime
+
+ตั้ง `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY_EVALUATE` และ
+`GEMINI_EVALUATION_MODEL=gemini-2.5-flash-lite` บน server. หน้า evaluator จะสร้าง
+job แล้วเรียก `/api/evaluations/process` ทีละ section; ห้ามเปลี่ยนเป็น request เดียว
+ที่รอ AI ครบทุก section. ตรวจ flow ตาม `AI_TO_AI_HANDOFF.md` บน staging ก่อน deploy.
