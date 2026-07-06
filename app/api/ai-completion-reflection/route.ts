@@ -94,7 +94,7 @@ ${errorMemoryText}
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
-        ...fastJsonGenerationConfig(1024),
+        ...fastJsonGenerationConfig(4096),
         responseSchema: {
           type: "OBJECT",
           properties: {
