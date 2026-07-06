@@ -30,3 +30,15 @@ Status: Accepted for future work
 
 AI Unit features ต้องบันทึก AIHistory และห้ามเขียนทับข้อมูลครูโดยอัตโนมัติ
 
+## ADR-006 — Unit Export Is Separate From Lesson Export
+
+Status: Accepted
+
+Unit preview/PDF/Word ใช้ routes ใหม่ทั้งหมด เพื่อไม่เปลี่ยน template หรือ behavior ของ export รายคาบเดิม
+
+## ADR-007 — Alignment V1 Is Preview Only
+
+Status: Accepted
+
+Alignment API รองรับ LessonPlan และ UnitPlan, ใช้ indicator จากฐานข้อมูลเมื่อมี,
+validate structured output และบันทึก AIHistory แต่ไม่มี apply endpoint ใน V1.

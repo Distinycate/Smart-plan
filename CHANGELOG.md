@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.1.0-unit-export-alignment] - 2026-07-06
+
+### Added
+- Unit Plan Library with search and status filters.
+- Unit Plan A4 preview, browser PDF flow and Word `.doc` export.
+- Database-grounded Alignment Check for UnitPlan and LessonPlan scopes.
+- Structured alignment validation and preview-only Unit Planner result UI.
+- AIHistory and System_Logs records for alignment checks.
+
+### Changed
+- Main Unit navigation now opens the Unit Plan Library.
+- Draft Unit exports show a visible draft watermark.
+
+### Migration
+- No new table migration beyond 05–07; Alignment uses `AIHistory` from migration 05.
+
+### QA
+- `npm run build` completed successfully with library, export and alignment routes.
+- Visual Word/PDF, AI response and staging database tests remain pending.
+
+### Known Issues
+- Alignment suggestions cannot be applied automatically by design.
+- Native `.docx` generation is not implemented; Word export follows the existing HTML `.doc` strategy.
+
+### Rollback
+- Disable Unit export/alignment routes and UI. Existing UnitPlan and AIHistory data remains intact.
+
 ## [2.0.1-unit-sequence] - 2026-07-06
 
 ### Added

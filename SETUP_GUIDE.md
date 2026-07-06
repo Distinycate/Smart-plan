@@ -30,3 +30,6 @@
 
 หลัง migration 05 ให้รัน `database/migrations/07_unit_lesson_sequence.sql`
 เพื่อเพิ่ม atomic reorder function และ partial unique index จากนั้นรันซ้ำเพื่อทดสอบ idempotency.
+
+ตั้ง `GEMINI_API_KEY_ALIGNMENT` ได้หากต้องการแยก quota สำหรับ Alignment;
+หากไม่ตั้ง ระบบใช้ `GEMINI_API_KEY`.

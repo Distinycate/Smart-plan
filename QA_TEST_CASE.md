@@ -60,3 +60,27 @@
 - TC-AI-Q-010 Evaluator และ AI Fix ใช้ shared queue
 - TC-AI-Q-011 dashboard และ lesson editor ยังใช้งานได้ระหว่างรอ AI
 - TC-AI-Q-012 Lesson save, backup และ Word/PDF ไม่ได้รับผลกระทบ
+
+## Unit Library and Export
+
+- TC-UNIT-LIB-001 คลังแสดง UnitPlans ของผู้ใช้เท่านั้น
+- TC-UNIT-LIB-002 ค้นหาชื่อหน่วย วิชา ชั้น และปีได้
+- TC-UNIT-EXP-001 Draft preview มี watermark
+- TC-UNIT-EXP-002 Ready preview ไม่มี watermark
+- TC-UNIT-EXP-003 Word เปิดได้และภาษาไทย/ตารางไม่เสีย
+- TC-UNIT-EXP-004 Print PDF เป็น A4 และแบ่งหน้าเหมาะสม
+- TC-UNIT-EXP-005 indicator/lesson/assessment/rubric/reflection แสดงเมื่อมี
+- TC-UNIT-EXP-006 export สร้าง System_Logs
+- TC-UNIT-EXP-007 lesson Word/PDF เดิมยังเหมือนเดิม
+
+## Alignment Engine
+
+- TC-ALIGN-001 UnitPlan complete ได้ structured scores 8 มิติ
+- TC-ALIGN-002 LessonPlan scope โหลดข้อมูลได้
+- TC-ALIGN-003 unknown indicator ID สร้าง warning และไม่ invent code
+- TC-ALIGN-004 invalid JSON ถูก reject
+- TC-ALIGN-005 score นอก 0–100 ถูก reject
+- TC-ALIGN-006 ผลสำเร็จสร้าง AIHistory reviewStatus=pending
+- TC-ALIGN-007 AIHistory ล้มเหลวแล้วไม่แสดงผล
+- TC-ALIGN-008 ไม่มีการเปลี่ยน UnitPlan/LessonPlan หลังตรวจ
+- TC-ALIGN-009 ผู้ใช้อื่นตรวจแผนที่ไม่ใช่ของตนไม่ได้

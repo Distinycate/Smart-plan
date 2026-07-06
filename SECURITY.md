@@ -10,6 +10,9 @@
 - HTML export ต้อง escape user/AI content
 - AI output ต้อง validate และ review ก่อน apply
 - AI queue ไม่เปิด anon/browser policy และตรวจเจ้าของ job ทุกครั้ง
+- Alignment endpoint ต้องมี queue admission ที่เป็นของผู้ใช้และยังไม่หมด lease
+- Prompt alignment ไม่ส่งชื่อครู โรงเรียน อีเมล หรือ secret
+- Word export escape ข้อมูลครู/AI ก่อนประกอบ HTML
 
 ## Known Security Risks
 

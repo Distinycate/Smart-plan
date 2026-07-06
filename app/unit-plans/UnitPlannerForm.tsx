@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BookOpen, CheckCircle2, Circle, Loader2, Save, ShieldCheck } from 'lucide-react';
+import { BookOpen, CheckCircle2, Circle, FileDown, Loader2, Printer, Save, ShieldCheck } from 'lucide-react';
 import UnitLessonSequence from './UnitLessonSequence';
+import AlignmentPreview from './AlignmentPreview';
 
 type MasterData = {
   config: Record<string, string>;
@@ -42,6 +43,7 @@ export default function UnitPlannerForm({ unitPlanId }: { unitPlanId?: string })
   const [savedUnitPlanId, setSavedUnitPlanId] = useState(unitPlanId || '');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [notice, setNotice] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   useEffect(() => {
@@ -199,6 +201,22 @@ export default function UnitPlannerForm({ unitPlanId }: { unitPlanId?: string })
     }
   };
 
+  const exportPdf = async () => {
+    if (!savedUnitPlanId) return;
+    setExporting(true);
+    setNotice(null);
+    try {
+      const response = await fetch(`/api/unit-plans/${savedUnitPlanId}/export/pdf`, { method: 'POST' });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.message || 'เตรียม PDF ไม่สำเร็จ');
+      window.open(result.data.url, '_blank', 'noopener,noreferrer');
+    } catch (error: any) {
+      setNotice({ type: 'error', text: error.message });
+    } finally {
+      setExporting(false);
+    }
+  };
+
   if (loading) {
     return <div className="min-h-[60vh] flex items-center justify-center gap-3 font-bold text-slate-600"><Loader2 className="animate-spin" /> กำลังโหลดข้อมูลแผนระดับหน่วย...</div>;
   }
@@ -219,6 +237,12 @@ export default function UnitPlannerForm({ unitPlanId }: { unitPlanId?: string })
           <button type="button" onClick={() => saveUnitPlan('ready')} disabled={saving || !readyToSave || !savedUnitPlanId} className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 font-bold text-white disabled:cursor-not-allowed disabled:opacity-40">
             <ShieldCheck size={18} /> บันทึกเป็นพร้อมใช้
           </button>
+          <button type="button" onClick={exportPdf} disabled={!savedUnitPlanId || exporting} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 font-bold text-slate-700 disabled:opacity-40">
+            {exporting ? <Loader2 className="animate-spin" size={18} /> : <Printer size={18} />} PDF
+          </button>
+          <a href={savedUnitPlanId ? `/api/unit-plans/${savedUnitPlanId}/export/word` : undefined} aria-disabled={!savedUnitPlanId} onClick={event => { if (!savedUnitPlanId) event.preventDefault(); }} className={`inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 font-bold text-slate-700 ${!savedUnitPlanId ? 'pointer-events-none opacity-40' : ''}`}>
+            <FileDown size={18} /> Word
+          </a>
         </div>
       </div>
 
@@ -287,10 +311,18 @@ export default function UnitPlannerForm({ unitPlanId }: { unitPlanId?: string })
             </div>
             <Field label="ชิ้นงาน / ภาระงาน"><textarea rows={4} value={fields.tasks} onChange={event => setValue('tasks', event.target.value)} /></Field>
           </Section>
+
+          <Section title="7. ตรวจความสอดคล้อง">
+            {savedUnitPlanId ? (
+              <AlignmentPreview unitPlanId={savedUnitPlanId} />
+            ) : (
+              <p className="text-sm text-slate-500">บันทึกร่างก่อนจึงจะตรวจความสอดคล้องได้</p>
+            )}
+          </Section>
         </div>
 
         <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-24">
-          <h2 className="font-black text-slate-900">7. ตรวจสอบความครบถ้วน</h2>
+          <h2 className="font-black text-slate-900">ตรวจสอบความครบถ้วน</h2>
           <div className="mt-4 space-y-3">
             {checklist.map(item => (
               <div key={item.label} className="flex gap-2 text-sm">

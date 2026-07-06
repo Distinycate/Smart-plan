@@ -22,4 +22,7 @@ Queue error codes: `E_QUEUE_SCHEMA_MISSING`, `E_QUEUE_UNAVAILABLE`,
 `E_QUEUE_JOB_NOT_FOUND`, `E_QUEUE_ADMISSION_REQUIRED`,
 `E_QUEUE_ADMISSION_INVALID`, `E_QUEUE_WAIT_TIMEOUT`.
 
+Alignment error codes: `E_AI_FAILED`, `E_AI_INVALID_OUTPUT`,
+`E_AI_HISTORY_FAILED`, `E_LESSON_NOT_FOUND`, `E_UNIT_NOT_FOUND`.
+
 ห้ามส่ง secret, service-role key หรือ raw payload ที่มีข้อมูลส่วนบุคคลลง client/log. เมื่อ save ล้มเหลว UI ต้องเก็บข้อมูลใน form.

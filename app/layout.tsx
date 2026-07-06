@@ -58,7 +58,7 @@ export default async function RootLayout({
                     <Link href="/dashboard" className="rounded-lg px-3 py-2 text-sm font-bold text-slate-500 transition-colors hover:bg-pink-50 hover:text-pink-500">
                       แดชบอร์ดจัดการแผน
                     </Link>
-                    <Link href="/unit-plans/new" className="rounded-lg px-3 py-2 text-sm font-bold text-slate-500 transition-colors hover:bg-pink-50 hover:text-pink-500">
+                    <Link href="/unit-plans" className="rounded-lg px-3 py-2 text-sm font-bold text-slate-500 transition-colors hover:bg-pink-50 hover:text-pink-500">
                       แผนเป็นหน่วย
                     </Link>
                   </>
