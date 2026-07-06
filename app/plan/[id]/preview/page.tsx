@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default function PlanPreview() {
   const params = useParams();
@@ -323,7 +324,8 @@ export default function PlanPreview() {
   };
 
   return (
-    <div className="preview-container">
+    <ErrorBoundary>
+      <div className="preview-container">
       {/* Floating control bar for screen viewing */}
       <div className="no-print control-bar">
         <button className="control-btn back-btn" onClick={() => router.push(`/plan/${id}`)}>
@@ -941,5 +943,6 @@ export default function PlanPreview() {
         }
       `}</style>
     </div>
+    </ErrorBoundary>
   );
 }

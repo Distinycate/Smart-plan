@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { 
   FileText, FileEdit, Plus, Search, Filter, Sparkles,
   CheckCircle2, Clock, Download, Eye, Archive, RefreshCw,
@@ -168,6 +169,7 @@ export default function TeacherDashboard() {
     : 'กดปุ่มด้านล่างเพื่อสร้างแผนการสอนแรกของคุณ';
 
   return (
+    <ErrorBoundary>
     <div className="page">
 
       {/* ══════════════════════ HERO ══════════════════════ */}
@@ -754,6 +756,7 @@ export default function TeacherDashboard() {
           .hero-title { font-size:28px; }
         }
       `}</style>
-    </div>
+      </div>
+    </ErrorBoundary>
   );
 }
