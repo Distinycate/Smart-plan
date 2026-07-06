@@ -961,6 +961,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         learningStandard: fields.learningStandard,
         indicatorDuring: fields.indicatorDuring,
         indicatorFinal: fields.indicatorFinal,
+        learningProcess: fields.learningProcess,
         availableMedia: options.media ? options.media.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
         availableSources: options.learningSource ? options.learningSource.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
         availableTasks: options.task ? options.task.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : ''

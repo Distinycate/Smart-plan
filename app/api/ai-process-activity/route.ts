@@ -10,7 +10,7 @@ export const maxDuration = 60;
 export async function POST(req: NextRequest) {
   try {
 
-    const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal, availableMedia, availableSources, availableTasks } = await req.json();
+    const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal, availableMedia, availableSources, availableTasks, learningProcess } = await req.json();
 
     if (!gradeLevel || !subjectName || !lessonTopic) {
       return NextResponse.json({
@@ -168,6 +168,12 @@ ${finalInds || 'ไม่มีข้อมูลตัวชี้วัดป�
     }
 
     const boundedIndicatorPrompt = clipForAi(indicatorPrompt, 8000);
+    const hasExistingProcess = learningProcess && learningProcess.length > 50;
+
+    const processPrompt = hasExistingProcess
+      ? `(ไม่ต้องสร้างกระบวนการเรียนรู้ใหม่ เนื่องจากมีอยู่แล้ว ให้ใช้อ้างอิงจากข้อมูลต่อไปนี้:\n${clipForAi(learningProcess, 5000)}\n)`
+      : `1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าครูทำอะไร และนักเรียนทำอะไร)`;
+
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: LEARNING PROCESS)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
@@ -185,11 +191,26 @@ ${boundedIndicatorPrompt}
 ${errorMemoryText}
 
 ให้ตอบกลับเป็น JSON Object เท่านั้น โดยมีคีย์ดังต่อไปนี้:
-1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าครูทำอะไร และนักเรียนทำอะไร)
-2. learningContent: (สรุปเนื้อหา/สาระสำคัญของบทเรียนนี้แบบกระชับ บังคับว่าต้องมีข้อมูล ห้ามเว้นว่างเด็ดขาด)
+${!hasExistingProcess ? processPrompt + '\n' : ''}2. learningContent: (สรุปเนื้อหา/สาระสำคัญของบทเรียนนี้แบบกระชับ บังคับว่าต้องมีข้อมูล ห้ามเว้นว่างเด็ดขาด)
 3. learningMedia: (สื่อการเรียนรู้ 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableMedia || 'ไม่มีคลังกำหนด ให้คิดเอง'})
 4. learningSources: (แหล่งเรียนรู้ 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableSources || 'ไม่มีคลังกำหนด ให้คิดเอง'})
-5. tasks: (ชิ้นงานหรือภาระงาน 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableTasks || 'ไม่มีคลังกำหนด ให้คิดเอง'})`;
+5. tasks: (ชิ้นงานหรือภาระงาน 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableTasks || 'ไม่มีคลังกำหนด ให้คิดเอง'})
+
+${hasExistingProcess ? 'หมายเหตุ: ให้อ่านกระบวนการสอนเดิมจากข้อมูลที่แนบไป และสร้างเนื้อหาสาระ สื่อ แหล่งเรียนรู้ และชิ้นงานให้สอดคล้องกัน\n' + processPrompt : ''}`;
+
+    const schemaProperties: any = {
+      learningContent: { type: "STRING" },
+      learningMedia: { type: "ARRAY", items: { type: "STRING" } },
+      learningSources: { type: "ARRAY", items: { type: "STRING" } },
+      tasks: { type: "ARRAY", items: { type: "STRING" } }
+    };
+    
+    const schemaRequired = ["learningContent", "learningMedia", "learningSources", "tasks"];
+
+    if (!hasExistingProcess) {
+      schemaProperties.learningProcess = { type: "STRING" };
+      schemaRequired.unshift("learningProcess");
+    }
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
@@ -197,14 +218,8 @@ ${errorMemoryText}
         ...fastJsonGenerationConfig(8192),
         responseSchema: {
           type: "OBJECT",
-          properties: {
-            learningProcess: { type: "STRING" },
-            learningContent: { type: "STRING" },
-            learningMedia: { type: "ARRAY", items: { type: "STRING" } },
-            learningSources: { type: "ARRAY", items: { type: "STRING" } },
-            tasks: { type: "ARRAY", items: { type: "STRING" } }
-          },
-          required: ["learningProcess", "learningContent", "learningMedia", "learningSources", "tasks"]
+          properties: schemaProperties,
+          required: schemaRequired
         }
       }
     };
