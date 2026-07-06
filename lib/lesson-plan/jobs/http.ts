@@ -13,12 +13,13 @@ export function evaluationErrorResponse(error: unknown) {
   }
 
   console.error('Quality evaluation API failed:', error);
+  const realMessage = error instanceof Error ? error.message : String(error);
   return NextResponse.json({
     ok: false,
-    errorCode: 'E_INTERNAL',
-    message: 'เกิดข้อผิดพลาดภายในระบบ กรุณาลองใหม่อีกครั้ง',
-    details: {},
-    recoverable: true,
+    errorCode: 'E_INTERNAL_SERVER_ERROR',
+    message: `เกิดข้อผิดพลาดภายในระบบ: ${realMessage}`,
+    details: { realError: realMessage, errorStack: error instanceof Error ? error.stack : undefined },
+    recoverable: false,
   }, { status: 500 });
 }
 
