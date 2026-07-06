@@ -16,10 +16,11 @@ const friendlyHttpError = (status: number) => {
 
 export async function fetchGeminiWithRetry(
   apiUrl: string,
-  payload: unknown,
-  requestedMaxAttempts = 3,
+  payload: any,
+  requestedMaxAttempts: number = 3,
   customApiKey?: string,
-  keyAffinity = ''
+  keyAffinity: string = '',
+  timeoutMs: number = 28_000
 ) {
   const apiKeys = buildGeminiKeyPool(customApiKey, {
     GEMINI_API_KEYS: process.env.GEMINI_API_KEYS,
@@ -36,9 +37,9 @@ export async function fetchGeminiWithRetry(
   }
 
   // Reserve enough time for JSON parsing and the route response before
-  // Vercel's 60-second hard limit.
+  // Vercel's hard limit.
   const maxAttempts = geminiAttemptLimit(requestedMaxAttempts, apiKeys.length);
-  const deadline = Date.now() + 46_000;
+  const deadline = Date.now() + timeoutMs;
   let lastStatus = 0;
   const rejectedKeyIndexes = new Set<number>();
   const startIndex = keyAffinity
@@ -60,7 +61,7 @@ export async function fetchGeminiWithRetry(
       : baseUrl;
     const finalUrl = `${attemptBaseUrl}?key=${encodeURIComponent(currentKey)}`;
     const controller = new AbortController();
-    const attemptTimeoutMs = Math.max(3_000, Math.min(22_000, remainingMs - 2_000));
+    const attemptTimeoutMs = Math.max(3_000, Math.min(55_000, remainingMs - 2_000));
     const timeoutId = setTimeout(() => controller.abort(), attemptTimeoutMs);
 
     try {

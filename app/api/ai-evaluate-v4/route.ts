@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       };
 
       try {
-        const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey, tag);
+        const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey, tag, 58000);
         const resJson = await response.json();
         const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
         
