@@ -13,10 +13,18 @@ The primary runtime fixes after Phase 5 are already in the working tree:
 - Evaluation results retain `jobId` for retry and downstream improvement.
 - Phase 2 A/reflection responses enforce required keys and server-side non-empty fallbacks.
 - `EvaluationResultDashboard` normalizes `result.issues.ordered` before array operations.
+- `/api/ai-fix`, plan create/update/read and Word export now apply
+  `sanitizeRubricsOutOfAssessmentTools()` so AI-generated Rubric 5-level text
+  cannot remain merged inside `toolK/toolP/toolA`; it is moved to
+  `rubricK/rubricP/rubricA` for table rendering.
 
 Critical regression note: the score aggregator intentionally stores prioritized
 issues as `{ ordered, bySeverity, counts }`. Do not change the dashboard back to
 `const issues = result.issues ?? []`; that caused the completed-result white screen.
+
+Critical rubric layout note: do not remove the sanitizer or prompt rules that keep
+Rubric content out of assessment-tool fields. Existing polluted rows are normalized
+on read/export and will be persisted cleanly only after a teacher saves/updates them.
 
 Do not reintroduce `failed_rate_limited`, `evaluation_results.error_type` or
 `last_retry_at` unless migration 10 has been verified in the target environment.
@@ -68,6 +76,7 @@ Run from the project directory:
 node tests/asyncEvaluationApiContracts.test.mjs
 node tests/aiWorkflowLatencyContracts.test.mjs
 node tests/phase2AndEvaluationUiRegression.test.mjs
+node tests/rubricFieldSanitizerContracts.test.mjs
 npm run build
 git diff --check -- . ':(exclude)tsconfig.tsbuildinfo'
 git status --short

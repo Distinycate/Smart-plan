@@ -202,6 +202,22 @@ Evidence 2026-07-06:
 - live local key slots: 4/4 returned HTTP 200
 - deployment/Vercel key configuration: Not executed; manual verification required
 
+## AI Fix Rubric Field Separation
+
+- TC-AI-FIX-RUBRIC-001 `/api/ai-fix` normalizes AI output before returning `newPlanData`
+- TC-AI-FIX-RUBRIC-002 create plan moves 5-level rubric text from `toolK/toolP/toolA` to `rubricK/rubricP/rubricA`
+- TC-AI-FIX-RUBRIC-003 update plan applies the same normalization before saving
+- TC-AI-FIX-RUBRIC-004 plan detail read returns normalized fields for existing polluted rows
+- TC-AI-FIX-RUBRIC-005 Word export renders rubric text in section 9.1 table, not in เครื่องมือวัดผล
+- TC-AI-FIX-RUBRIC-006 normal instrument names such as “แบบประเมินแบบ Rubric” are preserved when they do not include 5-level rubric details
+
+Evidence 2026-07-07:
+
+- `node tests/rubricFieldSanitizerContracts.test.mjs`: Passed
+- `node tests/phase2AndEvaluationUiRegression.test.mjs`: Passed
+- `npm run build`: Passed
+- Authenticated browser save/export verification: Not executed in this environment. Manual verification required.
+
 ## Unit Library and Export
 
 - TC-UNIT-LIB-001 คลังแสดง UnitPlans ของผู้ใช้เท่านั้น

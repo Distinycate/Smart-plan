@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
 import { getSupabaseAdmin } from '@/lib/supabase'; // keeping for logs if needed
+import { sanitizeRubricsOutOfAssessmentTools } from '@/lib/lesson-plan/rubric-field-sanitizer';
 
 // GET all plans
 export async function GET(req: NextRequest) {
@@ -91,7 +92,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await req.json();
+    const body = sanitizeRubricsOutOfAssessmentTools(await req.json());
     const planStatus = body.planStatus || 'draft';
     const validationError = validateLessonPlanPayload(body, planStatus);
 

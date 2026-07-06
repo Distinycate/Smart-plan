@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { sanitizeRubricsOutOfAssessmentTools } from '@/lib/lesson-plan/rubric-field-sanitizer';
 
 // Helper to escape HTML tags to prevent XSS
 const escapeHtml = (text: string) => {
@@ -269,7 +270,7 @@ export async function GET(
     const { id } = params;
 
     // 1. Fetch the plan details
-    const { data: plan, error } = await supabase
+    let { data: plan, error } = await supabase
       .from('LessonPlans')
       .select('*')
       .eq('planId', id)
@@ -278,6 +279,8 @@ export async function GET(
     if (error || !plan) {
       return new Response('Lesson plan not found', { status: 404 });
     }
+
+    plan = sanitizeRubricsOutOfAssessmentTools(plan);
 
     // 2. Build HTML Content for Word Doc using standard ministry template
     const htmlContent = `

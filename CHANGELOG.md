@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.5.3-rubric-field-separation] - 2026-07-07
+
+### Added
+- Shared sanitizer that moves 5-level rubric text out of `toolK/toolP/toolA`
+  into `rubricK/rubricP/rubricA` without mutating unrelated plan fields.
+- Regression contract test for AI fix, save, plan detail and Word export rubric separation.
+
+### Changed
+- Full-plan AI improvement prompt now explicitly forbids mixing Rubric content into assessment-tool fields.
+- AI-fixed plan data, new plan save, plan update, plan detail read and Word export now apply the same safe rubric-field normalization.
+
+### Fixed
+- Fixed “ปรับปรุงแผน” output where Rubrics were merged into the เครื่องมือวัดผล column instead of rendering as separate Rubric tables below.
+
+### Migration
+- None.
+
+### QA
+- `node tests/rubricFieldSanitizerContracts.test.mjs` passed.
+- `node tests/phase2AndEvaluationUiRegression.test.mjs` passed.
+- `npm run build` passed.
+- `git diff --check -- . ':(exclude)tsconfig.tsbuildinfo'` passed.
+
+### Known Issues
+- Existing database rows are not rewritten automatically; reads/exports are normalized at runtime and a later teacher save will persist the separated fields.
+
+### Rollback
+- Revert the sanitizer, prompt update and API route integrations; no database rollback is required.
+
 ## [2.5.2-phase2-and-result-ui-regression] - 2026-07-07
 
 ### Added
