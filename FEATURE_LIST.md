@@ -33,6 +33,8 @@
 - Async create/process/status/result/retry APIs with one AI section per request
 - Hash/mode evaluation cache and stale-plan protection
 - System-plan evaluator integration with legacy DOCX fallback
+- Bounded two-worker evaluation and concurrent Core/Activity generation
+- Fast teacher-reviewed full-plan improvement preview
 
 ## Pending Runtime Gate
 

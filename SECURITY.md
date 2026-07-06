@@ -25,6 +25,10 @@
 - Phase 5 status/result/process/retry ตรวจ `evaluation_jobs.user_id` กับ authenticated user.
 - Phase 5 โหลด LessonPlan ด้วย RLS ตอน create และตรวจ SHA-256 hash ซ้ำก่อน process.
 - Cache hit ต้องสร้าง completed job ของผู้ใช้ก่อนคืนผล ห้ามคืน shared cache โดยไม่มี ownership record.
+- Admin evaluation ต้องใช้ authenticated Supabase RLS policy เดียวกับ plan detail;
+  ห้ามใช้ service-role โหลดแผนโดยไม่ตรวจ session และห้ามบังคับ owner equality
+  เพราะ Admin มีสิทธิ์ตรวจแผนที่หน้า Admin แสดง.
+- Diagnostic normalize route ต้องบังคับ auth และไม่คืน `user_id` ของเจ้าของแผน.
 
 ## Known Security Risks
 

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getLessonPlanById } from '@/lib/lesson-plan/lesson-plan-repository';
+import { NextRequest } from 'next/server';
+import { createClient } from '@/utils/supabase/server';
 import { normalizeLegacyLessonPlan } from '@/lib/lesson-plan/normalizer';
 import { createLessonPlanHash } from '@/lib/lesson-plan/hash';
 import { preValidateLessonPlan } from '@/lib/lesson-plan';
@@ -7,12 +7,22 @@ import { fail, ok } from '@/lib/api-response';
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return fail('AUTH_REQUIRED', 'กรุณาเข้าสู่ระบบก่อน', { status: 401 });
+    }
+
     const { lessonPlanId } = await request.json();
     if (!lessonPlanId) {
       return fail('UNKNOWN_ERROR', 'Missing lessonPlanId', { status: 400 });
     }
 
-    const { data: rawPlan, error } = await getLessonPlanById(lessonPlanId);
+    const { data: rawPlan, error } = await supabase
+      .from('LessonPlans')
+      .select('*')
+      .eq('planId', lessonPlanId)
+      .maybeSingle();
     if (error || !rawPlan) {
       return fail('LESSON_PLAN_NOT_FOUND', 'Lesson plan not found');
     }
@@ -38,7 +48,6 @@ export async function POST(request: NextRequest) {
     return ok({
       planId: lessonPlanId,
       rawFound: true,
-      rawUserId: rawPlan.user_id,
       normalizedSummary: {
         standardsCount: normalizedPlan.curriculum.standards.length,
         indicatorsCount: normalizedPlan.curriculum.indicators.length,

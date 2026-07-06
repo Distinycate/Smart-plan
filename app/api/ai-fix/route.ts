@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { autoFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
+import { fastJsonGenerationConfig } from '@/lib/geminiRuntime';
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
@@ -14,18 +15,43 @@ export async function POST(req: Request) {
     const apiKey = process.env.GEMINI_API_KEY_FIX || process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY is not configured.");
     
-    const model = 'gemini-2.5-flash';
+    const model =
+      process.env.GEMINI_FIX_MODEL?.trim()
+      || process.env.GEMINI_FAST_MODEL?.trim()
+      || 'gemini-2.5-flash-lite';
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
-    let prompt = autoFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData, null, 2));
-    prompt = prompt.replace('<<<FEEDBACK_CONTENT>>>', feedbackContent || 'ปรับปรุงให้สมบูรณ์ตามเกณฑ์ประเมินแผน');
+    if (!planData || typeof planData !== 'object') {
+      return NextResponse.json(
+        { success: false, error: 'ไม่พบข้อมูลแผนสำหรับปรับปรุง' },
+        { status: 400 }
+      );
+    }
+
+    let compactFeedback = feedbackContent || 'ปรับปรุงให้สมบูรณ์ตามเกณฑ์ประเมินแผน';
+    if (typeof compactFeedback !== 'string') {
+      compactFeedback = JSON.stringify(compactFeedback);
+    }
+    // Old clients may send the entire result including a duplicate original plan.
+    // Bound feedback only; the authoritative plan remains complete.
+    compactFeedback = compactFeedback.slice(0, 8_000);
+
+    let prompt = autoFixPromptTemplate.replace('<<<PLAN_CONTENT>>>', JSON.stringify(planData));
+    prompt = prompt.replace('<<<FEEDBACK_CONTENT>>>', compactFeedback);
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { responseMimeType: 'application/json' }
+      generationConfig: fastJsonGenerationConfig(8_192)
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey);
+    const response = await fetchGeminiWithRetry(
+      apiUrl,
+      payload,
+      2,
+      apiKey,
+      'fix-plan',
+      45_000
+    );
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

@@ -6,6 +6,25 @@
 - ESLint — Not executed: package is not installed in this project.
 - Database, browser and manual regression — Not executed in this environment. Manual verification required.
 
+## AI Workflow Reliability Hotfix — 2026-07-07
+
+- TC-AI-HF-001 Core endpoint live synthetic request: Passed, HTTP 200.
+- TC-AI-HF-002 Activity endpoint live synthetic request: Passed, HTTP 200;
+  learningContent/media/sources/tasks were non-empty.
+- TC-AI-HF-003 Core + Activity concurrent elapsed time: Passed at approximately 10s
+  versus approximately 18.1s measured sequentially before the change.
+- TC-AI-HF-004 full-plan improvement live synthetic request: Passed at approximately
+  7.8s versus approximately 23.9s before the change.
+- TC-AI-HF-005 evaluation health: Passed, HTTP 200 in approximately 1.46s.
+- TC-AI-HF-006 evaluation/patch tables existence: Passed read-only check.
+- TC-AI-HF-007 evaluation result persistence: Passed read-only check; completed jobs
+  contained final result metadata.
+- TC-AI-HF-008 Admin/teacher authenticated browser evaluation: Not executed;
+  test login/session was unavailable.
+- TC-AI-HF-009 production build and TypeScript validation: Passed.
+- TC-AI-HF-010 latency and async API contract tests: Passed.
+- TC-AI-HF-011 production Vercel and two-user test: Not executed. Manual verification required.
+
 ## Lesson Plan Quality Platform Phase 1 — 2026-07-06
 
 - TC-QP-P1-001 legacy flat LessonPlan normalization: Passed.

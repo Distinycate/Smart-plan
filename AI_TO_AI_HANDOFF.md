@@ -1,5 +1,22 @@
 # AI-to-AI Handoff — Quality Platform Phase 1–5
 
+## Urgent Runtime Update — 2026-07-07
+
+The primary runtime fixes after Phase 5 are already in the working tree:
+
+- Core and Activity generation run together; live synthetic elapsed time was ~10s.
+- `/api/ai-fix` uses Flash Lite and compact feedback; live synthetic elapsed time was ~7.8s.
+- Evaluation uses two bounded section workers in the browser.
+- Nested queue + exponential retry was removed from evaluation and patch AI transports.
+- Failure/retry writes use migration 09 fields/status only.
+- Admin evaluation now relies on authenticated RLS rather than strict plan-owner equality.
+- Evaluation results retain `jobId` for retry and downstream improvement.
+
+Do not reintroduce `failed_rate_limited`, `evaluation_results.error_type` or
+`last_retry_at` unless migration 10 has been verified in the target environment.
+Do not reintroduce `runAIRequestQueued(retryWithBackoff(...))` around a transport
+that already has a section deadline.
+
 ## Authority and Safety
 
 Treat the implementation under `lib/lesson-plan/` and `/api/evaluations/*` as the
@@ -30,6 +47,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
 GEMINI_API_KEY_EVALUATE
 GEMINI_EVALUATION_MODEL=gemini-2.5-flash-lite
+GEMINI_FAST_MODEL=gemini-2.5-flash-lite
+GEMINI_FIX_MODEL=gemini-2.5-flash-lite
 ```
 
 `GEMINI_API_KEY` is a fallback. Remove dead keys from deployment configuration
@@ -41,6 +60,7 @@ Run from the project directory:
 
 ```bash
 node tests/asyncEvaluationApiContracts.test.mjs
+node tests/aiWorkflowLatencyContracts.test.mjs
 npm run build
 git diff --check -- . ':(exclude)tsconfig.tsbuildinfo'
 git status --short
@@ -65,6 +85,8 @@ TypeScript compilation. Do not report tests passed unless actually executed.
    completed job.
 9. Modify the plan after create and confirm process rejects the stale hash.
 10. Verify legacy save draft/complete and PDF/Word export still work.
+11. Test once as Admin against another teacher's visible plan.
+12. Record Core+Activity, evaluation total, and improvement elapsed time from Vercel logs.
 
 Uploaded DOCX evaluation intentionally stays on the legacy endpoint because an
 upload has no persisted `lessonPlanId`. Do not route it into Phase 5 without an

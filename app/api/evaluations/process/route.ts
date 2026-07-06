@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
       }
       
       const hasProcessing = allResults?.some(result => result.status === 'processing');
-      const hasFailed = allResults?.some(result => result.status === 'failed' || result.status === 'failed_rate_limited');
+      const hasFailed = allResults?.some(result => result.status === 'failed');
       
       const finalStatus = hasProcessing ? 'processing' : hasFailed ? 'failed' : job.status;
       
@@ -294,22 +294,30 @@ export async function POST(request: NextRequest) {
     if (claimedResult && jobId) {
       const message = safeErrorMessage(error);
       const errorType = classifyAIError(error);
-      const status = errorType === 'rate_limit' ? 'failed_rate_limited' : 'failed';
 
       await supabaseAdmin.from('evaluation_results').update({
-        status,
-        error_type: errorType,
+        status: 'failed',
         error_message: message,
         completed_at: new Date().toISOString(),
-        last_retry_at: new Date().toISOString(),
       }).eq('id', claimedResult.id);
-      
-      return ok({
-        jobId,
-        section: claimedResult.section,
-        status: 'processing', // Job continues
-        processNext: errorType !== 'rate_limit'
-      }, errorType === 'rate_limit' ? 'การประเมินถูกระงับชั่วคราวเนื่องจาก Rate Limit' : 'การประเมิน section ล้มเหลว แต่จะข้ามไปทำส่วนอื่นต่อ');
+
+      await supabaseAdmin.from('evaluation_jobs').update({
+        status: 'failed',
+        current_section: claimedResult.section,
+        error_message: message,
+      }).eq('id', jobId);
+
+      return fail(
+        errorType === 'rate_limit' ? 'AI_RATE_LIMIT' : 'JOB_PROCESS_FAILED',
+        errorType === 'rate_limit'
+          ? 'AI ถูกจำกัดโควตาชั่วคราว กรุณากด retry อีกครั้ง'
+          : 'AI ประเมิน section นี้ไม่สำเร็จ กรุณากด retry',
+        {
+          step,
+          retryable: true,
+          metadata: { jobId, section: claimedResult.section, errorType },
+        }
+      );
     }
     
     return fail('UNKNOWN_ERROR', 'เกิดข้อผิดพลาดภายในระบบ', { step, debugMessage: error instanceof Error ? error.message : String(error) });

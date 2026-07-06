@@ -968,62 +968,61 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         availableTasks: options.task ? options.task.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : ''
       };
 
-      // Run the two heavy generations sequentially. Each call receives its own
-      // Vercel execution window and avoids a simultaneous burst against Gemini.
-      const responseCore = await fetch('/api/ai-process-core', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody)
-      });
-      const jsonCore = await responseCore.json()
-        .catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Core ได้' }));
+      const callAiPart = async (endpoint: string, label: string) => {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+        const json = await response.json()
+          .catch(() => ({ success: false, error: `ไม่สามารถอ่านข้อมูล ${label} ได้` }));
+        if (!response.ok || !json.success || !json.data) {
+          throw new Error(json.error || `AI ไม่สามารถสร้าง ${label} ได้`);
+        }
+        return json.data;
+      };
 
-      if (!jsonCore.success || !jsonCore.data) {
-        throw new Error(jsonCore.error || 'AI ไม่สามารถสร้างโครงสร้างแผนได้');
+      // Core and Activity depend only on the teacher's input, not on each other.
+      // Running both together cuts normal waiting time roughly in half while
+      // preserving whichever result succeeds if the other request is throttled.
+      const [coreResult, activityResult] = await Promise.allSettled([
+        callAiPart('/api/ai-process-core', 'โครงสร้างแผน'),
+        callAiPart('/api/ai-process-activity', 'กิจกรรมการเรียนรู้')
+      ]);
+      const core = coreResult.status === 'fulfilled' ? coreResult.value : null;
+      const activity = activityResult.status === 'fulfilled' ? activityResult.value : null;
+
+      if (!core && !activity) {
+        const coreError = coreResult.status === 'rejected' ? coreResult.reason?.message : '';
+        const activityError = activityResult.status === 'rejected' ? activityResult.reason?.message : '';
+        throw new Error([coreError, activityError].filter(Boolean).join(' / ') || 'AI ไม่สามารถสร้างแผนได้');
       }
 
-      const core = jsonCore.data;
       setFields(prev => ({
         ...prev,
-        essentialConcept: cleanJSONString(core.essentialConcept) || prev.essentialConcept,
-        learningStandard: cleanJSONString(core.learningStandard) || prev.learningStandard,
-        indicatorDuring: cleanJSONString(core.indicatorDuring) || prev.indicatorDuring,
-        indicatorFinal: cleanJSONString(core.indicatorFinal) || prev.indicatorFinal,
-        objectiveK: cleanJSONString(core.objectiveK) || prev.objectiveK,
-        objectiveP: cleanJSONString(core.objectiveP) || prev.objectiveP,
-        objectiveA: cleanJSONString(core.objectiveA) || prev.objectiveA,
-        competencies: ensureBulletString(core.competencies) || prev.competencies,
-        desiredAttributes: ensureBulletString(core.desiredAttributes) || prev.desiredAttributes,
-        skills21: ensureBulletString(core.skills21) || prev.skills21,
+        essentialConcept: cleanJSONString(core?.essentialConcept) || prev.essentialConcept,
+        learningStandard: cleanJSONString(core?.learningStandard) || prev.learningStandard,
+        indicatorDuring: cleanJSONString(core?.indicatorDuring) || prev.indicatorDuring,
+        indicatorFinal: cleanJSONString(core?.indicatorFinal) || prev.indicatorFinal,
+        objectiveK: cleanJSONString(core?.objectiveK) || prev.objectiveK,
+        objectiveP: cleanJSONString(core?.objectiveP) || prev.objectiveP,
+        objectiveA: cleanJSONString(core?.objectiveA) || prev.objectiveA,
+        competencies: ensureBulletString(core?.competencies) || prev.competencies,
+        desiredAttributes: ensureBulletString(core?.desiredAttributes) || prev.desiredAttributes,
+        skills21: ensureBulletString(core?.skills21) || prev.skills21,
+        learningProcess: cleanJSONString(activity?.learningProcess) || prev.learningProcess,
+        learningContent: String(prev.learningContent || '').trim() ? prev.learningContent : cleanJSONString(activity?.learningContent),
+        learningMedia: String(prev.learningMedia || '').trim() ? prev.learningMedia : ensureBulletString(activity?.learningMedia),
+        learningSources: String(prev.learningSources || '').trim() ? prev.learningSources : ensureBulletString(activity?.learningSources),
+        tasks: String(prev.tasks || '').trim() ? prev.tasks : ensureBulletString(activity?.tasks),
       }));
 
-      triggerToast('AI สร้างโครงสร้างแผนแล้ว กำลังสร้างกิจกรรมการเรียนรู้ต่อ...', 'info');
-
-      const responseActivity = await fetch('/api/ai-process-activity', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody)
-      });
-      const jsonActivity = await responseActivity.json()
-        .catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Activity ได้' }));
-
-      if (!jsonActivity.success || !jsonActivity.data) {
-        throw new Error(
-          `${jsonActivity.error || 'AI ไม่สามารถสร้างกิจกรรมได้'} (ระบบเก็บโครงสร้างแผนที่สร้างสำเร็จไว้แล้ว)`
-        );
+      if (core && activity) {
+        triggerToast('AI สร้างโครงสร้าง เนื้อหาสาระ สื่อ แหล่งเรียนรู้ ภาระงาน และกิจกรรมครบแล้ว!', 'success');
+      } else {
+        const missing = core ? 'กิจกรรมการเรียนรู้' : 'โครงสร้างแผน';
+        triggerToast(`AI สร้างข้อมูลได้บางส่วน แต่ส่วน ${missing} ยังไม่สำเร็จ กรุณากดลองอีกครั้ง`, 'error');
       }
-
-      const activity = jsonActivity.data;
-      setFields(prev => ({
-        ...prev,
-        learningProcess: cleanJSONString(activity.learningProcess) || prev.learningProcess,
-        learningContent: String(prev.learningContent || '').trim() ? prev.learningContent : cleanJSONString(activity.learningContent),
-        learningMedia: String(prev.learningMedia || '').trim() ? prev.learningMedia : ensureBulletString(activity.learningMedia),
-        learningSources: String(prev.learningSources || '').trim() ? prev.learningSources : ensureBulletString(activity.learningSources),
-        tasks: String(prev.tasks || '').trim() ? prev.tasks : ensureBulletString(activity.tasks),
-      }));
-
-      triggerToast('AI สร้างโครงสร้าง เนื้อหาสาระ สื่อ แหล่งเรียนรู้ ภาระงาน และกิจกรรมครบแล้ว!', 'success');
     } catch (err: any) {
       console.error(err);
       triggerToast(`ล้มเหลวในการเชื่อมต่อกับ AI: ${err.message}`, 'error');

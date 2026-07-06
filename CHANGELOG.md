@@ -1,5 +1,41 @@
 # Changelog
 
+## [2.5.1-ai-workflow-reliability] - 2026-07-07
+
+### Added
+- Two-worker bounded section processing for evaluation and retry/recheck flows.
+- AI workflow latency contract tests.
+- Auth/RLS protection for the temporary normalize diagnostic route.
+
+### Changed
+- Core and Activity generation now run concurrently and preserve partial success.
+- Full-plan improvement uses Flash Lite, compact feedback, disabled thinking and a bounded deadline.
+- Evaluation/patch transports no longer stack a global single-flight queue with exponential retries.
+- Evaluation create uses the same authenticated RLS access as plan detail, allowing Admin to evaluate visible teacher plans.
+- Evaluation failure/retry persistence is compatible with the original migration 09 schema.
+
+### Fixed
+- Fixed Admin seeing a teacher plan but receiving “not found” when starting evaluation.
+- Fixed evaluation failures silently continuing while writing unsupported `failed_rate_limited`,
+  `error_type` and `last_retry_at` fields.
+- Fixed completed result cards losing their `jobId`, which prevented reliable retry/patch follow-up.
+
+### Migration
+- None required for these fixes.
+
+### QA
+- Core + Activity live synthetic run reduced from about 18.1s sequential to about 10s concurrent.
+- Full-plan improvement live synthetic run reduced from about 23.9s to about 7.8s.
+- Evaluation health returned HTTP 200; required tables, Gemini key, rubrics and modes were available.
+- Production build, latency contracts, async API contracts and migration static test passed.
+
+### Known Issues
+- Authenticated end-to-end browser evaluation could not be run without a test account/session.
+- Vercel production timing and two-user concurrency still require post-deploy verification.
+
+### Rollback
+- Revert this entry's runtime/UI files; no database rollback is needed.
+
 ## [2.5.0-async-quality-evaluation] - 2026-07-06
 
 ### Added

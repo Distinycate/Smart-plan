@@ -1,8 +1,6 @@
 import { randomUUID } from 'crypto';
 import { fetchGeminiWithRetry } from '../../geminiClient';
 import { getRubricCriterion } from '../rubrics/master-rubric';
-import { runAIRequestQueued } from '../../ai/ai-request-queue';
-import { retryWithBackoff } from '../../ai/ai-retry';
 import { validatePatchSafety } from './safety';
 import { getSectionsToRecheck } from './recheck-map';
 import type { LessonPlan, EvaluationMode } from '../schema';
@@ -102,60 +100,47 @@ ${input.issues.slice(0, 3).map((issue, idx) => `${idx + 1}. [${issue.severity}] 
 
   const timeoutMs = process.env.AI_PATCH_TIMEOUT_MS ? Number(process.env.AI_PATCH_TIMEOUT_MS) : 45_000;
 
-  return runAIRequestQueued(async () => {
-    return retryWithBackoff(async () => {
-      const response = await fetchGeminiWithRetry(
-        apiUrl,
-        {
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseMimeType: 'application/json',
-            temperature: 0.1,
-            maxOutputTokens: 2_000,
-          },
-        },
-        1,
-        apiKey,
-        `patch-ai-${input.lessonPlanId}-${input.targetSection}`,
-        timeoutMs
-      );
+  const response = await fetchGeminiWithRetry(
+    apiUrl,
+    {
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        responseMimeType: 'application/json',
+        temperature: 0.1,
+        maxOutputTokens: 2_000,
+        thinkingConfig: { thinkingBudget: 0 },
+      },
+    },
+    2,
+    apiKey,
+    `patch-ai-${input.lessonPlanId}-${input.targetSection}`,
+    Math.min(timeoutMs, 40_000)
+  );
+  const responseJson = await response.json();
+  const output = responseJson.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!output) throw new Error('Gemini returned an empty patch suggestion');
 
-      if (!response.ok) {
-        throw new Error(`Gemini Patch API HTTP ${response.status}: ${response.statusText}`);
-      }
+  const parsed = JSON.parse(output.trim().replace(/^```json\s*/i, '').replace(/\s*```$/, ''));
+  if (parsed.cannotPatch) {
+    console.warn(`[AI Patch Generator] AI marked section ${input.targetSection} as unpatchable. Reason: ${parsed.reason}`);
+    return null;
+  }
 
-      const responseJson = await response.json();
-      const output = responseJson.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!output) throw new Error('Gemini returned an empty patch suggestion');
-
-      const parsed = JSON.parse(output.trim().replace(/^```json\s*/i, '').replace(/\s*```$/, ''));
-
-      if (parsed.cannotPatch) {
-        console.warn(`[AI Patch Generator] AI marked section ${input.targetSection} as unpatchable. Reason: ${parsed.reason}`);
-        return null;
-      }
-
-      // Populate low-level fields
-      const patch: LessonPlanPatch = {
-        id: randomUUID(),
-        target: target,
-        operation: (parsed.operation || 'set') as PatchOperation,
-        path: parsed.path || path,
-        before: targetContent,
-        after: parsed.after,
-        reason: parsed.reason || 'AI ปรับปรุงเนื้อหาอัตโนมัติ',
-        issueCode: input.issues[0]?.issue_type,
-        issueSeverity: input.issues[0]?.severity,
-        affectedSections: getSectionsToRecheck([target]),
-      };
-
-      // Run Safety Guard Checks (Task 6)
-      const safety = validatePatchSafety(patch);
-      if (!safety.valid) {
-        throw new Error(`AI generated unsafe patch: ${safety.reason}`);
-      }
-
-      return patch;
-    });
-  });
+  const patch: LessonPlanPatch = {
+    id: randomUUID(),
+    target,
+    operation: (parsed.operation || 'set') as PatchOperation,
+    path: parsed.path || path,
+    before: targetContent,
+    after: parsed.after,
+    reason: parsed.reason || 'AI ปรับปรุงเนื้อหาอัตโนมัติ',
+    issueCode: input.issues[0]?.issue_type,
+    issueSeverity: input.issues[0]?.severity,
+    affectedSections: getSectionsToRecheck([target]),
+  };
+  const safety = validatePatchSafety(patch);
+  if (!safety.valid) {
+    throw new Error(`AI generated unsafe patch: ${safety.reason}`);
+  }
+  return patch;
 }

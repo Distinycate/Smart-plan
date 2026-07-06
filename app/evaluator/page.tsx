@@ -215,37 +215,48 @@ export default function EvaluatorPage() {
 
   // ── Phase 9: Kick off process loop after job is created ──────────────────
   const processJobSections = useCallback(async (jobId: string) => {
-    let processNext = true;
-    let safety = 0;
-    while (processNext && safety < 20) {
-      safety++;
-      try {
+    try {
+      const statusRes = await fetch(`/api/evaluations/status/${jobId}`);
+      const statusJson = await statusRes.json();
+      if (!statusJson.ok) {
+        throw new Error(statusJson.error?.message || 'โหลดสถานะงานประเมินไม่สำเร็จ');
+      }
+      const pendingSections = (statusJson.data?.sections || [])
+        .filter((section: any) => section.status === 'pending')
+        .map((section: any) => section.section);
+      let nextIndex = 0;
+      const worker = async () => {
+        while (nextIndex < pendingSections.length) {
+          const section = pendingSections[nextIndex++];
         const res = await fetch('/api/evaluations/process', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ jobId }),
+            body: JSON.stringify({ jobId, section }),
         });
         const json = await res.json();
         if (!json.ok) {
-          setError(json.message || 'AI ประเมิน section ไม่สำเร็จ');
-          break;
+            throw new Error(json.error?.message || 'AI ประเมิน section ไม่สำเร็จ');
         }
-        setJobProgress(json.data?.progress ?? 0);
+          setJobProgress(prev => Math.max(prev, json.data?.progress ?? 0));
         if (json.data?.sectionResult) {
           setJobSections(prev => prev.map(s =>
             s.id === json.data?.section ? { ...s, status: 'completed' } : s
           ));
         }
-        processNext = Boolean(json.data?.processNext);
         if (json.data?.result) {
           setQualityResult(json.data.result);
         }
-      } catch {
-        // Network error — will be caught by polling
-        break;
+        }
       }
+      await Promise.all(
+        Array.from(
+          { length: Math.min(2, pendingSections.length) },
+          () => worker()
+        )
+      );
+    } catch (error: any) {
+      setError(error.message || 'AI ประเมิน section ไม่สำเร็จ');
     }
-    // Fetch final result once done
     pollJobStatus(jobId);
   }, [pollJobStatus]);
 
@@ -397,14 +408,14 @@ export default function EvaluatorPage() {
     try {
       const res = await fetch(`/api/evaluations/retry/${jobId}`, { method: 'POST' });
       const json = await res.json();
-      if (!json.ok) throw new Error(json.message);
+      if (!json.ok) throw new Error(json.message || json.error?.message);
       
       setActiveJobId(jobId);
       toast.success('กำลังทำซ้ำการประเมินส่วนที่ล้มเหลว...');
       
       // Update local state to show it's pending again
       setJobSections(prev => prev.map(s => 
-        s.status === 'failed' || s.status === 'failed_rate_limited' ? { ...s, status: 'pending' } : s
+        s.status === 'failed' ? { ...s, status: 'pending' } : s
       ));
       
       await processJobSections(jobId);
@@ -558,37 +569,57 @@ export default function EvaluatorPage() {
       }
       finalResult = resultJson.data.result;
     } else {
-      // Process sections sequentially (non-blocking, updates UI between each)
-      let processNext = true;
-      let safety = 0;
-      while (processNext && safety < 20) {
-        safety++;
-        setLoadingText(`กำลังประเมินส่วนที่ ${safety} เพื่อป้องกัน timeout...`);
-        const res = await fetch('/api/evaluations/process', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ jobId }),
-        });
-        const json = await res.json();
-        if (!json.ok) {
-          const errorPayload = json.error || {};
-          const err = new Error(errorPayload.message || 'AI ประเมิน section ไม่สำเร็จ');
-          (err as any).apiError = errorPayload;
-          throw err;
-        }
-        setJobProgress(json.data?.progress ?? 0);
-        if (json.data?.section) {
-          const finishedSection = json.data.section;
-          setJobSections(prev => prev.map(s =>
-            s.id === finishedSection ? { ...s, status: 'completed' } : s
-          ));
-        }
-        processNext = Boolean(json.data?.processNext);
-        if (json.data?.result) {
-          finalResult = json.data.result;
-        }
+      const statusRes = await fetch(`/api/evaluations/status/${jobId}`);
+      const statusJson = await statusRes.json();
+      if (!statusJson.ok) {
+        throw new Error(statusJson.error?.message || 'ไม่สามารถโหลดรายการส่วนประเมินได้');
       }
-      
+      const pendingSections = (statusJson.data?.sections || [])
+        .filter((section: any) => section.status === 'pending')
+        .map((section: any) => section.section);
+      let nextIndex = 0;
+
+      const processWorker = async () => {
+        while (nextIndex < pendingSections.length) {
+          const section = pendingSections[nextIndex++];
+          setLoadingText(`กำลังประเมิน ${section} (${nextIndex}/${pendingSections.length})...`);
+          setJobSections(prev => prev.map(item =>
+            item.id === section ? { ...item, status: 'processing' } : item
+          ));
+          const res = await fetch('/api/evaluations/process', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ jobId, section }),
+          });
+          const json = await res.json();
+          if (!json.ok) {
+            const errorPayload = json.error || {};
+            const err = new Error(errorPayload.message || 'AI ประเมิน section ไม่สำเร็จ');
+            (err as any).apiError = errorPayload;
+            throw err;
+          }
+          setJobProgress(prev => Math.max(prev, json.data?.progress ?? 0));
+          if (json.data?.section) {
+            const finishedSection = json.data.section;
+            setJobSections(prev => prev.map(s =>
+              s.id === finishedSection ? { ...s, status: 'completed' } : s
+            ));
+          }
+          if (json.data?.result) {
+            finalResult = json.data.result;
+          }
+        }
+      };
+
+      // Two section workers substantially reduce total wait while keeping the
+      // per-user burst bounded. Each server request still handles one section.
+      await Promise.all(
+        Array.from(
+          { length: Math.min(2, pendingSections.length) },
+          () => processWorker()
+        )
+      );
+
       if (!finalResult) {
         const resultRes = await fetch(`/api/evaluations/result/${jobId}`);
         const resultJson = await resultRes.json();
@@ -599,25 +630,24 @@ export default function EvaluatorPage() {
           throw err;
         }
         
-        // If it's a known failure state or not ready, we allow it to return partial data instead of crashing completely.
         const st = resultJson.data?.status;
-        if (st === 'failed' || st === 'failed_rate_limited' || st === 'lesson_plan_not_ready') {
-           finalResult = {
-             status: st,
-             issues: resultJson.data?.issues || [],
-             sections: resultJson.data?.sections || [],
-             partial: true
-           };
-        } else if (!resultJson.data?.completed) {
-          throw new Error('งานประเมินยังไม่เสร็จสมบูรณ์');
-        } else {
-          finalResult = resultJson.data.result;
+        if (!resultJson.data?.completed) {
+          throw new Error(
+            st === 'failed'
+              ? 'มีส่วนประเมินที่ล้มเหลว กรุณากด Retry'
+              : 'งานประเมินยังไม่เสร็จสมบูรณ์'
+          );
         }
+        finalResult = resultJson.data.result;
       }
     }
 
     setQualityResult(finalResult);
-    return adaptQualityPlatformResult(finalResult);
+    return {
+      ...adaptQualityPlatformResult(finalResult),
+      jobId,
+      qualityPlatformResult: finalResult,
+    };
   };
 
   const startEvaluation = async () => {
@@ -631,8 +661,6 @@ export default function EvaluatorPage() {
         
         setBatchProgress({ current: 1, total: 1 });
         const newResults = [];
-        let currentJobId = activeJobId;
-        
         try {
           const res = await fetch(`/api/plans/${selectedPlanId}`);
           const json = await res.json();
@@ -754,7 +782,12 @@ export default function EvaluatorPage() {
         body: JSON.stringify({
           planData: result.originalPlanData,
           isPartial: false,
-          feedbackContent: JSON.stringify(result)
+          feedbackContent: JSON.stringify({
+            summary: result.summary,
+            detailedScores: result.detailedScores,
+            ruleBasedDetails: result.ruleBasedDetails,
+            issues: result.qualityPlatformResult?.issues?.ordered || [],
+          })
         })
       });
       const json = await res.json();

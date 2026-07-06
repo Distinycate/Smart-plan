@@ -46,7 +46,7 @@ export async function POST(
       .from('evaluation_results')
       .select('id,section')
       .eq('job_id', job.id)
-      .in('status', ['failed', 'failed_rate_limited'])
+      .eq('status', 'failed')
       .order('created_at', { ascending: true })
       .limit(1);
     if (section) failedQuery = failedQuery.eq('section', section);
@@ -68,7 +68,6 @@ export async function POST(
       .update({
         status: 'pending',
         error_message: null,
-        error_type: null,
         started_at: null,
         completed_at: null,
       })
@@ -76,7 +75,7 @@ export async function POST(
     if (resetError) throw resetError;
 
     await admin.from('evaluation_jobs').update({
-      status: 'processing',
+      status: 'pending',
       current_section: null,
       error_message: null,
       completed_at: null,

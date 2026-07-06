@@ -8,7 +8,6 @@ import {
   toCanonicalLessonPlan,
 } from '@/lib/lesson-plan';
 import { normalizeEvaluationMode, getEvaluationMode } from '@/lib/lesson-plan/evaluation/modes';
-import { getLessonPlanById } from '@/lib/lesson-plan/lesson-plan-repository';
 import { logApiError, logApiInfo } from '@/lib/logger';
 import { fail, ok } from '@/lib/api-response';
 
@@ -46,15 +45,19 @@ export async function POST(request: NextRequest) {
     }
 
     step = 'fetch_lesson_plan';
-    const { data: sourcePlan, error: planError } = await getLessonPlanById(lessonPlanId);
+    // Use the authenticated client so the same RLS/admin policy as the plan
+    // detail page decides access. A strict owner-id filter broke the Admin
+    // evaluator because Admin can legitimately inspect teachers' plans.
+    const { data: sourcePlan, error: planError } = await supabase
+      .from('LessonPlans')
+      .select('*')
+      .eq('planId', lessonPlanId)
+      .maybeSingle();
     if (planError || !sourcePlan) {
       logApiError(context, planError || new Error('Lesson plan not found'), { lessonPlanId });
       return fail('LESSON_PLAN_NOT_FOUND', 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง', { step });
     }
     
-    // User ID Fallback checks
-    // If the plan is owned by someone else, we could block it, but since getLessonPlanById doesn't enforce user_id here directly yet
-    // we assume auth user is doing it, or the lesson plan user_id matches.
     const userIdToUse = user.id;
 
     step = 'pre_validate';
@@ -90,6 +93,10 @@ export async function POST(request: NextRequest) {
       .select('id,status,progress')
       .eq('lesson_plan_hash', lessonPlanHash)
       .eq('evaluation_mode', evaluationMode)
+      .eq('user_id', user.id)
+      .in('status', ['pending', 'completed', 'lesson_plan_not_ready'])
+      .order('created_at', { ascending: false })
+      .limit(1)
       .maybeSingle();
 
     if (existingJobErr) {
@@ -103,7 +110,11 @@ export async function POST(request: NextRequest) {
         jobId: existingJob.id,
         ready: existingJob.status !== 'lesson_plan_not_ready',
         issues: existingJob.status === 'lesson_plan_not_ready' ? validation.issues : [],
-        sections: getEvaluationMode(evaluationMode).sections.map(s => ({ section: s })),
+        sections: getEvaluationMode(evaluationMode).sections.map(section => ({
+          id: section,
+          section,
+          label: getRubricCriterion(evaluationMode, section)?.title || section,
+        })),
         cacheHit: existingJob.status === 'completed'
       }, 'พบงานประเมินเดิมในระบบ');
     }
@@ -191,6 +202,11 @@ export async function POST(request: NextRequest) {
       progress: cached ? 100 : 0,
       issues: validation.ready ? [] : validation.issues,
       missingRequiredSections: validation.missingRequiredSections,
+      sections: getEvaluationMode(evaluationMode).sections.map(section => ({
+        id: section,
+        section,
+        label: getRubricCriterion(evaluationMode, section)?.title || section,
+      })),
     }, !validation.ready ? 'แผนยังไม่พร้อมสำหรับการประเมิน' : cached ? 'พบผลประเมินจาก cache' : 'สร้างงานประเมินแล้ว');
   } catch (error) {
     logApiError(context, error, { step });

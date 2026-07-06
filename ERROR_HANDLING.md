@@ -47,4 +47,8 @@ Phase 5 error codes:
 Section ที่ล้มเหลวต้องเก็บ `error_message` และ `attempt_count`; ห้ามลบผล section
 ที่สำเร็จแล้ว และ retry ต้อง reset เฉพาะ section ที่เป็น `failed`.
 
+Runtime compatibility note (2026-07-07): failure path ใช้สถานะ `failed` และ fields
+จาก migration 09 เท่านั้น. ห้ามคืน `ok: true` เมื่อ AI section ล้มเหลว เพราะ UI
+จะเข้าใจผิดว่า section สำเร็จและแสดงผลว่าง.
+
 ห้ามส่ง secret, service-role key หรือ raw payload ที่มีข้อมูลส่วนบุคคลลง client/log. เมื่อ save ล้มเหลว UI ต้องเก็บข้อมูลใน form.

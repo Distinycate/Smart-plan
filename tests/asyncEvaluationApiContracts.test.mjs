@@ -14,6 +14,7 @@ assert.match(createRoute, /status = !validation\.ready[\s\S]*'lesson_plan_not_re
 assert.match(createRoute, /\.from\('evaluation_cache'\)/);
 assert.match(createRoute, /\.from\('evaluation_jobs'\)/);
 assert.match(createRoute, /\.from\('evaluation_results'\)/);
+assert.match(createRoute, /\.eq\('user_id', user\.id\)/);
 assert.doesNotMatch(createRoute, /evaluateSection\(/);
 
 assert.match(processRoute, /\.eq\('status', 'pending'\)[\s\S]*\.select\('\*'\)/);
@@ -21,17 +22,20 @@ assert.match(processRoute, /evaluateSection\(/);
 assert.match(processRoute, /aggregateScore\(sectionResults\)/);
 assert.match(processRoute, /\.from\('evaluation_cache'\)\.upsert/);
 assert.match(processRoute, /export const maxDuration = 60/);
+assert.doesNotMatch(processRoute, /failed_rate_limited|error_type|last_retry_at/);
 
 for (const route of [statusRoute, resultRoute, retryRoute]) {
   assert.match(route, /getOwnedJob\(params\.jobId, user\.id\)/);
 }
-assert.match(retryRoute, /\.in\('status', \['failed', 'failed_rate_limited'\]\)/);
+assert.match(retryRoute, /\.eq\('status', 'failed'\)/);
 assert.match(retryRoute, /status: 'pending'/);
+assert.doesNotMatch(retryRoute, /failed_rate_limited|error_type|last_retry_at/);
 
 
 assert.match(evaluatorPage, /fetch\('\/api\/evaluations\/create'/);
 assert.match(evaluatorPage, /fetch\('\/api\/evaluations\/process'/);
 assert.match(evaluatorPage, /\/api\/evaluations\/result\/\$\{jobId\}/);
+assert.match(evaluatorPage, /Math\.min\(2, pendingSections\.length\)/);
 assert.doesNotMatch(
   evaluatorPage.slice(
     evaluatorPage.indexOf('const evaluateWithJob'),
@@ -96,6 +100,5 @@ const supabaseAdminFile = read('lib/supabase/admin.ts');
 assert.match(supabaseAdminFile, /SUPABASE_SERVICE_ROLE_KEY/);
 
 console.log('async evaluation API contract tests passed');
-
 
 
