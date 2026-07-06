@@ -11,6 +11,12 @@ The primary runtime fixes after Phase 5 are already in the working tree:
 - Failure/retry writes use migration 09 fields/status only.
 - Admin evaluation now relies on authenticated RLS rather than strict plan-owner equality.
 - Evaluation results retain `jobId` for retry and downstream improvement.
+- Phase 2 A/reflection responses enforce required keys and server-side non-empty fallbacks.
+- `EvaluationResultDashboard` normalizes `result.issues.ordered` before array operations.
+
+Critical regression note: the score aggregator intentionally stores prioritized
+issues as `{ ordered, bySeverity, counts }`. Do not change the dashboard back to
+`const issues = result.issues ?? []`; that caused the completed-result white screen.
 
 Do not reintroduce `failed_rate_limited`, `evaluation_results.error_type` or
 `last_retry_at` unless migration 10 has been verified in the target environment.
@@ -61,6 +67,7 @@ Run from the project directory:
 ```bash
 node tests/asyncEvaluationApiContracts.test.mjs
 node tests/aiWorkflowLatencyContracts.test.mjs
+node tests/phase2AndEvaluationUiRegression.test.mjs
 npm run build
 git diff --check -- . ':(exclude)tsconfig.tsbuildinfo'
 git status --short

@@ -106,7 +106,8 @@ ${errorMemoryText}
             toolA: { type: "STRING" },
             criteriaA: { type: "STRING" },
             rubricA: { type: "STRING" }
-          }
+          },
+          required: ["measureA", "methodA", "toolA", "criteriaA", "rubricA"]
         }
       }
     };
@@ -135,9 +136,22 @@ ${errorMemoryText}
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }
 
+    const normalizedData = {
+      measureA: String(parsedData.measureA || '').trim()
+        || `พฤติกรรมและคุณลักษณะที่แสดงถึง ${objectiveA || 'ความรับผิดชอบและการมีส่วนร่วม'}`,
+      methodA: String(parsedData.methodA || '').trim()
+        || 'สังเกตพฤติกรรมระหว่างเรียนและการทำงานร่วมกับผู้อื่น',
+      toolA: String(parsedData.toolA || '').trim()
+        || 'แบบสังเกตพฤติกรรมด้านคุณลักษณะ',
+      criteriaA: String(parsedData.criteriaA || '').trim()
+        || 'ผ่านเกณฑ์ระดับดีขึ้นไป',
+      rubricA: String(parsedData.rubricA || '').trim()
+        || '5 = แสดงพฤติกรรมอย่างสม่ำเสมอและเป็นแบบอย่างได้\n4 = แสดงพฤติกรรมอย่างสม่ำเสมอ\n3 = แสดงพฤติกรรมเป็นส่วนใหญ่\n2 = แสดงพฤติกรรมบางครั้งเมื่อได้รับคำแนะนำ\n1 = ยังไม่แสดงพฤติกรรมที่คาดหวัง',
+    };
+
     return NextResponse.json({
       success: true,
-      data: parsedData
+      data: normalizedData
     });
 
   } catch (error: any) {

@@ -103,7 +103,8 @@ ${errorMemoryText}
             resultA: { type: "STRING" },
             problems: { type: "STRING" },
             solutions: { type: "STRING" }
-          }
+          },
+          required: ["resultK", "resultP", "resultA", "problems", "solutions"]
         }
       }
     };
@@ -132,9 +133,22 @@ ${errorMemoryText}
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }
 
+    const normalizedData = {
+      resultK: String(parsedData.resultK || '').trim()
+        || `ผู้เรียนมีความรู้ความเข้าใจเรื่อง ${lessonTopic} ตามจุดประสงค์ที่กำหนด`,
+      resultP: String(parsedData.resultP || '').trim()
+        || 'ผู้เรียนสามารถปฏิบัติกิจกรรมและใช้ทักษะกระบวนการตามขั้นตอนได้',
+      resultA: String(parsedData.resultA || '').trim()
+        || `ผู้เรียนแสดงพฤติกรรมด้าน ${objectiveA || 'ความรับผิดชอบ การมีส่วนร่วม และการทำงานร่วมกัน'} ในระดับที่เหมาะสม`,
+      problems: String(parsedData.problems || '').trim()
+        || 'ผู้เรียนบางส่วนอาจต้องการเวลาและคำแนะนำเพิ่มเติมในการทำกิจกรรมให้ครบตามขั้นตอน',
+      solutions: String(parsedData.solutions || '').trim()
+        || 'ครูจัดกลุ่มช่วยเหลือ ให้คำแนะนำรายบุคคล และปรับเวลาให้เหมาะสมกับความแตกต่างของผู้เรียน',
+    };
+
     return NextResponse.json({
       success: true,
-      data: parsedData
+      data: normalizedData
     });
 
   } catch (error: any) {

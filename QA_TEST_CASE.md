@@ -6,6 +6,18 @@
 - ESLint — Not executed: package is not installed in this project.
 - Database, browser and manual regression — Not executed in this environment. Manual verification required.
 
+## Phase 2 A / Evaluation Result UI Regression — 2026-07-07
+
+- TC-REG-A-001 A assessment API returns measure/method/tool/criteria/rubric: Passed live synthetic test.
+- TC-REG-A-002 post-teaching API returns resultK/resultP/resultA/problems/solutions: Passed live synthetic test.
+- TC-REG-A-003 all ten returned fields are non-empty: Passed.
+- TC-REG-A-004 total concurrent A/reflection elapsed time: Passed at approximately 5s.
+- TC-REG-EVAL-001 stored completed result uses `issues.ordered[]`: Confirmed read-only.
+- TC-REG-EVAL-002 dashboard accepts prioritized issue object and legacy array: Passed contract/build.
+- TC-REG-EVAL-003 missing section evidence arrays do not crash render: Passed contract/build.
+- TC-REG-EVAL-004 production build and TypeScript validation: Passed.
+- TC-REG-EVAL-005 authenticated browser result screen: Not executed; test session unavailable.
+
 ## AI Workflow Reliability Hotfix — 2026-07-07
 
 - TC-AI-HF-001 Core endpoint live synthetic request: Passed, HTTP 200.

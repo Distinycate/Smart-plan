@@ -1111,17 +1111,17 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         criteriaP: cleanJSONString(aiP.criteriaP) || prev.criteriaP,
         rubricP: cleanJSONString(aiP.rubricP) || prev.rubricP,
 
-        measureA: cleanJSONString(aiA.measureA) || prev.measureA,
-        methodA: cleanJSONString(aiA.methodA) || prev.methodA,
-        toolA: cleanJSONString(aiA.toolA) || prev.toolA,
-        criteriaA: cleanJSONString(aiA.criteriaA) || prev.criteriaA,
-        rubricA: cleanJSONString(aiA.rubricA) || prev.rubricA,
+        measureA: cleanJSONString(aiA.measureA) || prev.measureA || FALLBACK_TEMPLATES.A.measureA,
+        methodA: cleanJSONString(aiA.methodA) || prev.methodA || FALLBACK_TEMPLATES.A.methodA,
+        toolA: cleanJSONString(aiA.toolA) || prev.toolA || FALLBACK_TEMPLATES.A.toolA,
+        criteriaA: cleanJSONString(aiA.criteriaA) || prev.criteriaA || FALLBACK_TEMPLATES.A.criteriaA,
+        rubricA: cleanJSONString(aiA.rubricA) || prev.rubricA || FALLBACK_TEMPLATES.A.rubricA,
 
-        resultK: cleanJSONString(aiReflect.resultK) || prev.resultK,
-        resultP: cleanJSONString(aiReflect.resultP) || prev.resultP,
-        resultA: cleanJSONString(aiReflect.resultA) || prev.resultA,
-        problems: cleanJSONString(aiReflect.problems) || prev.problems,
-        solutions: cleanJSONString(aiReflect.solutions) || prev.solutions,
+        resultK: cleanJSONString(aiReflect.resultK) || prev.resultK || FALLBACK_TEMPLATES.Reflection.resultK,
+        resultP: cleanJSONString(aiReflect.resultP) || prev.resultP || FALLBACK_TEMPLATES.Reflection.resultP,
+        resultA: cleanJSONString(aiReflect.resultA) || prev.resultA || FALLBACK_TEMPLATES.Reflection.resultA,
+        problems: cleanJSONString(aiReflect.problems) || prev.problems || FALLBACK_TEMPLATES.Reflection.problems,
+        solutions: cleanJSONString(aiReflect.solutions) || prev.solutions || FALLBACK_TEMPLATES.Reflection.solutions,
       }));
 
       if (fallbackCount > 0) {

@@ -45,7 +45,11 @@ interface EvalResult {
   evaluationMode?: string;
   aggregate?: AggregateScore;
   sections?: SectionResult[];
-  issues?: Issue[];
+  issues?: Issue[] | {
+    ordered?: Issue[];
+    bySeverity?: Record<string, Issue[]>;
+    counts?: Record<string, number>;
+  };
 }
 
 interface Props {
@@ -114,7 +118,14 @@ function ScoreBadge({ score, max }: { score: number; max: number }) {
 
 function SectionCard({ section }: { section: SectionResult }) {
   const [open, setOpen] = useState(false);
-  const pct = section.max_score > 0 ? (section.score / section.max_score) * 100 : 0;
+  const score = Number(section.score || 0);
+  const maxScore = Number(section.max_score || 0);
+  const evidenceFound = Array.isArray(section.evidence_found) ? section.evidence_found : [];
+  const missingEvidence = Array.isArray(section.missing_evidence) ? section.missing_evidence : [];
+  const strengths = Array.isArray(section.strengths) ? section.strengths : [];
+  const weaknesses = Array.isArray(section.weaknesses) ? section.weaknesses : [];
+  const suggestions = Array.isArray(section.suggestions) ? section.suggestions : [];
+  const pct = maxScore > 0 ? (score / maxScore) * 100 : 0;
   const color = pct >= 80 ? '#34d399' : pct >= 60 ? '#fbbf24' : '#f87171';
 
   return (
@@ -144,7 +155,7 @@ function SectionCard({ section }: { section: SectionResult }) {
             <span style={{ fontSize: 11, color }}>{Math.round(pct)}%</span>
           </div>
         </div>
-        <ScoreBadge score={section.score} max={section.max_score} />
+        <ScoreBadge score={score} max={maxScore} />
         {open ? <ChevronUp size={16} color="#64748b" /> : <ChevronDown size={16} color="#64748b" />}
       </button>
 
@@ -156,20 +167,20 @@ function SectionCard({ section }: { section: SectionResult }) {
             </p>
           )}
 
-          {section.evidence_found.length > 0 && (
-            <EvidenceList title="หลักฐานที่พบ" items={section.evidence_found} icon={<CheckCircle size={12} />} color="#34d399" />
+          {evidenceFound.length > 0 && (
+            <EvidenceList title="หลักฐานที่พบ" items={evidenceFound} icon={<CheckCircle size={12} />} color="#34d399" />
           )}
-          {section.missing_evidence.length > 0 && (
-            <EvidenceList title="หลักฐานที่ขาด" items={section.missing_evidence} icon={<XCircle size={12} />} color="#f87171" />
+          {missingEvidence.length > 0 && (
+            <EvidenceList title="หลักฐานที่ขาด" items={missingEvidence} icon={<XCircle size={12} />} color="#f87171" />
           )}
-          {section.strengths.length > 0 && (
-            <EvidenceList title="จุดเด่น" items={section.strengths} icon={<Shield size={12} />} color="#818cf8" />
+          {strengths.length > 0 && (
+            <EvidenceList title="จุดเด่น" items={strengths} icon={<Shield size={12} />} color="#818cf8" />
           )}
-          {section.weaknesses.length > 0 && (
-            <EvidenceList title="จุดที่ควรปรับปรุง" items={section.weaknesses} icon={<AlertTriangle size={12} />} color="#fbbf24" />
+          {weaknesses.length > 0 && (
+            <EvidenceList title="จุดที่ควรปรับปรุง" items={weaknesses} icon={<AlertTriangle size={12} />} color="#fbbf24" />
           )}
-          {section.suggestions.length > 0 && (
-            <EvidenceList title="คำแนะนำ" items={section.suggestions} icon={<Lightbulb size={12} />} color="#60a5fa" />
+          {suggestions.length > 0 && (
+            <EvidenceList title="คำแนะนำ" items={suggestions} icon={<Lightbulb size={12} />} color="#60a5fa" />
           )}
         </div>
       )}
@@ -261,7 +272,11 @@ export default function EvaluationResultDashboard({
 }: Props) {
   const aggregate = result.aggregate;
   const sections = result.sections ?? [];
-  const issues = result.issues ?? [];
+  const issues = Array.isArray(result.issues)
+    ? result.issues
+    : Array.isArray(result.issues?.ordered)
+      ? result.issues.ordered
+      : [];
   const [activeIssueFilter, setActiveIssueFilter] = useState<string>('all');
   const [showSections, setShowSections] = useState(false);
 

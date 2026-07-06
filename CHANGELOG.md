@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.5.2-phase2-and-result-ui-regression] - 2026-07-07
+
+### Added
+- Required-field enforcement and non-empty normalization for A assessment and post-teaching reflection.
+- Runtime guards for cached/current evaluation issue and evidence shapes.
+- Phase 2 and evaluation UI regression contract test.
+
+### Fixed
+- Fixed missing post-teaching `resultA`, `problems` and `solutions`.
+- Fixed successful evaluation opening a white Application Error screen because
+  prioritized issues were an object while the dashboard called array `.filter()`.
+- Fixed missing evidence arrays crashing an expanded section card.
+
+### Migration
+- None.
+
+### QA
+- Live A + reflection synthetic API test passed in approximately 5s; all ten
+  expected fields were non-empty.
+- Read-only production-data shape check confirmed completed jobs store
+  `issues.ordered[]`, matching the diagnosed client exception.
+- Regression contract test and production build passed.
+
+### Known Issues
+- Authenticated end-to-end UI click-through requires a deployed/test login session.
+
+### Rollback
+- Revert the four runtime files and regression test; no database rollback is required.
+
 ## [2.5.1-ai-workflow-reliability] - 2026-07-07
 
 ### Added
