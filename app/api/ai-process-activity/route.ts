@@ -10,7 +10,7 @@ export const maxDuration = 60;
 export async function POST(req: NextRequest) {
   try {
 
-    const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal } = await req.json();
+    const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal, availableMedia, availableSources, availableTasks } = await req.json();
 
     if (!gradeLevel || !subjectName || !lessonTopic) {
       return NextResponse.json({
@@ -186,10 +186,10 @@ ${errorMemoryText}
 
 ให้ตอบกลับเป็น JSON Object เท่านั้น โดยมีคีย์ดังต่อไปนี้:
 1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าครูทำอะไร และนักเรียนทำอะไร)
-2. learningContent: (เนื้อหาสาระสำคัญแบบสรุปสั้นๆ สกัดจากกระบวนการสอนข้างต้น)
-3. learningMedia: (สื่อการเรียนรู้ 1-2 อย่าง ที่สกัดจากกระบวนการสอนข้างต้น)
-4. learningSources: (แหล่งเรียนรู้ 1-2 อย่าง ที่สกัดจากกระบวนการสอนข้างต้น)
-5. tasks: (ชิ้นงานหรือภาระงาน 1-2 อย่าง ที่สกัดจากกระบวนการสอนข้างต้น)`;
+2. learningContent: (สรุปเนื้อหา/สาระสำคัญของบทเรียนนี้แบบกระชับ บังคับว่าต้องมีข้อมูล ห้ามเว้นว่างเด็ดขาด)
+3. learningMedia: (สื่อการเรียนรู้ 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableMedia || 'ไม่มีคลังกำหนด ให้คิดเอง'})
+4. learningSources: (แหล่งเรียนรู้ 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableSources || 'ไม่มีคลังกำหนด ให้คิดเอง'})
+5. tasks: (ชิ้นงานหรือภาระงาน 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableTasks || 'ไม่มีคลังกำหนด ให้คิดเอง'})`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],

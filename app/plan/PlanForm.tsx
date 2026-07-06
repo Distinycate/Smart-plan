@@ -960,7 +960,10 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         totalHours: fields.totalHours,
         learningStandard: fields.learningStandard,
         indicatorDuring: fields.indicatorDuring,
-        indicatorFinal: fields.indicatorFinal
+        indicatorFinal: fields.indicatorFinal,
+        availableMedia: options.media ? options.media.map((o: any) => o.optionText).filter(Boolean).join(', ') : '',
+        availableSources: options.learningSource ? options.learningSource.map((o: any) => o.optionText).filter(Boolean).join(', ') : '',
+        availableTasks: options.task ? options.task.map((o: any) => o.optionText).filter(Boolean).join(', ') : ''
       };
 
       // Run the two heavy generations sequentially. Each call receives its own
