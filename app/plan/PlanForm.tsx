@@ -1048,7 +1048,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         objectiveA: fields.objectiveA
       };
 
-      const [resK, resP, resA, resReflect, resContent] = await Promise.all([
+      const [resK, resP, resA, resReflect] = await Promise.all([
         fetch('/api/ai-completion-k', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
