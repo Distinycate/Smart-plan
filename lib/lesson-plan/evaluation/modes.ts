@@ -72,3 +72,12 @@ export function isSectionInMode(
   return EVALUATION_MODES[mode].sections
     .some(candidate => candidate === section);
 }
+
+export function normalizeEvaluationMode(input: string): EvaluationMode | null {
+  if (isEvaluationMode(input)) return input as EvaluationMode;
+  const normalized = input.toLowerCase().trim();
+  if (normalized === 'basic') return 'lesson_plan_basic';
+  if (normalized === 'wpa' || normalized === 'pa_w9') return 'wpa_w9';
+  if (normalized === 'committee') return 'committee_4d';
+  return null;
+}

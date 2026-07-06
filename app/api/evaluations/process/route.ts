@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
+import { supabaseAdmin } from '@/lib/supabase/admin';
 import {
   aggregateScore,
   evaluateSection,
@@ -9,16 +10,15 @@ import {
   validateGpas,
   type EvaluationSectionResult,
 } from '@/lib/lesson-plan';
-import { evaluationErrorResponse, invalidRequest } from '@/lib/lesson-plan/jobs/http';
 import {
   getOwnedJob,
   loadCanonicalPlan,
-  qualityPlatformAdmin,
   safeErrorMessage,
 } from '@/lib/lesson-plan/jobs/server';
 import type { EvaluationResultRecord } from '@/lib/lesson-plan/jobs/types';
 import { classifyAIError } from '@/lib/ai/ai-error-classifier';
-
+import { logApiError, logApiInfo } from '@/lib/logger';
+import { fail, ok } from '@/lib/api-response';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -26,53 +26,39 @@ export const maxDuration = 60;
 export async function POST(request: NextRequest) {
   let claimedResult: EvaluationResultRecord | null = null;
   let jobId = '';
+  const context = 'api/evaluations/process';
+  let step = 'parse_request';
+
   try {
     const supabase = createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({
-        ok: false,
-        errorCode: 'E_PERMISSION_DENIED',
-        message: 'กรุณาเข้าสู่ระบบก่อนประมวลผลงานประเมิน',
-        details: {},
-        recoverable: true,
-      }, { status: 401 });
+      return fail('AUTH_REQUIRED', 'กรุณาเข้าสู่ระบบก่อนประมวลผลงานประเมิน', { step });
     }
 
     let body: Record<string, unknown>;
     try {
       const value = await request.json();
-      body = value && typeof value === 'object'
-        ? value as Record<string, unknown>
-        : {};
+      body = value && typeof value === 'object' ? value as Record<string, unknown> : {};
     } catch {
-      return invalidRequest('รูปแบบ JSON ไม่ถูกต้อง');
+      return fail('UNKNOWN_ERROR', 'รูปแบบ JSON ไม่ถูกต้อง', { step, status: 400 });
     }
+    
     jobId = String(body.jobId || '').trim();
-    if (!jobId) return invalidRequest('กรุณาระบุ jobId');
+    if (!jobId) return fail('UNKNOWN_ERROR', 'กรุณาระบุ jobId', { step, status: 400 });
 
+    step = 'fetch_job';
     const job = await getOwnedJob(jobId, user.id);
     if (job.status === 'completed') {
-      return NextResponse.json({
-        ok: true,
-        data: { jobId, status: 'completed', progress: 100 },
-        message: 'งานประเมินเสร็จแล้ว',
-        warnings: [],
-      });
+      return ok({ jobId, status: 'completed', progress: 100 }, 'งานประเมินเสร็จแล้ว');
     }
     if (job.status === 'lesson_plan_not_ready' || job.status === 'cancelled') {
-      return NextResponse.json({
-        ok: false,
-        errorCode: 'E_JOB_NOT_PROCESSABLE',
-        message: 'สถานะงานนี้ไม่สามารถประมวลผลได้',
-        details: { status: job.status },
-        recoverable: false,
-      }, { status: 409 });
+      return fail('JOB_PROCESS_FAILED', 'สถานะงานนี้ไม่สามารถประมวลผลได้', { step, metadata: { status: job.status } });
     }
 
-    const admin = qualityPlatformAdmin();
+    step = 'claim_section';
     const requestedSection = String(body.section || '').trim();
-    let candidateQuery = admin
+    let candidateQuery = supabaseAdmin
       .from('evaluation_results')
       .select('*')
       .eq('job_id', jobId)
@@ -80,48 +66,49 @@ export async function POST(request: NextRequest) {
       .order('created_at', { ascending: true })
       .limit(1);
     if (requestedSection) candidateQuery = candidateQuery.eq('section', requestedSection);
+    
     const { data: candidates, error: candidateError } = await candidateQuery;
-    if (candidateError) throw candidateError;
+    if (candidateError) {
+      logApiError(context, candidateError, { step, jobId });
+      return fail('SUPABASE_SELECT_FAILED', 'ไม่สามารถค้นหา section ที่ต้องประเมินได้', { step, debugMessage: JSON.stringify(candidateError) });
+    }
 
     const candidate = candidates?.[0] as EvaluationResultRecord | undefined;
     if (!candidate) {
-      const { data: allResults, error } = await admin
+      step = 'check_job_status';
+      const { data: allResults, error } = await supabaseAdmin
         .from('evaluation_results')
         .select('status')
         .eq('job_id', jobId);
-      if (error) throw error;
+        
+      if (error) {
+        logApiError(context, error, { step, jobId });
+        return fail('SUPABASE_SELECT_FAILED', 'ไม่สามารถดึงข้อมูลสถานะประเมินรวมได้', { step, debugMessage: JSON.stringify(error) });
+      }
+      
       const hasProcessing = allResults?.some(result => result.status === 'processing');
       const hasFailed = allResults?.some(result => result.status === 'failed' || result.status === 'failed_rate_limited');
       
       const finalStatus = hasProcessing ? 'processing' : hasFailed ? 'failed' : job.status;
       
       if (finalStatus === 'failed' && job.status !== 'failed') {
-        await admin.from('evaluation_jobs').update({
+        await supabaseAdmin.from('evaluation_jobs').update({
           status: 'failed',
           error_message: 'ประเมินไม่ครบทุกส่วนเนื่องจากมีข้อผิดพลาด กรุณา Retry',
           current_section: null
         }).eq('id', jobId);
       }
       
-      return NextResponse.json({
-        ok: true,
-        data: {
-          jobId,
-          status: finalStatus,
-          claimed: false,
-          processNext: false,
-        },
-        message: hasProcessing
-          ? 'มี worker อื่นกำลังประมวลผล section นี้'
-          : hasFailed
-            ? 'มี section ที่ล้มเหลว กรุณา retry'
-            : 'ไม่มี section รอประมวลผล',
-        warnings: [],
-      });
+      return ok({
+        jobId,
+        status: finalStatus,
+        claimed: false,
+        processNext: false,
+      }, hasProcessing ? 'มี worker อื่นกำลังประมวลผล section นี้' : hasFailed ? 'มี section ที่ล้มเหลว กรุณา retry' : 'ไม่มี section รอประมวลผล');
     }
 
     const now = new Date().toISOString();
-    const { data: claimedRows, error: claimError } = await admin
+    const { data: claimedRows, error: claimError } = await supabaseAdmin
       .from('evaluation_results')
       .update({
         status: 'processing',
@@ -132,24 +119,26 @@ export async function POST(request: NextRequest) {
       .eq('id', candidate.id)
       .eq('status', 'pending')
       .select('*');
-    if (claimError) throw claimError;
+      
+    if (claimError) {
+      logApiError(context, claimError, { step, jobId });
+      return fail('SUPABASE_UPDATE_FAILED', 'อัปเดตสถานะ section ไม่สำเร็จ', { step, debugMessage: JSON.stringify(claimError) });
+    }
+    
     if (!claimedRows?.length) {
-      return NextResponse.json({
-        ok: true,
-        data: { jobId, claimed: false, status: 'processing', processNext: true },
-        message: 'section ถูก worker อื่นรับไปแล้ว',
-        warnings: [],
-      });
+      return ok({ jobId, claimed: false, status: 'processing', processNext: true }, 'section ถูก worker อื่นรับไปแล้ว');
     }
     claimedResult = claimedRows[0] as EvaluationResultRecord;
 
-    await admin.from('evaluation_jobs').update({
+    step = 'update_job_started';
+    await supabaseAdmin.from('evaluation_jobs').update({
       status: 'processing',
       current_section: claimedResult.section,
       started_at: job.started_at || now,
       error_message: null,
     }).eq('id', jobId).eq('user_id', user.id);
 
+    step = 'evaluate_section';
     const plan = await loadCanonicalPlan(job);
     const ruleBasedFindings = {
       alignment: validateAlignment(plan),
@@ -163,9 +152,10 @@ export async function POST(request: NextRequest) {
       ruleBasedFindings,
     });
 
+    step = 'save_section_result';
     const result = outcome.result;
     const completedAt = new Date().toISOString();
-    const { error: resultError } = await admin
+    const { error: resultError } = await supabaseAdmin
       .from('evaluation_results')
       .update({
         status: 'completed',
@@ -184,15 +174,21 @@ export async function POST(request: NextRequest) {
       })
       .eq('id', claimedResult.id)
       .eq('status', 'processing');
-    if (resultError) throw resultError;
+      
+    if (resultError) {
+      logApiError(context, resultError, { step, jobId });
+      throw resultError; // allow catch block to handle it as section failure
+    }
 
-    await admin
+    step = 'persist_section_issues';
+    await supabaseAdmin
       .from('lesson_plan_issues')
       .delete()
       .eq('job_id', jobId)
       .eq('section', result.section);
+      
     if (result.issues.length) {
-      const { error } = await admin.from('lesson_plan_issues').insert(
+      const { error } = await supabaseAdmin.from('lesson_plan_issues').insert(
         result.issues.map(issue => ({
           job_id: jobId,
           lesson_plan_id: job.lesson_plan_id,
@@ -205,44 +201,44 @@ export async function POST(request: NextRequest) {
           auto_fixable: issue.auto_fixable,
         }))
       );
-      if (error) console.error('Could not persist evaluation issues:', error);
+      if (error) logApiError(context, error, { step, jobId });
     }
 
-    const { data: records, error: recordsError } = await admin
+    step = 'aggregate_job_progress';
+    const { data: records, error: recordsError } = await supabaseAdmin
       .from('evaluation_results')
       .select('*')
       .eq('job_id', jobId)
       .order('created_at', { ascending: true });
-    if (recordsError) throw recordsError;
+      
+    if (recordsError) {
+      logApiError(context, recordsError, { step, jobId });
+      return fail('SUPABASE_SELECT_FAILED', 'ไม่สามารถดึงผลประเมินรวมได้', { step, debugMessage: JSON.stringify(recordsError) });
+    }
+    
     const completed = (records || []).filter(item => item.status === 'completed');
     const total = records?.length || 0;
     const progress = total ? Math.round((completed.length / total) * 100) : 0;
-    const hasRemaining = (records || []).some(item =>
-      item.status === 'pending' || item.status === 'processing'
-    );
+    const hasRemaining = (records || []).some(item => item.status === 'pending' || item.status === 'processing');
 
     if (hasRemaining) {
-      await admin.from('evaluation_jobs').update({
+      await supabaseAdmin.from('evaluation_jobs').update({
         status: 'processing',
         progress,
         current_section: null,
       }).eq('id', jobId);
-      return NextResponse.json({
-        ok: true,
-        data: {
-          jobId,
-          status: 'processing',
-          section: result.section,
-          sectionResult: result,
-          consistencyFlags: outcome.consistencyFlags,
-          progress,
-          processNext: true,
-        },
-        message: 'ประเมิน section สำเร็จ',
-        warnings: outcome.consistencyFlags.map(flag => flag.message),
-      });
+      return ok({
+        jobId,
+        status: 'processing',
+        section: result.section,
+        sectionResult: result,
+        consistencyFlags: outcome.consistencyFlags,
+        progress,
+        processNext: true,
+      }, 'ประเมิน section สำเร็จ');
     }
 
+    step = 'finalize_job';
     const sectionResults = (records || [])
       .map(item => item.raw_json)
       .filter(Boolean) as EvaluationSectionResult[];
@@ -258,7 +254,7 @@ export async function POST(request: NextRequest) {
       issues: prioritizedIssues,
     };
 
-    await admin.from('evaluation_jobs').update({
+    await supabaseAdmin.from('evaluation_jobs').update({
       status: 'completed',
       current_section: null,
       progress: 100,
@@ -274,61 +270,48 @@ export async function POST(request: NextRequest) {
       },
     }).eq('id', jobId);
 
-    const { error: cacheError } = await admin.from('evaluation_cache').upsert({
+    const { error: cacheError } = await supabaseAdmin.from('evaluation_cache').upsert({
       lesson_plan_hash: job.lesson_plan_hash,
       evaluation_mode: job.evaluation_mode,
       final_score: aggregate.percentage,
       final_level: aggregate.level,
       result_json: finalResult,
     }, { onConflict: 'lesson_plan_hash,evaluation_mode' });
-    if (cacheError) console.error('Could not update evaluation cache:', cacheError);
+    if (cacheError) logApiError(context, cacheError, { step, jobId });
 
-    return NextResponse.json({
-      ok: true,
-      data: {
-        jobId,
-        status: 'completed',
-        section: result.section,
-        progress: 100,
-        processNext: false,
-        result: finalResult,
-      },
-      message: 'ประเมินครบทุก section แล้ว',
-      warnings: outcome.consistencyFlags.map(flag => flag.message),
-    });
+    return ok({
+      jobId,
+      status: 'completed',
+      section: result.section,
+      progress: 100,
+      processNext: false,
+      result: finalResult,
+    }, 'ประเมินครบทุก section แล้ว');
+
   } catch (error) {
+    logApiError(context, error, { step, jobId });
+    
     if (claimedResult && jobId) {
-      const admin = qualityPlatformAdmin();
       const message = safeErrorMessage(error);
       const errorType = classifyAIError(error);
       const status = errorType === 'rate_limit' ? 'failed_rate_limited' : 'failed';
 
-      await admin.from('evaluation_results').update({
+      await supabaseAdmin.from('evaluation_results').update({
         status,
         error_type: errorType,
         error_message: message,
         completed_at: new Date().toISOString(),
         last_retry_at: new Date().toISOString(),
       }).eq('id', claimedResult.id);
-
-      // We DO NOT update evaluation_jobs to 'failed' here. 
-      // The job remains 'processing' so the frontend can continue with other sections.
       
-      return NextResponse.json({
-        ok: true,
-        data: {
-          jobId,
-          section: claimedResult.section,
-          status: 'processing',
-          processNext: errorType !== 'rate_limit'
-        },
-        message: errorType === 'rate_limit' 
-          ? 'การประเมินถูกระงับชั่วคราวเนื่องจาก Rate Limit' 
-          : 'การประเมิน section ล้มเหลว แต่จะข้ามไปทำส่วนอื่นต่อ',
-        warnings: [message],
-      });
+      return ok({
+        jobId,
+        section: claimedResult.section,
+        status: 'processing', // Job continues
+        processNext: errorType !== 'rate_limit'
+      }, errorType === 'rate_limit' ? 'การประเมินถูกระงับชั่วคราวเนื่องจาก Rate Limit' : 'การประเมิน section ล้มเหลว แต่จะข้ามไปทำส่วนอื่นต่อ');
     }
-    return evaluationErrorResponse(error);
+    
+    return fail('UNKNOWN_ERROR', 'เกิดข้อผิดพลาดภายในระบบ', { step, debugMessage: error instanceof Error ? error.message : String(error) });
   }
-
 }

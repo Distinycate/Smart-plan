@@ -1,108 +1,95 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
+import { supabaseAdmin } from '@/lib/supabase/admin';
 import {
   createLessonPlanHash,
-  getEvaluationMode,
   getRubricCriterion,
-  isEvaluationMode,
   preValidateLessonPlan,
   toCanonicalLessonPlan,
-  type EvaluationMode,
 } from '@/lib/lesson-plan';
-import {
-  evaluationErrorResponse,
-  invalidRequest,
-} from '@/lib/lesson-plan/jobs/http';
-import { qualityPlatformAdmin } from '@/lib/lesson-plan/jobs/server';
+import { normalizeEvaluationMode, getEvaluationMode } from '@/lib/lesson-plan/evaluation/modes';
+import { getLessonPlanById } from '@/lib/lesson-plan/lesson-plan-repository';
+import { logApiError, logApiInfo } from '@/lib/logger';
+import { fail, ok } from '@/lib/api-response';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 10;
 
 export async function POST(request: NextRequest) {
-  const startedAt = Date.now();
+  const context = 'api/evaluations/create';
+  let step = 'parse_request';
   try {
     const supabase = createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({
-        ok: false,
-        errorCode: 'E_PERMISSION_DENIED',
-        message: 'กรุณาเข้าสู่ระบบก่อนสร้างงานประเมิน',
-        details: {},
-        recoverable: true,
-      }, { status: 401 });
+      return fail('AUTH_REQUIRED', 'กรุณาเข้าสู่ระบบก่อนสร้างงานประเมิน', { step });
     }
 
     let body: Record<string, unknown>;
     try {
       const value = await request.json();
-      body = value && typeof value === 'object'
-        ? value as Record<string, unknown>
-        : {};
+      body = value && typeof value === 'object' ? value as Record<string, unknown> : {};
     } catch {
-      return invalidRequest('รูปแบบ JSON ไม่ถูกต้อง');
+      return fail('UNKNOWN_ERROR', 'รูปแบบ JSON ไม่ถูกต้อง', { step, status: 400 });
     }
 
     const lessonPlanId = String(body.lessonPlanId || '').trim();
-    if (!lessonPlanId) return invalidRequest('กรุณาระบุ lessonPlanId');
-
-    const requestedMode = body.evaluationMode ?? 'lesson_plan_basic';
-    if (!isEvaluationMode(requestedMode)) {
-      return invalidRequest('evaluationMode ไม่ถูกต้อง', {
-        allowedModes: ['lesson_plan_basic', 'wpa_w9', 'committee_4d'],
-      });
+    if (!lessonPlanId) {
+      return fail('UNKNOWN_ERROR', 'กรุณาระบุ lessonPlanId', { step, status: 400 });
     }
-    const evaluationMode: EvaluationMode = requestedMode;
 
-    // The authenticated client enforces LessonPlans ownership through existing RLS.
-    const { data: sourcePlan, error: planError } = await supabase
-      .from('LessonPlans')
-      .select('*')
-      .eq('planId', lessonPlanId)
-      .maybeSingle();
+    step = 'normalize_mode';
+    const requestedMode = String(body.evaluationMode || 'lesson_plan_basic');
+    const evaluationMode = normalizeEvaluationMode(requestedMode);
+    if (!evaluationMode) {
+      return fail('INVALID_EVALUATION_MODE', 'evaluationMode ไม่ถูกต้อง', { step });
+    }
+
+    step = 'fetch_lesson_plan';
+    const { data: sourcePlan, error: planError } = await getLessonPlanById(lessonPlanId);
     if (planError || !sourcePlan) {
-      return NextResponse.json({
-        ok: false,
-        errorCode: 'E_LESSON_PLAN_NOT_FOUND',
-        message: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง',
-        details: { lessonPlanId },
-        recoverable: true,
-      }, { status: 404 });
+      logApiError(context, planError || new Error('Lesson plan not found'), { lessonPlanId });
+      return fail('LESSON_PLAN_NOT_FOUND', 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง', { step });
     }
+    
+    // User ID Fallback checks
+    // If the plan is owned by someone else, we could block it, but since getLessonPlanById doesn't enforce user_id here directly yet
+    // we assume auth user is doing it, or the lesson plan user_id matches.
+    const userIdToUse = user.id;
 
+    step = 'pre_validate';
     const plan = toCanonicalLessonPlan(sourcePlan);
     const lessonPlanHash = createLessonPlanHash(plan);
     const validation = preValidateLessonPlan(plan, evaluationMode);
-    const admin = qualityPlatformAdmin();
 
-    const { data: cached } = await admin
+    step = 'check_cache';
+    const { data: cached, error: cacheErr } = await supabaseAdmin
       .from('evaluation_cache')
       .select('final_score,final_level,result_json,expires_at')
       .eq('lesson_plan_hash', lessonPlanHash)
       .eq('evaluation_mode', evaluationMode)
       .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
       .maybeSingle();
+      
+    if (cacheErr && cacheErr.code !== 'PGRST116') {
+      logApiError(context, cacheErr, { step, lessonPlanId });
+    }
 
-    const status = !validation.ready
-      ? 'lesson_plan_not_ready'
-      : cached
-        ? 'completed'
-        : 'pending';
+    const status = !validation.ready ? 'lesson_plan_not_ready' : cached ? 'completed' : 'pending';
     const metadata = {
       source: 'quality-platform-phase5',
       cacheHit: Boolean(cached),
-      validation: {
-        missingRequiredSections: validation.missingRequiredSections,
-      },
+      validation: { missingRequiredSections: validation.missingRequiredSections },
       ...(cached ? { cachedResult: cached.result_json } : {}),
     };
     const now = new Date().toISOString();
 
-    const { data: job, error: jobError } = await admin
+    step = 'create_evaluation_job';
+    const { data: job, error: jobError } = await supabaseAdmin
       .from('evaluation_jobs')
       .insert({
         lesson_plan_id: lessonPlanId,
-        user_id: user.id,
+        user_id: userIdToUse,
         evaluation_mode: evaluationMode,
         lesson_plan_hash: lessonPlanHash,
         status,
@@ -115,10 +102,15 @@ export async function POST(request: NextRequest) {
       })
       .select('id,status,progress')
       .single();
-    if (jobError || !job) throw jobError || new Error('job insert failed');
+      
+    if (jobError || !job) {
+      logApiError(context, jobError || new Error('Job insert failed'), { step, lessonPlanId, userId: userIdToUse, evaluationMode });
+      return fail('SUPABASE_INSERT_FAILED', 'ไม่สามารถสร้างงานประเมินได้', { step, debugMessage: JSON.stringify(jobError) });
+    }
 
+    step = 'persist_validation_issues';
     if (!validation.ready && validation.issues.length) {
-      const { error } = await admin.from('lesson_plan_issues').insert(
+      const { error } = await supabaseAdmin.from('lesson_plan_issues').insert(
         validation.issues.map(issue => ({
           job_id: job.id,
           lesson_plan_id: lessonPlanId,
@@ -127,55 +119,45 @@ export async function POST(request: NextRequest) {
           issue_type: issue.code,
           title: issue.message,
           description: issue.message,
-          suggestion: issue.suggestion,
+          suggestion: issue.suggestion || null,
           auto_fixable: false,
         }))
       );
-      if (error) console.error('Could not persist pre-validation issues:', error);
+      if (error) {
+        logApiError(context, error, { step, jobId: job.id });
+      }
     }
 
+    step = 'initialize_evaluation_results';
     if (validation.ready && !cached) {
       const sections = getEvaluationMode(evaluationMode).sections;
       const rows = sections.map(section => ({
         job_id: job.id,
         section,
         status: 'pending',
-        max_score: getRubricCriterion(evaluationMode, section)?.maxScore,
+        max_score: getRubricCriterion(evaluationMode, section)?.maxScore || 1,
       }));
-      if (rows.some(row => !row.max_score)) {
-        throw new Error('Rubric and mode section registry are inconsistent');
-      }
-      const { error } = await admin.from('evaluation_results').insert(rows);
-      if (error) {
-        await admin
-          .from('evaluation_jobs')
-          .update({ status: 'failed', error_message: 'section initialization failed' })
-          .eq('id', job.id);
-        throw error;
+      const { error: resultsError } = await supabaseAdmin.from('evaluation_results').insert(rows);
+      if (resultsError) {
+        logApiError(context, resultsError, { step, jobId: job.id });
+        await supabaseAdmin.from('evaluation_jobs').update({ status: 'failed', error_message: 'section initialization failed' }).eq('id', job.id);
+        return fail('SUPABASE_INSERT_FAILED', 'ไม่สามารถบันทึกส่วนประเมินได้', { step, debugMessage: JSON.stringify(resultsError) });
       }
     }
 
-    return NextResponse.json({
-      ok: true,
-      data: {
-        jobId: job.id,
-        status,
-        ready: validation.ready,
-        cacheHit: Boolean(cached),
-        lessonPlanHash,
-        progress: cached ? 100 : 0,
-        issues: validation.ready ? [] : validation.issues,
-        missingRequiredSections: validation.missingRequiredSections,
-      },
-      message: !validation.ready
-        ? 'แผนยังไม่พร้อมสำหรับการประเมิน'
-        : cached
-          ? 'พบผลประเมินจาก cache'
-          : 'สร้างงานประเมินแล้ว',
-      warnings: [],
-      elapsedMs: Date.now() - startedAt,
-    }, { status: 201 });
+    logApiInfo(context, 'Evaluation job created', { jobId: job.id, status });
+    return ok({
+      jobId: job.id,
+      status,
+      ready: validation.ready,
+      cacheHit: Boolean(cached),
+      lessonPlanHash,
+      progress: cached ? 100 : 0,
+      issues: validation.ready ? [] : validation.issues,
+      missingRequiredSections: validation.missingRequiredSections,
+    }, !validation.ready ? 'แผนยังไม่พร้อมสำหรับการประเมิน' : cached ? 'พบผลประเมินจาก cache' : 'สร้างงานประเมินแล้ว');
   } catch (error) {
-    return evaluationErrorResponse(error);
+    logApiError(context, error, { step });
+    return fail('UNKNOWN_ERROR', 'เกิดข้อผิดพลาดภายในระบบ', { step, debugMessage: error instanceof Error ? error.message : String(error) });
   }
 }

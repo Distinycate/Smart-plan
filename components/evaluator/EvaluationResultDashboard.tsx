@@ -278,6 +278,59 @@ export default function EvaluationResultDashboard({
   const levelLabel = LEVEL_LABELS[aggregate?.level ?? ''] ?? aggregate?.level ?? '—';
   const readinessLabel = READINESS_LABELS[aggregate?.readinessStatus ?? ''] ?? aggregate?.readinessStatus ?? '—';
 
+  if ((result as any).partial || !aggregate) {
+    const isNotReady = (result as any).status === 'lesson_plan_not_ready';
+    return (
+      <div style={{ marginTop: 20 }}>
+        <div style={{
+          background: 'rgba(15,23,42,0.9)',
+          border: '1px solid rgba(248,113,113,0.3)',
+          borderRadius: 18,
+          padding: '24px 28px',
+          marginBottom: 16,
+          textAlign: 'center',
+        }}>
+          <AlertTriangle size={36} color="#f87171" style={{ margin: '0 auto 12px' }} />
+          <h3 style={{ fontSize: 18, color: '#f1f5f9', fontWeight: 700, marginBottom: 8 }}>
+            {isNotReady ? 'แผนยังไม่พร้อมสำหรับการประเมิน' : 'ตรวจด้วย AI ไม่สำเร็จ แต่ระบบตรวจโครงสร้างเบื้องต้นได้แล้ว'}
+          </h3>
+          <p style={{ color: '#94a3b8', fontSize: 14 }}>
+            กรุณาแก้ไขปัญหาด้านล่างให้ครบถ้วนก่อนส่งประเมินซ้ำ
+          </p>
+        </div>
+        
+        {issues.length > 0 && (
+          <div>
+            <h4 style={{ fontSize: 16, fontWeight: 700, color: '#e2e8f0', marginBottom: 12 }}>
+              ปัญหาโครงสร้างเบื้องต้น ({issues.length})
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {issues.map((issue, idx) => (
+                <div key={idx} style={{
+                  background: 'rgba(248,113,113,0.1)',
+                  borderLeft: '4px solid #f87171',
+                  padding: '12px 16px',
+                  borderRadius: '0 8px 8px 0'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <XCircle size={16} color="#f87171" />
+                    <span style={{ fontWeight: 700, color: '#f1f5f9' }}>{issue.title}</span>
+                  </div>
+                  <p style={{ fontSize: 13, color: '#cbd5e1', marginBottom: 6 }}>{issue.description}</p>
+                  {issue.suggestion && (
+                    <div style={{ background: 'rgba(0,0,0,0.2)', padding: '8px 12px', borderRadius: 6, fontSize: 12, color: '#94a3b8' }}>
+                      <strong style={{ color: '#60a5fa' }}>คำแนะนำ:</strong> {issue.suggestion}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div style={{ marginTop: 20 }}>
       {/* ── Overall Score ── */}

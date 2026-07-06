@@ -520,7 +520,10 @@ export default function EvaluatorPage() {
     });
     const createJson = await createRes.json();
     if (!createJson.ok) {
-      throw new Error(createJson.message || 'ไม่สามารถสร้าง Evaluation Job ได้');
+      const errorPayload = createJson.error || {};
+      const err = new Error(errorPayload.message || 'ไม่สามารถสร้าง Evaluation Job ได้');
+      (err as any).apiError = errorPayload;
+      throw err;
     }
     if (!createJson.data?.ready) {
       const count = createJson.data?.issues?.length || 0;
@@ -548,7 +551,10 @@ export default function EvaluatorPage() {
       const resultRes = await fetch(`/api/evaluations/result/${jobId}`);
       const resultJson = await resultRes.json();
       if (!resultJson.ok || !resultJson.data?.completed) {
-        throw new Error(resultJson.message || 'ยังไม่สามารถโหลดผลประเมินได้จาก Cache');
+        const errorPayload = resultJson.error || {};
+        const err = new Error(errorPayload.message || 'ยังไม่สามารถโหลดผลประเมินได้จาก Cache');
+        (err as any).apiError = errorPayload;
+        throw err;
       }
       finalResult = resultJson.data.result;
     } else {
@@ -565,7 +571,10 @@ export default function EvaluatorPage() {
         });
         const json = await res.json();
         if (!json.ok) {
-          throw new Error(json.message || 'AI ประเมิน section ไม่สำเร็จ');
+          const errorPayload = json.error || {};
+          const err = new Error(errorPayload.message || 'AI ประเมิน section ไม่สำเร็จ');
+          (err as any).apiError = errorPayload;
+          throw err;
         }
         setJobProgress(json.data?.progress ?? 0);
         if (json.data?.section) {
@@ -584,22 +593,32 @@ export default function EvaluatorPage() {
         const resultRes = await fetch(`/api/evaluations/result/${jobId}`);
         const resultJson = await resultRes.json();
         if (!resultJson.ok) {
-          throw new Error(resultJson.message || 'ดึงผลประเมินไม่สำเร็จ');
+          const errorPayload = resultJson.error || {};
+          const err = new Error(errorPayload.message || 'ดึงผลประเมินไม่สำเร็จ');
+          (err as any).apiError = errorPayload;
+          throw err;
         }
-        if (resultJson.data?.status === 'failed' || resultJson.data?.status === 'failed_rate_limited') {
-          throw new Error('การประเมินถูกระงับ (Rate Limit) หรือมีข้อผิดพลาดบางส่วน');
-        }
-        if (!resultJson.data?.completed) {
+        
+        // If it's a known failure state or not ready, we allow it to return partial data instead of crashing completely.
+        const st = resultJson.data?.status;
+        if (st === 'failed' || st === 'failed_rate_limited' || st === 'lesson_plan_not_ready') {
+           finalResult = {
+             status: st,
+             issues: resultJson.data?.issues || [],
+             sections: resultJson.data?.sections || [],
+             partial: true
+           };
+        } else if (!resultJson.data?.completed) {
           throw new Error('งานประเมินยังไม่เสร็จสมบูรณ์');
+        } else {
+          finalResult = resultJson.data.result;
         }
-        finalResult = resultJson.data.result;
       }
     }
 
     setQualityResult(finalResult);
     return adaptQualityPlatformResult(finalResult);
   };
-
 
   const startEvaluation = async () => {
     setIsEvaluating(true);
@@ -632,6 +651,7 @@ export default function EvaluatorPage() {
             title: `พบข้อผิดพลาด: ${e.message}`, 
             overallScore: 0, 
             error: true,
+            apiError: e.apiError,
             jobId: activeJobId // Pass jobId so we can retry the same job!
           });
           setEvaluationResults(newResults);
@@ -1600,20 +1620,44 @@ function PlanDiffViewer({ original, fixed }: { original: any, fixed: any }) {
 // ── COMPONENT: EvaluationResultCard ──
 function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, onRetry, isFixing, onEvaluatePA8, isEvaluatingPA8, onEvaluateV4, isEvaluatingV4 }: { result: any, index: number, onFixAll: () => void, onSaveDraft: () => void, onCancel: () => void, onRetry: () => void, isFixing: boolean, onEvaluatePA8: () => void, isEvaluatingPA8: boolean, onEvaluateV4: () => void, isEvaluatingV4: boolean }) {
   if (result.error) {
+    const apiError = result.apiError;
     return (
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         className="overflow-hidden rounded-2xl bg-white shadow-sm"
       >
-        <div className="flex flex-col gap-4 bg-rose-50 p-6 md:flex-row md:items-center md:justify-between md:p-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-rose-400 shadow-sm">
+        <div className="flex flex-col gap-4 bg-rose-50 p-6 md:flex-row md:items-start md:justify-between md:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-rose-400 shadow-sm mt-1">
               <AlertTriangle className="h-6 w-6" />
             </div>
             <div>
               <h3 className="text-lg font-bold text-slate-800">{result.title}</h3>
-              <p className="mt-1 text-sm font-medium text-rose-600">วิเคราะห์ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง</p>
+              <p className="mt-1 text-sm font-medium text-rose-600">
+                {apiError ? 'วิเคราะห์ไม่สำเร็จ' : 'วิเคราะห์ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง'}
+              </p>
+              
+              {apiError && (
+                <div className="mt-4 rounded-xl bg-white/60 p-4 border border-rose-100 text-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="font-mono text-xs bg-rose-100 text-rose-700 px-2 py-0.5 rounded font-bold">
+                      {apiError.code || 'UNKNOWN_ERROR'}
+                    </span>
+                    {apiError.step && (
+                      <span className="text-slate-500 text-xs">Step: {apiError.step}</span>
+                    )}
+                  </div>
+                  <p className="font-semibold text-slate-700 mb-1">{apiError.message}</p>
+                  {apiError.debugMessage && (
+                    <div className="mt-2 p-3 bg-slate-900 rounded-lg overflow-x-auto">
+                      <pre className="text-xs text-slate-300 whitespace-pre-wrap font-mono">
+                        {apiError.debugMessage}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
