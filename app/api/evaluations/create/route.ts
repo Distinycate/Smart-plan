@@ -84,6 +84,30 @@ export async function POST(request: NextRequest) {
     };
     const now = new Date().toISOString();
 
+    step = 'check_existing_job';
+    const { data: existingJob, error: existingJobErr } = await supabaseAdmin
+      .from('evaluation_jobs')
+      .select('id,status,progress')
+      .eq('lesson_plan_hash', lessonPlanHash)
+      .eq('evaluation_mode', evaluationMode)
+      .maybeSingle();
+
+    if (existingJobErr) {
+      logApiError(context, existingJobErr, { step, lessonPlanHash });
+    }
+
+    if (existingJob) {
+      logApiInfo(context, 'Found existing evaluation job', { jobId: existingJob.id, status: existingJob.status });
+      // If it exists, return it immediately to avoid unique constraint violation
+      return ok({
+        jobId: existingJob.id,
+        ready: existingJob.status !== 'lesson_plan_not_ready',
+        issues: existingJob.status === 'lesson_plan_not_ready' ? validation.issues : [],
+        sections: getEvaluationMode(evaluationMode).sections.map(s => ({ section: s })),
+        cacheHit: existingJob.status === 'completed'
+      }, 'พบงานประเมินเดิมในระบบ');
+    }
+
     step = 'create_evaluation_job';
     const { data: job, error: jobError } = await supabaseAdmin
       .from('evaluation_jobs')
