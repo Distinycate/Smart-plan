@@ -1,6 +1,9 @@
 import { fetchGeminiWithRetry } from '../../geminiClient';
 import { getRubricCriterion } from '../rubrics/master-rubric';
 import { isSectionInMode } from './modes';
+import { runAIRequestQueued } from '../../ai/ai-request-queue';
+import { retryWithBackoff } from '../../ai/ai-retry';
+
 import {
   buildEvaluationRepairPrompt,
   buildSectionEvaluationPrompt,
@@ -162,41 +165,57 @@ export function createGeminiEvaluationTransport(
   apiKey?: string
 ): EvaluationAiTransport {
   return async request => {
-    const selectedKey =
-      apiKey
-      || process.env.GEMINI_API_KEY_EVALUATE
-      || process.env.GEMINI_API_KEY;
-    if (!selectedKey) throw new Error('GEMINI_API_KEY_EVALUATE is not configured');
+    return runAIRequestQueued(async () => {
+      return retryWithBackoff(async () => {
+        const selectedKey =
+          apiKey
+          || process.env.GEMINI_API_KEY_EVALUATE
+          || process.env.GEMINI_API_KEY;
+        if (!selectedKey) throw new Error('GEMINI_API_KEY_EVALUATE is not configured');
 
-    const model =
-      process.env.GEMINI_EVALUATION_MODEL?.trim()
-      || 'gemini-2.5-flash-lite';
-    const apiUrl =
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-    const response = await fetchGeminiWithRetry(
-      apiUrl,
-      {
-        contents: [{ parts: [{ text: request.prompt }] }],
-        generationConfig: {
-          responseMimeType: 'application/json',
-          responseSchema: EVALUATION_SECTION_RESULT_JSON_SCHEMA,
-          temperature: 0,
-          topP: 0.1,
-          maxOutputTokens: 1_500,
-          thinkingConfig: { thinkingBudget: 0 },
-        },
-      },
-      2,
-      selectedKey,
-      `quality-eval-${request.mode}-${request.section}`,
-      request.timeoutMs
-    );
-    const responseJson = await response.json();
-    const output = responseJson.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!output) throw new Error('Gemini returned an empty section result');
-    return output;
+        const model =
+          process.env.GEMINI_EVALUATION_MODEL?.trim()
+          || 'gemini-2.5-flash-lite';
+        const apiUrl =
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+        // Check timeout configuration
+        const timeoutMs = process.env.AI_SECTION_TIMEOUT_MS
+          ? Number(process.env.AI_SECTION_TIMEOUT_MS)
+          : request.timeoutMs;
+
+        const response = await fetchGeminiWithRetry(
+          apiUrl,
+          {
+            contents: [{ parts: [{ text: request.prompt }] }],
+            generationConfig: {
+              responseMimeType: 'application/json',
+              responseSchema: EVALUATION_SECTION_RESULT_JSON_SCHEMA,
+              temperature: 0,
+              topP: 0.1,
+              maxOutputTokens: 1_500,
+              thinkingConfig: { thinkingBudget: 0 },
+            },
+          },
+          1, // fetchGeminiWithRetry has internal retries, let our backoff wrapper manage the count
+          selectedKey,
+          `quality-eval-${request.mode}-${request.section}`,
+          timeoutMs
+        );
+        
+        if (!response.ok) {
+          throw new Error(`Gemini API HTTP ${response.status}: ${response.statusText || 'Error'}`);
+        }
+
+        const responseJson = await response.json();
+        const output = responseJson.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!output) throw new Error('Gemini returned an empty section result');
+        return output;
+      });
+    });
   };
 }
+
 
 export async function evaluateSection(
   input: EvaluateSectionInput,

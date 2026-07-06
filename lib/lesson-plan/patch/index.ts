@@ -3,3 +3,7 @@ export * from './patch-generator';
 export * from './patch-applier';
 export * from './patch-validator';
 export * from './recheck-map';
+export * from './safety';
+export * from './ai-patch-generator';
+
+

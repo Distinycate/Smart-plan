@@ -31,11 +31,11 @@ export async function POST(
     }
     const section = String(body.section || '').trim();
     const job = await getOwnedJob(params.jobId, user.id);
-    if (job.status !== 'failed') {
+    if (job.status === 'completed') {
       return NextResponse.json({
         ok: false,
         errorCode: 'E_RETRY_NOT_ALLOWED',
-        message: 'retry ได้เฉพาะงานที่มี section ล้มเหลว',
+        message: 'งานประเมินนี้เสร็จสมบูรณ์แล้ว ไม่จำเป็นต้อง retry',
         details: { status: job.status },
         recoverable: false,
       }, { status: 409 });
@@ -46,7 +46,7 @@ export async function POST(
       .from('evaluation_results')
       .select('id,section')
       .eq('job_id', job.id)
-      .eq('status', 'failed')
+      .in('status', ['failed', 'failed_rate_limited'])
       .order('created_at', { ascending: true })
       .limit(1);
     if (section) failedQuery = failedQuery.eq('section', section);
@@ -68,15 +68,15 @@ export async function POST(
       .update({
         status: 'pending',
         error_message: null,
+        error_type: null,
         started_at: null,
         completed_at: null,
       })
-      .eq('id', failed.id)
-      .eq('status', 'failed');
+      .eq('id', failed.id);
     if (resetError) throw resetError;
 
     await admin.from('evaluation_jobs').update({
-      status: 'pending',
+      status: 'processing',
       current_section: null,
       error_message: null,
       completed_at: null,

@@ -16,6 +16,8 @@ import { useRouter } from 'next/navigation';
 import EvaluationModeSelector, { type EvaluationMode } from '@/components/evaluator/EvaluationModeSelector';
 import EvaluationProgressPanel, { type SectionStatus } from '@/components/evaluator/EvaluationProgressPanel';
 import EvaluationResultDashboard from '@/components/evaluator/EvaluationResultDashboard';
+import PatchProgressPanel from '@/components/evaluator/PatchProgressPanel';
+
 
 const adaptQualityPlatformResult = (result: any) => {
   const sections = Array.isArray(result?.sections) ? result.sections : [];
@@ -135,7 +137,20 @@ export default function EvaluatorPage() {
   const [qualityResult, setQualityResult] = useState<any | null>(null);
   const [isPatching, setIsPatching] = useState(false);
   const [recheckJobId, setRecheckJobId] = useState<string | null>(null);
+  
+  // Patch Job states
+  const [patchJobId, setPatchJobId] = useState<string | null>(null);
+  const [patchProgress, setPatchProgress] = useState(0);
+  const [patchStatus, setPatchStatus] = useState<'pending' | 'processing' | 'completed' | 'failed' | 'cancelled'>('pending');
+  const [patchCurrentStep, setPatchCurrentStep] = useState<string | undefined>(undefined);
+  const [patchCompletedSteps, setPatchCompletedSteps] = useState<string[]>([]);
+  const [patchFailedSteps, setPatchFailedSteps] = useState<string[]>([]);
+  const [patchSkippedSteps, setPatchSkippedSteps] = useState<string[]>([]);
+  const [patchStepsCount, setPatchStepsCount] = useState(0);
+  const [patchErrorMessage, setPatchErrorMessage] = useState<string | null>(null);
+
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
+
 
   // ── Phase 9: Stop polling on unmount ──────────────────────────────────────
   useEffect(() => {
@@ -234,7 +249,76 @@ export default function EvaluatorPage() {
     pollJobStatus(jobId);
   }, [pollJobStatus]);
 
-  // ── Phase 9: Auto Fix handler ─────────────────────────────────────────────
+  // ── Phase 10: Auto Fix handler & Patch Pipeline ───────────────────────────
+  const processPatchJob = useCallback(async (jobId: string) => {
+    let processNext = true;
+    let safety = 0;
+    
+    // Helper to fetch status and update UI state
+    const fetchStatus = async () => {
+      const res = await fetch(`/api/lesson-plans/patch/status/${jobId}`);
+      const json = await res.json();
+      if (json.ok) {
+        setPatchProgress(json.data.progress);
+        setPatchStatus(json.data.status);
+        setPatchCurrentStep(json.data.currentStep);
+        setPatchCompletedSteps(json.data.completedSteps);
+        setPatchFailedSteps(json.data.failedSteps);
+        setPatchSkippedSteps(json.data.skippedSteps);
+        setPatchErrorMessage(json.data.error_message);
+        return json.data;
+      }
+      throw new Error(json.message || 'ไม่สามารถโหลดสถานะการปรับปรุงแผนได้');
+    };
+
+    while (processNext && safety < 50) {
+      safety++;
+      try {
+        const processRes = await fetch('/api/lesson-plans/patch/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ patchJobId: jobId })
+        });
+        const processJson = await processRes.json();
+        
+        // Update state from status query
+        const statusData = await fetchStatus();
+        
+        if (!processJson.ok) {
+          // If the process failed, check if the job itself transitioned to failed
+          if (statusData.status === 'failed') {
+            processNext = false;
+            toast.error(processJson.message || 'การปรับปรุงแผนล้มเหลวชั่วคราว');
+            break;
+          }
+        }
+        
+        processNext = Boolean(processJson.data?.processNext && statusData.status !== 'completed' && statusData.status !== 'failed');
+        
+        if (statusData.status === 'completed') {
+          toast.success('ปรับปรุงแผนการสอนครบทุกส่วนแล้ว — เริ่มการตรวจซ้ำ (Recheck)');
+          if (statusData.recheckJobId) {
+            setRecheckJobId(statusData.recheckJobId);
+            setActiveJobId(statusData.recheckJobId);
+            setIsEvaluating(true);
+            setQualityResult(null);
+            setJobProgress(0);
+            setIsPatching(false);
+            setPatchJobId(null);
+            await processJobSections(statusData.recheckJobId);
+          }
+          break;
+        }
+      } catch (err: any) {
+        setPatchStatus('failed');
+        setPatchErrorMessage(err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ');
+        toast.error(err.message || 'การปรับปรุงล้มเหลว');
+        processNext = false;
+        break;
+      }
+    }
+  }, [processJobSections]);
+
   const handleAutoFix = useCallback(async (mode: 'auto_fix_critical' | 'auto_fix_critical_high' | 'full_improvement') => {
     const jobId = activeJobId || (evaluationResults[0]?.jobId);
     const planId = selectedPlanId;
@@ -242,33 +326,70 @@ export default function EvaluatorPage() {
       toast.error('กรุณาเลือกแผนและประเมินก่อนแก้ไข');
       return;
     }
+    
     setIsPatching(true);
+    setPatchStatus('pending');
+    setPatchProgress(0);
+    setPatchErrorMessage(null);
+    setPatchCompletedSteps([]);
+    setPatchFailedSteps([]);
+    setPatchSkippedSteps([]);
+    
     try {
-      const res = await fetch('/api/lesson-plans/patch', {
+      const res = await fetch('/api/lesson-plans/patch/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lessonPlanId: planId, jobId, mode }),
+        body: JSON.stringify({ lessonPlanId: planId, evaluationJobId: jobId, mode }),
       });
       const json = await res.json();
       if (!json.ok) {
-        toast.error(json.message || 'ไม่สามารถแก้ไขแผนได้');
+        toast.error(json.message || 'ไม่สามารถสร้างงานปรับปรุงแผนได้');
+        setIsPatching(false);
         return;
       }
-      toast.success(`แก้ไขสำเร็จ ${json.patchCount} จุด — เริ่ม Recheck...`);
-      if (json.recheckJobId) {
-        setRecheckJobId(json.recheckJobId);
-        setActiveJobId(json.recheckJobId);
-        setIsEvaluating(true);
-        setQualityResult(null);
-        setJobProgress(0);
-        await processJobSections(json.recheckJobId);
+      
+      if (json.data.ready) {
+        toast.success(json.data.message);
+        setIsPatching(false);
+        return;
       }
+      
+      const newPatchJobId = json.data.patchJobId;
+      setPatchJobId(newPatchJobId);
+      setPatchStepsCount(json.data.stepsCount);
+      setPatchStatus('processing');
+      
+      // Start processing steps sequentially
+      await processPatchJob(newPatchJobId);
+      
     } catch (err: any) {
-      toast.error(err.message || 'เกิดข้อผิดพลาดในการแก้ไข');
-    } finally {
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการสร้างงานปรับปรุงแผน');
       setIsPatching(false);
     }
-  }, [activeJobId, evaluationResults, selectedPlanId, processJobSections]);
+  }, [activeJobId, evaluationResults, selectedPlanId, processPatchJob]);
+
+  const handlePatchRetry = useCallback(async () => {
+    if (!patchJobId) return;
+    try {
+      setPatchStatus('processing');
+      setPatchErrorMessage(null);
+      const res = await fetch(`/api/lesson-plans/patch/retry/${patchJobId}`, {
+        method: 'POST'
+      });
+      const json = await res.json();
+      if (!json.ok) {
+        toast.error(json.message || 'ไม่สามารถเริ่มต้นใหม่ได้');
+        setPatchStatus('failed');
+        return;
+      }
+      toast.success('กำลังเริ่มต้นทำซ้ำสำหรับขั้นตอนที่ล้มเหลว...');
+      await processPatchJob(patchJobId);
+    } catch (err: any) {
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการเริ่มใหม่');
+      setPatchStatus('failed');
+    }
+  }, [patchJobId, processPatchJob]);
+
 
 
   useEffect(() => {
@@ -1017,8 +1138,26 @@ export default function EvaluatorPage() {
               />
             ))}
 
+            {/* ── Phase 10: Auto Fix Progress Panel ── */}
+            {isPatching && patchJobId && (
+              <div className="mb-6">
+                <PatchProgressPanel
+                  progress={patchProgress}
+                  status={patchStatus}
+                  currentStep={patchCurrentStep}
+                  completedSteps={patchCompletedSteps}
+                  failedSteps={patchFailedSteps}
+                  skippedSteps={patchSkippedSteps}
+                  stepsCount={patchStepsCount}
+                  errorMessage={patchErrorMessage}
+                  onRetry={handlePatchRetry}
+                />
+              </div>
+            )}
+
             {/* ── Phase 9: Quality Platform Result Dashboard ── */}
             {qualityResult && (
+
               <div className="rounded-[2rem] bg-slate-900 p-6 shadow-lg">
                 <EvaluationResultDashboard
                   result={qualityResult}

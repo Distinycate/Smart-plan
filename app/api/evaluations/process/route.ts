@@ -17,6 +17,8 @@ import {
   safeErrorMessage,
 } from '@/lib/lesson-plan/jobs/server';
 import type { EvaluationResultRecord } from '@/lib/lesson-plan/jobs/types';
+import { classifyAIError } from '@/lib/ai/ai-error-classifier';
+
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -287,17 +289,24 @@ export async function POST(request: NextRequest) {
     if (claimedResult && jobId) {
       const admin = qualityPlatformAdmin();
       const message = safeErrorMessage(error);
+      const errorType = classifyAIError(error);
+      const status = errorType === 'rate_limit' ? 'failed_rate_limited' : 'failed';
+
       await admin.from('evaluation_results').update({
-        status: 'failed',
+        status,
+        error_type: errorType,
         error_message: message,
         completed_at: new Date().toISOString(),
+        last_retry_at: new Date().toISOString(),
       }).eq('id', claimedResult.id);
+
       await admin.from('evaluation_jobs').update({
         status: 'failed',
         current_section: claimedResult.section,
-        error_message: message,
+        error_message: `${errorType}: ${message}`,
       }).eq('id', jobId);
     }
     return evaluationErrorResponse(error);
   }
+
 }

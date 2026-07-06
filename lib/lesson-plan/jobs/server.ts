@@ -1,6 +1,4 @@
-import 'server-only';
-
-import { getSupabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase/admin';
 import { createLessonPlanHash } from '../hash';
 import { toCanonicalLessonPlan } from '../guards';
 import type { EvaluationJobRecord } from './types';
@@ -18,7 +16,16 @@ export class EvaluationJobError extends Error {
 }
 
 export function qualityPlatformAdmin() {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  // Config guard is already executed inside supabase/admin.ts but kept here for strict validation error response format.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL && !process.env.SUPABASE_URL) {
+    throw new EvaluationJobError(
+      'E_SERVER_CONFIGURATION',
+      'เซิร์ฟเวอร์ยังไม่ได้ตั้งค่า Supabase url',
+      500,
+      false
+    );
+  }
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new EvaluationJobError(
       'E_SERVER_CONFIGURATION',
       'เซิร์ฟเวอร์ยังไม่ได้ตั้งค่า Supabase service role',
@@ -26,8 +33,9 @@ export function qualityPlatformAdmin() {
       false
     );
   }
-  return getSupabaseAdmin();
+  return supabaseAdmin;
 }
+
 
 export async function getOwnedJob(
   jobId: string,
