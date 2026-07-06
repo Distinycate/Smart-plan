@@ -1052,7 +1052,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         objectiveA: fields.objectiveA
       };
 
-      const [resK, resP, resA, resReflect] = await Promise.all([
+      const [resK, resP] = await Promise.all([
         fetch('/api/ai-completion-k', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1062,7 +1062,10 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestBody)
-        }),
+        })
+      ]);
+
+      const [resA, resReflect] = await Promise.all([
         fetch('/api/ai-completion-a', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1075,9 +1078,12 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         })
       ]);
 
-      const [jsonK, jsonP, jsonA, jsonReflect] = await Promise.all([
+      const [jsonK, jsonP] = await Promise.all([
         resK.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล K ได้' })),
-        resP.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล P ได้' })),
+        resP.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล P ได้' }))
+      ]);
+
+      const [jsonA, jsonReflect] = await Promise.all([
         resA.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล A ได้' })),
         resReflect.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Reflection ได้' }))
       ]);
