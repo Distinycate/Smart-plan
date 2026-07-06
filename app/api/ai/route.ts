@@ -3,7 +3,7 @@ import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
 
-export const runtime = 'edge';
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {

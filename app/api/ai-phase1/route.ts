@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 
-export const runtime = 'edge';
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {

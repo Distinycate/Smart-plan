@@ -42,7 +42,7 @@ export async function fetchGeminiWithRetry(
     const baseUrl = apiUrl.split('?')[0];
     const finalUrl = `${baseUrl}?key=${encodeURIComponent(currentKey)}`;
     const controller = new AbortController();
-    const attemptTimeoutMs = Math.max(3_000, Math.min(30_000, remainingMs - 1_500));
+    const attemptTimeoutMs = Math.max(3_000, Math.min(55_000, remainingMs - 1_500));
     const timeoutId = setTimeout(() => controller.abort(), attemptTimeoutMs);
 
     try {
