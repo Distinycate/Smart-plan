@@ -100,14 +100,15 @@ export default function UnitPlanPreviewClient({ unitPlan }: { unitPlan: any }) {
         .draft-watermark { position: absolute; transform: rotate(-35deg); top: 38%; left: 20%; color: rgba(225,29,72,.09); font-size: 90pt; font-weight: 900; }
         .unit-document pre { white-space: pre-wrap; font-family: inherit; font-size: 14pt; }
         @media print {
-          @page { size: A4; margin: 0; }
+          @page { size: A4; margin: 20mm 18mm 20mm 25mm; }
           body, html { min-height: auto !important; height: auto !important; overflow: visible !important; }
           .no-print { display: none !important; }
           .unit-preview-shell { padding: 0 !important; background: white !important; min-height: auto !important; height: auto !important; overflow: visible !important; }
           .unit-document { 
             box-shadow: none !important; 
-            margin: 0 !important; 
-            width: 210mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
             min-height: auto !important;
             height: auto !important;
             overflow: visible !important;

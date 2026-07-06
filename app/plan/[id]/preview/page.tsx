@@ -922,7 +922,7 @@ export default function PlanPreview() {
         @media print {
           @page {
             size: A4;
-            margin: 0;
+            margin: 20mm 20mm 20mm 25mm; /* Apply margin to every physical page */
           }
           body, html {
             background: #fff !important;
@@ -940,10 +940,10 @@ export default function PlanPreview() {
             overflow: visible !important;
           }
           .a4-sheet {
-            width: 210mm !important;
+            width: 100% !important; /* Fill the @page margin box */
             min-height: auto !important;
             height: auto !important;
-            padding: 20mm 20mm 20mm 25mm !important;
+            padding: 0 !important; /* Let @page handle the margins */
             margin: 0 !important;
             box-shadow: none !important;
             zoom: 1 !important;
