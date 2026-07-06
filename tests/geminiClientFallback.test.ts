@@ -30,6 +30,28 @@ async function run() {
   assert.equal(calls.length, 2);
   assert.match(calls[0], /route-invalid/);
   assert.match(calls[1], /pool-valid/);
+
+  calls.length = 0;
+  globalThis.fetch = async input => {
+    const url = String(input);
+    calls.push(url);
+    if (calls.length === 1) {
+      return new Response('temporary overload', { status: 503 });
+    }
+    return new Response('{"ok":true}', { status: 200 });
+  };
+
+  const modelFallbackResponse = await fetchGeminiWithRetry(
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent',
+    { test: true },
+    3,
+    'route-valid'
+  );
+
+  assert.equal(modelFallbackResponse.status, 200);
+  assert.equal(calls.length, 2);
+  assert.match(calls[0], /gemini-2\.5-flash-lite/);
+  assert.match(calls[1], /gemini-2\.5-flash:generateContent/);
   console.log('geminiClient fallback tests passed');
 }
 
@@ -41,4 +63,3 @@ run()
     if (originalGeneric === undefined) delete process.env.GEMINI_API_KEY;
     else process.env.GEMINI_API_KEY = originalGeneric;
   });
-

@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.0.3-ai-latency-hotfix] - 2026-07-06
+
+### Changed
+- Split Phase 1 now runs Core then Activity sequentially so each route has its own Vercel execution window.
+- Successful Core output is applied before Activity starts and is preserved if Activity fails.
+- Split generation routes use `gemini-2.5-flash-lite`, bounded prompts/outputs and disabled thinking.
+- Gemini retries use a 46-second internal deadline and fall back from Flash Lite to Flash after a transient failure.
+
+### Fixed
+- Reduced Phase 1 failures caused by two heavy Gemini requests competing concurrently.
+- Added a third bounded retry for transient 503/timeout responses.
+
+### QA
+- Live API Phase 1 completed in 20.193 seconds (Core 7.649s, Activity 12.543s).
+- Live API Phase 2 completed all four parallel routes in 11.536 seconds.
+- Phase 2 received transient 503 responses on first attempts and recovered through model fallback.
+- Browser Phase 1 completed and populated both Core and Activity fields in about 32 seconds.
+- Key-pool and 401/model-fallback mock tests passed.
+- `npm run build` passed; ESLint remains unavailable because the dependency is not installed.
+
+### Known Issues
+- Vercel environment and production latency are not verified in this local environment.
+- Only one distinct Gemini key is currently present locally; configure multiple active keys in Vercel for higher concurrent-user resilience.
+- Full lesson save/export regression was not executed in this hotfix.
+
+### Rollback
+- Revert the split-route fast runtime, Gemini retry changes and sequential Phase 1 UI call only; no database rollback is required.
+
 ## [1.0.2-gemini-key-fallback] - 2026-07-06
 
 ### Fixed

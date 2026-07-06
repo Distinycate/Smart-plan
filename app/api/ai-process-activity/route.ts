@@ -190,7 +190,7 @@ ${errorMemoryText}
       generationConfig: fastJsonGenerationConfig(3072)
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 2, apiKey);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey, 'process-activity');
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     

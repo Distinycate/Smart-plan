@@ -33,3 +33,11 @@
 
 ตั้ง `GEMINI_API_KEY_ALIGNMENT` ได้หากต้องการแยก quota สำหรับ Alignment;
 หากไม่ตั้ง ระบบใช้ `GEMINI_API_KEY`.
+
+## Gemini Latency Configuration
+
+- ตั้ง `GEMINI_FAST_MODEL=gemini-2.5-flash-lite` สำหรับ split generation routes.
+- ตั้ง `GEMINI_API_KEYS` เป็นรายการ active keys คั่นด้วย comma เพื่อให้ retry สลับ key ได้.
+- ลบ key เก่าที่หมดอายุออกจาก Vercel แล้ว redeploy ทุกครั้งหลังแก้ Environment Variables.
+- อย่าตั้ง `GEMINI_API_KEYS` ซ้ำกับ `GEMINI_API_KEY` เพียงค่าเดียว หากต้องการรองรับผู้ใช้พร้อมกันจริง.
+- ตรวจ Vercel Function Logs ว่าไม่มี 401/403/429/503 ต่อเนื่องก่อนเปิด production.

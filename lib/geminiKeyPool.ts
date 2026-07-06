@@ -1,6 +1,11 @@
 type GeminiEnvironment = {
   GEMINI_API_KEYS?: string;
   GEMINI_API_KEY?: string;
+  GEMINI_API_KEY_PROCESS?: string;
+  GEMINI_API_KEY_COMPLETION?: string;
+  GEMINI_API_KEY_EVALUATE?: string;
+  GEMINI_API_KEY_FIX?: string;
+  GEMINI_API_KEY_ALIGNMENT?: string;
 };
 
 const isUsableKey = (value: string) => {
@@ -22,6 +27,11 @@ export function buildGeminiKeyPool(
   const values = [
     customApiKey,
     environment.GEMINI_API_KEYS,
+    environment.GEMINI_API_KEY_PROCESS,
+    environment.GEMINI_API_KEY_COMPLETION,
+    environment.GEMINI_API_KEY_EVALUATE,
+    environment.GEMINI_API_KEY_FIX,
+    environment.GEMINI_API_KEY_ALIGNMENT,
     environment.GEMINI_API_KEY,
   ];
 

@@ -963,31 +963,21 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         indicatorFinal: fields.indicatorFinal
       };
 
-      const [responseCore, responseActivity] = await Promise.all([
-        fetch('/api/ai-process-core', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        }),
-        fetch('/api/ai-process-activity', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        })
-      ]);
+      // Run the two heavy generations sequentially. Each call receives its own
+      // Vercel execution window and avoids a simultaneous burst against Gemini.
+      const responseCore = await fetch('/api/ai-process-core', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
+      const jsonCore = await responseCore.json()
+        .catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Core ได้' }));
 
-      const [jsonCore, jsonActivity] = await Promise.all([
-        responseCore.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Core ได้' })),
-        responseActivity.json().catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Activity ได้' }))
-      ]);
-
-      if (!jsonCore.success || !jsonCore.data || !jsonActivity.success || !jsonActivity.data) {
-        throw new Error(jsonCore.error || jsonActivity.error || 'เกิดข้อผิดพลาดจาก AI');
+      if (!jsonCore.success || !jsonCore.data) {
+        throw new Error(jsonCore.error || 'AI ไม่สามารถสร้างโครงสร้างแผนได้');
       }
 
       const core = jsonCore.data;
-      const activity = jsonActivity.data;
-      
       setFields(prev => ({
         ...prev,
         essentialConcept: cleanJSONString(core.essentialConcept) || prev.essentialConcept,
@@ -1000,6 +990,27 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         competencies: ensureBulletString(core.competencies) || prev.competencies,
         desiredAttributes: ensureBulletString(core.desiredAttributes) || prev.desiredAttributes,
         skills21: ensureBulletString(core.skills21) || prev.skills21,
+      }));
+
+      triggerToast('AI สร้างโครงสร้างแผนแล้ว กำลังสร้างกิจกรรมการเรียนรู้ต่อ...', 'info');
+
+      const responseActivity = await fetch('/api/ai-process-activity', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
+      const jsonActivity = await responseActivity.json()
+        .catch(() => ({ success: false, error: 'ไม่สามารถอ่านข้อมูล Activity ได้' }));
+
+      if (!jsonActivity.success || !jsonActivity.data) {
+        throw new Error(
+          `${jsonActivity.error || 'AI ไม่สามารถสร้างกิจกรรมได้'} (ระบบเก็บโครงสร้างแผนที่สร้างสำเร็จไว้แล้ว)`
+        );
+      }
+
+      const activity = jsonActivity.data;
+      setFields(prev => ({
+        ...prev,
         learningProcess: cleanJSONString(activity.learningProcess) || prev.learningProcess,
       }));
 

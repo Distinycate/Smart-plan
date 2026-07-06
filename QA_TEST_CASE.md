@@ -6,6 +6,17 @@
 - ESLint — Not executed: package is not installed in this project.
 - Database, browser and manual regression — Not executed in this environment. Manual verification required.
 
+## AI Latency Hotfix Evidence — 2026-07-06
+
+- TC-AI-LAT-001 fast-model availability: Passed (`gemini-2.5-flash-lite` returned HTTP 200).
+- TC-AI-LAT-002 Phase 1 API sequential execution: Passed in 20.193s (Core 7.649s, Activity 12.543s).
+- TC-AI-LAT-003 Phase 1 browser execution: Passed; Core and Activity fields were populated in about 32s.
+- TC-AI-LAT-004 Phase 2 parallel execution: Passed in 11.536s; K/P/A/Reflection all returned HTTP 200 after transient first-attempt 503 fallback.
+- TC-AI-LAT-005 mocked 503 model fallback: Passed; retry changed from Flash Lite to Flash.
+- TC-AI-LAT-006 mocked invalid-key fallback: Passed; first key 401 then fallback key 200.
+- TC-AI-LAT-007 production Vercel execution: Not executed in this environment. Manual verification required after deploy.
+- TC-AI-LAT-008 two simultaneous production users: Not executed in this environment. Manual verification required.
+
 ## Regression
 
 - TC-REG-001 เปิดระบบและ login

@@ -5,47 +5,57 @@ Repository: `/Users/distinycate/Desktop/smart plan/ระบบแผนกา�
 
 ## Current Git State Observed
 
-At handoff creation:
-
 - branch: `main`
-- HEAD: `db9d056`
-- `origin/main`: `db9d056`
-- prior V2 foundation, queue and UnitLesson work is already committed/pushed
-- only Unit Library, Unit Export, Alignment Preview and their documentation remain uncommitted
+- HEAD observed before this hotfix: `bfd1497`
+- current uncommitted work is the urgent AI latency/reliability hotfix
+- inspect `git status`, `git diff` and `git log` again because another AI may change HEAD concurrently
 
-Update: Unit Library/Export/Alignment was later committed and pushed as `e1744c9`.
-The current uncommitted hotfix is Gemini key fallback:
+Main hotfix files:
 
-- `app/api/queue/route.ts`
+- `.env.example`
+- `app/plan/PlanForm.tsx`
+- `app/api/ai-process-core/route.ts`
+- `app/api/ai-process-activity/route.ts`
+- `app/api/ai-completion-{k,p,a,reflection}/route.ts`
 - `lib/geminiClient.ts`
 - `lib/geminiKeyPool.ts`
+- `lib/geminiRuntime.ts` (already committed by `bfd1497`)
 - `tests/geminiKeyPool.test.ts`
 - `tests/geminiClientFallback.test.ts`
-- this changelog/QA/handoff update
+- `CHANGELOG.md`, `QA_TEST_CASE.md`, `SETUP_GUIDE.md` and this handoff
 
 Run the two compiled mock tests and `npm run build`, then commit as:
 
 ```text
-fix: rotate invalid Gemini keys before failing
+fix: keep Gemini generation within serverless timeout
 ```
 
-Live verification completed locally without printing key values:
+Verification completed locally without printing key values:
 
-- four distinct configured key slots returned Gemini HTTP 200
-- deterministic key pool test passed
-- mock first-key-401 then fallback-200 test passed
+- Phase 1 API: Core 7.649s, Activity 12.543s, total 20.193s
+- Phase 2 API: K/P/A/Reflection all HTTP 200 in 11.536s after transient first-attempt 503 fallback
+- Phase 1 browser flow populated Core and Activity fields in about 32s
+- deterministic key pool, 401 key fallback and 503 model fallback tests passed
 - `npm run build` passed
+- ESLint was not executed because it is not installed
 
 Before push/deploy, inspect Vercel environment for stale `GEMINI_API_KEYS`.
-Route-specific keys should remain configured. Redeploy after environment or code changes.
+Set `GEMINI_FAST_MODEL=gemini-2.5-flash-lite`, keep route-specific keys configured,
+and add more than one distinct active key for concurrent-user resilience.
+Redeploy after environment or code changes.
 Because plaintext keys existed in ignored local scripts, recommend rotating all Gemini keys
 and updating deployment environment values.
 
+Important architecture note: commit `bfd1497` removed the runtime queue routes/client and
+uses granular direct Gemini calls. Migration 06 may still exist in the repository, but the
+current UI does not enqueue through it. Do not report multi-user queue QA as passed. If strict
+global concurrency control is required, restore/reintegrate the queue in a separate reviewed
+change instead of mixing it into this timeout hotfix.
+
 ## Mission
 
-Validate the accumulated V2 Unit Planning and multi-user queue changes on staging,
-fix only evidence-backed defects, commit the intended files, push the current branch,
-and report exact QA evidence.
+Review this latency hotfix, rerun the listed checks, commit the intended files, push the
+current branch, deploy to Vercel and report exact production QA evidence.
 
 Do not rewrite, reset, force-push, drop tables, backfill LessonPlans or expose secrets.
 
@@ -54,7 +64,7 @@ Do not rewrite, reset, force-push, drop tables, backfill LessonPlans or expose s
 - V2 documentation foundation
 - UnitPlan Draft/Ready APIs and UI
 - UnitLesson add/edit/archive/atomic reorder
-- Shared multi-user AI queue and queue admission
+- Granular direct AI generation routes; shared runtime queue is not currently integrated
 - Unit Plan Library
 - Unit preview, browser PDF and Word export
 - Alignment preview for UnitPlan/LessonPlan with AIHistory
@@ -78,7 +88,8 @@ Required:
 
 - Supabase URL, anon key and service-role key
 - Gemini key
-- `AI_CONCURRENCY_LIMIT=1` for the first concurrency test
+- `GEMINI_FAST_MODEL=gemini-2.5-flash-lite`
+- more than one distinct active key in `GEMINI_API_KEYS` for production concurrency
 
 Optional:
 
@@ -100,11 +111,11 @@ Never commit `.env.local`.
 Run every TC-REG case in `QA_TEST_CASE.md`, including Lesson draft/complete,
 backup, archive/restore, Word and PDF.
 
-### Multi-user Queue
+### Multi-user AI
 
-Use two authenticated accounts in separate browser profiles.
-With concurrency limit 1, confirm one processing job and one waiting job,
-ownership isolation, failure cleanup and lease release.
+Use two authenticated accounts in separate browser profiles. Confirm both Phase 1 flows
+finish successfully and inspect Vercel logs for persistent 401/429/503 after retries.
+Runtime queue behavior cannot be claimed because queue integration was removed in `bfd1497`.
 
 ### Unit Workflow
 
@@ -136,23 +147,20 @@ Do not blindly use `git add .`. For this final increment, stage only:
 ```text
 .env.example
 AI_TO_AI_GIT_PUSH_HANDOFF.md
-ARCHITECTURE_DECISIONS.md
 CHANGELOG.md
-ERROR_HANDLING.md
-FEATURE_LIST.md
 QA_TEST_CASE.md
-SECURITY.md
 SETUP_GUIDE.md
-USER_GUIDE.md
-app/layout.tsx
-app/unit-plans/UnitPlannerForm.tsx
-app/unit-plans/AlignmentPreview.tsx
-app/unit-plans/page.tsx
-app/unit-plans/[id]/preview/
-app/api/alignment-check/
-app/api/unit-plans/[id]/export/
-lib/alignmentResultValidation.ts
-lib/unitPlanExportData.ts
+app/api/ai-completion-a/route.ts
+app/api/ai-completion-k/route.ts
+app/api/ai-completion-p/route.ts
+app/api/ai-completion-reflection/route.ts
+app/api/ai-process-activity/route.ts
+app/api/ai-process-core/route.ts
+app/plan/PlanForm.tsx
+lib/geminiClient.ts
+lib/geminiKeyPool.ts
+tests/geminiClientFallback.test.ts
+tests/geminiKeyPool.test.ts
 ```
 
 Continue to exclude:
@@ -170,12 +178,11 @@ Continue to exclude:
 - `test_model.js`
 - `test_x_goog_ya29.js`
 
-Do not amend or rewrite commit `db9d056`.
+Do not amend or rewrite commit `bfd1497`.
 
 ## Suggested Commit Scope
 
-After QA, stage the intended documentation, migrations, Unit routes/pages,
-queue/alignment routes and helpers explicitly. Verify with:
+After QA, stage only the latency hotfix files listed above. Verify with:
 
 ```bash
 git diff --cached --stat
@@ -186,7 +193,7 @@ npm run build
 Suggested commit:
 
 ```text
-feat: add unit library export and alignment preview
+fix: keep Gemini generation within serverless timeout
 ```
 
 Then push normally to the current branch. Do not force-push:

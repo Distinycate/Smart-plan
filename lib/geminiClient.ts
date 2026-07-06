@@ -18,9 +18,18 @@ export async function fetchGeminiWithRetry(
   apiUrl: string,
   payload: unknown,
   requestedMaxAttempts = 3,
-  customApiKey?: string
+  customApiKey?: string,
+  keyAffinity = ''
 ) {
-  const apiKeys = buildGeminiKeyPool(customApiKey);
+  const apiKeys = buildGeminiKeyPool(customApiKey, {
+    GEMINI_API_KEYS: process.env.GEMINI_API_KEYS,
+    GEMINI_API_KEY_PROCESS: process.env.GEMINI_API_KEY_PROCESS,
+    GEMINI_API_KEY_COMPLETION: process.env.GEMINI_API_KEY_COMPLETION,
+    GEMINI_API_KEY_EVALUATE: process.env.GEMINI_API_KEY_EVALUATE,
+    GEMINI_API_KEY_FIX: process.env.GEMINI_API_KEY_FIX,
+    GEMINI_API_KEY_ALIGNMENT: process.env.GEMINI_API_KEY_ALIGNMENT,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+  });
 
   if (apiKeys.length === 0) {
     throw new Error('API Key is not configured.');
@@ -32,15 +41,24 @@ export async function fetchGeminiWithRetry(
   const deadline = Date.now() + 46_000;
   let lastStatus = 0;
   const rejectedKeyIndexes = new Set<number>();
+  const startIndex = keyAffinity
+    ? Array.from(keyAffinity).reduce((hash, character) => ((hash * 31) + character.charCodeAt(0)) >>> 0, 0) % apiKeys.length
+    : 0;
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const remainingMs = deadline - Date.now();
     if (remainingMs < 2_500) break;
 
-    const keyIndex = attempt % apiKeys.length;
+    const keyIndex = (startIndex + attempt) % apiKeys.length;
     const currentKey = apiKeys[keyIndex];
     const baseUrl = apiUrl.split('?')[0];
-    const finalUrl = `${baseUrl}?key=${encodeURIComponent(currentKey)}`;
+    // Flash Lite can occasionally return a transient 503 even with a valid key.
+    // Retry once against the regular Flash capacity pool instead of waiting on
+    // the same overloaded model until the serverless deadline expires.
+    const attemptBaseUrl = attempt % 2 === 1
+      ? baseUrl.replace('/gemini-2.5-flash-lite:', '/gemini-2.5-flash:')
+      : baseUrl;
+    const finalUrl = `${attemptBaseUrl}?key=${encodeURIComponent(currentKey)}`;
     const controller = new AbortController();
     const attemptTimeoutMs = Math.max(3_000, Math.min(22_000, remainingMs - 2_000));
     const timeoutId = setTimeout(() => controller.abort(), attemptTimeoutMs);
