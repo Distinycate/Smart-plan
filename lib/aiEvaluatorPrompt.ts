@@ -45,20 +45,7 @@ export const evaluatorPromptTemplate = `MASTER SELF-CHECK PROMPT
     }
   },
   "overallScore": (คะแนนรวมของส่วน AI ประเมิน เต็ม 60),
-  "summary": "สรุปภาพรวมสั้นๆ",
-  "pa8Indicators": [
-    {
-      "indicator": "1. ผู้เรียนสามารถเข้าถึงสิ่งที่เรียนและเข้าใจบทเรียน",
-      "met": true,
-      "details": "อธิบายสั้นๆ ตรงประเด็น ว่าพบหรือขาดจากแผนนี้"
-    },
-    {
-      "indicator": "2. ผู้เรียนสามารถเชื่อมโยงความรู้หรือประสบการณ์เดิมกับการเรียนรู้ใหม่",
-      "met": false,
-      "details": "อธิบาย..."
-    }
-    // ... ให้ครบทั้ง 8 ข้อ
-  ]
+  "summary": "สรุปภาพรวมสั้นๆ"
 }`;
 
 export const autoFixPromptTemplate = `MASTER AUTO-FIX PROMPT

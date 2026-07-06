@@ -3,6 +3,7 @@ import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
 import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
+import { ACTIVE_LEARNING_MASTER_FRAMEWORK } from '@/lib/activeLearningFramework';
 
 export const maxDuration = 60;
 
@@ -170,20 +171,21 @@ ${finalInds || 'ไม่มีข้อมูลตัวชี้วัดป�
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: LEARNING PROCESS)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
-คุณคือผู้เชี่ยวชาญด้าน Active Learning
-หน้าที่ของคุณคือออกแบบ "กระบวนการจัดการเรียนรู้" ที่มีคุณภาพสูงและสามารถนำไปใช้จริงได้
-สำหรับระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
+${ACTIVE_LEARNING_MASTER_FRAMEWORK}
+
+ข้อมูลเฉพาะของแผนนี้:
+ระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
 
 ${boundedIndicatorPrompt}
 
 หลักการสำคัญ
-1. ให้สร้างข้อมูลเฉพาะ กระบวนการสอน (GPAS 5 ขั้นตอน: นำ, สอน, ฝึก, ประยุกต์, สรุป)
+1. ให้สร้างข้อมูลเฉพาะ กระบวนการสอน (GPAS 5 ขั้นตอน)
 2. ทุกองค์ประกอบต้องสัมพันธ์กัน
 3. ใช้ภาษาราชการทางการศึกษา
 ${errorMemoryText}
 
 ให้ตอบกลับเป็น JSON Object เท่านั้น โดยมีคีย์ดังต่อไปนี้:
-1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าใครทำอะไร อย่างไร)`;
+1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าครูทำอะไร และนักเรียนทำอะไร)`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],

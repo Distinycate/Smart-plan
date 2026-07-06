@@ -3,6 +3,7 @@ import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
 import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
+import { ACTIVE_LEARNING_MASTER_FRAMEWORK } from '@/lib/activeLearningFramework';
 
 export const maxDuration = 60;
 
@@ -170,8 +171,9 @@ ${finalInds || 'ไม่มีข้อมูลตัวชี้วัดป�
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: CORE STRUCTURE)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
-คุณคือผู้เชี่ยวชาญด้าน Active Learning
-หน้าที่ของคุณคือออกแบบโครงสร้างหลักที่มีคุณภาพสูงและสามารถนำไปใช้จริงได้
+${ACTIVE_LEARNING_MASTER_FRAMEWORK}
+
+หน้าที่ของคุณในส่วนนี้คือออกแบบโครงสร้างหลัก (สาระสำคัญ จุดประสงค์ สมรรถนะ คุณลักษณะ) ที่มีคุณภาพสูงและสามารถนำไปใช้จริงได้
 สำหรับระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
 
 ${boundedIndicatorPrompt}

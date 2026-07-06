@@ -5,7 +5,7 @@ import {
   CheckCircle, AlertTriangle, Upload, Zap, Loader2, ArrowLeft,
   BarChart2, Star, Layers, ListChecks, ClipboardCheck, Trophy,
   Sparkles, ShieldCheck, Gauge, ArrowRight, FileText, Circle,
-  CheckSquare, UploadCloud, BookOpen, GraduationCap, Calendar
+  CheckSquare, UploadCloud, BookOpen, GraduationCap, Calendar, Rocket
 } from 'lucide-react';
 import Link from 'next/link';
 import * as mammoth from 'mammoth';
@@ -24,6 +24,8 @@ export default function EvaluatorPage() {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluationResults, setEvaluationResults] = useState<any[]>([]);
   const [fixingPlanId, setFixingPlanId] = useState<string | null>(null);
+  const [evaluatingPA8PlanId, setEvaluatingPA8PlanId] = useState<string | null>(null);
+  const [evaluatingV4PlanId, setEvaluatingV4PlanId] = useState<string | null>(null);
   const [loadingText, setLoadingText] = useState('กำลังเชื่อมต่อกับ AI...');
   const [fixLoadingMessage, setFixLoadingMessage] = useState('Gemini AI กำลังเริ่มต้นทำงาน...');
   
@@ -191,10 +193,71 @@ export default function EvaluatorPage() {
     }
   };
 
+  
+  const startEvaluatePA8 = async (resultIndex: number) => {
+    const result = evaluationResults[resultIndex];
+    if (!result || !result.originalPlanData) return;
+    setEvaluatingPA8PlanId(result.planId);
+    try {
+      const res = await fetch('/api/ai-evaluate-pa8', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planData: result.originalPlanData,
+          externalText: result.planId === 'uploaded' ? fileText : null
+        })
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.error);
+      
+      const newResults = [...evaluationResults];
+      newResults[resultIndex].pa8Indicators = json.evaluation.pa8Indicators;
+      newResults[resultIndex].pa8TotalScore = json.evaluation.pa8TotalScore;
+      newResults[resultIndex].pa8Summary = json.evaluation.pa8Summary;
+      setEvaluationResults(newResults);
+      toast.success('ประเมิน PA8 เสร็จสมบูรณ์');
+    } catch (err: any) {
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการประเมิน PA8');
+    } finally {
+      setEvaluatingPA8PlanId(null);
+    }
+  };
+
+
+  const startEvaluateV4 = async (resultIndex: number) => {
+    const result = evaluationResults[resultIndex];
+    if (!result || !result.originalPlanData) return;
+    setEvaluatingV4PlanId(result.planId);
+    try {
+      const res = await fetch('/api/ai-evaluate-v4', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planData: result.originalPlanData,
+          externalText: result.planId === 'uploaded' ? fileText : null
+        })
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.error);
+      
+      const newResults = [...evaluationResults];
+      newResults[resultIndex].v4Evaluation = json.evaluation;
+      newResults[resultIndex].pa8Indicators = [{ met: true, indicator: 'V4 Review Complete', details: 'ประเมิน 4 มิติเรียบร้อยแล้ว' }];
+      setEvaluationResults(newResults);
+      toast.success('ประเมิน V4 ขั้นสูงเสร็จสมบูรณ์');
+    } catch (err: any) {
+      toast.error(err.message || 'เกิดข้อผิดพลาดในการประเมิน V4');
+    } finally {
+      setEvaluatingV4PlanId(null);
+    }
+  };
+
   const resetEvaluationFlow = () => {
     setEvaluationResults([]);
     setError(null);
     setFixingPlanId(null);
+    setEvaluatingPA8PlanId(null);
+    setEvaluatingV4PlanId(null);
     setBatchProgress({ current: 0, total: 0 });
   };
 
@@ -638,6 +701,10 @@ export default function EvaluatorPage() {
                 onCancel={resetEvaluationFlow}
                 onRetry={startEvaluation}
                 isFixing={fixingPlanId !== null && fixingPlanId.startsWith(`${result.planId}-all`)}
+                onEvaluatePA8={() => startEvaluatePA8(index)}
+                isEvaluatingPA8={evaluatingPA8PlanId === result.planId}
+                onEvaluateV4={() => startEvaluateV4(index)}
+                isEvaluatingV4={evaluatingV4PlanId === result.planId}
               />
             ))}
           </div>
@@ -1026,7 +1093,7 @@ function PlanDiffViewer({ original, fixed }: { original: any, fixed: any }) {
 }
 
 // ── COMPONENT: EvaluationResultCard ──
-function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, onRetry, isFixing }: { result: any, index: number, onFixAll: () => void, onSaveDraft: () => void, onCancel: () => void, onRetry: () => void, isFixing: boolean }) {
+function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, onRetry, isFixing, onEvaluatePA8, isEvaluatingPA8, onEvaluateV4, isEvaluatingV4 }: { result: any, index: number, onFixAll: () => void, onSaveDraft: () => void, onCancel: () => void, onRetry: () => void, isFixing: boolean, onEvaluatePA8: () => void, isEvaluatingPA8: boolean, onEvaluateV4: () => void, isEvaluatingV4: boolean }) {
   if (result.error) {
     return (
       <motion.div
@@ -1263,15 +1330,101 @@ function EvaluationResultCard({ result, index, onFixAll, onSaveDraft, onCancel, 
           </div>
         )}
 
+        {/* AI Reviewer V4 Output */}
+        {result.v4Evaluation && (
+          <div className="mt-12 border-t border-slate-100 pt-10">
+            <h4 className="flex items-center gap-2 text-2xl font-black text-indigo-900 mb-6">
+              <Sparkles className="h-7 w-7 text-indigo-500" />
+              รายงานการประเมิน 4 มิติ (AI Reviewer V4)
+            </h4>
+            <div className="bg-gradient-to-br from-indigo-50 to-white rounded-3xl p-8 shadow-sm border border-indigo-100 mb-6">
+              <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-indigo-100/50 pb-6">
+                <div>
+                  <h5 className="text-xl font-black text-indigo-950">คะแนนประเมินวิทยฐานะ (10 ด้าน)</h5>
+                  <p className="text-sm font-medium text-indigo-700/80 mt-1">อ้างอิงหลักการ Constructive Alignment และ Active Learning</p>
+                </div>
+                <div className="flex items-end gap-2 bg-white px-6 py-3 rounded-2xl shadow-sm border border-indigo-50">
+                  <span className="text-4xl font-black text-indigo-600">{result.v4Evaluation.totalScore}</span>
+                  <span className="text-lg font-bold text-slate-400 mb-1">/ 100</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {Object.entries(result.v4Evaluation.categoryScores).map(([key, score]) => (
+                  <div key={key} className="bg-white p-4 rounded-2xl shadow-sm border border-indigo-50 flex flex-col items-center text-center">
+                    <span className="text-xs font-black text-slate-500 uppercase tracking-widest mb-2">{key}</span>
+                    <span className="text-xl font-black text-indigo-700">{score as React.ReactNode}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-emerald-50 p-6 rounded-3xl border border-emerald-100">
+                <h5 className="text-sm font-black text-emerald-800 uppercase tracking-widest mb-4 flex items-center gap-2"><CheckCircle className="w-5 h-5"/> จุดแข็งของแผนนี้</h5>
+                <ul className="space-y-3">
+                  {result.v4Evaluation.strengths.map((item: string, i: number) => (
+                    <li key={i} className="text-sm font-medium text-emerald-900 flex items-start gap-2"><span className="text-emerald-500 mt-0.5">•</span> {item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="bg-rose-50 p-6 rounded-3xl border border-rose-100">
+                <h5 className="text-sm font-black text-rose-800 uppercase tracking-widest mb-4 flex items-center gap-2"><AlertTriangle className="w-5 h-5"/> จุดที่ต้องแก้ไข / จุดอ่อน</h5>
+                <ul className="space-y-3">
+                  {result.v4Evaluation.weaknesses.map((item: string, i: number) => (
+                    <li key={i} className="text-sm font-medium text-rose-900 flex items-start gap-2"><span className="text-rose-500 mt-0.5">•</span> {item}</li>
+                  ))}
+                  {result.v4Evaluation.mustFix.map((item: string, i: number) => (
+                    <li key={'mf'+i} className="text-sm font-black text-red-700 flex items-start gap-2"><span className="text-red-600 mt-0.5">⚠️</span> {item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+              <h5 className="text-lg font-black text-slate-800 mb-3">ข้อเสนอแนะเชิงวิชาการจากกรรมการ</h5>
+              <p className="text-sm font-medium text-slate-600 leading-relaxed whitespace-pre-wrap">{result.v4Evaluation.academicSuggestions}</p>
+            </div>
+          </div>
+        )}
+
         {/* Plan Diff Viewer (Before & After) */}
         {result.hasUnsavedChanges && (
           <PlanDiffViewer original={result.originalPlanData} fixed={result.aiFixedPlanData} />
         )}
 
+        
         {/* Action Buttons */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
           {!result.hasUnsavedChanges ? (
             <>
+              {(!result.v4Evaluation) && (
+                <button
+                  onClick={onEvaluateV4}
+                  disabled={isEvaluatingV4 || isFixing}
+                  className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-indigo-600 px-8 py-4 text-base font-black text-white shadow-lg shadow-indigo-600/30 transition-all hover:scale-105 hover:bg-indigo-700 disabled:bg-slate-300 disabled:scale-100"
+                >
+                  {isEvaluatingV4 ? (
+                    <><Loader2 className="h-5 w-5 animate-spin" /> กำลังประเมิน V4 เชิงลึก (4 มิติ)...</>
+                  ) : (
+                    <><Rocket className="h-5 w-5" /> 🚀 ประเมินขั้นสูง V4 (กรรมการ 4 มิติ)</>
+                  )}
+                </button>
+              )}
+
+              {(!result.pa8Indicators || result.pa8Indicators.length === 0) && (
+                <button
+                  onClick={onEvaluatePA8}
+                  disabled={isEvaluatingPA8 || isFixing}
+                  className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-purple-500 px-8 py-4 text-base font-black text-white shadow-lg shadow-purple-600/30 transition-all hover:scale-105 hover:bg-purple-600 disabled:bg-slate-300 disabled:scale-100"
+                >
+                  {isEvaluatingPA8 ? (
+                    <><Loader2 className="h-5 w-5 animate-spin" /> กำลังประเมิน PA8 เชิงลึก...</>
+                  ) : (
+                    <><ShieldCheck className="h-5 w-5" /> ✨ ประเมินมาตรฐาน ว9 (PA8) เชิงลึก</>
+                  )}
+                </button>
+              )}
+
               <button
                 onClick={onFixAll}
                 disabled={isFixing}
