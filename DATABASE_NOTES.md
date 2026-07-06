@@ -18,3 +18,19 @@ This project connects to a Supabase PostgreSQL database.
 ## 4. Backup & Archiving
 - When a user "Archives" a plan, it is NOT deleted. `planStatus` is set to `archived`, and a full JSON snapshot of the plan is saved to `LessonPlan_Backup`.
 - The new `Restore` feature changes `planStatus` back to `draft` and creates another backup record indicating the restore action.
+
+## 5. V2 Unit Planning Foundation
+
+- Migration: `database/migrations/05_unit_planning_v2_foundation.sql`
+- Adds seven new tables without changing or backfilling `LessonPlans`.
+- UnitPlan updates require a successful `VersionHistory` insert first.
+- Migration execution is intentionally deferred to a staging/manual runner.
+- Rollback means disabling Unit Planner routes and leaving additive tables intact; do not drop tables as an application rollback.
+
+## 6. Shared AI Queue
+
+- Migration: `database/migrations/06_ai_jobs_concurrency_queue.sql`
+- `ai_jobs` is shared across Vercel instances; it must not be replaced with process memory.
+- `claim_ai_job()` uses a transaction advisory lock so queue promotion is atomic.
+- Queue records are server-only through the service-role client and are ownership-checked against the authenticated user.
+- Processing leases prevent abandoned jobs from blocking later users.

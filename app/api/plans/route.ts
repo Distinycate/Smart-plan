@@ -102,8 +102,8 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
     
-    // Generate simple ID if not provided
-    const planId = body.planId || `PLAN-${Math.random().toString(36).substring(2, 11).toUpperCase()}`;
+    // Generate unique ID if not provided
+    const planId = body.planId || `PLAN-${crypto.randomUUID().split('-')[0].toUpperCase()}`;
     const timestamp = new Date().toISOString();
 
     const newPlan = {

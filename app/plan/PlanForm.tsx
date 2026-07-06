@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Sparkles, 
@@ -294,6 +294,124 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   const [saving, setSaving] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiLoadingMessage, setAiLoadingMessage] = useState('Gemini AI กำลังเริ่มต้นทำงาน...');
+  const [isQueuing, setIsQueuing] = useState(false);
+  const [queueJob, setQueueJob] = useState<{ id: string, position: number, status: string } | null>(null);
+  const queueJobRef = useRef<{ id: string, cancelled: boolean } | null>(null);
+
+  const fetchWithQueue = async (url: string, requestInit: RequestInit) => {
+    setIsQueuing(true);
+    setAiLoading(true);
+    setQueueJob({ id: '', position: -1, status: 'requesting' });
+    setAiLoadingMessage('กำลังจองคิวรับบริการ AI...');
+    queueJobRef.current = { id: '', cancelled: false };
+
+    let activeJobId = '';
+    let queueFinalized = false;
+    const finalizeQueue = async (action: 'complete' | 'cancel' | 'failed', errorCode?: string) => {
+      if (!activeJobId || queueFinalized) return;
+      queueFinalized = true;
+      try {
+        await fetch('/api/queue', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, jobId: activeJobId, errorCode })
+        });
+      } catch (queueError) {
+        console.error('Unable to finalize AI queue job:', queueError);
+      }
+    };
+
+    try {
+      const enqRes = await fetch('/api/queue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'enqueue' })
+      });
+      const enqData = await enqRes.json();
+      if (!enqRes.ok || !enqData.success) {
+        throw new Error(enqData.error || 'ไม่สามารถจองคิว AI ได้');
+      }
+
+      const jobId = enqData.jobId;
+      activeJobId = jobId;
+      setQueueJob({ id: jobId, position: -1, status: 'waiting' });
+      queueJobRef.current = { id: jobId, cancelled: false };
+
+      const queueStartedAt = Date.now();
+      let consecutivePollErrors = 0;
+      while (true) {
+        if (queueJobRef.current.cancelled) {
+          await finalizeQueue('cancel');
+          throw new Error('คิวถูกยกเลิก');
+        }
+
+        if (Date.now() - queueStartedAt > 5 * 60 * 1000) {
+          await finalizeQueue('failed', 'E_QUEUE_WAIT_TIMEOUT');
+          throw new Error('รอคิวเกิน 5 นาที กรุณาลองใหม่อีกครั้ง');
+        }
+
+        await new Promise(res => setTimeout(res, 3000));
+
+        if (queueJobRef.current.cancelled) {
+          await finalizeQueue('cancel');
+          throw new Error('คิวถูกยกเลิก');
+        }
+
+        const statusRes = await fetch(`/api/queue?jobId=${jobId}`, { cache: 'no-store' });
+        const statusData = await statusRes.json();
+
+        if (!statusRes.ok || !statusData.success) {
+          consecutivePollErrors += 1;
+          if (consecutivePollErrors >= 3) {
+            await finalizeQueue('failed', statusData.errorCode || 'E_QUEUE_POLL_FAILED');
+            throw new Error(statusData.error || 'ไม่สามารถตรวจสอบคิว AI ได้');
+          }
+          continue;
+        }
+        consecutivePollErrors = 0;
+
+        setQueueJob({ id: jobId, position: statusData.position, status: statusData.status });
+
+        if (['cancel', 'failed', 'expired'].includes(statusData.status)) {
+          queueFinalized = true;
+          throw new Error(
+            statusData.status === 'cancel'
+              ? 'คิวถูกยกเลิก'
+              : 'คิวหมดอายุหรือประมวลผลไม่สำเร็จ กรุณาลองใหม่อีกครั้ง'
+          );
+        }
+
+        if (statusData.status === 'processing' || statusData.position === 0) {
+          break;
+        }
+      }
+
+      setQueueJob({ id: jobId, position: 0, status: 'processing' });
+      setAiLoadingMessage('ถึงคิวแล้ว! กำลังประมวลผลคำสั่ง...');
+
+      // Preserve the caller's original RequestInit. The former wrapper
+      // stringified this object and sent an invalid payload to the AI route.
+      const requestHeaders = new Headers(requestInit.headers);
+      requestHeaders.set('X-AI-Queue-Job', jobId);
+      const response = await fetch(url, { ...requestInit, headers: requestHeaders });
+      await finalizeQueue(response.ok ? 'complete' : 'failed', response.ok ? undefined : `HTTP_${response.status}`);
+      return response;
+    } catch (error) {
+      await finalizeQueue('failed', 'E_AI_REQUEST_FAILED');
+      throw error;
+    } finally {
+      setIsQueuing(false);
+      setQueueJob(null);
+      queueJobRef.current = null;
+    }
+  };
+
+  const cancelQueue = () => {
+    if (queueJobRef.current) {
+      queueJobRef.current.cancelled = true;
+    }
+    triggerToast('กำลังยกเลิกคิว...', 'info');
+  };
   
   // Dynamic Loading Messages
   useEffect(() => {
@@ -941,7 +1059,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     triggerToast('Gemini AI กำลังวิเคราะห์โครงสร้างแผนและกระบวนการจัดการเรียนรู้ (ขั้นที่ 1/2)...', 'info');
 
     try {
-      const response = await fetch('/api/ai-process', {
+      const response = await fetchWithQueue('/api/ai-process', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -1006,7 +1124,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     triggerToast('Gemini AI กำลังเติมเต็มแผนการสอน สื่อ การวัดผล และบันทึกหลังสอน (ขั้นที่ 2/2)...', 'info');
 
     try {
-      const response = await fetch('/api/ai-completion', {
+      const response = await fetchWithQueue('/api/ai-completion', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -2002,11 +2120,36 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
       {aiLoading && (
         <div className="loading-overlay">
           <div className="spinner" style={{ marginBottom: '16px' }} />
-          <strong style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#db2777' }}>✨ AI กำลังทำงาน... ✨</strong>
-          <strong style={{ fontSize: '1rem', color: '#475569' }}>{aiLoadingMessage}</strong>
+          <strong style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#db2777' }}>
+            {isQueuing && queueJob?.status === 'waiting' ? '⏳ ระบบกำลังจัดคิว...' : '✨ AI กำลังทำงาน... ✨'}
+          </strong>
+          
+          <strong style={{ fontSize: '1rem', color: '#475569', textAlign: 'center', marginBottom: '8px' }}>
+            {aiLoadingMessage}
+          </strong>
+
+          {isQueuing && queueJob?.status === 'waiting' && queueJob.position > 0 && (
+            <div style={{ background: '#fef2f2', border: '1px solid #fecdd3', borderRadius: '8px', padding: '12px', marginTop: '12px', textAlign: 'center' }}>
+              <p style={{ margin: 0, color: '#be123c', fontWeight: 'bold' }}>มีคิวก่อนหน้า {queueJob.position} คิว</p>
+              <p style={{ margin: 0, fontSize: '0.85rem', color: '#f43f5e', marginTop: '4px' }}>รอประมาณ {queueJob.position * 1} - {queueJob.position * 2} นาที</p>
+            </div>
+          )}
+
           <div style={{ marginTop: '16px', maxWidth: '300px', width: '100%', height: '4px', background: '#e2e8f0', borderRadius: '4px', overflow: 'hidden' }}>
              <div className="loading-bar-animated" style={{ height: '100%', background: 'linear-gradient(90deg, #ec4899, #f43f5e)', width: '50%', animation: 'progress 2s infinite linear' }} />
           </div>
+
+          {isQueuing && queueJob?.status !== 'processing' && (
+            <button 
+              onClick={cancelQueue}
+              style={{ marginTop: '24px', background: '#fff', border: '1px solid #cbd5e1', color: '#64748b', padding: '8px 16px', borderRadius: '6px', fontSize: '0.9rem', cursor: 'pointer', transition: 'all 0.2s' }}
+              onMouseOver={e => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.borderColor = '#fca5a5'; }}
+              onMouseOut={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = '#64748b'; e.currentTarget.style.borderColor = '#cbd5e1'; }}
+            >
+              ยกเลิกการรอคิว
+            </button>
+          )}
+
           <style>{`
             @keyframes progress {
               0% { transform: translateX(-100%); }

@@ -13,6 +13,7 @@ import { toast, Toaster } from 'react-hot-toast';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { queuedAiFetch } from '@/lib/aiQueueClient';
 
 export default function EvaluatorPage() {
   const router = useRouter();
@@ -138,7 +139,7 @@ export default function EvaluatorPage() {
   }, [plans]);
 
   const evaluateSingle = async (payload: any) => {
-    const evalRes = await fetch('/api/ai-evaluate', {
+    const evalRes = await queuedAiFetch('/api/ai-evaluate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -204,7 +205,7 @@ export default function EvaluatorPage() {
     setFixingPlanId(`${result.planId}-all`);
     setError(null);
     try {
-      const res = await fetch('/api/ai-fix', {
+      const res = await queuedAiFetch('/api/ai-fix', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

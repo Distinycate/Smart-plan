@@ -2,11 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
+import { validateAiQueueAdmission } from '@/lib/aiQueueServer';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   try {
+    const admissionError = await validateAiQueueAdmission(req);
+    if (admissionError) return admissionError;
+
     const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal } = await req.json();
 
     if (!gradeLevel || !subjectName || !lessonTopic) {

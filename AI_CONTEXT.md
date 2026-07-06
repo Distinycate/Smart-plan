@@ -177,6 +177,16 @@ Tab 5: บันทึกหลังสอน (ข้อ 10)
 
 ## 📝 CHANGELOG (ประวัติการเปลี่ยนแปลง)
 
+### 2026-06-13 — Session โดย Antigravity
+
+#### 🚀 Features (AI Queue System)
+- **`app/api/queue/route.ts`**: เพิ่มระบบจัดการคิว (Virtual Queue) คอยแจกบัตรคิวให้ผู้ใช้กรณีมีผู้เข้าใช้งานพร้อมกันจำนวนมาก (รองรับระดับ 100+ users) โดยระบบจะจำกัดให้ยิงหา Gemini พร้อมกันตามโควตาของ API Keys ที่มี เพื่อป้องกัน Timeout จาก Vercel 
+- **`app/plan/PlanForm.tsx`**: เพิ่ม UI Overlay ระหว่างประมวลผลให้แสดงคำบรรยาย เช่น "มีคิวก่อนหน้า X คิว (รอประมาณ Y นาที)" พร้อมปุ่ม "ยกเลิกการรอคิว" 
+
+#### 🔧 Bug Fixes (Concurrency & Rate Limit)
+- **`lib/geminiClient.ts`**: แก้ไขปัญหาระบบล็อกเมื่อมีผู้ใช้งานพร้อมกัน (Concurrency Issue) โดยปรับแต่งให้ฟังก์ชัน `fetchGeminiWithRetry` สุ่มลำดับ API Key แรกเริ่ม (Random Start Index) จากชุดคีย์ใน `GEMINI_API_KEYS` เพื่อกระจายโหลดอย่างเท่าเทียม แทนที่จะใช้คีย์ตัวแรก (Index 0) เสมอจนทำให้ Rate Limit (15 RPM) เต็ม
+- **`app/api/plans/route.ts`**: แก้ปัญหาความเป็นไปได้ของการชนกันของ ID แผน (Plan ID Collision) เมื่อบันทึกพร้อมกัน โดยเปลี่ยนจากการใช้ `Math.random()` เป็น `crypto.randomUUID()`
+
 ### 2026-06-08 10:55 — Session โดย Antigravity
 
 #### 🎨 Word/PDF Preview Formatting Fix

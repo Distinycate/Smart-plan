@@ -32,3 +32,9 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 .vercel
+
+# Test scripts and keys
+test_*.js
+check_*.js
+debug_*.js
+restore_*.js
