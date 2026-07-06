@@ -93,7 +93,19 @@ ${errorMemoryText}
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: fastJsonGenerationConfig(1024)
+      generationConfig: {
+        ...fastJsonGenerationConfig(1024),
+        responseSchema: {
+          type: "OBJECT",
+          properties: {
+            resultK: { type: "STRING" },
+            resultP: { type: "STRING" },
+            resultA: { type: "STRING" },
+            problems: { type: "STRING" },
+            solutions: { type: "STRING" }
+          }
+        }
+      }
     };
 
     const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey, 'completion-reflection');
@@ -105,11 +117,11 @@ ${errorMemoryText}
     }
 
     let cleanedText = aiText.trim();
-    const match = cleanedText.match(/```(?:json)?([\\s\\S]*?)```/);
+    const match = cleanedText.match(/```(?:json)?([\s\S]*?)```/);
     if (match) {
       cleanedText = match[1].trim();
     } else {
-      cleanedText = cleanedText.replace(/^```(?:json)?\\n?/, '').replace(/\\n?```$/, '').trim();
+      cleanedText = cleanedText.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
     }
     
     let parsedData;
