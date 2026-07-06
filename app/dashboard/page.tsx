@@ -105,13 +105,11 @@ export default function TeacherDashboard() {
   }, [filteredPlans]);
 
   const handleExportWord = (planId: string) => window.open(`/api/plans/${planId}/export/word`, '_blank');
-  const handleExportPdf = async (planId: string) => {
-    try {
-      const res = await fetch(`/api/plans/${planId}/export/pdf`, { method: 'POST' });
-      const json = await res.json();
-      if (json.success) window.open(json.pdfUrl, '_blank');
-      else alert('เกิดข้อผิดพลาด: ' + json.error);
-    } catch (err: any) { alert('เกิดข้อผิดพลาด: ' + err.message); }
+  const handleExportPdf = (planId: string) => {
+    // Open synchronously to bypass popup blocker
+    window.open(`/plan/${planId}/preview`, '_blank');
+    // Log asynchronously
+    fetch(`/api/plans/${planId}/export/pdf`, { method: 'POST' }).catch(err => console.error('Failed to log PDF export:', err));
   };
   const handleArchivePlan = async (planId: string, topic: string) => {
     if (!window.confirm(`เก็บถาวรแผนการสอน "${topic || 'ไม่มีชื่อ'}"?\nแผนนี้จะถูกซ่อนจากหน้ารายการ แต่ยังเก็บข้อมูลและประวัติสำรองไว้ในระบบ`)) return;

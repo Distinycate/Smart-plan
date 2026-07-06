@@ -201,20 +201,12 @@ export default function UnitPlannerForm({ unitPlanId }: { unitPlanId?: string })
     }
   };
 
-  const exportPdf = async () => {
+  const exportPdf = () => {
     if (!savedUnitPlanId) return;
-    setExporting(true);
-    setNotice(null);
-    try {
-      const response = await fetch(`/api/unit-plans/${savedUnitPlanId}/export/pdf`, { method: 'POST' });
-      const result = await response.json();
-      if (!response.ok || !result.ok) throw new Error(result.message || 'เตรียม PDF ไม่สำเร็จ');
-      window.open(result.data.url, '_blank', 'noopener,noreferrer');
-    } catch (error: any) {
-      setNotice({ type: 'error', text: error.message });
-    } finally {
-      setExporting(false);
-    }
+    // Open synchronously to bypass popup blocker
+    window.open(`/unit-plans/${savedUnitPlanId}/preview`, '_blank', 'noopener,noreferrer');
+    // Log asynchronously
+    fetch(`/api/unit-plans/${savedUnitPlanId}/export/pdf`, { method: 'POST' }).catch(err => console.error('Failed to log PDF export:', err));
   };
 
   if (loading) {
