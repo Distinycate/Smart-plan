@@ -19,3 +19,10 @@
 - middleware protection ทั่วไปถูก disable ด้วยเงื่อนไข `false`; API สำคัญต้องตรวจ auth เอง
 - export และ restore routes เดิมต้อง audit เรื่อง auth/RLS
 - `database/schema.sql` เป็น destructive และห้ามใช้ production
+
+## API Key Incident Note — 2026-07-06
+
+พบ ignored local test scripts ที่เคยฝังคีย์ Gemini แบบ plaintext.
+ค่าถูกนำออกแล้วและตรวจซ้ำไม่พบรูปแบบ key ใน source นอก `.env.local`.
+เนื่องจาก key เคยอยู่ในไฟล์ข้อความ ควร rotate key ชุดนั้นและอัปเดต Vercel/Supabase environment
+แม้การทดสอบปัจจุบันจะตอบ HTTP 200.

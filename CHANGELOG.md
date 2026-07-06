@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.0.2-gemini-key-fallback] - 2026-07-06
+
+### Fixed
+- Route-specific Gemini key now has priority over the shared fallback pool.
+- A 401/403 from one key rotates to the next configured key instead of failing immediately.
+- Placeholder/duplicate keys are removed from the runtime pool.
+- Default AI concurrency is one unless explicitly configured, so expired keys do not inflate capacity.
+
+### QA
+- Gemini key-pool tests passed.
+- Mock fallback test passed: first key returned 401 and the second key returned 200.
+- Live local-environment probe passed: four distinct configured key slots returned HTTP 200.
+- `npm run build` passed.
+
+### Known Issues
+- Deployment environment still requires verification and redeploy after push.
+
+### Rollback
+- Revert `geminiKeyPool.ts` and the related Gemini client/queue changes only.
+
 ## [2.1.0-unit-export-alignment] - 2026-07-06
 
 ### Added

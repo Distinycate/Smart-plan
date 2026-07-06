@@ -10,18 +10,9 @@ const getConcurrencyLimit = () => {
     return Math.min(configured, 20);
   }
 
-  const envKeys = [
-    process.env.GEMINI_API_KEYS,
-    process.env.GEMINI_API_KEY_PROCESS,
-    process.env.GEMINI_API_KEY_COMPLETION,
-    process.env.GEMINI_API_KEY,
-  ]
-    .filter(Boolean)
-    .flatMap(value => String(value).split(','))
-    .map(value => value.trim())
-    .filter(Boolean);
-
-  return Math.max(1, new Set(envKeys).size);
+  // Unknown/expired keys cannot be detected safely at startup. Default to one
+  // shared slot unless the operator explicitly raises AI_CONCURRENCY_LIMIT.
+  return 1;
 };
 
 const errorResponse = (message: string, status: number, errorCode: string) =>
@@ -149,4 +140,3 @@ export async function GET(req: NextRequest) {
     );
   }
 }
-

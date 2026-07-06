@@ -13,6 +13,34 @@ At handoff creation:
 - prior V2 foundation, queue and UnitLesson work is already committed/pushed
 - only Unit Library, Unit Export, Alignment Preview and their documentation remain uncommitted
 
+Update: Unit Library/Export/Alignment was later committed and pushed as `e1744c9`.
+The current uncommitted hotfix is Gemini key fallback:
+
+- `app/api/queue/route.ts`
+- `lib/geminiClient.ts`
+- `lib/geminiKeyPool.ts`
+- `tests/geminiKeyPool.test.ts`
+- `tests/geminiClientFallback.test.ts`
+- this changelog/QA/handoff update
+
+Run the two compiled mock tests and `npm run build`, then commit as:
+
+```text
+fix: rotate invalid Gemini keys before failing
+```
+
+Live verification completed locally without printing key values:
+
+- four distinct configured key slots returned Gemini HTTP 200
+- deterministic key pool test passed
+- mock first-key-401 then fallback-200 test passed
+- `npm run build` passed
+
+Before push/deploy, inspect Vercel environment for stale `GEMINI_API_KEYS`.
+Route-specific keys should remain configured. Redeploy after environment or code changes.
+Because plaintext keys existed in ignored local scripts, recommend rotating all Gemini keys
+and updating deployment environment values.
+
 ## Mission
 
 Validate the accumulated V2 Unit Planning and multi-user queue changes on staging,

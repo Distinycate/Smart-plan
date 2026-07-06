@@ -60,6 +60,17 @@
 - TC-AI-Q-010 Evaluator และ AI Fix ใช้ shared queue
 - TC-AI-Q-011 dashboard และ lesson editor ยังใช้งานได้ระหว่างรอ AI
 - TC-AI-Q-012 Lesson save, backup และ Word/PDF ไม่ได้รับผลกระทบ
+- TC-AI-KEY-001 route-specific key ถูกลองก่อน shared pool
+- TC-AI-KEY-002 key แรกตอบ 401 แล้ว fallback key ถัดไป
+- TC-AI-KEY-003 duplicate/placeholder keys ถูกตัดออก
+- TC-AI-KEY-004 ทุก key ตอบ 401 แล้วแสดงข้อความผู้ใช้โดยไม่เปิดเผย key
+
+Evidence 2026-07-06:
+
+- deterministic key-pool test: Passed
+- mocked 401 → fallback 200 test: Passed
+- live local key slots: 4/4 returned HTTP 200
+- deployment/Vercel key configuration: Not executed; manual verification required
 
 ## Unit Library and Export
 

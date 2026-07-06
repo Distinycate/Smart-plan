@@ -1,11 +1,8 @@
-const uniqueKeys = (values: Array<string | undefined>) =>
-  Array.from(new Set(
-    values
-      .filter(Boolean)
-      .flatMap(value => String(value).split(','))
-      .map(value => value.trim())
-      .filter(Boolean)
-  ));
+import {
+  buildGeminiKeyPool,
+  geminiAttemptLimit,
+  shouldRotateGeminiKey,
+} from './geminiKeyPool';
 
 const friendlyHttpError = (status: number) => {
   if (status === 400) return 'ข้อมูลคำสั่งที่ส่งไปยัง AI ไม่ถูกต้อง กรุณาตรวจสอบข้อมูลแล้วลองใหม่';
@@ -23,11 +20,7 @@ export async function fetchGeminiWithRetry(
   requestedMaxAttempts = 3,
   customApiKey?: string
 ) {
-  const apiKeys = uniqueKeys([
-    process.env.GEMINI_API_KEYS,
-    customApiKey,
-    process.env.GEMINI_API_KEY,
-  ]);
+  const apiKeys = buildGeminiKeyPool(customApiKey);
 
   if (apiKeys.length === 0) {
     throw new Error('API Key is not configured.');
@@ -35,16 +28,17 @@ export async function fetchGeminiWithRetry(
 
   // Queue admission already limits concurrency. Keep retries inside Vercel's
   // 60-second function budget instead of forcing 15 potentially long calls.
-  const maxAttempts = Math.max(1, Math.min(requestedMaxAttempts, apiKeys.length + 1, 4));
+  const maxAttempts = geminiAttemptLimit(requestedMaxAttempts, apiKeys.length);
   const deadline = Date.now() + 52_000;
-  const startIndex = Math.floor(Math.random() * apiKeys.length);
   let lastStatus = 0;
+  const rejectedKeyIndexes = new Set<number>();
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const remainingMs = deadline - Date.now();
     if (remainingMs < 4_000) break;
 
-    const currentKey = apiKeys[(startIndex + attempt) % apiKeys.length];
+    const keyIndex = attempt % apiKeys.length;
+    const currentKey = apiKeys[keyIndex];
     const baseUrl = apiUrl.split('?')[0];
     const finalUrl = `${baseUrl}?key=${encodeURIComponent(currentKey)}`;
     const controller = new AbortController();
@@ -64,20 +58,24 @@ export async function fetchGeminiWithRetry(
       if (response.ok) return response;
 
       lastStatus = response.status;
-      const errorText = await response.text();
+      await response.text();
       console.warn(
-        `[Gemini API] status=${response.status} attempt=${attempt + 1}/${maxAttempts} detail=${errorText.slice(0, 160)}`
+        `[Gemini API] status=${response.status} attempt=${attempt + 1}/${maxAttempts} keySlot=${keyIndex + 1}/${apiKeys.length}`
       );
 
-      const retryable = [429, 500, 503].includes(response.status);
+      if ([401, 403, 429].includes(response.status)) {
+        rejectedKeyIndexes.add(keyIndex);
+      }
+      const remainingUntriedKeys = apiKeys.length - rejectedKeyIndexes.size;
+      const rotateKey = shouldRotateGeminiKey(response.status, remainingUntriedKeys);
+      const retryable = rotateKey || [500, 503].includes(response.status);
       const hasAnotherAttempt = attempt + 1 < maxAttempts && deadline - Date.now() > 4_000;
       if (!retryable || !hasAnotherAttempt) {
         throw new Error(friendlyHttpError(response.status));
       }
 
-      const canRotateKey = apiKeys.length > 1 && attempt + 1 < apiKeys.length;
-      const delay = response.status === 429 && canRotateKey
-        ? 300 + Math.random() * 300
+      const delay = rotateKey
+        ? 100 + Math.random() * 150
         : 1_000 + Math.random() * 1_000;
       await new Promise(resolve => setTimeout(resolve, delay));
     } catch (error: any) {
