@@ -16,12 +16,16 @@ assert.match(sanitizer, /tool\$\{domain\}/);
 assert.match(sanitizer, /rubric\$\{domain\}/);
 assert.match(sanitizer, /levels\.size >= 3/);
 assert.match(sanitizer, /levels\.has\('5'\) && levels\.has\('1'\)/);
+assert.match(sanitizer, /export const hasDetailedRubric/);
+assert.match(sanitizer, /detailedLevels\.length >= 4/);
+assert.match(sanitizer, /export function ensureDetailedRubrics/);
+assert.match(sanitizer, /fallbackRubricText\(domain/);
 
-assert.match(aiFixRoute, /sanitizeRubricsOutOfAssessmentTools\(fixedPlanData\)/);
-assert.match(plansRoute, /sanitizeRubricsOutOfAssessmentTools\(await req\.json\(\)\)/);
-assert.match(planDetailRoute, /sanitizeRubricsOutOfAssessmentTools\(await req\.json\(\)\)/);
-assert.match(planDetailRoute, /data: sanitizeRubricsOutOfAssessmentTools\(data\)/);
-assert.match(wordExportRoute, /plan = sanitizeRubricsOutOfAssessmentTools\(plan\)/);
+assert.match(aiFixRoute, /ensureDetailedRubrics\(fixedPlanData, planData\)/);
+assert.match(plansRoute, /ensureDetailedRubrics\(await req\.json\(\)\)/);
+assert.match(planDetailRoute, /ensureDetailedRubrics\(rawBody, existingPlan\)/);
+assert.match(planDetailRoute, /data: ensureDetailedRubrics\(data\)/);
+assert.match(wordExportRoute, /plan = ensureDetailedRubrics\(plan\)/);
 
 assert.match(prompt, /ห้ามนำเกณฑ์ Rubric 5 ระดับไปรวมในช่องเครื่องมือวัดผล/);
 assert.match(prompt, /rubricK\/rubricP\/rubricA/);

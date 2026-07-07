@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { autoFixPromptTemplate } from '@/lib/aiEvaluatorPrompt';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { fastJsonGenerationConfig } from '@/lib/geminiRuntime';
-import { sanitizeRubricsOutOfAssessmentTools } from '@/lib/lesson-plan/rubric-field-sanitizer';
+import { ensureDetailedRubrics } from '@/lib/lesson-plan/rubric-field-sanitizer';
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
     const newPlanId = `ai-fixed-${Date.now()}`;
     const timestamp = new Date().toISOString();
 
-    const sanitizedFixedPlanData = sanitizeRubricsOutOfAssessmentTools(fixedPlanData);
+    const sanitizedFixedPlanData = ensureDetailedRubrics(fixedPlanData, planData);
 
     const standardData = {
       ...sanitizedFixedPlanData,

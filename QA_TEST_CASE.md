@@ -210,6 +210,7 @@ Evidence 2026-07-06:
 - TC-AI-FIX-RUBRIC-004 plan detail read returns normalized fields for existing polluted rows
 - TC-AI-FIX-RUBRIC-005 Word export renders rubric text in section 9.1 table, not in เครื่องมือวัดผล
 - TC-AI-FIX-RUBRIC-006 normal instrument names such as “แบบประเมินแบบ Rubric” are preserved when they do not include 5-level rubric details
+- TC-AI-FIX-RUBRIC-007 `rubricK/rubricP/rubricA` with only headings or score labels are replaced with detailed 5-level descriptions before preview/export
 
 Evidence 2026-07-07:
 

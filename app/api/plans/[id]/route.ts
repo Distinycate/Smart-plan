@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
 import { getSupabaseAdmin } from '@/lib/supabase'; // keeping for logs if needed
-import { sanitizeRubricsOutOfAssessmentTools } from '@/lib/lesson-plan/rubric-field-sanitizer';
+import { ensureDetailedRubrics } from '@/lib/lesson-plan/rubric-field-sanitizer';
 
 // GET a single plan
 export async function GET(
@@ -28,7 +28,7 @@ export async function GET(
 
     return NextResponse.json({
       success: true,
-      data: sanitizeRubricsOutOfAssessmentTools(data)
+      data: ensureDetailedRubrics(data)
     }, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
@@ -53,7 +53,7 @@ export async function PUT(
   try {
     const supabase = createClient();
     const { id } = params;
-    const body = sanitizeRubricsOutOfAssessmentTools(await req.json());
+    const rawBody = await req.json();
     const timestamp = new Date().toISOString();
 
     // 1. Fetch current version to backup
@@ -69,6 +69,8 @@ export async function PUT(
         error: 'Plan not found or unauthorized'
       }, { status: 404 });
     }
+
+    const body = ensureDetailedRubrics(rawBody, existingPlan);
 
     const mergedPlan = {
       ...existingPlan,

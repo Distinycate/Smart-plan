@@ -5,6 +5,8 @@
 ### Added
 - Shared sanitizer that moves 5-level rubric text out of `toolK/toolP/toolA`
   into `rubricK/rubricP/rubricA` without mutating unrelated plan fields.
+- Detailed-rubric guard that preserves original detailed K/P/A rubrics or fills
+  domain-specific 5-level descriptions when AI returns only headings/scores.
 - Regression contract test for AI fix, save, plan detail and Word export rubric separation.
 
 ### Changed
@@ -13,6 +15,7 @@
 
 ### Fixed
 - Fixed “ปรับปรุงแผน” output where Rubrics were merged into the เครื่องมือวัดผล column instead of rendering as separate Rubric tables below.
+- Fixed K/P Rubric tables rendering with score rows but no description details after AI improvement.
 
 ### Migration
 - None.

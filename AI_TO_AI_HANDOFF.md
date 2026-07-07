@@ -14,17 +14,20 @@ The primary runtime fixes after Phase 5 are already in the working tree:
 - Phase 2 A/reflection responses enforce required keys and server-side non-empty fallbacks.
 - `EvaluationResultDashboard` normalizes `result.issues.ordered` before array operations.
 - `/api/ai-fix`, plan create/update/read and Word export now apply
-  `sanitizeRubricsOutOfAssessmentTools()` so AI-generated Rubric 5-level text
+  `ensureDetailedRubrics()` so AI-generated Rubric 5-level text
   cannot remain merged inside `toolK/toolP/toolA`; it is moved to
-  `rubricK/rubricP/rubricA` for table rendering.
+  `rubricK/rubricP/rubricA` for table rendering. It also prevents K/P/A Rubric
+  tables from rendering score rows without descriptions by preserving the
+  original detailed rubric first or filling conservative K/P/A-specific defaults.
 
 Critical regression note: the score aggregator intentionally stores prioritized
 issues as `{ ordered, bySeverity, counts }`. Do not change the dashboard back to
 `const issues = result.issues ?? []`; that caused the completed-result white screen.
 
-Critical rubric layout note: do not remove the sanitizer or prompt rules that keep
-Rubric content out of assessment-tool fields. Existing polluted rows are normalized
-on read/export and will be persisted cleanly only after a teacher saves/updates them.
+Critical rubric layout note: do not remove the sanitizer/detail guard or prompt
+rules that keep Rubric content out of assessment-tool fields. Existing polluted or
+heading-only rows are normalized on read/export and will be persisted cleanly only
+after a teacher saves/updates them.
 
 Do not reintroduce `failed_rate_limited`, `evaluation_results.error_type` or
 `last_retry_at` unless migration 10 has been verified in the target environment.
