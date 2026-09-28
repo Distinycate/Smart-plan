@@ -66,6 +66,7 @@ CREATE INDEX IF NOT EXISTS idx_v3_curriculum_links_standard
 ALTER TABLE public.v3_lesson_curriculum_links ENABLE ROW LEVEL SECURITY;
 
 -- SELECT: owner or admin
+DROP POLICY IF EXISTS "v3_curriculum_links_select" ON public.v3_lesson_curriculum_links;
 CREATE POLICY "v3_curriculum_links_select"
   ON public.v3_lesson_curriculum_links
   FOR SELECT
@@ -79,6 +80,7 @@ CREATE POLICY "v3_curriculum_links_select"
   );
 
 -- INSERT/UPDATE/DELETE: owner only
+DROP POLICY IF EXISTS "v3_curriculum_links_mutation" ON public.v3_lesson_curriculum_links;
 CREATE POLICY "v3_curriculum_links_mutation"
   ON public.v3_lesson_curriculum_links
   FOR ALL
