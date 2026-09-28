@@ -167,3 +167,121 @@ Step 7: Documents & Export (Unified Document Model → A4 Print Preview / Word /
 - [x] สร้าง Routes ใหม่ของ V3: `/plan/v3`, `/plan/v3/new`, `/plan/v3/[id]` โดยไม่กระทบ Route เดิม
 - [x] สร้างเอกสาร `docs/SMART_PLAN_V3_ARCHITECTURE.md`
 - [x] ตรวจสอบความถูกต้องของ TypeScript, Build, และ Lint
+
+---
+
+## 8. V3.1 Actual Database Model
+
+ใน Wave V3.1 ระบบได้สร้าง Schema ใหม่ที่รองรับ Domain Graph:
+$$\text{Objective} \xleftrightarrow{\text{M:N}} \text{Evidence} \xleftrightarrow{\text{M:N}} \text{Assessment}$$
+และ
+$$\text{Activity} \xleftrightarrow{\text{M:N}} \text{Objective} \quad \text{and} \quad \text{Activity} \xleftrightarrow{\text{M:N}} \text{Evidence}$$
+
+### 8.1 Entity Relationship Diagram (ERD)
+
+```mermaid
+erDiagram
+    v3_lesson_plans ||--o{ v3_lesson_objectives : "has"
+    v3_lesson_plans ||--o{ v3_learning_evidence : "has"
+    v3_lesson_plans ||--o{ v3_lesson_activities : "has"
+    v3_lesson_plans ||--o{ v3_assessments : "has"
+    v3_lesson_plans ||--o{ v3_teaching_assets : "has"
+    v3_lesson_plans ||--o{ v3_plan_reviews : "has"
+    v3_lesson_plans ||--o{ v3_plan_versions : "has"
+    v3_lesson_plans ||--o| v3_post_teaching_records : "has"
+
+    v3_lesson_objectives ||--o{ v3_objective_evidence_links : "links"
+    v3_learning_evidence ||--o{ v3_objective_evidence_links : "links"
+
+    v3_lesson_activities ||--o{ v3_activity_objective_links : "links"
+    v3_lesson_objectives ||--o{ v3_activity_objective_links : "links"
+
+    v3_lesson_activities ||--o{ v3_activity_evidence_links : "links"
+    v3_learning_evidence ||--o{ v3_activity_evidence_links : "links"
+
+    v3_assessments ||--o{ v3_assessment_evidence_links : "links"
+    v3_learning_evidence ||--o{ v3_assessment_evidence_links : "links"
+
+    v3_assessments ||--o{ v3_assessment_tools : "specifies"
+
+    v3_teaching_assets ||--o{ v3_asset_objective_links : "links"
+    v3_lesson_objectives ||--o{ v3_asset_objective_links : "links"
+
+    v3_teaching_assets ||--o{ v3_asset_activity_links : "links"
+    v3_lesson_activities ||--o{ v3_asset_activity_links : "links"
+
+    v3_teaching_assets ||--o{ v3_asset_evidence_links : "links"
+    v3_learning_evidence ||--o{ v3_asset_evidence_links : "links"
+
+    v3_lesson_plans {
+        uuid id PK
+        uuid user_id FK
+        text title
+        text topic
+        text course_code
+        text course_name
+        text subject_key
+        text grade_level
+        int duration_minutes
+        text status
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    v3_lesson_objectives {
+        uuid id PK
+        uuid lesson_plan_id FK
+        int position
+        text statement
+        text objective_type
+        text observable_behavior
+        text source
+    }
+
+    v3_learning_evidence {
+        uuid id PK
+        uuid lesson_plan_id FK
+        int position
+        text evidence_type
+        text description
+        text source
+    }
+
+    v3_lesson_activities {
+        uuid id PK
+        uuid lesson_plan_id FK
+        int position
+        text phase
+        int minutes
+        text teacher_actions
+        text student_actions
+        text source
+    }
+
+    v3_assessments {
+        uuid id PK
+        uuid lesson_plan_id FK
+        int position
+        text name
+        text assessment_type
+        text method
+        text criteria_type
+        numeric criteria_value
+        text criteria_text
+        boolean formative
+    }
+
+    v3_assessment_tools {
+        uuid id PK
+        uuid assessment_id FK
+        text tool_type
+        text title
+        jsonb content
+    }
+```
+
+### 8.2 Isolation & Non-Destructive Invariants
+1. **Isolated Namespace**: ทุกตารางใช้ prefix `v3_` โดยไม่ไปแตะต้อง `LessonPlans`, `UnitPlans`, `Rubrics`
+2. **Cascade Behavior**: เมื่อลบ Objective จะลบเฉพาะ junction link `v3_objective_evidence_links` ไม่ลบ Evidence ที่แชร์กับ Objective อื่น
+3. **Owner-Only RLS**: ทุก child table ตรวจสิทธิ์ผ่าน `v3_lesson_plans.user_id = auth.uid()` ป้องกันการเข้าถึงข้ามบัญชี 100%
+
