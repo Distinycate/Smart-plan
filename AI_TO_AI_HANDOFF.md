@@ -183,3 +183,54 @@ feat: add async lesson plan quality evaluation pipeline
 The local production build passes. Authenticated live Supabase/Vercel, concurrent
 worker, cache and retry behavior still require staging execution. Do not claim the
 system is production-ready until those checks pass.
+
+---
+
+## SMART PLAN V3 — Wave Status (2026-09-28)
+
+### COMPLETED WAVES
+
+| Wave | Commit | Status |
+| :--- | :--- | :--- |
+| V3.0 — System Audit & Foundation | `b2c4b21` | ✅ DONE |
+| V3.1 — Domain Model & Database Foundation | `9f8dfc4` | ✅ DONE |
+| V3.2 — Curriculum & Subject Profile Engine | pending commit (this wave) | ✅ READY TO COMMIT |
+
+### V3.2 Deliverables
+
+**Curriculum Engine** (`lib/smartPlanV3/curriculum/`):
+- `types.ts` — `CurriculumProvider` interface
+- `legacyDataAdapter.ts` — in-memory index over `subjectStandardsData.ts` (84 entries, ~489 standards)
+- `provider.ts` + `index.ts`
+
+**Subject Profile Engine** (`lib/smartPlanV3/subjectProfiles/`):
+- 9 complete deterministic profiles: English, Thai, Math, Science, Social Studies, Health, PE, Art, Career
+- `registry.ts` — helpers: `getSubjectProfile`, `getRecommendedEvidenceTypes`, `getRecommendedAssessmentTypes`, `getRecommendedAssetTypes`, `validateAllProfiles`
+
+**API Routes** (read-only, no DB):
+- `/api/plan/v3/curriculum/versions|subjects|standards|indicators`
+- `/api/plan/v3/subject-profiles` + `/[key]`
+
+**Tests**: `tests/test-v3-subject-profiles.js` — 39/39 passed | AI CALLS: 0
+
+**Build Gate**: `npm run build` → Exit code 0
+
+**Database**: No new migrations in V3.2 (curriculum uses in-memory adapter).
+
+**RLS**: VERIFIED STATICALLY ONLY (same status as V3.1; hosted Supabase SQL Editor required for live verification).
+
+### WHAT V3.3 MUST DO NEXT
+
+- **Step 1 UI: Subject & Indicator Selection** (the 7-Step wizard, Step 1 only)
+  - Subject dropdown from `/api/plan/v3/curriculum/subjects`
+  - Grade Level picker
+  - Standard + Indicator multi-select (from `/api/plan/v3/curriculum/indicators`)
+  - Auto-populate `subject_key` → load Subject Profile → show learning focus picker
+  - Save selection to `v3_lesson_plans`
+- **Constraints**: Zero AI calls in V3.3; UI only; build must stay green; no legacy routes touched
+
+### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
+- Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged
+- Legacy routes (`/plan`, `/plan/new`, `/dashboard`) — unchanged
+- Feature Flag: `SMART_PLAN_V3` in `lib/featureFlags.ts` controls visibility
+

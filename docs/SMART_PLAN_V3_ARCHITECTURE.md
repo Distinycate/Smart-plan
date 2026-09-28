@@ -285,3 +285,114 @@ erDiagram
 2. **Cascade Behavior**: เมื่อลบ Objective จะลบเฉพาะ junction link `v3_objective_evidence_links` ไม่ลบ Evidence ที่แชร์กับ Objective อื่น
 3. **Owner-Only RLS**: ทุก child table ตรวจสิทธิ์ผ่าน `v3_lesson_plans.user_id = auth.uid()` ป้องกันการเข้าถึงข้ามบัญชี 100%
 
+---
+
+## 9. WAVE V3.2 — Curriculum Engine & Subject Profile Engine
+
+*Added: 2026-09-28 | AI CALLS: 0*
+
+### 9.1 Design Goals
+
+Wave V3.2 แยก 2 เรื่องออกจากกันชัดเจน:
+
+| Engine | ตอบคำถาม | Source |
+| :--- | :--- | :--- |
+| **Curriculum Engine** | หลักสูตรอะไร / วิชาอะไร / ชั้นไหน / มาตรฐาน/ตัวชี้วัดใด | Static Master Data (`subjectStandardsData.ts`) ผ่าน Adapter |
+| **Subject Profile Engine** | วิชานี้ควรออกแบบการเรียนรู้แบบใด / หลักฐานแบบใด / ประเมินอย่างไร | Deterministic TypeScript Configuration (ไม่มี AI) |
+
+### 9.2 Module Structure
+
+```text
+lib/smartPlanV3/
+├── curriculum/
+│   ├── types.ts              — CurriculumProvider interface + data shapes
+│   ├── legacyDataAdapter.ts  — implements CurriculumProvider from subjectStandardsData.ts
+│   ├── provider.ts           — singleton + cached index (Subject → Grade → Standards → Indicators)
+│   └── index.ts              — public exports
+│
+└── subjectProfiles/
+    ├── types.ts              — SubjectProfile, LearningFocusConfig, RecommendationTier
+    ├── english.ts
+    ├── thai.ts
+    ├── mathematics.ts
+    ├── science.ts
+    ├── socialStudies.ts
+    ├── health.ts
+    ├── physicalEducation.ts
+    ├── art.ts
+    ├── career.ts
+    ├── registry.ts           — PROFILE_REGISTRY + helper functions + validateAllProfiles()
+    └── index.ts
+```
+
+### 9.3 Curriculum Data Coverage
+
+| ข้อมูล | ปัจจุบัน |
+| :--- | :--- |
+| Curriculum Version | OBEC-2551-REV60 (หลักสูตร 2551 ปรับปรุง 2560) |
+| Subject-Grade entries | 84 |
+| Standards (`{ code: }`) | ~489 |
+| Indicators groups | ~84+ |
+| Missing | มัธยมปลาย (ม.4–6) ไม่สมบูรณ์บางวิชา |
+
+### 9.4 Subject Profiles Implemented
+
+| Profile Key | วิชา | Learning Focuses |
+| :--- | :--- | :--- |
+| `ENGLISH` | ภาษาต่างประเทศ | SPEAKING, LISTENING, READING, WRITING, LANGUAGE_USE, INTEGRATED |
+| `THAI` | ภาษาไทย | READING, WRITING, LISTENING_VIEWING, SPEAKING, LANGUAGE, LITERATURE |
+| `MATHEMATICS` | คณิตศาสตร์ | CALCULATION, PROBLEM_SOLVING, CONCEPT, REASONING, MATHEMATICAL_COMMUNICATION |
+| `SCIENCE` | วิทยาศาสตร์ | CONCEPT, INQUIRY, EXPERIMENT, DATA_ANALYSIS, SCIENTIFIC_EXPLANATION, ENGINEERING_DESIGN |
+| `SOCIAL_STUDIES` | สังคมศึกษาฯ | HISTORY, RELIGION_ETHICS, CIVICS, ECONOMICS, GEOGRAPHY |
+| `HEALTH` | สุขศึกษา | HEALTH_KNOWLEDGE, DECISION_MAKING, LIFE_SKILLS, HEALTH_BEHAVIOR |
+| `PHYSICAL_EDUCATION` | พลศึกษา | MOVEMENT_SKILL, SPORT_SKILL, PHYSICAL_FITNESS, TEAM_PLAY |
+| `ART` | ศิลปะ | VISUAL_ART, MUSIC, PERFORMING_ARTS |
+| `CAREER` | การงานอาชีพ | WORK_PROCESS, PRACTICAL_SKILL, DESIGN_MAKING, CAREER_EXPLORATION |
+
+### 9.5 Recommendation Flow
+
+```mermaid
+graph TD
+    A[Curriculum Master Data\nsubjectStandardsData.ts] -->|LegacyCurriculumAdapter| B[CurriculumProvider Interface]
+    B --> C[Subject]
+    C --> D[Grade Level]
+    D --> E[Standards]
+    E --> F[Indicators]
+
+    G[SubjectProfileRegistry] --> H{getSubjectProfile\nsubjectKey}
+    H --> I[SubjectProfile]
+    I --> J{Learning Focus\nSPEAKING / EXPERIMENT / etc.}
+    J --> K[Evidence Recommendation\npreferred / supported / notRecommended]
+    J --> L[Assessment Recommendation\npreferred / supported / notRecommended]
+    J --> M[Asset Recommendation\npreferred / supported / notRecommended]
+    J --> N[Objective Guidance\nobservable verbs]
+
+    F --> O[v3_lesson_plans\nsubject_key + curriculum_version]
+    I --> O
+```
+
+### 9.6 API Routes (Read-Only)
+
+```text
+GET /api/plan/v3/curriculum/versions
+GET /api/plan/v3/curriculum/subjects?curriculumVersion=...
+GET /api/plan/v3/curriculum/standards?subject=...&grade=...
+GET /api/plan/v3/curriculum/indicators?subject=...&grade=...&standard=...
+
+GET /api/plan/v3/subject-profiles
+GET /api/plan/v3/subject-profiles/[key]?focus=SPEAKING
+```
+
+### 9.7 Deterministic Rule Examples
+
+| Subject + Focus | Evidence (preferred) | Assessment (preferred) | Anti-pattern |
+| :--- | :--- | :--- | :--- |
+| English + SPEAKING | SPEAKING, PERFORMANCE | PERFORMANCE_RUBRIC, OBSERVATION | ANSWER_KEY เป็น primary |
+| Math + CALCULATION | WORKSHEET, QUIZ | ANSWER_KEY, SCORING_GUIDE | PERFORMANCE_RUBRIC |
+| Math + PROBLEM_SOLVING | WRITTEN_SOLUTION, PROBLEM_SET | SCORING_GUIDE, ANALYTIC_RUBRIC | SIMPLE_ANSWER_KEY |
+| Science + EXPERIMENT | EXPERIMENT, OBSERVATION, DATA_TABLE | CHECKLIST, RUBRIC | ANSWER_KEY |
+| PE + SPORT_SKILL | PERFORMANCE, OBSERVATION | PERFORMANCE_RUBRIC, CHECKLIST | WRITTEN_EXAM |
+| Social Studies + HISTORY | HISTORICAL_INQUIRY_REPORT, TIMELINE | ANALYTIC_RUBRIC | ROTE_MEMORIZATION |
+| Social Studies + RELIGION_ETHICS | CASE_STUDY_REFLECTION, BEHAVIORAL_OBSERVATION | BEHAVIORAL_CHECKLIST | HISTORICAL_TIMELINE |
+
+

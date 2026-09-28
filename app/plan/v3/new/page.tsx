@@ -1,23 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   ArrowLeft, 
-  Sparkles, 
   Save, 
-  HelpCircle, 
   AlertCircle, 
   Check, 
   Clock, 
-  FileText, 
   BookOpen, 
   Target, 
   Layers, 
   CheckSquare, 
   Package, 
-  Printer 
+  Printer,
+  Sparkles,
+  Info
 } from 'lucide-react';
+import { 
+  getAllSubjectProfiles, 
+  getSubjectProfile, 
+  getLearningFocusOptions,
+  getRecommendedEvidenceTypes,
+  getRecommendedAssessmentTypes,
+  getRecommendedAssetTypes,
+  getObjectiveGuidance
+} from '@/lib/smartPlanV3/subjectProfiles';
 
 const STEPS = [
   { id: 1, name: 'Setup', label: '1. ข้อมูลวิชา & คาบ', icon: BookOpen },
@@ -32,6 +40,28 @@ const STEPS = [
 export default function V3NewPlanPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [durationMinutes, setDurationMinutes] = useState(60);
+
+  // Subject Profile Engine state
+  const profiles = getAllSubjectProfiles();
+  const [selectedSubjectKey, setSelectedSubjectKey] = useState<string>('ENGLISH');
+  const [selectedFocus, setSelectedFocus] = useState<string>('SPEAKING');
+
+  const currentProfile = getSubjectProfile(selectedSubjectKey);
+  const focusOptions = getLearningFocusOptions(selectedSubjectKey);
+
+  // Auto reset focus when subject changes
+  const handleSubjectChange = (newKey: string) => {
+    setSelectedSubjectKey(newKey);
+    const newFocuses = getLearningFocusOptions(newKey);
+    if (newFocuses.length > 0) {
+      setSelectedFocus(newFocuses[0].key);
+    }
+  };
+
+  const recommendedEvidence = getRecommendedEvidenceTypes(selectedSubjectKey, selectedFocus);
+  const recommendedAssessment = getRecommendedAssessmentTypes(selectedSubjectKey, selectedFocus);
+  const recommendedAssets = getRecommendedAssetTypes(selectedSubjectKey, selectedFocus);
+  const verbs = getObjectiveGuidance(selectedSubjectKey, selectedFocus);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans pb-20">
@@ -52,7 +82,7 @@ export default function V3NewPlanPage() {
               </span>
               <h1 className="text-base font-bold text-slate-900">สร้างแผนการจัดการเรียนรู้ใหม่ (PA-Ready)</h1>
             </div>
-            <p className="text-xs text-slate-500">สถานะ: <span className="text-amber-600 font-medium">ร่างแรก (DRAFT)</span> • บันทึกอัตโนมัติ</p>
+            <p className="text-xs text-slate-500">สถานะ: <span className="text-amber-600 font-medium">ร่างแรก (DRAFT)</span> • Wave 3.2 Subject Profile Engine</p>
           </div>
         </div>
 
@@ -61,7 +91,7 @@ export default function V3NewPlanPage() {
             href="/plan/new"
             className="text-xs text-slate-500 hover:text-indigo-600 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-300 transition"
           >
-            เปิดหน้าสร้างแผนแบบเดิม (Legacy 5-Tabs)
+            เปิดหน้าสร้างแผนเดิม (Legacy 5-Tabs)
           </Link>
           <button 
             type="button" 
@@ -119,7 +149,7 @@ export default function V3NewPlanPage() {
                 <span>ขั้นตอนที่ 1: กำหนดข้อมูลพื้นฐาน (Setup)</span>
               </h2>
               <p className="text-sm text-slate-500 mt-1">
-                กำหนดกลุ่มสาระการเรียนรู้, ระดับชั้น, วิชา, หน่วยการเรียนรู้, และกรอบเวลาสอน 60 นาที
+                กำหนดกลุ่มสาระการเรียนรู้ และ Learning Focus เพื่อให้ระบบดึงแนวทางการวัดผลและสื่อที่สอดคล้องตามธรรมชาติของวิชา
               </p>
             </div>
             <div className="flex items-center space-x-2 bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-xl text-xs font-semibold">
@@ -128,18 +158,35 @@ export default function V3NewPlanPage() {
             </div>
           </div>
 
-          {/* Form Fields Preview / Foundation */}
+          {/* Form Fields Preview */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                กลุ่มสาระการเรียนรู้ <span className="text-rose-500">*</span>
+                กลุ่มสาระการเรียนรู้ (Subject Profile) <span className="text-rose-500">*</span>
               </label>
-              <select className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
-                <option value="FOREIGN_LANGUAGE">ภาษาต่างประเทศ (ภาษาอังกฤษ)</option>
-                <option value="THAI">ภาษาไทย</option>
-                <option value="MATHEMATICS">คณิตศาสตร์</option>
-                <option value="SCIENCE">วิทยาศาสตร์และเทคโนโลยี</option>
-                <option value="SOCIAL_STUDIES">สังคมศึกษา ศาสนา และวัฒนธรรม</option>
+              <select 
+                value={selectedSubjectKey}
+                onChange={(e) => handleSubjectChange(e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
+              >
+                {profiles.map(p => (
+                  <option key={p.key} value={p.key}>{p.labelTh}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                จุดเน้นการเรียนรู้เฉพาะคาบ (Learning Focus) <span className="text-rose-500">*</span>
+              </label>
+              <select 
+                value={selectedFocus}
+                onChange={(e) => setSelectedFocus(e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
+              >
+                {focusOptions.map(f => (
+                  <option key={f.key} value={f.key}>{f.labelTh}</option>
+                ))}
               </select>
             </div>
 
@@ -156,17 +203,6 @@ export default function V3NewPlanPage() {
 
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                รหัสและชื่อวิชา <span className="text-rose-500">*</span>
-              </label>
-              <input 
-                type="text" 
-                defaultValue="อ21101 ภาษาอังกฤษ 1" 
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                 เวลาที่ใช้ในการสอน (นาที) <span className="text-rose-500">*</span>
               </label>
               <input 
@@ -175,21 +211,70 @@ export default function V3NewPlanPage() {
                 onChange={(e) => setDurationMinutes(Number(e.target.value))}
                 className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
               />
-              <span className="text-[11px] text-slate-500">ค่าเริ่มต้น 60 นาที (ปรับเปลี่ยนได้ตามโครงสร้างรายวิชา)</span>
             </div>
           </div>
 
-          {/* Callout box for Wave 3.0 */}
-          <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-start space-x-3 text-amber-800 text-xs">
-            <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <strong className="font-bold">Smart Plan V3 Foundation (Wave 3.0 Active)</strong>
-              <p>
-                หน้านี้เป็น UI Shell สำหรับขั้นตอนการทำแผน 7 Steps ของ Smart Plan V3 
-                โดยฟังก์ชันเชิงลึกจะถูกปลดล็อคตามลำดับ Wave (3.1 Domain Model, 3.2 Subject Profile, 3.3 Setup & Learning Goals) 
-                เพื่อรับประกันความเสถียร 100% และไม่กระทบการทำงานเดิม
-              </p>
+          {/* V3.2 Subject Profile Engine Real-Time Debug Panel */}
+          <div className="p-6 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 space-y-4">
+            <div className="flex items-center space-x-2 text-indigo-900 font-bold text-sm">
+              <Sparkles className="w-4 h-4 text-indigo-600" />
+              <span>ผลลัพธ์คำแนะนำจาก Subject Profile Engine (Deterministic, Zero AI):</span>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-xs space-y-2">
+                <strong className="text-slate-800 font-semibold block text-indigo-700">หลักฐานการเรียนรู้ที่แนะนำ:</strong>
+                <div className="space-y-1">
+                  <div className="text-[11px] text-emerald-700 font-medium">
+                    ✓ ควรใช้: {recommendedEvidence.preferred.join(', ') || '-'}
+                  </div>
+                  <div className="text-[11px] text-slate-500">
+                    • รองรับ: {recommendedEvidence.supported.join(', ') || '-'}
+                  </div>
+                  {recommendedEvidence.notRecommended.length > 0 && (
+                    <div className="text-[10px] text-rose-600">
+                      ⚠ ไม่ควรใช้หลัก: {recommendedEvidence.notRecommended.join(', ')}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-xs space-y-2">
+                <strong className="text-slate-800 font-semibold block text-indigo-700">เครื่องมือประเมินที่แนะนำ:</strong>
+                <div className="space-y-1">
+                  <div className="text-[11px] text-emerald-700 font-medium">
+                    ✓ ควรใช้: {recommendedAssessment.preferred.join(', ') || '-'}
+                  </div>
+                  <div className="text-[11px] text-slate-500">
+                    • รองรับ: {recommendedAssessment.supported.join(', ') || '-'}
+                  </div>
+                  {recommendedAssessment.notRecommended.length > 0 && (
+                    <div className="text-[10px] text-rose-600">
+                      ⚠ ไม่ควรใช้หลัก: {recommendedAssessment.notRecommended.join(', ')}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-xl border border-indigo-100 shadow-xs space-y-2">
+                <strong className="text-slate-800 font-semibold block text-indigo-700">สื่อและใบงาน (Assets):</strong>
+                <div className="space-y-1">
+                  <div className="text-[11px] text-emerald-700 font-medium">
+                    ✓ ควรมี: {recommendedAssets.preferred.join(', ') || '-'}
+                  </div>
+                  <div className="text-[11px] text-slate-500">
+                    • เสริม: {recommendedAssets.supported.join(', ') || '-'}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {verbs.length > 0 && (
+              <div className="pt-2 border-t border-indigo-100/60 text-xs text-indigo-800 flex items-center space-x-2">
+                <Info className="w-4 h-4 text-indigo-600 shrink-0" />
+                <span>คำกริยาเชิงพฤติกรรมแนะนำ (Observable Verbs): <strong>{verbs.join(', ')}</strong></span>
+              </div>
+            )}
           </div>
 
           {/* Stepper Footer Action */}
