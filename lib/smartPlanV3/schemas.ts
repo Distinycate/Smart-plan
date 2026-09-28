@@ -40,9 +40,7 @@ export function validateCreateLessonInput(input: any): ValidationResult {
   if (!course_name || typeof course_name !== 'string' || !course_name.trim()) {
     return { success: false, error: 'กรุณาระบุชื่อรายวิชา (course_name)' };
   }
-  if (!course_code || typeof course_code !== 'string' || !course_code.trim()) {
-    return { success: false, error: 'กรุณาระบุรหัสวิชา (course_code)' };
-  }
+  // course_code is optional; default to empty string if not provided
   if (!subject_key || typeof subject_key !== 'string' || !subject_key.trim()) {
     return { success: false, error: 'กรุณาระบุกลุ่มสาระการเรียนรู้ (subject_key)' };
   }
@@ -61,16 +59,22 @@ export function validateCreateLessonInput(input: any): ValidationResult {
       title: title.trim(),
       topic: topic.trim(),
       course_name: course_name.trim(),
-      course_code: course_code.trim(),
-      subject_key: subject_key.trim(),
+      course_code: (course_code || '').trim(),
+      subject_key: subject_key.trim().toUpperCase(),
       grade_level: grade_level.trim(),
       curriculum_version: input.curriculum_version || 'OBEC-2551-REV60',
-      unit_reference: input.unit_reference || null,
+      unit_reference: input.unit_reference ? String(input.unit_reference).trim() : null,
       duration_minutes: duration,
       status: input.status && VALID_STATUSES.includes(input.status) ? input.status : 'DRAFT',
+      // V3.3 enrichment fields
+      learning_focus: input.learning_focus ? String(input.learning_focus).trim().toUpperCase() : null,
+      teaching_date: input.teaching_date ? String(input.teaching_date).trim() : null,
+      student_context: input.student_context ? String(input.student_context).trim() : null,
+      notes: input.notes ? String(input.notes).trim() : null,
     }
   };
 }
+
 
 export function validateCreateObjectiveInput(input: any): ValidationResult {
   if (!input || typeof input !== 'object') {

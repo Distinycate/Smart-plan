@@ -35,9 +35,34 @@ export interface V3LessonPlan {
   unit_reference: string | null;
   duration_minutes: number;
   status: V3LessonStatus;
+  // V3.3 additions
+  learning_focus: string | null;
+  teaching_date: string | null;    // ISO date string
+  student_context: string | null;
+  notes: string | null;
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * Curriculum link: one row per indicator selected for a lesson.
+ * Persists snapshot labels for long-term readability.
+ */
+export interface V3LessonCurriculumLink {
+  id: string;
+  lesson_plan_id: string;
+  curriculum_version: string;
+  subject_key: string;
+  grade_level: string;
+  standard_code: string;
+  indicator_code: string;
+  standard_label_snapshot: string;
+  indicator_label_snapshot: string;
+  position: number;
+  created_at: string;
+}
+
+
 
 export interface V3LessonObjective {
   id: string;
@@ -185,6 +210,7 @@ export interface V3PostTeachingRecord {
  */
 export interface V3LessonGraph {
   lesson: V3LessonPlan;
+  curriculumLinks: V3LessonCurriculumLink[];
   objectives: V3LessonObjective[];
   evidence: V3LearningEvidence[];
   objectiveEvidenceLinks: V3ObjectiveEvidenceLink[];

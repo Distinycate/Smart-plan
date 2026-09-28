@@ -42,3 +42,7 @@ test_*.mjs
 check_*.mjs
 delete_*.mjs
 debug_*.mjs
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo

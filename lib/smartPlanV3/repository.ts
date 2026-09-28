@@ -1,6 +1,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { 
   V3LessonPlan, 
+  V3LessonCurriculumLink,
   V3LessonObjective, 
   V3LearningEvidence, 
   V3ObjectiveEvidenceLink,
@@ -80,8 +81,71 @@ export class V3Repository {
   }
 
   /**
+   * ดึงรายการ Lesson V3 ของ user
+   */
+  async getLessonsByUser(userId: string, isAdmin = false): Promise<V3LessonPlan[]> {
+    let query = this.supabase
+      .from('v3_lesson_plans')
+      .select('*')
+      .order('updated_at', { ascending: false });
+
+    if (!isAdmin) {
+      query = query.eq('user_id', userId);
+    }
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    return (data || []) as V3LessonPlan[];
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // Curriculum Links
+  // ─────────────────────────────────────────────────────────
+
+  /**
+   * ดึง curriculum links ของ lesson (เรียงตาม position)
+   */
+  async getCurriculumLinks(planId: string): Promise<V3LessonCurriculumLink[]> {
+    const { data, error } = await this.supabase
+      .from('v3_lesson_curriculum_links')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .order('position', { ascending: true });
+
+    if (error) throw new Error(error.message);
+    return (data || []) as V3LessonCurriculumLink[];
+  }
+
+  /**
+   * Replace all curriculum links for a lesson (idempotent)
+   * Deletes existing, then inserts new batch.
+   */
+  async replaceCurriculumLinks(
+    planId: string,
+    links: Omit<V3LessonCurriculumLink, 'id' | 'created_at'>[]
+  ): Promise<V3LessonCurriculumLink[]> {
+    const { error: delErr } = await this.supabase
+      .from('v3_lesson_curriculum_links')
+      .delete()
+      .eq('lesson_plan_id', planId);
+
+    if (delErr) throw new Error(delErr.message);
+    if (links.length === 0) return [];
+
+    const rows = links.map((l, i) => ({ ...l, lesson_plan_id: planId, position: i }));
+    const { data, error } = await this.supabase
+      .from('v3_lesson_curriculum_links')
+      .insert(rows)
+      .select();
+
+    if (error) throw new Error(error.message);
+    return (data || []) as V3LessonCurriculumLink[];
+  }
+
+  /**
    * สร้าง Objective
    */
+
   async createObjective(data: Omit<V3LessonObjective, 'id' | 'created_at' | 'updated_at'>): Promise<V3LessonObjective> {
     const { data: objective, error } = await this.supabase
       .from('v3_lesson_objectives')
@@ -305,8 +369,12 @@ export class V3Repository {
         : { data: [] },
     ]);
 
+    // Curriculum Links
+    const curriculumLinks = await this.getCurriculumLinks(planId);
+
     return {
       lesson,
+      curriculumLinks,
       objectives,
       evidence,
       objectiveEvidenceLinks: (objEvdLinksRes.data || []) as V3ObjectiveEvidenceLink[],
