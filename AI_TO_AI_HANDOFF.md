@@ -41,6 +41,60 @@ primary Quality Platform implementation. Do not replace it with the experimental
 legacy `ai_evaluation_*` flow. Preserve all legacy Lesson Plan save/export APIs.
 Do not drop tables, clear data, or apply AI suggestions to teacher data.
 
+## Phase 0 Architecture Consolidation — 2026-09-15
+
+- `lib/architecture/canonical-flow-registry.ts` is the source of truth for the
+  Golden Path. New work must use Core + Activity + completion and
+  `/api/evaluations/*` for persisted lesson plans.
+- AI patch routes are now preview-first. Both direct patch preview and patch
+  jobs must never call `LessonPlans.update()`.
+- Patch jobs persist `lesson_plan_patches.applied=false` and expose before/after/
+  reason from their status API. They do not create version history, invalidate
+  an evaluation cache, or run a recheck until a teacher explicitly accepts.
+- Do not reintroduce automatic patch writes. Teacher Apply remains blocked until
+  Phase 1 security hardening and production authorization verification pass.
+
+## Phase 1 Wave 1 — Identity & Authorization Foundation — 2026-09-15
+
+- New migration `12_security_identity_authorization_foundation.sql` changes only
+  policies/functions/grants. It must be reviewed and run manually in Supabase;
+  it does not delete or backfill data.
+- Migration 12 makes `profiles.role`, `id`, `email`, and `created_at`
+  server-controlled. Teachers retain mutable profile fields only.
+- `lib/auth/authorization.ts` is the only approved source for new API identity/
+  ownership helpers. Do not trust body/query `userId`.
+- Page middleware now guards all non-public pages. API routes remain excluded by
+  design and must be hardened individually in Wave 2.
+- Wave 2A is complete at source level only. Do not change export, restore, evaluation,
+  patch or legacy routes until their dedicated Wave 2 batches begin.
+
+## Phase 1 Wave 2A — Canonical AI Runtime Boundary — 2026-09-15
+
+- `lib/ai/canonical-ai-boundary.ts` protects only the active PlanForm Golden Path:
+  Core, Activity, Completion K/P/A and Reflection. Do not bypass it in a new canonical route.
+- Each protected route requires `supabase.auth.getUser()` through `requireUser()` before
+  it reads a payload or uses Gemini. The body is capped at 48 KiB.
+- Migration `13_canonical_ai_request_admission.sql` is required before deployment. It
+  provides serverless-safe, database-backed global/per-user concurrency admission.
+  Missing RPC must remain a safe `503`; do not add an in-memory fallback.
+- This is not per-minute rate limiting. Keep the provider interface and choose managed
+  rate-limit infrastructure only after production architecture verification.
+- Legacy callers still exist in `app/evaluator/page.tsx`; do not disable `/api/ai*` or
+  `/api/evaluation-jobs/*` until caller migration and regression evidence exist.
+- Next approved scope: Wave 2B Plan Ownership Boundary. Do not add teacher Apply.
+
+## Phase 1 Wave 2B — Plan & Unit Ownership Boundary — 2026-09-15
+
+- `requirePlanReader()` is the sole helper for LessonPlan read access. It permits
+  the owner and administrator. `requirePlanOwner()` is required for plan mutation,
+  restore and document export; it deliberately denies an admin acting on another
+  teacher's plan.
+- UnitPlan and all UnitLesson operations are owner-only. `requireUnitLessonOwner()`
+  verifies the actual stored child FK matches the URL parent and current owner.
+- No Wave 2B migration was created. Keep existing RLS; API checks are defense-in-depth.
+- Next approved scope: Wave 2C Evaluation + Patch Boundary. Do not add teacher Apply,
+  reviewer roles, rubric redesign or legacy-route disablement.
+
 ## Current State
 
 - Phase 1: canonical schema, normalizer, stable hash, modes and rubrics complete.

@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
+import {
+  beginCanonicalAiRequest,
+  isCanonicalAiBoundaryError,
+  type CanonicalAiRequestContext,
+} from '@/lib/ai/canonical-ai-boundary';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
+  let requestContext: CanonicalAiRequestContext | undefined;
   try {
-
+    requestContext = await beginCanonicalAiRequest(req, 'completion-p');
     const { 
       gradeLevel, 
       subjectName, 
@@ -15,8 +21,9 @@ export async function POST(req: NextRequest) {
       objectiveK,
       objectiveP,
       objectiveA,
-      learningProcess
-    } = await req.json();
+      learningProcess,
+      tasks
+    } = requestContext.payload;
 
     if (!gradeLevel || !subjectName || !lessonTopic || !learningProcess) {
       return NextResponse.json({
@@ -27,10 +34,7 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.GEMINI_API_KEY_COMPLETION || process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({
-        success: false,
-        error: 'Missing GEMINI_API_KEY environment variable.'
-      }, { status: 500 });
+      throw new Error('Missing GEMINI_API_KEY environment variable.');
     }
     const apiUrl = fastGeminiUrl();
 
@@ -74,15 +78,15 @@ export async function POST(req: NextRequest) {
 วิชา: ${subjectName} ชั้น: ${gradeLevel} เรื่อง: ${lessonTopic}
 
 จุดประสงค์ทักษะ (P): ${objectiveP || '-'}
-
+${tasks ? `\nชิ้นงาน/ภาระงานที่ต้องประเมิน: ${tasks}\n` : ''}
 กระบวนการจัดการเรียนรู้ที่ใช้:
 ${boundedLearningProcess}
 ---
 
-หน้าที่ของคุณคือ "สร้างเกณฑ์การประเมินด้านทักษะ (P)" ให้สอดคล้องกับกระบวนการเรียนรู้และจุดประสงค์ที่กำหนดไว้อย่างสมบูรณ์แบบที่สุด
+หน้าที่ของคุณคือ "สร้างเกณฑ์การประเมินด้านทักษะ (P)" ให้สอดคล้องกับกระบวนการเรียนรู้ จุดประสงค์ และชิ้นงาน/ภาระงานที่กำหนดไว้อย่างสมบูรณ์แบบที่สุด
 
 หลักการสำคัญ
-1. การวัดผล (Measure P) ต้องตอบโจทย์จุดประสงค์การเรียนรู้ P ด้านบนอย่างแม่นยำ
+1. การวัดผล (Measure P) ต้องตอบโจทย์จุดประสงค์การเรียนรู้ P และภาระงานด้านบนอย่างแม่นยำ
 2. เกณฑ์ Rubric 5 ระดับ ต้องเขียนให้ชัดเจน วัดได้จริง (5=ดีเยี่ยม, 4=ดีมาก, 3=ดี, 2=พอใช้, 1=ปรับปรุง) ห้ามเขียนข้ามระดับ ห้ามรวบรัดอย่างเด็ดขาด และเขียนคำอธิบายคุณภาพงานในแต่ละระดับให้ครบถ้วนทั้ง 5 ระดับ
 3. ใช้ภาษาราชการทางการศึกษา
 ${errorMemoryText}
@@ -97,7 +101,7 @@ ${errorMemoryText}
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
-        ...fastJsonGenerationConfig(8192),
+        ...fastJsonGenerationConfig(2048),
         responseSchema: {
           type: "OBJECT",
           properties: {
@@ -135,13 +139,21 @@ ${errorMemoryText}
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }
 
+    await requestContext.complete('complete');
     return NextResponse.json({
       success: true,
       data: parsedData
     });
 
   } catch (error: any) {
+    await requestContext?.complete('failed');
     console.error('Gemini AI Completion endpoint error:', error);
+    if (isCanonicalAiBoundaryError(error)) {
+      return NextResponse.json({ success: false, error: error.message, errorCode: error.code }, {
+        status: error.httpStatus,
+        headers: error.retryAfterSeconds ? { 'Retry-After': String(error.retryAfterSeconds) } : undefined,
+      });
+    }
     return NextResponse.json({
       success: false,
       error: error.message || 'Error occurred during AI completion generation'

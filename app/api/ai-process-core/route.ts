@@ -4,13 +4,32 @@ import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
 import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
 import { ACTIVE_LEARNING_MASTER_FRAMEWORK } from '@/lib/activeLearningFramework';
+import {
+  beginCanonicalAiRequest,
+  isCanonicalAiBoundaryError,
+  type CanonicalAiRequestContext,
+} from '@/lib/ai/canonical-ai-boundary';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
+  let requestContext: CanonicalAiRequestContext | undefined;
   try {
-
-    const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal } = await req.json();
+    requestContext = await beginCanonicalAiRequest(req, 'process-core');
+    const { 
+      gradeLevel, 
+      subjectName, 
+      lessonTopic, 
+      learningArea, 
+      totalHours, 
+      learningStandard, 
+      indicatorDuring, 
+      indicatorFinal,
+      essentialConcept,
+      objectiveK,
+      objectiveP,
+      objectiveA
+    } = requestContext.payload;
 
     if (!gradeLevel || !subjectName || !lessonTopic) {
       return NextResponse.json({
@@ -21,10 +40,7 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.GEMINI_API_KEY_PROCESS || process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({
-        success: false,
-        error: 'Missing GEMINI_API_KEY environment variable.'
-      }, { status: 500 });
+      throw new Error('Missing GEMINI_API_KEY environment variable.');
     }
     const apiUrl = fastGeminiUrl();
 
@@ -168,6 +184,13 @@ ${finalInds || 'ไม่มีข้อมูลตัวชี้วัดป�
     }
 
     const boundedIndicatorPrompt = clipForAi(indicatorPrompt, 8000);
+    const userConceptPrompt = essentialConcept?.trim()
+      ? `\n[สาระสำคัญที่กำหนดไว้แล้ว - ให้นำไปเป็นแนวคิดหลักในการสร้างและรักษาใจความสำคัญไว้]\n${clipForAi(essentialConcept, 2000)}\n`
+      : '';
+    const userObjectivesPrompt = (objectiveK || objectiveP || objectiveA)
+      ? `\n[จุดประสงค์การเรียนรู้ที่กำหนดไว้แล้ว - ให้นำไปบูรณาการและสร้างให้สอดคล้องกัน]\nK: ${objectiveK || '-'}\nP: ${objectiveP || '-'}\nA: ${objectiveA || '-'}\n`
+      : '';
+
     const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: CORE STRUCTURE)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
@@ -177,6 +200,8 @@ ${ACTIVE_LEARNING_MASTER_FRAMEWORK}
 สำหรับระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
 
 ${boundedIndicatorPrompt}
+${userConceptPrompt}
+${userObjectivesPrompt}
 
 หลักการสำคัญ
 1. ให้สร้างข้อมูลส่วนโครงสร้างหลักเท่านั้น ได้แก่ มาตรฐาน, ตัวชี้วัด, จุดประสงค์ K/P/A, สมรรถนะ, คุณลักษณะ, ทักษะศตวรรษที่ 21
@@ -225,13 +250,21 @@ ${errorMemoryText}
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }
 
+    await requestContext.complete('complete');
     return NextResponse.json({
       success: true,
       data: parsedData
     });
 
   } catch (error: any) {
+    await requestContext?.complete('failed');
     console.error('Gemini AI Process endpoint error:', error);
+    if (isCanonicalAiBoundaryError(error)) {
+      return NextResponse.json({ success: false, error: error.message, errorCode: error.code }, {
+        status: error.httpStatus,
+        headers: error.retryAfterSeconds ? { 'Retry-After': String(error.retryAfterSeconds) } : undefined,
+      });
+    }
     return NextResponse.json({
       success: false,
       error: error.message || 'Error occurred during AI process generation'

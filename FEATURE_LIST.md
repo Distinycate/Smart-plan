@@ -34,12 +34,29 @@
 - Hash/mode evaluation cache and stale-plan protection
 - System-plan evaluator integration with legacy DOCX fallback
 - Bounded two-worker evaluation and concurrent Core/Activity generation
-- Fast teacher-reviewed full-plan improvement preview
+- Preview-first AI improvement: proposed patches with before/after/reason; no automatic LessonPlans write
+
+## Phase 1 Security Foundation
+
+- Additive profile policy/grant hardening migration (manual Supabase execution required)
+- Server-side user/admin/owner authorization primitives for new API work
+- Protected-page login redirect while preserving API-level authorization responsibility
+- Static security contract test for role immutability, ownership primitives and page guard
+- Canonical AI request boundary: authenticated user, 48 KiB payload cap, typed validation,
+  database-backed global/per-user concurrency admission, fail-closed configuration behavior
+- Lesson/Unit ownership boundary: explicit owner-only mutations and exports, admin read-only
+  cross-teacher LessonPlan access, and UnitLesson parent/child relationship validation
 
 ## Pending Runtime Gate
 
-- Run migrations 05–07 on staging
+- Verify actual migration ledger/schema on staging (documents and source have historic status differences)
 - Verify authenticated Phase 5 APIs against staging Supabase
+- Run migration 12 and verify profile RLS/grants with teacher/admin test accounts
+- Negative security tests: role escalation, cross-user plan/export/evaluation/patch access
+- Run migration 13 and verify anonymous canonical AI returns 401, busy limits return 429,
+  and missing admission schema returns safe 503 without a Gemini request
+- Execute User A/User B IDOR verification for LessonPlan, restore, Word/PDF, UnitPlan,
+  UnitLesson and Unit export
 - Multi-user concurrency test
 - Vercel timeout/cache/retry test
 - Word/PDF visual QA
@@ -49,6 +66,6 @@
 ## Future
 
 - Native DOCX/PDF server generation
-- Teacher-reviewed apply flow for selected AI suggestions
+- Explicit per-section teacher apply flow for selected AI suggestions
 - Unit assessment and rubric editors
 - Teaching material generation after alignment maturity

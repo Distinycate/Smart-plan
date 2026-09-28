@@ -1,5 +1,6 @@
 export * from './schema';
 export * from './normalizer';
+export * from './legacy-contract';
 export * from './guards';
 export * from './hash';
 export * from './evaluation/modes';

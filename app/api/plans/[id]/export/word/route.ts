@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
 import { ensureDetailedRubrics } from '@/lib/lesson-plan/rubric-field-sanitizer';
+import { isAuthorizationError, requirePlanOwner } from '@/lib/auth/authorization';
 
 // Helper to escape HTML tags to prevent XSS
 const escapeHtml = (text: string) => {
@@ -268,17 +268,10 @@ export async function GET(
 ) {
   try {
     const { id } = params;
-
-    // 1. Fetch the plan details
-    let { data: plan, error } = await supabase
-      .from('LessonPlans')
-      .select('*')
-      .eq('planId', id)
-      .single();
-
-    if (error || !plan) {
-      return new Response('Lesson plan not found', { status: 404 });
-    }
+    // Word is a data-disclosure boundary. Do not rely on UI links or RLS alone.
+    const ownership = await requirePlanOwner(id);
+    const supabase = ownership.supabase;
+    let plan: any = ownership.plan;
 
     plan = ensureDetailedRubrics(plan);
 
@@ -766,6 +759,9 @@ export async function GET(
     });
 
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return new Response('Lesson plan not found', { status: error.httpStatus });
+    }
     console.error('Word export error:', error);
     return new Response('Error exporting document: ' + error.message, { status: 500 });
   }

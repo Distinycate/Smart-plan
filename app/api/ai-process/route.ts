@@ -2,41 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { getCurriculumBySubject, formatStandards, formatDuringIndicators, formatFinalIndicators } from '@/lib/subjectStandardsData';
-import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
-import { ACTIVE_LEARNING_MASTER_FRAMEWORK } from '@/lib/activeLearningFramework';
-import { normalizeActivityGeneration } from '@/lib/aiActivityResult';
-import {
-  beginCanonicalAiRequest,
-  isCanonicalAiBoundaryError,
-  type CanonicalAiRequestContext,
-} from '@/lib/ai/canonical-ai-boundary';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
-  let requestContext: CanonicalAiRequestContext | undefined;
   try {
-    requestContext = await beginCanonicalAiRequest(req, 'process-activity');
-    const { 
-      gradeLevel, 
-      subjectName, 
-      lessonTopic, 
-      learningArea, 
-      totalHours, 
-      learningStandard, 
-      indicatorDuring, 
-      indicatorFinal, 
-      availableMedia, 
-      availableSources, 
-      availableTasks, 
-      learningProcess,
-      objectiveK,
-      objectiveP,
-      objectiveA,
-      essentialConcept,
-      learningContent: existingContent,
-      tasks: existingTasks
-    } = requestContext.payload;
+    const { gradeLevel, subjectName, lessonTopic, learningArea, totalHours, learningStandard, indicatorDuring, indicatorFinal } = await req.json();
 
     if (!gradeLevel || !subjectName || !lessonTopic) {
       return NextResponse.json({
@@ -47,16 +18,19 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.GEMINI_API_KEY_PROCESS || process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      throw new Error('Missing GEMINI_API_KEY environment variable.');
+      return NextResponse.json({
+        success: false,
+        error: 'Missing GEMINI_API_KEY environment variable.'
+      }, { status: 500 });
     }
-    const apiUrl = fastGeminiUrl();
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
     // Fetch Error Memory from ai_error_logs
     const { data: errorLogs } = await supabase
       .from('ai_error_logs')
       .select('error_message, resolution_hint')
       .order('created_at', { ascending: false })
-      .limit(3);
+      .limit(20);
 
     let errorMemoryText = '';
     if (errorLogs && errorLogs.length > 0) {
@@ -70,7 +44,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Take up to 10 unique errors to avoid confusing the AI
-      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 3);
+      const distinctErrors = Array.from(uniqueErrors.entries()).slice(0, 10);
 
       if (distinctErrors.length > 0) {
         errorMemoryText = `\n\nMASTER ERROR MEMORY PROMPT\n[ข้อมูลอ้างอิง: ข้อผิดพลาดที่เคยพบในอดีต กรุณาเรียนรู้และห้ามทำผิดซ้ำ]\n`;
@@ -190,78 +164,43 @@ ${finalInds || 'ไม่มีข้อมูลตัวชี้วัดป�
       indicatorPrompt = `ข้อมูลมาตรฐานการเรียนรู้และตัวชี้วัด: ให้วิเคราะห์เองจากเรื่องที่สอน (${lessonTopic}) ตามหลักสูตรแกนกลาง โดยให้เลือกจำนวนตัวชี้วัดให้เหมาะสมกับเวลาเรียน (แผน 1 ชั่วโมง ไม่เกิน 2-3 ตัวชี้วัด, แผน 2-3 ชั่วโมง ไม่เกิน 3-5 ตัวชี้วัด) และต้องระบุรหัสตัวชี้วัดมาด้วยให้ครบถ้วน`;
     }
 
-    const boundedIndicatorPrompt = clipForAi(indicatorPrompt, 8000);
-    const hasExistingProcess = learningProcess && learningProcess.length > 50;
-
-    const objectivesContext = (objectiveK || objectiveP || objectiveA) ? `
-[จุดประสงค์การเรียนรู้ที่ต้องจัดกิจกรรมและชิ้นงานให้สอดคล้องและบรรลุผล]
-- ด้านความรู้ (K): ${clipForAi(objectiveK, 1000) || '-'}
-- ด้านทักษะกระบวนการ (P): ${clipForAi(objectiveP, 1000) || '-'}
-- ด้านคุณลักษณะ (A): ${clipForAi(objectiveA, 1000) || '-'}
-` : '';
-    const conceptContext = essentialConcept?.trim() ? `\n[สาระสำคัญ (Concept)]\n${clipForAi(essentialConcept, 1500)}\n` : '';
-    const existingContentContext = existingContent?.trim() ? `\n[เนื้อหาสาระเดิมที่มีอยู่]\n${clipForAi(existingContent, 1500)}\n` : '';
-    const existingTasksContext = existingTasks?.trim() ? `\n[ภาระงาน/ชิ้นงานที่กำหนดไว้]\n${clipForAi(existingTasks, 1000)}\n` : '';
-
-    const processPrompt = hasExistingProcess
-      ? `(ไม่ต้องสร้างกระบวนการเรียนรู้ใหม่ เนื่องจากมีอยู่แล้ว ให้ใช้อ้างอิงจากข้อมูลต่อไปนี้:\n${clipForAi(learningProcess, 5000)}\n)`
-      : `1. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าครูทำอะไร และนักเรียนทำอะไร)`;
-
-    const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: LEARNING PROCESS)
+    const prompt = `MASTER SYSTEM PROMPT V1 (STEP 1: LEARNING PROCESS & CORE STRUCTURE)
 สำหรับระบบสร้างแผนการจัดการเรียนรู้
 
-${ACTIVE_LEARNING_MASTER_FRAMEWORK}
+คุณคือผู้เชี่ยวชาญด้าน Active Learning
+หน้าที่ของคุณคือออกแบบโครงสร้างหลัก และ "กระบวนการจัดการเรียนรู้" ที่มีคุณภาพสูงและสามารถนำไปใช้จริงได้
+สำหรับระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
 
-ข้อมูลเฉพาะของแผนนี้:
-ระดับชั้น: ${gradeLevel}, วิชา: ${subjectName}, เรื่อง: ${lessonTopic}
-
-${boundedIndicatorPrompt}
-${conceptContext}
-${objectivesContext}
-${existingContentContext}
-${existingTasksContext}
+${indicatorPrompt}
 
 หลักการสำคัญ
-1. ให้สร้างข้อมูลเฉพาะ กระบวนการสอน (GPAS 5 ขั้นตอน หรือ 5E Model) ที่สอดคล้องกับจุดประสงค์การเรียนรู้ K, P, A อย่างแท้จริง
-2. ทุกองค์ประกอบ (กิจกรรม, เนื้อหา, สื่อ, ภาระงาน) ต้องสัมพันธ์กัน 100%
+1. ให้สร้างข้อมูลเฉพาะ 8 ส่วนแรกของแผนการสอนเท่านั้น (เพื่อความรวดเร็ว) ได้แก่ มาตรฐาน, ตัวชี้วัด, จุดประสงค์ K/P/A, สมรรถนะ, คุณลักษณะ, ทักษะศตวรรษที่ 21 และ กระบวนการสอน (5 ขั้นตอน: นำ, สอน, ฝึก, ประยุกต์, สรุป)
+2. ทุกองค์ประกอบต้องสัมพันธ์กัน
 3. ใช้ภาษาราชการทางการศึกษา
 ${errorMemoryText}
 
 ให้ตอบกลับเป็น JSON Object เท่านั้น โดยมีคีย์ดังต่อไปนี้:
-${!hasExistingProcess ? processPrompt + '\n' : ''}2. learningContent: (สรุปเนื้อหา/สาระสำคัญของบทเรียนนี้แบบกระชับ บังคับว่าต้องมีข้อมูล ห้ามเว้นว่างเด็ดขาด)
-3. learningMedia: (สื่อการเรียนรู้ 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableMedia || 'ไม่มีคลังกำหนด ให้คิดเอง'})
-4. learningSources: (แหล่งเรียนรู้ 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableSources || 'ไม่มีคลังกำหนด ให้คิดเอง'})
-5. tasks: (ชิ้นงานหรือภาระงาน 1-2 อย่าง โดยให้พิจารณาเลือกจากตัวเลือกต่อไปนี้ถ้ามีและเหมาะสม: ${availableTasks || 'ไม่มีคลังกำหนด ให้คิดเอง'})
-
-${hasExistingProcess ? 'หมายเหตุ: ให้อ่านกระบวนการสอนเดิมจากข้อมูลที่แนบไป และสร้างเนื้อหาสาระ สื่อ แหล่งเรียนรู้ และชิ้นงานให้สอดคล้องกัน\n' + processPrompt : ''}`;
-
-    const schemaProperties: any = {
-      learningContent: { type: "STRING" },
-      learningMedia: { type: "ARRAY", items: { type: "STRING" } },
-      learningSources: { type: "ARRAY", items: { type: "STRING" } },
-      tasks: { type: "ARRAY", items: { type: "STRING" } }
-    };
-    
-    const schemaRequired = ["learningContent", "learningMedia", "learningSources", "tasks"];
-
-    if (!hasExistingProcess) {
-      schemaProperties.learningProcess = { type: "STRING" };
-      schemaRequired.unshift("learningProcess");
-    }
+1. essentialConcept: (เนื้อหาสาระสำคัญแบบสรุป)
+2. learningStandard: (ระบุมาตรฐานที่ใช้)
+3. indicatorDuring: (ระบุตัวชี้วัดระหว่างทางที่ใช้)
+4. indicatorFinal: (ระบุตัวชี้วัดปลายทางที่ใช้)
+5. objectiveK: (จุดประสงค์การเรียนรู้ ด้านความรู้ K)
+6. objectiveP: (จุดประสงค์การเรียนรู้ ด้านทักษะกระบวนการ P)
+7. objectiveA: (จุดประสงค์การเรียนรู้ ด้านคุณลักษณะ A)
+8. competencies: (วิเคราะห์สมรรถนะสำคัญ แจกแจงเป็นข้อๆ)
+9. desiredAttributes: (วิเคราะห์คุณลักษณะอันพึงประสงค์ แจกแจงเป็นข้อๆ)
+10. skills21: (วิเคราะห์ทักษะในศตวรรษที่ 21 แจกแจงเป็นข้อๆ)
+11. learningProcess: (วิธีดำเนินกิจกรรม 5 ขั้นตอน ได้แก่ 1. ขั้นนำ 2. ขั้นสอน 3. ขั้นฝึก 4. ขั้นประยุกต์ 5. ขั้นสรุป อธิบายโดยละเอียด และระบุชัดเจนว่าใครทำอะไร อย่างไร)`;
 
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: {
-        ...fastJsonGenerationConfig(hasExistingProcess ? 2048 : 4096),
-        responseSchema: {
-          type: "OBJECT",
-          properties: schemaProperties,
-          required: schemaRequired
-        }
+      generationConfig: { 
+        responseMimeType: 'application/json',
+        maxOutputTokens: 8192
       }
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey, 'process-activity');
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 3, apiKey);
     const resJson = await response.json();
     const aiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
     
@@ -270,11 +209,11 @@ ${hasExistingProcess ? 'หมายเหตุ: ให้อ่านกระ
     }
 
     let cleanedText = aiText.trim();
-    const match = cleanedText.match(/```(?:json)?([\s\S]*?)```/);
+    const match = cleanedText.match(/```(?:json)?([\\s\\S]*?)```/);
     if (match) {
       cleanedText = match[1].trim();
     } else {
-      cleanedText = cleanedText.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+      cleanedText = cleanedText.replace(/^```(?:json)?\\n?/, '').replace(/\\n?```$/, '').trim();
     }
     
     let parsedData;
@@ -285,28 +224,13 @@ ${hasExistingProcess ? 'หมายเหตุ: ให้อ่านกระ
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }
 
-    const normalizedResult = normalizeActivityGeneration(parsedData, !hasExistingProcess);
-    if (!normalizedResult.ok) {
-      throw new Error(
-        `AI สร้างข้อมูลข้อ 7-8 ไม่ครบ (${normalizedResult.missing.join(', ')}) กรุณาลองใหม่อีกครั้ง`
-      );
-    }
-
-    await requestContext.complete('complete');
     return NextResponse.json({
       success: true,
-      data: normalizedResult.data
+      data: parsedData
     });
 
   } catch (error: any) {
-    await requestContext?.complete('failed');
     console.error('Gemini AI Process endpoint error:', error);
-    if (isCanonicalAiBoundaryError(error)) {
-      return NextResponse.json({ success: false, error: error.message, errorCode: error.code }, {
-        status: error.httpStatus,
-        headers: error.retryAfterSeconds ? { 'Retry-After': String(error.retryAfterSeconds) } : undefined,
-      });
-    }
     return NextResponse.json({
       success: false,
       error: error.message || 'Error occurred during AI process generation'

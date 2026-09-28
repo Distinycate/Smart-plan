@@ -5,17 +5,9 @@ import {
   generateAiPatch,
   applyPatchBundle,
   validatePatchResult,
-  getSectionsToRecheck,
-  isEvaluationMode,
   toCanonicalLessonPlan,
   createLessonPlanHash,
-  getEvaluationMode,
-  PatchTarget,
-  getRubricCriterion,
 } from '@/lib/lesson-plan';
-
-
-import { getSectionsToCarryOver } from '@/lib/lesson-plan/patch/recheck-map';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60; // Max allowed duration on Vercel
@@ -66,7 +58,8 @@ export async function POST(req: NextRequest) {
           status: job.status,
           progress: job.progress,
           processNext: false,
-          recheckJobId: job.metadata?.recheck_job_id || null
+          reviewRequired: Boolean(job.metadata?.review_required),
+          proposedPatchCount: Number(job.metadata?.proposed_patch_count || 0),
         },
         message: 'งานปรับปรุงแผนนี้ประมวลผลเสร็จสิ้นหรือยกเลิกไปแล้ว'
       });
@@ -88,7 +81,7 @@ export async function POST(req: NextRequest) {
 
     if (!activeStep) {
       // All steps are completed or skipped! Finalize the patch job.
-      return await finalizePatchJob(job, steps, user.id);
+      return await finalizePatchJob(job, steps);
     }
 
     // 5. Process the active step
@@ -200,86 +193,15 @@ export async function POST(req: NextRequest) {
         throw new Error(`Patch validation failed: ${validation.newCriticalIssues.join(', ')}`);
       }
 
-      const hashAfter = applyResult.hashAfter;
-
-      // 9. Save pre-patch version snapshot
-      const { data: fromVersionRow } = await supabaseAdmin
-        .from('lesson_plan_versions')
-        .insert({
-          lesson_plan_id: job.lesson_plan_id,
-          version: `patch-pre-${activeStep.target_section}-${Date.now()}`,
-          content: planRow as Record<string, unknown>,
-          content_hash: hashBefore,
-          created_by: `user:${user.id}`,
-          change_summary: `ก่อนปรับปรุงอัตโนมัติหัวข้อ ${activeStep.target_section}`,
-          user_id: user.id
-        })
-        .select('id')
-        .single();
-
-      const fromVersionId = fromVersionRow?.id || null;
-
-      // 10. Write patched data back to LessonPlans database table
-      const patchedFields: Record<string, unknown> = {};
-      const affectedTargets = new Set(applyResult.applied.map(p => p.target));
-
-      if (affectedTargets.has('objectives.knowledge') ||
-          affectedTargets.has('objectives.process') ||
-          affectedTargets.has('objectives.attitude')) {
-        patchedFields['objectiveK'] = (patchedPlan.objectives.knowledge ?? []).join('\n');
-        patchedFields['objectiveP'] = (patchedPlan.objectives.process ?? []).join('\n');
-        patchedFields['objectiveA'] = (patchedPlan.objectives.attitude ?? []).join('\n');
-      }
-      if (affectedTargets.has('learningActivities')) {
-        patchedFields['learningProcess'] = JSON.stringify(patchedPlan.learningActivities);
-      }
-      if (affectedTargets.has('assessment.methods') ||
-          affectedTargets.has('assessment.tools') ||
-          affectedTargets.has('assessment.rubrics')) {
-        patchedFields['assessmentMethod'] = JSON.stringify(patchedPlan.assessment);
-      }
-      if (affectedTargets.has('curriculum.standards') ||
-          affectedTargets.has('curriculum.indicators')) {
-        patchedFields['indicator'] = (patchedPlan.curriculum.indicators ?? []).map(ind => `${ind.code} ${ind.description}`).join('\n');
-      }
-
-      if (Object.keys(patchedFields).length > 0) {
-        const { error: writeError } = await supabaseAdmin
-          .from('LessonPlans')
-          .update(patchedFields)
-          .eq('planId', job.lesson_plan_id);
-
-        if (writeError) {
-          throw new Error(`ไม่สามารถบันทึกข้อมูลแผนลงฐานข้อมูลได้: ${writeError.message}`);
-        }
-      }
-
-      // 11. Save post-patch version snapshot
-      const { data: toVersionRow } = await supabaseAdmin
-        .from('lesson_plan_versions')
-        .insert({
-          lesson_plan_id: job.lesson_plan_id,
-          version: `patch-post-${activeStep.target_section}-${Date.now()}`,
-          content: patchedPlan as unknown as Record<string, unknown>,
-          content_hash: hashAfter,
-          created_by: `user:${user.id}`,
-          change_summary: `ปรับปรุงอัตโนมัติหัวข้อ ${activeStep.target_section} สำเร็จ`,
-          parent_version_id: fromVersionId,
-          user_id: user.id
-        })
-        .select('id')
-        .single();
-
-      const toVersionId = toVersionRow?.id || null;
-
-      // 12. Create patch record in DB
+      // 9. Persist an AI proposal only. The original LessonPlans record stays
+      // untouched until a teacher accepts a proposal in a later explicit flow.
       const { data: patchRow } = await supabaseAdmin
         .from('lesson_plan_patches')
         .insert({
           lesson_plan_id: job.lesson_plan_id,
           job_id: job.evaluation_job_id,
-          from_version_id: fromVersionId,
-          to_version_id: toVersionId,
+          from_version_id: null,
+          to_version_id: null,
           patch_type: patch.operation,
           target_section: patch.target,
           severity: patch.issueSeverity ?? 'medium',
@@ -287,19 +209,14 @@ export async function POST(req: NextRequest) {
           after_content: patch.after as any,
           patch_json: patch as any,
           reason: patch.reason,
-          applied: true,
-          applied_at: new Date().toISOString()
+          applied: false,
+          applied_at: null,
         })
         .select('id')
         .single();
 
-      // 13. Invalidate old cache
-      await supabaseAdmin
-        .from('evaluation_cache')
-        .delete()
-        .eq('lesson_plan_hash', hashBefore);
-
-      // 14. Mark step completed
+      // 10. Mark proposal generation complete. There is deliberately no plan
+      // write, version creation, cache invalidation or automatic recheck here.
       await supabaseAdmin
         .from('patch_job_steps')
         .update({
@@ -309,7 +226,7 @@ export async function POST(req: NextRequest) {
         })
         .eq('id', activeStep.id);
 
-      // Calculate new progress
+      // Calculate proposal-generation progress
       const updatedSteps = steps.map(s => s.id === activeStep.id ? { ...s, status: 'completed' } : s);
       const progress = Math.round((updatedSteps.filter(s => s.status === 'completed' || s.status === 'skipped').length / steps.length) * 100);
 
@@ -326,7 +243,7 @@ export async function POST(req: NextRequest) {
           progress,
           processNext: true
         },
-        message: `ขั้นตอน ${activeStep.target_section} ปรับปรุงสำเร็จ`
+        message: `สร้างข้อเสนอสำหรับ ${activeStep.target_section} แล้ว รอครูตรวจทาน`
       });
 
     } catch (stepError: any) {
@@ -361,156 +278,22 @@ async function markStepFailed(stepId: string, jobId: string, errorType: string, 
     .eq('id', jobId);
 }
 
-async function finalizePatchJob(job: any, steps: any[], userId: string) {
-  // Collect all patches applied in this job
+async function finalizePatchJob(job: any, steps: any[]) {
+  // Completed steps represent generated proposals, never applied changes.
   const completedSteps = steps.filter(s => s.status === 'completed');
-  if (completedSteps.length === 0) {
-    // No steps actually made any changes
-    await supabaseAdmin
-      .from('patch_jobs')
-      .update({
-        status: 'completed',
-        completed_at: new Date().toISOString(),
-        progress: 100
-      })
-      .eq('id', job.id);
+  const proposedPatchCount = completedSteps.length;
+  const reviewRequired = proposedPatchCount > 0;
 
-    return NextResponse.json({
-      ok: true,
-      data: {
-        patchJobId: job.id,
-        status: 'completed',
-        progress: 100,
-        processNext: false,
-        recheckJobId: null
-      },
-      message: 'การปรับปรุงเสร็จสิ้นโดยไม่มีการปรับแก้ข้อมูล'
-    });
-  }
-
-  // Load the final patched plan from DB to get the final hash
-  const { data: finalPlanRow } = await supabaseAdmin
-    .from('LessonPlans')
-    .select('*')
-    .eq('planId', job.lesson_plan_id)
-    .single();
-
-  const finalPlan = toCanonicalLessonPlan(finalPlanRow);
-  const hashAfter = createLessonPlanHash(finalPlan);
-
-  // Load all patch records to see what target paths were changed
-  const patchIds = completedSteps.map(s => s.patch_id).filter(Boolean);
-  const { data: patchRecords } = await supabaseAdmin
-    .from('lesson_plan_patches')
-    .select('target_section')
-    .in('id', patchIds);
-
-  const targets = (patchRecords || []).map(p => p.target_section as PatchTarget);
-  const recheckSections = getSectionsToRecheck(targets);
-
-  // Create recheck job (Phase 8 carry over logic)
-  const modeConfig = getEvaluationMode(job.metadata?.evaluation_mode || 'lesson_plan_basic');
-  const allSections = modeConfig.sections as readonly string[];
-  const carryOverSections = getSectionsToCarryOver(allSections, recheckSections);
-
-  const { data: recheckJob, error: recheckJobError } = await supabaseAdmin
-    .from('evaluation_jobs')
-    .insert({
-      lesson_plan_id: job.lesson_plan_id,
-      user_id: userId,
-      evaluation_mode: job.metadata?.evaluation_mode || 'lesson_plan_basic',
-      lesson_plan_hash: hashAfter,
-      status: 'pending',
-      progress: 0,
-      metadata: {
-        patched_from_job_id: job.evaluation_job_id,
-        patch_job_id: job.id,
-        recheck_sections: recheckSections,
-        carry_over_sections: carryOverSections,
-      },
-    })
-    .select('id')
-    .single();
-
-  if (recheckJobError || !recheckJob) {
-    console.error('Failed to create recheck job:', recheckJobError);
-    await supabaseAdmin
-      .from('patch_jobs')
-      .update({
-        status: 'failed',
-        error_message: 'ปรับปรุงแผนเสร็จแล้ว แต่ไม่สามารถสร้างงานตรวจประเมินซ้ำได้'
-      })
-      .eq('id', job.id);
-
-    return errorResponse('E_RECHECK_JOB_CREATE', 'สร้างงานตรวจประเมินซ้ำ (Recheck Job) ล้มเหลว', 500);
-  }
-
-  // Pre-fill carry-over results from the original job to evaluation_results
-  if (carryOverSections.length > 0) {
-    const { data: originalResults } = await supabaseAdmin
-      .from('evaluation_results')
-      .select('*')
-      .eq('job_id', job.evaluation_job_id)
-      .in('section', carryOverSections)
-      .eq('status', 'completed');
-
-    if (originalResults && originalResults.length > 0) {
-      const carryOverRows = originalResults.map(r => ({
-        job_id: recheckJob.id,
-        section: r.section,
-        status: 'completed',
-        score: r.score,
-        max_score: r.max_score,
-        level: r.level,
-        evidence_found: r.evidence_found,
-        missing_evidence: r.missing_evidence,
-        strengths: r.strengths,
-        weaknesses: r.weaknesses,
-        suggestions: r.suggestions,
-        issues: r.issues,
-        raw_json: r.raw_json,
-      }));
-
-      await supabaseAdmin.from('evaluation_results').insert(carryOverRows);
-    }
-  }
-
-  // Insert pending rows for sections to recheck
-  if (recheckSections.length > 0) {
-    const pendingRows = recheckSections.map(section => {
-      const criterion = getRubricCriterion(job.metadata?.evaluation_mode || 'lesson_plan_basic', section);
-      return {
-        job_id: recheckJob.id,
-        section,
-        status: 'pending',
-        max_score: criterion?.maxScore ?? 5.0,
-      };
-    });
-    await supabaseAdmin.from('evaluation_results').insert(pendingRows);
-  }
-
-  // Get final versions
-  const latestVersions = await supabaseAdmin
-    .from('lesson_plan_versions')
-    .select('id')
-    .eq('lesson_plan_id', job.lesson_plan_id)
-    .order('created_at', { ascending: false })
-    .limit(1);
-  const finalToVersionId = latestVersions.data?.[0]?.id || null;
-
-  // Complete the patch job
   await supabaseAdmin
     .from('patch_jobs')
     .update({
       status: 'completed',
       completed_at: new Date().toISOString(),
       progress: 100,
-      to_version_id: finalToVersionId,
       metadata: {
         ...(job.metadata || {}),
-        recheck_job_id: recheckJob.id,
-        recheck_sections: recheckSections,
-        carry_over_sections: carryOverSections
+        review_required: reviewRequired,
+        proposed_patch_count: proposedPatchCount,
       }
     })
     .eq('id', job.id);
@@ -522,8 +305,11 @@ async function finalizePatchJob(job: any, steps: any[], userId: string) {
       status: 'completed',
       progress: 100,
       processNext: false,
-      recheckJobId: recheckJob.id
+      reviewRequired,
+      proposedPatchCount,
     },
-    message: 'การปรับปรุงเสร็จสมบูรณ์และได้สร้างงานตรวจซ้ำเรียบร้อยแล้ว'
+    message: reviewRequired
+      ? 'AI สร้างข้อเสนอปรับปรุงแล้ว รอครูตรวจทานก่อนนำไปใช้'
+      : 'ไม่พบข้อเสนอที่ AI สามารถสร้างได้ แผนต้นฉบับยังไม่ถูกเปลี่ยนแปลง'
   });
 }

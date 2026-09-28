@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
+import { isAuthorizationError, requirePlanOwner } from '@/lib/auth/authorization';
 
 export async function POST(
   req: NextRequest,
@@ -9,6 +10,8 @@ export async function POST(
     const { id } = params;
     const timestamp = new Date().toISOString();
     const previewUrl = `/plan/${id}/preview`;
+    // Export is a document disclosure boundary and remains owner-only.
+    const { supabase } = await requirePlanOwner(id);
 
     // Update pdfUrl in database
     const { error } = await supabase
@@ -22,7 +25,7 @@ export async function POST(
     if (error) throw error;
 
     // Log the transaction
-    await supabase.from('System_Logs').insert({
+    await getSupabaseAdmin().from('System_Logs').insert({
       logId: `LOG-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       timestamp,
       action: 'EXPORT_PDF',
@@ -38,6 +41,9 @@ export async function POST(
     });
 
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return NextResponse.json({ success: false, error: error.message }, { status: error.httpStatus });
+    }
     console.error('PDF export API error:', error);
     return NextResponse.json({
       success: false,

@@ -53,10 +53,10 @@ const invalidateCacheRoute = read('app/api/evaluations/invalidate-cache/route.ts
 assert.match(patchRoute, /generatePatches\(/);
 assert.match(patchRoute, /applyPatchBundle\(/);
 assert.match(patchRoute, /validatePatchResult\(/);
-assert.match(patchRoute, /getSectionsToRecheck\(/);
-assert.match(patchRoute, /\.from\('lesson_plan_versions'\)[\s\S]*\.insert/);
-assert.match(patchRoute, /\.from\('lesson_plan_patches'\)[\s\S]*\.insert/);
-assert.match(patchRoute, /\.from\('evaluation_jobs'\)[\s\S]*\.insert/);
+assert.match(patchRoute, /previewOnly: true/);
+assert.match(patchRoute, /requiresTeacherReview: true/);
+assert.doesNotMatch(patchRoute, /\.from\('LessonPlans'\)\s*\.update/);
+assert.doesNotMatch(patchRoute, /\.from\('evaluation_jobs'\)[\s\S]*\.insert/);
 
 // Check cache routes contract
 assert.match(cacheStatusRoute, /\.from\('evaluation_cache'\)[\s\S]*\.select/);
@@ -85,6 +85,10 @@ assert.match(patchProcessRoute, /\.from\('patch_job_steps'\)[\s\S]*\.update/);
 assert.match(patchProcessRoute, /generateAiPatch\(/);
 assert.match(patchProcessRoute, /applyPatchBundle\(/);
 assert.match(patchProcessRoute, /validatePatchResult\(/);
+assert.match(patchProcessRoute, /applied: false/);
+assert.match(patchProcessRoute, /review_required/);
+assert.doesNotMatch(patchProcessRoute, /\.from\('LessonPlans'\)\s*\.update/);
+assert.doesNotMatch(patchProcessRoute, /\.from\('evaluation_jobs'\)[\s\S]*\.insert/);
 assert.match(read('lib/lesson-plan/patch/ai-patch-generator.ts'), /validatePatchSafety\(/);
 assert.match(patchStatusRoute, /\.from\('patch_jobs'\)[\s\S]*\.select/);
 
@@ -100,5 +104,4 @@ const supabaseAdminFile = read('lib/supabase/admin.ts');
 assert.match(supabaseAdminFile, /SUPABASE_SERVICE_ROLE_KEY/);
 
 console.log('async evaluation API contract tests passed');
-
 

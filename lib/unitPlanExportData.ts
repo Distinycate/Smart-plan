@@ -1,10 +1,18 @@
-import { createClient } from '@/utils/supabase/server';
+import { requireUnitPlanOwner } from '@/lib/auth/authorization';
 
 export async function loadUnitPlanExportData(unitPlanId: string) {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: 'Unauthorized', status: 401 } as const;
+  let ownership;
+  try {
+    ownership = await requireUnitPlanOwner(unitPlanId);
+  } catch (error: any) {
+    return {
+      error: error?.httpStatus === 401 ? 'Unauthorized' : 'Unit plan not found or unauthorized',
+      status: error?.httpStatus || 404,
+    } as const;
+  }
+  const { supabase, user } = ownership;
 
+  // Re-query nested data only after the explicit parent ownership check.
   const { data: unitPlan, error } = await supabase
     .from('UnitPlans')
     .select('*, UnitLessons(*), UnitAssessments(*)')
@@ -39,4 +47,3 @@ export async function loadUnitPlanExportData(unitPlanId: string) {
     user,
   } as const;
 }
-

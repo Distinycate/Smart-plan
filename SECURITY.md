@@ -32,9 +32,56 @@
 
 ## Known Security Risks
 
-- middleware protection ทั่วไปถูก disable ด้วยเงื่อนไข `false`; API สำคัญต้องตรวจ auth เอง
-- export และ restore routes เดิมต้อง audit เรื่อง auth/RLS
+- Wave 1 hardening เปลี่ยน `profiles.role` เป็น server-controlled attribute ผ่าน
+  policy/column privilege migration `12_security_identity_authorization_foundation.sql`.
+  ต้อง run และตรวจ production RLS/grants ก่อนถือว่าแก้ช่องโหว่จริง.
+- middleware ป้องกันเฉพาะ page navigation; API ถูก exclude โดยตั้งใจและต้องตรวจ
+  authentication/authorization ภายใน route ทุกครั้ง.
+- export, restore, AI generation และ legacy evaluation routes ยังต้องทำ Wave 2
+  API Security Boundary ก่อน production sign-off.
 - `database/schema.sql` เป็น destructive และห้ามใช้ production
+
+## Phase 1 Authorization Contract
+
+- Identity ต้องมาจาก `supabase.auth.getUser()` เท่านั้น; ห้ามใช้ `userId` จาก body,
+  query string, localStorage หรือ client state เป็นสิทธิ์เข้าถึง.
+- `profiles.role`, `profiles.id`, `profiles.email`, และ `profiles.created_at` เป็น
+  system-controlled fields. ผู้ใช้แก้ได้เฉพาะ `full_name`, `gender`, `age`,
+  `subject_group`, และ `grade_levels`.
+- ใช้ `lib/auth/authorization.ts` เป็น primitive กลาง: `requireUser`,
+  `requireAdmin`, `requirePlanOwner`, `requireUnitPlanOwner`,
+  `requireEvaluationOwner`, `requirePatchOwner`.
+- การยืนยันหน้าเว็บผ่าน middleware เป็น UX guard เท่านั้น; API ownership check
+  และ RLS เป็น security boundary ที่ต้องมีเสมอ.
+
+## Phase 1 Wave 2A — Canonical AI Runtime Boundary
+
+- PlanForm Golden Path routes (`ai-process-core`, `ai-process-activity`,
+  `ai-completion-k/p/a/reflection`) ต้องเรียก `requireUser()` ก่อน parse payload
+  หรือเรียก Gemini. Anonymous request ต้องได้รับ `401`.
+- Canonical AI request body มี hard limit 48 KiB และ validate field type, required
+  fields, string length และ `totalHours` ก่อน admission.
+- Migration 13 เพิ่ม database-backed distributed concurrency admission ใน `ai_jobs`.
+  จำกัด global และ per-user concurrent requests ผ่าน environment limits; หาก RPC/schema
+  ยังไม่พร้อม ระบบ fail closed ด้วย `503` แทนการเรียก Gemini แบบไม่มี shared boundary.
+- Admission เป็น concurrency limiter ไม่ใช่ distributed per-minute rate limiter.
+  ต้องเพิ่ม managed rate-limit provider ใน Wave 4 หลังยืนยัน deployment architecture.
+- Legacy AI/evaluation routes ยังไม่ถูกปิดใน Wave 2A เพราะ `app/evaluator/page.tsx`
+  ยังมี callers; ต้อง migrate/test caller ก่อน Wave 2D containment.
+
+## Phase 1 Wave 2B — Plan & Unit Ownership Boundary
+
+- Lesson Plan contract: teacher owner อ่าน/แก้/archive/restore/export ได้;
+  administratorอ่านแผนครูคนอื่นได้ แต่ไม่มี implicit write, restore หรือ export privilege.
+- `requirePlanReader()` ใช้สำหรับ detail/preview read และ `requirePlanOwner()` ใช้กับ
+  update/archive/restore/Word/PDF. Unauthorized resource คืน `404` เพื่อไม่เปิดเผย ID.
+- UnitPlan, Unit export และ preview เป็น owner-only. UnitLesson authorization ต้อง
+  resolve parent UnitPlan ก่อน และตรวจว่า `UnitLessons.unitPlanId` ตรงกับ URL parent
+  กับ `user_id` ของ session จริง.
+- ไม่มี API direct สำหรับ UnitAssessments หรือ Rubrics ใน source ปัจจุบัน; route ใหม่ใน
+  อนาคตต้องเริ่มจาก parent ownership contract ไม่ใช่รับ owner ID จาก body.
+- Service-role ใช้ได้เฉพาะ backup/log/reorder หลัง route ผ่าน ownership check แล้ว.
+- RLS ไม่ถูกผ่อนหรือแทนที่: application authorization เป็น layer เพิ่มเหนือ RLS/constraints.
 
 ## API Key Incident Note — 2026-07-06
 

@@ -15,7 +15,10 @@ import {
   BookOpen,
   Layers,
   Maximize2,
-  X
+  X,
+  Loader2,
+  Wand2,
+  RefreshCw
 } from 'lucide-react';
 import SmartDropdown from '../components/SmartDropdown';
 import {
@@ -368,6 +371,10 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
   const [showSource, setShowSource] = useState(false);
   const [showTask, setShowTask] = useState(false);
   const [showProcessModal, setShowProcessModal] = useState(false);
+  
+  // Per-section loading states & step progress for Free Tier friendly AI
+  const [sectionLoading, setSectionLoading] = useState<string | null>(null);
+  const [stepProgress, setStepProgress] = useState<{ step: number; total: number; label: string } | null>(null);
 
   // Toast notifications
   const [toast, setToast] = useState<{ show: boolean; msg: string; type: 'success' | 'info' | 'error' }>({
@@ -934,26 +941,355 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
     }));
   };
 
-  // 6. Gemini 
-  const handleAIMagicFill = async () => {
-    // If there's an integrated logic to run all phases, we'd do it here. 
-    // For now, triggering Phase 1 is a good start, or showing a toast.
-    triggerToast('ระบบ AI สร้างแผนอัตโนมัติกำลังเตรียมความพร้อม (เรียก Phase 1)', 'info');
-    handleAIPhase1();
+  // Helper to call any canonical AI endpoint with error handling
+  const callAiEndpoint = async (endpoint: string, payload: any, label: string) => {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const json = await response.json().catch(() => ({ success: false, error: `ไม่สามารถอ่านข้อมูล ${label} ได้` }));
+    if (!response.ok || !json.success || !json.data) {
+      const errorMsg = json.error || `AI ไม่สามารถสร้าง ${label} ได้`;
+      throw new Error(errorMsg);
+    }
+    return json.data;
   };
 
-  // Phase 1: AI Autofill (Standards & Objectives & Process)
-  const handleAIPhase1 = async () => {
+  const waitMs = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+  // ── Smart Plan AI: Per-Section AI Generator (สร้างทีละจุด สอดคล้องกัน ปลอดภัยบน Free Tier) ──
+  const handleSectionAI = async (sectionType: string) => {
+    if (!fields.gradeLevel || !fields.subjectName || !fields.lessonTopic) {
+      triggerToast('กรุณาระบุ ระดับชั้น, วิชา และ เรื่องที่สอน ก่อนใช้ระบบ AI', 'error');
+      return;
+    }
+
+    setSectionLoading(sectionType);
+
+    try {
+      if (sectionType === 'core-concept') {
+        triggerToast('Gemini AI กำลังวิเคราะห์สาระสำคัญ สมรรถนะ และคุณลักษณะ...', 'info');
+        const data = await callAiEndpoint('/api/ai-process-core', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          learningArea: currentLearningArea,
+          totalHours: fields.totalHours,
+          learningStandard: fields.learningStandard,
+          indicatorDuring: fields.indicatorDuring,
+          indicatorFinal: fields.indicatorFinal,
+          essentialConcept: fields.essentialConcept,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA
+        }, 'สาระสำคัญและสมรรถนะ');
+
+        setFields(prev => ({
+          ...prev,
+          essentialConcept: cleanJSONString(data?.essentialConcept) || prev.essentialConcept,
+          competencies: ensureBulletString(data?.competencies) || prev.competencies,
+          desiredAttributes: ensureBulletString(data?.desiredAttributes) || prev.desiredAttributes,
+          skills21: ensureBulletString(data?.skills21) || prev.skills21,
+          learningStandard: prev.learningStandard || cleanJSONString(data?.learningStandard),
+          indicatorDuring: prev.indicatorDuring || cleanJSONString(data?.indicatorDuring),
+          indicatorFinal: prev.indicatorFinal || cleanJSONString(data?.indicatorFinal),
+        }));
+        triggerToast('✨ AI วิเคราะห์สาระสำคัญ สมรรถนะ และคุณลักษณะสำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'objectives') {
+        triggerToast('Gemini AI กำลังกำหนดจุดประสงค์การเรียนรู้ K/P/A และเนื้อหา...', 'info');
+        const data = await callAiEndpoint('/api/ai-process-core', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          learningArea: currentLearningArea,
+          totalHours: fields.totalHours,
+          learningStandard: fields.learningStandard,
+          indicatorDuring: fields.indicatorDuring,
+          indicatorFinal: fields.indicatorFinal,
+          essentialConcept: fields.essentialConcept,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA
+        }, 'จุดประสงค์การเรียนรู้ K/P/A');
+
+        setFields(prev => ({
+          ...prev,
+          objectiveK: cleanJSONString(data?.objectiveK) || prev.objectiveK,
+          objectiveP: cleanJSONString(data?.objectiveP) || prev.objectiveP,
+          objectiveA: cleanJSONString(data?.objectiveA) || prev.objectiveA,
+        }));
+        triggerToast('✨ AI กำหนดจุดประสงค์การเรียนรู้ K/P/A สำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'content') {
+        triggerToast('Gemini AI กำลังสรุปเนื้อหาสาระของบทเรียน...', 'info');
+        const data = await callAiEndpoint('/api/ai-process-activity', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          learningArea: currentLearningArea,
+          totalHours: fields.totalHours,
+          learningStandard: fields.learningStandard,
+          indicatorDuring: fields.indicatorDuring,
+          indicatorFinal: fields.indicatorFinal,
+          learningProcess: fields.learningProcess,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA,
+          essentialConcept: fields.essentialConcept,
+        }, 'เนื้อหาสาระ');
+
+        setFields(prev => ({
+          ...prev,
+          learningContent: cleanJSONString(data?.learningContent) || prev.learningContent,
+        }));
+        triggerToast('✨ AI สรุปเนื้อหาสาระการเรียนรู้สำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'media-tasks') {
+        triggerToast('Gemini AI กำลังคัดสรรสื่อ แหล่งเรียนรู้ และภาระงานให้สอดคล้องกัน...', 'info');
+        const data = await callAiEndpoint('/api/ai-process-activity', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          learningArea: currentLearningArea,
+          totalHours: fields.totalHours,
+          learningStandard: fields.learningStandard,
+          indicatorDuring: fields.indicatorDuring,
+          indicatorFinal: fields.indicatorFinal,
+          learningProcess: fields.learningProcess,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA,
+          essentialConcept: fields.essentialConcept,
+          availableMedia: options.media ? options.media.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
+          availableSources: options.learningSource ? options.learningSource.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
+          availableTasks: options.task ? options.task.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : ''
+        }, 'สื่อ แหล่งเรียนรู้ และภาระงาน');
+
+        setFields(prev => ({
+          ...prev,
+          learningMedia: ensureBulletString(data?.learningMedia) || prev.learningMedia,
+          learningSources: ensureBulletString(data?.learningSources) || prev.learningSources,
+          tasks: ensureBulletString(data?.tasks) || prev.tasks,
+          learningContent: String(prev.learningContent || '').trim() ? prev.learningContent : cleanJSONString(data?.learningContent),
+        }));
+        triggerToast('✨ AI แนะนำสื่อ แหล่งเรียนรู้ และภาระงานสำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'process') {
+        triggerToast('Gemini AI กำลังออกแบบกิจกรรม Active Learning 5 ขั้น...', 'info');
+        const data = await callAiEndpoint('/api/ai-process-activity', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          learningArea: currentLearningArea,
+          totalHours: fields.totalHours,
+          learningStandard: fields.learningStandard,
+          indicatorDuring: fields.indicatorDuring,
+          indicatorFinal: fields.indicatorFinal,
+          learningProcess: '', // Force fresh generation
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA,
+          essentialConcept: fields.essentialConcept,
+          tasks: fields.tasks,
+          availableMedia: options.media ? options.media.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
+          availableSources: options.learningSource ? options.learningSource.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
+          availableTasks: options.task ? options.task.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : ''
+        }, 'กิจกรรมการเรียนรู้');
+
+        setFields(prev => ({
+          ...prev,
+          learningProcess: cleanJSONString(data?.learningProcess) || prev.learningProcess,
+          learningContent: String(prev.learningContent || '').trim() ? prev.learningContent : cleanJSONString(data?.learningContent),
+          learningMedia: String(prev.learningMedia || '').trim() ? prev.learningMedia : ensureBulletString(data?.learningMedia),
+          learningSources: String(prev.learningSources || '').trim() ? prev.learningSources : ensureBulletString(data?.learningSources),
+          tasks: String(prev.tasks || '').trim() ? prev.tasks : ensureBulletString(data?.tasks),
+        }));
+        triggerToast('✨ AI ออกแบบกระบวนการจัดการเรียนรู้ Active Learning 5 ขั้นสำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'rubric-k') {
+        triggerToast('Gemini AI กำลังสร้างการวัดผลและ Rubric ด้านความรู้ (K)...', 'info');
+        const data = await callAiEndpoint('/api/ai-completion-k', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          objectiveK: fields.objectiveK || `เข้าใจและอธิบายเนื้อหาเรื่อง ${fields.lessonTopic} ได้ถูกต้อง`,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA,
+          learningProcess: fields.learningProcess || `การจัดกิจกรรมการเรียนรู้เรื่อง ${fields.lessonTopic}`
+        }, 'การประเมินด้าน K');
+
+        setFields(prev => ({
+          ...prev,
+          measureK: cleanJSONString(data?.measureK) || prev.measureK,
+          methodK: cleanJSONString(data?.methodK) || prev.methodK,
+          toolK: cleanJSONString(data?.toolK) || prev.toolK,
+          criteriaK: cleanJSONString(data?.criteriaK) || prev.criteriaK,
+          rubricK: cleanJSONString(data?.rubricK) || prev.rubricK,
+        }));
+        triggerToast('✨ AI สร้างการวัดผลและ Rubric ด้านความรู้ (K) สำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'rubric-p') {
+        triggerToast('Gemini AI กำลังสร้างการวัดผลและ Rubric ด้านทักษะ (P)...', 'info');
+        const data = await callAiEndpoint('/api/ai-completion-p', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP || `สามารถปฏิบัติตามกิจกรรมเรื่อง ${fields.lessonTopic} ได้ถูกต้อง`,
+          objectiveA: fields.objectiveA,
+          learningProcess: fields.learningProcess || `การจัดกิจกรรมการเรียนรู้เรื่อง ${fields.lessonTopic}`,
+          tasks: fields.tasks
+        }, 'การประเมินด้าน P');
+
+        setFields(prev => ({
+          ...prev,
+          measureP: cleanJSONString(data?.measureP) || prev.measureP,
+          methodP: cleanJSONString(data?.methodP) || prev.methodP,
+          toolP: cleanJSONString(data?.toolP) || prev.toolP,
+          criteriaP: cleanJSONString(data?.criteriaP) || prev.criteriaP,
+          rubricP: cleanJSONString(data?.rubricP) || prev.rubricP,
+        }));
+        triggerToast('✨ AI สร้างการวัดผลและ Rubric ด้านทักษะ (P) สำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'rubric-a') {
+        triggerToast('Gemini AI กำลังสร้างการวัดผลและ Rubric ด้านคุณลักษณะ (A)...', 'info');
+        const data = await callAiEndpoint('/api/ai-completion-a', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA || `มีวินัย ใฝ่เรียนรู้ และมุ่งมั่นในการทำงานเรื่อง ${fields.lessonTopic}`,
+          learningProcess: fields.learningProcess || `การจัดกิจกรรมการเรียนรู้เรื่อง ${fields.lessonTopic}`,
+          desiredAttributes: fields.desiredAttributes
+        }, 'การประเมินด้าน A');
+
+        setFields(prev => ({
+          ...prev,
+          measureA: cleanJSONString(data?.measureA) || prev.measureA,
+          methodA: cleanJSONString(data?.methodA) || prev.methodA,
+          toolA: cleanJSONString(data?.toolA) || prev.toolA,
+          criteriaA: cleanJSONString(data?.criteriaA) || prev.criteriaA,
+          rubricA: cleanJSONString(data?.rubricA) || prev.rubricA,
+        }));
+        triggerToast('✨ AI สร้างการวัดผลและ Rubric ด้านคุณลักษณะ (A) สำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'rubrics-all') {
+        triggerToast('Gemini AI กำลังสร้างการวัดผลและ Rubric K, P, A ทีละด้านอย่างปลอดภัย...', 'info');
+        // K
+        const kData = await callAiEndpoint('/api/ai-completion-k', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          objectiveK: fields.objectiveK || `เข้าใจและอธิบายเนื้อหาเรื่อง ${fields.lessonTopic}`,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA,
+          learningProcess: fields.learningProcess || `การจัดกิจกรรมการเรียนรู้เรื่อง ${fields.lessonTopic}`
+        }, 'เกณฑ์ด้าน K');
+
+        setFields(prev => ({
+          ...prev,
+          measureK: cleanJSONString(kData?.measureK) || prev.measureK,
+          methodK: cleanJSONString(kData?.methodK) || prev.methodK,
+          toolK: cleanJSONString(kData?.toolK) || prev.toolK,
+          criteriaK: cleanJSONString(kData?.criteriaK) || prev.criteriaK,
+          rubricK: cleanJSONString(kData?.rubricK) || prev.rubricK,
+        }));
+
+        await waitMs(400); // Friendly pause for Free Tier
+
+        // P
+        const pData = await callAiEndpoint('/api/ai-completion-p', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP || `สามารถปฏิบัติตามกิจกรรมเรื่อง ${fields.lessonTopic}`,
+          objectiveA: fields.objectiveA,
+          learningProcess: fields.learningProcess || `การจัดกิจกรรมการเรียนรู้เรื่อง ${fields.lessonTopic}`,
+          tasks: fields.tasks
+        }, 'เกณฑ์ด้าน P');
+
+        setFields(prev => ({
+          ...prev,
+          measureP: cleanJSONString(pData?.measureP) || prev.measureP,
+          methodP: cleanJSONString(pData?.methodP) || prev.methodP,
+          toolP: cleanJSONString(pData?.toolP) || prev.toolP,
+          criteriaP: cleanJSONString(pData?.criteriaP) || prev.criteriaP,
+          rubricP: cleanJSONString(pData?.rubricP) || prev.rubricP,
+        }));
+
+        await waitMs(400); // Friendly pause for Free Tier
+
+        // A
+        const aData = await callAiEndpoint('/api/ai-completion-a', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA || `มีวินัย ใฝ่เรียนรู้ และมุ่งมั่นในการทำงาน`,
+          learningProcess: fields.learningProcess || `การจัดกิจกรรมการเรียนรู้เรื่อง ${fields.lessonTopic}`,
+          desiredAttributes: fields.desiredAttributes
+        }, 'เกณฑ์ด้าน A');
+
+        setFields(prev => ({
+          ...prev,
+          measureA: cleanJSONString(aData?.measureA) || prev.measureA,
+          methodA: cleanJSONString(aData?.methodA) || prev.methodA,
+          toolA: cleanJSONString(aData?.toolA) || prev.toolA,
+          criteriaA: cleanJSONString(aData?.criteriaA) || prev.criteriaA,
+          rubricA: cleanJSONString(aData?.rubricA) || prev.rubricA,
+        }));
+
+        triggerToast('✨ AI สร้างการวัดผลและ Rubric ครบ 3 ด้าน (K, P, A) สำเร็จแล้ว!', 'success');
+
+      } else if (sectionType === 'reflection') {
+        triggerToast('Gemini AI กำลังร่างบันทึกหลังการจัดการเรียนรู้และแนวทางแก้ไข...', 'info');
+        const aiReflect = await callAiEndpoint('/api/ai-completion-reflection', {
+          gradeLevel: fields.gradeLevel,
+          subjectName: fields.subjectName,
+          lessonTopic: fields.lessonTopic,
+          objectiveK: fields.objectiveK,
+          objectiveP: fields.objectiveP,
+          objectiveA: fields.objectiveA,
+          learningProcess: fields.learningProcess || `การจัดกิจกรรมการเรียนรู้เรื่อง ${fields.lessonTopic}`
+        }, 'บันทึกหลังสอน');
+
+        setFields(prev => ({
+          ...prev,
+          resultK: cleanJSONString(aiReflect.resultK) || prev.resultK || FALLBACK_TEMPLATES.Reflection.resultK,
+          resultP: cleanJSONString(aiReflect.resultP) || prev.resultP || FALLBACK_TEMPLATES.Reflection.resultP,
+          resultA: cleanJSONString(aiReflect.resultA) || prev.resultA || FALLBACK_TEMPLATES.Reflection.resultA,
+          problems: cleanJSONString(aiReflect.problems) || prev.problems || FALLBACK_TEMPLATES.Reflection.problems,
+          solutions: cleanJSONString(aiReflect.solutions) || prev.solutions || FALLBACK_TEMPLATES.Reflection.solutions,
+        }));
+        triggerToast('✨ AI ร่างบันทึกหลังสอนและแนวทางแก้ไขสำเร็จแล้ว!', 'success');
+      }
+
+    } catch (err: any) {
+      console.error(`AI section error (${sectionType}):`, err);
+      triggerToast(`AI ขัดข้อง: ${err.message}`, 'error');
+    } finally {
+      setSectionLoading(null);
+    }
+  };
+
+  // ── Step-by-Step Auto Plan Generator (สร้างแผนอัตโนมัติทีละขั้นตอน สอดคล้องกัน ปลอดภัยบน Free Tier) ──
+  const handleStepByStepAutoPlan = async () => {
     if (!fields.gradeLevel || !fields.subjectName || !fields.lessonTopic) {
       triggerToast('กรุณาระบุ ระดับชั้น, วิชา และ เรื่องที่สอน ก่อนใช้ระบบ AI', 'error');
       return;
     }
 
     setAiLoading(true);
-    triggerToast('Gemini AI กำลังสร้างโครงสร้าง เนื้อหา สื่อ ภาระงาน และกิจกรรมการเรียนรู้...', 'info');
 
     try {
-      const requestBody = {
+      // Step 1: Core Structure
+      setStepProgress({ step: 1, total: 6, label: 'กำลังวิเคราะห์สาระสำคัญ สมรรถนะ และตัวชี้วัด...' });
+      const coreData = await callAiEndpoint('/api/ai-process-core', {
         gradeLevel: fields.gradeLevel,
         subjectName: fields.subjectName,
         lessonTopic: fields.lessonTopic,
@@ -962,180 +1298,190 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         learningStandard: fields.learningStandard,
         indicatorDuring: fields.indicatorDuring,
         indicatorFinal: fields.indicatorFinal,
-        learningProcess: fields.learningProcess,
-        availableMedia: options.media ? options.media.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
-        availableSources: options.learningSource ? options.learningSource.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
-        availableTasks: options.task ? options.task.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : ''
-      };
+        essentialConcept: fields.essentialConcept
+      }, 'สาระสำคัญและตัวชี้วัด');
 
-      const callAiPart = async (endpoint: string, label: string) => {
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        });
-        const json = await response.json()
-          .catch(() => ({ success: false, error: `ไม่สามารถอ่านข้อมูล ${label} ได้` }));
-        if (!response.ok || !json.success || !json.data) {
-          throw new Error(json.error || `AI ไม่สามารถสร้าง ${label} ได้`);
-        }
-        return json.data;
-      };
-
-      // Core and Activity depend only on the teacher's input, not on each other.
-      // Running both together cuts normal waiting time roughly in half while
-      // preserving whichever result succeeds if the other request is throttled.
-      const [coreResult, activityResult] = await Promise.allSettled([
-        callAiPart('/api/ai-process-core', 'โครงสร้างแผน'),
-        callAiPart('/api/ai-process-activity', 'กิจกรรมการเรียนรู้')
-      ]);
-      const core = coreResult.status === 'fulfilled' ? coreResult.value : null;
-      const activity = activityResult.status === 'fulfilled' ? activityResult.value : null;
-
-      if (!core && !activity) {
-        const coreError = coreResult.status === 'rejected' ? coreResult.reason?.message : '';
-        const activityError = activityResult.status === 'rejected' ? activityResult.reason?.message : '';
-        throw new Error([coreError, activityError].filter(Boolean).join(' / ') || 'AI ไม่สามารถสร้างแผนได้');
-      }
+      const newConcept = cleanJSONString(coreData?.essentialConcept) || fields.essentialConcept;
+      const newStandard = cleanJSONString(coreData?.learningStandard) || fields.learningStandard;
+      const newDuring = cleanJSONString(coreData?.indicatorDuring) || fields.indicatorDuring;
+      const newFinal = cleanJSONString(coreData?.indicatorFinal) || fields.indicatorFinal;
+      const newK = cleanJSONString(coreData?.objectiveK) || fields.objectiveK;
+      const newP = cleanJSONString(coreData?.objectiveP) || fields.objectiveP;
+      const newA = cleanJSONString(coreData?.objectiveA) || fields.objectiveA;
+      const newCompetencies = ensureBulletString(coreData?.competencies) || fields.competencies;
+      const newAttributes = ensureBulletString(coreData?.desiredAttributes) || fields.desiredAttributes;
+      const newSkills21 = ensureBulletString(coreData?.skills21) || fields.skills21;
 
       setFields(prev => ({
         ...prev,
-        essentialConcept: cleanJSONString(core?.essentialConcept) || prev.essentialConcept,
-        learningStandard: cleanJSONString(core?.learningStandard) || prev.learningStandard,
-        indicatorDuring: cleanJSONString(core?.indicatorDuring) || prev.indicatorDuring,
-        indicatorFinal: cleanJSONString(core?.indicatorFinal) || prev.indicatorFinal,
-        objectiveK: cleanJSONString(core?.objectiveK) || prev.objectiveK,
-        objectiveP: cleanJSONString(core?.objectiveP) || prev.objectiveP,
-        objectiveA: cleanJSONString(core?.objectiveA) || prev.objectiveA,
-        competencies: ensureBulletString(core?.competencies) || prev.competencies,
-        desiredAttributes: ensureBulletString(core?.desiredAttributes) || prev.desiredAttributes,
-        skills21: ensureBulletString(core?.skills21) || prev.skills21,
-        learningProcess: cleanJSONString(activity?.learningProcess) || prev.learningProcess,
-        learningContent: String(prev.learningContent || '').trim() ? prev.learningContent : cleanJSONString(activity?.learningContent),
-        learningMedia: String(prev.learningMedia || '').trim() ? prev.learningMedia : ensureBulletString(activity?.learningMedia),
-        learningSources: String(prev.learningSources || '').trim() ? prev.learningSources : ensureBulletString(activity?.learningSources),
-        tasks: String(prev.tasks || '').trim() ? prev.tasks : ensureBulletString(activity?.tasks),
+        essentialConcept: newConcept,
+        learningStandard: newStandard,
+        indicatorDuring: newDuring,
+        indicatorFinal: newFinal,
+        objectiveK: newK,
+        objectiveP: newP,
+        objectiveA: newA,
+        competencies: newCompetencies,
+        desiredAttributes: newAttributes,
+        skills21: newSkills21
       }));
 
-      if (core && activity) {
-        triggerToast('AI สร้างโครงสร้าง เนื้อหาสาระ สื่อ แหล่งเรียนรู้ ภาระงาน และกิจกรรมครบแล้ว!', 'success');
-      } else {
-        const missing = core ? 'กิจกรรมการเรียนรู้' : 'โครงสร้างแผน';
-        triggerToast(`AI สร้างข้อมูลได้บางส่วน แต่ส่วน ${missing} ยังไม่สำเร็จ กรุณากดลองอีกครั้ง`, 'error');
-      }
-    } catch (err: any) {
-      console.error(err);
-      triggerToast(`ล้มเหลวในการเชื่อมต่อกับ AI: ${err.message}`, 'error');
-    } finally {
-      setAiLoading(false);
-    }
-  };
+      await waitMs(450); // Pause to prevent rate limiting
 
-  // 7. Gemini AI Phase 2: Completion & Alignment
-  const handleAIPhase2 = async () => {
-    if (!fields.objectiveK && !fields.learningProcess) {
-      triggerToast('กรุณาสร้างกระบวนการจัดการเรียนรู้ (AI รอบที่ 1) ก่อน เพื่อให้ AI ใช้อ้างอิง', 'error');
-      return;
-    }
-
-    setAiLoading(true);
-    triggerToast('Gemini AI กำลังสร้างเกณฑ์ประเมิน K, P, A และบันทึกหลังสอนพร้อมกัน...', 'info');
-
-    try {
-      const requestBody = {
+      // Step 2: Learning Process & Content & Media & Tasks
+      setStepProgress({ step: 2, total: 6, label: 'กำลังออกแบบกิจกรรม Active Learning 5 ขั้น และคัดสรรสื่อ/ภาระงาน...' });
+      const actData = await callAiEndpoint('/api/ai-process-activity', {
         gradeLevel: fields.gradeLevel,
         subjectName: fields.subjectName,
         lessonTopic: fields.lessonTopic,
-        learningProcess: fields.learningProcess,
-        objectiveK: fields.objectiveK,
-        objectiveP: fields.objectiveP,
-        objectiveA: fields.objectiveA
-      };
+        learningArea: currentLearningArea,
+        totalHours: fields.totalHours,
+        learningStandard: newStandard,
+        indicatorDuring: newDuring,
+        indicatorFinal: newFinal,
+        learningProcess: '', // fresh
+        objectiveK: newK,
+        objectiveP: newP,
+        objectiveA: newA,
+        essentialConcept: newConcept,
+        availableMedia: options.media ? options.media.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
+        availableSources: options.learningSource ? options.learningSource.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : '',
+        availableTasks: options.task ? options.task.map((o: any) => formatOptionWithGroupPrefix(o)).filter(Boolean).join(', ') : ''
+      }, 'กิจกรรมการเรียนรู้และสื่อ');
 
-      const fetchSection = async (endpoint: string) => {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody)
-        });
-        const json = await res.json();
-        if (!json.success || !json.data) {
-          throw new Error(json.error || `Failed to fetch ${endpoint}`);
-        }
-        return json.data;
-      };
-
-      const tasks = [
-        () => runWithRetry('generateCriteriaK', () => fetchSection('/api/ai-completion-k'), FALLBACK_TEMPLATES.K),
-        () => runWithRetry('generateCriteriaP', () => fetchSection('/api/ai-completion-p'), FALLBACK_TEMPLATES.P),
-        () => runWithRetry('generateCriteriaA', () => fetchSection('/api/ai-completion-a'), FALLBACK_TEMPLATES.A),
-        () => runWithRetry('generatePostTeachingNote', () => fetchSection('/api/ai-completion-reflection'), FALLBACK_TEMPLATES.Reflection)
-      ];
-
-      const results = await runLimitedConcurrency(tasks);
-      let fallbackCount = 0;
-
-      const getTaskData = (index: number) => {
-        const result = results[index];
-        if (result.status === 'fulfilled') {
-          const taskResult = result.value;
-          console.log(`[Phase2] ${taskResult.taskName} finished in ${taskResult.durationMs}ms (attempts: ${taskResult.attemptCount}) - Status: ${taskResult.status}`);
-          if (taskResult.status === 'fallback') fallbackCount++;
-          return taskResult.data;
-        } else {
-          fallbackCount++;
-          console.error(`[Phase2] Task ${index} rejected critically:`, result.reason);
-          // Return raw fallback if the task wrapper itself threw an error (shouldn't happen with runWithRetry)
-          return index === 0 ? FALLBACK_TEMPLATES.K :
-                 index === 1 ? FALLBACK_TEMPLATES.P :
-                 index === 2 ? FALLBACK_TEMPLATES.A : FALLBACK_TEMPLATES.Reflection;
-        }
-      };
-
-      const aiK = getTaskData(0);
-      const aiP = getTaskData(1);
-      const aiA = getTaskData(2);
-      const aiReflect = getTaskData(3);
+      const newProcess = cleanJSONString(actData?.learningProcess) || fields.learningProcess;
+      const newContent = cleanJSONString(actData?.learningContent) || fields.learningContent;
+      const newMedia = ensureBulletString(actData?.learningMedia) || fields.learningMedia;
+      const newSources = ensureBulletString(actData?.learningSources) || fields.learningSources;
+      const newTasks = ensureBulletString(actData?.tasks) || fields.tasks;
 
       setFields(prev => ({
         ...prev,
-        measureK: cleanJSONString(aiK.measureK) || prev.measureK,
-        methodK: cleanJSONString(aiK.methodK) || prev.methodK,
-        toolK: cleanJSONString(aiK.toolK) || prev.toolK,
-        criteriaK: cleanJSONString(aiK.criteriaK) || prev.criteriaK,
-        rubricK: cleanJSONString(aiK.rubricK) || prev.rubricK,
-
-        measureP: cleanJSONString(aiP.measureP) || prev.measureP,
-        methodP: cleanJSONString(aiP.methodP) || prev.methodP,
-        toolP: cleanJSONString(aiP.toolP) || prev.toolP,
-        criteriaP: cleanJSONString(aiP.criteriaP) || prev.criteriaP,
-        rubricP: cleanJSONString(aiP.rubricP) || prev.rubricP,
-
-        measureA: cleanJSONString(aiA.measureA) || prev.measureA || FALLBACK_TEMPLATES.A.measureA,
-        methodA: cleanJSONString(aiA.methodA) || prev.methodA || FALLBACK_TEMPLATES.A.methodA,
-        toolA: cleanJSONString(aiA.toolA) || prev.toolA || FALLBACK_TEMPLATES.A.toolA,
-        criteriaA: cleanJSONString(aiA.criteriaA) || prev.criteriaA || FALLBACK_TEMPLATES.A.criteriaA,
-        rubricA: cleanJSONString(aiA.rubricA) || prev.rubricA || FALLBACK_TEMPLATES.A.rubricA,
-
-        resultK: cleanJSONString(aiReflect.resultK) || prev.resultK || FALLBACK_TEMPLATES.Reflection.resultK,
-        resultP: cleanJSONString(aiReflect.resultP) || prev.resultP || FALLBACK_TEMPLATES.Reflection.resultP,
-        resultA: cleanJSONString(aiReflect.resultA) || prev.resultA || FALLBACK_TEMPLATES.Reflection.resultA,
-        problems: cleanJSONString(aiReflect.problems) || prev.problems || FALLBACK_TEMPLATES.Reflection.problems,
-        solutions: cleanJSONString(aiReflect.solutions) || prev.solutions || FALLBACK_TEMPLATES.Reflection.solutions,
+        learningProcess: newProcess,
+        learningContent: newContent,
+        learningMedia: newMedia,
+        learningSources: newSources,
+        tasks: newTasks
       }));
 
-      if (fallbackCount > 0) {
-        triggerToast(`AI เติมเต็มแผนสำเร็จ แต่มี ${fallbackCount} ส่วนที่ใช้ข้อความพื้นฐานเนื่องจากระบบขัดข้อง`, 'info');
-      } else {
-        triggerToast('AI เติมเต็มแผนการสอนสำเร็จเรียบร้อยแล้ว!', 'success');
-      }
+      await waitMs(450);
+
+      // Step 3: Rubric K
+      setStepProgress({ step: 3, total: 6, label: 'กำลังสร้างเกณฑ์ Rubric 5 ระดับ ด้านความรู้ (K)...' });
+      const kData = await callAiEndpoint('/api/ai-completion-k', {
+        gradeLevel: fields.gradeLevel,
+        subjectName: fields.subjectName,
+        lessonTopic: fields.lessonTopic,
+        objectiveK: newK || `เข้าใจและอธิบายเนื้อหาเรื่อง ${fields.lessonTopic}`,
+        objectiveP: newP,
+        objectiveA: newA,
+        learningProcess: newProcess
+      }, 'เกณฑ์ด้าน K');
+
+      setFields(prev => ({
+        ...prev,
+        measureK: cleanJSONString(kData?.measureK) || prev.measureK,
+        methodK: cleanJSONString(kData?.methodK) || prev.methodK,
+        toolK: cleanJSONString(kData?.toolK) || prev.toolK,
+        criteriaK: cleanJSONString(kData?.criteriaK) || prev.criteriaK,
+        rubricK: cleanJSONString(kData?.rubricK) || prev.rubricK,
+      }));
+
+      await waitMs(450);
+
+      // Step 4: Rubric P
+      setStepProgress({ step: 4, total: 6, label: 'กำลังสร้างเกณฑ์ Rubric 5 ระดับ ด้านทักษะ (P)...' });
+      const pData = await callAiEndpoint('/api/ai-completion-p', {
+        gradeLevel: fields.gradeLevel,
+        subjectName: fields.subjectName,
+        lessonTopic: fields.lessonTopic,
+        objectiveK: newK,
+        objectiveP: newP || `สามารถปฏิบัติตามกิจกรรมเรื่อง ${fields.lessonTopic}`,
+        objectiveA: newA,
+        learningProcess: newProcess,
+        tasks: newTasks
+      }, 'เกณฑ์ด้าน P');
+
+      setFields(prev => ({
+        ...prev,
+        measureP: cleanJSONString(pData?.measureP) || prev.measureP,
+        methodP: cleanJSONString(pData?.methodP) || prev.methodP,
+        toolP: cleanJSONString(pData?.toolP) || prev.toolP,
+        criteriaP: cleanJSONString(pData?.criteriaP) || prev.criteriaP,
+        rubricP: cleanJSONString(pData?.rubricP) || prev.rubricP,
+      }));
+
+      await waitMs(450);
+
+      // Step 5: Rubric A
+      setStepProgress({ step: 5, total: 6, label: 'กำลังสร้างเกณฑ์ Rubric 5 ระดับ ด้านคุณลักษณะ (A)...' });
+      const aData = await callAiEndpoint('/api/ai-completion-a', {
+        gradeLevel: fields.gradeLevel,
+        subjectName: fields.subjectName,
+        lessonTopic: fields.lessonTopic,
+        objectiveK: newK,
+        objectiveP: newP,
+        objectiveA: newA || `มีวินัย ใฝ่เรียนรู้ และมุ่งมั่นในการทำงาน`,
+        learningProcess: newProcess,
+        desiredAttributes: newAttributes
+      }, 'เกณฑ์ด้าน A');
+
+      setFields(prev => ({
+        ...prev,
+        measureA: cleanJSONString(aData?.measureA) || prev.measureA,
+        methodA: cleanJSONString(aData?.methodA) || prev.methodA,
+        toolA: cleanJSONString(aData?.toolA) || prev.toolA,
+        criteriaA: cleanJSONString(aData?.criteriaA) || prev.criteriaA,
+        rubricA: cleanJSONString(aData?.rubricA) || prev.rubricA,
+      }));
+
+      await waitMs(450);
+
+      // Step 6: Post-Teaching Reflection
+      setStepProgress({ step: 6, total: 6, label: 'กำลังร่างบันทึกหลังการจัดกระบวนการเรียนรู้และแนวทางแก้ไข...' });
+      const refData = await callAiEndpoint('/api/ai-completion-reflection', {
+        gradeLevel: fields.gradeLevel,
+        subjectName: fields.subjectName,
+        lessonTopic: fields.lessonTopic,
+        objectiveK: newK,
+        objectiveP: newP,
+        objectiveA: newA,
+        learningProcess: newProcess
+      }, 'บันทึกหลังสอน');
+
+      setFields(prev => ({
+        ...prev,
+        resultK: cleanJSONString(refData?.resultK) || prev.resultK || FALLBACK_TEMPLATES.Reflection.resultK,
+        resultP: cleanJSONString(refData?.resultP) || prev.resultP || FALLBACK_TEMPLATES.Reflection.resultP,
+        resultA: cleanJSONString(refData?.resultA) || prev.resultA || FALLBACK_TEMPLATES.Reflection.resultA,
+        problems: cleanJSONString(refData?.problems) || prev.problems || FALLBACK_TEMPLATES.Reflection.problems,
+        solutions: cleanJSONString(refData?.solutions) || prev.solutions || FALLBACK_TEMPLATES.Reflection.solutions,
+      }));
+
+      triggerToast('🎉 สร้างแผนการสอนอัตโนมัติครบถ้วนและสอดคล้องกันทุกส่วนสำเร็จแล้ว!', 'success');
+      setActiveTab(2); // Jump to Tab 2 so teacher can review immediately
 
     } catch (err: any) {
-      console.error(err);
-      triggerToast(`เกิดข้อผิดพลาดในการประมวลผล: ${err.message}`, 'error');
+      console.error('Step-by-step auto plan error:', err);
+      triggerToast(`AI สร้างแผนหยุดชะงัก: ${err.message} (ข้อมูลขั้นตอนที่สร้างสำเร็จแล้วยังคงถูกบันทึกไว้ในฟอร์ม)`, 'error');
     } finally {
       setAiLoading(false);
+      setStepProgress(null);
     }
+  };
+
+  // Shortcut for Tab 1 button
+  const handleAIMagicFill = async () => {
+    handleStepByStepAutoPlan();
+  };
+
+  // Backward compatibility: Phase 1 & Phase 2
+  const handleAIPhase1 = async () => {
+    handleStepByStepAutoPlan();
+  };
+
+  const handleAIPhase2 = async () => {
+    handleSectionAI('rubrics-all');
   };
 
 
@@ -1525,31 +1871,65 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
             </div>
 
             {/* AI AUTOFILL CALLOUT PANEL */}
-            <div className="db-warn" style={{ marginTop: '24px', background: 'rgba(236, 72, 153, 0.1)', borderColor: '#f472b6', color: '#831843' }}>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                <Sparkles size={18} color="#ec4899" style={{ marginTop: '2px' }} />
+            <div className="db-warn" style={{ marginTop: '24px', background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%)', borderColor: '#f472b6', color: '#831843', borderRadius: '12px', padding: '16px' }}>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                <Sparkles size={20} color="#ec4899" style={{ marginTop: '2px', flexShrink: 0 }} />
                 <div>
-                  <strong>พลังสร้างสรรค์แผนการสอนด้วย Gemini AI (ขั้นที่ 1/2)</strong>
-                  <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#be185d' }}>
-                    หลังจากกรอกข้อมูลระดับชั้น วิชา และเรื่องที่สอนเสร็จแล้ว <br/>
-                    กดปุ่มด้านล่างเพื่อให้ AI ร่าง <b>ตัวชี้วัด, จุดประสงค์, เนื้อหาสาระ, สื่อ, แหล่งเรียนรู้, ภาระงาน และกระบวนการสอน (Active Learning)</b> ให้อัตโนมัติ
+                  <strong style={{ fontSize: '15px' }}>🚀 ระบบ AI ผู้ช่วยสร้างแผนการสอนอัจฉริยะ (Smart Plan Studio)</strong>
+                  <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#9d174d', lineHeight: '1.5' }}>
+                    ออกแบบแผนการสอนแบบ <b>Active Learning ครบวงจร</b> โดยระบบจะสร้างทีละขั้นตอนอย่างต่อเนื่องเพื่อความรวดเร็ว สอดคล้องกัน 100% และปลอดภัยบน Free Tier (ไม่ค้าง ไม่ติด Rate Limit)
                   </p>
                 </div>
               </div>
-              <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={handleAIMagicFill}
-                disabled={aiLoading || !fields.lessonTopic}
-                style={{
-                  background: 'linear-gradient(135deg, #db2777 0%, #ec4899 100%)',
-                  marginTop: '12px',
-                  fontWeight: 'bold',
-                  padding: '10px 16px'
-                }}
-              >
-                <Sparkles size={16} /> {aiLoading ? 'กำลังสร้างโครงสร้าง เนื้อหา สื่อ และกิจกรรม...' : '✨ สร้างโครงสร้าง เนื้อหา และกิจกรรมด้วย AI (รอบที่ 1)'}
-              </button>
+
+              {stepProgress && (
+                <div style={{ marginTop: '14px', padding: '12px', background: 'white', border: '1px solid #fbcfe8', borderRadius: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontWeight: 600, color: '#be185d', marginBottom: '6px' }}>
+                    <span>{stepProgress.label}</span>
+                    <span>ขั้นตอนที่ {stepProgress.step} จาก {stepProgress.total}</span>
+                  </div>
+                  <div style={{ width: '100%', backgroundColor: '#fce7f3', borderRadius: '9999px', height: '8px', overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        background: 'linear-gradient(90deg, #ec4899 0%, #a855f7 100%)',
+                        height: '100%',
+                        borderRadius: '9999px',
+                        width: `${(stepProgress.step / stepProgress.total) * 100}%`,
+                        transition: 'width 0.4s ease'
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginTop: '12px', flexWrap: 'wrap' }}>
+                <button 
+                  type="button" 
+                  className="btn btn-primary"
+                  onClick={handleStepByStepAutoPlan}
+                  disabled={aiLoading || !fields.lessonTopic}
+                  style={{
+                    background: 'linear-gradient(135deg, #db2777 0%, #9333ea 100%)',
+                    fontWeight: 'bold',
+                    padding: '10px 18px',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 8px rgba(219, 39, 119, 0.25)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}
+                >
+                  {aiLoading ? (
+                    <><Loader2 size={16} className="animate-spin" /> กำลังสร้างแผนทีละขั้นตอน...</>
+                  ) : (
+                    <><Sparkles size={16} /> 🚀 สร้างแผนอัตโนมัติทีละขั้นตอน (Step-by-Step Auto Plan)</>
+                  )}
+                </button>
+
+                <span style={{ fontSize: '12px', color: '#6b7280' }}>
+                  💡 หรือคุณครูสามารถกดสร้างเฉพาะจุดที่ต้องการได้ในแต่ละแท็บ (แท็บ 2-5)
+                </span>
+              </div>
             </div>
 
             <div className="tab-nav">
@@ -1562,9 +1942,34 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         {/* ─── TAB 2: STANDARDS & CORE CONTENTS (ข้อ 1-4) ─── */}
         {activeTab === 2 && (
           <div className="tab-panel card">
-            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>1. สาระสำคัญ (Concept / Big Idea)</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <h3 style={{ color: '#ec4899', margin: 0 }}>1. สาระสำคัญ (Concept / Big Idea)</h3>
+              <button
+                type="button"
+                disabled={!!sectionLoading || aiLoading}
+                onClick={() => handleSectionAI('core-concept')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#be185d',
+                  backgroundColor: '#fdf2f8',
+                  border: '1px solid #fbcfe8',
+                  borderRadius: '8px',
+                  cursor: (sectionLoading || aiLoading) ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                {sectionLoading === 'core-concept' ? <Loader2 size={13} className="animate-spin text-pink-600" /> : <Sparkles size={13} className="text-pink-600" />}
+                {sectionLoading === 'core-concept' ? 'กำลังวิเคราะห์...' : '✨ AI ร่างสาระสำคัญ & สมรรถนะ'}
+              </button>
+            </div>
             <label className="field" style={{ marginBottom: '24px' }}>
-              <textarea className="lg" value={fields.essentialConcept} onChange={e => setFields({ ...fields, essentialConcept: e.target.value })} />
+              <textarea className="lg" value={fields.essentialConcept} onChange={e => setFields({ ...fields, essentialConcept: e.target.value })} placeholder="สาระสำคัญ หรือแนวคิดหลักของบทเรียนนี้..." />
             </label>
 
             <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>2. มาตรฐานการเรียนรู้และตัวชี้วัด (Learning Standards & Indicators)</h3>
@@ -1733,7 +2138,32 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
 
         {activeTab === 3 && (
           <div className="tab-panel card">
-            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>6. จุดประสงค์การเรียนรู้ (Learning Objectives)</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <h3 style={{ color: '#ec4899', margin: 0 }}>6. จุดประสงค์การเรียนรู้ (Learning Objectives)</h3>
+              <button
+                type="button"
+                disabled={!!sectionLoading || aiLoading}
+                onClick={() => handleSectionAI('objectives')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#be185d',
+                  backgroundColor: '#fdf2f8',
+                  border: '1px solid #fbcfe8',
+                  borderRadius: '8px',
+                  cursor: (sectionLoading || aiLoading) ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                {sectionLoading === 'objectives' ? <Loader2 size={13} className="animate-spin text-pink-600" /> : <Sparkles size={13} className="text-pink-600" />}
+                {sectionLoading === 'objectives' ? 'กำลังกำหนด...' : '✨ AI กำหนดจุดประสงค์ K/P/A'}
+              </button>
+            </div>
             <div className="g1">
               <label className="field">
                 จุดประสงค์ด้านความรู้ (Knowledge - K)
@@ -1787,12 +2217,62 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
 
             {/* Removed duplicated skills21 */}
 
-            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>7. เนื้อหาสาระ / สาระการเรียนรู้ (Learning Content)</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px', marginBottom: '12px' }}>
+              <h3 style={{ color: '#ec4899', margin: 0 }}>7. เนื้อหาสาระ / สาระการเรียนรู้ (Learning Content)</h3>
+              <button
+                type="button"
+                disabled={!!sectionLoading || aiLoading}
+                onClick={() => handleSectionAI('content')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#be185d',
+                  backgroundColor: '#fdf2f8',
+                  border: '1px solid #fbcfe8',
+                  borderRadius: '8px',
+                  cursor: (sectionLoading || aiLoading) ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                {sectionLoading === 'content' ? <Loader2 size={13} className="animate-spin text-pink-600" /> : <Sparkles size={13} className="text-pink-600" />}
+                {sectionLoading === 'content' ? 'กำลังสรุป...' : '✨ AI สรุปเนื้อหาสาระ'}
+              </button>
+            </div>
             <label className="field" style={{ marginBottom: '24px' }}>
               <textarea className="lg" style={{ minHeight: '120px' }} value={fields.learningContent} onChange={e => setFields({ ...fields, learningContent: e.target.value })} placeholder="คำศัพท์ โครงสร้างประโยค หรือเนื้อหาหลักที่เรียน..." />
             </label>
 
-            <h3 style={{ color: '#db2777', marginTop: '24px', marginBottom: '16px' }}>8. สื่อและแหล่งการเรียนรู้ (สื่อ แหล่งเรียนรู้ และภาระงาน)</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px', marginBottom: '12px' }}>
+              <h3 style={{ color: '#db2777', margin: 0 }}>8. สื่อและแหล่งการเรียนรู้ (สื่อ แหล่งเรียนรู้ และภาระงาน)</h3>
+              <button
+                type="button"
+                disabled={!!sectionLoading || aiLoading}
+                onClick={() => handleSectionAI('media-tasks')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#be185d',
+                  backgroundColor: '#fdf2f8',
+                  border: '1px solid #fbcfe8',
+                  borderRadius: '8px',
+                  cursor: (sectionLoading || aiLoading) ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
+              >
+                {sectionLoading === 'media-tasks' ? <Loader2 size={13} className="animate-spin text-pink-600" /> : <Sparkles size={13} className="text-pink-600" />}
+                {sectionLoading === 'media-tasks' ? 'กำลังคัดสรร...' : '✨ AI แนะนำสื่อ & ภาระงาน'}
+              </button>
+            </div>
             {/* Media & Sources Fields */}
             <div className="g3">
               <label className="field">
@@ -1854,37 +2334,21 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
               </label>
             </div>
 
-            {/* AI COMPLETION CALLOUT PANEL (TAB 3) */}
-            <div className="db-warn" style={{ marginTop: '24px', background: 'rgba(236, 72, 153, 0.1)', borderColor: '#f472b6', color: '#831843' }}>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                <Sparkles size={18} color="#ec4899" style={{ marginTop: '2px' }} />
-                <div>
-                  <strong>เติมเต็มแผนการสอนให้สมบูรณ์ (ขั้นที่ 2/2)</strong>
-                  <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#be185d' }}>
-                    ระบบจะนำกระบวนการจัดการเรียนรู้ที่คุณครูหรือ AI ได้สร้างไว้ (ในรอบที่ 1) <br/>
-                    มาวิเคราะห์เพื่อสร้าง <b>เครื่องมือวัดผล K/P/A, Rubrics 5 ระดับ และบันทึกหลังสอน</b> ให้สอดคล้องกัน
-                  </p>
-                </div>
+            {/* TAB 3 BOTTOM HINT */}
+            <div style={{ marginTop: '24px', padding: '14px 18px', background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%)', border: '1px solid #fbcfe8', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <Sparkles size={20} color="#ec4899" />
+                <span style={{ fontSize: '13px', color: '#831843' }}>
+                  เมื่อตรวจสอบจุดประสงค์และสื่อเรียบร้อยแล้ว กด <b>ถัดไป</b> เพื่อออกแบบกระบวนการสอน Active Learning และเกณฑ์ Rubric ในแท็บที่ 4
+                </span>
               </div>
               <button 
                 type="button" 
-                className="btn btn-primary"
-                onClick={handleAIPhase2}
-                disabled={aiLoading || !fields.learningProcess}
-                style={{
-                  background: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)',
-                  marginTop: '12px',
-                  fontWeight: 'bold',
-                  padding: '10px 16px',
-                  border: 'none',
-                  color: 'white'
-                }}
+                className="btn btn-ghost" 
+                onClick={() => setActiveTab(4)}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: 600, color: '#be185d', backgroundColor: '#fdf2f8', border: '1px solid #fbcfe8', padding: '8px 14px', borderRadius: '8px' }}
               >
-                {aiLoading ? (
-                  <><span className="spinner" style={{ marginRight: '8px' }}></span> กำลังเติมเต็มแผนการสอน...</>
-                ) : (
-                  <><Sparkles size={16} style={{ marginRight: '8px' }} /> ✨ เติมเต็มแผนการสอนให้สมบูรณ์ (รอบที่ 2)</>
-                )}
+                ไปที่กระบวนการสอนและการวัดผล <ChevronRight size={14} />
               </button>
             </div>
 
@@ -1898,7 +2362,19 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         {/* ─── TAB 4: PROCESS & ASSESSMENT (ข้อ 8-9) ─── */}
         {activeTab === 4 && (
           <div className="tab-panel card">
-            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>9. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 style={{ color: '#ec4899', margin: 0 }}>9. วิธีการดำเนินกิจกรรม ตามแนวคิด Active Learning</h3>
+              <button
+                type="button"
+                onClick={() => handleSectionAI('process')}
+                disabled={!!sectionLoading || !!stepProgress}
+                className="btn btn-sm text-xs font-semibold px-3 py-1.5 rounded-lg border border-pink-200 bg-pink-50 text-pink-700 hover:bg-pink-100 flex items-center gap-1.5 shadow-sm transition-all"
+                title="สร้างแผนกิจกรรม Active Learning 5 ขั้นอย่างละเอียดและสอดคล้องกับตัวชี้วัด K/P/A"
+              >
+                <Sparkles size={14} className={sectionLoading === 'process' ? 'animate-spin' : ''} />
+                {sectionLoading === 'process' ? 'กำลังออกแบบกิจกรรม...' : '✨ AI ออกแบบกิจกรรม 5 ขั้น'}
+              </button>
+            </div>
             <label className="field">
               <div className="flex justify-between items-center w-full mb-2">
                 <span>กระบวนการสอน (เช่น ขั้นนำ ขั้นสอน ขั้นสรุป หรือ 5E Model)</span>
@@ -1911,12 +2387,32 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
 
             <div className="flex justify-between items-center mb-4" style={{ marginTop: '24px' }}>
               <h3 className="m-0" style={{ color: '#ec4899' }}>10. การวัดและการประเมินผล (K/P/A Assessment)</h3>
+              <button
+                type="button"
+                onClick={() => handleSectionAI('rubrics-all')}
+                disabled={!!sectionLoading || !!stepProgress}
+                className="btn btn-sm text-xs font-semibold px-3 py-1.5 rounded-lg border border-fuchsia-200 bg-fuchsia-50 text-fuchsia-700 hover:bg-fuchsia-100 flex items-center gap-1.5 shadow-sm transition-all"
+                title="สร้างเครื่องมือวัดผลและ Rubric ครบทั้ง K, P, A แบบรันทีละส่วน ไม่ค้าง ไม่ติด Rate limit"
+              >
+                <Sparkles size={14} className={sectionLoading === 'rubrics-all' ? 'animate-spin' : ''} />
+                {sectionLoading === 'rubrics-all' ? 'กำลังสร้างรูบริกทีละด้าน...' : '✨ AI สร้าง Rubric K/P/A ครบชุด'}
+              </button>
             </div>
             
             {/* K Assessment Card */}
             <div className="assess-card">
-              <div className="assess-header">
+              <div className="assess-header flex justify-between items-center">
                 <h4>10.1 ประเมินด้านความรู้ (Knowledge - K)</h4>
+                <button
+                  type="button"
+                  onClick={() => handleSectionAI('rubric-k')}
+                  disabled={!!sectionLoading || !!stepProgress}
+                  className="text-xs font-medium px-2.5 py-1 rounded-md border border-pink-200 bg-white text-pink-700 hover:bg-pink-50 flex items-center gap-1 shadow-xs transition-colors"
+                  title="วิเคราะห์วัตถุประสงค์ K และสร้างเครื่องมือประเมินพร้อมรูบริก"
+                >
+                  <Sparkles size={12} className={sectionLoading === 'rubric-k' ? 'animate-spin' : ''} />
+                  {sectionLoading === 'rubric-k' ? 'กำลังวิเคราะห์...' : '✨ AI รูบริก K'}
+                </button>
               </div>
               <div className="g2">
                 <label className="field">
@@ -1950,8 +2446,18 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
 
             {/* P Assessment Card */}
             <div className="assess-card">
-              <div className="assess-header">
+              <div className="assess-header flex justify-between items-center">
                 <h4>10.2 ประเมินด้านทักษะกระบวนการ (Process - P)</h4>
+                <button
+                  type="button"
+                  onClick={() => handleSectionAI('rubric-p')}
+                  disabled={!!sectionLoading || !!stepProgress}
+                  className="text-xs font-medium px-2.5 py-1 rounded-md border border-pink-200 bg-white text-pink-700 hover:bg-pink-50 flex items-center gap-1 shadow-xs transition-colors"
+                  title="วิเคราะห์ภาระงาน/ทักษะ P และสร้างเครื่องมือประเมินพร้อมรูบริก"
+                >
+                  <Sparkles size={12} className={sectionLoading === 'rubric-p' ? 'animate-spin' : ''} />
+                  {sectionLoading === 'rubric-p' ? 'กำลังวิเคราะห์...' : '✨ AI รูบริก P'}
+                </button>
               </div>
               <div className="g2">
                 <label className="field">
@@ -1985,8 +2491,18 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
 
             {/* A Assessment Card */}
             <div className="assess-card">
-              <div className="assess-header">
+              <div className="assess-header flex justify-between items-center">
                 <h4>10.3 ประเมินด้านคุณลักษณะ (Attitude - A)</h4>
+                <button
+                  type="button"
+                  onClick={() => handleSectionAI('rubric-a')}
+                  disabled={!!sectionLoading || !!stepProgress}
+                  className="text-xs font-medium px-2.5 py-1 rounded-md border border-pink-200 bg-white text-pink-700 hover:bg-pink-50 flex items-center gap-1 shadow-xs transition-colors"
+                  title="วิเคราะห์คุณลักษณะ A และสร้างเครื่องมือประเมินพร้อมรูบริก"
+                >
+                  <Sparkles size={12} className={sectionLoading === 'rubric-a' ? 'animate-spin' : ''} />
+                  {sectionLoading === 'rubric-a' ? 'กำลังวิเคราะห์...' : '✨ AI รูบริก A'}
+                </button>
               </div>
               <div className="g2">
                 <label className="field">
@@ -2028,7 +2544,19 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
         {/* ─── TAB 5: AFTER ACTION REVIEW ─── */}
         {activeTab === 5 && (
           <div className="tab-panel card">
-            <h3 style={{ color: '#ec4899', marginBottom: '16px' }}>11. บันทึกหลังการจัดกระบวนการเรียนรู้ (After Action Review)</h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 style={{ color: '#ec4899', margin: 0 }}>11. บันทึกหลังการจัดกระบวนการเรียนรู้ (After Action Review)</h3>
+              <button
+                type="button"
+                onClick={() => handleSectionAI('reflection')}
+                disabled={!!sectionLoading || !!stepProgress}
+                className="btn btn-sm text-xs font-semibold px-3 py-1.5 rounded-lg border border-pink-200 bg-pink-50 text-pink-700 hover:bg-pink-100 flex items-center gap-1.5 shadow-sm transition-all"
+                title="ร่างผลการจัดการเรียนรู้ K/P/A พร้อมจำลองปัญหาและแนวทางแก้ไขเชิงสร้างสรรค์"
+              >
+                <Sparkles size={14} className={sectionLoading === 'reflection' ? 'animate-spin' : ''} />
+                {sectionLoading === 'reflection' ? 'กำลังร่างบันทึก...' : '✨ AI ร่างบันทึกหลังสอน'}
+              </button>
+            </div>
             <div className="g3">
               <label className="field">
                 ผลการเรียนรู้ด้านความรู้ (K)

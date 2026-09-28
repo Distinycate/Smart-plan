@@ -38,3 +38,7 @@ test_*.js
 check_*.js
 debug_*.js
 restore_*.js
+test_*.mjs
+check_*.mjs
+delete_*.mjs
+debug_*.mjs

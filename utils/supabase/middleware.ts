@@ -55,11 +55,15 @@ export async function updateSession(request: NextRequest) {
   const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register');
   const isLandingPage = request.nextUrl.pathname === '/';
   
-  // Exclude static assets and api routes if not strictly needed
-  if (false && !user && !isAuthRoute && !isLandingPage && !request.nextUrl.pathname.startsWith('/api/') && !request.nextUrl.pathname.startsWith('/_next/')) {
-    // If not logged in and trying to access a protected route, redirect to login
+  // API routes are deliberately excluded by middleware.ts and must authorize
+  // themselves. This guard is only the page-navigation boundary.
+  const isPublicPage = isAuthRoute || isLandingPage;
+  if (!user && !isPublicPage) {
+    // If not logged in and trying to access a protected page, redirect to login.
+    // Keep the requested path so the user can continue their normal workflow.
     const url = request.nextUrl.clone()
     url.pathname = '/login'
+    url.searchParams.set('next', `${request.nextUrl.pathname}${request.nextUrl.search}`)
     return NextResponse.redirect(url)
   }
   

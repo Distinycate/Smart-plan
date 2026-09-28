@@ -52,6 +52,18 @@ export async function GET(
     const failedSteps = steps.filter(s => s.status === 'failed').map(s => s.target_section);
     const skippedSteps = steps.filter(s => s.status === 'skipped').map(s => s.target_section);
 
+    const patchIds = steps.map(step => step.patch_id).filter(Boolean);
+    const { data: proposals, error: proposalsError } = patchIds.length
+      ? await supabaseAdmin
+          .from('lesson_plan_patches')
+          .select('id,target_section,severity,before_content,after_content,reason,applied,created_at')
+          .in('id', patchIds)
+          .order('created_at', { ascending: true })
+      : { data: [], error: null };
+    if (proposalsError) {
+      return errorResponse('E_DATABASE_READ', 'ไม่สามารถโหลดข้อเสนอ AI ได้', 500);
+    }
+
     // 4. Query latest version details if job is completed
     let latestVersion = null;
     if (job.to_version_id) {
@@ -77,6 +89,9 @@ export async function GET(
         completedSteps,
         failedSteps,
         skippedSteps,
+        proposals: proposals || [],
+        reviewRequired: Boolean(job.metadata?.review_required),
+        proposedPatchCount: Number(job.metadata?.proposed_patch_count || proposals?.length || 0),
         latestVersion,
         error_message: job.error_message,
         recheckJobId: job.metadata?.recheck_job_id || null,

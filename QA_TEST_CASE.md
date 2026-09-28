@@ -1,5 +1,42 @@
 # QA Test Cases
 
+## Phase 1 Wave 1 — Identity & Authorization Foundation — 2026-09-15
+
+- TC-SEC-W1-001: migration 12 contains no `DELETE FROM` or `DROP TABLE`: Pending static run.
+- TC-SEC-W1-002: migration revokes broad profile update and omits role from mutable fields: Pending static run.
+- TC-SEC-W1-003: authorization primitives exist for user/admin/plan/unit/evaluation/patch: Pending static run.
+- TC-SEC-W1-004: unauthenticated protected page redirects to login: Pending browser/manual verification.
+- TC-SEC-W1-005: teacher direct update of `profiles.role='admin'` is rejected: Not executed; requires Supabase staging.
+- TC-SEC-W1-006: teacher cannot read another profile email via PostgREST: Not executed; requires two-user staging.
+- TC-SEC-W1-007: existing admin can still list profiles/plans after migration: Not executed; requires admin staging.
+
+Do not mark Wave 1 production-safe until migration 12 and the negative RLS tests are
+executed against the target Supabase project.
+
+## Phase 1 Wave 2A — Canonical AI Runtime Boundary — 2026-09-15
+
+- TC-SEC-W2A-001: all six canonical PlanForm AI routes call the shared boundary: Passed static contract.
+- TC-SEC-W2A-002: shared boundary requires server-derived authenticated user: Passed static contract.
+- TC-SEC-W2A-003: canonical body-size and payload validation exist before admission: Passed static contract.
+- TC-SEC-W2A-004: migration 13 is additive and uses database advisory-lock admission: Passed static contract.
+- TC-SEC-W2A-005: existing Phase 0, Wave 1, evaluation, latency, patch, rubric and UI regression contracts: Passed.
+- TC-SEC-W2A-006: TypeScript and production build: Passed.
+- TC-SEC-W2A-007: Anonymous canonical AI request returns 401 before Gemini: Not executed against a live server/session.
+- TC-SEC-W2A-008: database per-user/global limit returns 429 without Gemini call: Not executed; requires Supabase staging with migration 13.
+- TC-SEC-W2A-009: missing admission RPC returns safe 503: Not executed; requires controlled staging.
+
+## Phase 1 Wave 2B — Plan & Unit Ownership Boundary — 2026-09-15
+
+- TC-SEC-W2B-001: plan detail separates admin read from owner mutation/export helpers: Passed static contract.
+- TC-SEC-W2B-002: plan update/archive/restore/Word/PDF explicitly require plan ownership: Passed static contract.
+- TC-SEC-W2B-003: UnitPlan, Unit export and UnitLesson routes require parent ownership: Passed static contract.
+- TC-SEC-W2B-004: UnitLesson helper validates stored child-to-parent relationship and user ownership: Passed static contract.
+- TC-SEC-W2B-005: service-role backup/log usage follows ownership call in protected lesson routes: Passed static contract.
+- TC-SEC-W2B-006: existing Phase 0/Wave 1/Wave 2A/evaluation/patch/rubric/UI regressions and production build: Passed.
+- TC-SEC-W2B-007: User A cannot read/update/archive/restore/export User B lesson plan: Not executed; requires two-user Supabase test.
+- TC-SEC-W2B-008: User A cannot use UnitPlan A with UnitLesson B, or export UnitPlan B: Not executed; requires two-user Supabase test.
+- TC-SEC-W2B-009: admin can read but cannot mutate/export another teacher's plan: Not executed; requires admin staging test.
+
 ## Automated Evidence
 
 - `npm run build` — Passed on 2026-07-06: compilation, TypeScript validation and route generation completed.

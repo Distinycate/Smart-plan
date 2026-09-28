@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
+import {
+  beginCanonicalAiRequest,
+  isCanonicalAiBoundaryError,
+  type CanonicalAiRequestContext,
+} from '@/lib/ai/canonical-ai-boundary';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
+  let requestContext: CanonicalAiRequestContext | undefined;
   try {
-
+    requestContext = await beginCanonicalAiRequest(req, 'completion-a');
     const { 
       gradeLevel, 
       subjectName, 
@@ -15,8 +21,9 @@ export async function POST(req: NextRequest) {
       objectiveK,
       objectiveP,
       objectiveA,
-      learningProcess
-    } = await req.json();
+      learningProcess,
+      desiredAttributes
+    } = requestContext.payload;
 
     if (!gradeLevel || !subjectName || !lessonTopic || !learningProcess) {
       return NextResponse.json({
@@ -27,10 +34,7 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.GEMINI_API_KEY_COMPLETION || process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({
-        success: false,
-        error: 'Missing GEMINI_API_KEY environment variable.'
-      }, { status: 500 });
+      throw new Error('Missing GEMINI_API_KEY environment variable.');
     }
     const apiUrl = fastGeminiUrl();
 
@@ -74,12 +78,12 @@ export async function POST(req: NextRequest) {
 วิชา: ${subjectName} ชั้น: ${gradeLevel} เรื่อง: ${lessonTopic}
 
 จุดประสงค์คุณลักษณะ (A): ${objectiveA || '-'}
-
+${desiredAttributes ? `\nคุณลักษณะอันพึงประสงค์: ${desiredAttributes}\n` : ''}
 กระบวนการจัดการเรียนรู้ที่ใช้:
 ${boundedLearningProcess}
 ---
 
-หน้าที่ของคุณคือ "สร้างเกณฑ์การประเมินด้านคุณลักษณะ (A)" ให้สอดคล้องกับกระบวนการเรียนรู้และจุดประสงค์ที่กำหนดไว้อย่างสมบูรณ์แบบที่สุด
+หน้าที่ของคุณคือ "สร้างเกณฑ์การประเมินด้านคุณลักษณะ (A)" ให้สอดคล้องกับกระบวนการเรียนรู้ จุดประสงค์ และคุณลักษณะอันพึงประสงค์ที่กำหนดไว้อย่างสมบูรณ์แบบที่สุด
 
 หลักการสำคัญ
 1. การวัดผล (Measure A) ต้องตอบโจทย์จุดประสงค์การเรียนรู้ A ด้านบนอย่างแม่นยำ
@@ -97,7 +101,7 @@ ${errorMemoryText}
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
-        ...fastJsonGenerationConfig(8192),
+        ...fastJsonGenerationConfig(2048),
         responseSchema: {
           type: "OBJECT",
           properties: {
@@ -149,13 +153,21 @@ ${errorMemoryText}
         || '5 = แสดงพฤติกรรมอย่างสม่ำเสมอและเป็นแบบอย่างได้\n4 = แสดงพฤติกรรมอย่างสม่ำเสมอ\n3 = แสดงพฤติกรรมเป็นส่วนใหญ่\n2 = แสดงพฤติกรรมบางครั้งเมื่อได้รับคำแนะนำ\n1 = ยังไม่แสดงพฤติกรรมที่คาดหวัง',
     };
 
+    await requestContext.complete('complete');
     return NextResponse.json({
       success: true,
       data: normalizedData
     });
 
   } catch (error: any) {
+    await requestContext?.complete('failed');
     console.error('Gemini AI Completion endpoint error:', error);
+    if (isCanonicalAiBoundaryError(error)) {
+      return NextResponse.json({ success: false, error: error.message, errorCode: error.code }, {
+        status: error.httpStatus,
+        headers: error.retryAfterSeconds ? { 'Retry-After': String(error.retryAfterSeconds) } : undefined,
+      });
+    }
     return NextResponse.json({
       success: false,
       error: error.message || 'Error occurred during AI completion generation'

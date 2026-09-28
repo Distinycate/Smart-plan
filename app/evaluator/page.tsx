@@ -148,6 +148,8 @@ export default function EvaluatorPage() {
   const [patchSkippedSteps, setPatchSkippedSteps] = useState<string[]>([]);
   const [patchStepsCount, setPatchStepsCount] = useState(0);
   const [patchErrorMessage, setPatchErrorMessage] = useState<string | null>(null);
+  const [patchReviewRequired, setPatchReviewRequired] = useState(false);
+  const [patchProposals, setPatchProposals] = useState<any[]>([]);
 
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -277,6 +279,8 @@ export default function EvaluatorPage() {
         setPatchFailedSteps(json.data.failedSteps);
         setPatchSkippedSteps(json.data.skippedSteps);
         setPatchErrorMessage(json.data.error_message);
+        setPatchReviewRequired(Boolean(json.data.reviewRequired));
+        setPatchProposals(Array.isArray(json.data.proposals) ? json.data.proposals : []);
         return json.data;
       }
       throw new Error(json.message || 'ไม่สามารถโหลดสถานะการปรับปรุงแผนได้');
@@ -307,16 +311,10 @@ export default function EvaluatorPage() {
         processNext = Boolean(processJson.data?.processNext && statusData.status !== 'completed' && statusData.status !== 'failed');
         
         if (statusData.status === 'completed') {
-          toast.success('ปรับปรุงแผนการสอนครบทุกส่วนแล้ว — เริ่มการตรวจซ้ำ (Recheck)');
-          if (statusData.recheckJobId) {
-            setRecheckJobId(statusData.recheckJobId);
-            setActiveJobId(statusData.recheckJobId);
-            setIsEvaluating(true);
-            setQualityResult(null);
-            setJobProgress(0);
-            setIsPatching(false);
-            setPatchJobId(null);
-            await processJobSections(statusData.recheckJobId);
+          if (statusData.reviewRequired) {
+            toast.success('AI สร้างข้อเสนอแล้ว กรุณาตรวจทานก่อนนำไปใช้ — แผนต้นฉบับยังไม่ถูกแก้ไข');
+          } else {
+            toast.success('การสร้างข้อเสนอเสร็จสมบูรณ์ โดยไม่มีการแก้ไขแผนต้นฉบับ');
           }
           break;
         }
@@ -345,6 +343,8 @@ export default function EvaluatorPage() {
     setPatchCompletedSteps([]);
     setPatchFailedSteps([]);
     setPatchSkippedSteps([]);
+    setPatchReviewRequired(false);
+    setPatchProposals([]);
     
     try {
       const res = await fetch('/api/lesson-plans/patch/create', {
@@ -1240,6 +1240,8 @@ export default function EvaluatorPage() {
                   skippedSteps={patchSkippedSteps}
                   stepsCount={patchStepsCount}
                   errorMessage={patchErrorMessage}
+                  reviewRequired={patchReviewRequired}
+                  proposals={patchProposals}
                   onRetry={handlePatchRetry}
                 />
               </div>

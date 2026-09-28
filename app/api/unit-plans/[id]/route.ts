@@ -1,14 +1,13 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { newEntityId, unitError, unitSuccess } from '@/lib/unitPlanApi';
 import { UnitPlanStatus, validateUnitPlan } from '@/lib/unitPlanValidation';
+import { isAuthorizationError, requireUnitPlanOwner } from '@/lib/auth/authorization';
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return unitError('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบ', 401);
+    const ownership = await requireUnitPlanOwner(params.id);
+    const { supabase } = ownership;
 
     const { data, error } = await supabase
       .from('UnitPlans')
@@ -19,6 +18,9 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
     return unitSuccess(data, 'โหลดแผนระดับหน่วยเรียบร้อยแล้ว');
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return unitError('E_PERMISSION_DENIED', error.message, error.httpStatus);
+    }
     console.error('GET /api/unit-plans/[id] failed:', error);
     return unitError('E_UNKNOWN', 'ไม่สามารถโหลดแผนระดับหน่วยได้', 500);
   }
@@ -26,10 +28,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return unitError('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบ', 401);
-
+    const ownership = await requireUnitPlanOwner(params.id);
+    const { supabase, user } = ownership;
     const { data: existing, error: findError } = await supabase
       .from('UnitPlans')
       .select('*, UnitLessons(unitLessonId, lessonStatus, estimatedHours)')
@@ -99,6 +99,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     return unitSuccess(data, 'บันทึกการแก้ไขแผนระดับหน่วยเรียบร้อยแล้ว', validation.warnings);
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return unitError('E_PERMISSION_DENIED', error.message, error.httpStatus);
+    }
     console.error('PUT /api/unit-plans/[id] failed:', error);
     return unitError('E_UNKNOWN', 'ไม่สามารถบันทึกการแก้ไขได้ ข้อมูลในแบบฟอร์มยังคงอยู่', 500);
   }

@@ -1,5 +1,147 @@
 # Changelog
 
+## [2.6.3-phase1-wave2b-ownership-boundary] - 2026-09-15
+
+### Added
+
+- Explicit `requirePlanReader` and `requireUnitLessonOwner` authorization primitives.
+- Static cross-resource IDOR/ownership contract test.
+
+### Changed
+
+- Lesson detail now uses explicit read authorization; update/archive/restore/Word/PDF are owner-only.
+- Administrators retain cross-teacher LessonPlan read access but no implicit mutation or document-export rights.
+- UnitPlan, UnitLesson, unit preview, Word and PDF now resolve parent ownership explicitly.
+
+### Fixed
+
+- Removed route reliance on anonymous global Supabase client for lesson restore and exports.
+- Blocked nested UnitLesson parent/child ID mismatch at the application boundary.
+
+### Migration
+
+- None. Wave 2B preserves existing RLS and adds route-level defense-in-depth only.
+
+### QA
+
+- Ownership contract, all specified static regressions and production build passed.
+- Live User A/User B IDOR testing remains required.
+
+### Known Issues
+
+- Evaluation/Patch chain and legacy/health/master-data hardening remain Wave 2C and 2D.
+
+### Rollback
+
+- Revert Wave 2B route/helper changes only; no database rollback is required.
+
+## [2.6.2-phase1-wave2a-canonical-ai-security] - 2026-09-15
+
+### Added
+
+- Database-backed canonical AI admission migration `13_canonical_ai_request_admission.sql`.
+- Shared canonical AI boundary with authentication, payload cap/validation and admission provider interface.
+- Wave 2A AI security contract test.
+
+### Changed
+
+- Core, Activity and Completion K/P/A/Reflection routes now require authenticated users before Gemini.
+- Canonical AI routes fail closed when their distributed admission RPC is unavailable.
+
+### Fixed
+
+- Prevented anonymous Gemini-cost requests on the canonical PlanForm Golden Path at source level.
+- Prevented obvious same-user concurrent bursts beyond the configured admission limit.
+
+### Migration
+
+- Run migration 13 only after migration 12 is reviewed/applied. It is additive and does not alter teacher content.
+
+### QA
+
+- Static contracts, existing regression contracts, TypeScript and production build passed.
+- Supabase/Vercel live admission and anonymous request verification remain required.
+
+### Known Issues
+
+- Legacy AI/evaluation routes, export/restore, plan ownership and health endpoints are Wave 2B–2D work.
+- Concurrency admission is not a replacement for a managed distributed rate limiter.
+
+### Rollback
+
+- Revert only Wave 2A routes/helper. Migration 13 rows may be retained as operational history;
+  do not delete teacher data or rerun older migrations.
+
+## [2.6.1-phase1-wave1-identity-authorization] - 2026-09-15
+
+### Added
+
+- Additive migration `12_security_identity_authorization_foundation.sql`.
+- Shared server-side authorization primitives for user, admin, plan, unit-plan,
+  evaluation, and patch-job ownership checks.
+- Static Phase 1 Wave 1 security contract test.
+
+### Changed
+
+- Protected page navigation now redirects unauthenticated visitors to login;
+  API routes remain responsible for their own authorization.
+- `profiles` access model is changed by migration from public profile reads and
+  broad self-update to private self/admin reads plus mutable-field-only updates.
+
+### Fixed
+
+- SEC-001 remediation: a client cannot update `profiles.role`, `id`, `email`,
+  or `created_at` after migration 12 is applied.
+
+### Migration
+
+- Run migration 12 once in Supabase after backup and policy/grant review.
+- No row, lesson plan, profile, evaluation, or unit-plan data is deleted or backfilled.
+
+### QA
+
+- Static contract/build verification is required locally.
+- Live Supabase RLS/grant and two-user verification are not executed in this environment.
+
+### Known Issues
+
+- AI, export, restore, and legacy evaluation route hardening is intentionally deferred
+  to Phase 1 Wave 2.
+
+### Rollback
+
+- Restore the prior profile policies/grants from a reviewed SQL rollback script.
+  Do not rerun migration 01 because it contains a destructive legacy `DELETE`.
+
+## [2.6.0-phase0-architecture-consolidation] - 2026-09-15
+
+### Added
+- Canonical Golden Path registry for planning, AI generation, evaluation and compatibility routes.
+- Explicit Legacy `LessonPlans` → canonical lesson-plan read-side contract and write safety policy.
+- Proposal diff payload in patch-job status: before, after, reason and severity.
+- Preview-first UI state explaining that AI has not changed the teacher's plan.
+
+### Changed
+- Direct patch route now returns a non-persistent preview only.
+- Patch jobs persist proposals with `applied=false` and finish in teacher-review-required state.
+
+### Fixed
+- Removed automatic writes from both AI patch paths, including accidental mapping to non-legacy fields.
+- Removed automatic cache invalidation and re-evaluation before teacher approval.
+
+### Migration
+- None.
+
+### QA
+- Added Phase 0 architecture consolidation contract test.
+- Authenticated Supabase/Vercel verification remains required.
+
+### Known Issues
+- Teacher accept/reject/apply controls are intentionally not implemented yet; proposals are review-only in this release.
+
+### Rollback
+- Revert only Phase 0 source/doc changes; proposal records remain safely unapplied.
+
 ## [2.5.3-rubric-field-separation] - 2026-07-07
 
 ### Added

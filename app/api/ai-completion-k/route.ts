@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { supabase } from '@/lib/supabase';
 import { clipForAi, fastGeminiUrl, fastJsonGenerationConfig } from '@/lib/geminiRuntime';
+import {
+  beginCanonicalAiRequest,
+  isCanonicalAiBoundaryError,
+  type CanonicalAiRequestContext,
+} from '@/lib/ai/canonical-ai-boundary';
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
+  let requestContext: CanonicalAiRequestContext | undefined;
   try {
-
+    requestContext = await beginCanonicalAiRequest(req, 'completion-k');
     const { 
       gradeLevel, 
       subjectName, 
@@ -16,7 +22,7 @@ export async function POST(req: NextRequest) {
       objectiveP,
       objectiveA,
       learningProcess
-    } = await req.json();
+    } = requestContext.payload;
 
     if (!gradeLevel || !subjectName || !lessonTopic || !learningProcess) {
       return NextResponse.json({
@@ -27,10 +33,7 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.GEMINI_API_KEY_COMPLETION || process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({
-        success: false,
-        error: 'Missing GEMINI_API_KEY environment variable.'
-      }, { status: 500 });
+      throw new Error('Missing GEMINI_API_KEY environment variable.');
     }
     const apiUrl = fastGeminiUrl();
 
@@ -97,7 +100,7 @@ ${errorMemoryText}
     const payload = {
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
-        ...fastJsonGenerationConfig(8192),
+        ...fastJsonGenerationConfig(2048),
         responseSchema: {
           type: "OBJECT",
           properties: {
@@ -135,13 +138,21 @@ ${errorMemoryText}
       throw new Error(`AI output parsing failed: ${parseError.message}`);
     }
 
+    await requestContext.complete('complete');
     return NextResponse.json({
       success: true,
       data: parsedData
     });
 
   } catch (error: any) {
+    await requestContext?.complete('failed');
     console.error('Gemini AI Completion endpoint error:', error);
+    if (isCanonicalAiBoundaryError(error)) {
+      return NextResponse.json({ success: false, error: error.message, errorCode: error.code }, {
+        status: error.httpStatus,
+        headers: error.retryAfterSeconds ? { 'Retry-After': String(error.retryAfterSeconds) } : undefined,
+      });
+    }
     return NextResponse.json({
       success: false,
       error: error.message || 'Error occurred during AI completion generation'

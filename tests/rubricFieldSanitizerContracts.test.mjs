@@ -24,7 +24,7 @@ assert.match(sanitizer, /fallbackRubricText\(domain/);
 assert.match(aiFixRoute, /ensureDetailedRubrics\(fixedPlanData, planData\)/);
 assert.match(plansRoute, /ensureDetailedRubrics\(await req\.json\(\)\)/);
 assert.match(planDetailRoute, /ensureDetailedRubrics\(rawBody, existingPlan\)/);
-assert.match(planDetailRoute, /data: ensureDetailedRubrics\(data\)/);
+assert.match(planDetailRoute, /data: ensureDetailedRubrics\((?:data|plan)\)/);
 assert.match(wordExportRoute, /plan = ensureDetailedRubrics\(plan\)/);
 
 assert.match(prompt, /ห้ามนำเกณฑ์ Rubric 5 ระดับไปรวมในช่องเครื่องมือวัดผล/);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
+import { isAuthorizationError, requirePlanOwner } from '@/lib/auth/authorization';
 
 // PATCH /api/plans/[id]/restore
 export async function PATCH(
@@ -9,20 +10,9 @@ export async function PATCH(
   try {
     const { id } = params;
     const timestamp = new Date().toISOString();
-
-    // 1. Fetch details to ensure plan exists
-    const { data: plan, error: getErr } = await supabase
-      .from('LessonPlans')
-      .select('*')
-      .eq('planId', id)
-      .single();
-
-    if (getErr || !plan) {
-      return NextResponse.json({
-        success: false,
-        error: 'Plan not found'
-      }, { status: 404 });
-    }
+    // Restore mutates a plan, so it is owner-only even for administrators.
+    const { plan, supabase } = await requirePlanOwner(id);
+    const adminDb = getSupabaseAdmin();
 
     if (plan.planStatus !== 'archived') {
        return NextResponse.json({
@@ -32,7 +22,7 @@ export async function PATCH(
     }
 
     // 2. Back up the plan before restoring it.
-    await supabase.from('LessonPlan_Backup').insert({
+    await adminDb.from('LessonPlan_Backup').insert({
       backupId: `BKP-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       originalPlanId: id,
       backupAt: timestamp,
@@ -53,7 +43,7 @@ export async function PATCH(
     if (updateErr) throw updateErr;
 
     // 4. Log transaction
-    await supabase.from('System_Logs').insert({
+    await adminDb.from('System_Logs').insert({
       logId: `LOG-${Math.random().toString(36).substring(2, 11).toUpperCase()}`,
       timestamp,
       action: 'RESTORE_PLAN',
@@ -67,6 +57,9 @@ export async function PATCH(
       message: 'กู้คืนแผนการสอนเรียบร้อยแล้ว'
     });
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return NextResponse.json({ success: false, error: error.message }, { status: error.httpStatus });
+    }
     console.error('Error restoring plan:', error);
     return NextResponse.json({
       success: false,

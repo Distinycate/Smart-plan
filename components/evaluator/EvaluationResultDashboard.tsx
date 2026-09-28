@@ -417,14 +417,14 @@ export default function EvaluationResultDashboard({
               disabled={isPatching || criticalIssues.length === 0}
               style={actionBtnStyle('#f87171', isPatching || criticalIssues.length === 0)}
             >
-              {isPatching ? '⏳ กำลังแก้...' : `🔧 Auto Fix Critical (${criticalIssues.length})`}
+              {isPatching ? '⏳ กำลังสร้างข้อเสนอ...' : `🔧 สร้างข้อเสนอ Critical (${criticalIssues.length})`}
             </button>
             <button
               onClick={() => onAutoFix('auto_fix_critical_high')}
               disabled={isPatching || (criticalIssues.length + highIssues.length) === 0}
               style={actionBtnStyle('#fb923c', isPatching || (criticalIssues.length + highIssues.length) === 0)}
             >
-              {`🔨 Fix Critical + High (${criticalIssues.length + highIssues.length})`}
+              {`🔨 สร้างข้อเสนอ Critical + High (${criticalIssues.length + highIssues.length})`}
             </button>
           </>
         )}

@@ -1,29 +1,15 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { newEntityId, unitError, unitSuccess } from '@/lib/unitPlanApi';
 import { validateUnitLesson } from '@/lib/unitLessonValidation';
-
-async function getOwnedLesson(supabase: ReturnType<typeof createClient>, unitPlanId: string, lessonId: string) {
-  return supabase
-    .from('UnitLessons')
-    .select('*')
-    .eq('unitPlanId', unitPlanId)
-    .eq('unitLessonId', lessonId)
-    .single();
-}
+import { isAuthorizationError, requireUnitLessonOwner } from '@/lib/auth/authorization';
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string; lessonId: string } }
 ) {
   try {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return unitError('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบ', 401);
-
-    const { data: existing, error: findError } = await getOwnedLesson(supabase, params.id, params.lessonId);
-    if (findError || !existing) return unitError('E_LESSON_NOT_FOUND', 'ไม่พบแผนรายคาบ', 404);
+    const { supabase, user, lesson: existing } = await requireUnitLessonOwner(params.id, params.lessonId);
 
     const body = await req.json();
     const merged = { ...existing, ...body };
@@ -92,6 +78,9 @@ export async function PUT(
 
     return unitSuccess(data, 'แก้ไขแผนรายคาบเรียบร้อยแล้ว');
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return unitError('E_PERMISSION_DENIED', error.message, error.httpStatus);
+    }
     console.error('PUT UnitLesson failed:', error);
     const duplicate = error?.code === '23505';
     return unitError(
@@ -107,12 +96,7 @@ export async function DELETE(
   { params }: { params: { id: string; lessonId: string } }
 ) {
   try {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return unitError('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบ', 401);
-
-    const { data: existing, error: findError } = await getOwnedLesson(supabase, params.id, params.lessonId);
-    if (findError || !existing) return unitError('E_LESSON_NOT_FOUND', 'ไม่พบแผนรายคาบ', 404);
+    const { supabase, user, lesson: existing } = await requireUnitLessonOwner(params.id, params.lessonId);
 
     const adminDb = getSupabaseAdmin();
     const now = new Date().toISOString();
@@ -150,6 +134,9 @@ export async function DELETE(
 
     return unitSuccess(null, 'นำแผนรายคาบออกจากลำดับเรียบร้อยแล้ว');
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return unitError('E_PERMISSION_DENIED', error.message, error.httpStatus);
+    }
     console.error('DELETE/Archive UnitLesson failed:', error);
     return unitError('E_UNKNOWN', 'ไม่สามารถนำแผนรายคาบออกได้', 500);
   }

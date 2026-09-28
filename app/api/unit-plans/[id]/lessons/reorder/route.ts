@@ -1,13 +1,11 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { newEntityId, unitError, unitSuccess } from '@/lib/unitPlanApi';
+import { isAuthorizationError, requireUnitPlanOwner } from '@/lib/auth/authorization';
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return unitError('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบ', 401);
+    const { supabase, user } = await requireUnitPlanOwner(params.id);
 
     const body = await req.json();
     const orderedIds = Array.isArray(body.orderedIds) ? body.orderedIds.map(String) : [];
@@ -62,8 +60,10 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
     return unitSuccess(null, 'จัดลำดับแผนรายคาบเรียบร้อยแล้ว');
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return unitError('E_PERMISSION_DENIED', error.message, error.httpStatus);
+    }
     console.error('POST reorder UnitLessons failed:', error);
     return unitError('E_UNKNOWN', 'ไม่สามารถจัดลำดับแผนรายคาบได้', 500);
   }
 }
-

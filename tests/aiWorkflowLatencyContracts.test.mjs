@@ -11,10 +11,10 @@ const patchTransport = read('lib/lesson-plan/patch/ai-patch-generator.ts');
 const processRoute = read('app/api/evaluations/process/route.ts');
 const retryRoute = read('app/api/evaluations/retry/[jobId]/route.ts');
 
-assert.match(
-  planForm,
-  /Promise\.allSettled\(\[\s*callAiPart\('\/api\/ai-process-core'[\s\S]*callAiPart\('\/api\/ai-process-activity'/
-);
+assert.match(planForm, /handleStepByStepAutoPlan/);
+assert.match(planForm, /handleSectionAI/);
+assert.match(planForm, /callAiEndpoint\('\/api\/ai-process-core'/);
+assert.match(planForm, /callAiEndpoint\('\/api\/ai-process-activity'/);
 assert.match(fixRoute, /GEMINI_FIX_MODEL/);
 assert.match(fixRoute, /gemini-2\.5-flash-lite/);
 assert.match(fixRoute, /fastJsonGenerationConfig\(8_192\)/);

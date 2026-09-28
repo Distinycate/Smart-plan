@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
 import { validateLessonPlanPayload } from '@/lib/lessonPlanValidation';
 import { getSupabaseAdmin } from '@/lib/supabase'; // keeping for logs if needed
 import { ensureDetailedRubrics } from '@/lib/lesson-plan/rubric-field-sanitizer';
+import { isAuthorizationError, requirePlanOwner, requirePlanReader } from '@/lib/auth/authorization';
 
 // GET a single plan
 export async function GET(
@@ -10,25 +10,12 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createClient();
     const { id } = params;
-
-    const { data, error } = await supabase
-      .from('LessonPlans')
-      .select('*')
-      .eq('planId', id)
-      .single();
-
-    if (error) {
-      return NextResponse.json({
-        success: false,
-        error: 'Plan not found or unauthorized'
-      }, { status: 404 });
-    }
+    const { plan } = await requirePlanReader(id);
 
     return NextResponse.json({
       success: true,
-      data: ensureDetailedRubrics(data)
+      data: ensureDetailedRubrics(plan)
     }, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
@@ -37,6 +24,9 @@ export async function GET(
       }
     });
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return NextResponse.json({ success: false, error: error.message }, { status: error.httpStatus });
+    }
     console.error('Error fetching plan:', error);
     return NextResponse.json({
       success: false,
@@ -51,24 +41,12 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createClient();
     const { id } = params;
     const rawBody = await req.json();
     const timestamp = new Date().toISOString();
 
-    // 1. Fetch current version to backup
-    const { data: existingPlan, error: getErr } = await supabase
-      .from('LessonPlans')
-      .select('*')
-      .eq('planId', id)
-      .single();
-
-    if (getErr || !existingPlan) {
-      return NextResponse.json({
-        success: false,
-        error: 'Plan not found or unauthorized'
-      }, { status: 404 });
-    }
+    // Ownership is explicit before backup, update, or service-role logging.
+    const { plan: existingPlan, supabase } = await requirePlanOwner(id);
 
     const body = ensureDetailedRubrics(rawBody, existingPlan);
 
@@ -137,6 +115,9 @@ export async function PUT(
     });
 
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return NextResponse.json({ success: false, error: error.message }, { status: error.httpStatus });
+    }
     console.error('Error updating plan:', error);
     return NextResponse.json({
       success: false,
@@ -152,24 +133,12 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createClient();
     const adminDb = getSupabaseAdmin();
     const { id } = params;
     const timestamp = new Date().toISOString();
 
-    // 1. Fetch details for backup and logging
-    const { data: plan, error: getErr } = await supabase
-      .from('LessonPlans')
-      .select('*')
-      .eq('planId', id)
-      .single();
-
-    if (getErr || !plan) {
-      return NextResponse.json({
-        success: false,
-        error: 'Plan not found or unauthorized'
-      }, { status: 404 });
-    }
+    // Archiving is owner-only; administrators retain read-only access to others' plans.
+    const { plan, supabase } = await requirePlanOwner(id);
 
     // 2. Back up the plan before archiving it.
     await adminDb.from('LessonPlan_Backup').insert({
@@ -207,6 +176,9 @@ export async function DELETE(
       message: 'เก็บถาวรแผนการสอนเรียบร้อยแล้ว'
     });
   } catch (error: any) {
+    if (isAuthorizationError(error)) {
+      return NextResponse.json({ success: false, error: error.message }, { status: error.httpStatus });
+    }
     console.error('Error archiving plan:', error);
     return NextResponse.json({
       success: false,
