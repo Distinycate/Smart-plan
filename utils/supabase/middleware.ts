@@ -54,7 +54,8 @@ export async function updateSession(request: NextRequest) {
   // Protect routes logic
   const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register');
   const isLandingPage = request.nextUrl.pathname === '/';
-  const isDemoPreview = request.nextUrl.pathname.startsWith('/plan/v3/demo-');
+  // Demo fixtures are ONLY permitted in local development; production strictly requires authentication
+  const isDemoPreview = process.env.NODE_ENV === 'development' && request.nextUrl.pathname.startsWith('/plan/v3/demo-');
   
   // API routes are deliberately excluded by middleware.ts and must authorize
   // themselves. This guard is only the page-navigation boundary.

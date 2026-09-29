@@ -57,8 +57,14 @@ export async function GET(
     const url = new URL(request.url);
     const options = parseDocumentOptions(url);
 
-    // Support demo fixtures for visual verification & preview testing
+    // Support demo fixtures strictly in local development environment
     if (planId.startsWith('demo-')) {
+      if (process.env.NODE_ENV === 'production') {
+        return NextResponse.json(
+          { error: 'ชุดข้อมูลตัวอย่างถูกระงับการเข้าถึงในสภาพแวดล้อมจริง (Production)' },
+          { status: 403 }
+        );
+      }
       const { getDemoLessonDocument } = await import('@/lib/smartPlanV3/document/fixtures');
       const doc = getDemoLessonDocument(planId, options);
       if (doc) {
@@ -86,12 +92,13 @@ export async function GET(
       return NextResponse.json({ error: 'ไม่พบแผนการสอน หรือไม่มีสิทธิ์เข้าถึง' }, { status: 404 });
     }
 
-    // 2. Enforce Document Readiness Gate
+    // 2. Enforce Document Readiness Gate (Allow REVIEWED or FINAL)
     const alignmentGraph = buildLessonAlignmentGraph(graph);
     const ruleResult = runStructuralQualityRules(graph, alignmentGraph);
     const readiness = deriveDocumentReadiness(graph, ruleResult);
 
-    if (!readiness.ready || graph.lesson.status !== 'REVIEWED') {
+    const isStatusAllowed = graph.lesson.status === 'REVIEWED' || graph.lesson.status === 'FINAL';
+    if (!readiness.ready || !isStatusAllowed) {
       const blockerMessages = (readiness.blockers || []).map(b => b.message || b.title);
       return NextResponse.json(
         {

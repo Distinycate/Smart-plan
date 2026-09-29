@@ -43,15 +43,24 @@ export interface BuildDocumentOptions {
 
 export function buildLessonDocument(
   graph: V3LessonGraph,
-  params: BuildDocumentOptions = {}
+  params: BuildDocumentOptions | Partial<DocumentOptions> = {}
 ): V3LessonDocument {
+  const isDirectOptions =
+    'includeStudentAssets' in params ||
+    'includeAnswerKeys' in params ||
+    'includeCover' in params ||
+    'includeAssessmentTools' in params;
+
+  const customOptions: Partial<DocumentOptions> = isDirectOptions
+    ? (params as Partial<DocumentOptions>)
+    : (params as BuildDocumentOptions).options || {};
+
   const {
-    options: customOptions = {},
     readiness,
     paReviewResult,
     teacherName = 'ครูผู้สอน',
     schoolName = 'สถานศึกษา',
-  } = params;
+  } = isDirectOptions ? ({} as BuildDocumentOptions) : (params as BuildDocumentOptions);
 
   // 1. Verify Document Readiness Gate
   if (readiness && !readiness.ready) {
