@@ -40,6 +40,7 @@ import type {
   AssetSection,
   AssessmentSection,
   PostTeachingPlaceholderSection,
+  PostTeachingRecordedSection,
 } from '@/lib/smartPlanV3/document/types';
 
 // Typography constants for TH Sarabun New
@@ -365,6 +366,98 @@ function renderPostTeachingSection(section: PostTeachingPlaceholderSection): Tab
   });
 }
 
+function renderPostTeachingRecordedSection(section: PostTeachingRecordedSection): Table {
+  const lines: string[] = [];
+
+  // 1. ผลการจัดการเรียนรู้จริง
+  lines.push('1. ข้อมูลการจัดการเรียนรู้จริง:');
+  if (section.taughtAt) {
+    const d = new Date(section.taughtAt);
+    lines.push(`   วันที่จัดการเรียนรู้: ${d.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}`);
+  }
+  if (section.actualDurationMinutes) {
+    lines.push(`   ระยะเวลาที่ใช้จริง: ${section.actualDurationMinutes} นาที`);
+  }
+
+  // สถิตินักเรียน
+  const total = section.studentsTotal ?? '-';
+  const passed = section.studentsPassed ?? '-';
+  const support = section.studentsNeedSupport ?? '-';
+  lines.push(`   • จำนวนนักเรียนทั้งหมด: ${total} คน`);
+  if (section.studentsPresent !== null && section.studentsPresent !== undefined) {
+    lines.push(`   • มาเรียน: ${section.studentsPresent} คน | ขาดเรียน: ${section.studentsAbsent ?? 0} คน`);
+  }
+  if (section.studentsAssessed !== null && section.studentsAssessed !== undefined) {
+    lines.push(`   • ได้รับการประเมิน: ${section.studentsAssessed} คน`);
+  }
+  lines.push(`   • ผ่านเกณฑ์การประเมิน: ${passed} คน`);
+  lines.push(`   • ต้องได้รับการช่วยเหลือ / สอนซ่อมเสริม: ${support} คน`);
+
+  if (section.actualTeachingNotes) {
+    lines.push(`\n   บันทึกการจัดกิจกรรมการเรียนรู้:`);
+    lines.push(`   ${section.actualTeachingNotes}`);
+  }
+
+  // 2. หลักฐานเชิงประจักษ์ (Observed Evidence)
+  if (section.observedEvidenceSummary && section.observedEvidenceSummary.length > 0) {
+    lines.push('\n2. หลักฐานเชิงประจักษ์จากการจัดการเรียนรู้ (Observed Evidence):');
+    section.observedEvidenceSummary.forEach((ev, idx) => {
+      lines.push(`   ${idx + 1}. [${ev.evidenceType}] ${ev.title} (${ev.outcomeStatus})`);
+      if (ev.description) lines.push(`      - รายละเอียด: ${ev.description}`);
+    });
+  }
+
+  // 3. การสะท้อนผลและแนวทางพัฒนา (Reflection & Remediation)
+  if (section.status === 'REFLECTED') {
+    lines.push('\n3. การสะท้อนผลและการพัฒนา (Teacher Reflection & Remediation):');
+    if (section.whatWorked) {
+      lines.push(`   • สิ่งที่ได้ผลดี: ${section.whatWorked}`);
+    }
+    if (section.problems) {
+      lines.push(`   • ปัญหาและอุปสรรคที่พบ: ${section.problems}`);
+    }
+    if (section.adjustmentsMade) {
+      lines.push(`   • การปรับกิจกรรมระหว่างสอนจริง: ${section.adjustmentsMade}`);
+    }
+    if (section.feedbackGiven) {
+      lines.push(`   • ข้อมูลย้อนกลับที่ให้แก่ผู้เรียน: ${section.feedbackGiven}`);
+    }
+    if (section.remediationPlan) {
+      lines.push(`   • แผนการช่วยเหลือ / ซ่อมเสริม: ${section.remediationPlan}`);
+    }
+    if (section.nextLessonAdjustment) {
+      lines.push(`   • ข้อเสนอแนะสำหรับการสอนครั้งต่อไป: ${section.nextLessonAdjustment}`);
+    }
+    if (section.reflection) {
+      lines.push(`\n   บันทึกการสะท้อนผลของครู:`);
+      lines.push(`   ${section.reflection}`);
+    }
+
+    if (section.observedOutcomes && section.observedOutcomes.length > 0) {
+      lines.push('\n4. สรุปผลลัพธ์การเรียนรู้เชิงประจักษ์ (Observed Outcome Summary):');
+      section.observedOutcomes.forEach((out, i) => {
+        lines.push(`   ${i + 1}. ${out.objectiveTitle}: ${out.status} (หลักฐาน ${out.evidenceCount} รายการ)`);
+      });
+    }
+  }
+
+  lines.push('\nลงชื่อ ................................................................ ครูผู้สอน');
+  lines.push('      (................................................................)');
+  lines.push('ตำแหน่ง .............................................................');
+  lines.push('วันที่ ...... เดือน ........................... พ.ศ. .........');
+
+  return new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    borders: TABLE_BORDERS,
+    rows: [
+      new TableRow({
+        children: [cell(lines.join('\n'), { widthPercent: 100 })],
+      }),
+    ],
+  });
+}
+
+
 // ─── Appendix Item Renderers ─────────────────────────────────────────────────
 
 function buildRubricTable(content: any): Table {
@@ -679,6 +772,11 @@ export async function generateDocxDocument(
         case 'postTeachingPlaceholder':
           children.push(renderPostTeachingSection(section as PostTeachingPlaceholderSection));
           break;
+
+        case 'postTeachingRecorded':
+          children.push(renderPostTeachingRecordedSection(section as PostTeachingRecordedSection));
+          break;
+
 
         default:
           break;

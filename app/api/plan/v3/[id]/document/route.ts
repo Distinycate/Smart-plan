@@ -17,8 +17,9 @@ import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { buildLessonAlignmentGraph } from '@/lib/smartPlanV3/quality/alignmentGraph';
 import { runStructuralQualityRules } from '@/lib/smartPlanV3/quality/qualityRules';
 import { deriveDocumentReadiness } from '@/lib/smartPlanV3/quality/qualityEngine';
-import { buildLessonDocument, validateLessonDocumentModel } from '@/lib/smartPlanV3/document';
-import type { DocumentOptions } from '@/lib/smartPlanV3/document';
+import { buildLessonDocument, validateLessonDocumentModel, buildPostTeachingDocument } from '@/lib/smartPlanV3/document';
+import type { DocumentOptions, V3LessonDocument } from '@/lib/smartPlanV3/document';
+import { buildObservedOutcomeSummary } from '@/lib/smartPlanV3/rules/postTeachingRules';
 
 function parseDocumentOptions(url: URL): Partial<DocumentOptions> {
   const options: Partial<DocumentOptions> = {};
@@ -97,7 +98,7 @@ export async function GET(
     const ruleResult = runStructuralQualityRules(graph, alignmentGraph);
     const readiness = deriveDocumentReadiness(graph, ruleResult);
 
-    const isStatusAllowed = graph.lesson.status === 'REVIEWED' || graph.lesson.status === 'FINAL';
+    const isStatusAllowed = graph.lesson.status === 'REVIEWED' || graph.lesson.status === 'FINAL' || graph.lesson.status === 'TAUGHT' || graph.lesson.status === 'REFLECTED';
     if (!readiness.ready || !isStatusAllowed) {
       const blockerMessages = (readiness.blockers || []).map(b => b.message || b.title);
       return NextResponse.json(
@@ -158,14 +159,60 @@ export async function GET(
       }
     }
 
-    // 6. Build Canonical Document
-    const document = buildLessonDocument(graph, {
-      options,
-      readiness,
-      paReviewResult,
-      teacherName,
-      schoolName,
-    });
+    // 6. Build Canonical Document (from FINAL immutable snapshot if locked, + overlay if TAUGHT/REFLECTED)
+    let document: V3LessonDocument;
+    if (['FINAL', 'TAUGHT', 'REFLECTED'].includes(graph.lesson.status)) {
+      const { data: finalVersion } = await supabase
+        .from('v3_plan_versions')
+        .select('snapshot')
+        .eq('lesson_plan_id', planId)
+        .eq('label', 'FINAL')
+        .order('version_number', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (finalVersion?.snapshot?.document) {
+        document = finalVersion.snapshot.document as V3LessonDocument;
+      } else if (finalVersion?.snapshot?.lessonGraph) {
+        document = buildLessonDocument(finalVersion.snapshot.lessonGraph, {
+          options,
+          readiness,
+          paReviewResult,
+          teacherName,
+          schoolName,
+        });
+      } else {
+        document = buildLessonDocument(graph, {
+          options,
+          readiness,
+          paReviewResult,
+          teacherName,
+          schoolName,
+        });
+      }
+
+      // If TAUGHT or REFLECTED, apply overlay onto the immutable FINAL snapshot
+      if (['TAUGHT', 'REFLECTED'].includes(graph.lesson.status)) {
+        const [postTeachingRecord, observedEvidence] = await Promise.all([
+          repo.getPostTeachingRecord(planId),
+          repo.getObservedEvidence(planId),
+        ]);
+        const outcomeSummary = buildObservedOutcomeSummary(graph.objectives || [], observedEvidence);
+        document = buildPostTeachingDocument(document, {
+          record: postTeachingRecord,
+          observedEvidence,
+          outcomeSummary,
+        });
+      }
+    } else {
+      document = buildLessonDocument(graph, {
+        options,
+        readiness,
+        paReviewResult,
+        teacherName,
+        schoolName,
+      });
+    }
 
     // 7. Validate Document Model
     const validation = validateLessonDocumentModel(document);

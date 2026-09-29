@@ -3,7 +3,7 @@
  * Single Source of Truth for V3 entities and graph relationships.
  */
 
-export type V3LessonStatus = 
+export type V3LessonStatus =
   | 'DRAFT'
   | 'BLUEPRINT_READY'
   | 'PACKAGE_READY'
@@ -191,7 +191,12 @@ export interface V3PlanVersion {
 export interface V3PostTeachingRecord {
   id: string;
   lesson_plan_id: string;
+  taught_at?: string | null;
+  actual_duration_minutes?: number | null;
   students_total: number | null;
+  students_present?: number | null;
+  students_absent?: number | null;
+  students_assessed?: number | null;
   students_passed: number | null;
   students_need_support: number | null;
   actual_teaching_notes: string | null;
@@ -200,9 +205,76 @@ export interface V3PostTeachingRecord {
   feedback_given: string | null;
   remediation_plan: string | null;
   reflection: string | null;
+  what_worked?: string | null;
+  next_lesson_adjustment?: string | null;
+  session_metadata?: Record<string, any>;
   created_at: string;
   updated_at: string;
 }
+
+export type V3ObservedEvidenceType =
+  | 'AGGREGATE_RESULT'
+  | 'STUDENT_WORK_SAMPLE'
+  | 'OBSERVATION'
+  | 'ASSESSMENT_RESULT'
+  | 'PHOTO_EVIDENCE'
+  | 'EXIT_TICKET_SAMPLE'
+  | 'PERFORMANCE_SAMPLE'
+  | 'OTHER';
+
+export type V3ObservedOutcomeStatus =
+  | 'OBSERVED'
+  | 'PARTIALLY_OBSERVED'
+  | 'NOT_OBSERVED'
+  | 'NOT_ASSESSED';
+
+export interface V3ObservedStudentEvidence {
+  id: string;
+  lesson_plan_id: string;
+  post_teaching_record_id: string;
+  planned_evidence_id: string | null;
+  objective_id: string | null;
+  assessment_id: string | null;
+  evidence_type: V3ObservedEvidenceType | string;
+  title: string;
+  description: string;
+  summary_data?: Record<string, any>;
+  storage_path: string | null;
+  mime_type: string | null;
+  file_size: number | null;
+  sample_label: string | null;
+  outcome_status: V3ObservedOutcomeStatus;
+  observed_at: string;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ObservedOutcomeItem {
+  objectiveId?: string;
+  objectiveTitle?: string;
+  status: V3ObservedOutcomeStatus;
+  evidenceCount: number;
+  evidenceRefs: string[];
+  notes?: string;
+}
+
+export interface ObservedOutcomeEvidenceSummary {
+  items: ObservedOutcomeItem[];
+  totalObserved: number;
+  totalPartiallyObserved: number;
+  totalNotObserved: number;
+  totalNotAssessed: number;
+  evaluatedAt: string;
+}
+
+export interface PostTeachingOverlayData {
+  record: V3PostTeachingRecord | null;
+  observedEvidence: V3ObservedStudentEvidence[];
+  outcomeSummary?: ObservedOutcomeEvidenceSummary;
+  postTeachingSourceHash?: string;
+}
+
 
 export interface V3AssessmentActivityLink {
   assessment_id: string;

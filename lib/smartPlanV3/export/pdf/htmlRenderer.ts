@@ -26,6 +26,7 @@ import type {
   AssetSection,
   AssessmentSection,
   PostTeachingPlaceholderSection,
+  PostTeachingRecordedSection,
 } from '@/lib/smartPlanV3/document/types';
 import { DOCUMENT_A4_CSS } from '@/lib/smartPlanV3/document';
 
@@ -258,6 +259,170 @@ function renderPostTeachingHtml(): string {
     </div>
   `;
 }
+
+function renderPostTeachingRecordedHtml(section: PostTeachingRecordedSection): string {
+  const dStr = section.taughtAt
+    ? new Date(section.taughtAt).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })
+    : '-';
+
+  const total = section.studentsTotal ?? '-';
+  const passed = section.studentsPassed ?? '-';
+  const support = section.studentsNeedSupport ?? '-';
+
+  let evidenceHtml = '';
+  if (section.observedEvidenceSummary && section.observedEvidenceSummary.length > 0) {
+    evidenceHtml = `
+      <div class="mt-4 pt-3 border-t border-slate-200">
+        <p class="font-bold text-slate-800 mb-2">2. หลักฐานเชิงประจักษ์จากการจัดการเรียนรู้ (Observed Evidence):</p>
+        <table class="w-full text-xs border-collapse border border-slate-300">
+          <thead>
+            <tr class="bg-slate-100 text-slate-800">
+              <th class="border border-slate-300 p-1.5 text-left w-12">ลำดับ</th>
+              <th class="border border-slate-300 p-1.5 text-left w-28">ประเภท</th>
+              <th class="border border-slate-300 p-1.5 text-left">รายการหลักฐาน</th>
+              <th class="border border-slate-300 p-1.5 text-center w-28">สถานะการเกิดผล</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${section.observedEvidenceSummary
+              .map(
+                (ev, i) => `
+              <tr class="border-b border-slate-200">
+                <td class="border border-slate-300 p-1.5 text-center">${i + 1}</td>
+                <td class="border border-slate-300 p-1.5 font-medium text-slate-700">${escapeHtml(ev.evidenceType)}</td>
+                <td class="border border-slate-300 p-1.5">
+                  <div class="font-bold text-slate-900">${escapeHtml(ev.title)}</div>
+                  ${ev.description ? `<div class="text-slate-600 text-[11px] mt-0.5">${escapeHtml(ev.description)}</div>` : ''}
+                </td>
+                <td class="border border-slate-300 p-1.5 text-center font-semibold ${
+                  ev.outcomeStatus === 'OBSERVED'
+                    ? 'text-emerald-700'
+                    : ev.outcomeStatus === 'PARTIALLY_OBSERVED'
+                    ? 'text-amber-700'
+                    : 'text-slate-500'
+                }">
+                  ${escapeHtml(ev.outcomeStatus)}
+                </td>
+              </tr>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  let reflectionHtml = '';
+  if (section.status === 'REFLECTED') {
+    reflectionHtml = `
+      <div class="mt-4 pt-3 border-t border-slate-200 space-y-3">
+        <p class="font-bold text-slate-800">3. การสะท้อนผลและการพัฒนา (Teacher Reflection & Remediation):</p>
+
+        ${section.whatWorked ? `
+          <div class="pl-3 border-l-2 border-emerald-500">
+            <span class="font-semibold text-slate-800">สิ่งที่ได้ผลดี:</span>
+            <p class="text-slate-700 mt-0.5">${escapeHtml(section.whatWorked)}</p>
+          </div>
+        ` : ''}
+
+        ${section.problems ? `
+          <div class="pl-3 border-l-2 border-rose-400">
+            <span class="font-semibold text-slate-800">ปัญหาและอุปสรรคที่พบ:</span>
+            <p class="text-slate-700 mt-0.5">${escapeHtml(section.problems)}</p>
+          </div>
+        ` : ''}
+
+        ${section.adjustmentsMade ? `
+          <div class="pl-3 border-l-2 border-indigo-400">
+            <span class="font-semibold text-slate-800">การปรับกิจกรรมระหว่างสอนจริง:</span>
+            <p class="text-slate-700 mt-0.5">${escapeHtml(section.adjustmentsMade)}</p>
+          </div>
+        ` : ''}
+
+        ${section.feedbackGiven ? `
+          <div class="pl-3 border-l-2 border-sky-400">
+            <span class="font-semibold text-slate-800">ข้อมูลย้อนกลับที่ให้แก่ผู้เรียน (Feedback):</span>
+            <p class="text-slate-700 mt-0.5">${escapeHtml(section.feedbackGiven)}</p>
+          </div>
+        ` : ''}
+
+        ${section.remediationPlan ? `
+          <div class="pl-3 border-l-2 border-amber-500 bg-amber-50/50 p-2 rounded">
+            <span class="font-bold text-amber-900">แผนการช่วยเหลือ / ซ่อมเสริม (Remediation Plan):</span>
+            <p class="text-slate-800 mt-0.5">${escapeHtml(section.remediationPlan)}</p>
+          </div>
+        ` : ''}
+
+        ${section.nextLessonAdjustment ? `
+          <div class="pl-3 border-l-2 border-purple-400">
+            <span class="font-semibold text-slate-800">ข้อเสนอสำหรับการสอนครั้งต่อไป:</span>
+            <p class="text-slate-700 mt-0.5">${escapeHtml(section.nextLessonAdjustment)}</p>
+          </div>
+        ` : ''}
+
+        ${section.reflection ? `
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded">
+            <span class="font-bold text-slate-900">บันทึกการสะท้อนผลของครู (Teacher Reflection):</span>
+            <p class="text-slate-800 mt-1 whitespace-pre-line">${escapeHtml(section.reflection)}</p>
+          </div>
+        ` : ''}
+
+        ${section.observedOutcomes && section.observedOutcomes.length > 0 ? `
+          <div class="mt-3">
+            <p class="font-bold text-slate-800 mb-1.5">4. สรุปผลลัพธ์การเรียนรู้เชิงประจักษ์ (Observed Outcome Summary):</p>
+            <div class="space-y-1 text-xs">
+              ${section.observedOutcomes.map((out, idx) => `
+                <div class="flex justify-between items-center py-1 px-2 bg-slate-50 border border-slate-200 rounded">
+                  <span class="font-medium text-slate-800">${idx + 1}. ${escapeHtml(out.objectiveTitle)}</span>
+                  <span class="font-bold ${out.status === 'OBSERVED' ? 'text-emerald-700' : 'text-slate-600'}">
+                    ${escapeHtml(out.status)} (${out.evidenceCount} หลักฐาน)
+                  </span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  return `
+    <div class="border border-slate-300 p-4 text-sm text-slate-700 space-y-3 my-2">
+      <div>
+        <p class="font-bold text-slate-800">1. ข้อมูลการจัดการเรียนรู้จริง:</p>
+        <div class="mt-1 pl-3 text-xs space-y-1">
+          <div><span class="text-slate-500">วันที่จัดการเรียนรู้:</span> <span class="font-semibold text-slate-900">${escapeHtml(dStr)}</span> ${section.actualDurationMinutes ? `| เวลาจริง: ${section.actualDurationMinutes} นาที` : ''}</div>
+          <div>
+            <span class="text-slate-500">สถิติผู้เรียน:</span>
+            นักเรียนทั้งหมด <b>${total}</b> คน
+            ${section.studentsPresent !== null && section.studentsPresent !== undefined ? `| มาเรียน: <b>${section.studentsPresent}</b> คน | ขาด: <b>${section.studentsAbsent ?? 0}</b> คน` : ''}
+            ${section.studentsAssessed !== null && section.studentsAssessed !== undefined ? `| ได้รับการประเมิน: <b>${section.studentsAssessed}</b> คน` : ''}
+            | ผ่านเกณฑ์: <b class="text-emerald-700">${passed}</b> คน
+            | ต้องช่วยเหลือ: <b class="${(section.studentsNeedSupport ?? 0) > 0 ? 'text-amber-700' : 'text-slate-700'}">${support}</b> คน
+          </div>
+        </div>
+        ${section.actualTeachingNotes ? `
+          <div class="mt-2 pl-3 text-xs">
+            <span class="font-semibold text-slate-800">บันทึกการสอนจริง:</span>
+            <p class="text-slate-700 mt-0.5 whitespace-pre-line">${escapeHtml(section.actualTeachingNotes)}</p>
+          </div>
+        ` : ''}
+      </div>
+
+      ${evidenceHtml}
+      ${reflectionHtml}
+
+      <div class="pt-4 text-right pr-8 space-y-1 text-xs">
+        <p>ลงชื่อ ................................................................ ครูผู้สอน</p>
+        <p>(................................................................)</p>
+        <p>ตำแหน่ง .............................................................</p>
+        <p>วันที่ ...... เดือน ........................... พ.ศ. .........</p>
+      </div>
+    </div>
+  `;
+}
+
 
 function renderRubricTableHtml(content: any): string {
   const levels = content.levels || [];
@@ -542,6 +707,9 @@ export function renderDocumentToStandaloneHtml(
             break;
           case 'postTeachingPlaceholder':
             secContent = renderPostTeachingHtml();
+            break;
+          case 'postTeachingRecorded':
+            secContent = renderPostTeachingRecordedHtml(section as PostTeachingRecordedSection);
             break;
           default:
             break;

@@ -19,16 +19,23 @@ import {
   V3AssetActivityLink,
   V3AssetEvidenceLink,
   V3PostTeachingRecord,
+  V3ObservedStudentEvidence,
   V3LessonGraph,
   V3ActivityWithLinks,
   V3BlueprintActivityDraft,
 } from './types';
+import {
+  RecordTeachingInput,
+  RecordReflectionInput,
+  validateTeachingSession,
+  validateReflection,
+} from './rules/postTeachingRules';
 
 export class V3Repository {
   constructor(private supabase: SupabaseClient) {}
 
   /**
-   * Central Guard: Throws 403 error if target lesson plan is in FINAL status
+   * Central Guard: Throws 403 error if target lesson plan is locked in FINAL, TAUGHT, or REFLECTED status
    */
   async assertLessonNotFinal(planId: string): Promise<void> {
     if (!planId) return;
@@ -39,8 +46,8 @@ export class V3Repository {
       .maybeSingle();
 
     if (error) throw new Error(error.message);
-    if (lesson && lesson.status === 'FINAL') {
-      const err: any = new Error(`Cannot modify lesson components: Plan is locked in FINAL status (planId: ${planId})`);
+    if (lesson && ['FINAL', 'TAUGHT', 'REFLECTED'].includes(lesson.status)) {
+      const err: any = new Error(`Cannot modify pre-teaching lesson components: Plan is locked in ${lesson.status} status (planId: ${planId})`);
       err.code = 'LESSON_IS_FINAL';
       err.statusCode = 403;
       throw err;
@@ -1488,5 +1495,249 @@ export class V3Repository {
       .maybeSingle();
     if (error) throw new Error(error.message);
     return data || null;
+  }
+
+  // ─── Post-Teaching & Student Evidence Methods ────────────────────────────
+
+  /** Get post-teaching record for a lesson */
+  async getPostTeachingRecord(planId: string): Promise<V3PostTeachingRecord | null> {
+    const { data, error } = await this.supabase
+      .from('v3_post_teaching_records')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+    return data || null;
+  }
+
+  /** Get all observed student evidence for a lesson */
+  async getObservedEvidence(planId: string): Promise<V3ObservedStudentEvidence[]> {
+    const { data, error } = await this.supabase
+      .from('v3_observed_student_evidence')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      console.warn('[V3Repository] getObservedEvidence error:', error.message);
+      return [];
+    }
+    return (data || []) as V3ObservedStudentEvidence[];
+  }
+
+  /** Record Teaching Session (FINAL -> TAUGHT) */
+  async recordTeachingSession(planId: string, userId: string, data: RecordTeachingInput): Promise<any> {
+    const validation = validateTeachingSession(data);
+    if (!validation.valid) {
+      const err: any = new Error(validation.errors.join('; '));
+      err.code = 'INVALID_STUDENT_COUNTS';
+      err.statusCode = 400;
+      throw err;
+    }
+
+    // Try PostgreSQL RPC record_v3_teaching first
+    const { data: rpcRes, error: rpcErr } = await this.supabase.rpc('record_v3_teaching', {
+      p_lesson_id: planId,
+      p_user_id: userId,
+      p_data: data,
+    });
+
+    if (!rpcErr && rpcRes) {
+      return rpcRes;
+    }
+
+    // Direct query fallback for local testing or mock clients
+    const { data: lesson, error: lErr } = await this.supabase
+      .from('v3_lesson_plans')
+      .select('status, user_id')
+      .eq('id', planId)
+      .maybeSingle();
+
+    if (lErr || !lesson) throw new Error('Lesson plan not found');
+    if (lesson.user_id !== userId) {
+      const err: any = new Error('Access denied: You do not own this lesson plan');
+      err.code = 'FORBIDDEN';
+      err.statusCode = 403;
+      throw err;
+    }
+    if (!['FINAL', 'TAUGHT'].includes(lesson.status)) {
+      const err: any = new Error(`Cannot record teaching for lesson with status ${lesson.status} (must be FINAL)`);
+      err.code = 'INVALID_STATE_TRANSITION';
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const now = new Date().toISOString();
+    const payload = {
+      lesson_plan_id: planId,
+      taught_at: data.taught_at || now,
+      actual_duration_minutes: data.actual_duration_minutes || null,
+      students_total: data.students_total,
+      students_present: data.students_present ?? null,
+      students_absent: data.students_absent ?? null,
+      students_assessed: data.students_assessed ?? null,
+      students_passed: data.students_passed,
+      students_need_support: data.students_need_support,
+      actual_teaching_notes: data.actual_teaching_notes || '',
+      session_metadata: data.session_metadata || {},
+      updated_at: now,
+    };
+
+    const { data: upsertRes, error: upsertErr } = await this.supabase
+      .from('v3_post_teaching_records')
+      .upsert(payload, { onConflict: 'lesson_plan_id' })
+      .select('id')
+      .single();
+
+    if (upsertErr) throw new Error(upsertErr.message);
+
+    await this.supabase
+      .from('v3_lesson_plans')
+      .update({ status: 'TAUGHT', updated_at: now })
+      .eq('id', planId);
+
+    return {
+      success: true,
+      status: 'TAUGHT',
+      record_id: upsertRes?.id,
+      lesson_id: planId,
+      message: 'Teaching session recorded successfully and plan moved to TAUGHT',
+    };
+  }
+
+  /** Record Reflection & Remediation (TAUGHT -> REFLECTED) */
+  async recordReflection(planId: string, userId: string, data: RecordReflectionInput): Promise<any> {
+    const existingRecord = await this.getPostTeachingRecord(planId);
+    const validation = validateReflection(data, existingRecord);
+    if (!validation.valid) {
+      const err: any = new Error(validation.errors.join('; '));
+      err.code = 'REMEDIATION_REQUIRED';
+      err.statusCode = 400;
+      throw err;
+    }
+
+    // Try PostgreSQL RPC record_v3_reflection first
+    const { data: rpcRes, error: rpcErr } = await this.supabase.rpc('record_v3_reflection', {
+      p_lesson_id: planId,
+      p_user_id: userId,
+      p_data: data,
+    });
+
+    if (!rpcErr && rpcRes) {
+      return rpcRes;
+    }
+
+    // Direct query fallback for local testing or mock clients
+    const { data: lesson, error: lErr } = await this.supabase
+      .from('v3_lesson_plans')
+      .select('status, user_id')
+      .eq('id', planId)
+      .maybeSingle();
+
+    if (lErr || !lesson) throw new Error('Lesson plan not found');
+    if (lesson.user_id !== userId) {
+      const err: any = new Error('Access denied: You do not own this lesson plan');
+      err.code = 'FORBIDDEN';
+      err.statusCode = 403;
+      throw err;
+    }
+    if (!['TAUGHT', 'REFLECTED'].includes(lesson.status)) {
+      const err: any = new Error(`Cannot record reflection for lesson with status ${lesson.status} (must be TAUGHT)`);
+      err.code = 'INVALID_STATE_TRANSITION';
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const now = new Date().toISOString();
+    const { error: updErr } = await this.supabase
+      .from('v3_post_teaching_records')
+      .update({
+        reflection: data.reflection,
+        remediation_plan: data.remediation_plan || '',
+        problems: data.problems || '',
+        adjustments_made: data.adjustments_made || '',
+        feedback_given: data.feedback_given || '',
+        what_worked: data.what_worked || '',
+        next_lesson_adjustment: data.next_lesson_adjustment || '',
+        updated_at: now,
+      })
+      .eq('lesson_plan_id', planId);
+
+    if (updErr) throw new Error(updErr.message);
+
+    await this.supabase
+      .from('v3_lesson_plans')
+      .update({ status: 'REFLECTED', updated_at: now })
+      .eq('id', planId);
+
+    return {
+      success: true,
+      status: 'REFLECTED',
+      record_id: existingRecord?.id,
+      lesson_id: planId,
+      message: 'Reflection recorded successfully and plan moved to REFLECTED',
+    };
+  }
+
+  /** Autosave Post-Teaching Draft (does NOT change status) */
+  async savePostTeachingDraft(planId: string, data: Partial<V3PostTeachingRecord>): Promise<any> {
+    const now = new Date().toISOString();
+    const payload = {
+      ...data,
+      lesson_plan_id: planId,
+      updated_at: now,
+    };
+
+    const { data: res, error } = await this.supabase
+      .from('v3_post_teaching_records')
+      .upsert(payload, { onConflict: 'lesson_plan_id' })
+      .select('*')
+      .single();
+
+    if (error) throw new Error(error.message);
+    return res;
+  }
+
+  /** Observed Evidence CRUD */
+  async createObservedEvidence(evidence: Partial<V3ObservedStudentEvidence>): Promise<V3ObservedStudentEvidence> {
+    const now = new Date().toISOString();
+    const payload = {
+      ...evidence,
+      created_at: now,
+      updated_at: now,
+    };
+
+    const { data, error } = await this.supabase
+      .from('v3_observed_student_evidence')
+      .insert(payload)
+      .select('*')
+      .single();
+
+    if (error) throw new Error(error.message);
+    return data as V3ObservedStudentEvidence;
+  }
+
+  async updateObservedEvidence(evidenceId: string, updates: Partial<V3ObservedStudentEvidence>): Promise<V3ObservedStudentEvidence> {
+    const now = new Date().toISOString();
+    const { data, error } = await this.supabase
+      .from('v3_observed_student_evidence')
+      .update({ ...updates, updated_at: now })
+      .eq('id', evidenceId)
+      .select('*')
+      .single();
+
+    if (error) throw new Error(error.message);
+    return data as V3ObservedStudentEvidence;
+  }
+
+  async deleteObservedEvidence(evidenceId: string): Promise<boolean> {
+    const { error } = await this.supabase
+      .from('v3_observed_student_evidence')
+      .delete()
+      .eq('id', evidenceId);
+
+    if (error) throw new Error(error.message);
+    return true;
   }
 }

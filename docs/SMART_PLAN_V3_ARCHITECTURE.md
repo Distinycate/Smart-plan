@@ -1,5 +1,5 @@
 # SMART PLAN V3 ARCHITECTURE & SYSTEM AUDIT INVENTORY
-**Wave V3.0 System Audit, Component Inventory & V3 Target Architecture**  
+**Wave V3.0 System Audit, Component Inventory & V3 Target Architecture**
 *Document Version: 3.0.0 | Date: 2026-09-28*
 
 ---
@@ -665,3 +665,22 @@ A4 Preview (CSS Paged Media, Print Safe)
 - **CSS Paged Media:** กำหนด `@page { size: A4; margin: 20mm 15mm 20mm 20mm; }`
 - **Typography:** ใช้ฟอนต์มาตรฐานเอกสารไทย (TH Sarabun New) กำหนดขนาดและระยะบรรทัดที่เป็นเอกภาพ
 - **Page Break Safety:** รองรับคลาสควบคุมหน้า `page-break-before`, `avoid-break-inside` ป้องกัน Heading ค้างท้ายหน้า และป้องกัน Activity Block หรือ Rubric ฉีกขาดกลางหน้า
+
+---
+
+## 15. Wave V3.10 — Post Teaching & Student Evidence
+
+### 15.1 Core Lifecycle Extension
+$$\text{REVIEWED} \longrightarrow \text{FINAL} \longrightarrow \text{TAUGHT} \longrightarrow \text{REFLECTED}$$
+- **`FINAL`**: Immutable Pre-Teaching Truth (บันทึก snapshot ถาวรใน `v3_plan_versions`)
+- **`TAUGHT`**: บันทึกผลการสอนจริง (วันที่สอน, เวลา, สถิตินักเรียนครบถ้วน สอดคล้องตาม validation)
+- **`REFLECTED`**: บันทึกการสะท้อนคิดครู, ปัญหา, แนวทางปรับปรุง, และแผนซ่อมเสริม (บังคับหากมีนักเรียนต้องการความช่วยเหลือ)
+
+### 15.2 Planned vs Observed Evidence
+- **Planned Evidence (`v3_learning_evidence`):** หลักฐานที่วางแผนไว้ก่อนสอน สถานะ `PLANNED` ไม่ถูกแก้ไขหลังสอน
+- **Observed Evidence (`v3_observed_student_evidence`):** หลักฐานและผลงานที่เกิดขึ้นจริงจากการจัดการเรียนรู้ เป็น Entity แยกต่างหาก เชื่อมโยงกลับไปยัง Planned Evidence ได้
+
+### 15.3 PostTeachingDocumentOverlay Architecture
+- FINAL Snapshot ไม่ถูกเขียนทับ
+- การ Export และ Preview ใช้การ Overlay ข้อมูลผลการสอนจริงทับบน FINAL Snapshot
+- Provenance Hash คู่: `baseFinalHash` (แผนต้นฉบับ) และ `postTeachingSourceHash` (ผลการสอนและหลักฐานจริง)

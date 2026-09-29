@@ -341,12 +341,25 @@ system is production-ready until those checks pass.
 - All 8 test suites pass: Subject Profiles, Workflow, Domain Graph, Blueprint Engine, Assessment Engine, Teaching Package, Quality Engine, Document Model.
 - Build gate: `npx tsc --noEmit` and `npm run build` both PASS cleanly.
 
-### READY FOR V3.9 — WORD & PDF EXPORT ENGINE
+### READY FOR V3.9 — WORD & PDF EXPORT ENGINE — COMPLETE
+- Migration 18 LIVE: `FINAL` transition via atomic PostgreSQL RPC `finalize_v3_lesson`.
+- `v3_plan_versions` with `version_type = 'FINAL'` is immutable (PostgreSQL trigger prevents UPDATE/DELETE).
+- Server-side DOCX and PDF export engines implemented and verified on Vercel Chromium runtime.
 
-**Next Scope (Wave V3.9)**:
-- Server-side Microsoft Word (.docx) export generation using `V3LessonDocument` canonical model
-- Server-side PDF export generation using `V3LessonDocument` canonical model
-- Export status finalization (`REVIEWED` $\rightarrow$ `FINAL` upon export)
+### WAVE V3.10 — POST TEACHING & STUDENT EVIDENCE — COMPLETE
+
+**Post-Teaching Lifecycle & Architecture**:
+- Lifecycle extended: `REVIEWED` $\rightarrow$ `FINAL` $\rightarrow$ `TAUGHT` $\rightarrow$ `REFLECTED`.
+- Migration 19: `database/migrations/19_smart_plan_v3_post_teaching_evidence.sql`
+  - Extends `v3_post_teaching_records` with attendance, duration, session metadata, what worked, next lesson adjustment.
+  - Creates `v3_observed_student_evidence` (separate from `v3_learning_evidence`).
+  - Pre-teaching child entities locked across `FINAL`, `TAUGHT`, `REFLECTED`.
+  - Atomic RPCs: `record_v3_teaching` and `record_v3_reflection`.
+- Document Overlay Engine: `buildPostTeachingDocument` overlays post-teaching record and observed evidence on the immutable `FINAL` snapshot in `v3_plan_versions`.
+- Remediation Gate: `students_need_support > 0` strictly requires `remediation_plan`.
+- Student Privacy: Aggregate metrics and anonymous samples only, zero student PII, private Supabase Storage bucket with signed access.
+- Tests: `tests/test-v3-post-teaching.js` passes all 23 scenarios (A–W).
+- Regression: All 10 V3 test suites pass 100%. TypeScript: 0 errors. Build: PASS.
 
 ### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
 - Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged

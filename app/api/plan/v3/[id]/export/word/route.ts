@@ -15,9 +15,10 @@ import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { buildLessonAlignmentGraph } from '@/lib/smartPlanV3/quality/alignmentGraph';
 import { runStructuralQualityRules } from '@/lib/smartPlanV3/quality/qualityRules';
 import { deriveDocumentReadiness } from '@/lib/smartPlanV3/quality/qualityEngine';
-import { buildLessonDocument } from '@/lib/smartPlanV3/document/builder';
+import { buildLessonDocument, buildPostTeachingDocument } from '@/lib/smartPlanV3/document';
 import { DEFAULT_DOCUMENT_OPTIONS, type DocumentOptions, type V3LessonDocument } from '@/lib/smartPlanV3/document/types';
 import { generateDocxDocument, type DocxPackageType } from '@/lib/smartPlanV3/export/docx';
+import { buildObservedOutcomeSummary } from '@/lib/smartPlanV3/rules/postTeachingRules';
 
 export async function GET(
   request: NextRequest,
@@ -89,7 +90,7 @@ export async function GET(
     const ruleResult = runStructuralQualityRules(graph, alignmentGraph);
     const readiness = deriveDocumentReadiness(graph, ruleResult);
 
-    const isStatusAllowed = graph.lesson.status === 'REVIEWED' || graph.lesson.status === 'FINAL';
+    const isStatusAllowed = graph.lesson.status === 'REVIEWED' || graph.lesson.status === 'FINAL' || graph.lesson.status === 'TAUGHT' || graph.lesson.status === 'REFLECTED';
     if (!readiness.ready || !isStatusAllowed) {
       const blockerMessages = (readiness.blockers || []).map(b => b.message || b.title);
       return NextResponse.json(
@@ -104,7 +105,7 @@ export async function GET(
 
     // 4. Assemble canonical model from FINAL immutable snapshot or live graph
     let doc: V3LessonDocument;
-    if (graph.lesson.status === 'FINAL') {
+    if (['FINAL', 'TAUGHT', 'REFLECTED'].includes(graph.lesson.status)) {
       const { data: finalVersion } = await supabase
         .from('v3_plan_versions')
         .select('snapshot')
@@ -121,11 +122,25 @@ export async function GET(
       } else {
         return NextResponse.json(
           {
-            error: 'ไม่พบ Immutable FINAL Snapshot สำหรับแผนการสอนที่ล็อคเป็น FINAL แล้ว (ไม่อนุญาตให้ fallback ไปยัง live graph)',
+            error: 'ไม่พบ Immutable FINAL Snapshot สำหรับแผนการสอนที่ล็อคแล้ว (ไม่อนุญาตให้ fallback ไปยัง live graph)',
             code: 'FINAL_SNAPSHOT_MISSING',
           },
           { status: 500 }
         );
+      }
+
+      // If TAUGHT or REFLECTED, apply overlay onto the immutable FINAL snapshot
+      if (['TAUGHT', 'REFLECTED'].includes(graph.lesson.status)) {
+        const [postTeachingRecord, observedEvidence] = await Promise.all([
+          repo.getPostTeachingRecord(planId),
+          repo.getObservedEvidence(planId),
+        ]);
+        const outcomeSummary = buildObservedOutcomeSummary(graph.objectives || [], observedEvidence);
+        doc = buildPostTeachingDocument(doc, {
+          record: postTeachingRecord,
+          observedEvidence,
+          outcomeSummary,
+        });
       }
     } else {
       doc = buildLessonDocument(graph, options);
@@ -134,14 +149,22 @@ export async function GET(
     const docxBuffer = await generateDocxDocument(doc, packageType);
     const safeFilename = `${doc.metadata.topic.replace(/[/\\?%*:|"<>]/g, '_')}_${packageType === 'teacher' ? 'TeacherPlan' : 'StudentMaterials'}.docx`;
 
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(safeFilename)}`,
+      'X-Document-Source-Hash': doc.documentSourceHash,
+      'X-Smart-Plan-Package': packageType,
+    };
+    if (doc.baseFinalHash) {
+      headers['X-Base-Final-Hash'] = doc.baseFinalHash;
+    }
+    if (doc.postTeachingSourceHash) {
+      headers['X-Post-Teaching-Hash'] = doc.postTeachingSourceHash;
+    }
+
     return new NextResponse(new Uint8Array(docxBuffer), {
       status: 200,
-      headers: {
-        'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(safeFilename)}`,
-        'X-Document-Source-Hash': doc.documentSourceHash,
-        'X-Smart-Plan-Package': packageType,
-      },
+      headers,
     });
   } catch (err: any) {
     console.error('[SmartPlanV3] DOCX export error:', err);

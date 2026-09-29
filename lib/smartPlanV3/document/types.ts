@@ -159,6 +159,40 @@ export interface PostTeachingPlaceholderSection extends BaseSection {
   solutionsPlaceholder: string;
 }
 
+export interface PostTeachingRecordedSection extends BaseSection {
+  type: 'postTeachingRecorded';
+  taughtAt?: string | null;
+  actualDurationMinutes?: number | null;
+  studentsTotal?: number | null;
+  studentsPresent?: number | null;
+  studentsAbsent?: number | null;
+  studentsAssessed?: number | null;
+  studentsPassed?: number | null;
+  studentsNeedSupport?: number | null;
+  actualTeachingNotes?: string | null;
+  whatWorked?: string | null;
+  problems?: string | null;
+  adjustmentsMade?: string | null;
+  feedbackGiven?: string | null;
+  remediationPlan?: string | null;
+  nextLessonAdjustment?: string | null;
+  reflection?: string | null;
+  status: 'TAUGHT' | 'REFLECTED';
+  observedEvidenceSummary?: Array<{
+    title: string;
+    evidenceType: string;
+    description: string;
+    outcomeStatus: string;
+    sampleLabel?: string | null;
+  }>;
+  observedOutcomes?: Array<{
+    objectiveTitle: string;
+    status: string;
+    evidenceCount: number;
+    evidenceRefs: string[];
+  }>;
+}
+
 export interface PageBreakSection {
   id: string;
   type: 'pageBreak';
@@ -178,6 +212,7 @@ export type DocumentSection =
   | AssessmentSection
   | AssetSection
   | PostTeachingPlaceholderSection
+  | PostTeachingRecordedSection
   | PageBreakSection;
 
 // ─── Appendix Structure ──────────────────────────────────────────────────
@@ -221,4 +256,6 @@ export interface V3LessonDocument {
   generatedAt: string;
   sourceLessonUpdatedAt: string;
   documentSourceHash: string;
+  baseFinalHash?: string;
+  postTeachingSourceHash?: string;
 }

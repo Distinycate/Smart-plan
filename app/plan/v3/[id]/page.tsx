@@ -9,24 +9,44 @@ import Step3Activities from './Step3Activities';
 import Step4Assessments from './Step4Assessments';
 import Step5TeachingPackage from './Step5TeachingPackage';
 import Step6QualityReview from './Step6QualityReview';
+import Step8TeachingResults from './Step8TeachingResults';
+import Step9ReflectionEvidence from './Step9ReflectionEvidence';
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
 function StepNav({ currentStep, planId, lessonStatus, onNavigate }: { currentStep: number; planId: string; lessonStatus?: string; onNavigate: (step: number) => void }) {
-  const steps = ['ข้อมูลแผน', 'เป้าหมาย', 'ออกแบบการเรียนรู้', 'ประเมินผล', 'ชุดพร้อมสอน', 'ตรวจคุณภาพ', 'เอกสารและพิมพ์'];
+  const steps = [
+    'ข้อมูลแผน',
+    'เป้าหมาย',
+    'ออกแบบการเรียนรู้',
+    'ประเมินผล',
+    'ชุดพร้อมสอน',
+    'ตรวจคุณภาพ',
+    'เอกสารและพิมพ์',
+    'ผลการสอน',
+    'สะท้อนผลและหลักฐาน',
+  ];
   return (
     <nav className="v3-step-nav" aria-label="ขั้นตอน">
       {steps.map((label, i) => {
         const step = i + 1;
         const isActive = step === currentStep;
-        const isAvailable = step <= 6 || (step === 7 && ['REVIEWED', 'FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || ''));
+        let isAvailable = step <= 6;
+        if (step === 7) {
+          isAvailable = ['REVIEWED', 'FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+        } else if (step === 8) {
+          isAvailable = ['FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+        } else if (step === 9) {
+          isAvailable = ['TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+        }
+
         return (
           <button
             key={step}
             className={`v3-step-item ${isActive ? 'active' : ''} ${!isAvailable ? 'disabled' : ''}`}
             onClick={() => isAvailable && !isActive ? onNavigate(step) : undefined}
             disabled={!isAvailable}
-            title={!isAvailable ? (step === 7 ? 'ต้องผ่านการตรวจคุณภาพในขั้นที่ 6 ก่อน' : 'จะเปิดในเวอร์ชันถัดไป') : undefined}
+            title={!isAvailable ? (step === 7 ? 'ต้องผ่านการตรวจคุณภาพในขั้นที่ 6 ก่อน' : step === 8 ? 'ต้องล็อคแผนเป็น FINAL ก่อนบันทึกผลการสอน' : 'ต้องบันทึกผลการสอน (TAUGHT) ก่อนสะท้อนผล') : undefined}
             aria-current={isActive ? 'step' : undefined}
           >
             <div className="v3-step-dot">{step}</div>
@@ -706,6 +726,24 @@ export default function V3PlanEditorPage() {
               </Link>
             </div>
           </div>
+        )}
+
+        {currentStep === 8 && (
+          <Step8TeachingResults
+            planId={planId}
+            lessonStatus={lesson?.status || ''}
+            onNavigateToStep={(s) => router.push(`/plan/v3/${planId}?step=${s}`)}
+            onStatusUpdated={loadGraph}
+          />
+        )}
+
+        {currentStep === 9 && (
+          <Step9ReflectionEvidence
+            planId={planId}
+            lessonStatus={lesson?.status || ''}
+            onNavigateToStep={(s) => router.push(`/plan/v3/${planId}?step=${s}`)}
+            onStatusUpdated={loadGraph}
+          />
         )}
       </div>
 
