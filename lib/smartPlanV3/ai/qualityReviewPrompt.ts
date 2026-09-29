@@ -75,6 +75,7 @@ export function buildQualityReviewSystemInstruction(): string {
 
 การอ้างอิง:
 - ใช้ ref สั้นเช่น O1, E1, A3, ASM1, AST2 เท่านั้น
+- ระบุ locationRef เพียง 1 ตัวต่อ 1 issue ห้ามใส่หลายตัวรวมกัน เช่น "O2, A2"
 - ห้ามอ้าง ref ที่ไม่มีในรายการ validRefs
 - ถ้าไม่พบปัญหา ให้ issues = []`;
 }

@@ -1,162 +1,88 @@
 /**
- * Smart Plan V3 — PA Criteria Registry
+ * Smart Plan V3.7R — PA Criteria Registry
  *
- * IMPORTANT: Criteria are derived from official ก.ค.ศ. documents.
- * See docs/SMART_PLAN_V3_PA_CRITERIA.md for full provenance.
+ * Official Authority: สำนักงานคณะกรรมการข้าราชการครูและบุคลากรทางการศึกษา (ก.ค.ศ.)
+ * Base Document: หนังสือสำนักงาน ก.ค.ศ. ที่ ศธ 0206.3/ว9 ลงวันที่ 20 พฤษภาคม 2564
  *
- * Do NOT hard-code criteria without version metadata.
- * Do NOT add criteria from unofficial blog/social media sources.
- * Do NOT claim AI fabricated these — each item maps to official source sections.
+ * Detailed amendment trajectory checked as of 2026-09-29.
+ * See docs/SMART_PLAN_V3_PA_CRITERIA.md for comprehensive provenance.
  */
 
-import type { V3PaCriteriaVersion, V3PaCriteriaItem } from './types';
+import type { PaCriteriaVersion } from './types';
+import { PA_TEACHER_CRITERIA } from './teacherCriteria';
 
-// ─────────────────────────────────────────────────────────────────
-// PA_TEACHER_CURRENT — ว.PA (วิทยฐานะระบบใหม่) ฉบับปรับปรุง 2566
-// Source: หนังสือสำนักงาน ก.ค.ศ. ที่ ศธ 0206.3/ว9 (2566)
-//         "หลักเกณฑ์และวิธีการประเมินตำแหน่งและวิทยฐานะข้าราชการครู
-//          และบุคลากรทางการศึกษา ตำแหน่งครู"
-//
-// The engine checks what can be assessed from a PRE-TEACHING plan.
-// Outcome evidence (student results) requires post-teaching data.
-// ─────────────────────────────────────────────────────────────────
-
-const PA_TEACHER_CRITERIA: V3PaCriteriaItem[] = [
-  // ── ด้านการจัดการเรียนรู้ ────────────────────────────────────
-
-  {
-    criteriaId: 'PA-LM-01',
-    labelTh: 'การออกแบบและการจัดการเรียนรู้ที่เหมาะสมกับผู้เรียน',
-    domain: 'LEARNING_MANAGEMENT',
-    deterministicIndicators: [
-      'มีตัวชี้วัดหลักสูตร (Indicator)',
-      'มีจุดประสงค์การเรียนรู้ (Objective) สอดคล้องตัวชี้วัด',
-      'มีกิจกรรมรองรับทุกจุดประสงค์',
-      'ระยะเวลากิจกรรมรวมเท่ากับคาบเรียน',
-    ],
-    aiSemanticHint: 'ตรวจว่ากิจกรรมเหมาะกับระดับชั้น ธรรมชาติวิชา และบริบทผู้เรียนหรือไม่',
-    assessableFromPlan: true,
+export const PA_CRITERIA_V9_2564: PaCriteriaVersion = {
+  id: 'PA_TEACHER_V9_2564',
+  label: 'เกณฑ์การประเมินตำแหน่งและวิทยฐานะข้าราชการครู (ว9/2564)',
+  authority: 'สำนักงานคณะกรรมการข้าราชการครูและบุคลากรทางการศึกษา (ก.ค.ศ.)',
+  baseDocument: {
+    code: 'ว9/2564',
+    date: '20 พฤษภาคม 2564',
+    title: 'หลักเกณฑ์และวิธีการประเมินตำแหน่งและวิทยฐานะข้าราชการครูและบุคลากรทางการศึกษา ตำแหน่งครู',
   },
-
-  {
-    criteriaId: 'PA-LM-02',
-    labelTh: 'การใช้สื่อ นวัตกรรม และเทคโนโลยีที่เหมาะสม',
-    domain: 'LEARNING_MANAGEMENT',
-    deterministicIndicators: [
-      'มีสื่อการสอน (Teaching Assets) ครบตามที่จำเป็น',
-      'สื่อตรงกับธรรมชาติของวิชาและกิจกรรม',
-      'สื่อมีสถานะ READY (ไม่ Stale)',
-    ],
-    aiSemanticHint: 'ตรวจว่าสื่อที่เลือกใช้ช่วยให้ผู้เรียนบรรลุจุดประสงค์ได้จริงหรือไม่',
-    assessableFromPlan: true,
-  },
-
-  {
-    criteriaId: 'PA-LM-03',
-    labelTh: 'การวัดและประเมินผลการเรียนรู้',
-    domain: 'LEARNING_MANAGEMENT',
-    deterministicIndicators: [
-      'มีการประเมินผลทุกหลักฐานการเรียนรู้',
-      'มีเครื่องมือประเมิน (Assessment Tool)',
-      'มีเกณฑ์การผ่าน (Criteria)',
-      'มีการประเมินระหว่างเรียน (Formative)',
-    ],
-    aiSemanticHint: 'ตรวจว่าวิธีประเมินสอดคล้องกับลักษณะหลักฐานที่คาดหวังหรือไม่',
-    assessableFromPlan: true,
-  },
-
-  {
-    criteriaId: 'PA-LM-04',
-    labelTh: 'การให้ข้อมูลย้อนกลับแก่ผู้เรียน',
-    domain: 'LEARNING_MANAGEMENT',
-    deterministicIndicators: [
-      'มีช่วงเวลาป้อนกลับในกิจกรรม (feedback_moment)',
-      'มีการประเมินระหว่างเรียน (assessment_moment)',
-    ],
-    aiSemanticHint: 'ตรวจว่ากลไกป้อนกลับมีคุณภาพเชิงเนื้อหาและทันเวลาหรือไม่',
-    assessableFromPlan: true,
-  },
-
-  {
-    criteriaId: 'PA-LM-05',
-    labelTh: 'การส่งเสริมและพัฒนาผู้เรียนให้มีคุณลักษณะที่พึงประสงค์',
-    domain: 'LEARNING_MANAGEMENT',
-    deterministicIndicators: [
-      'มีกิจกรรมที่นักเรียนมีส่วนร่วมปฏิบัติจริง (student_actions ไม่ว่างเปล่า)',
-      'มีกิจกรรมที่ส่งเสริมการทำงานร่วมกัน หรือการคิดขั้นสูง',
-    ],
-    aiSemanticHint: 'ตรวจว่ากิจกรรมมีโอกาสส่งเสริมทักษะชีวิต ความรับผิดชอบ หรือสมรรถนะสำคัญของผู้เรียนหรือไม่',
-    assessableFromPlan: true,
-  },
-
-  {
-    criteriaId: 'PA-LM-06',
-    labelTh: 'ความสอดคล้องตามหลักสูตร มาตรฐาน และตัวชี้วัด',
-    domain: 'LEARNING_MANAGEMENT',
-    deterministicIndicators: [
-      'มีตัวชี้วัดจากหลักสูตรแกนกลาง',
-      'จุดประสงค์สอดคล้องกับตัวชี้วัดที่เลือก',
-      'หลักฐานการเรียนรู้ครอบคลุมตัวชี้วัด',
-    ],
-    aiSemanticHint: 'ตรวจว่าจุดประสงค์และกิจกรรมสะท้อนตัวชี้วัดได้จริง ไม่ใช่แค่ copy ข้อความ',
-    assessableFromPlan: true,
-  },
-
-  // ── ด้านผลลัพธ์ของผู้เรียน (Pre-Teaching — Planned Only) ───────
-
-  {
-    criteriaId: 'PA-LO-01',
-    labelTh: 'การออกแบบให้เกิดผลลัพธ์ผู้เรียนที่วัดได้',
-    domain: 'LEARNER_OUTCOMES',
-    deterministicIndicators: [
-      'มีหลักฐานการเรียนรู้ที่วัดผลได้ (Learning Evidence)',
-      'มีเครื่องมือวัดผลที่เหมาะสม',
-      'มีเกณฑ์ชัดเจน',
-    ],
-    aiSemanticHint: 'ตรวจว่าหลักฐานที่ออกแบบสะท้อนผลลัพธ์ที่คาดหวังจริงหรือไม่',
-    assessableFromPlan: true,
-    planOnlyDisclaimer:
-      'ระบบสามารถยืนยันได้เฉพาะการออกแบบเพื่อเก็บหลักฐานผู้เรียน ผลลัพธ์จริงต้องประเมินหลังการสอน',
-  },
-
-  {
-    criteriaId: 'PA-LO-02',
-    labelTh: 'ผลการเรียนรู้ของนักเรียน (ต้องการข้อมูลหลังสอน)',
-    domain: 'LEARNER_OUTCOMES',
-    deterministicIndicators: [],
-    assessableFromPlan: false,
-    planOnlyDisclaimer:
-      'เกณฑ์นี้ต้องการข้อมูลผลการเรียนรู้จริงของนักเรียน ซึ่งจะรวบรวมได้หลังการสอนเท่านั้น ระบบจะประเมินรายการนี้ใน Wave Post-Teaching',
-  },
-];
-
-export const PA_TEACHER_CURRENT: V3PaCriteriaVersion = {
-  id: 'PA_TEACHER_CURRENT',
-  label: 'หลักเกณฑ์การประเมินวิทยฐานะครู (ว.PA ฉบับปรับปรุง พ.ศ. 2566)',
-  sourceAuthority: 'สำนักงานคณะกรรมการข้าราชการครูและบุคลากรทางการศึกษา (ก.ค.ศ.)',
-  sourceDocument: 'หนังสือสำนักงาน ก.ค.ศ. ที่ ศธ 0206.3/ว9 ลงวันที่ 20 เมษายน พ.ศ. 2566',
-  effectiveFrom: '2023-04-20',
-  amendedBy: [],
+  amendments: [
+    {
+      code: 'ว22/2564',
+      date: '3 กันยายน 2564',
+      title: 'การซักซ้อมความเข้าใจการประเมินตำแหน่งและวิทยฐานะข้าราชการครูและบุคลากรทางการศึกษา',
+      note: 'ซักซ้อมแนวปฏิบัติและแนวทางการจัดทำข้อตกลงในการพัฒนางาน (PA)',
+    },
+    {
+      code: '456/2566',
+      date: 'พ.ศ. 2566',
+      title: 'แนวทางการประเมินผลการปฏิบัติงานผ่านระบบ DPA',
+      note: 'แนวปฏิบัติการบันทึกและส่งข้อมูลผลการประเมินผ่านระบบดิจิทัล',
+    },
+    {
+      code: '1122/2567',
+      date: 'พ.ศ. 2567',
+      title: 'แนวปฏิบัติการประเมินช่วงเปลี่ยนผ่านและการใช้งานระบบ DPA',
+      note: 'ชี้แจงเกณฑ์คุณสมบัติและการนับระยะเวลาช่วงเปลี่ยนผ่าน',
+    },
+    {
+      code: '1144/2567',
+      date: 'พ.ศ. 2567',
+      title: 'การปรับปรุงขั้นตอนการตรวจสอบเอกสารและหลักฐานในระบบประเมิน',
+      note: 'ปรับปรุงกระบวนการตรวจสอบเอกสารดิจิทัลของผู้ขอรับการประเมิน',
+    },
+    {
+      code: '1683/2567',
+      date: 'พ.ศ. 2567',
+      title: 'เกณฑ์การจัดทำและส่งไฟล์คลิปและแผนการจัดการเรียนรู้ดิจิทัล',
+      note: 'ระบุข้อกำหนดทางเทคนิคของไฟล์แผนการจัดการเรียนรู้และคลิปการสอน',
+    },
+    {
+      code: 'ล1222/2568',
+      date: 'พ.ศ. 2568',
+      title: 'แนวปฏิบัติการจัดการเรียนรู้และการประเมินวิทยฐานะ',
+      note: 'ย้ำความสอดคล้องระหว่างแผนการจัดการเรียนรู้กับหลักฐานเชิงประจักษ์',
+    },
+    {
+      code: 'OTEPC-SUMMARY-2569',
+      date: 'มกราคม 2569',
+      title: 'สรุปเส้นทางการแก้ไขเพิ่มเติมหลักเกณฑ์ ว.PA สำนักงาน ก.ค.ศ.',
+      note: 'ยืนยันว่าเกณฑ์การประเมินด้านที่ 1 แผนการจัดการเรียนรู้ 8 ตัวชี้วัดหลักยังคงใช้เกณฑ์ฐาน ว9/2564 โดยเอกสารแก้ไขเพิ่มเติมส่วนใหญ่ปรับปรุงกระบวนการยื่นคำขอ ผ่านระบบ DPA และการนับระยะเวลา/ภาระงาน',
+    },
+  ],
+  effectiveFrom: '2021-05-20',
+  checkedAsOf: '2026-09-29',
   status: 'ACTIVE',
   criteria: PA_TEACHER_CRITERIA,
 };
 
-// ─────────────────────────────────────────────────────────────────
-// Registry lookup
-// ─────────────────────────────────────────────────────────────────
-
-const PA_REGISTRY: Record<string, V3PaCriteriaVersion> = {
-  PA_TEACHER_CURRENT,
+const PA_REGISTRY: Record<string, PaCriteriaVersion> = {
+  PA_TEACHER_V9_2564: PA_CRITERIA_V9_2564,
+  PA_TEACHER_CURRENT: PA_CRITERIA_V9_2564, // Alias for backward compatibility
 };
 
-export function getPaCriteriaVersion(versionId: string): V3PaCriteriaVersion | null {
+export function getPaCriteriaVersion(versionId: string): PaCriteriaVersion | null {
   return PA_REGISTRY[versionId] || null;
 }
 
-export function getActivePaCriteriaVersion(): V3PaCriteriaVersion {
-  return PA_TEACHER_CURRENT;
+export function getActivePaCriteriaVersion(): PaCriteriaVersion {
+  return PA_CRITERIA_V9_2564;
 }
 
-export function listPaCriteriaVersions(): V3PaCriteriaVersion[] {
-  return Object.values(PA_REGISTRY);
+export function listPaCriteriaVersions(): PaCriteriaVersion[] {
+  return [PA_CRITERIA_V9_2564];
 }

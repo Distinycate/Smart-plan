@@ -433,20 +433,51 @@ function runPackageRules(
 ): V3QualityIssue[] {
   const issues: V3QualityIssue[] = [];
 
+  // Required asset requirements from rules
+  const { deriveTeachingAssetRequirements } = require('../rules/teachingAssetRules');
+  const profile = getSubjectProfile(graph.lesson.subject_key || '');
+  const assetReqs = deriveTeachingAssetRequirements({
+    subjectProfile: profile,
+    learningFocus: graph.lesson.learning_focus,
+    activities: graph.activities,
+    evidence: graph.evidence,
+    assessments: graph.assessments,
+    assessmentTools: graph.assessmentTools,
+  });
+
+  // Check missing required assets
+  for (const req of assetReqs.required) {
+    const fulfilled = graph.teachingAssets.some(
+      a => a.asset_type === req.assetType && a.generation_status === 'READY'
+    );
+    if (!fulfilled) {
+      issues.push(makeIssue(ISSUE_CODES.PACKAGE_MISSING_ASSET, {
+        category: 'PACKAGE',
+        severity: 'ERROR',
+        locationType: 'ASSET',
+        title: `ขาดสื่อการสอนที่จำเป็น: ${req.title || req.assetType}`,
+        message: `แผนนี้ต้องมีสื่อประเภท ${req.assetType} เพื่อสนับสนุนกิจกรรมการเรียนรู้`,
+        evidence: [`สื่อจำเป็นประเภท: ${req.assetType}`, `เหตุผล: ${req.reason}`],
+        isBlocking: true,
+      }));
+    }
+  }
+
   // Stale required assets
   const staleAssets = graph.teachingAssets.filter(a => a.needs_review && a.generation_status === 'READY');
   for (const asset of staleAssets) {
     const astRef = refs.assetRefs[asset.id];
+    const isRequired = assetReqs.required.some((r: any) => r.assetType === asset.asset_type);
     issues.push(makeIssue(ISSUE_CODES.PACKAGE_STALE_ASSET, {
       category: 'PACKAGE',
-      severity: 'WARNING',
+      severity: isRequired ? 'ERROR' : 'WARNING',
       locationType: 'ASSET',
       locationId: asset.id,
       locationRef: astRef,
-      title: `สื่อ "${asset.title}" ต้องตรวจสอบอีกครั้ง`,
+      title: `สื่อ "${asset.title}" ต้องตรวจสอบอีกครั้ง${isRequired ? ' (สื่อจำเป็น)' : ''}`,
       message: 'เนื้อหาในแผนเปลี่ยนแปลงหลังจากสร้างสื่อนี้ กรุณาตรวจสอบและอัปเดตสื่อให้ตรงกับแผนปัจจุบัน',
       evidence: [`สื่อประเภท: ${asset.asset_type}`, `สถานะ: ต้องตรวจสอบ`],
-      isBlocking: false,
+      isBlocking: isRequired,
     }));
   }
 

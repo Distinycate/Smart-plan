@@ -266,39 +266,36 @@ system is production-ready until those checks pass.
 - `tests/test-v3-teaching-package.js`: Tests A–O (All 15 test cases, 17/17 passed, AI CALLS: 0).
 - `tests/smoke-test-v3-teaching-package-gemini.js`: Live Gemini 2.5 Flash smoke tests (English Speaking Card, Math Problem Set, Science Experiment Sheet, Teacher Guide Timeline all PASS).
 
-### WAVE V3.7 — QUALITY & PA READINESS ENGINE — COMPLETE
+### WAVE V3.7R — QUALITY & PA COMPLIANCE HARDENING — COMPLETE
 
-**Deterministic Quality Gate (Layer 1)**:
-- `lib/smartPlanV3/quality/alignmentGraph.ts`: Graph traversal, entity ref building (`O1`, `E1`, `A1`, `AS1`, `T1`, `AT1`), and deterministic SHA-256 lesson hash.
-- `lib/smartPlanV3/quality/deterministicRules.ts`: 17 deterministic checks for Objectives, Evidence, Activities, Assessments, Assessment Tools, Assets, Time allocation, and Subject Profiles.
-- `lib/smartPlanV3/quality/engine.ts`: Evaluates deterministic rules instantly with 0 AI calls, computes QualityScore (0-100), category breakdowns, and export blockers.
-- `lib/smartPlanV3/quality/types.ts`: Comprehensive types for issues, severity (`ERROR`, `WARNING`, `INFO`), categories, review statuses, and graph structures.
+**Removal of Quality Score**:
+- `QualityScore` (0–100) completely removed from quality gate decisions, document readiness, REVIEWED workflow status, PA readiness, and UI gauge.
+- Replaced by `V3QualitySummary` (`blockingIssues`, `warnings`, `suggestions`, `structuralReady`, `assessmentReady`, `packageReady`, `documentReady`).
+- UI displays clean checklist cards (โครงสร้าง, ความสอดคล้อง, กิจกรรม, การประเมิน, ชุดพร้อมสอน) and summary status cards. No aggregate score exists.
 
-**AI Qualitative Review (Layer 2)**:
-- `lib/smartPlanV3/ai/qualityReviewPrompt.ts`: System instruction & context builder (PII-free, strict reference constraint).
-- `lib/smartPlanV3/ai/qualityReviewSchema.ts`: Output parser and anti-hallucination sanitizer (drops non-existent entity refs).
-- `lib/smartPlanV3/ai/qualityReviewService.ts`: Single on-demand AI call (`gemini-2.5-flash` via `fetchGeminiWithRetry`), with caching by lesson hash.
-- Repository: `createPlanReview`, `getPlanReviews`, `getLatestPlanReview`, and `cleanupOldReviews`.
+**Versioned PA Criteria Registry & Semantics**:
+- `lib/smartPlanV3/pa/registry.ts`: Version `PA_TEACHER_V9_2564` based on ว9/2564 (ตำแหน่งครู, 20 พฤษภาคม 2564) and amendment trajectory (ว22/2564, 456/2566, 1122/2567, 1144/2567, 1683/2567, ล1222/2568, OTEPC-SUMMARY-2569).
+- Separates official text from system interpretation via `mappingType: "DIRECT" | "INTERPRETED" | "SYSTEM_QUALITY_RULE"`.
+- Status contract: `EVIDENCED` (มีหลักฐานในแผน — requires `evidenceRefs.length >= 1`), `PARTIALLY_EVIDENCED` (มีหลักฐานบางส่วน), `NOT_EVIDENCED` (ยังไม่พบหลักฐาน), `NOT_APPLICABLE` (ไม่เกี่ยวข้องกับแผนนี้).
+- Planned vs Observed distinction: Pre-teaching stage strictly uses `evidenceStage: "PLANNED"` and cannot claim students already achieved outcomes.
+- Detailed documentation: `docs/SMART_PLAN_V3_PA_CRITERIA.md`.
 
-**PA Readiness Engine**:
-- `lib/smartPlanV3/pa/types.ts`: Definitions for 8 PA indicators (`PA-1` to `PA-8`), rubric criteria, and status (`READY`, `PARTIALLY_READY`, `NOT_READY`).
-- `lib/smartPlanV3/pa/paReadinessEngine.ts`: Evaluates 8 PA criteria from lesson graph deterministically.
+**Deterministic Document Readiness & Workflow Status**:
+- `deriveDocumentReadiness(graph, ruleIssues)` gates export on deterministic rules (blocking issues = 0, objectives covered, evidence covered, assessment ready, duration valid, required assets ready and not stale).
+- Promotion to `REVIEWED` happens only when `documentReadiness.ready === true`.
+- If an already-`REVIEWED` lesson is later modified and deterministic gate fails, status automatically downgrades back to `PACKAGE_READY`.
 
-**API Endpoints**:
-- `GET /api/plan/v3/[id]/quality`: Instant Layer 1 deterministic evaluation + cached AI review.
-- `POST /api/plan/v3/[id]/quality/review`: On-demand Layer 2 qualitative AI review (cached by lesson hash).
-- `GET /api/plan/v3/[id]/pa-readiness`: PA Readiness report across 8 PA indicators.
+**Issue-Only AI Qualitative Reviewer & Scoped Apply**:
+- 1 AI call per lesson, cached by SHA-256 lesson hash.
+- Strict issue-only output schema (`issues: [...]`), zero score/rating fields.
+- Anti-hallucination ref validation sanitizes any phantom references.
+- Scoped Apply Fix applies changes strictly to the specified entity and field (e.g. `A2.student_actions`) without mutating other entities. Automatically marks previous AI review as stale.
 
-**UI (Step 6)**:
-- `Step6QualityReview.tsx`: Full interactive Quality & PA review interface:
-  - Quality score gauge, status badge (`PASSED`, `WARNING`, `FAILED`), and blocking export guard.
-  - PA-8 indicators breakdown with progress bars and alignment criteria.
-  - Issue list with severity and category filter tags, plus direct links to fix in previous steps.
-  - Single-click on-demand AI review with cached timestamp indication.
-  - Stepper Step 6 unlocked in `app/plan/v3/[id]/page.tsx` (`isAvailable = step <= 6`).
-
-**Automated Tests**:
-- `tests/test-v3-quality-engine.js`: Tests A–E (All 14 unit test cases pass, 0 external dependencies).
+**Test & Build Verification**:
+- `tests/test-v3-quality-engine.js`: Tests A–T + FP/FN (22/22 passed).
+- `tests/smoke-test-v3-quality-gemini.js`: Real Gemini 2.5 Flash smoke test across English Speaking, Math Problem Solving, and Science Experiment (3/3 passed).
+- All regression suites: Profiles, Workflow, Domain Graph, Blueprint Engine, Assessment Engine, Teaching Package, Quality Engine all PASS.
+- Build gate: `npx tsc --noEmit` and `npm run build` both PASS cleanly.
 
 ### READY FOR V3.8 — PREVIEW, EXPORT & DOCUMENT ENGINE
 

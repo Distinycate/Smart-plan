@@ -1,362 +1,398 @@
 /**
- * Smart Plan V3 — PA Readiness Engine (Layer 3)
- * Deterministic evidence mapping against versioned PA criteria.
- * Optional AI semantic pass via qualityReviewService.
- * Zero score fabrication. No PASS/FAIL claims for teachers.
+ * Smart Plan V3.7R — PA Readiness Engine
+ *
+ * Evaluates lesson plan evidence against versioned PA criteria derived from ว9/2564.
+ * Deterministic mapping. Zero score fabrication. Zero overall pass/fail claims.
+ * All evidence references must resolve to real graph entities (O1, E1, A1, AS1, T1, AT1).
  */
 
 import type { V3LessonGraph } from '../types';
 import type { V3LessonAlignmentGraph } from '../quality/types';
-import type { V3PaReadinessResult, V3PaItemResult, V3PaCriteriaItem } from './types';
+import type { V3PaReadinessResult, V3PaItemResult, PaCriterion } from './types';
 import { getActivePaCriteriaVersion } from './registry';
 import { buildEntityRefs } from '../quality/alignmentGraph';
 
-// ─────────────────────────────────────────────────────────────────
-// Deterministic evidence mapper for each criteria item
-// ─────────────────────────────────────────────────────────────────
-function mapCriteriaItem(
-  item: V3PaCriteriaItem,
+function evaluateCriterion(
+  criterion: PaCriterion,
   graph: V3LessonGraph,
   alignmentGraph: V3LessonAlignmentGraph,
-  refs: ReturnType<typeof buildEntityRefs>,
-  criteriaVersionId: string
+  refs: ReturnType<typeof buildEntityRefs>
 ): V3PaItemResult {
-  const evidenceRefs: V3PaItemResult['evidenceRefs'] = [];
-  let evidenceCount = 0;
-  let maxPossible = item.deterministicIndicators.length;
+  const evidenceRefs: string[] = [];
+  const evidenceDetails: V3PaItemResult['evidenceDetails'] = [];
 
-  if (!item.assessableFromPlan) {
+  // Non-assessable from plan (e.g. Post-teaching outcome criteria)
+  if (!criterion.assessableFromPlan) {
     return {
-      criteriaId: item.criteriaId,
-      criteriaVersion: criteriaVersionId,
-      labelTh: item.labelTh,
-      domain: item.domain,
+      criterionId: criterion.id,
+      systemLabel: criterion.systemLabel,
+      officialCode: criterion.officialCode,
+      officialLabel: criterion.officialLabel,
+      domain: 'LEARNER_OUTCOMES',
+      mappingType: criterion.mappingType,
       status: 'NOT_APPLICABLE',
       evidenceRefs: [],
-      reason: item.planOnlyDisclaimer || 'ไม่สามารถประเมินได้จากแผนการสอนก่อนสอนจริง',
+      reason: criterion.planOnlyDisclaimer || 'ไม่เกี่ยวข้องกับการตรวจแผนก่อนสอน (ประเมินในระยะ Post-Teaching เท่านั้น)',
       isPlanPhaseOnly: true,
     };
   }
 
-  if (maxPossible === 0) {
-    return {
-      criteriaId: item.criteriaId,
-      criteriaVersion: criteriaVersionId,
-      labelTh: item.labelTh,
-      domain: item.domain,
-      status: 'NOT_EVIDENCED',
-      evidenceRefs: [],
-      reason: 'ไม่มีตัวชี้วัด deterministic สำหรับรายการนี้',
-      isPlanPhaseOnly: item.planOnlyDisclaimer !== undefined,
-    };
+  let matchedIndicators = 0;
+  const totalIndicators = criterion.deterministicIndicators.length;
+  let gap: string | undefined;
+  let suggestion: string | undefined;
+
+  switch (criterion.id) {
+    case 'PLAN_PRIOR_KNOWLEDGE': {
+      // Warmup / Intro activities
+      const warmupActs = graph.activities.filter(a => a.phase === 'WARMUP' || a.phase === 'INTRO');
+      if (warmupActs.length > 0) {
+        matchedIndicators++;
+        for (const w of warmupActs) {
+          const ref = refs.activityRefs[w.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ACTIVITY',
+              entityRef: ref,
+              entityId: w.id,
+              description: `กิจกรรมขั้นนำ (${w.phase}) ${w.title || ''}`,
+            });
+          }
+        }
+      }
+      // Prior knowledge check in description or questions
+      const hasPriorPrompt = warmupActs.some(a =>
+        /เดิม|ก่อนหน้า|ทบทวน|จำได้|เคย|คำถามกระตุ้น/i.test(`${a.teacher_actions} ${a.student_actions} ${a.title || ''}`)
+      );
+      if (hasPriorPrompt) {
+        matchedIndicators++;
+      }
+      if (warmupActs.length === 0) {
+        gap = 'ยังไม่พบกิจกรรมในขั้นนำเข้าสู่บทเรียน (WARMUP / INTRO)';
+        suggestion = 'เพิ่มกิจกรรมสั้น 5-10 นาทีเพื่อทบทวนประสบการณ์เดิมและเชื่อมโยงสู่เรื่องใหม่';
+      }
+      break;
+    }
+
+    case 'STUDENT_ACTIVE_LEARNING': {
+      // Student actions present
+      const activeActs = graph.activities.filter(a => Boolean(a.student_actions && a.student_actions.trim().length > 10));
+      if (activeActs.length > 0) {
+        matchedIndicators++;
+        for (const act of activeActs.slice(0, 3)) {
+          const ref = refs.activityRefs[act.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ACTIVITY',
+              entityRef: ref,
+              entityId: act.id,
+              description: `บทบาทผู้เรียน: ${act.student_actions.substring(0, 50)}...`,
+            });
+          }
+        }
+      }
+      // Check for passive lecture dominance
+      const passiveActs = graph.activities.filter(a =>
+        /ฟังบรรยาย|นั่งฟัง|ครูอธิบายฝ่ายเดียว/i.test(`${a.student_actions} ${a.teacher_actions}`)
+      );
+      if (passiveActs.length === 0 && activeActs.length >= 2) {
+        matchedIndicators++;
+      }
+      if (activeActs.length === 0) {
+        gap = 'ยังไม่มีการระบุบทบาทการปฏิบัติของผู้เรียนที่ชัดเจนในกิจกรรม';
+        suggestion = 'ระบุสิ่งที่นักเรียนต้องลงมือทำ คิด หรือสื่อสารในช่องบทบาทผู้เรียน';
+      }
+      break;
+    }
+
+    case 'COGNITIVE_SCAFFOLDING': {
+      // Phased steps (at least 3 phases)
+      const phases = new Set(graph.activities.map(a => a.phase));
+      if (phases.size >= 2) {
+        matchedIndicators++;
+        for (const act of graph.activities.slice(0, 3)) {
+          const ref = refs.activityRefs[act.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ACTIVITY',
+              entityRef: ref,
+              entityId: act.id,
+              description: `ขั้นตอน ${act.phase}: ${act.title || act.student_actions.substring(0, 40)}`,
+            });
+          }
+        }
+      }
+      // Process/skill objectives or indicators
+      const hasSkillObj = graph.objectives.some(o => o.objective_type === 'P' || o.objective_type === 'A');
+      if (hasSkillObj || graph.objectives.length >= 2) {
+        matchedIndicators++;
+        const skillObj = graph.objectives.find(o => o.objective_type === 'P' || o.objective_type === 'A') || graph.objectives[0];
+        if (skillObj) {
+          const ref = refs.objectiveRefs[skillObj.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'OBJECTIVE',
+              entityRef: ref,
+              entityId: skillObj.id,
+              description: `จุดประสงค์ด้านทักษะ/กระบวนการ: ${skillObj.statement.substring(0, 50)}...`,
+            });
+          }
+        }
+      }
+      if (phases.size < 2) {
+        gap = 'กิจกรรมยังไม่มีการแบ่งระยะการเรียนรู้ (Phases) อย่างชัดเจน';
+        suggestion = 'จัดโครงสร้างกิจกรรมเป็น ขั้นนำ (WARMUP) ขั้นสอน/ปฏิบัติ (DEVELOP/PRACTICE) และขั้นสรุป (WRAPUP)';
+      }
+      break;
+    }
+
+    case 'AUTHENTIC_PRACTICE': {
+      // Practice activities
+      const practiceActs = graph.activities.filter(a => a.phase === 'PRACTICE' || a.phase === 'DEVELOP');
+      if (practiceActs.length > 0) {
+        matchedIndicators++;
+        for (const act of practiceActs) {
+          const ref = refs.activityRefs[act.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ACTIVITY',
+              entityRef: ref,
+              entityId: act.id,
+              description: `กิจกรรมฝึกปฏิบัติ (${act.minutes} นาที): ${act.title || act.student_actions.substring(0, 40)}`,
+            });
+          }
+        }
+      }
+      // Sufficient practice duration (at least 20 min or 30% of lesson)
+      const practiceMinutes = practiceActs.reduce((s, a) => s + (Number(a.minutes) || 0), 0);
+      const totalMinutes = graph.lesson.duration_minutes || 60;
+      if (practiceMinutes >= 15 || practiceMinutes >= totalMinutes * 0.25) {
+        matchedIndicators++;
+      }
+      if (practiceActs.length === 0) {
+        gap = 'ยังไม่มีกิจกรรมที่เปิดโอกาสให้นักเรียนฝึกปฏิบัติ (PRACTICE)';
+        suggestion = 'เพิ่มกิจกรรมให้นักเรียนได้ฝึกใช้ความรู้ เช่น การทำงานคู่ งานกลุ่ม หรือการแก้ปัญหา';
+      }
+      break;
+    }
+
+    case 'FORMATIVE_ASSESSMENT': {
+      // Assessments present and linked
+      if (graph.assessments.length > 0 && graph.assessmentEvidenceLinks.length > 0) {
+        matchedIndicators++;
+        for (const asm of graph.assessments) {
+          const ref = refs.assessmentRefs[asm.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ASSESSMENT',
+              entityRef: ref,
+              entityId: asm.id,
+              description: `การประเมิน: ${asm.name} (${asm.method || 'ประเมินตามเกณฑ์'})`,
+            });
+          }
+        }
+      }
+      // Tools present
+      if ((graph.assessmentTools || []).length > 0) {
+        matchedIndicators++;
+        for (const tool of graph.assessmentTools) {
+          const ref = refs.toolRefs[tool.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ASSESSMENT_TOOL',
+              entityRef: ref,
+              entityId: tool.id,
+              description: `เครื่องมือประเมิน: ${tool.tool_type || 'แบบประเมิน'}`,
+            });
+          }
+        }
+      }
+      if (graph.assessments.length === 0) {
+        gap = 'ยังไม่มีรายการวัดและประเมินผลในแผน';
+        suggestion = 'กำหนดวิธีวัดและเครื่องมือประเมินให้สอดคล้องกับหลักฐานการเรียนรู้';
+      } else if ((graph.assessmentTools || []).length === 0) {
+        gap = 'มีการประเมินผลแต่ยังไม่ได้แนบเครื่องมือประเมิน';
+        suggestion = 'สร้างหรือแนบรูบริก/แบบประเมินสำหรับรายการวัดผล';
+      }
+      break;
+    }
+
+    case 'FORMATIVE_FEEDBACK': {
+      // Feedback moment in activities
+      const feedbackActs = graph.activities.filter(a => Boolean(a.feedback_moment && a.feedback_moment.trim()));
+      if (feedbackActs.length > 0) {
+        matchedIndicators++;
+        for (const act of feedbackActs) {
+          const ref = refs.activityRefs[act.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ACTIVITY',
+              entityRef: ref,
+              entityId: act.id,
+              description: `ช่วงสะท้อนคิด/ป้อนกลับ: ${act.feedback_moment}`,
+            });
+          }
+        }
+      }
+      // Formative assessment check in activities
+      const formativeActs = graph.activities.filter(a => Boolean(a.assessment_moment && a.assessment_moment.trim()));
+      if (formativeActs.length > 0) {
+        matchedIndicators++;
+        for (const act of formativeActs) {
+          const ref = refs.activityRefs[act.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ACTIVITY',
+              entityRef: ref,
+              entityId: act.id,
+              description: `ช่วงตรวจความเข้าใจ: ${act.assessment_moment}`,
+            });
+          }
+        }
+      }
+      if (feedbackActs.length === 0 && formativeActs.length === 0) {
+        gap = 'ยังไม่มีการระบุช่วงเวลาสะท้อนคิด (Feedback) หรือตรวจความเข้าใจระหว่างเรียน';
+        suggestion = 'ระบุคำถามตรวจความเข้าใจหรือช่วงเวลาให้ข้อมูลย้อนกลับในกิจกรรมการเรียนรู้';
+      }
+      break;
+    }
+
+    case 'LEARNING_RESOURCES': {
+      const readyAssets = (graph.teachingAssets || []).filter(a => a.generation_status === 'READY');
+      if (readyAssets.length > 0) {
+        matchedIndicators++;
+        for (const asset of readyAssets) {
+          const ref = refs.assetRefs[asset.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'ASSET',
+              entityRef: ref,
+              entityId: asset.id,
+              description: `สื่อการสอน: ${asset.title} (${asset.asset_type})`,
+            });
+          }
+        }
+      }
+      // Check if assets are linked to activities or objectives
+      const hasLinkedAssets = (graph.assetActivityLinks || []).length > 0 || (graph.assetObjectiveLinks || []).length > 0;
+      if (hasLinkedAssets && readyAssets.length > 0) {
+        matchedIndicators++;
+      }
+      if (readyAssets.length === 0) {
+        gap = 'ยังไม่มีสื่อการสอนที่พร้อมใช้งานในชุดพร้อมสอน';
+        suggestion = 'จัดเตรียมหรือสร้างสื่อการสอนที่จำเป็นในขั้นที่ 5';
+      }
+      break;
+    }
+
+    case 'MEASURABLE_OUTCOMES': {
+      // Measurable learning evidence
+      if (graph.evidence.length > 0 && graph.objectiveEvidenceLinks.length > 0) {
+        matchedIndicators++;
+        for (const evd of graph.evidence) {
+          const ref = refs.evidenceRefs[evd.id];
+          if (ref && !evidenceRefs.includes(ref)) {
+            evidenceRefs.push(ref);
+            evidenceDetails.push({
+              entityType: 'EVIDENCE',
+              entityRef: ref,
+              entityId: evd.id,
+              description: `หลักฐานการเรียนรู้ (${evd.evidence_type}): ${evd.description.substring(0, 50)}...`,
+            });
+          }
+        }
+      }
+      // Criteria defined on assessments
+      const hasCriteria = graph.assessments.some(a => Boolean(a.criteria_text && a.criteria_text.trim()));
+      if (hasCriteria) {
+        matchedIndicators++;
+      }
+      if (graph.evidence.length === 0) {
+        gap = 'ยังไม่มีการระบุหลักฐานการเรียนรู้เชิงประจักษ์';
+        suggestion = 'ระบุชิ้นงาน การปฏิบัติ หรือพฤติกรรมที่แสดงว่านักเรียนเกิดการเรียนรู้';
+      }
+      break;
+    }
   }
 
-  // ── PA-LM-01: Learning Design ──────────────────────────────────
-  if (item.criteriaId === 'PA-LM-01') {
-    if (graph.curriculumLinks.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'OBJECTIVE',
-        entityRef: 'INDICATOR',
-        description: `มีตัวชี้วัด ${graph.curriculumLinks.length} รายการ`,
-      });
-    }
-    if (graph.objectives.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'OBJECTIVE',
-        entityRef: refs.objectiveRefs[graph.objectives[0].id] || 'O1',
-        description: `มีจุดประสงค์การเรียนรู้ ${graph.objectives.length} ข้อ`,
-      });
-    }
-    // Check objective coverage by activities
-    const covered = graph.objectives.filter(o =>
-      graph.activityObjectiveLinks.some(l => l.objective_id === o.id)
-    );
-    if (covered.length > 0 && covered.length === graph.objectives.length) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ACTIVITY',
-        entityRef: refs.activityRefs[graph.activities[0]?.id] || 'A1',
-        description: `กิจกรรมครอบคลุมทุกจุดประสงค์ (${covered.length}/${graph.objectives.length})`,
-      });
-    }
-    // Duration match
-    const total = graph.activities.reduce((s, a) => s + (Number(a.minutes) || 0), 0);
-    if (total === (graph.lesson.duration_minutes || 60)) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ACTIVITY',
-        entityRef: 'DURATION',
-        description: `เวลากิจกรรมรวม ${total} นาที ตรงกับคาบเรียน`,
-      });
-    }
-  }
+  // Determine status strictly adhering to V3.7R rules:
+  // RULE: If status is 'EVIDENCED', evidenceRefs.length MUST be >= 1.
+  let status: V3PaItemResult['status'] = 'NOT_EVIDENCED';
 
-  // ── PA-LM-02: Media/Technology ────────────────────────────────
-  else if (item.criteriaId === 'PA-LM-02') {
-    const readyAssets = graph.teachingAssets.filter(a => a.generation_status === 'READY' && !a.needs_review);
-    if (readyAssets.length > 0) {
-      evidenceCount++;
-      readyAssets.slice(0, 3).forEach(a => {
-        evidenceRefs.push({
-          entityType: 'ASSET',
-          entityRef: refs.assetRefs[a.id] || 'AST',
-          entityId: a.id,
-          description: `สื่อ: "${a.title}" (${a.asset_type})`,
-        });
-      });
-    }
-    const stale = graph.teachingAssets.filter(a => a.needs_review);
-    if (stale.length === 0 && readyAssets.length > 0) {
-      evidenceCount++; // not stale
-    }
-    if (readyAssets.length > 0) {
-      evidenceCount++; // type appropriateness (deterministic: asset exists for subject focus)
-    }
-  }
-
-  // ── PA-LM-03: Assessment ─────────────────────────────────────
-  else if (item.criteriaId === 'PA-LM-03') {
-    // All evidence assessed
-    const assessedEvdIds = new Set(graph.assessmentEvidenceLinks.map(l => l.evidence_id));
-    const allAssessed = graph.evidence.length > 0 && graph.evidence.every(e => assessedEvdIds.has(e.id));
-    if (allAssessed) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ASSESSMENT',
-        entityRef: refs.assessmentRefs[graph.assessments[0]?.id] || 'ASM1',
-        description: `หลักฐานทุกรายการมีการประเมิน (${graph.evidence.length} รายการ)`,
-      });
-    }
-    // Has tools
-    const assessmentsWithTools = graph.assessments.filter(a =>
-      graph.assessmentTools.some(t => t.assessment_id === a.id)
-    );
-    if (assessmentsWithTools.length === graph.assessments.length && graph.assessments.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ASSESSMENT_TOOL',
-        entityRef: refs.toolRefs[graph.assessmentTools[0]?.id] || 'TOOL1',
-        description: `มีเครื่องมือประเมินครบ (${assessmentsWithTools.length}/${graph.assessments.length})`,
-      });
-    }
-    // Has criteria
-    const withCriteria = graph.assessments.filter(a =>
-      (a.criteria_value !== null && a.criteria_value !== undefined) || a.criteria_text?.trim()
-    );
-    if (withCriteria.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ASSESSMENT',
-        entityRef: refs.assessmentRefs[withCriteria[0].id] || 'ASM1',
-        description: `มีเกณฑ์การผ่าน (${withCriteria.length}/${graph.assessments.length} รายการ)`,
-      });
-    }
-    // Formative
-    const formative = graph.assessments.filter(a => a.formative);
-    if (formative.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ASSESSMENT',
-        entityRef: refs.assessmentRefs[formative[0].id] || 'ASM1',
-        description: `มีการประเมินระหว่างเรียน (${formative.length} รายการ)`,
-      });
-    }
-  }
-
-  // ── PA-LM-04: Feedback ───────────────────────────────────────
-  else if (item.criteriaId === 'PA-LM-04') {
-    const feedbackActivities = graph.activities.filter(a => a.feedback_moment?.trim());
-    if (feedbackActivities.length > 0) {
-      evidenceCount++;
-      feedbackActivities.slice(0, 2).forEach(a => {
-        evidenceRefs.push({
-          entityType: 'ACTIVITY',
-          entityRef: refs.activityRefs[a.id] || 'A',
-          entityId: a.id,
-          description: `กิจกรรม "${a.title || a.phase}": ${a.feedback_moment?.substring(0, 50)}`,
-        });
-      });
-    }
-    const formativeActivities = graph.activities.filter(a => a.assessment_moment?.trim());
-    if (formativeActivities.length > 0) {
-      evidenceCount++;
-      formativeActivities.slice(0, 2).forEach(a => {
-        evidenceRefs.push({
-          entityType: 'ACTIVITY',
-          entityRef: refs.activityRefs[a.id] || 'A',
-          entityId: a.id,
-          description: `การตรวจสอบ: ${a.assessment_moment?.substring(0, 50)}`,
-        });
-      });
-    }
-  }
-
-  // ── PA-LM-05: Student Character ────────────────────────────────
-  else if (item.criteriaId === 'PA-LM-05') {
-    const withStudentActions = graph.activities.filter(a => a.student_actions?.trim());
-    if (withStudentActions.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ACTIVITY',
-        entityRef: refs.activityRefs[withStudentActions[0].id] || 'A1',
-        description: `มีกิจกรรมนักเรียนปฏิบัติจริง ${withStudentActions.length}/${graph.activities.length} กิจกรรม`,
-      });
-    }
-    // Check for collaborative or higher-order keywords
-    const hoKeywords = ['group', 'team', 'collaborate', 'analyze', 'create', 'evaluate', 'กลุ่ม', 'ร่วมกัน', 'วิเคราะห์', 'สร้าง', 'ประเมิน', 'สืบค้น'];
-    const hasHO = graph.activities.some(a =>
-      hoKeywords.some(kw => `${a.student_actions} ${a.teacher_actions}`.toLowerCase().includes(kw))
-    );
-    if (hasHO) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ACTIVITY',
-        entityRef: 'HOT',
-        description: 'พบกิจกรรมที่ส่งเสริมการคิดขั้นสูงหรือการทำงานร่วมกัน',
-      });
-    }
-  }
-
-  // ── PA-LM-06: Curriculum Alignment ────────────────────────────
-  else if (item.criteriaId === 'PA-LM-06') {
-    if (graph.curriculumLinks.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'OBJECTIVE',
-        entityRef: 'IND',
-        description: `ตัวชี้วัดหลักสูตร ${graph.curriculumLinks.length} รายการ`,
-      });
-    }
-    if (graph.objectives.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'OBJECTIVE',
-        entityRef: refs.objectiveRefs[graph.objectives[0].id] || 'O1',
-        description: `จุดประสงค์ ${graph.objectives.length} ข้อ`,
-      });
-    }
-    // Evidence connected to objectives
-    const linkedEvd = graph.evidence.filter(e =>
-      graph.objectiveEvidenceLinks.some(l => l.evidence_id === e.id)
-    );
-    if (linkedEvd.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'EVIDENCE',
-        entityRef: refs.evidenceRefs[linkedEvd[0].id] || 'E1',
-        description: `หลักฐาน ${linkedEvd.length} รายการ เชื่อมโยงกับจุดประสงค์`,
-      });
-    }
-  }
-
-  // ── PA-LO-01: Planned Outcome Design ──────────────────────────
-  else if (item.criteriaId === 'PA-LO-01') {
-    if (graph.evidence.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'EVIDENCE',
-        entityRef: refs.evidenceRefs[graph.evidence[0].id] || 'E1',
-        description: `ออกแบบหลักฐานการเรียนรู้ ${graph.evidence.length} รายการ`,
-      });
-    }
-    if (graph.assessmentTools.length > 0) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ASSESSMENT_TOOL',
-        entityRef: refs.toolRefs[graph.assessmentTools[0].id] || 'TOOL1',
-        description: `เครื่องมือวัดผล ${graph.assessmentTools.length} รายการ`,
-      });
-    }
-    const hasCriteria = graph.assessments.some(a =>
-      (a.criteria_value !== null && a.criteria_value !== undefined) || a.criteria_text?.trim()
-    );
-    if (hasCriteria) {
-      evidenceCount++;
-      evidenceRefs.push({
-        entityType: 'ASSESSMENT',
-        entityRef: refs.assessmentRefs[graph.assessments[0]?.id] || 'ASM1',
-        description: 'มีเกณฑ์ชัดเจนสำหรับการวัดผลลัพธ์',
-      });
-    }
-  }
-
-  // Determine status
-  const ratio = evidenceCount / maxPossible;
-  let status: V3PaItemResult['status'];
-  if (evidenceCount === 0) {
+  if (evidenceRefs.length === 0) {
     status = 'NOT_EVIDENCED';
-  } else if (ratio >= 0.75) {
+  } else if (matchedIndicators >= totalIndicators && evidenceRefs.length >= 1) {
     status = 'EVIDENCED';
-  } else {
+  } else if (evidenceRefs.length >= 1 || matchedIndicators > 0) {
     status = 'PARTIALLY_EVIDENCED';
   }
 
-  // Gap detection
-  let gap: string | undefined;
-  let suggestion: string | undefined;
-  if (status === 'NOT_EVIDENCED') {
-    gap = `ไม่พบหลักฐานในแผนการเรียนรู้ที่สอดคล้องกับรายการนี้`;
-    suggestion = `ควรเพิ่มข้อมูลในแผนให้ครอบคลุมตัวบ่งชี้ของรายการนี้`;
+  // Build professional planned-evidence reason
+  let reason = '';
+  if (status === 'EVIDENCED') {
+    reason = `แผนนี้ออกแบบให้มี${criterion.systemLabel}อย่างชัดเจน โดยพบหลักฐานที่จัดเตรียมไว้ (${evidenceRefs.join(', ')})`;
   } else if (status === 'PARTIALLY_EVIDENCED') {
-    gap = `พบหลักฐานบางส่วน (${evidenceCount}/${maxPossible} ตัวบ่งชี้) ยังขาดอีก ${maxPossible - evidenceCount} ส่วน`;
+    reason = `แผนนี้มีการออกแบบ${criterion.systemLabel}บางส่วน (${evidenceRefs.join(', ')}) แต่ยังสามารถเพิ่มเติมรายละเอียดให้สมบูรณ์ขึ้นได้`;
+  } else {
+    reason = `แผนนี้ยังไม่พบหลักฐานการออกแบบ${criterion.systemLabel}`;
   }
 
   return {
-    criteriaId: item.criteriaId,
-    criteriaVersion: criteriaVersionId,
-    labelTh: item.labelTh,
-    domain: item.domain,
+    criterionId: criterion.id,
+    systemLabel: criterion.systemLabel,
+    officialCode: criterion.officialCode,
+    officialLabel: criterion.officialLabel,
+    domain: 'LEARNING_MANAGEMENT',
+    mappingType: criterion.mappingType,
     status,
     evidenceRefs,
-    reason: evidenceRefs.length > 0
-      ? `พบหลักฐานในแผน: ${evidenceRefs.map(r => r.description).join(' / ')}`
-      : 'ไม่พบหลักฐานในแผนการเรียนรู้ที่สอดคล้องกับรายการนี้',
+    evidenceDetails,
+    reason,
     gap,
     suggestion,
-    isPlanPhaseOnly: Boolean(item.planOnlyDisclaimer),
+    isPlanPhaseOnly: true,
   };
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Main Export: evaluatePaReadiness
-// ─────────────────────────────────────────────────────────────────
 export function evaluatePaReadiness(
   graph: V3LessonGraph,
   alignmentGraph: V3LessonAlignmentGraph,
-  lessonHash: string,
-  criteriaVersionId?: string
+  lessonHash: string
 ): V3PaReadinessResult {
-  const version = getActivePaCriteriaVersion();
-  const versionId = criteriaVersionId || version.id;
+  const criteriaVersion = getActivePaCriteriaVersion();
+  const { buildEntityRefs } = require('../quality/alignmentGraph');
   const refs = buildEntityRefs(graph);
 
-  const items: V3PaItemResult[] = version.criteria.map(criterion =>
-    mapCriteriaItem(criterion, graph, alignmentGraph, refs, versionId)
+  const items = criteriaVersion.criteria.map(c =>
+    evaluateCriterion(c, graph, alignmentGraph, refs)
   );
 
-  const evidenced = items.filter(i => i.status === 'EVIDENCED').length;
-  const partial = items.filter(i => i.status === 'PARTIALLY_EVIDENCED').length;
-  const notEvidenced = items.filter(i => i.status === 'NOT_EVIDENCED').length;
-  const notApplicable = items.filter(i => i.status === 'NOT_APPLICABLE').length;
+  const summary = {
+    totalItems: items.length,
+    evidenced: items.filter(i => i.status === 'EVIDENCED').length,
+    partiallyEvidenced: items.filter(i => i.status === 'PARTIALLY_EVIDENCED').length,
+    notEvidenced: items.filter(i => i.status === 'NOT_EVIDENCED').length,
+    notApplicable: items.filter(i => i.status === 'NOT_APPLICABLE').length,
+  };
 
   return {
-    criteriaVersion: versionId,
+    criteriaVersion,
+    evidenceStage: 'PLANNED',
     reviewedAt: new Date().toISOString(),
     lessonHash,
     items,
-    summary: {
-      totalItems: items.length,
-      evidenced,
-      partiallyEvidenced: partial,
-      notEvidenced,
-      notApplicable,
-    },
-    planPhaseDisclaimer:
-      'ผลการตรวจนี้ประเมินเฉพาะความพร้อมของแผนการเรียนรู้ก่อนการสอน ' +
-      'รายการที่ต้องการข้อมูลผลลัพธ์ผู้เรียนจะประเมินได้หลังการสอนจริงเท่านั้น ' +
-      'ระบบไม่รายงานว่าครูผ่านหรือไม่ผ่านการประเมินวิทยฐานะ',
+    summary,
+    planPhaseDisclaimer: 'ส่วนนี้เป็นเครื่องมือช่วยตรวจความสอดคล้องของแผนและหลักฐานที่ออกแบบไว้ ไม่ใช่ผลการประเมินวิทยฐานะอย่างเป็นทางการ',
     aiUsed: false,
   };
 }

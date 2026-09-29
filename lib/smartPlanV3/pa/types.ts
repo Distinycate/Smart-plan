@@ -1,18 +1,23 @@
 /**
- * Smart Plan V3 — PA (Performance Agreement) Readiness Types
- * All criteria must reference a versioned registry tied to an official source.
- * No criteria are fabricated — see docs/SMART_PLAN_V3_PA_CRITERIA.md for provenance.
+ * Smart Plan V3.7R — PA (Performance Agreement) Readiness Types
+ *
+ * Versioned criteria registry tied to official ก.ค.ศ. source documents.
+ * All criteria clearly separate official text from system interpretation.
+ * Zero overall score. Zero pass/fail claims for teachers.
  */
 
 /** Evidence status for a single PA criteria item */
 export type V3PaEvidenceStatus =
-  | 'EVIDENCED'         // Clear evidence found in lesson graph
-  | 'PARTIALLY_EVIDENCED' // Some but not all indicators of this criterion are present
-  | 'NOT_EVIDENCED'     // No relevant evidence found in lesson graph
-  | 'NOT_APPLICABLE';   // This criterion is not applicable for this lesson type
+  | 'EVIDENCED'          // มีหลักฐานในแผน
+  | 'PARTIALLY_EVIDENCED' // มีหลักฐานบางส่วน
+  | 'NOT_EVIDENCED'      // ยังไม่พบหลักฐาน
+  | 'NOT_APPLICABLE';    // ไม่เกี่ยวข้องกับแผนนี้
 
-/** Registry status for a criteria version */
-export type V3PaCriteriaStatus = 'ACTIVE' | 'SUPERSEDED' | 'DRAFT';
+/** Mapping type distinguishing official text from system quality rules */
+export type V3PaMappingType =
+  | 'DIRECT'              // ข้อความหรือเกณฑ์ตรงตามเอกสารทางการ
+  | 'INTERPRETED'         // การตีความเชิงปฏิบัติของระบบตามหลักวิชาชีพ
+  | 'SYSTEM_QUALITY_RULE';// กฎคุณภาพระบบเพื่อสนับสนุนความพร้อม
 
 /** PA domain classification */
 export type V3PaDomain =
@@ -20,77 +25,102 @@ export type V3PaDomain =
   | 'LEARNER_OUTCOMES';      // ด้านผลลัพธ์ของผู้เรียน (Pre-teach: planned only)
 
 /** A single evaluable PA criteria item */
-export interface V3PaCriteriaItem {
-  /** Stable unique code. Never changes once assigned. */
-  criteriaId: string;
-  /** Human-readable Thai label */
-  labelTh: string;
-  /** Domain this criterion belongs to */
-  domain: V3PaDomain;
-  /** What the engine looks for in the lesson graph (deterministic indicators) */
-  deterministicIndicators: string[];
-  /** AI semantic interpretation hint — what AI should assess qualitatively */
-  aiSemanticHint?: string;
-  /**
-   * Whether this can be fully assessed from a pre-teaching lesson plan alone.
-   * false = requires post-teaching data; only "planned" evidence can be claimed.
-   */
+export interface PaCriterion {
+  /** Stable unique internal ID, e.g. "PLAN_PRIOR_KNOWLEDGE" */
+  id: string;
+  /** Official code from regulatory document if available, e.g. "ว9/2564-ตัวชี้วัดที่ 2" */
+  officialCode?: string;
+  /** Official title from authority document */
+  officialLabel?: string;
+  /** System human-readable Thai label */
+  systemLabel: string;
+  /** Detailed description (strictly using planned-evidence semantics) */
+  description: string;
+  /** Reference to source document */
+  sourceRef?: {
+    criteriaVersionId: string;
+    documentCode: string;
+  };
+  /** Explicit classification of official vs interpreted */
+  mappingType: V3PaMappingType;
+  /** Whether assessable from pre-teaching plan alone */
   assessableFromPlan: boolean;
-  /** When assessableFromPlan=false, this text clarifies the limitation */
+  /** Explanatory disclaimer when item is not fully assessable from plan */
   planOnlyDisclaimer?: string;
+  /** What the engine looks for in the lesson graph */
+  deterministicIndicators: string[];
+  /** Qualitative AI hint */
+  aiSemanticHint?: string;
 }
 
-/** A complete versioned PA criteria set */
-export interface V3PaCriteriaVersion {
-  /** Stable version identifier — never use a year alone */
+/** A complete versioned PA criteria set conforming to V3.7R contract */
+export interface PaCriteriaVersion {
+  /** Stable version identifier, e.g. "PA_TEACHER_V9_2564" */
   id: string;
   /** Human-readable label */
   label: string;
   /** Official issuing authority */
-  sourceAuthority: string;
-  /** Name of the official document this is derived from */
-  sourceDocument: string;
-  /** ISO date string when this version became effective */
-  effectiveFrom: string;
-  /** IDs of any versions this version amends */
-  amendedBy: string[];
-  status: V3PaCriteriaStatus;
-  /** The ordered list of criteria items */
-  criteria: V3PaCriteriaItem[];
+  authority: string;
+  /** Base document metadata */
+  baseDocument: {
+    code: string;
+    date: string;
+    title?: string;
+  };
+  /** Validated regulatory amendment chain */
+  amendments: {
+    code: string;
+    date: string;
+    title?: string;
+    note?: string;
+  }[];
+  /** Effective date */
+  effectiveFrom?: string;
+  /** Verification date of current registry */
+  checkedAsOf: string;
+  /** Registry status */
+  status: 'ACTIVE' | 'SUPERSEDED' | 'DRAFT';
+  /** Criteria list */
+  criteria: PaCriterion[];
 }
 
 /** Per-item PA readiness result */
 export interface V3PaItemResult {
-  criteriaId: string;
-  criteriaVersion: string;
-  labelTh: string;
+  criterionId: string;
+  systemLabel: string;
+  officialCode?: string;
+  officialLabel?: string;
   domain: V3PaDomain;
+  mappingType: V3PaMappingType;
   status: V3PaEvidenceStatus;
-  /** Structured refs into the lesson graph that support this status */
-  evidenceRefs: Array<{
-    entityType: 'ACTIVITY' | 'ASSESSMENT' | 'ASSESSMENT_TOOL' | 'ASSET' | 'OBJECTIVE' | 'EVIDENCE';
-    entityRef: string;   // e.g. "A3", "ASM1", "O1"
-    entityId?: string;   // resolved UUID (optional)
-    description: string; // human-readable Thai
-  }>;
-  /** AI-generated reason (if AI layer ran) */
-  reason: string;
-  /** What is still missing or partial */
-  gap?: string;
-  /** Suggestion to improve coverage */
-  suggestion?: string;
   /**
-   * Safety flag: true means this item was assessed from pre-teaching plan data only.
-   * Outcome claims require post-teaching data.
+   * Structured refs into the lesson graph that support this status (e.g. ["O1", "A2", "AS1"]).
+   * If status === 'EVIDENCED', evidenceRefs.length MUST be >= 1.
    */
+  evidenceRefs: string[];
+  /** Detailed breakdown of evidence refs */
+  evidenceDetails?: Array<{
+    entityType: 'ACTIVITY' | 'ASSESSMENT' | 'ASSESSMENT_TOOL' | 'ASSET' | 'OBJECTIVE' | 'EVIDENCE';
+    entityRef: string;
+    entityId?: string;
+    description: string;
+  }>;
+  /** Professional descriptive reason (Plan-focused, no claims of actual student outcomes) */
+  reason: string;
+  /** What is missing or requires attention */
+  gap?: string;
+  /** Constructive suggestion */
+  suggestion?: string;
+  /** Safety flag: true means assessed strictly from pre-teaching plan */
   isPlanPhaseOnly: boolean;
 }
 
 /** Full PA readiness result for a lesson */
 export interface V3PaReadinessResult {
-  criteriaVersion: string;
+  criteriaVersion: PaCriteriaVersion;
+  evidenceStage: 'PLANNED';
   reviewedAt: string;
-  lessonHash: string;        // Hash of relevant fields to detect staleness
+  lessonHash: string;
   items: V3PaItemResult[];
   summary: {
     totalItems: number;
@@ -99,7 +129,7 @@ export interface V3PaReadinessResult {
     notEvidenced: number;
     notApplicable: number;
   };
-  /** Safety disclaimer shown in UI */
+  /** Mandatory safety disclaimer */
   planPhaseDisclaimer: string;
   aiUsed: boolean;
 }

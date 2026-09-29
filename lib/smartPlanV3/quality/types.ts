@@ -131,6 +131,10 @@ export interface V3DocumentReadiness {
   blockingConditions: string[];
   /** Non-blocking warnings (do not prevent document generation) */
   warnings: string[];
+  /** Full issue objects for blockers (Requirement 21) */
+  blockers: V3QualityIssue[];
+  /** Full issue objects for warnings (Requirement 21) */
+  ruleWarnings: V3QualityIssue[];
   checklist: {
     packageReady: boolean;
     noBlockingErrors: boolean;
@@ -140,6 +144,17 @@ export interface V3DocumentReadiness {
     objectiveCoverageComplete: boolean;
     evidenceCoverageComplete: boolean;
   };
+}
+
+/** Quality Summary Model replacing overall QualityScore (Requirement 3) */
+export interface V3QualitySummary {
+  blockingIssues: number;
+  warnings: number;
+  suggestions: number;
+  structuralReady: boolean;
+  assessmentReady: boolean;
+  packageReady: boolean;
+  documentReady: boolean;
 }
 
 /** Persisted quality review record stored in v3_plan_reviews */

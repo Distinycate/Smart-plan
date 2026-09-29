@@ -81,13 +81,23 @@ export function deriveDocumentReadiness(
     }
   }
 
-  const ready = blockingConditions.length === 0;
+  const blockers = ruleResult.issues.filter(i => i.isBlocking && i.severity === 'ERROR');
+
+  const ready =
+    packageReady &&
+    noBlockingErrors &&
+    assessmentReady &&
+    durationValid &&
+    objectiveCoverageComplete &&
+    evidenceCoverageComplete;
 
   return {
     ready,
     requiredStatus: 'REVIEWED',
     blockingConditions,
     warnings,
+    blockers,
+    ruleWarnings,
     checklist: {
       packageReady,
       noBlockingErrors,
@@ -101,6 +111,36 @@ export function deriveDocumentReadiness(
 }
 
 /**
+ * Derive Quality Summary model (Requirement 3).
+ * Replaces overall numerical quality score.
+ */
+export function deriveQualitySummary(
+  graph: V3LessonGraph,
+  ruleResult: V3QualityRuleResult,
+  documentReadiness: V3DocumentReadiness,
+  aiIssues: import('./types').V3QualityIssue[] = []
+): import('./types').V3QualitySummary {
+  const blockingIssues = ruleResult.blockingErrorCount;
+  const warnings = ruleResult.warningCount + aiIssues.filter(i => i.severity === 'WARNING').length;
+  const suggestions = ruleResult.infoCount + aiIssues.filter(i => i.severity === 'INFO').length;
+
+  const structuralReady = ruleResult.issues.filter(i => i.category === 'STRUCTURE' && i.isBlocking).length === 0;
+  const assessmentReady = documentReadiness.checklist.assessmentReady;
+  const packageReady = documentReadiness.checklist.packageReady && documentReadiness.checklist.noStaleRequiredAssets;
+  const documentReady = documentReadiness.ready;
+
+  return {
+    blockingIssues,
+    warnings,
+    suggestions,
+    structuralReady,
+    assessmentReady,
+    packageReady,
+    documentReady,
+  };
+}
+
+/**
  * Run full deterministic quality check (Layer 1 + document gate).
  * Returns everything needed to render Step 6 without any AI calls.
  */
@@ -108,10 +148,12 @@ export function runQualityCheck(graph: V3LessonGraph): {
   alignmentGraph: ReturnType<typeof buildLessonAlignmentGraph>;
   ruleResult: V3QualityRuleResult;
   documentReadiness: V3DocumentReadiness;
+  qualitySummary: import('./types').V3QualitySummary;
 } {
   const alignmentGraph = buildLessonAlignmentGraph(graph);
   const ruleResult = runStructuralQualityRules(graph, alignmentGraph);
   const documentReadiness = deriveDocumentReadiness(graph, ruleResult);
+  const qualitySummary = deriveQualitySummary(graph, ruleResult, documentReadiness);
 
-  return { alignmentGraph, ruleResult, documentReadiness };
+  return { alignmentGraph, ruleResult, documentReadiness, qualitySummary };
 }

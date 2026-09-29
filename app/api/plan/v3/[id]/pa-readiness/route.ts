@@ -41,7 +41,7 @@ export async function GET(
         criteriaVersionMeta: {
           id: criteriaVersion.id,
           label: criteriaVersion.label,
-          sourceAuthority: criteriaVersion.sourceAuthority,
+          authority: criteriaVersion.authority,
           effectiveFrom: criteriaVersion.effectiveFrom,
         },
       });
@@ -62,7 +62,7 @@ export async function GET(
         metadata: {
           criteriaVersion: criteriaVersion.id,
           criteriaVersionLabel: criteriaVersion.label,
-          sourceDocument: criteriaVersion.sourceDocument,
+          sourceDocument: criteriaVersion.baseDocument.code,
         },
       },
     });
@@ -73,7 +73,7 @@ export async function GET(
       criteriaVersionMeta: {
         id: criteriaVersion.id,
         label: criteriaVersion.label,
-        sourceAuthority: criteriaVersion.sourceAuthority,
+        authority: criteriaVersion.authority,
         effectiveFrom: criteriaVersion.effectiveFrom,
       },
     });

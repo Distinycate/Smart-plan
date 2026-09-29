@@ -83,9 +83,19 @@ export function validateQualityReviewOutput(
       issueErrors.push(`Issue ${issueIndex}: invalid locationType "${raw.locationType}"`);
     }
 
+    // Normalize locationRef if AI provided comma-separated refs
+    let locRef: string | null = raw.locationRef?.trim() || null;
+    if (locRef && locRef !== 'null') {
+      if (locRef.includes(',')) {
+        const parts = locRef.split(',').map(p => p.trim()).filter(Boolean);
+        const matched = parts.find(p => validRefs.has(p));
+        locRef = matched || parts[0];
+      }
+    }
+
     // Validate ref (reject phantom refs like A99)
-    if (raw.locationRef && raw.locationRef !== 'null' && !validRefs.has(raw.locationRef)) {
-      issueErrors.push(`Issue ${issueIndex}: invalid locationRef "${raw.locationRef}" (not in lesson graph)`);
+    if (locRef && locRef !== 'null' && !validRefs.has(locRef)) {
+      issueErrors.push(`Issue ${issueIndex}: invalid locationRef "${locRef}" (not in lesson graph)`);
     }
 
     // Require non-empty reason
@@ -107,7 +117,7 @@ export function validateQualityReviewOutput(
       category: raw.category as V3QualityCategory,
       severity: raw.severity as V3QualitySeverity,
       locationType: raw.locationType as V3QualityLocationType,
-      locationRef: raw.locationRef || undefined,
+      locationRef: locRef || undefined,
       title: raw.reason.substring(0, 80),
       message: raw.reason,
       evidence: [],

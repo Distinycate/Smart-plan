@@ -9,7 +9,7 @@ import { createClient } from '@/utils/supabase/server';
 import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { buildLessonAlignmentGraph, computeLessonHash } from '@/lib/smartPlanV3/quality/alignmentGraph';
 import { runStructuralQualityRules } from '@/lib/smartPlanV3/quality/qualityRules';
-import { deriveDocumentReadiness } from '@/lib/smartPlanV3/quality/qualityEngine';
+import { deriveDocumentReadiness, deriveQualitySummary } from '@/lib/smartPlanV3/quality/qualityEngine';
 
 export async function GET(
   request: NextRequest,
@@ -48,10 +48,24 @@ export async function GET(
       ? cachedPaReview.result?.lessonHash !== lessonHash
       : true;
 
+    const aiIssues = (!aiReviewStale && cachedAiReview?.result?.issues) || [];
+    const qualitySummary = deriveQualitySummary(graph, ruleResult, documentReadiness, aiIssues);
+
+    // Status management: Promotion to REVIEWED or Downgrade to PACKAGE_READY
+    let currentStatus = graph.lesson.status;
+    if (documentReadiness.ready && currentStatus === 'PACKAGE_READY') {
+      await repo.updateLesson(planId, { status: 'REVIEWED' }, user.id);
+      currentStatus = 'REVIEWED';
+    } else if (!documentReadiness.ready && currentStatus === 'REVIEWED') {
+      await repo.updateLesson(planId, { status: 'PACKAGE_READY' }, user.id);
+      currentStatus = 'PACKAGE_READY';
+    }
+
     return NextResponse.json({
       planId,
       lessonHash,
-      lessonStatus: graph.lesson.status,
+      lessonStatus: currentStatus,
+      qualitySummary,
       ruleResult,
       documentReadiness,
       alignmentGraph: {

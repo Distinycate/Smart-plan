@@ -535,3 +535,79 @@ graph TD
 - **Workflow State Transition:**
   - เมื่อสื่อจำเป็นครบถ้วน: เลื่อนสถานะจาก `BLUEPRINT_READY` $\longrightarrow$ `PACKAGE_READY`
   - หากลบสื่อจำเป็น: ปรับลดสถานะจาก `PACKAGE_READY` $\longrightarrow$ `BLUEPRINT_READY` อัตโนมัติ
+
+---
+
+## 13. Wave V3.7R — Quality & PA Compliance Hardening
+
+### 13.1 Quality Summary Model (Zero Quality Score Invariant)
+Wave V3.7R ปฏิรูปด่านตรวจคุณภาพกลางของระบบโดย **ยกเลิก QualityScore 0–100 และคะแนนรวมทั้งหมดออกจากระบบอย่างเด็ดขาด** (ไม่มีการใช้ 95/100, ดีเยี่ยม, หรือระดับเปอร์เซ็นต์ในการตัดสิน Workflow) โดยแทนที่ด้วย **Quality Summary Model**:
+
+```ts
+interface V3QualitySummary {
+  blockingIssues: number;
+  warnings: number;
+  suggestions: number;
+  structuralReady: boolean;
+  assessmentReady: boolean;
+  packageReady: boolean;
+  documentReady: boolean;
+}
+```
+
+UI หน้าจอขั้นที่ 6 แสดงผลเป็นสถานะความพร้อมเชิงองค์ประกอบ:
+- โครงสร้าง: พร้อม
+- ความสอดคล้อง: พร้อม / ควรตรวจ X จุด
+- กิจกรรม: พร้อม
+- การประเมิน: พร้อม
+- ชุดพร้อมสอน: พร้อม
+
+และการสรุปการ์ดประเด็น:
+- **ต้องแก้ก่อนส่งออก:** จำนวนข้อผิดพลาดที่บล็อกการสร้างเอกสาร (`isBlocking = true`, `severity = ERROR`)
+- **ควรตรวจสอบ:** ข้อควรระวังเชิงคุณภาพที่ไม่บล็อกการส่งออก (`severity = WARNING`)
+- **ข้อเสนอแนะ:** แนวทางปรับปรุงเพิ่มเติม (`severity = INFO`)
+
+### 13.2 Deterministic Document Readiness Function
+ฟังก์ชันกลาง `deriveDocumentReadiness(graph, ruleResult)` ทำหน้าที่เป็น Gatekeeper ก่อนที่แผนจะเข้าสู่ขั้นที่ 7 (เอกสารและการส่งออก):
+
+```text
+Condition for Document Readiness:
+  PACKAGE_READY
+  AND blockingIssues = 0
+  AND assessmentReady
+  AND durationValid (เวลากิจกรรมรวมตรงกับคาบเรียน)
+  AND objectiveCoverageComplete
+  AND evidenceCoverageComplete
+```
+
+- **ข้อผิดพลาดที่บล็อก (Blocking Errors):** ไม่มี Objective, Objective ไม่มี Evidence, Evidence ไม่มี Assessment, Assessment ไม่มี Tool/Criteria, เวลากิจกรรมไม่ตรงคาบเรียน, ขาดสื่อการสอนที่จำเป็น (Required Asset Missing), หรือสื่อที่จำเป็นติดสถานะ Stale (`needs_review = true`)
+- **ข้อผิดพลาดที่ไม่บล็อก:** คำเตือนจากการตรวจเชิงคุณภาพของ AI หรือข้อแนะนำเพิ่มเติม
+
+### 13.3 Workflow State Transition: REVIEWED & Downgrade
+- **Promotion:** เมื่อแผนอยู่ในสถานะ `PACKAGE_READY` และผ่านเงื่อนไข `deriveDocumentReadiness().ready === true` แผนจะได้รับการเลื่อนสถานะเป็น `REVIEWED` (ผ่านการตรวจคุณภาพแล้ว)
+- **Downgrade:** หากแผนที่อยู่ในสถานะ `REVIEWED` ถูกแก้ไขในภายหลัง (เช่น ลบจุดประสงค์, แก้ไขเวลาจนไม่ตรงคาบ, ลบสื่อจำเป็น) จนทำให้เงื่อนไข Document Readiness ไม่ผ่าน ระบบจะปรับลดสถานะกลับเป็น `PACKAGE_READY` (หรือสถานะก่อนหน้าที่เหมาะสม) ทันที
+
+### 13.4 Versioned PA Criteria Registry & Source Metadata
+ระบบจัดโครงสร้าง PA Criteria Registry แบบ Versioned (`lib/smartPlanV3/pa/`):
+- **Base Document:** หนังสือสำนักงาน ก.ค.ศ. ที่ ศธ 0206.3/ว9 ลงวันที่ 20 พฤษภาคม 2564
+- **Authority:** สำนักงานคณะกรรมการข้าราชการครูและบุคลากรทางการศึกษา (ก.ค.ศ.)
+- **Amendment Chain:** บันทึกและตรวจสอบประวัติหนังสือเวียนที่เกี่ยวข้อง (ว22/2564, 456/2566, 1122/2567, 1144/2567, 1683/2567, ล1222/2568, OTEPC-SUMMARY-2569)
+- **Separation of Official Text vs. System Mapping:** แยกชัดเจนระหว่าง `officialLabel` / `officialCode` กับ `systemLabel` โดยระบุ `mappingType: "DIRECT" | "INTERPRETED" | "SYSTEM_QUALITY_RULE"`
+
+### 13.5 Planned vs. Observed Distinction (Strict Invariant)
+ในระยะตรวจแผนก่อนสอน (Pre-Teaching):
+- ระบบมีเฉพาะ: จุดประสงค์ที่คาดหวัง, กิจกรรมที่ออกแบบ, เครื่องมือประเมินที่เตรียมไว้, และสื่อการสอน
+- **สถานะ:** `evidenceStage: "PLANNED"`
+- **Strict Prohibition:** ห้ามระบบและห้าม AI รายงานหรือกล่าวอ้างว่า "ผู้เรียนเกิดผลลัพธ์แล้ว", "ผู้เรียนพัฒนาขึ้นแล้ว", หรือ "ผู้เรียนบรรลุเป้าหมายแล้ว"
+- **Approved Phrasing:** ใช้ถ้อยคำเชิงการวางแผน เช่น "แผนนี้ออกแบบให้...", "มีการเตรียมหลักฐานเพื่อประเมิน...", "มีเครื่องมือสำหรับเก็บผลลัพธ์..."
+
+### 13.6 Evidence-Based PA Statuses
+แทนการใช้คำว่า "ผ่าน/ไม่ผ่าน" หรือคำว่า READY/NOT_READY สำหรับเกณฑ์ PA ระบบใช้สถานะตามร่องรอยหลักฐาน:
+- `EVIDENCED` (มีหลักฐานในแผน — **ต้องมี `evidenceRefs.length >= 1` เสมอ**)
+- `PARTIALLY_EVIDENCED` (มีหลักฐานบางส่วน)
+- `NOT_EVIDENCED` (ยังไม่พบหลักฐาน)
+- `NOT_APPLICABLE` (ไม่เกี่ยวข้องกับแผนนี้)
+
+### 13.7 Scoped Apply Fix & Staleness Safety
+- **Scoped Patching:** การนำข้อเสนอแนะของ AI ไปใช้ (Apply Fix) ดำเนินการทีละ Issue ผ่านขั้นตอน: ดูคำแนะนำ $\rightarrow$ ดูข้อความเดิม $\rightarrow$ ดูข้อความเสนอ $\rightarrow$ นำไปใช้ โดยแก้ไขเฉพาะ Field ของ Entity นั้นๆ (เช่น `A2.student_actions`) ห้ามแก้ไข Entity อื่น
+- **Review Staleness:** เมื่อมีการแก้ไขข้อมูล ผลการตรวจเดิมของ AI จะติดสถานะ `isStale = true` ตาม Lesson Hash ทันที และระบบจะรันเฉพาะ Deterministic Rules ใหม่โดยอัตโนมัติ โดยไม่ยิงคำขอ AI ซ้ำโดยพลการ
