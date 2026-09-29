@@ -100,6 +100,12 @@ export async function resolveChromiumLaunchOptions(): Promise<{
         }
       }
 
+      // If local bin directory was not traced or relocated, use official remote pack tarball matching v153.0.0
+      if (!binPath) {
+        const arch = process.arch === 'arm64' ? 'arm64' : 'x64';
+        binPath = `https://github.com/Sparticuz/chromium/releases/download/v153.0.0/chromium-v153.0.0-pack.${arch}.tar`;
+      }
+
       const executablePath = await chromium.executablePath(binPath);
       if (executablePath) {
         return {
