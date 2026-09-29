@@ -3,27 +3,28 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink, V3LessonActivity } from '@/lib/smartPlanV3/types';
+import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink, V3LessonActivity, V3LessonGraph } from '@/lib/smartPlanV3/types';
 import { getStatusLabel, getSubjectLabel, formatDuration, SaveState, SAVE_STATE_LABELS } from '@/lib/smartPlanV3/labels';
 import Step3Activities from './Step3Activities';
 import Step4Assessments from './Step4Assessments';
 import Step5TeachingPackage from './Step5TeachingPackage';
+import Step6QualityReview from './Step6QualityReview';
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
-function StepNav({ currentStep, planId }: { currentStep: number; planId: string }) {
+function StepNav({ currentStep, planId, onNavigate }: { currentStep: number; planId: string; onNavigate: (step: number) => void }) {
   const steps = ['ข้อมูลแผน', 'เป้าหมาย', 'ออกแบบการเรียนรู้', 'ประเมินผล', 'ชุดพร้อมสอน', 'ตรวจคุณภาพ', 'เอกสาร'];
   return (
     <nav className="v3-step-nav" aria-label="ขั้นตอน">
       {steps.map((label, i) => {
         const step = i + 1;
         const isActive = step === currentStep;
-        const isAvailable = step <= 5; // Steps 1 to 5 active in V3.6
+        const isAvailable = step <= 6; // Steps 1 to 6 active in V3.7
         return (
           <button
             key={step}
             className={`v3-step-item ${isActive ? 'active' : ''} ${!isAvailable ? 'disabled' : ''}`}
-            onClick={() => isAvailable && !isActive ? window.history.pushState({}, '', `?step=${step}`) : undefined}
+            onClick={() => isAvailable && !isActive ? onNavigate(step) : undefined}
             disabled={!isAvailable}
             title={!isAvailable ? 'จะเปิดในเวอร์ชันถัดไป' : undefined}
             aria-current={isActive ? 'step' : undefined}
@@ -225,6 +226,7 @@ export default function V3PlanEditorPage() {
   const [evidence, setEvidence] = useState<V3LearningEvidence[]>([]);
   const [objEvdLinks, setObjEvdLinks] = useState<V3ObjectiveEvidenceLink[]>([]);
   const [activities, setActivities] = useState<V3LessonActivity[]>([]);
+  const [graph, setGraph] = useState<V3LessonGraph | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<SaveState>('idle');
@@ -258,6 +260,26 @@ export default function V3PlanEditorPage() {
       setObjEvdLinks(g.objectiveEvidenceLinks || []);
       setActivities((g.activities || []).sort((a: V3LessonActivity, b: V3LessonActivity) => a.position - b.position));
       if (linksRes.success) setCurriculumLinks(linksRes.data || []);
+      // Store full graph for Step 6 quality engine
+      setGraph({
+        lesson: g.lesson,
+        curriculumLinks: linksRes.success ? (linksRes.data || []) : [],
+        objectives: (g.objectives || []).sort((a: V3LessonObjective, b: V3LessonObjective) => a.position - b.position),
+        evidence: (g.evidence || []).sort((a: V3LearningEvidence, b: V3LearningEvidence) => a.position - b.position),
+        objectiveEvidenceLinks: g.objectiveEvidenceLinks || [],
+        activities: (g.activities || []).sort((a: V3LessonActivity, b: V3LessonActivity) => a.position - b.position),
+        activityObjectiveLinks: g.activityObjectiveLinks || [],
+        activityEvidenceLinks: g.activityEvidenceLinks || [],
+        assessments: g.assessments || [],
+        assessmentEvidenceLinks: g.assessmentEvidenceLinks || [],
+        assessmentActivityLinks: g.assessmentActivityLinks || [],
+        assessmentTools: g.assessmentTools || [],
+        teachingAssets: g.teachingAssets || [],
+        assetObjectiveLinks: g.assetObjectiveLinks || [],
+        assetActivityLinks: g.assetActivityLinks || [],
+        assetEvidenceLinks: g.assetEvidenceLinks || [],
+        postTeaching: g.postTeaching || null,
+      });
     } catch {
       setError('ไม่สามารถโหลดข้อมูลได้');
     } finally {
@@ -420,7 +442,11 @@ export default function V3PlanEditorPage() {
         </div>
       </div>
 
-      <StepNav currentStep={currentStep} planId={planId} />
+      <StepNav
+        currentStep={currentStep}
+        planId={planId}
+        onNavigate={(step) => router.push(`/plan/v3/${planId}?step=${step}`)}
+      />
 
       <div className="v3-editor-body">
         {currentStep === 1 && (
@@ -628,6 +654,21 @@ export default function V3PlanEditorPage() {
             }}
             onNavigateToStep={(s) => router.push(`/plan/v3/${planId}?step=${s}`)}
           />
+        )}
+
+        {currentStep === 6 && graph && (
+          <Step6QualityReview
+            planId={planId}
+            graph={graph}
+            onBack={() => router.push(`/plan/v3/${planId}?step=5`)}
+            onGraphChanged={loadGraph}
+          />
+        )}
+
+        {currentStep === 6 && !graph && (
+          <div className="text-center py-16 text-slate-500">
+            <p>กำลังโหลดข้อมูล...</p>
+          </div>
         )}
       </div>
 

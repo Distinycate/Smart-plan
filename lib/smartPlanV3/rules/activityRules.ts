@@ -272,6 +272,10 @@ export function deriveLessonWorkflowStatus(
     if (currentStatus === 'BLUEPRINT_READY' || currentStatus === 'PACKAGE_READY') {
       return 'DRAFT';
     }
+    // V3.7: REVIEWED → downgrade to DRAFT if blueprint conditions fail
+    if (currentStatus === 'REVIEWED') {
+      return 'DRAFT';
+    }
     return currentStatus;
   }
 
@@ -289,6 +293,11 @@ export function deriveLessonWorkflowStatus(
   if (currentStatus === 'PACKAGE_READY' && graph.packageReadiness && !graph.packageReadiness.ready) {
     // Downgrade back to BLUEPRINT_READY
     return 'BLUEPRINT_READY';
+  }
+
+  // V3.7: REVIEWED → downgrade to PACKAGE_READY if required assets no longer ready
+  if (currentStatus === 'REVIEWED' && graph.packageReadiness && !graph.packageReadiness.ready) {
+    return 'PACKAGE_READY';
   }
 
   if (currentStatus === 'DRAFT') {

@@ -1276,4 +1276,55 @@ export class V3Repository {
       postTeaching,
     };
   }
+
+  // ─────────────────────────────────────────────────────────────
+  // Wave V3.7 — Quality Reviews
+  // ─────────────────────────────────────────────────────────────
+
+  /** Save a new review record (history is preserved; old reviews are not deleted) */
+  async createPlanReview(data: {
+    lesson_plan_id: string;
+    review_type: 'RULE' | 'AI' | 'PA_READINESS';
+    status: 'PENDING' | 'PASSED' | 'WARNING' | 'FAILED';
+    result: Record<string, any>;
+  }) {
+    const { data: review, error } = await this.supabase
+      .from('v3_plan_reviews')
+      .insert([data])
+      .select()
+      .single();
+    if (error) throw new Error(error.message);
+    return review;
+  }
+
+  /** Get all reviews for a lesson, newest first */
+  async getPlanReviews(planId: string, reviewType?: 'RULE' | 'AI' | 'PA_READINESS') {
+    let query = this.supabase
+      .from('v3_plan_reviews')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .order('created_at', { ascending: false });
+
+    if (reviewType) {
+      query = query.eq('review_type', reviewType);
+    }
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    return data || [];
+  }
+
+  /** Get the most recent review of a specific type */
+  async getLatestPlanReview(planId: string, reviewType: 'RULE' | 'AI' | 'PA_READINESS') {
+    const { data, error } = await this.supabase
+      .from('v3_plan_reviews')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .eq('review_type', reviewType)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    return data || null;
+  }
 }

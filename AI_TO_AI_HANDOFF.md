@@ -266,12 +266,47 @@ system is production-ready until those checks pass.
 - `tests/test-v3-teaching-package.js`: Tests A–O (All 15 test cases, 17/17 passed, AI CALLS: 0).
 - `tests/smoke-test-v3-teaching-package-gemini.js`: Live Gemini 2.5 Flash smoke tests (English Speaking Card, Math Problem Set, Science Experiment Sheet, Teacher Guide Timeline all PASS).
 
-### READY FOR V3.7 — QUALITY & PA READINESS ENGINE
+### WAVE V3.7 — QUALITY & PA READINESS ENGINE — COMPLETE
 
-**Next Scope (Wave V3.7)**:
-- Quality Review Engine (PA-8 indicators alignment & rubric criteria evaluation)
-- PA Readiness Report
-- Rubric scoring & compliance check
+**Deterministic Quality Gate (Layer 1)**:
+- `lib/smartPlanV3/quality/alignmentGraph.ts`: Graph traversal, entity ref building (`O1`, `E1`, `A1`, `AS1`, `T1`, `AT1`), and deterministic SHA-256 lesson hash.
+- `lib/smartPlanV3/quality/deterministicRules.ts`: 17 deterministic checks for Objectives, Evidence, Activities, Assessments, Assessment Tools, Assets, Time allocation, and Subject Profiles.
+- `lib/smartPlanV3/quality/engine.ts`: Evaluates deterministic rules instantly with 0 AI calls, computes QualityScore (0-100), category breakdowns, and export blockers.
+- `lib/smartPlanV3/quality/types.ts`: Comprehensive types for issues, severity (`ERROR`, `WARNING`, `INFO`), categories, review statuses, and graph structures.
+
+**AI Qualitative Review (Layer 2)**:
+- `lib/smartPlanV3/ai/qualityReviewPrompt.ts`: System instruction & context builder (PII-free, strict reference constraint).
+- `lib/smartPlanV3/ai/qualityReviewSchema.ts`: Output parser and anti-hallucination sanitizer (drops non-existent entity refs).
+- `lib/smartPlanV3/ai/qualityReviewService.ts`: Single on-demand AI call (`gemini-2.5-flash` via `fetchGeminiWithRetry`), with caching by lesson hash.
+- Repository: `createPlanReview`, `getPlanReviews`, `getLatestPlanReview`, and `cleanupOldReviews`.
+
+**PA Readiness Engine**:
+- `lib/smartPlanV3/pa/types.ts`: Definitions for 8 PA indicators (`PA-1` to `PA-8`), rubric criteria, and status (`READY`, `PARTIALLY_READY`, `NOT_READY`).
+- `lib/smartPlanV3/pa/paReadinessEngine.ts`: Evaluates 8 PA criteria from lesson graph deterministically.
+
+**API Endpoints**:
+- `GET /api/plan/v3/[id]/quality`: Instant Layer 1 deterministic evaluation + cached AI review.
+- `POST /api/plan/v3/[id]/quality/review`: On-demand Layer 2 qualitative AI review (cached by lesson hash).
+- `GET /api/plan/v3/[id]/pa-readiness`: PA Readiness report across 8 PA indicators.
+
+**UI (Step 6)**:
+- `Step6QualityReview.tsx`: Full interactive Quality & PA review interface:
+  - Quality score gauge, status badge (`PASSED`, `WARNING`, `FAILED`), and blocking export guard.
+  - PA-8 indicators breakdown with progress bars and alignment criteria.
+  - Issue list with severity and category filter tags, plus direct links to fix in previous steps.
+  - Single-click on-demand AI review with cached timestamp indication.
+  - Stepper Step 6 unlocked in `app/plan/v3/[id]/page.tsx` (`isAvailable = step <= 6`).
+
+**Automated Tests**:
+- `tests/test-v3-quality-engine.js`: Tests A–E (All 14 unit test cases pass, 0 external dependencies).
+
+### READY FOR V3.8 — PREVIEW, EXPORT & DOCUMENT ENGINE
+
+**Next Scope (Wave V3.8)**:
+- Printable Preview page (HTML view optimized for screen and print)
+- Microsoft Word (.docx) export generation conforming to official Thai Ministry / PA format
+- PDF export generation
+- Export blocker guard (enforcing zero blocking quality errors before export)
 
 ### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
 - Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged
