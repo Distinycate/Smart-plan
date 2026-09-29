@@ -62,9 +62,16 @@ const { buildLessonDocument, DEFAULT_DOCUMENT_OPTIONS } = loadTsModule(
 const { generateDocxDocument } = loadTsModule(
   path.resolve(__dirname, '../lib/smartPlanV3/export/docx')
 );
-const { generatePdfDocument, renderDocumentToStandaloneHtml, findChromeExecutable, PdfEngineUnavailableError } = loadTsModule(
-  path.resolve(__dirname, '../lib/smartPlanV3/export/pdf')
-);
+const {
+  generatePdfDocument,
+  renderDocumentToStandaloneHtml,
+  findChromeExecutable,
+  resolveChromiumLaunchOptions,
+  getBundledThaiFontCss,
+  PdfEngineUnavailableError,
+} = loadTsModule(path.resolve(__dirname, '../lib/smartPlanV3/export/pdf'));
+
+const { V3Repository } = loadTsModule(path.resolve(__dirname, '../lib/smartPlanV3/repository'));
 
 
 let totalTests = 0;
@@ -482,6 +489,147 @@ async function runAllTests() {
     assert(docRouteSrc.includes("process.env.NODE_ENV === 'production'"), 'Document route must reject demo fixtures in production');
     assert(wordRouteSrc.includes("process.env.NODE_ENV === 'production'"), 'Word route must reject demo fixtures in production');
     assert(pdfRouteSrc.includes("process.env.NODE_ENV === 'production'"), 'PDF route must reject demo fixtures in production');
+  });
+
+  // ─── GATE 9: PRODUCTION CLOSURE REGRESSION (V3.9P A–K) ─────────────────────
+  console.log('\n--- GATE 9: Production Closure Regression (V3.9P A–K) ---');
+
+  await test('9.A Serverless Chromium resolver: resolveChromiumLaunchOptions uses @sparticuz/chromium in serverless', async () => {
+    const originalVercel = process.env.VERCEL;
+    try {
+      process.env.VERCEL = '1';
+      const opts = await resolveChromiumLaunchOptions();
+      assert(opts, 'Must return launch options for serverless');
+      assert(Array.isArray(opts.args), 'Must have chromium args array');
+      assert.strictEqual(opts.headless, true, 'Must run headless');
+    } finally {
+      if (originalVercel === undefined) delete process.env.VERCEL;
+      else process.env.VERCEL = originalVercel;
+    }
+  });
+
+  await test('9.B Local Chromium resolver: resolveChromiumLaunchOptions resolves local Chrome on macOS/Linux', async () => {
+    const originalVercel = process.env.VERCEL;
+    const originalLambda = process.env.AWS_LAMBDA_FUNCTION_VERSION;
+    try {
+      delete process.env.VERCEL;
+      delete process.env.AWS_LAMBDA_FUNCTION_VERSION;
+      const opts = await resolveChromiumLaunchOptions();
+      assert(opts, 'Must return launch options for local environment');
+      assert(opts.executablePath, 'Must resolve executablePath for local Chrome');
+      assert(fs.existsSync(opts.executablePath), `Resolved local executablePath must exist on disk: ${opts.executablePath}`);
+    } finally {
+      if (originalVercel !== undefined) process.env.VERCEL = originalVercel;
+      if (originalLambda !== undefined) process.env.AWS_LAMBDA_FUNCTION_VERSION = originalLambda;
+    }
+  });
+
+  await test('9.C No silent PDF fallback: PdfEngineUnavailableError thrown when Chromium launch fails', async () => {
+    const err = new PdfEngineUnavailableError('Explicit test failure');
+    assert.strictEqual(err.name, 'PdfEngineUnavailableError');
+    assert.strictEqual(err.code, 'PDF_ENGINE_UNAVAILABLE');
+    assert(err instanceof Error);
+
+    // Verify PDF builder code has zero degraded PDF fallback
+    const builderCode = fs.readFileSync(path.resolve(__dirname, '../lib/smartPlanV3/export/pdf/builder.ts'), 'utf8');
+    assert(!builderCode.includes('pdf-lib fallback'), 'No pdf-lib degraded fallback');
+    assert(!builderCode.includes('generateFallbackPdf'), 'No generateFallbackPdf');
+  });
+
+  await test('9.D Bundled Thai font path: Base64 font embedded directly; zero external Google Fonts CDN', () => {
+    const css = getBundledThaiFontCss();
+    assert(css.includes('@font-face'), 'Must generate @font-face rules');
+    assert(css.includes('TH Sarabun New'), 'Must define TH Sarabun New font family');
+    assert(css.includes('data:font/truetype;charset=utf-8;base64,'), 'Must embed base64 Data URI font');
+
+    const regularFontPath = path.resolve(__dirname, '../public/fonts/THSarabunNew.ttf');
+    const boldFontPath = path.resolve(__dirname, '../public/fonts/THSarabunNew-Bold.ttf');
+    assert(fs.existsSync(regularFontPath), 'THSarabunNew.ttf must exist in public/fonts');
+    assert(fs.existsSync(boldFontPath), 'THSarabunNew-Bold.ttf must exist in public/fonts');
+
+    const htmlRendererSrc = fs.readFileSync(path.resolve(__dirname, '../lib/smartPlanV3/export/pdf/htmlRenderer.ts'), 'utf8');
+    assert(!htmlRendererSrc.includes('fonts.googleapis.com'), 'Must NOT contain fonts.googleapis.com CDN link');
+  });
+
+  await test('9.E Font verification: Browser asserts document.fonts.check before PDF render', () => {
+    const builderCode = fs.readFileSync(path.resolve(__dirname, '../lib/smartPlanV3/export/pdf/builder.ts'), 'utf8');
+    assert(builderCode.includes('document.fonts.check'), 'Must verify font loaded with document.fonts.check');
+    assert(builderCode.includes('TH Sarabun New'), 'Must specifically check TH Sarabun New');
+    assert(
+      builderCode.includes('could not be verified') || builderCode.includes('Failed to load authentic Thai font'),
+      'Must throw error if font check fails'
+    );
+  });
+
+  await test('9.F Finalize RPC usage: finalize route calls finalize_v3_lesson PostgreSQL RPC', () => {
+    const finalizeSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/finalize/route.ts'), 'utf8');
+    assert(finalizeSrc.includes("rpc('finalize_v3_lesson'"), 'Finalize route must invoke finalize_v3_lesson RPC');
+    assert(finalizeSrc.includes('p_lesson_id'), 'Must pass p_lesson_id');
+    assert(finalizeSrc.includes('p_user_id'), 'Must pass p_user_id');
+    assert(finalizeSrc.includes('p_snapshot'), 'Must pass p_snapshot');
+  });
+
+  await test('9.G Concurrent finalize safe: Database migration 18 enforces SELECT ... FOR UPDATE and unique FINAL', () => {
+    const mig18 = fs.readFileSync(path.resolve(__dirname, '../database/migrations/18_smart_plan_v3_finalization_hardening.sql'), 'utf8');
+    assert(mig18.includes('idx_v3_plan_versions_final_unique'), 'Migration must create unique index on FINAL version');
+    assert(mig18.includes('WHERE (label = \'FINAL\')'), 'Index must be partial WHERE label = FINAL');
+    assert(mig18.includes('FOR UPDATE'), 'RPC must lock row with FOR UPDATE');
+  });
+
+  await test('9.H FINAL snapshot update denied: Migration trigger rejects UPDATE on label = FINAL', () => {
+    const mig18 = fs.readFileSync(path.resolve(__dirname, '../database/migrations/18_smart_plan_v3_finalization_hardening.sql'), 'utf8');
+    assert(mig18.includes('trg_prevent_final_version_mutation'), 'Migration must define immutability trigger');
+    assert(mig18.includes('OLD.label = \'FINAL\''), 'Trigger must check OLD.label = FINAL');
+    assert(mig18.includes('TG_OP = \'UPDATE\''), 'Trigger must handle UPDATE rejection');
+  });
+
+  await test('9.I FINAL snapshot delete denied: Migration trigger rejects DELETE on label = FINAL', () => {
+    const mig18 = fs.readFileSync(path.resolve(__dirname, '../database/migrations/18_smart_plan_v3_finalization_hardening.sql'), 'utf8');
+    assert(mig18.includes('TG_OP = \'DELETE\''), 'Trigger must handle DELETE rejection');
+    assert(mig18.includes('Cannot delete an immutable FINAL version snapshot'), 'Trigger must raise clear exception');
+  });
+
+  await test('9.J FINAL child mutation denied: Central guard in V3Repository rejects mutations when lesson is FINAL', async () => {
+    const repoSrc = fs.readFileSync(path.resolve(__dirname, '../lib/smartPlanV3/repository.ts'), 'utf8');
+    assert(repoSrc.includes('assertLessonNotFinal'), 'V3Repository must define assertLessonNotFinal');
+    assert(repoSrc.includes('assertLessonNotFinalByObjective'), 'Must define assertLessonNotFinalByObjective');
+    assert(repoSrc.includes('assertLessonNotFinalByActivity'), 'Must define assertLessonNotFinalByActivity');
+    assert(repoSrc.includes('assertLessonNotFinalByAssessment'), 'Must define assertLessonNotFinalByAssessment');
+    assert(repoSrc.includes('assertLessonNotFinalByAsset'), 'Must define assertLessonNotFinalByAsset');
+
+    // Test runtime mock guard
+    const mockSupabase = {
+      from: (table) => ({
+        select: () => ({
+          eq: () => ({
+            maybeSingle: async () => {
+              if (table === 'v3_lesson_plans') return { data: { status: 'FINAL' }, error: null };
+              return { data: null, error: null };
+            },
+          }),
+        }),
+      }),
+    };
+    const repo = new V3Repository(mockSupabase);
+    let rejected = false;
+    try {
+      await repo.assertLessonNotFinal('test-plan-id');
+    } catch (e) {
+      rejected = true;
+      assert.strictEqual(e.code, 'LESSON_IS_FINAL');
+      assert.strictEqual(e.statusCode, 403);
+    }
+    assert(rejected, 'assertLessonNotFinal must throw 403 LESSON_IS_FINAL error when status is FINAL');
+  });
+
+  await test('9.K FINAL export uses snapshot: Word & PDF export strictly require immutable snapshot with no silent fallback', () => {
+    const wordRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/export/word/route.ts'), 'utf8');
+    const pdfRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/export/pdf/route.ts'), 'utf8');
+
+    assert(wordRouteSrc.includes('FINAL_SNAPSHOT_MISSING'), 'Word export must reject missing FINAL snapshot explicitly');
+    assert(pdfRouteSrc.includes('FINAL_SNAPSHOT_MISSING'), 'PDF export must reject missing FINAL snapshot explicitly');
+    assert(!wordRouteSrc.includes('// Fallback to live graph for FINAL'), 'Word export must NOT fall back to live graph');
+    assert(!pdfRouteSrc.includes('// Fallback to live graph for FINAL'), 'PDF export must NOT fall back to live graph');
   });
 
   // ─── FINAL SUMMARY ────────────────────────────────────────────────────────

@@ -28,6 +28,90 @@ export class V3Repository {
   constructor(private supabase: SupabaseClient) {}
 
   /**
+   * Central Guard: Throws 403 error if target lesson plan is in FINAL status
+   */
+  async assertLessonNotFinal(planId: string): Promise<void> {
+    if (!planId) return;
+    const { data: lesson, error } = await this.supabase
+      .from('v3_lesson_plans')
+      .select('status')
+      .eq('id', planId)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+    if (lesson && lesson.status === 'FINAL') {
+      const err: any = new Error(`Cannot modify lesson components: Plan is locked in FINAL status (planId: ${planId})`);
+      err.code = 'LESSON_IS_FINAL';
+      err.statusCode = 403;
+      throw err;
+    }
+  }
+
+  /**
+   * Helper guards by child IDs
+   */
+  async assertLessonNotFinalByObjective(objectiveId: string): Promise<void> {
+    const { data } = await this.supabase
+      .from('v3_lesson_objectives')
+      .select('lesson_plan_id')
+      .eq('id', objectiveId)
+      .maybeSingle();
+    if (data?.lesson_plan_id) await this.assertLessonNotFinal(data.lesson_plan_id);
+  }
+
+  async assertLessonNotFinalByEvidence(evidenceId: string): Promise<void> {
+    const { data } = await this.supabase
+      .from('v3_learning_evidence')
+      .select('lesson_plan_id')
+      .eq('id', evidenceId)
+      .maybeSingle();
+    if (data?.lesson_plan_id) await this.assertLessonNotFinal(data.lesson_plan_id);
+  }
+
+  async assertLessonNotFinalByActivity(activityId: string): Promise<void> {
+    const { data } = await this.supabase
+      .from('v3_lesson_activities')
+      .select('lesson_plan_id')
+      .eq('id', activityId)
+      .maybeSingle();
+    if (data?.lesson_plan_id) await this.assertLessonNotFinal(data.lesson_plan_id);
+  }
+
+  async assertLessonNotFinalByAssessment(assessmentId: string): Promise<void> {
+    const { data } = await this.supabase
+      .from('v3_assessments')
+      .select('lesson_plan_id')
+      .eq('id', assessmentId)
+      .maybeSingle();
+    if (data?.lesson_plan_id) await this.assertLessonNotFinal(data.lesson_plan_id);
+  }
+
+  async assertLessonNotFinalByTool(toolId: string): Promise<void> {
+    const { data: tool } = await this.supabase
+      .from('v3_assessment_tools')
+      .select('assessment_id')
+      .eq('id', toolId)
+      .maybeSingle();
+    if (tool?.assessment_id) {
+      const { data: asm } = await this.supabase
+        .from('v3_assessments')
+        .select('lesson_plan_id')
+        .eq('id', tool.assessment_id)
+        .maybeSingle();
+      if (asm?.lesson_plan_id) await this.assertLessonNotFinal(asm.lesson_plan_id);
+    }
+  }
+
+  async assertLessonNotFinalByAsset(assetId: string): Promise<void> {
+    const { data } = await this.supabase
+      .from('v3_teaching_assets')
+      .select('lesson_plan_id')
+      .eq('id', assetId)
+      .maybeSingle();
+    if (data?.lesson_plan_id) await this.assertLessonNotFinal(data.lesson_plan_id);
+  }
+
+  /**
    * สร้าง Lesson Plan V3
    */
   async createLesson(data: Partial<V3LessonPlan> & { user_id: string }): Promise<V3LessonPlan> {
@@ -63,6 +147,8 @@ export class V3Repository {
    * อัปเดต Lesson Plan V3
    */
   async updateLesson(planId: string, data: Partial<V3LessonPlan>, userId: string, isAdmin = false): Promise<V3LessonPlan> {
+    await this.assertLessonNotFinal(planId);
+
     let query = this.supabase
       .from('v3_lesson_plans')
       .update(data)
@@ -82,6 +168,8 @@ export class V3Repository {
    * ลบ Lesson Plan V3 (Cascades to all children)
    */
   async deleteLesson(planId: string, userId: string): Promise<void> {
+    await this.assertLessonNotFinal(planId);
+
     const { error } = await this.supabase
       .from('v3_lesson_plans')
       .delete()
@@ -135,6 +223,8 @@ export class V3Repository {
     planId: string,
     links: Omit<V3LessonCurriculumLink, 'id' | 'created_at'>[]
   ): Promise<V3LessonCurriculumLink[]> {
+    await this.assertLessonNotFinal(planId);
+
     const { error: delErr } = await this.supabase
       .from('v3_lesson_curriculum_links')
       .delete()
@@ -185,6 +275,8 @@ export class V3Repository {
    * สร้าง Objective
    */
   async createObjective(data: Omit<V3LessonObjective, 'id' | 'created_at' | 'updated_at'>): Promise<V3LessonObjective> {
+    await this.assertLessonNotFinal(data.lesson_plan_id);
+
     const { data: objective, error } = await this.supabase
       .from('v3_lesson_objectives')
       .insert([data])
@@ -199,6 +291,8 @@ export class V3Repository {
    * ลบ Objective (ลบเฉพาะ junction link อัตโนมัติ ไม่ลบ Evidence ที่แชร์กับ Objective อื่น)
    */
   async deleteObjective(objectiveId: string): Promise<void> {
+    await this.assertLessonNotFinalByObjective(objectiveId);
+
     const { error } = await this.supabase
       .from('v3_lesson_objectives')
       .delete()
@@ -211,6 +305,8 @@ export class V3Repository {
    * สร้าง Learning Evidence
    */
   async createEvidence(data: Omit<V3LearningEvidence, 'id' | 'created_at' | 'updated_at'>): Promise<V3LearningEvidence> {
+    await this.assertLessonNotFinal(data.lesson_plan_id);
+
     const { data: evidence, error } = await this.supabase
       .from('v3_learning_evidence')
       .insert([data])
@@ -225,6 +321,8 @@ export class V3Repository {
    * เชื่อมโยง Objective ↔ Evidence (Many-to-Many)
    */
   async linkObjectiveEvidence(objectiveId: string, evidenceId: string): Promise<V3ObjectiveEvidenceLink> {
+    await this.assertLessonNotFinalByObjective(objectiveId);
+
     const { data, error } = await this.supabase
       .from('v3_objective_evidence_links')
       .insert([{ objective_id: objectiveId, evidence_id: evidenceId }])
@@ -239,6 +337,8 @@ export class V3Repository {
    * ยกเลิกการเชื่อมโยง Objective ↔ Evidence
    */
   async unlinkObjectiveEvidence(objectiveId: string, evidenceId: string): Promise<void> {
+    await this.assertLessonNotFinalByObjective(objectiveId);
+
     const { error } = await this.supabase
       .from('v3_objective_evidence_links')
       .delete()
@@ -252,6 +352,8 @@ export class V3Repository {
    * สร้าง Activity
    */
   async createActivity(data: Omit<V3LessonActivity, 'id' | 'created_at' | 'updated_at'>): Promise<V3LessonActivity> {
+    await this.assertLessonNotFinal(data.lesson_plan_id);
+
     const { data: activity, error } = await this.supabase
       .from('v3_lesson_activities')
       .insert([data])
@@ -266,6 +368,8 @@ export class V3Repository {
    * เชื่อมโยง Activity ↔ Objective
    */
   async linkActivityObjective(activityId: string, objectiveId: string): Promise<V3ActivityObjectiveLink> {
+    await this.assertLessonNotFinalByActivity(activityId);
+
     const { data, error } = await this.supabase
       .from('v3_activity_objective_links')
       .insert([{ activity_id: activityId, objective_id: objectiveId }])
@@ -280,6 +384,8 @@ export class V3Repository {
    * เชื่อมโยง Activity ↔ Evidence
    */
   async linkActivityEvidence(activityId: string, evidenceId: string): Promise<V3ActivityEvidenceLink> {
+    await this.assertLessonNotFinalByActivity(activityId);
+
     const { data, error } = await this.supabase
       .from('v3_activity_evidence_links')
       .insert([{ activity_id: activityId, evidence_id: evidenceId }])
@@ -294,6 +400,8 @@ export class V3Repository {
    * ยกเลิกเชื่อมโยง Activity ↔ Objective
    */
   async unlinkActivityObjective(activityId: string, objectiveId: string): Promise<void> {
+    await this.assertLessonNotFinalByActivity(activityId);
+
     const { error } = await this.supabase
       .from('v3_activity_objective_links')
       .delete()
@@ -307,6 +415,8 @@ export class V3Repository {
    * ยกเลิกเชื่อมโยง Activity ↔ Evidence
    */
   async unlinkActivityEvidence(activityId: string, evidenceId: string): Promise<void> {
+    await this.assertLessonNotFinalByActivity(activityId);
+
     const { error } = await this.supabase
       .from('v3_activity_evidence_links')
       .delete()
@@ -320,6 +430,8 @@ export class V3Repository {
    * ตั้งค่าเชื่อมโยง Objective หลายรายการให้ Activity (Idempotent Replace)
    */
   async setActivityObjectiveLinks(activityId: string, objectiveIds: string[]): Promise<void> {
+    await this.assertLessonNotFinalByActivity(activityId);
+
     // Delete existing
     const { error: delErr } = await this.supabase
       .from('v3_activity_objective_links')
@@ -343,6 +455,8 @@ export class V3Repository {
    * ตั้งค่าเชื่อมโยง Evidence หลายรายการให้ Activity (Idempotent Replace)
    */
   async setActivityEvidenceLinks(activityId: string, evidenceIds: string[]): Promise<void> {
+    await this.assertLessonNotFinalByActivity(activityId);
+
     // Delete existing
     const { error: delErr } = await this.supabase
       .from('v3_activity_evidence_links')
@@ -432,6 +546,8 @@ export class V3Repository {
    * อัปเดต Activity (Patch)
    */
   async updateActivity(activityId: string, data: Partial<V3LessonActivity>): Promise<V3LessonActivity> {
+    await this.assertLessonNotFinalByActivity(activityId);
+
     const { data: updated, error } = await this.supabase
       .from('v3_lesson_activities')
       .update({
@@ -450,6 +566,8 @@ export class V3Repository {
    * ลบ Activity 1 รายการ
    */
   async deleteActivity(activityId: string): Promise<void> {
+    await this.assertLessonNotFinalByActivity(activityId);
+
     const { error } = await this.supabase
       .from('v3_lesson_activities')
       .delete()
@@ -462,6 +580,8 @@ export class V3Repository {
    * จัดเรียงลำดับ Activities ใหม่ (Deterministic positions: 0, 1, 2...)
    */
   async reorderActivities(planId: string, activityIds: string[]): Promise<void> {
+    await this.assertLessonNotFinal(planId);
+
     const updates = activityIds.map((id, index) =>
       this.supabase
         .from('v3_lesson_activities')
@@ -484,6 +604,8 @@ export class V3Repository {
     blueprintActivities: V3BlueprintActivityDraft[],
     mode: 'replace' | 'append' = 'replace'
   ): Promise<V3ActivityWithLinks[]> {
+    await this.assertLessonNotFinal(planId);
+
     if (mode === 'replace') {
       // ลบชุดเดิม (cascade ลบ junction table links อัตโนมัติ)
       const { error: delErr } = await this.supabase
@@ -679,6 +801,8 @@ export class V3Repository {
       };
     }
   ): Promise<V3AssessmentWithLinks> {
+    await this.assertLessonNotFinal(data.lesson_plan_id);
+
     const { data: assessment, error } = await this.supabase
       .from('v3_assessments')
       .insert([data])
@@ -746,6 +870,8 @@ export class V3Repository {
       activityIds?: string[];
     }
   ): Promise<V3AssessmentWithLinks> {
+    await this.assertLessonNotFinalByAssessment(id);
+
     const { data: assessment, error } = await this.supabase
       .from('v3_assessments')
       .update(updateData)
@@ -793,6 +919,8 @@ export class V3Repository {
    * ห้ามแตะ v3_learning_evidence, v3_lesson_objectives, v3_lesson_activities
    */
   async deleteAssessment(id: string): Promise<void> {
+    await this.assertLessonNotFinalByAssessment(id);
+
     // Delete dependent junction & tool rows first (defensive for local test mocks)
     await Promise.all([
       this.supabase.from('v3_assessment_evidence_links').delete().eq('assessment_id', id),
@@ -808,6 +936,8 @@ export class V3Repository {
    * เชื่อมโยง Assessment ↔ Evidence
    */
   async linkAssessmentEvidence(assessmentId: string, evidenceId: string): Promise<V3AssessmentEvidenceLink> {
+    await this.assertLessonNotFinalByAssessment(assessmentId);
+
     const { data, error } = await this.supabase
       .from('v3_assessment_evidence_links')
       .insert([{ assessment_id: assessmentId, evidence_id: evidenceId }])
@@ -822,6 +952,8 @@ export class V3Repository {
    * ยกเลิกการเชื่อมโยง Assessment ↔ Evidence
    */
   async unlinkAssessmentEvidence(assessmentId: string, evidenceId: string): Promise<void> {
+    await this.assertLessonNotFinalByAssessment(assessmentId);
+
     const { error } = await this.supabase
       .from('v3_assessment_evidence_links')
       .delete()
@@ -835,6 +967,8 @@ export class V3Repository {
    * เชื่อมโยง Assessment ↔ Activity
    */
   async linkAssessmentActivity(assessmentId: string, activityId: string): Promise<V3AssessmentActivityLink> {
+    await this.assertLessonNotFinalByAssessment(assessmentId);
+
     const { data, error } = await this.supabase
       .from('v3_assessment_activity_links')
       .insert([{ assessment_id: assessmentId, activity_id: activityId }])
@@ -849,6 +983,8 @@ export class V3Repository {
    * ยกเลิกการเชื่อมโยง Assessment ↔ Activity
    */
   async unlinkAssessmentActivity(assessmentId: string, activityId: string): Promise<void> {
+    await this.assertLessonNotFinalByAssessment(assessmentId);
+
     const { error } = await this.supabase
       .from('v3_assessment_activity_links')
       .delete()
@@ -862,6 +998,10 @@ export class V3Repository {
    * สร้าง Assessment Tool
    */
   async createAssessmentTool(data: Omit<V3AssessmentTool, 'id' | 'created_at' | 'updated_at'>): Promise<V3AssessmentTool> {
+    if (data.assessment_id) {
+      await this.assertLessonNotFinalByAssessment(data.assessment_id);
+    }
+
     const { data: tool, error } = await this.supabase
       .from('v3_assessment_tools')
       .insert([data])
@@ -879,6 +1019,8 @@ export class V3Repository {
     toolId: string,
     updateData: Partial<Omit<V3AssessmentTool, 'id' | 'assessment_id' | 'created_at' | 'updated_at'>>
   ): Promise<V3AssessmentTool> {
+    await this.assertLessonNotFinalByTool(toolId);
+
     const { data: tool, error } = await this.supabase
       .from('v3_assessment_tools')
       .update(updateData)
@@ -894,6 +1036,8 @@ export class V3Repository {
    * ลบ Assessment Tool
    */
   async deleteAssessmentTool(toolId: string): Promise<void> {
+    await this.assertLessonNotFinalByTool(toolId);
+
     const { error } = await this.supabase.from('v3_assessment_tools').delete().eq('id', toolId);
     if (error) throw new Error(error.message);
   }
@@ -986,6 +1130,8 @@ export class V3Repository {
       evidenceIds?: string[];
     }
   ): Promise<V3TeachingAssetWithLinks> {
+    await this.assertLessonNotFinal(data.lesson_plan_id);
+
     const { data: asset, error } = await this.supabase
       .from('v3_teaching_assets')
       .insert([data])
@@ -1045,6 +1191,8 @@ export class V3Repository {
       evidenceIds?: string[];
     }
   ): Promise<V3TeachingAssetWithLinks> {
+    await this.assertLessonNotFinalByAsset(id);
+
     const { data: asset, error } = await this.supabase
       .from('v3_teaching_assets')
       .update(updateData)
@@ -1105,6 +1253,8 @@ export class V3Repository {
    * ห้ามแตะ v3_lesson_objectives, v3_lesson_activities, v3_learning_evidence, v3_assessments
    */
   async deleteTeachingAsset(id: string): Promise<void> {
+    await this.assertLessonNotFinalByAsset(id);
+
     await Promise.all([
       this.supabase.from('v3_asset_objective_links').delete().eq('asset_id', id),
       this.supabase.from('v3_asset_activity_links').delete().eq('asset_id', id),
@@ -1119,6 +1269,8 @@ export class V3Repository {
    * Link Helpers for Teaching Assets
    */
   async linkAssetObjective(assetId: string, objectiveId: string): Promise<V3AssetObjectiveLink> {
+    await this.assertLessonNotFinalByAsset(assetId);
+
     const { data, error } = await this.supabase
       .from('v3_asset_objective_links')
       .insert([{ asset_id: assetId, objective_id: objectiveId }])
@@ -1129,6 +1281,8 @@ export class V3Repository {
   }
 
   async unlinkAssetObjective(assetId: string, objectiveId: string): Promise<void> {
+    await this.assertLessonNotFinalByAsset(assetId);
+
     const { error } = await this.supabase
       .from('v3_asset_objective_links')
       .delete()
@@ -1138,6 +1292,8 @@ export class V3Repository {
   }
 
   async linkAssetActivity(assetId: string, activityId: string): Promise<V3AssetActivityLink> {
+    await this.assertLessonNotFinalByAsset(assetId);
+
     const { data, error } = await this.supabase
       .from('v3_asset_activity_links')
       .insert([{ asset_id: assetId, activity_id: activityId }])
@@ -1148,6 +1304,8 @@ export class V3Repository {
   }
 
   async unlinkAssetActivity(assetId: string, activityId: string): Promise<void> {
+    await this.assertLessonNotFinalByAsset(assetId);
+
     const { error } = await this.supabase
       .from('v3_asset_activity_links')
       .delete()
@@ -1157,6 +1315,8 @@ export class V3Repository {
   }
 
   async linkAssetEvidence(assetId: string, evidenceId: string): Promise<V3AssetEvidenceLink> {
+    await this.assertLessonNotFinalByAsset(assetId);
+
     const { data, error } = await this.supabase
       .from('v3_asset_evidence_links')
       .insert([{ asset_id: assetId, evidence_id: evidenceId }])
@@ -1167,6 +1327,8 @@ export class V3Repository {
   }
 
   async unlinkAssetEvidence(assetId: string, evidenceId: string): Promise<void> {
+    await this.assertLessonNotFinalByAsset(assetId);
+
     const { error } = await this.supabase
       .from('v3_asset_evidence_links')
       .delete()

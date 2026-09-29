@@ -20,6 +20,11 @@ import { buildLessonDocument } from '@/lib/smartPlanV3/document/builder';
 import { DEFAULT_DOCUMENT_OPTIONS, type DocumentOptions, type V3LessonDocument } from '@/lib/smartPlanV3/document/types';
 import { generatePdfDocument, PdfEngineUnavailableError, type PdfPackageType } from '@/lib/smartPlanV3/export/pdf';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+
 
 export async function GET(
   request: NextRequest,
@@ -120,7 +125,13 @@ export async function GET(
       } else if (finalVersion?.snapshot?.lessonGraph) {
         doc = buildLessonDocument(finalVersion.snapshot.lessonGraph, options);
       } else {
-        doc = buildLessonDocument(graph, options);
+        return NextResponse.json(
+          {
+            error: 'ไม่พบ Immutable FINAL Snapshot สำหรับแผนการสอนที่ล็อคเป็น FINAL แล้ว (ไม่อนุญาตให้ fallback ไปยัง live graph)',
+            code: 'FINAL_SNAPSHOT_MISSING',
+          },
+          { status: 500 }
+        );
       }
     } else {
       doc = buildLessonDocument(graph, options);

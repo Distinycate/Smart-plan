@@ -12,6 +12,8 @@
  * Zero AI calls.
  */
 
+import * as fs from 'fs';
+import * as path from 'path';
 import type {
   V3LessonDocument,
   DocumentSection,
@@ -28,6 +30,60 @@ import type {
 import { DOCUMENT_A4_CSS } from '@/lib/smartPlanV3/document';
 
 export type PdfPackageType = 'teacher' | 'student';
+
+let cachedFontRegularBase64: string | null = null;
+let cachedFontBoldBase64: string | null = null;
+
+export function getBundledThaiFontCss(): string {
+  if (!cachedFontRegularBase64) {
+    const regularCandidates = [
+      path.resolve(process.cwd(), 'public/fonts/THSarabunNew.ttf'),
+      path.resolve(__dirname, '../../../../public/fonts/THSarabunNew.ttf'),
+    ];
+    for (const p of regularCandidates) {
+      if (fs.existsSync(p)) {
+        cachedFontRegularBase64 = fs.readFileSync(p).toString('base64');
+        break;
+      }
+    }
+  }
+  if (!cachedFontBoldBase64) {
+    const boldCandidates = [
+      path.resolve(process.cwd(), 'public/fonts/THSarabunNew-Bold.ttf'),
+      path.resolve(__dirname, '../../../../public/fonts/THSarabunNew-Bold.ttf'),
+    ];
+    for (const p of boldCandidates) {
+      if (fs.existsSync(p)) {
+        cachedFontBoldBase64 = fs.readFileSync(p).toString('base64');
+        break;
+      }
+    }
+  }
+
+  let fontCss = '';
+  if (cachedFontRegularBase64) {
+    fontCss += `
+      @font-face {
+        font-family: 'TH Sarabun New';
+        src: url('data:font/truetype;charset=utf-8;base64,${cachedFontRegularBase64}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+    `;
+  }
+  if (cachedFontBoldBase64) {
+    fontCss += `
+      @font-face {
+        font-family: 'TH Sarabun New';
+        src: url('data:font/truetype;charset=utf-8;base64,${cachedFontBoldBase64}') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+      }
+    `;
+  }
+  return fontCss;
+}
+
 
 function escapeHtml(text: any): string {
   if (text === undefined || text === null) return '';
@@ -557,15 +613,13 @@ export function renderDocumentToStandaloneHtml(
         <meta charset="utf-8">
         <title>${escapeHtml(meta.topic)} - ${isTeacher ? 'แผนการจัดการเรียนรู้' : 'ชุดใบงานผู้เรียน'}</title>
         <meta name="x-document-source-hash" content="${escapeHtml(doc.documentSourceHash)}">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
         <style>
+          ${getBundledThaiFontCss()}
           ${DOCUMENT_A4_CSS}
           body {
-            font-family: 'Sarabun', 'TH Sarabun New', Tahoma, sans-serif;
-            font-size: 14pt;
-            line-height: 1.5;
+            font-family: 'TH Sarabun New', 'Sarabun', Tahoma, sans-serif;
+            font-size: 16pt;
+            line-height: 1.4;
             color: #0f172a;
             background: #ffffff;
             margin: 0;

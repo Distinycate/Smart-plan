@@ -65,6 +65,72 @@ export class PdfEngineUnavailableError extends Error {
 }
 
 /**
+ * Dual Chromium Resolver:
+ * - Production on Vercel/Lambda: Uses @sparticuz/chromium
+ * - Local / Container: Uses local Chrome binary or CHROMIUM_PATH environment variable
+ */
+export async function resolveChromiumLaunchOptions(): Promise<{
+  executablePath: string;
+  args: string[];
+  headless: any;
+}> {
+  // 1. If running on Vercel / AWS Lambda / Serverless Linux environment:
+  const isServerless = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME || !!process.env.LAMBDA_TASK_ROOT;
+
+  if (isServerless) {
+    try {
+      const chromium = (await import('@sparticuz/chromium')).default;
+      const executablePath = await chromium.executablePath();
+      if (executablePath) {
+        return {
+          executablePath,
+          args: chromium.args,
+          headless: true,
+        };
+      }
+    } catch (err: any) {
+      console.warn('[SmartPlanV3] @sparticuz/chromium serverless resolution notice:', err.message);
+    }
+  }
+
+  // 2. Local development & Container overrides:
+  const localExecutable = findChromeExecutable();
+  if (localExecutable) {
+    return {
+      executablePath: localExecutable,
+      args: [
+        '--headless=new',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--font-render-hinting=none',
+      ],
+      headless: true,
+    };
+  }
+
+  // 3. Fallback check for @sparticuz/chromium on generic Linux server
+  if (process.platform === 'linux') {
+    try {
+      const chromium = (await import('@sparticuz/chromium')).default;
+      const executablePath = await chromium.executablePath();
+      if (executablePath) {
+        return {
+          executablePath,
+          args: chromium.args,
+          headless: true,
+        };
+      }
+    } catch (_) {}
+  }
+
+  throw new PdfEngineUnavailableError(
+    'Chromium binary not found on host. On Vercel, ensure @sparticuz/chromium is available. Locally, set CHROMIUM_PATH or install Google Chrome.'
+  );
+}
+
+/**
  * Main PDF Generation Entrypoint
  *
  * Produces canonical A4 PDF using Headless Chrome with CDP Page.printToPDF.
@@ -75,28 +141,14 @@ export async function generatePdfDocument(
   packageType: PdfPackageType = 'teacher'
 ): Promise<Buffer> {
   const isTeacher = packageType === 'teacher';
-  const chromePath = findChromeExecutable();
-
-  // Explicit failure policy: NEVER return a degraded/incomplete PDF silently
-  if (!chromePath) {
-    throw new PdfEngineUnavailableError(
-      'Chromium binary not found on host. Cannot generate canonical PDF. Configure CHROMIUM_PATH or install Chromium.'
-    );
-  }
+  const launchOptions = await resolveChromiumLaunchOptions();
 
   let browser: any = null;
   try {
     browser = await puppeteer.launch({
-      executablePath: chromePath,
-      headless: true,
-      args: [
-        '--headless=new',
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--font-render-hinting=none',
-      ],
+      executablePath: launchOptions.executablePath,
+      headless: launchOptions.headless,
+      args: launchOptions.args,
     });
 
     const page = await browser.newPage();
@@ -107,12 +159,20 @@ export async function generatePdfDocument(
       timeout: 30000,
     });
 
-    // Wait for web fonts (Sarabun / Thai typography) to finish rendering
-    await page.evaluate(async () => {
-      if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+    // Wait for web fonts (TH Sarabun New) to finish rendering and verify
+    const fontReady = await page.evaluate(async () => {
+      if (typeof document !== 'undefined' && document.fonts) {
         await document.fonts.ready;
+        return document.fonts.check('16px "TH Sarabun New"') || document.fonts.check('16px Sarabun');
       }
+      return true;
     });
+
+    if (!fontReady) {
+      throw new PdfEngineUnavailableError(
+        'Required Thai font "TH Sarabun New" could not be verified in browser rendering context.'
+      );
+    }
 
     const headerTemplate = `
       <div style="font-family: 'Sarabun', 'TH Sarabun New', sans-serif; font-size: 8pt; width: 100%; display: flex; justify-content: space-between; padding: 0 15mm 0 20mm; color: #94a3b8; border-bottom: 1px solid #e2e8f0; padding-bottom: 3px;">

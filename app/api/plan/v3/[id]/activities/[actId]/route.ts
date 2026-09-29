@@ -31,6 +31,9 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     const body = await req.json().catch(() => null);
     if (!body || typeof body !== 'object') {
@@ -119,6 +122,9 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     await repo.deleteActivity(actId);
 
@@ -141,6 +147,9 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
     }, { status: 200 });
 
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     console.error('[Delete Activity Route] Error:', err);
     return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการลบกิจกรรม' }, { status: 500 });
   }

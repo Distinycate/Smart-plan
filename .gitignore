@@ -46,3 +46,8 @@ debug_*.mjs
 # TypeScript incremental build cache
 tsconfig.tsbuildinfo
 *.tsbuildinfo
+
+# Verification & scratch artifacts
+scratch/
+*.pdf
+*.docx

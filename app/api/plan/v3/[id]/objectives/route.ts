@@ -27,6 +27,9 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     const body = await req.json().catch(() => null);
     const validation = validateCreateObjectiveInput({ ...body, lesson_plan_id: planId });
@@ -38,6 +41,9 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     const objective = await repo.createObjective(validation.data);
     return NextResponse.json({ success: true, data: objective }, { status: 201 });
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการสร้างจุดประสงค์การเรียนรู้' }, { status: 500 });
   }
 }
@@ -65,10 +71,16 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     await repo.deleteObjective(objectiveId);
     return NextResponse.json({ success: true, message: 'ลบจุดประสงค์การเรียนรู้สำเร็จ' });
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการลบจุดประสงค์การเรียนรู้' }, { status: 500 });
   }
 }

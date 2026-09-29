@@ -89,7 +89,32 @@ export async function POST(
       );
     }
 
-    // 3. Idempotency Check: If already FINAL, return existing snapshot to prevent duplicate versions
+    // 3. Assemble Canonical Document
+    const doc = buildLessonDocument(graph, DEFAULT_DOCUMENT_OPTIONS);
+    const finalizedTimestamp = new Date().toISOString();
+    const snapshotPayload = {
+      lessonGraph: graph,
+      document: doc,
+      documentSourceHash: doc.documentSourceHash,
+      finalizedAt: finalizedTimestamp,
+    };
+
+    // 4. Primary: PostgreSQL Transaction RPC (Atomic single transaction with FOR UPDATE row lock)
+    try {
+      const { data: rpcData, error: rpcError } = await supabase.rpc('finalize_v3_lesson', {
+        p_lesson_id: planId,
+        p_user_id: user.id,
+        p_snapshot: snapshotPayload,
+      });
+
+      if (!rpcError && rpcData && typeof rpcData === 'object') {
+        return NextResponse.json(rpcData);
+      }
+    } catch (rpcErr) {
+      console.warn('[SmartPlanV3] finalize_v3_lesson RPC notice:', rpcErr);
+    }
+
+    // 5. Application-level Transactional Guard: Check existing FINAL snapshot (Idempotency)
     if (graph.lesson.status === 'FINAL') {
       const { data: existingFinalVersion } = await supabase
         .from('v3_plan_versions')
@@ -113,9 +138,6 @@ export async function POST(
       }
     }
 
-    // 4. Assemble Canonical Document
-    const doc = buildLessonDocument(graph, DEFAULT_DOCUMENT_OPTIONS);
-
     // 5. Query highest existing version_number for this plan
     const { data: latestVersionData } = await supabase
       .from('v3_plan_versions')
@@ -126,7 +148,6 @@ export async function POST(
       .maybeSingle();
 
     const nextVersion = (latestVersionData?.version_number || 0) + 1;
-    const finalizedTimestamp = new Date().toISOString();
 
     // 6. Insert immutable snapshot into v3_plan_versions
     const { data: insertedVersion, error: versionInsertError } = await supabase

@@ -28,6 +28,9 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     const body = await req.json().catch(() => ({}));
     const allowed: Record<string, any> = {};
@@ -59,6 +62,9 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
 
     return NextResponse.json({ success: true, data: updated });
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาด' }, { status: 500 });
   }
 }
@@ -86,10 +92,16 @@ export async function DELETE(req: NextRequest, { params }: Ctx) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     await repo.deleteObjective(objId);
     return NextResponse.json({ success: true, message: 'ลบจุดประสงค์สำเร็จ' });
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการลบ' }, { status: 500 });
   }
 }

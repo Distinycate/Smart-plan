@@ -58,6 +58,9 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     const existingAsm = await repo.getAssessmentById(asmId);
     if (!existingAsm || existingAsm.lesson_plan_id !== planId) {
@@ -98,6 +101,9 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
 
     return NextResponse.json({ success: true, data: updated });
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     console.error('Error updating assessment:', err);
     return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการอัปเดตการวัดและประเมินผล' }, { status: 500 });
   }
@@ -122,6 +128,9 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     const existingAsm = await repo.getAssessmentById(asmId);
     if (!existingAsm || existingAsm.lesson_plan_id !== planId) {
@@ -132,6 +141,9 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
 
     return NextResponse.json({ success: true, message: 'ลบรายการประเมินเรียบร้อยแล้ว' });
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     console.error('Error deleting assessment:', err);
     return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการลบการวัดและประเมินผล' }, { status: 500 });
   }

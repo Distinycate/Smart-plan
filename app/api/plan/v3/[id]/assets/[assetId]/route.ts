@@ -65,6 +65,9 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     const body = await req.json().catch(() => null);
     if (!body || typeof body !== 'object') {
@@ -106,7 +109,7 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
 
     // Recheck workflow status transition
     const updatedGraph = await repo.getLessonGraph(planId, user.id);
-    let newStatus = lesson.status;
+    let newStatus: string = lesson.status;
     if (updatedGraph) {
       const readiness = deriveTeachingPackageReadiness(updatedGraph);
       const targetStatus = deriveLessonWorkflowStatus(lesson, {
@@ -123,6 +126,9 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
 
     return NextResponse.json({ success: true, data: updated, newStatus });
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     console.error('Error updating teaching asset:', err);
     return NextResponse.json(
       { success: false, error: 'เกิดข้อผิดพลาดในการอัปเดตสื่อการสอน' },
@@ -151,12 +157,15 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน' }, { status: 404 });
     }
+    if (lesson.status === 'FINAL') {
+      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
 
     await repo.deleteTeachingAsset(assetId);
 
     // Recheck workflow status transition (downgrades if required asset was deleted)
     const updatedGraph = await repo.getLessonGraph(planId, user.id);
-    let newStatus = lesson.status;
+    let newStatus: string = lesson.status;
     if (updatedGraph) {
       const readiness = deriveTeachingPackageReadiness(updatedGraph);
       const targetStatus = deriveLessonWorkflowStatus(lesson, {
@@ -173,6 +182,9 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
 
     return NextResponse.json({ success: true, newStatus });
   } catch (err: any) {
+    if (err.statusCode === 403 || err.code === 'LESSON_IS_FINAL') {
+      return NextResponse.json({ success: false, error: err.message, code: 'LESSON_IS_FINAL' }, { status: 403 });
+    }
     console.error('Error deleting teaching asset:', err);
     return NextResponse.json(
       { success: false, error: 'เกิดข้อผิดพลาดในการลบสื่อการสอน' },

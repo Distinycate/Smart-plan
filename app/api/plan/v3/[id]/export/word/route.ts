@@ -119,7 +119,13 @@ export async function GET(
       } else if (finalVersion?.snapshot?.lessonGraph) {
         doc = buildLessonDocument(finalVersion.snapshot.lessonGraph, options);
       } else {
-        doc = buildLessonDocument(graph, options);
+        return NextResponse.json(
+          {
+            error: 'ไม่พบ Immutable FINAL Snapshot สำหรับแผนการสอนที่ล็อคเป็น FINAL แล้ว (ไม่อนุญาตให้ fallback ไปยัง live graph)',
+            code: 'FINAL_SNAPSHOT_MISSING',
+          },
+          { status: 500 }
+        );
       }
     } else {
       doc = buildLessonDocument(graph, options);
