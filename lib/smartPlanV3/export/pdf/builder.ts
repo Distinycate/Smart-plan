@@ -80,7 +80,27 @@ export async function resolveChromiumLaunchOptions(): Promise<{
   if (isServerless) {
     try {
       const chromium = (await import('@sparticuz/chromium')).default;
-      const executablePath = await chromium.executablePath();
+      const path = await import('path');
+      const fsModule = await import('fs');
+
+      // Candidate paths where @sparticuz/chromium/bin might reside in Lambda / Vercel
+      const candidateBinPaths = [
+        path.join(process.cwd(), 'node_modules/@sparticuz/chromium/bin'),
+        path.join(process.cwd(), '../node_modules/@sparticuz/chromium/bin'),
+        path.join(process.cwd(), '.next/server/node_modules/@sparticuz/chromium/bin'),
+        path.join(process.cwd(), '.next/standalone/node_modules/@sparticuz/chromium/bin'),
+        '/var/task/node_modules/@sparticuz/chromium/bin',
+      ];
+
+      let binPath: string | undefined = undefined;
+      for (const p of candidateBinPaths) {
+        if (fsModule.existsSync(p)) {
+          binPath = p;
+          break;
+        }
+      }
+
+      const executablePath = await chromium.executablePath(binPath);
       if (executablePath) {
         return {
           executablePath,
