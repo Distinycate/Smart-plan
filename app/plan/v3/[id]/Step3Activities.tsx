@@ -864,7 +864,7 @@ export default function Step3Activities({
           className="v3-btn v3-btn-primary"
           disabled={!ruleSummary.allPassed}
           title={!ruleSummary.allPassed ? 'กรุณาจัดการกิจกรรมให้ครบถ้วนก่อนไปต่อ' : 'ไปต่อขั้นประเมินผล'}
-          onClick={() => alert('ขั้นที่ 4 (ประเมินผล) จะเปิดใน Wave V3.5')}
+          onClick={() => onNavigateToStep(4)}
         >
           ไปขั้นที่ 4 — ประเมินผล →
         </button>

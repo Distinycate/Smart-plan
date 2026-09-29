@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink } from '@/lib/smartPlanV3/types';
 import { getStatusLabel, getSubjectLabel, formatDuration, SaveState, SAVE_STATE_LABELS } from '@/lib/smartPlanV3/labels';
 import Step3Activities from './Step3Activities';
+import Step4Assessments from './Step4Assessments';
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
@@ -16,7 +17,7 @@ function StepNav({ currentStep, planId }: { currentStep: number; planId: string 
       {steps.map((label, i) => {
         const step = i + 1;
         const isActive = step === currentStep;
-        const isAvailable = step <= 3; // Steps 1, 2, 3 active in V3.4
+        const isAvailable = step <= 4; // Steps 1, 2, 3, 4 active in V3.5
         return (
           <button
             key={step}
@@ -599,6 +600,16 @@ export default function V3PlanEditorPage() {
               setLesson(prev => prev ? { ...prev, status: newStatus } : null);
             }}
             onNavigateToStep={(s) => router.push(`/plan/v3/${planId}?step=${s}`)}
+          />
+        )}
+
+        {currentStep === 4 && (
+          <Step4Assessments
+            planId={planId}
+            lesson={lesson}
+            objectives={objectives}
+            evidence={evidence}
+            objEvdLinks={objEvdLinks}
           />
         )}
       </div>

@@ -10,7 +10,9 @@ import {
   V3ActivityEvidenceLink,
   V3Assessment,
   V3AssessmentEvidenceLink,
+  V3AssessmentActivityLink,
   V3AssessmentTool,
+  V3AssessmentWithLinks,
   V3TeachingAsset,
   V3PostTeachingRecord,
   V3LessonGraph,
@@ -573,10 +575,106 @@ export class V3Repository {
   }
 
 
+  // ─────────────────────────────────────────────────────────
+  // Wave V3.5 — Assessment Engine Repository Methods
+  // ─────────────────────────────────────────────────────────
+
   /**
-   * สร้าง Assessment
+   * ดึงรายการ Assessment ทั้งหมดของ Lesson พร้อม linked evidence IDs, linked activity IDs, and attached tool
    */
-  async createAssessment(data: Omit<V3Assessment, 'id' | 'created_at' | 'updated_at'>): Promise<V3Assessment> {
+  async getAssessments(planId: string): Promise<V3AssessmentWithLinks[]> {
+    const { data: assessments, error } = await this.supabase
+      .from('v3_assessments')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .order('position', { ascending: true });
+
+    if (error) throw new Error(error.message);
+    if (!assessments || assessments.length === 0) return [];
+
+    const assessmentIds = assessments.map((a) => a.id);
+
+    // Parallel fetch evidence links, activity links, and tools
+    const [evdLinksRes, actLinksRes, toolsRes] = await Promise.all([
+      this.supabase
+        .from('v3_assessment_evidence_links')
+        .select('*')
+        .in('assessment_id', assessmentIds),
+      this.supabase
+        .from('v3_assessment_activity_links')
+        .select('*')
+        .in('assessment_id', assessmentIds),
+      this.supabase
+        .from('v3_assessment_tools')
+        .select('*')
+        .in('assessment_id', assessmentIds),
+    ]);
+
+    const evdLinks = (evdLinksRes.data || []) as V3AssessmentEvidenceLink[];
+    const actLinks = (actLinksRes.data || []) as V3AssessmentActivityLink[];
+    const tools = (toolsRes.data || []) as V3AssessmentTool[];
+
+    return assessments.map((asm) => {
+      const linkedEvidenceIds = evdLinks
+        .filter((l) => l.assessment_id === asm.id)
+        .map((l) => l.evidence_id);
+      const linkedActivityIds = actLinks
+        .filter((l) => l.assessment_id === asm.id)
+        .map((l) => l.activity_id);
+      const tool = tools.find((t) => t.assessment_id === asm.id) || null;
+
+      return {
+        ...asm,
+        linkedEvidenceIds,
+        linkedActivityIds,
+        tool,
+      };
+    });
+  }
+
+  /**
+   * ดึง Assessment รายการเดียว พร้อม relations
+   */
+  async getAssessmentById(id: string): Promise<V3AssessmentWithLinks | null> {
+    const { data: asm, error } = await this.supabase
+      .from('v3_assessments')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+    if (!asm) return null;
+
+    const [evdLinksRes, actLinksRes, toolRes] = await Promise.all([
+      this.supabase.from('v3_assessment_evidence_links').select('*').eq('assessment_id', id),
+      this.supabase.from('v3_assessment_activity_links').select('*').eq('assessment_id', id),
+      this.supabase.from('v3_assessment_tools').select('*').eq('assessment_id', id).maybeSingle(),
+    ]);
+
+    return {
+      ...asm,
+      linkedEvidenceIds: ((evdLinksRes.data || []) as V3AssessmentEvidenceLink[]).map((l) => l.evidence_id),
+      linkedActivityIds: ((actLinksRes.data || []) as V3AssessmentActivityLink[]).map((l) => l.activity_id),
+      tool: (toolRes.data || null) as V3AssessmentTool | null,
+    };
+  }
+
+  /**
+   * สร้าง Assessment พร้อม optional evidence/activity links และ optional Tool
+   */
+  async createAssessment(
+    data: Omit<V3Assessment, 'id' | 'created_at' | 'updated_at'>,
+    options?: {
+      evidenceIds?: string[];
+      activityIds?: string[];
+      tool?: {
+        tool_type: string;
+        title: string;
+        content: Record<string, any>;
+        source?: 'MANUAL' | 'AI';
+      };
+    }
+  ): Promise<V3AssessmentWithLinks> {
     const { data: assessment, error } = await this.supabase
       .from('v3_assessments')
       .insert([data])
@@ -584,7 +682,122 @@ export class V3Repository {
       .single();
 
     if (error) throw new Error(error.message);
-    return assessment as V3Assessment;
+    const createdAsm = assessment as V3Assessment;
+
+    // Link evidence if provided
+    if (options?.evidenceIds && options.evidenceIds.length > 0) {
+      const rows = options.evidenceIds.map((evdId) => ({
+        assessment_id: createdAsm.id,
+        evidence_id: evdId,
+      }));
+      const { error: evdErr } = await this.supabase.from('v3_assessment_evidence_links').insert(rows);
+      if (evdErr) console.warn('Warning linking assessment evidence:', evdErr.message);
+    }
+
+    // Link activity if provided
+    if (options?.activityIds && options.activityIds.length > 0) {
+      const rows = options.activityIds.map((actId) => ({
+        assessment_id: createdAsm.id,
+        activity_id: actId,
+      }));
+      const { error: actErr } = await this.supabase.from('v3_assessment_activity_links').insert(rows);
+      if (actErr) console.warn('Warning linking assessment activity:', actErr.message);
+    }
+
+    // Create tool if provided
+    let createdTool: V3AssessmentTool | null = null;
+    if (options?.tool) {
+      const toolRow = {
+        assessment_id: createdAsm.id,
+        tool_type: options.tool.tool_type,
+        title: options.tool.title,
+        content: options.tool.content || {},
+        source: options.tool.source || 'MANUAL',
+      };
+      const { data: tData, error: tErr } = await this.supabase
+        .from('v3_assessment_tools')
+        .insert([toolRow])
+        .select()
+        .single();
+      if (tErr) console.warn('Warning creating assessment tool:', tErr.message);
+      else createdTool = tData as V3AssessmentTool;
+    }
+
+    return {
+      ...createdAsm,
+      linkedEvidenceIds: options?.evidenceIds || [],
+      linkedActivityIds: options?.activityIds || [],
+      tool: createdTool,
+    };
+  }
+
+  /**
+   * อัปเดต Assessment และ optionally replace evidence/activity links
+   */
+  async updateAssessment(
+    id: string,
+    updateData: Partial<Omit<V3Assessment, 'id' | 'lesson_plan_id' | 'created_at' | 'updated_at'>>,
+    options?: {
+      evidenceIds?: string[];
+      activityIds?: string[];
+    }
+  ): Promise<V3AssessmentWithLinks> {
+    const { data: assessment, error } = await this.supabase
+      .from('v3_assessments')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    const updatedAsm = assessment as V3Assessment;
+
+    // Replace evidence links if explicitly provided
+    if (options?.evidenceIds !== undefined) {
+      await this.supabase.from('v3_assessment_evidence_links').delete().eq('assessment_id', id);
+      if (options.evidenceIds.length > 0) {
+        const rows = options.evidenceIds.map((evdId) => ({
+          assessment_id: id,
+          evidence_id: evdId,
+        }));
+        await this.supabase.from('v3_assessment_evidence_links').insert(rows);
+      }
+    }
+
+    // Replace activity links if explicitly provided
+    if (options?.activityIds !== undefined) {
+      await this.supabase.from('v3_assessment_activity_links').delete().eq('assessment_id', id);
+      if (options.activityIds.length > 0) {
+        const rows = options.activityIds.map((actId) => ({
+          assessment_id: id,
+          activity_id: actId,
+        }));
+        await this.supabase.from('v3_assessment_activity_links').insert(rows);
+      }
+    }
+
+    return (await this.getAssessmentById(id)) || {
+      ...updatedAsm,
+      linkedEvidenceIds: options?.evidenceIds || [],
+      linkedActivityIds: options?.activityIds || [],
+    };
+  }
+
+  /**
+   * ลบ Assessment
+   * ลบเฉพาะ links และ tool ที่เป็นของ assessment นี้
+   * ห้ามแตะ v3_learning_evidence, v3_lesson_objectives, v3_lesson_activities
+   */
+  async deleteAssessment(id: string): Promise<void> {
+    // Delete dependent junction & tool rows first (defensive for local test mocks)
+    await Promise.all([
+      this.supabase.from('v3_assessment_evidence_links').delete().eq('assessment_id', id),
+      this.supabase.from('v3_assessment_activity_links').delete().eq('assessment_id', id),
+      this.supabase.from('v3_assessment_tools').delete().eq('assessment_id', id),
+    ]);
+
+    const { error } = await this.supabase.from('v3_assessments').delete().eq('id', id);
+    if (error) throw new Error(error.message);
   }
 
   /**
@@ -602,6 +815,46 @@ export class V3Repository {
   }
 
   /**
+   * ยกเลิกการเชื่อมโยง Assessment ↔ Evidence
+   */
+  async unlinkAssessmentEvidence(assessmentId: string, evidenceId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('v3_assessment_evidence_links')
+      .delete()
+      .eq('assessment_id', assessmentId)
+      .eq('evidence_id', evidenceId);
+
+    if (error) throw new Error(error.message);
+  }
+
+  /**
+   * เชื่อมโยง Assessment ↔ Activity
+   */
+  async linkAssessmentActivity(assessmentId: string, activityId: string): Promise<V3AssessmentActivityLink> {
+    const { data, error } = await this.supabase
+      .from('v3_assessment_activity_links')
+      .insert([{ assessment_id: assessmentId, activity_id: activityId }])
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return data as V3AssessmentActivityLink;
+  }
+
+  /**
+   * ยกเลิกการเชื่อมโยง Assessment ↔ Activity
+   */
+  async unlinkAssessmentActivity(assessmentId: string, activityId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('v3_assessment_activity_links')
+      .delete()
+      .eq('assessment_id', assessmentId)
+      .eq('activity_id', activityId);
+
+    if (error) throw new Error(error.message);
+  }
+
+  /**
    * สร้าง Assessment Tool
    */
   async createAssessmentTool(data: Omit<V3AssessmentTool, 'id' | 'created_at' | 'updated_at'>): Promise<V3AssessmentTool> {
@@ -613,6 +866,32 @@ export class V3Repository {
 
     if (error) throw new Error(error.message);
     return tool as V3AssessmentTool;
+  }
+
+  /**
+   * อัปเดต Assessment Tool
+   */
+  async updateAssessmentTool(
+    toolId: string,
+    updateData: Partial<Omit<V3AssessmentTool, 'id' | 'assessment_id' | 'created_at' | 'updated_at'>>
+  ): Promise<V3AssessmentTool> {
+    const { data: tool, error } = await this.supabase
+      .from('v3_assessment_tools')
+      .update(updateData)
+      .eq('id', toolId)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return tool as V3AssessmentTool;
+  }
+
+  /**
+   * ลบ Assessment Tool
+   */
+  async deleteAssessmentTool(toolId: string): Promise<void> {
+    const { error } = await this.supabase.from('v3_assessment_tools').delete().eq('id', toolId);
+    if (error) throw new Error(error.message);
   }
 
   /**
@@ -671,6 +950,7 @@ export class V3Repository {
       actObjLinksRes,
       actEvdLinksRes,
       asmEvdLinksRes,
+      asmActLinksRes,
       asmToolsRes
     ] = await Promise.all([
       objectiveIds.length > 0 
@@ -684,6 +964,9 @@ export class V3Repository {
         : { data: [] },
       assessmentIds.length > 0
         ? this.supabase.from('v3_assessment_evidence_links').select('*').in('assessment_id', assessmentIds)
+        : { data: [] },
+      assessmentIds.length > 0
+        ? this.supabase.from('v3_assessment_activity_links').select('*').in('assessment_id', assessmentIds)
         : { data: [] },
       assessmentIds.length > 0
         ? this.supabase.from('v3_assessment_tools').select('*').in('assessment_id', assessmentIds)
@@ -704,6 +987,7 @@ export class V3Repository {
       activityEvidenceLinks: (actEvdLinksRes.data || []) as V3ActivityEvidenceLink[],
       assessments,
       assessmentEvidenceLinks: (asmEvdLinksRes.data || []) as V3AssessmentEvidenceLink[],
+      assessmentActivityLinks: (asmActLinksRes.data || []) as V3AssessmentActivityLink[],
       assessmentTools: (asmToolsRes.data || []) as V3AssessmentTool[],
       teachingAssets,
       postTeaching,

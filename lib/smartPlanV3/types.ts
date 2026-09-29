@@ -204,9 +204,15 @@ export interface V3PostTeachingRecord {
   updated_at: string;
 }
 
+export interface V3AssessmentActivityLink {
+  assessment_id: string;
+  activity_id: string;
+  created_at: string;
+}
+
 /**
  * Composite Aggregate Root for Lesson V3
- * Loaded via getV3LessonGraph(planId)
+ * Loaded via getLessonGraph(planId)
  */
 export interface V3LessonGraph {
   lesson: V3LessonPlan;
@@ -219,6 +225,7 @@ export interface V3LessonGraph {
   activityEvidenceLinks: V3ActivityEvidenceLink[];
   assessments: V3Assessment[];
   assessmentEvidenceLinks: V3AssessmentEvidenceLink[];
+  assessmentActivityLinks: V3AssessmentActivityLink[];
   assessmentTools: V3AssessmentTool[];
   teachingAssets: V3TeachingAsset[];
   postTeaching: V3PostTeachingRecord | null;
@@ -360,4 +367,204 @@ export interface V3TimeNormalizationSuggestion {
   suggestedMinutes: number;
   diff: number;
   reason: string;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Wave V3.5 — Assessment Engine Types
+// ─────────────────────────────────────────────────────────────────
+
+export type V3AssessmentType =
+  | 'QUIZ'
+  | 'OBSERVATION'
+  | 'PERFORMANCE'
+  | 'PRODUCT'
+  | 'WRITTEN_RESPONSE'
+  | 'DISCUSSION'
+  | 'EXPERIMENT'
+  | 'EXIT_TICKET'
+  | 'OTHER';
+
+export type V3AssessmentToolType =
+  | 'ANSWER_KEY'
+  | 'SCORING_GUIDE'
+  | 'CHECKLIST'
+  | 'RATING_SCALE'
+  | 'RUBRIC'
+  | 'PERFORMANCE_RUBRIC'
+  | 'PRODUCT_RUBRIC'
+  | 'OBSERVATION_FORM'
+  | 'QUESTION_SET'
+  | 'EXIT_TICKET'
+  | 'OTHER';
+
+export type V3CriteriaType =
+  | 'SCORE_THRESHOLD'
+  | 'PERCENTAGE'
+  | 'ITEMS_PASSED'
+  | 'RUBRIC_LEVEL'
+  | 'PASS_FAIL'
+  | 'CUSTOM';
+
+export interface V3AssessmentWithLinks extends V3Assessment {
+  linkedEvidenceIds: string[];
+  linkedActivityIds: string[];
+  tool?: V3AssessmentTool | null;
+}
+
+// Tool Content Schemas
+
+export interface V3AnswerKeyItem {
+  number: number;
+  question?: string;
+  answer: string;
+  points: number;
+}
+
+export interface V3AnswerKeyContent {
+  items: V3AnswerKeyItem[];
+  totalPoints: number;
+}
+
+export interface V3ChecklistItem {
+  id: string;
+  criterion: string;
+  observable: boolean;
+}
+
+export interface V3ChecklistContent {
+  title?: string;
+  items: V3ChecklistItem[];
+  passingThreshold?: number;
+}
+
+export interface V3RatingScaleLevel {
+  value: number;
+  label: string;
+}
+
+export interface V3RatingScaleItem {
+  id: string;
+  criterion: string;
+}
+
+export interface V3RatingScaleContent {
+  title?: string;
+  scale: V3RatingScaleLevel[];
+  items: V3RatingScaleItem[];
+}
+
+export interface V3RubricLevel {
+  score: number;
+  label: string;
+}
+
+export interface V3RubricCriterion {
+  id?: string;
+  name: string;
+  weight?: number;
+  descriptors: Record<string, string>; // key = score as string e.g. "4", "3", "2", "1"
+}
+
+export interface V3RubricContent {
+  title: string;
+  levels: V3RubricLevel[];
+  criteria: V3RubricCriterion[];
+}
+
+export interface V3ScoringGuideItem {
+  criterion: string;
+  maxPoints: number;
+  description?: string;
+}
+
+export interface V3ScoringGuideContent {
+  title?: string;
+  items: V3ScoringGuideItem[];
+  totalPoints: number;
+}
+
+export interface V3ObservationBehavior {
+  id: string;
+  targetBehavior: string;
+  lookFors: string[];
+}
+
+export interface V3ObservationFormContent {
+  title?: string;
+  behaviors: V3ObservationBehavior[];
+  notesPrompt?: string;
+}
+
+export interface V3ExitTicketPrompt {
+  question: string;
+  expectedAnswer?: string;
+  criteria?: string;
+}
+
+export interface V3ExitTicketContent {
+  title?: string;
+  prompts: V3ExitTicketPrompt[];
+}
+
+// Recommendation & Rule Types
+
+export interface V3AssessmentRecommendation {
+  preferredAssessmentType: V3AssessmentType;
+  preferredToolTypes: V3AssessmentToolType[];
+  supportedToolTypes: V3AssessmentToolType[];
+  notRecommendedToolTypes: V3AssessmentToolType[];
+  suggestedMethod: string;
+  defaultCriteriaType: V3CriteriaType;
+  defaultCriteriaValue?: number;
+  defaultCriteriaText?: string;
+  rationale: string;
+}
+
+export interface V3AssessmentRuleSummary {
+  evidenceCoverage: {
+    total: number;
+    assessed: number;
+    unassessedEvidenceIds: string[];
+    allCovered: boolean;
+    message: string;
+  };
+  toolsCompleteness: {
+    total: number;
+    withTools: number;
+    missingToolAssessmentIds: string[];
+    allComplete: boolean;
+    message: string;
+  };
+  criteriaCompleteness: {
+    total: number;
+    withCriteria: number;
+    missingCriteriaAssessmentIds: string[];
+    allComplete: boolean;
+    message: string;
+  };
+  hasFormativeAssessment: boolean;
+  hasFeedbackOpportunity: boolean;
+  toolWarnings: Array<{
+    assessmentId: string;
+    toolType: string;
+    warning: string;
+  }>;
+  allPassed: boolean;
+}
+
+export interface V3AssessmentReadiness {
+  ready: boolean;
+  totalEvidenceCount: number;
+  assessedEvidenceCount: number;
+  missingAssessmentEvidenceIds: string[];
+  missingToolAssessmentIds: string[];
+  missingCriteriaAssessmentIds: string[];
+  warnings: string[];
+  summary: {
+    evidenceCoverage: boolean;
+    toolsComplete: boolean;
+    criteriaComplete: boolean;
+    hasFormative: boolean;
+    hasFeedback: boolean;
+  };
 }

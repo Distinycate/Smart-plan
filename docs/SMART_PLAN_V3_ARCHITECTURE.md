@@ -436,3 +436,53 @@ graph TD
 ### 10.5 Activity CRUD & Partial Regeneration
 - รองรับการสร้าง Manual, แก้ไข (PATCH), ลบ (DELETE), และสลับตำแหน่ง (Reorder Up/Down)
 - รองรับ **Partial Regeneration:** ร้องขอแนวทางกิจกรรมใหม่เฉพาะจุด (1 กิจกรรม) โดยส่งบริบทกิจกรรมก่อนหน้าและถัดไป เพื่อให้ครูเลือกเปรียบเทียบก่อน Apply โดยไม่รื้อกิจกรรมทั้งคาบ
+
+---
+
+## 11. Wave V3.5 — Assessment Engine
+
+### 11.1 Pedagogical Alignment Architecture
+Wave V3.5 ยึดหลักการประเมินตามสภาพจริงที่ขับเคลื่อนด้วยหลักฐาน (Evidence-Driven Assessment):
+
+```mermaid
+graph TD
+    OBJ[จุดประสงค์การเรียนรู้\nObjective] --> EVD[หลักฐานการเรียนรู้\nLearning Evidence]
+    EVD --> ASM[การวัดและประเมินผล\nAssessment]
+    ASM --> MTH[วิธีการประเมิน\nAssessment Method]
+    ASM --> ACT[เชื่อมโยงกิจกรรม\nLesson Activity]
+    ASM --> TOOL[เครื่องมือประเมิน\nAssessment Tool]
+    TOOL --> RUB[เกณฑ์รูบริก\nRubric / Analytic / Performance]
+    TOOL --> CHK[แบบตรวจสอบรายการ\nChecklist]
+    TOOL --> AK[เฉลยคำตอบ\nAnswer Key]
+    TOOL --> SG[เกณฑ์การให้คะแนน\nScoring Guide]
+    ASM --> CRT[เกณฑ์ตัดสิน\nCriteria Engine]
+    ASM --> FB[ข้อมูลย้อนกลับ\nFeedback Loop]
+```
+
+### 11.2 Assessment Entity vs. Assessment Tool
+- **Assessment Entity (`v3_assessments`):** กำหนด "การประเมินอะไร ด้วยวิธีใด ในช่วงเวลาใด (Formative vs Summative) และใช้เกณฑ์ตัดสินอย่างไร"
+- **Assessment Tool (`v3_assessment_tools`):** กำหนด "เนื้อหารายละเอียดของเครื่องมือ" (JSON Content เช่น ตาราง Rubric Descriptors, รายการ Checklist, เกณฑ์คะแนนย่อย Scoring Guide)
+- **Traceability:** ยึดโยง Objective ↔ Evidence ↔ Assessment โดยตรง โดยไม่ต้อง duplicate direct Objective link ซ้ำซ้อน
+
+### 11.3 Deterministic Recommendation Rules
+ระบบเลือกวิธีประเมินและเครื่องมือตาม Subject Profile + Learning Focus + Evidence Type โดยใช้ Code Rule Engine:
+- **English Speaking:** แนะนำ `PERFORMANCE` + `PERFORMANCE_RUBRIC` / `OBSERVATION_FORM` (ไม่ใช้ Answer Key เป็นตัวหลัก)
+- **English Vocabulary Quiz:** แนะนำ `QUIZ` + `ANSWER_KEY`
+- **Math Calculation:** แนะนำ `WRITTEN_RESPONSE` + `ANSWER_KEY` / `SCORING_GUIDE` (ไม่ default Rubric)
+- **Math Problem Solving:** แนะนำ `WRITTEN_RESPONSE` / `PERFORMANCE` + `SCORING_GUIDE` / `RUBRIC` (รองรับคำตอบ กระบวนการ และการให้เหตุผล Reasoning)
+- **Science Experiment:** แนะนำ `OBSERVATION` + `CHECKLIST` / `OBSERVATION_FORM`
+- **PE Skill:** แนะนำ `PERFORMANCE` + `CHECKLIST` / `PERFORMANCE_RUBRIC`
+
+### 11.4 Criteria Engine
+รองรับรูปแบบเกณฑ์ตัดสินที่หลากหลายตามธรรมชาติของเครื่องมือ:
+- `PERCENTAGE` (เช่น ≥ 70%)
+- `SCORE_THRESHOLD` (เช่น ≥ 8 / 10 คะแนน)
+- `ITEMS_PASSED` (เช่น ผ่านอย่างน้อย 4 ใน 5 รายการ)
+- `RUBRIC_LEVEL` (เช่น ระดับ 3 ขึ้นไป)
+- `PASS_FAIL`
+- `CUSTOM`
+
+### 11.5 AI Policy in Assessment Engine
+- **AI บทบาทเดียว:** ช่วยร่างคำอธิบายระดับคุณภาพ (Descriptors) หรือข้อความพฤติกรรมที่สังเกตได้ (1 Scoped Request ต่อ 1 เครื่องมือ)
+- **ห้าม AI:** ห้ามเลือกประเภท Assessment, ห้ามเลือกประเภทเครื่องมือ, ห้ามสร้าง Rubric K/P/A อัตโนมัติ, ห้ามคำนวณเกณฑ์ผ่าน หรือตรวจความพร้อม
+- **Preview First:** เครื่องมือที่ AI ร่างจะแสดงในหน้าต่าง Preview ให้ครูตรวจสอบและปรับแก้ในตารางได้อิสระก่อนบันทึกลงฐานข้อมูล

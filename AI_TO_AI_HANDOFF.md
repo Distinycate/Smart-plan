@@ -196,48 +196,64 @@ system is production-ready until those checks pass.
 | V3.1 — Domain Model & Database Foundation | `9f8dfc4` | ✅ DONE |
 | V3.2 — Curriculum & Subject Profile Engine | `ae4922d` | ✅ DONE |
 | V3.3 — New Lesson Creation Workflow (Steps 1 & 2) | `9268fe3` / `7ac155e` | ✅ DONE |
-| V3.4 — 60-Minute Lesson Blueprint & Activity Engine | (Current) | ✅ DONE |
+| V3.4 — 60-Minute Lesson Blueprint & Activity Engine | `959390e` | ✅ DONE |
+| V3.5 — Assessment Engine | (Current) | ✅ DONE |
 
-### V3.4 Deliverables
+### V3.5 Deliverables
 
-**AI & Blueprint Engine** (`lib/smartPlanV3/ai/`):
-- `contextBuilder.ts`: Precondition validator, privacy data minimization, temporary token mapping (`O1`..`On`, `E1`..`Em`).
-- `blueprintPrompt.ts`: System instruction, subject profile guidance, avoid patterns, output contract.
-- `blueprintSchema.ts`: Structured JSON validator, student action non-empty enforcement, ref validity check.
-- `blueprintService.ts`: 1 primary Gemini API call with auto-retry and correction prompt on invalid refs. Returns Preview without writing to DB.
-- `activityRegenService.ts`: Scoped partial regeneration for 1 activity node.
+**Database & Migration**:
+- `database/migrations/17_smart_plan_v3_assessment_activity_links.sql`:
+  - Table `v3_assessment_activity_links (assessment_id, activity_id, created_at, PRIMARY KEY (assessment_id, activity_id))`
+  - RLS policies deriving ownership from Lesson Plan
+  - Cascade junctions with indexes
 
-**Rule Engine & Time Normalizer** (`lib/smartPlanV3/rules/activityRules.ts`):
-- `calculateActivityMinutes`: Deterministic duration checking against 60 min.
-- `suggestTimeNormalization`: Suggests minute adjustment for practice/apply activities without calling AI.
-- `validateActivityRules`: Checks duration, objective coverage, evidence coverage, student actions, formative checks, feedback.
-- `deriveLessonWorkflowStatus`: Promotes to `BLUEPRINT_READY` or downgrades to `DRAFT`.
+**Assessment Rules & Recommendation Engine** (`lib/smartPlanV3/rules/assessmentRules.ts`):
+- `getAssessmentRecommendations`: Deterministic recommendations based on Subject Profile + Learning Focus + Evidence Type (e.g. Speaking → Performance Rubric / Observation; Math Calculation → Answer Key / Scoring Guide; Math Problem Solving → Scoring Guide / Rubric; Science Experiment → Checklist / Observation Form; PE Skill → Performance Rubric / Checklist).
+- `validateAssessmentRules`: Evaluates evidence coverage, tool completeness, criteria completeness, tool mismatch warnings (e.g. Speaking with Answer Key), formative assessment checks, and feedback links.
+- `deriveAssessmentReadiness`: Runtime assessment readiness derivation (ready, unassessedEvidenceIds, missingToolAssessmentIds, missingCriteriaAssessmentIds, warnings).
+
+**Tool Schemas** (`lib/smartPlanV3/assessmentTools/schemas.ts`):
+- Pure TypeScript validators for: `Rubric` (3-5 levels, non-empty descriptors), `Checklist` (observable items), `ScoringGuide` (criteria & points), `RatingScale`, `AnswerKey`, `ObservationForm`, and `ExitTicket`.
+
+**AI Assessment Tool Generator** (`lib/smartPlanV3/ai/`):
+- `assessmentToolPrompt.ts`: System instruction enforcing observable behaviors, 60-min lesson sizing (3-4 criteria for rubrics, 4-8 items for checklists), no changing of objectives/evidence.
+- `assessmentToolSchema.ts`: JSON extractor and schema validator.
+- `assessmentToolService.ts`: 1 scoped Gemini call per tool, server-authoritative context loading, auto-retry on schema error, Preview-first workflow (never writes directly to DB). Answer Key safety guard against missing question contexts.
 
 **Repository Extensions** (`lib/smartPlanV3/repository.ts`):
-- `getActivities`, `getActivityById`, `updateActivity`, `deleteActivity`, `reorderActivities`, `applyBlueprint`, `getObjectives`, `getEvidence`.
+- `getAssessments(planId)` with linked evidence and activity IDs, attached tool.
+- `getAssessmentById(id)`.
+- `createAssessment`, `updateAssessment`, `deleteAssessment` (cascades safely without touching Evidence, Activity, or Objectives).
+- `linkAssessmentEvidence`, `unlinkAssessmentEvidence`.
+- `linkAssessmentActivity`, `unlinkAssessmentActivity`.
+- `createAssessmentTool`, `updateAssessmentTool`, `deleteAssessmentTool`.
+- Updated `getLessonGraph` to load `assessmentActivityLinks`.
 
 **API Endpoints**:
-- `POST /api/plan/v3/[id]/blueprint/generate`: Generate Preview
-- `POST /api/plan/v3/[id]/blueprint/apply`: Apply Preview to DB
-- `GET / POST /api/plan/v3/[id]/activities`: Activity list & manual create
-- `PATCH / DELETE /api/plan/v3/[id]/activities/[actId]`: Single activity CRUD
-- `PUT /api/plan/v3/[id]/activities/reorder`: Reorder activities
-- `POST /api/plan/v3/[id]/activities/[actId]/regenerate`: Partial activity alternative
+- `GET / POST /api/plan/v3/[id]/assessments`: List with links/tools/readiness & create assessment
+- `GET / PATCH / DELETE /api/plan/v3/[id]/assessments/[asmId]`: Single assessment CRUD & link updates
+- `POST / PATCH / DELETE /api/plan/v3/[id]/assessments/[asmId]/tool`: Tool CRUD
+- `POST /api/plan/v3/[id]/assessments/[asmId]/tool/generate`: AI tool preview generation
 
-**UI (Step 3)**:
-- `Step3Activities.tsx`: Stepper Step 3 unlocked, Rule summary panel, AI generate button, Preview before apply modal, Activity card stack, Manual activity form, Time normalizer button, Partial regenerate modal.
+**UI (Step 4)**:
+- `Step4Assessments.tsx`:
+  - Stepper Step 4 unlocked (`isAvailable = step <= 4`).
+  - Evidence-driven layout with linked Objectives displayed on each Evidence card.
+  - Recommendation engine badges ("💡 ข้อเสนอแนะตามธรรมชาติวิชา").
+  - Formative Quick Check integration from Step 3 activities.
+  - Dynamic Criteria UI adapting to criteria type (%, score, items, rubric level).
+  - Tool Editor & AI Preview before Apply modal with matrix table editor for Rubrics.
 
-**Tests**:
-- `tests/test-v3-blueprint-engine.js`: Tests A–L (12/12 passed, AI CALLS: 0)
-- `tests/smoke-test-v3-gemini.js`: Live Gemini 2.5 Flash smoke tests (English, Math, Science all PASS)
+**Automated Tests**:
+- `tests/test-v3-assessment-engine.js`: Tests A–O (All 15 test cases, 20 passed, AI CALLS: 0).
+- `tests/smoke-test-v3-assessment-gemini.js`: Live Gemini 2.5 Flash smoke tests (English Speaking Rubric, Math Scoring Guide, Science Checklist all PASS).
 
-### READY FOR V3.5 — ASSESSMENT ENGINE
+### READY FOR V3.6 — TEACHING PACKAGE BUILDER
 
-**Next Scope (Wave V3.5)**:
-- Full assessment entity generator (`v3_assessments`, `v3_assessment_tools`, `v3_assessment_evidence_links`)
-- Rubric Generator (analytic & holistic rubrics tied to evidence)
-- Formative Assessment Checklist / Answer Key Generator
-- Connection between Activity Formative Moments & Assessment Tools
+**Next Scope (Wave V3.6)**:
+- Teaching Package Generator (`v3_teaching_assets`, worksheets, slides, flashcards, teacher scripts)
+- Student Package Builder
+- Differentiation & Accommodation assets
 
 ### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
 - Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged
