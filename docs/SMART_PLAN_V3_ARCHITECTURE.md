@@ -395,4 +395,44 @@ GET /api/plan/v3/subject-profiles/[key]?focus=SPEAKING
 | Social Studies + HISTORY | HISTORICAL_INQUIRY_REPORT, TIMELINE | ANALYTIC_RUBRIC | ROTE_MEMORIZATION |
 | Social Studies + RELIGION_ETHICS | CASE_STUDY_REFLECTION, BEHAVIORAL_OBSERVATION | BEHAVIORAL_CHECKLIST | HISTORICAL_TIMELINE |
 
+---
 
+## 10. Wave V3.4 — 60-Minute Lesson Blueprint & Activity Engine
+
+### 10.1 Core Architecture & Principle
+Smart Plan V3 แปลงจากระบบเดิมที่สั่ง AI เขียนความเรียงยาวๆ มาเป็นระบบ **Structured Lesson Blueprint & Activity Engine** ที่รับประกันความสอดคล้องตามลำดับชั้น:
+
+```text
+Curriculum → Indicators → Subject Profile → Learning Focus → Objectives → Evidence → Activity Nodes
+```
+
+```mermaid
+graph TD
+    A[Lesson Context\nIndicators, Objectives, Evidence] --> B[Subject Profile Guidance\nPatterns & Avoid Rules]
+    B --> C[Blueprint AI Prompt\nSystem + Context + Output Contract]
+    C --> D[Structured JSON\n4-7 Activity Nodes = 60 Min]
+    D --> E[Schema Validation\nNon-empty actions, valid refs]
+    E --> F[Rule Validation\nDuration, Objective & Evidence coverage]
+    F --> G[Teacher Preview\nReview, Edit, Normalize time]
+    G --> H[Apply to Database]
+    H --> I[v3_lesson_activities]
+    I --> J[v3_activity_objective_links\nv3_activity_evidence_links]
+```
+
+### 10.2 Privacy & Data Minimization
+- ห้ามส่งข้อมูลครู (user UUID, email) หรือข้อมูลนักเรียนไปยัง Gemini API
+- ใช้ Temporary Token Mapping (เช่น `O1`, `O2`... สำหรับ Objectives และ `E1`, `E2`... สำหรับ Evidence) ในระหว่างเรียก AI
+- ฝั่ง Server แปลง Tokens กลับเป็น Database UUID จริงอย่างปลอดภัย พร้อมตัด/ตรวจจับ Hallucinated References (เช่น `O99`)
+
+### 10.3 Extensible Phase Model
+รองรับเฟสกิจกรรมที่ยืดหยุ่นตามธรรมชาติวิชา:
+`ENGAGE`, `EXPLORE`, `LEARN`, `MODEL`, `PRACTICE`, `APPLY`, `PERFORM`, `DISCUSS`, `INVESTIGATE`, `CREATE`, `ASSESS`, `REFLECT`, `SUMMARIZE`, `OTHER`
+
+### 10.4 Deterministic Time & Rule Engine
+- **Time Engine:** คำนวณ `sum(minutes)` เทียบกับเวลาคาบ (เช่น 60 นาที) พร้อมฟังก์ชัน `suggestTimeNormalization` ที่เสนอการปรับเวลาในกิจกรรมหลักโดยไม่ต้องเรียก AI ซ้ำ
+- **Coverage Rules:** ตรวจสอบว่าทุก Objective ถูกครอบคลุมด้วยกิจกรรมอย่างน้อย 1 กิจกรรม และหลักฐานสำคัญถูกฝึกหรือสังเกต
+- **Workflow Status Derivation:** ยกระดับสถานะแผนเป็น `BLUEPRINT_READY` อัตโนมัติเมื่อครบ 60/60 นาที กิจกรรม > 0 และครอบคลุมทุกจุดประสงค์ หากครูลดเวลาหรือลบกิจกรรมจะ Downgrade กลับเป็น `DRAFT` อย่างแม่นยำ
+
+### 10.5 Activity CRUD & Partial Regeneration
+- รองรับการสร้าง Manual, แก้ไข (PATCH), ลบ (DELETE), และสลับตำแหน่ง (Reorder Up/Down)
+- รองรับ **Partial Regeneration:** ร้องขอแนวทางกิจกรรมใหม่เฉพาะจุด (1 กิจกรรม) โดยส่งบริบทกิจกรรมก่อนหน้าและถัดไป เพื่อให้ครูเลือกเปรียบเทียบก่อน Apply โดยไม่รื้อกิจกรรมทั้งคาบ

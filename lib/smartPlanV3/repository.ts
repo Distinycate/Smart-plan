@@ -13,7 +13,9 @@ import {
   V3AssessmentTool,
   V3TeachingAsset,
   V3PostTeachingRecord,
-  V3LessonGraph 
+  V3LessonGraph,
+  V3ActivityWithLinks,
+  V3BlueprintActivityDraft,
 } from './types';
 
 export class V3Repository {
@@ -54,14 +56,17 @@ export class V3Repository {
   /**
    * อัปเดต Lesson Plan V3
    */
-  async updateLesson(planId: string, data: Partial<V3LessonPlan>, userId: string): Promise<V3LessonPlan> {
-    const { data: updated, error } = await this.supabase
+  async updateLesson(planId: string, data: Partial<V3LessonPlan>, userId: string, isAdmin = false): Promise<V3LessonPlan> {
+    let query = this.supabase
       .from('v3_lesson_plans')
       .update(data)
-      .eq('id', planId)
-      .eq('user_id', userId)
-      .select()
-      .single();
+      .eq('id', planId);
+
+    if (!isAdmin) {
+      query = query.eq('user_id', userId);
+    }
+
+    const { data: updated, error } = await query.select().single();
 
     if (error) throw new Error(error.message);
     return updated as V3LessonPlan;
@@ -143,9 +148,36 @@ export class V3Repository {
   }
 
   /**
+   * ดึงรายการ Objective ของ Lesson
+   */
+  async getObjectives(planId: string): Promise<V3LessonObjective[]> {
+    const { data, error } = await this.supabase
+      .from('v3_lesson_objectives')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .order('position', { ascending: true });
+
+    if (error) throw new Error(error.message);
+    return (data || []) as V3LessonObjective[];
+  }
+
+  /**
+   * ดึงรายการ Evidence ของ Lesson
+   */
+  async getEvidence(planId: string): Promise<V3LearningEvidence[]> {
+    const { data, error } = await this.supabase
+      .from('v3_learning_evidence')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .order('position', { ascending: true });
+
+    if (error) throw new Error(error.message);
+    return (data || []) as V3LearningEvidence[];
+  }
+
+  /**
    * สร้าง Objective
    */
-
   async createObjective(data: Omit<V3LessonObjective, 'id' | 'created_at' | 'updated_at'>): Promise<V3LessonObjective> {
     const { data: objective, error } = await this.supabase
       .from('v3_lesson_objectives')
@@ -251,6 +283,295 @@ export class V3Repository {
     if (error) throw new Error(error.message);
     return data as V3ActivityEvidenceLink;
   }
+
+  /**
+   * ยกเลิกเชื่อมโยง Activity ↔ Objective
+   */
+  async unlinkActivityObjective(activityId: string, objectiveId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('v3_activity_objective_links')
+      .delete()
+      .eq('activity_id', activityId)
+      .eq('objective_id', objectiveId);
+
+    if (error) throw new Error(error.message);
+  }
+
+  /**
+   * ยกเลิกเชื่อมโยง Activity ↔ Evidence
+   */
+  async unlinkActivityEvidence(activityId: string, evidenceId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('v3_activity_evidence_links')
+      .delete()
+      .eq('activity_id', activityId)
+      .eq('evidence_id', evidenceId);
+
+    if (error) throw new Error(error.message);
+  }
+
+  /**
+   * ตั้งค่าเชื่อมโยง Objective หลายรายการให้ Activity (Idempotent Replace)
+   */
+  async setActivityObjectiveLinks(activityId: string, objectiveIds: string[]): Promise<void> {
+    // Delete existing
+    const { error: delErr } = await this.supabase
+      .from('v3_activity_objective_links')
+      .delete()
+      .eq('activity_id', activityId);
+    if (delErr) throw new Error(delErr.message);
+
+    if (objectiveIds.length === 0) return;
+
+    const rows = objectiveIds.map(objId => ({
+      activity_id: activityId,
+      objective_id: objId,
+    }));
+    const { error: insErr } = await this.supabase
+      .from('v3_activity_objective_links')
+      .insert(rows);
+    if (insErr) throw new Error(insErr.message);
+  }
+
+  /**
+   * ตั้งค่าเชื่อมโยง Evidence หลายรายการให้ Activity (Idempotent Replace)
+   */
+  async setActivityEvidenceLinks(activityId: string, evidenceIds: string[]): Promise<void> {
+    // Delete existing
+    const { error: delErr } = await this.supabase
+      .from('v3_activity_evidence_links')
+      .delete()
+      .eq('activity_id', activityId);
+    if (delErr) throw new Error(delErr.message);
+
+    if (evidenceIds.length === 0) return;
+
+    const rows = evidenceIds.map(evdId => ({
+      activity_id: activityId,
+      evidence_id: evdId,
+    }));
+    const { error: insErr } = await this.supabase
+      .from('v3_activity_evidence_links')
+      .insert(rows);
+    if (insErr) throw new Error(insErr.message);
+  }
+
+  /**
+   * ดึงรายการ Activities ของ Lesson พร้อม Links ของ Objective และ Evidence
+   */
+  async getActivities(planId: string): Promise<V3ActivityWithLinks[]> {
+    const { data: activities, error: actErr } = await this.supabase
+      .from('v3_lesson_activities')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .order('position', { ascending: true });
+
+    if (actErr) throw new Error(actErr.message);
+    if (!activities || activities.length === 0) return [];
+
+    const activityIds = activities.map(a => a.id);
+
+    const [objLinksRes, evdLinksRes] = await Promise.all([
+      this.supabase.from('v3_activity_objective_links').select('*').in('activity_id', activityIds),
+      this.supabase.from('v3_activity_evidence_links').select('*').in('activity_id', activityIds),
+    ]);
+
+    const objLinks = objLinksRes.data || [];
+    const evdLinks = evdLinksRes.data || [];
+
+    const objMap: Record<string, string[]> = {};
+    for (const link of objLinks) {
+      if (!objMap[link.activity_id]) objMap[link.activity_id] = [];
+      objMap[link.activity_id].push(link.objective_id);
+    }
+
+    const evdMap: Record<string, string[]> = {};
+    for (const link of evdLinks) {
+      if (!evdMap[link.activity_id]) evdMap[link.activity_id] = [];
+      evdMap[link.activity_id].push(link.evidence_id);
+    }
+
+    return activities.map(a => ({
+      ...a,
+      linkedObjectiveIds: objMap[a.id] || [],
+      linkedEvidenceIds: evdMap[a.id] || [],
+    }));
+  }
+
+  /**
+   * ดึง Activity 1 รายการตาม ID
+   */
+  async getActivityById(activityId: string): Promise<V3ActivityWithLinks | null> {
+    const { data: activity, error } = await this.supabase
+      .from('v3_lesson_activities')
+      .select('*')
+      .eq('id', activityId)
+      .single();
+
+    if (error || !activity) return null;
+
+    const [objLinksRes, evdLinksRes] = await Promise.all([
+      this.supabase.from('v3_activity_objective_links').select('objective_id').eq('activity_id', activityId),
+      this.supabase.from('v3_activity_evidence_links').select('evidence_id').eq('activity_id', activityId),
+    ]);
+
+    return {
+      ...activity,
+      linkedObjectiveIds: (objLinksRes.data || []).map(r => r.objective_id),
+      linkedEvidenceIds: (evdLinksRes.data || []).map(r => r.evidence_id),
+    };
+  }
+
+  /**
+   * อัปเดต Activity (Patch)
+   */
+  async updateActivity(activityId: string, data: Partial<V3LessonActivity>): Promise<V3LessonActivity> {
+    const { data: updated, error } = await this.supabase
+      .from('v3_lesson_activities')
+      .update({
+        ...data,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', activityId)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return updated as V3LessonActivity;
+  }
+
+  /**
+   * ลบ Activity 1 รายการ
+   */
+  async deleteActivity(activityId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('v3_lesson_activities')
+      .delete()
+      .eq('id', activityId);
+
+    if (error) throw new Error(error.message);
+  }
+
+  /**
+   * จัดเรียงลำดับ Activities ใหม่ (Deterministic positions: 0, 1, 2...)
+   */
+  async reorderActivities(planId: string, activityIds: string[]): Promise<void> {
+    const updates = activityIds.map((id, index) =>
+      this.supabase
+        .from('v3_lesson_activities')
+        .update({ position: index, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .eq('lesson_plan_id', planId)
+    );
+
+    const results = await Promise.all(updates);
+    const firstErr = results.find(r => r.error);
+    if (firstErr?.error) throw new Error(firstErr.error.message);
+  }
+
+  /**
+   * นำ Blueprint Activities ไปบันทึกลงฐานข้อมูลจริง (Apply Blueprint)
+   * รองรับโหมด 'replace' (แทนที่ชุดเดิม) หรือ 'append' (ต่อท้าย)
+   */
+  async applyBlueprint(
+    planId: string,
+    blueprintActivities: V3BlueprintActivityDraft[],
+    mode: 'replace' | 'append' = 'replace'
+  ): Promise<V3ActivityWithLinks[]> {
+    if (mode === 'replace') {
+      // ลบชุดเดิม (cascade ลบ junction table links อัตโนมัติ)
+      const { error: delErr } = await this.supabase
+        .from('v3_lesson_activities')
+        .delete()
+        .eq('lesson_plan_id', planId);
+      if (delErr) throw new Error(delErr.message);
+    }
+
+    let startPosition = 0;
+    if (mode === 'append') {
+      const { data: existing } = await this.supabase
+        .from('v3_lesson_activities')
+        .select('position')
+        .eq('lesson_plan_id', planId)
+        .order('position', { ascending: false })
+        .limit(1);
+      if (existing && existing.length > 0) {
+        startPosition = existing[0].position + 1;
+      }
+    }
+
+    // สร้างทีละกิจกรรมและเชื่อมโยง
+    const createdActivities: V3ActivityWithLinks[] = [];
+
+    for (let i = 0; i < blueprintActivities.length; i++) {
+      const draft = blueprintActivities[i];
+      const position = startPosition + i;
+
+      const teacherActionsText = Array.isArray(draft.teacherActions)
+        ? draft.teacherActions.join('\n')
+        : String(draft.teacherActions || '');
+
+      const studentActionsText = Array.isArray(draft.studentActions)
+        ? draft.studentActions.join('\n')
+        : String(draft.studentActions || '');
+
+      const assessmentMoment = draft.formativeCheck?.enabled
+        ? draft.formativeCheck.description
+        : null;
+
+      const feedbackMoment = draft.feedback?.enabled
+        ? draft.feedback.description
+        : null;
+
+      const { data: actRow, error: actErr } = await this.supabase
+        .from('v3_lesson_activities')
+        .insert([{
+          lesson_plan_id: planId,
+          position,
+          phase: draft.phase,
+          minutes: draft.minutes,
+          title: draft.title,
+          teacher_actions: teacherActionsText,
+          student_actions: studentActionsText,
+          assessment_moment: assessmentMoment,
+          feedback_moment: feedbackMoment,
+          source: 'AI',
+        }])
+        .select()
+        .single();
+
+      if (actErr) throw new Error(actErr.message);
+
+      // เชื่อมโยง Objectives
+      const objIds = draft.resolvedObjectiveIds || [];
+      if (objIds.length > 0) {
+        const objRows = objIds.map(objId => ({
+          activity_id: actRow.id,
+          objective_id: objId,
+        }));
+        await this.supabase.from('v3_activity_objective_links').insert(objRows);
+      }
+
+      // เชื่อมโยง Evidence
+      const evdIds = draft.resolvedEvidenceIds || [];
+      if (evdIds.length > 0) {
+        const evdRows = evdIds.map(evdId => ({
+          activity_id: actRow.id,
+          evidence_id: evdId,
+        }));
+        await this.supabase.from('v3_activity_evidence_links').insert(evdRows);
+      }
+
+      createdActivities.push({
+        ...actRow,
+        linkedObjectiveIds: objIds,
+        linkedEvidenceIds: evdIds,
+      });
+    }
+
+    return createdActivities;
+  }
+
 
   /**
    * สร้าง Assessment

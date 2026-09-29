@@ -224,3 +224,140 @@ export interface V3LessonGraph {
   postTeaching: V3PostTeachingRecord | null;
   reviews?: V3PlanReview[];
 }
+
+// ─────────────────────────────────────────────────────────────────
+// Wave V3.4 — Blueprint & Activity Engine Types
+// ─────────────────────────────────────────────────────────────────
+
+export type V3ActivityPhase =
+  | 'ENGAGE'
+  | 'EXPLORE'
+  | 'LEARN'
+  | 'MODEL'
+  | 'PRACTICE'
+  | 'APPLY'
+  | 'PERFORM'
+  | 'DISCUSS'
+  | 'INVESTIGATE'
+  | 'CREATE'
+  | 'ASSESS'
+  | 'REFLECT'
+  | 'SUMMARIZE'
+  | 'OTHER';
+
+export interface V3ActivityWithLinks extends V3LessonActivity {
+  linkedObjectiveIds: string[];
+  linkedEvidenceIds: string[];
+}
+
+export interface V3BlueprintActivityDraft {
+  temporaryId: string;
+  phase: V3ActivityPhase | string;
+  title: string;
+  minutes: number;
+  teacherActions: string[];
+  studentActions: string[];
+  linkedObjectiveRefs: string[]; // e.g. ['O1', 'O2']
+  linkedEvidenceRefs: string[];  // e.g. ['E1']
+  formativeCheck?: {
+    enabled: boolean;
+    description: string;
+  };
+  feedback?: {
+    enabled: boolean;
+    description: string;
+  };
+  requiredAssetHints?: string[];
+  // Resolved UUIDs after mapping back on server
+  resolvedObjectiveIds?: string[];
+  resolvedEvidenceIds?: string[];
+}
+
+export interface V3LessonBlueprint {
+  summary: {
+    lessonApproach: string;
+    learningFlow: string;
+  };
+  activities: V3BlueprintActivityDraft[];
+}
+
+export interface V3ContextObjective {
+  ref: string;       // e.g. 'O1'
+  id: string;        // real UUID
+  statement: string;
+  objective_type: string | null;
+}
+
+export interface V3ContextEvidence {
+  ref: string;       // e.g. 'E1'
+  id: string;        // real UUID
+  evidence_type: string;
+  description: string;
+}
+
+export interface V3LessonGenerationContext {
+  lessonId: string;
+  subject: string;
+  grade: string;
+  topic: string;
+  durationMinutes: number;
+  learningFocus: string;
+  indicators: Array<{
+    code: string;
+    text: string;
+  }>;
+  objectives: V3ContextObjective[];
+  evidence: V3ContextEvidence[];
+  objectiveEvidenceLinks: Array<{
+    objectiveRef: string;
+    evidenceRef: string;
+  }>;
+  subjectProfile: {
+    key: string;
+    labelTh: string;
+    learningFocusTh?: string;
+    preferredLearningPatterns: string[];
+    objectiveGuidance: string[];
+    evidenceGuidance: string[];
+    avoidPatterns: string[];
+  };
+}
+
+export interface V3ActivityRuleSummary {
+  duration: {
+    totalMinutes: number;
+    targetMinutes: number;
+    valid: boolean;
+    remainingMinutes: number;
+    message: string;
+  };
+  objectives: {
+    total: number;
+    covered: number;
+    uncoveredIds: string[];
+    allCovered: boolean;
+    message: string;
+  };
+  evidence: {
+    total: number;
+    linked: number;
+    unlinkedIds: string[];
+    message: string;
+  };
+  studentActions: {
+    valid: boolean;
+    emptyActivityPositions: number[];
+    message: string;
+  };
+  hasFormativeCheck: boolean;
+  hasFeedback: boolean;
+  allPassed: boolean;
+}
+
+export interface V3TimeNormalizationSuggestion {
+  index: number;
+  originalMinutes: number;
+  suggestedMinutes: number;
+  diff: number;
+  reason: string;
+}

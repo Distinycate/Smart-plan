@@ -194,43 +194,52 @@ system is production-ready until those checks pass.
 | :--- | :--- | :--- |
 | V3.0 — System Audit & Foundation | `b2c4b21` | ✅ DONE |
 | V3.1 — Domain Model & Database Foundation | `9f8dfc4` | ✅ DONE |
-| V3.2 — Curriculum & Subject Profile Engine | pending commit (this wave) | ✅ READY TO COMMIT |
+| V3.2 — Curriculum & Subject Profile Engine | `ae4922d` | ✅ DONE |
+| V3.3 — New Lesson Creation Workflow (Steps 1 & 2) | `9268fe3` / `7ac155e` | ✅ DONE |
+| V3.4 — 60-Minute Lesson Blueprint & Activity Engine | (Current) | ✅ DONE |
 
-### V3.2 Deliverables
+### V3.4 Deliverables
 
-**Curriculum Engine** (`lib/smartPlanV3/curriculum/`):
-- `types.ts` — `CurriculumProvider` interface
-- `legacyDataAdapter.ts` — in-memory index over `subjectStandardsData.ts` (84 entries, ~489 standards)
-- `provider.ts` + `index.ts`
+**AI & Blueprint Engine** (`lib/smartPlanV3/ai/`):
+- `contextBuilder.ts`: Precondition validator, privacy data minimization, temporary token mapping (`O1`..`On`, `E1`..`Em`).
+- `blueprintPrompt.ts`: System instruction, subject profile guidance, avoid patterns, output contract.
+- `blueprintSchema.ts`: Structured JSON validator, student action non-empty enforcement, ref validity check.
+- `blueprintService.ts`: 1 primary Gemini API call with auto-retry and correction prompt on invalid refs. Returns Preview without writing to DB.
+- `activityRegenService.ts`: Scoped partial regeneration for 1 activity node.
 
-**Subject Profile Engine** (`lib/smartPlanV3/subjectProfiles/`):
-- 9 complete deterministic profiles: English, Thai, Math, Science, Social Studies, Health, PE, Art, Career
-- `registry.ts` — helpers: `getSubjectProfile`, `getRecommendedEvidenceTypes`, `getRecommendedAssessmentTypes`, `getRecommendedAssetTypes`, `validateAllProfiles`
+**Rule Engine & Time Normalizer** (`lib/smartPlanV3/rules/activityRules.ts`):
+- `calculateActivityMinutes`: Deterministic duration checking against 60 min.
+- `suggestTimeNormalization`: Suggests minute adjustment for practice/apply activities without calling AI.
+- `validateActivityRules`: Checks duration, objective coverage, evidence coverage, student actions, formative checks, feedback.
+- `deriveLessonWorkflowStatus`: Promotes to `BLUEPRINT_READY` or downgrades to `DRAFT`.
 
-**API Routes** (read-only, no DB):
-- `/api/plan/v3/curriculum/versions|subjects|standards|indicators`
-- `/api/plan/v3/subject-profiles` + `/[key]`
+**Repository Extensions** (`lib/smartPlanV3/repository.ts`):
+- `getActivities`, `getActivityById`, `updateActivity`, `deleteActivity`, `reorderActivities`, `applyBlueprint`, `getObjectives`, `getEvidence`.
 
-**Tests**: `tests/test-v3-subject-profiles.js` — 39/39 passed | AI CALLS: 0
+**API Endpoints**:
+- `POST /api/plan/v3/[id]/blueprint/generate`: Generate Preview
+- `POST /api/plan/v3/[id]/blueprint/apply`: Apply Preview to DB
+- `GET / POST /api/plan/v3/[id]/activities`: Activity list & manual create
+- `PATCH / DELETE /api/plan/v3/[id]/activities/[actId]`: Single activity CRUD
+- `PUT /api/plan/v3/[id]/activities/reorder`: Reorder activities
+- `POST /api/plan/v3/[id]/activities/[actId]/regenerate`: Partial activity alternative
 
-**Build Gate**: `npm run build` → Exit code 0
+**UI (Step 3)**:
+- `Step3Activities.tsx`: Stepper Step 3 unlocked, Rule summary panel, AI generate button, Preview before apply modal, Activity card stack, Manual activity form, Time normalizer button, Partial regenerate modal.
 
-**Database**: No new migrations in V3.2 (curriculum uses in-memory adapter).
+**Tests**:
+- `tests/test-v3-blueprint-engine.js`: Tests A–L (12/12 passed, AI CALLS: 0)
+- `tests/smoke-test-v3-gemini.js`: Live Gemini 2.5 Flash smoke tests (English, Math, Science all PASS)
 
-**RLS**: VERIFIED STATICALLY ONLY (same status as V3.1; hosted Supabase SQL Editor required for live verification).
+### READY FOR V3.5 — ASSESSMENT ENGINE
 
-### WHAT V3.3 MUST DO NEXT
-
-- **Step 1 UI: Subject & Indicator Selection** (the 7-Step wizard, Step 1 only)
-  - Subject dropdown from `/api/plan/v3/curriculum/subjects`
-  - Grade Level picker
-  - Standard + Indicator multi-select (from `/api/plan/v3/curriculum/indicators`)
-  - Auto-populate `subject_key` → load Subject Profile → show learning focus picker
-  - Save selection to `v3_lesson_plans`
-- **Constraints**: Zero AI calls in V3.3; UI only; build must stay green; no legacy routes touched
+**Next Scope (Wave V3.5)**:
+- Full assessment entity generator (`v3_assessments`, `v3_assessment_tools`, `v3_assessment_evidence_links`)
+- Rubric Generator (analytic & holistic rubrics tied to evidence)
+- Formative Assessment Checklist / Answer Key Generator
+- Connection between Activity Formative Moments & Assessment Tools
 
 ### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
 - Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged
 - Legacy routes (`/plan`, `/plan/new`, `/dashboard`) — unchanged
 - Feature Flag: `SMART_PLAN_V3` in `lib/featureFlags.ts` controls visibility
-

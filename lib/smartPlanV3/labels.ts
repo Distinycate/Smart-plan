@@ -86,3 +86,48 @@ export const SAVE_STATE_LABELS = {
 } as const;
 
 export type SaveState = keyof typeof SAVE_STATE_LABELS;
+
+/**
+ * Supported Activity Phases & Thai Labels
+ */
+export const PHASE_LABELS: Record<string, string> = {
+  ENGAGE: 'ขั้นกระตุ้นความสนใจ (Engage / Warm-up)',
+  EXPLORE: 'ขั้นสำรวจและค้นหา (Explore)',
+  LEARN: 'ขั้นเรียนรู้ / ถ่ายทอดความรู้ (Learn)',
+  MODEL: 'ขั้นสาธิต / เป็นแบบอย่าง (Model / Demo)',
+  PRACTICE: 'ขั้นฝึกปฏิบัติ (Guided Practice)',
+  APPLY: 'ขั้นประยุกต์ใช้ (Apply / Production)',
+  PERFORM: 'ขั้นแสดงทักษะ / ปฏิบัติจริง (Performance)',
+  DISCUSS: 'ขั้นอภิปรายแลกเปลี่ยน (Discussion)',
+  INVESTIGATE: 'ขั้นสืบเสาะ / ทดลอง (Investigation)',
+  CREATE: 'ขั้นสร้างสรรค์ชิ้นงาน (Creation)',
+  ASSESS: 'ขั้นประเมินผล (Assessment)',
+  REFLECT: 'ขั้นสะท้อนคิด (Reflection)',
+  SUMMARIZE: 'ขั้นสรุปบทเรียน (Summarize / Wrap-up)',
+  OTHER: 'ขั้นอื่นๆ (Other)',
+};
+
+export const PHASE_BADGE_COLORS: Record<string, string> = {
+  ENGAGE: 'bg-amber-100 text-amber-800 border-amber-300',
+  EXPLORE: 'bg-cyan-100 text-cyan-800 border-cyan-300',
+  LEARN: 'bg-blue-100 text-blue-800 border-blue-300',
+  MODEL: 'bg-indigo-100 text-indigo-800 border-indigo-300',
+  PRACTICE: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+  APPLY: 'bg-teal-100 text-teal-800 border-teal-300',
+  PERFORM: 'bg-purple-100 text-purple-800 border-purple-300',
+  DISCUSS: 'bg-sky-100 text-sky-800 border-sky-300',
+  INVESTIGATE: 'bg-rose-100 text-rose-800 border-rose-300',
+  CREATE: 'bg-fuchsia-100 text-fuchsia-800 border-fuchsia-300',
+  ASSESS: 'bg-orange-100 text-orange-800 border-orange-300',
+  REFLECT: 'bg-violet-100 text-violet-800 border-violet-300',
+  SUMMARIZE: 'bg-slate-100 text-slate-800 border-slate-300',
+  OTHER: 'bg-gray-100 text-gray-800 border-gray-300',
+};
+
+export function getPhaseLabel(phase: string): string {
+  return PHASE_LABELS[phase] || phase;
+}
+
+export function getPhaseBadgeColor(phase: string): string {
+  return PHASE_BADGE_COLORS[phase] || 'bg-gray-100 text-gray-800 border-gray-300';
+}

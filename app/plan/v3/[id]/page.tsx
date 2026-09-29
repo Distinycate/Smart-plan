@@ -5,17 +5,18 @@ import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink } from '@/lib/smartPlanV3/types';
 import { getStatusLabel, getSubjectLabel, formatDuration, SaveState, SAVE_STATE_LABELS } from '@/lib/smartPlanV3/labels';
+import Step3Activities from './Step3Activities';
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
 function StepNav({ currentStep, planId }: { currentStep: number; planId: string }) {
-  const steps = ['ข้อมูลแผน', 'เป้าหมาย', 'กิจกรรม', 'ประเมินผล', 'ชุดพร้อมสอน', 'ตรวจคุณภาพ', 'เอกสาร'];
+  const steps = ['ข้อมูลแผน', 'เป้าหมาย', 'ออกแบบการเรียนรู้', 'ประเมินผล', 'ชุดพร้อมสอน', 'ตรวจคุณภาพ', 'เอกสาร'];
   return (
     <nav className="v3-step-nav" aria-label="ขั้นตอน">
       {steps.map((label, i) => {
         const step = i + 1;
         const isActive = step === currentStep;
-        const isAvailable = step <= 2; // Only steps 1 & 2 in V3.3
+        const isAvailable = step <= 3; // Steps 1, 2, 3 active in V3.4
         return (
           <button
             key={step}
@@ -576,11 +577,29 @@ export default function V3PlanEditorPage() {
               >
                 ← ย้อนกลับ
               </button>
-              <button className="v3-btn v3-btn-primary" disabled title="ขั้นที่ 3 จะเปิดใน Wave V3.4">
-                ไปขั้นที่ 3 — กิจกรรม (เร็วๆ นี้)
+              <button
+                className="v3-btn v3-btn-primary"
+                onClick={() => router.push(`/plan/v3/${planId}?step=3`)}
+              >
+                ไปขั้นที่ 3 — ออกแบบการเรียนรู้ →
               </button>
             </div>
           </div>
+        )}
+
+        {currentStep === 3 && (
+          <Step3Activities
+            planId={planId}
+            lesson={lesson}
+            objectives={objectives}
+            evidence={evidence}
+            curriculumLinks={curriculumLinks}
+            objEvdLinks={objEvdLinks}
+            onLessonStatusChange={(newStatus) => {
+              setLesson(prev => prev ? { ...prev, status: newStatus } : null);
+            }}
+            onNavigateToStep={(s) => router.push(`/plan/v3/${planId}?step=${s}`)}
+          />
         )}
       </div>
 
