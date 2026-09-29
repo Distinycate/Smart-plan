@@ -158,21 +158,21 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Objectives Lock
-DROP TRIGGER IF EXISTS trg_v3_objectives_final_lock ON public.v3_objectives;
+DROP TRIGGER IF EXISTS trg_v3_objectives_final_lock ON public.v3_lesson_objectives;
 CREATE TRIGGER trg_v3_objectives_final_lock
-BEFORE INSERT OR UPDATE OR DELETE ON public.v3_objectives
+BEFORE INSERT OR UPDATE OR DELETE ON public.v3_lesson_objectives
 FOR EACH ROW EXECUTE FUNCTION public.prevent_final_lesson_mutation();
 
 -- Evidence Lock
-DROP TRIGGER IF EXISTS trg_v3_evidence_final_lock ON public.v3_evidence;
+DROP TRIGGER IF EXISTS trg_v3_evidence_final_lock ON public.v3_learning_evidence;
 CREATE TRIGGER trg_v3_evidence_final_lock
-BEFORE INSERT OR UPDATE OR DELETE ON public.v3_evidence
+BEFORE INSERT OR UPDATE OR DELETE ON public.v3_learning_evidence
 FOR EACH ROW EXECUTE FUNCTION public.prevent_final_lesson_mutation();
 
 -- Activities Lock
-DROP TRIGGER IF EXISTS trg_v3_activities_final_lock ON public.v3_activities;
+DROP TRIGGER IF EXISTS trg_v3_activities_final_lock ON public.v3_lesson_activities;
 CREATE TRIGGER trg_v3_activities_final_lock
-BEFORE INSERT OR UPDATE OR DELETE ON public.v3_activities
+BEFORE INSERT OR UPDATE OR DELETE ON public.v3_lesson_activities
 FOR EACH ROW EXECUTE FUNCTION public.prevent_final_lesson_mutation();
 
 -- Assessments Lock
