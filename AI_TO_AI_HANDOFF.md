@@ -297,13 +297,56 @@ system is production-ready until those checks pass.
 - All regression suites: Profiles, Workflow, Domain Graph, Blueprint Engine, Assessment Engine, Teaching Package, Quality Engine all PASS.
 - Build gate: `npx tsc --noEmit` and `npm run build` both PASS cleanly.
 
-### READY FOR V3.8 — PREVIEW, EXPORT & DOCUMENT ENGINE
+### WAVE V3.8 — DOCUMENT MODEL & A4 PREVIEW — COMPLETE
 
-**Next Scope (Wave V3.8)**:
-- Printable Preview page (HTML view optimized for screen and print)
-- Microsoft Word (.docx) export generation conforming to official Thai Ministry / PA format
-- PDF export generation
-- Export blocker guard (enforcing zero blocking quality errors before export)
+**Canonical Document Model Architecture**:
+- Created `lib/smartPlanV3/document/` module:
+  - `types.ts`: Pure JSON-serializable canonical document model `V3LessonDocument`, `DocumentMetadata`, `DocumentOptions`, `DocumentSection` (discriminated union for 10 section types), `DocumentAppendix`, `AppendixItem`.
+  - `labels.ts`: Centralized Thai labels for sections, appendix categories, asset types, tool types, and assessment methods.
+  - `formatters.ts`: Deterministic formatting for durations, dates, Thai appendix letters (`ก`, `ข`, `ค`, ...), and objective references.
+  - `pagination.ts`: A4 constraints (210mm x 297mm, margins 20/15/20/20mm), break classes (`page-break-before`, etc.), and `DOCUMENT_A4_CSS`.
+  - `sections.ts`: Section builders for sections 1–10 and `buildDocumentAppendices` with dynamic lettering.
+  - `builder.ts`: `buildLessonDocument(graph, params)` DB-aware builder function with readiness gating and hash computation (`documentSourceHash`).
+  - `validators.ts`: `validateLessonDocumentModel` verifying uniqueness, sequential lettering, zero technical enum leakage, zero UUID leakage, and serializability.
+  - `index.ts`: Unified export module.
+- Single source of truth: `V3 Lesson Graph` $\rightarrow$ `Document Builder` $\rightarrow$ `Canonical Model` $\rightarrow$ `Renderers`.
+
+**Audit & Content Map**:
+- `docs/SMART_PLAN_V3_DOCUMENT_CONTENT_MAP.md`: Full audit mapping canonical sections 1–10 + appendices to V3 structured entities and fallbacks without fabricating missing fields.
+
+**Security & API**:
+- `GET /api/plan/v3/[id]/document`: Read-only server endpoint verifying ownership and readiness (`deriveDocumentReadiness`). Returns 409 if lesson is not in `REVIEWED` status or has blockers. Zero DB access in renderers.
+
+**Modular HTML / A4 Renderer**:
+- `components/smartPlanV3/document/`:
+  - `LessonDocumentHtmlRenderer.tsx`: Master A4 document renderer using CSS Paged Media.
+  - `DocumentSectionRenderer.tsx`: Discriminated union section renderer.
+  - `TeachingAssetRenderer.tsx`: Dedicated renderers for worksheets, problem sets, speaking cards, experiment sheets, data tables, task cards, exit tickets, teacher guides, answer keys.
+  - `AssessmentToolRenderer.tsx`: Dedicated renderers for rubrics, checklists, scoring guides, observation forms.
+- Page break protection, table header repeat, Thai typography line-height, and mobile scale-down support.
+
+**A4 Preview Page & Workflow Stepper**:
+- `app/plan/v3/[id]/preview/page.tsx`: Interactive preview with toolbar, return button, options drawer (toggle Student Assets, Assessment Tools, Answer Keys, Teacher Guide, PA Readiness), zoom controls, browser print (`window.print()`), readiness lock screen, and dev debug modal.
+- `app/plan/v3/[id]/page.tsx`: Updated StepNav to unlock Step 7 when `status === 'REVIEWED'`, added Step 7 view linking to `/plan/v3/${planId}/preview`.
+- `app/plan/v3/[id]/Step6QualityReview.tsx`: Action button to proceed directly to Step 7 upon achieving `REVIEWED`.
+
+**Strict Invariants Verified**:
+- Zero AI calls in document engine (`AI CALLS: 0`).
+- No technical enums or database UUIDs leaked into user-visible document.
+- Pre-teaching safety: Pre-teaching stage cannot invent or claim student outcomes.
+- Immutability: Document building does not mutate the original lesson graph or persist options to lesson core.
+
+**Test & Build Verification**:
+- `tests/test-v3-document-model.js`: Tests A–X (All 24 test cases pass 100%).
+- All 8 test suites pass: Subject Profiles, Workflow, Domain Graph, Blueprint Engine, Assessment Engine, Teaching Package, Quality Engine, Document Model.
+- Build gate: `npx tsc --noEmit` and `npm run build` both PASS cleanly.
+
+### READY FOR V3.9 — WORD & PDF EXPORT ENGINE
+
+**Next Scope (Wave V3.9)**:
+- Server-side Microsoft Word (.docx) export generation using `V3LessonDocument` canonical model
+- Server-side PDF export generation using `V3LessonDocument` canonical model
+- Export status finalization (`REVIEWED` $\rightarrow$ `FINAL` upon export)
 
 ### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
 - Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged

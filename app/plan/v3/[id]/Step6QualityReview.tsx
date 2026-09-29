@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import type { V3LessonGraph } from '@/lib/smartPlanV3/types';
 import type { V3QualityIssue, V3DocumentReadiness, V3QualityRuleResult, V3QualitySummary } from '@/lib/smartPlanV3/quality/types';
 import type { V3PaReadinessResult, V3PaItemResult } from '@/lib/smartPlanV3/pa/types';
@@ -823,10 +824,16 @@ export default function Step6QualityReview({ planId, graph, onBack, onGraphChang
         >
           ← ขั้นที่ 5 (ชุดพร้อมสอน)
         </button>
-        {isDocumentReady && (
-          <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2 text-sm font-semibold text-emerald-700 flex items-center gap-2">
-            <span>✓</span>
-            <span>สถานะ REVIEWED — พร้อมสำหรับขั้นที่ 7 (เอกสาร)</span>
+        {isDocumentReady ? (
+          <Link
+            href={`/plan/v3/${planId}/preview`}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-5 rounded-xl transition text-sm flex items-center gap-2 shadow-sm"
+          >
+            <span>ไปขั้นที่ 7 — ตัวอย่างเอกสาร A4 และพิมพ์ →</span>
+          </Link>
+        ) : (
+          <div className="text-xs text-slate-400">
+            แก้ไขข้อผิดพลาดเพื่อปลดล็อกขั้นที่ 7
           </div>
         )}
       </div>

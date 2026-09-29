@@ -12,21 +12,21 @@ import Step6QualityReview from './Step6QualityReview';
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
-function StepNav({ currentStep, planId, onNavigate }: { currentStep: number; planId: string; onNavigate: (step: number) => void }) {
-  const steps = ['ข้อมูลแผน', 'เป้าหมาย', 'ออกแบบการเรียนรู้', 'ประเมินผล', 'ชุดพร้อมสอน', 'ตรวจคุณภาพ', 'เอกสาร'];
+function StepNav({ currentStep, planId, lessonStatus, onNavigate }: { currentStep: number; planId: string; lessonStatus?: string; onNavigate: (step: number) => void }) {
+  const steps = ['ข้อมูลแผน', 'เป้าหมาย', 'ออกแบบการเรียนรู้', 'ประเมินผล', 'ชุดพร้อมสอน', 'ตรวจคุณภาพ', 'เอกสารและพิมพ์'];
   return (
     <nav className="v3-step-nav" aria-label="ขั้นตอน">
       {steps.map((label, i) => {
         const step = i + 1;
         const isActive = step === currentStep;
-        const isAvailable = step <= 6; // Steps 1 to 6 active in V3.7
+        const isAvailable = step <= 6 || (step === 7 && ['REVIEWED', 'FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || ''));
         return (
           <button
             key={step}
             className={`v3-step-item ${isActive ? 'active' : ''} ${!isAvailable ? 'disabled' : ''}`}
             onClick={() => isAvailable && !isActive ? onNavigate(step) : undefined}
             disabled={!isAvailable}
-            title={!isAvailable ? 'จะเปิดในเวอร์ชันถัดไป' : undefined}
+            title={!isAvailable ? (step === 7 ? 'ต้องผ่านการตรวจคุณภาพในขั้นที่ 6 ก่อน' : 'จะเปิดในเวอร์ชันถัดไป') : undefined}
             aria-current={isActive ? 'step' : undefined}
           >
             <div className="v3-step-dot">{step}</div>
@@ -445,6 +445,7 @@ export default function V3PlanEditorPage() {
       <StepNav
         currentStep={currentStep}
         planId={planId}
+        lessonStatus={lesson.status}
         onNavigate={(step) => router.push(`/plan/v3/${planId}?step=${step}`)}
       />
 
@@ -668,6 +669,42 @@ export default function V3PlanEditorPage() {
         {currentStep === 6 && !graph && (
           <div className="text-center py-16 text-slate-500">
             <p>กำลังโหลดข้อมูล...</p>
+          </div>
+        )}
+
+        {currentStep === 7 && (
+          <div className="v3-editor-section text-center py-10 space-y-4 max-w-xl mx-auto">
+            <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto text-3xl">
+              📄
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">เอกสารแผนการจัดการเรียนรู้ฉบับเต็ม</h2>
+              <p className="text-sm text-slate-600 mt-1">
+                ประกอบเอกสารตามมาตรฐานกระทรวงศึกษาธิการและ ว.PA พร้อมใบงาน ภาระงาน เฉลย และเครื่องมือวัดผล
+              </p>
+            </div>
+
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-left text-xs text-slate-700 space-y-1.5">
+              <div className="font-semibold text-slate-800">สถานะความพร้อมของเอกสาร:</div>
+              <div className="text-emerald-700">✓ แผนผ่านการตรวจสอบคุณภาพเชิงโครงสร้างและความสอดคล้อง (REVIEWED)</div>
+              <div>✓ ข้อมูลและภาคผนวกถูกจัดเรียงตาม Canonical Document Model</div>
+              <div>✓ พร้อมสำหรับการดูตัวอย่างบนหน้ากระดาษ A4 จริงและการพิมพ์</div>
+            </div>
+
+            <div className="pt-2 flex justify-center gap-3">
+              <button
+                className="v3-btn v3-btn-ghost"
+                onClick={() => router.push(`/plan/v3/${planId}?step=6`)}
+              >
+                ← ย้อนกลับไปขั้นที่ 6
+              </button>
+              <Link
+                href={`/plan/v3/${planId}/preview`}
+                className="v3-btn v3-btn-primary py-2.5 px-6 shadow-md"
+              >
+                เปิดตัวอย่างเอกสาร A4 และสั่งพิมพ์ →
+              </Link>
+            </div>
           </div>
         )}
       </div>

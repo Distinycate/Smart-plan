@@ -231,6 +231,7 @@ export function validateAiRefs(
  */
 export function computeLessonHash(graph: V3LessonGraph): string {
   const relevant = {
+    lesson: { id: graph.lesson?.id, topic: graph.lesson?.topic, focus: graph.lesson?.learning_focus, duration: graph.lesson?.duration_minutes },
     objectives: graph.objectives.map(o => ({ id: o.id, s: o.statement, u: o.updated_at })),
     evidence: graph.evidence.map(e => ({ id: e.id, d: e.description, u: e.updated_at })),
     activities: graph.activities.map(a => ({ id: a.id, m: a.minutes, sa: a.student_actions, u: a.updated_at })),

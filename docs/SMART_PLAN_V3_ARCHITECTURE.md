@@ -611,3 +611,57 @@ Condition for Document Readiness:
 ### 13.7 Scoped Apply Fix & Staleness Safety
 - **Scoped Patching:** การนำข้อเสนอแนะของ AI ไปใช้ (Apply Fix) ดำเนินการทีละ Issue ผ่านขั้นตอน: ดูคำแนะนำ $\rightarrow$ ดูข้อความเดิม $\rightarrow$ ดูข้อความเสนอ $\rightarrow$ นำไปใช้ โดยแก้ไขเฉพาะ Field ของ Entity นั้นๆ (เช่น `A2.student_actions`) ห้ามแก้ไข Entity อื่น
 - **Review Staleness:** เมื่อมีการแก้ไขข้อมูล ผลการตรวจเดิมของ AI จะติดสถานะ `isStale = true` ตาม Lesson Hash ทันที และระบบจะรันเฉพาะ Deterministic Rules ใหม่โดยอัตโนมัติ โดยไม่ยิงคำขอ AI ซ้ำโดยพลการ
+
+---
+
+## 14. Document Model & A4 Preview Architecture (Wave V3.8)
+
+### 14.1 Canonical Document Pipeline
+เพื่อขจัดปัญหาความไม่สอดคล้องกันระหว่างหน้า Preview, ไฟล์ Word (.docx) และไฟล์ PDF (.pdf) สถาปัตยกรรม V3 กำหนดให้มี **Canonical Document Model** ชุดเดียวเป็นตัวแทนกลาง:
+
+```text
+REVIEWED Lesson
+      ↓
+Document Builder (DB-aware, Zero AI)
+      ↓
+Canonical Model (V3LessonDocument)
+   ↙          ↘
+Main Body    Appendices (Dynamic lettering & cross-ref)
+      ↓
+HTML Renderer (DB-unaware)
+      ↓
+A4 Preview (CSS Paged Media, Print Safe)
+```
+
+**กฎสถาปัตยกรรมที่สำคัญ:**
+1. **Single Source of Truth:** ทั้ง A4 Preview (V3.8) และ Export Engine DOCX/PDF (V3.9) รับโมเดลข้อมูล `V3LessonDocument` โครงสร้างเดียวกัน
+2. **Zero AI Invariant:** ตัวสร้างเอกสาร (`Document Builder`) และ Renderers ทำงานแบบ Deterministic 100% ปราศจากการเรียกใช้งาน AI (`AI CALLS: 0`)
+3. **No Fabrication of Missing Content:** หาก V3 ยังไม่มีข้อมูลในฟิลด์ใด จะไม่แต่งเติมเนื้อหาขึ้นมาเอง และหากเป็นส่วนราชการที่ยังไม่มีผลสอนจริง (Pre-Teaching) จะแสดงเป็นพื้นที่ว่างสำหรับบันทึกหลังสอนเท่านั้น
+4. **No DB Access in Renderers:** Renderer ทั้งหมดเป็น Pure Presentation Components รับโมเดลข้อมูลที่เป็น JSON-Serializable เท่านั้น
+5. **No Technical Enum or UUID Leaks:** ข้อมูลที่ปรากฏในเอกสารต้องได้รับการแปลงเป็นภาษาไทยมาตรฐานของทางราชการ ปราศจาก UUID และ Technical Enum
+
+### 14.2 Structure and Section Order
+แผนการสอน 1 คาบ (Single Lesson) จัดเรียงลำดับหัวข้อมาตรฐาน 10 หมวด:
+1. ข้อมูลแผนการจัดการเรียนรู้ (`SECTION_METADATA`)
+2. มาตรฐานการเรียนรู้และตัวชี้วัด (`SECTION_CURRICULUM`)
+3. สาระสำคัญ / แนวคิดหลัก (`SECTION_CONCEPTS`)
+4. จุดประสงค์การเรียนรู้ (`SECTION_OBJECTIVES` - เรียงตามลำดับ position)
+5. สาระการเรียนรู้ (`SECTION_CONTENT`)
+6. หลักฐานและภาระงานของผู้เรียน (`SECTION_EVIDENCE` - สื่อสารในภาษาครู)
+7. กระบวนการจัดการเรียนรู้ (`SECTION_ACTIVITIES` - ตาราง/บล็อกกิจกรรม คำนวณเวลารวมแน่นอน)
+8. สื่อและแหล่งเรียนรู้ (`SECTION_ASSETS` - อ้างอิงภาคผนวก)
+9. การวัดและประเมินผล (`SECTION_ASSESSMENT` - ตารางความสัมพันธ์ Objective → Evidence → Method → Tool → Criteria)
+10. บันทึกหลังการจัดการเรียนรู้ (`SECTION_POST_TEACHING` - Template พื้นที่บันทึกสำหรับครู)
+
+### 14.3 Dynamic Appendix Engine
+ภาคผนวกถูกจัดหมวดหมู่และรันลำดับอักษรภาษาไทยแบบไดนามิก (ก, ข, ค, ...) เฉพาะหมวดที่มีข้อมูลจริง:
+- **ภาคผนวก ก:** ใบงาน / ภาระงาน / สื่อสำหรับนักเรียน (Student Assets - ปราศจากเฉลยและคู่มือครู)
+- **ภาคผนวก ข:** เฉลย / แนวคำตอบ (Answer Keys - เริ่มหน้าใหม่เสมอ)
+- **ภาคผนวก ค:** เครื่องมือวัดและประเมินผล (Assessment Tools เช่น Rubrics, Checklists, Scoring Guides)
+- **ภาคผนวก ง:** เอกสารประกอบการสอน / คู่มือครู (Teacher Guide - ตัวเลือกเปิด/ปิด)
+- **ภาคผนวก จ:** การตรวจความพร้อมตามเกณฑ์ วPA (Optional - มีข้อความระบุชัดเจนว่าเป็นการตรวจความสอดคล้องของระบบ ไม่ใช่ผลประเมินอย่างเป็นทางการ)
+
+### 14.4 A4 Layout & Print Typography
+- **CSS Paged Media:** กำหนด `@page { size: A4; margin: 20mm 15mm 20mm 20mm; }`
+- **Typography:** ใช้ฟอนต์มาตรฐานเอกสารไทย (TH Sarabun New) กำหนดขนาดและระยะบรรทัดที่เป็นเอกภาพ
+- **Page Break Safety:** รองรับคลาสควบคุมหน้า `page-break-before`, `avoid-break-inside` ป้องกัน Heading ค้างท้ายหน้า และป้องกัน Activity Block หรือ Rubric ฉีกขาดกลางหน้า
