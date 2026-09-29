@@ -756,6 +756,22 @@ export default function Step4Assessments({
             })}
           </div>
         )}
+
+        {/* Navigation Actions */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid #E2E8F0' }}>
+          <button
+            className="v3-btn v3-btn-ghost"
+            onClick={() => router.push(`/plan/v3/${planId}?step=3`)}
+          >
+            ← ย้อนกลับไปขั้นที่ 3
+          </button>
+          <button
+            className="v3-btn v3-btn-primary"
+            onClick={() => router.push(`/plan/v3/${planId}?step=5`)}
+          >
+            ไปขั้นที่ 5 — ชุดพร้อมสอน →
+          </button>
+        </div>
       </div>
 
       {/* ─── Modal: Create/Edit Assessment ─────────────────────────────────── */}

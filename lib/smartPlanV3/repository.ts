@@ -14,6 +14,10 @@ import {
   V3AssessmentTool,
   V3AssessmentWithLinks,
   V3TeachingAsset,
+  V3TeachingAssetWithLinks,
+  V3AssetObjectiveLink,
+  V3AssetActivityLink,
+  V3AssetEvidenceLink,
   V3PostTeachingRecord,
   V3LessonGraph,
   V3ActivityWithLinks,
@@ -895,9 +899,93 @@ export class V3Repository {
   }
 
   /**
-   * สร้าง Teaching Asset
+   * ดึงรายการ Teaching Assets ทั้งหมดของแผน พร้อม links
    */
-  async createTeachingAsset(data: Omit<V3TeachingAsset, 'id' | 'created_at' | 'updated_at'>): Promise<V3TeachingAsset> {
+  async getTeachingAssets(planId: string): Promise<V3TeachingAssetWithLinks[]> {
+    const { data: assets, error } = await this.supabase
+      .from('v3_teaching_assets')
+      .select('*')
+      .eq('lesson_plan_id', planId)
+      .order('position', { ascending: true });
+
+    if (error) throw new Error(error.message);
+    const assetList = (assets || []) as V3TeachingAsset[];
+    if (assetList.length === 0) return [];
+
+    const assetIds = assetList.map((a) => a.id);
+    const [objLinksRes, actLinksRes, evdLinksRes] = await Promise.all([
+      this.supabase.from('v3_asset_objective_links').select('*').in('asset_id', assetIds),
+      this.supabase.from('v3_asset_activity_links').select('*').in('asset_id', assetIds),
+      this.supabase.from('v3_asset_evidence_links').select('*').in('asset_id', assetIds),
+    ]);
+
+    const objMap = new Map<string, string[]>();
+    (objLinksRes.data || []).forEach((l: any) => {
+      const list = objMap.get(l.asset_id) || [];
+      list.push(l.objective_id);
+      objMap.set(l.asset_id, list);
+    });
+
+    const actMap = new Map<string, string[]>();
+    (actLinksRes.data || []).forEach((l: any) => {
+      const list = actMap.get(l.asset_id) || [];
+      list.push(l.activity_id);
+      actMap.set(l.asset_id, list);
+    });
+
+    const evdMap = new Map<string, string[]>();
+    (evdLinksRes.data || []).forEach((l: any) => {
+      const list = evdMap.get(l.asset_id) || [];
+      list.push(l.evidence_id);
+      evdMap.set(l.asset_id, list);
+    });
+
+    return assetList.map((a) => ({
+      ...a,
+      linkedObjectiveIds: objMap.get(a.id) || [],
+      linkedActivityIds: actMap.get(a.id) || [],
+      linkedEvidenceIds: evdMap.get(a.id) || [],
+    }));
+  }
+
+  /**
+   * ดึง Teaching Asset เดี่ยวพร้อม links
+   */
+  async getTeachingAssetById(id: string): Promise<V3TeachingAssetWithLinks | null> {
+    const { data: asset, error } = await this.supabase
+      .from('v3_teaching_assets')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+    if (!asset) return null;
+
+    const [objLinksRes, actLinksRes, evdLinksRes] = await Promise.all([
+      this.supabase.from('v3_asset_objective_links').select('*').eq('asset_id', id),
+      this.supabase.from('v3_asset_activity_links').select('*').eq('asset_id', id),
+      this.supabase.from('v3_asset_evidence_links').select('*').eq('asset_id', id),
+    ]);
+
+    return {
+      ...(asset as V3TeachingAsset),
+      linkedObjectiveIds: (objLinksRes.data || []).map((l: any) => l.objective_id),
+      linkedActivityIds: (actLinksRes.data || []).map((l: any) => l.activity_id),
+      linkedEvidenceIds: (evdLinksRes.data || []).map((l: any) => l.evidence_id),
+    };
+  }
+
+  /**
+   * สร้าง Teaching Asset พร้อม links (ถ้ามี)
+   */
+  async createTeachingAsset(
+    data: Omit<V3TeachingAsset, 'id' | 'created_at' | 'updated_at'>,
+    options?: {
+      objectiveIds?: string[];
+      activityIds?: string[];
+      evidenceIds?: string[];
+    }
+  ): Promise<V3TeachingAssetWithLinks> {
     const { data: asset, error } = await this.supabase
       .from('v3_teaching_assets')
       .insert([data])
@@ -905,7 +993,186 @@ export class V3Repository {
       .single();
 
     if (error) throw new Error(error.message);
-    return asset as V3TeachingAsset;
+    const createdAsset = asset as V3TeachingAsset;
+
+    // Link Objectives
+    if (options?.objectiveIds && options.objectiveIds.length > 0) {
+      const rows = options.objectiveIds.map((objId) => ({
+        asset_id: createdAsset.id,
+        objective_id: objId,
+      }));
+      const { error: objErr } = await this.supabase.from('v3_asset_objective_links').insert(rows);
+      if (objErr) console.warn('Warning linking asset objective:', objErr.message);
+    }
+
+    // Link Activities
+    if (options?.activityIds && options.activityIds.length > 0) {
+      const rows = options.activityIds.map((actId) => ({
+        asset_id: createdAsset.id,
+        activity_id: actId,
+      }));
+      const { error: actErr } = await this.supabase.from('v3_asset_activity_links').insert(rows);
+      if (actErr) console.warn('Warning linking asset activity:', actErr.message);
+    }
+
+    // Link Evidence
+    if (options?.evidenceIds && options.evidenceIds.length > 0) {
+      const rows = options.evidenceIds.map((evdId) => ({
+        asset_id: createdAsset.id,
+        evidence_id: evdId,
+      }));
+      const { error: evdErr } = await this.supabase.from('v3_asset_evidence_links').insert(rows);
+      if (evdErr) console.warn('Warning linking asset evidence:', evdErr.message);
+    }
+
+    return {
+      ...createdAsset,
+      linkedObjectiveIds: options?.objectiveIds || [],
+      linkedActivityIds: options?.activityIds || [],
+      linkedEvidenceIds: options?.evidenceIds || [],
+    };
+  }
+
+  /**
+   * อัปเดต Teaching Asset และ optionally replace links
+   */
+  async updateTeachingAsset(
+    id: string,
+    updateData: Partial<Omit<V3TeachingAsset, 'id' | 'lesson_plan_id' | 'created_at' | 'updated_at'>>,
+    options?: {
+      objectiveIds?: string[];
+      activityIds?: string[];
+      evidenceIds?: string[];
+    }
+  ): Promise<V3TeachingAssetWithLinks> {
+    const { data: asset, error } = await this.supabase
+      .from('v3_teaching_assets')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    const updatedAsset = asset as V3TeachingAsset;
+
+    // Replace objective links if explicitly provided
+    if (options?.objectiveIds !== undefined) {
+      await this.supabase.from('v3_asset_objective_links').delete().eq('asset_id', id);
+      if (options.objectiveIds.length > 0) {
+        const rows = options.objectiveIds.map((objId) => ({
+          asset_id: id,
+          objective_id: objId,
+        }));
+        await this.supabase.from('v3_asset_objective_links').insert(rows);
+      }
+    }
+
+    // Replace activity links if explicitly provided
+    if (options?.activityIds !== undefined) {
+      await this.supabase.from('v3_asset_activity_links').delete().eq('asset_id', id);
+      if (options.activityIds.length > 0) {
+        const rows = options.activityIds.map((actId) => ({
+          asset_id: id,
+          activity_id: actId,
+        }));
+        await this.supabase.from('v3_asset_activity_links').insert(rows);
+      }
+    }
+
+    // Replace evidence links if explicitly provided
+    if (options?.evidenceIds !== undefined) {
+      await this.supabase.from('v3_asset_evidence_links').delete().eq('asset_id', id);
+      if (options.evidenceIds.length > 0) {
+        const rows = options.evidenceIds.map((evdId) => ({
+          asset_id: id,
+          evidence_id: evdId,
+        }));
+        await this.supabase.from('v3_asset_evidence_links').insert(rows);
+      }
+    }
+
+    return (await this.getTeachingAssetById(id)) || {
+      ...updatedAsset,
+      linkedObjectiveIds: options?.objectiveIds || [],
+      linkedActivityIds: options?.activityIds || [],
+      linkedEvidenceIds: options?.evidenceIds || [],
+    };
+  }
+
+  /**
+   * ลบ Teaching Asset
+   * ลบเฉพาะ links ที่เป็นของ asset นี้
+   * ห้ามแตะ v3_lesson_objectives, v3_lesson_activities, v3_learning_evidence, v3_assessments
+   */
+  async deleteTeachingAsset(id: string): Promise<void> {
+    await Promise.all([
+      this.supabase.from('v3_asset_objective_links').delete().eq('asset_id', id),
+      this.supabase.from('v3_asset_activity_links').delete().eq('asset_id', id),
+      this.supabase.from('v3_asset_evidence_links').delete().eq('asset_id', id),
+    ]);
+
+    const { error } = await this.supabase.from('v3_teaching_assets').delete().eq('id', id);
+    if (error) throw new Error(error.message);
+  }
+
+  /**
+   * Link Helpers for Teaching Assets
+   */
+  async linkAssetObjective(assetId: string, objectiveId: string): Promise<V3AssetObjectiveLink> {
+    const { data, error } = await this.supabase
+      .from('v3_asset_objective_links')
+      .insert([{ asset_id: assetId, objective_id: objectiveId }])
+      .select()
+      .single();
+    if (error) throw new Error(error.message);
+    return data as V3AssetObjectiveLink;
+  }
+
+  async unlinkAssetObjective(assetId: string, objectiveId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('v3_asset_objective_links')
+      .delete()
+      .eq('asset_id', assetId)
+      .eq('objective_id', objectiveId);
+    if (error) throw new Error(error.message);
+  }
+
+  async linkAssetActivity(assetId: string, activityId: string): Promise<V3AssetActivityLink> {
+    const { data, error } = await this.supabase
+      .from('v3_asset_activity_links')
+      .insert([{ asset_id: assetId, activity_id: activityId }])
+      .select()
+      .single();
+    if (error) throw new Error(error.message);
+    return data as V3AssetActivityLink;
+  }
+
+  async unlinkAssetActivity(assetId: string, activityId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('v3_asset_activity_links')
+      .delete()
+      .eq('asset_id', assetId)
+      .eq('activity_id', activityId);
+    if (error) throw new Error(error.message);
+  }
+
+  async linkAssetEvidence(assetId: string, evidenceId: string): Promise<V3AssetEvidenceLink> {
+    const { data, error } = await this.supabase
+      .from('v3_asset_evidence_links')
+      .insert([{ asset_id: assetId, evidence_id: evidenceId }])
+      .select()
+      .single();
+    if (error) throw new Error(error.message);
+    return data as V3AssetEvidenceLink;
+  }
+
+  async unlinkAssetEvidence(assetId: string, evidenceId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('v3_asset_evidence_links')
+      .delete()
+      .eq('asset_id', assetId)
+      .eq('evidence_id', evidenceId);
+    if (error) throw new Error(error.message);
   }
 
   /**
@@ -943,6 +1210,7 @@ export class V3Repository {
     const objectiveIds = objectives.map(o => o.id);
     const activityIds = activities.map(a => a.id);
     const assessmentIds = assessments.map(a => a.id);
+    const assetIds = teachingAssets.map(a => a.id);
 
     // Fetch Junction Links & Tools
     const [
@@ -951,7 +1219,10 @@ export class V3Repository {
       actEvdLinksRes,
       asmEvdLinksRes,
       asmActLinksRes,
-      asmToolsRes
+      asmToolsRes,
+      assetObjLinksRes,
+      assetActLinksRes,
+      assetEvdLinksRes,
     ] = await Promise.all([
       objectiveIds.length > 0 
         ? this.supabase.from('v3_objective_evidence_links').select('*').in('objective_id', objectiveIds)
@@ -970,6 +1241,15 @@ export class V3Repository {
         : { data: [] },
       assessmentIds.length > 0
         ? this.supabase.from('v3_assessment_tools').select('*').in('assessment_id', assessmentIds)
+        : { data: [] },
+      assetIds.length > 0
+        ? this.supabase.from('v3_asset_objective_links').select('*').in('asset_id', assetIds)
+        : { data: [] },
+      assetIds.length > 0
+        ? this.supabase.from('v3_asset_activity_links').select('*').in('asset_id', assetIds)
+        : { data: [] },
+      assetIds.length > 0
+        ? this.supabase.from('v3_asset_evidence_links').select('*').in('asset_id', assetIds)
         : { data: [] },
     ]);
 
@@ -990,6 +1270,9 @@ export class V3Repository {
       assessmentActivityLinks: (asmActLinksRes.data || []) as V3AssessmentActivityLink[],
       assessmentTools: (asmToolsRes.data || []) as V3AssessmentTool[],
       teachingAssets,
+      assetObjectiveLinks: (assetObjLinksRes.data || []) as V3AssetObjectiveLink[],
+      assetActivityLinks: (assetActLinksRes.data || []) as V3AssetActivityLink[],
+      assetEvidenceLinks: (assetEvdLinksRes.data || []) as V3AssetEvidenceLink[],
       postTeaching,
     };
   }

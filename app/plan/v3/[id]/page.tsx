@@ -3,10 +3,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink } from '@/lib/smartPlanV3/types';
+import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink, V3LessonActivity } from '@/lib/smartPlanV3/types';
 import { getStatusLabel, getSubjectLabel, formatDuration, SaveState, SAVE_STATE_LABELS } from '@/lib/smartPlanV3/labels';
 import Step3Activities from './Step3Activities';
 import Step4Assessments from './Step4Assessments';
+import Step5TeachingPackage from './Step5TeachingPackage';
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
@@ -17,7 +18,7 @@ function StepNav({ currentStep, planId }: { currentStep: number; planId: string 
       {steps.map((label, i) => {
         const step = i + 1;
         const isActive = step === currentStep;
-        const isAvailable = step <= 4; // Steps 1, 2, 3, 4 active in V3.5
+        const isAvailable = step <= 5; // Steps 1 to 5 active in V3.6
         return (
           <button
             key={step}
@@ -223,6 +224,7 @@ export default function V3PlanEditorPage() {
   const [objectives, setObjectives] = useState<V3LessonObjective[]>([]);
   const [evidence, setEvidence] = useState<V3LearningEvidence[]>([]);
   const [objEvdLinks, setObjEvdLinks] = useState<V3ObjectiveEvidenceLink[]>([]);
+  const [activities, setActivities] = useState<V3LessonActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<SaveState>('idle');
@@ -254,6 +256,7 @@ export default function V3PlanEditorPage() {
       setObjectives((g.objectives || []).sort((a: V3LessonObjective, b: V3LessonObjective) => a.position - b.position));
       setEvidence((g.evidence || []).sort((a: V3LearningEvidence, b: V3LearningEvidence) => a.position - b.position));
       setObjEvdLinks(g.objectiveEvidenceLinks || []);
+      setActivities((g.activities || []).sort((a: V3LessonActivity, b: V3LessonActivity) => a.position - b.position));
       if (linksRes.success) setCurriculumLinks(linksRes.data || []);
     } catch {
       setError('ไม่สามารถโหลดข้อมูลได้');
@@ -610,6 +613,20 @@ export default function V3PlanEditorPage() {
             objectives={objectives}
             evidence={evidence}
             objEvdLinks={objEvdLinks}
+          />
+        )}
+
+        {currentStep === 5 && (
+          <Step5TeachingPackage
+            planId={planId}
+            lesson={lesson}
+            objectives={objectives}
+            evidence={evidence}
+            activities={activities}
+            onLessonStatusChange={(newStatus) => {
+              setLesson(prev => prev ? { ...prev, status: newStatus } : null);
+            }}
+            onNavigateToStep={(s) => router.push(`/plan/v3/${planId}?step=${s}`)}
           />
         )}
       </div>

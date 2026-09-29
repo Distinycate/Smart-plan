@@ -235,3 +235,56 @@ export function validateCreateAssessmentInput(input: any): ValidationResult {
     }
   };
 }
+
+export function validateCreateTeachingAssetInput(input: any): ValidationResult {
+  if (!input || typeof input !== 'object') {
+    return { success: false, error: 'ข้อมูลสื่อการสอนไม่ถูกต้อง' };
+  }
+
+  if (!input.lesson_plan_id || !isValidUuid(input.lesson_plan_id)) {
+    return { success: false, error: 'รหัสแผนการสอน (lesson_plan_id) ไม่ถูกต้อง' };
+  }
+
+  if (!input.title || typeof input.title !== 'string' || !input.title.trim()) {
+    return { success: false, error: 'กรุณาระบุชื่อสื่อการสอน (title)' };
+  }
+
+  if (!input.asset_type || typeof input.asset_type !== 'string' || !input.asset_type.trim()) {
+    return { success: false, error: 'กรุณาระบุประเภทสื่อการสอน (asset_type)' };
+  }
+
+  const validAudiences = ['TEACHER', 'STUDENT', 'BOTH'];
+  const audience = input.audience && validAudiences.includes(input.audience) ? input.audience : 'STUDENT';
+
+  const position = Number(input.position ?? 0);
+  if (isNaN(position) || position < 0) {
+    return { success: false, error: 'ลำดับสื่อการสอน (position) ต้องไม่ติดลบ' };
+  }
+
+  const validStatuses = ['DRAFT', 'READY', 'FAILED'];
+  const generation_status =
+    input.generation_status && validStatuses.includes(input.generation_status)
+      ? input.generation_status
+      : 'READY';
+
+  const source = input.source && VALID_SOURCES.includes(input.source) ? input.source : 'MANUAL';
+  const content = input.content && typeof input.content === 'object' ? input.content : {};
+
+  return {
+    success: true,
+    data: {
+      lesson_plan_id: input.lesson_plan_id,
+      title: input.title.trim(),
+      asset_type: input.asset_type.trim().toUpperCase(),
+      audience,
+      position,
+      content,
+      generation_status,
+      needs_review: Boolean(input.needs_review),
+      source,
+      objectiveIds: Array.isArray(input.objectiveIds) ? input.objectiveIds.filter(isValidUuid) : [],
+      activityIds: Array.isArray(input.activityIds) ? input.activityIds.filter(isValidUuid) : [],
+      evidenceIds: Array.isArray(input.evidenceIds) ? input.evidenceIds.filter(isValidUuid) : [],
+    },
+  };
+}

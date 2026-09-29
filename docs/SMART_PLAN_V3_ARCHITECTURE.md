@@ -486,3 +486,52 @@ graph TD
 - **AI บทบาทเดียว:** ช่วยร่างคำอธิบายระดับคุณภาพ (Descriptors) หรือข้อความพฤติกรรมที่สังเกตได้ (1 Scoped Request ต่อ 1 เครื่องมือ)
 - **ห้าม AI:** ห้ามเลือกประเภท Assessment, ห้ามเลือกประเภทเครื่องมือ, ห้ามสร้าง Rubric K/P/A อัตโนมัติ, ห้ามคำนวณเกณฑ์ผ่าน หรือตรวจความพร้อม
 - **Preview First:** เครื่องมือที่ AI ร่างจะแสดงในหน้าต่าง Preview ให้ครูตรวจสอบและปรับแก้ในตารางได้อิสระก่อนบันทึกลงฐานข้อมูล
+
+---
+
+## 12. Wave V3.6 — Teaching Package Builder
+
+### 12.1 Core Architectural Flow
+Wave V3.6 เปลี่ยน Smart Plan จาก "Lesson Plan Builder" เป็น **"PA-Ready Teaching Package Builder"** โดยใช้กราฟข้อมูลทั้งหมด (Indicators → Objectives → Evidence → Activities → Assessment → Assessment Tools) มาสร้างเฉพาะสื่อที่จำเป็นต่อคาบนั้นจริง:
+
+```mermaid
+graph TD
+    LG[Lesson Graph] --> RE[Asset Requirement Engine]
+    RE --> CAT[Required / Recommended / Optional]
+    CAT --> TC[ครูเลือกสื่อที่ต้องการสร้าง]
+    TC --> AG[Asset Generator: 1 Scoped AI Call]
+    AG --> SV[Pure TypeScript Schema Validation]
+    SV --> PV[Preview Modal]
+    PV --> TE[ครูปรับแก้เนื้อหา Teacher Edit]
+    TE --> AP[บันทึกนำไปใช้ Apply to DB]
+    AP --> TP[ชุดพร้อมสอนสมบูรณ์: PACKAGE_READY]
+```
+
+### 12.2 Deterministic Asset Requirement Engine
+- **โมดูล:** `lib/smartPlanV3/rules/teachingAssetRules.ts`
+- **Zero AI for Requirements:** ระบบจำแนกความต้องการสื่อเป็น 4 หมวด: `required`, `recommended`, `optional`, `notNeeded` โดยพิจารณาจาก Subject Profile + Learning Focus + Activity Hints + Evidence + Assessment
+- **Priority:** Assessment requirement > Activity requirement > Subject recommendation
+- **Deduplication:** หากกิจกรรมหลายช่วงระบุสื่อประเภทเดียวกัน (เช่น Speaking Card ในกิจกรรมที่ 2 และ 3) ระบบจะรวมเป็น 1 รายการสื่อ ไม่สร้างซ้ำซ้อน
+- **ความสอดคล้องตามธรรมชาติวิชา:**
+  - *English Speaking:* ต้องการ `SPEAKING_CARD` (Student) + Reuse `ASSESSMENT_FORM` (Teacher), ไม่บังคับ Worksheet
+  - *Math Problem Solving:* ต้องการ `PROBLEM_SET` (Student, มีสถานการณ์และพื้นที่แสดงวิธีคิด/เหตุผล) + `ANSWER_KEY` (Teacher)
+  - *Math Calculation:* ต้องการ `PROBLEM_SET` / `WORKSHEET` + `ANSWER_KEY`
+  - *Science Experiment:* ต้องการ `EXPERIMENT_SHEET` + `DATA_TABLE` + Reuse `ASSESSMENT_FORM`
+  - *Physical Education:* ต้องการ `TASK_CARD` (Student) + Reuse `ASSESSMENT_FORM`, ใบงานข้อเขียนถูกจัดเป็น `notNeeded`
+  - *Art:* ต้องการ `ACTIVITY_SHEET` (Planning Sheet / Product Brief), แบบทดสอบปรนัยถูกจัดเป็น `notNeeded`
+
+### 12.3 Answer Key Guard & Prerequisite Enforcement
+- **Answer Key Guard:** การสร้างเฉลย (Answer Key) จะถูกบล็อกหากยังไม่มี Worksheet / Problem Set ที่บันทึกเนื้อหาลงระบบแล้ว
+- **Assessment Tool Reuse:** ห้ามสร้าง Rubric หรือ Checklist ซ้ำใน Teaching Assets หากมีอยู่แล้วในขั้นที่ 4 ระบบจะเชื่อมโยงและนำมาใช้ซ้ำ (Reuse) โดยตรง
+
+### 12.4 Preview-First & Teacher Empowerment
+- **1 Asset = 1 Scoped Call:** ห้ามสร้างทั้งชุดพร้อมสอนในคำขอ AI เดียว เพื่อควบคุมความเสถียร ประหยัด Token และรองรับการ Regenerate เฉพาะจุด
+- **Existing vs. Alternative:** เมื่อขอแนวทางใหม่ ("ขอแนวทางใหม่") ระบบจะแสดงสื่อปัจจุบันเทียบกับแนวทางใหม่ ให้ครูเลือกและแก้ไขก่อนบันทึก ห้าม AI เขียนทับของเดิมโดยไม่ได้รับอนุญาต
+- **Duration Warning:** ตรวจสอบเวลาทำสื่อกับเวลากิจกรรมจริง หาก `estimatedMinutes > activityMinutes` จะแจ้งเตือนข้อผิดพลาดทันที
+
+### 12.5 Stale Asset Detection & Package Readiness
+- **Stale Detection:** `deriveAssetReviewState()` ตรวจสอบ Timestamp ของ Objective, Activity, Evidence ที่เชื่อมโยง หากมีการแก้ไขหลังจากสร้างสื่อ สื่อนั้นจะติดสถานะ `needs_review = true` พร้อมแจ้งให้ครูตรวจสอบ
+- **Package Readiness:** `deriveTeachingPackageReadiness()` ตรวจสอบว่า Blueprint พร้อม, Assessment พร้อม, สื่อจำเป็นทุกชิ้นอยู่ในสถานะ `READY` และไม่มีสื่อที่ค้าง `needs_review`
+- **Workflow State Transition:**
+  - เมื่อสื่อจำเป็นครบถ้วน: เลื่อนสถานะจาก `BLUEPRINT_READY` $\longrightarrow$ `PACKAGE_READY`
+  - หากลบสื่อจำเป็น: ปรับลดสถานะจาก `PACKAGE_READY` $\longrightarrow$ `BLUEPRINT_READY` อัตโนมัติ

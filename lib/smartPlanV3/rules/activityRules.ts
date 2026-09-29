@@ -245,6 +245,7 @@ export function deriveLessonWorkflowStatus(
   graph: {
     activities: Array<{ minutes: number; linkedObjectiveIds?: string[] }>;
     objectives: Array<{ id: string }>;
+    packageReadiness?: { ready: boolean };
   }
 ): V3LessonStatus {
   const currentStatus = currentLesson.status;
@@ -256,30 +257,43 @@ export function deriveLessonWorkflowStatus(
   const hasActivities = graph.activities.length > 0;
 
   const coveredObjs = new Set<string>();
-  graph.activities.forEach(a => {
-    (a.linkedObjectiveIds || []).forEach(id => coveredObjs.add(id));
+  graph.activities.forEach((a) => {
+    (a.linkedObjectiveIds || []).forEach((id) => coveredObjs.add(id));
   });
   const allObjectivesCovered =
     graph.objectives.length > 0 &&
-    graph.objectives.every(o => coveredObjs.has(o.id));
+    graph.objectives.every((o) => coveredObjs.has(o.id));
 
   const isBlueprintReady = hasActivities && isTimeComplete && allObjectivesCovered;
 
-  if (isBlueprintReady) {
-    // If it was DRAFT, promote to BLUEPRINT_READY
-    if (currentStatus === 'DRAFT') {
-      return 'BLUEPRINT_READY';
+  if (!isBlueprintReady) {
+    // If blueprint criteria are NOT satisfied:
+    // If it was BLUEPRINT_READY or PACKAGE_READY, downgrade back to DRAFT
+    if (currentStatus === 'BLUEPRINT_READY' || currentStatus === 'PACKAGE_READY') {
+      return 'DRAFT';
     }
-    // If it's already higher (PACKAGE_READY, REVIEWED, FINAL, TAUGHT, REFLECTED), retain
     return currentStatus;
   }
 
-  // If blueprint criteria are NOT satisfied:
-  // If it was BLUEPRINT_READY, downgrade back to DRAFT
-  if (currentStatus === 'BLUEPRINT_READY') {
-    return 'DRAFT';
+  // Blueprint criteria ARE satisfied:
+  const isPackageReady = graph.packageReadiness ? graph.packageReadiness.ready : false;
+
+  if (isPackageReady) {
+    if (currentStatus === 'DRAFT' || currentStatus === 'BLUEPRINT_READY') {
+      return 'PACKAGE_READY';
+    }
+    return currentStatus;
   }
 
-  // Return unchanged status for other states
+  // Blueprint is ready, but package is NOT ready (or packageReadiness is false/missing):
+  if (currentStatus === 'PACKAGE_READY' && graph.packageReadiness && !graph.packageReadiness.ready) {
+    // Downgrade back to BLUEPRINT_READY
+    return 'BLUEPRINT_READY';
+  }
+
+  if (currentStatus === 'DRAFT') {
+    return 'BLUEPRINT_READY';
+  }
+
   return currentStatus;
 }

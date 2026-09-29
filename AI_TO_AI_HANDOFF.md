@@ -197,63 +197,81 @@ system is production-ready until those checks pass.
 | V3.2 — Curriculum & Subject Profile Engine | `ae4922d` | ✅ DONE |
 | V3.3 — New Lesson Creation Workflow (Steps 1 & 2) | `9268fe3` / `7ac155e` | ✅ DONE |
 | V3.4 — 60-Minute Lesson Blueprint & Activity Engine | `959390e` | ✅ DONE |
-| V3.5 — Assessment Engine | (Current) | ✅ DONE |
+| V3.5 — Assessment Engine | 076eb21 | ✅ DONE |
+| V3.6 — Teaching Package Builder | (Current) | ✅ DONE |
 
-### V3.5 Deliverables
+### V3.6 Deliverables — Teaching Package Builder
 
-**Database & Migration**:
-- `database/migrations/17_smart_plan_v3_assessment_activity_links.sql`:
-  - Table `v3_assessment_activity_links (assessment_id, activity_id, created_at, PRIMARY KEY (assessment_id, activity_id))`
-  - RLS policies deriving ownership from Lesson Plan
-  - Cascade junctions with indexes
+**Core Principles & Architecture**:
+- Transforms the Lesson Graph (`Indicators → Objectives → Evidence → Activities → Assessment → Assessment Tools`) into curated, bespoke teaching assets (`v3_teaching_assets`).
+- Zero AI for requirement categorization; 100% deterministic rules engine based on Subject Profiles and Activity/Evidence/Assessment Graph.
+- 1 Asset = 1 Scoped AI request (Never generate the entire package in a single prompt).
+- Strict Preview-first flow: `Generate → Schema Validation → Preview Modal → Teacher Edit → Apply to DB`.
+- Answer Key Guard: strictly blocked until parent worksheet/problem set is created and saved.
+- Assessment Tool Reuse: reuses Step 4 rubrics and checklists without duplicating them as teaching assets.
 
-**Assessment Rules & Recommendation Engine** (`lib/smartPlanV3/rules/assessmentRules.ts`):
-- `getAssessmentRecommendations`: Deterministic recommendations based on Subject Profile + Learning Focus + Evidence Type (e.g. Speaking → Performance Rubric / Observation; Math Calculation → Answer Key / Scoring Guide; Math Problem Solving → Scoring Guide / Rubric; Science Experiment → Checklist / Observation Form; PE Skill → Performance Rubric / Checklist).
-- `validateAssessmentRules`: Evaluates evidence coverage, tool completeness, criteria completeness, tool mismatch warnings (e.g. Speaking with Answer Key), formative assessment checks, and feedback links.
-- `deriveAssessmentReadiness`: Runtime assessment readiness derivation (ready, unassessedEvidenceIds, missingToolAssessmentIds, missingCriteriaAssessmentIds, warnings).
+**Deterministic Asset Requirement Engine** (`lib/smartPlanV3/rules/teachingAssetRules.ts`):
+- `deriveTeachingAssetRequirements`: Categorizes assets into `required`, `recommended`, `optional`, and `notNeeded`.
+  - English Speaking: `SPEAKING_CARD` (Required, Student) + Reuse `ASSESSMENT_FORM` (Required, Teacher); `FLASHCARD` & `EXIT_TICKET` (Recommended); `WORKSHEET` (Optional, NOT required).
+  - Math Calculation: `PROBLEM_SET` / `WORKSHEET` (Required, Student) + `ANSWER_KEY` (Required, Teacher).
+  - Math Problem Solving: `PROBLEM_SET` (Required, Student, situation + reasoning workspace) + `ANSWER_KEY` (Required, Teacher).
+  - Science Experiment: `EXPERIMENT_SHEET` (Required, Student) + `DATA_TABLE` (Required, Student) + Reuse `ASSESSMENT_FORM` (Checklist).
+  - Physical Education: `TASK_CARD` (Required, Student) + Reuse `ASSESSMENT_FORM`; `WORKSHEET` marked as `notNeeded`.
+  - Art: `ACTIVITY_SHEET` (Planning Sheet / Product Brief); `QUIZ` marked as `notNeeded`.
+  - Deduplication: Merges multiple activity hints into 1 requirement item with combined activity targets.
+- `deriveAssetReviewState`: Stale detection comparing entity timestamps; flags `needs_review = true` if linked objective, activity, or evidence was updated.
+- `deriveTeachingPackageReadiness`: Verifies Blueprint readiness, Assessment readiness, all required assets ready (`generation_status === 'READY'`), and no required asset `needs_review`.
+- `deriveLessonWorkflowStatus`: Promotes status to `PACKAGE_READY` when package readiness is satisfied; downgrades from `PACKAGE_READY` to `BLUEPRINT_READY` if required assets are missing or deleted.
 
-**Tool Schemas** (`lib/smartPlanV3/assessmentTools/schemas.ts`):
-- Pure TypeScript validators for: `Rubric` (3-5 levels, non-empty descriptors), `Checklist` (observable items), `ScoringGuide` (criteria & points), `RatingScale`, `AnswerKey`, `ObservationForm`, and `ExitTicket`.
+**Pure TypeScript Schemas & Validation** (`lib/smartPlanV3/teachingAssets/schemas.ts`):
+- Pure TypeScript models and validators (Zero `zod` dependency):
+  - `WorksheetContent` & `ProblemSetContent` (sections, items, answerSpace, points)
+  - `SpeakingCardContent` (Student A & B cards, situations, cues, vocabulary, expected utterances)
+  - `ExperimentSheetContent` & `DataTableDef` (materials, safety, observation table, CER prompt)
+  - `TaskCardContent` (stations, goals, steps, key techniques, safety notes)
+  - `TeacherGuideContent` (timeline aligned with activity metadata, prompts, expected responses, tips)
+  - `ExitTicketAssetContent` (1-5 min prompt models)
+  - `AnswerKeyAssetContent` (exact answers, accepted answers, scoring criteria for reasoning)
+- `validateAssetDuration`: Flags warning when `estimatedMinutes > activityMinutes`.
 
-**AI Assessment Tool Generator** (`lib/smartPlanV3/ai/`):
-- `assessmentToolPrompt.ts`: System instruction enforcing observable behaviors, 60-min lesson sizing (3-4 criteria for rubrics, 4-8 items for checklists), no changing of objectives/evidence.
-- `assessmentToolSchema.ts`: JSON extractor and schema validator.
-- `assessmentToolService.ts`: 1 scoped Gemini call per tool, server-authoritative context loading, auto-retry on schema error, Preview-first workflow (never writes directly to DB). Answer Key safety guard against missing question contexts.
+**Scoped AI Services** (`lib/smartPlanV3/ai/`):
+- `teachingAssetPrompt.ts`: System instruction enforcing active learning and observable behaviors; family-specific prompt builders.
+- `teachingAssetService.ts`: Server-side context builder stripping all user/email/student identifiers; scoped Gemini generation with auto-retry; Answer Key guard enforcement.
 
 **Repository Extensions** (`lib/smartPlanV3/repository.ts`):
-- `getAssessments(planId)` with linked evidence and activity IDs, attached tool.
-- `getAssessmentById(id)`.
-- `createAssessment`, `updateAssessment`, `deleteAssessment` (cascades safely without touching Evidence, Activity, or Objectives).
-- `linkAssessmentEvidence`, `unlinkAssessmentEvidence`.
-- `linkAssessmentActivity`, `unlinkAssessmentActivity`.
-- `createAssessmentTool`, `updateAssessmentTool`, `deleteAssessmentTool`.
-- Updated `getLessonGraph` to load `assessmentActivityLinks`.
+- `getTeachingAssets(planId)` with linked objective, activity, and evidence IDs.
+- `getTeachingAssetById(id)`.
+- `createTeachingAsset`, `updateTeachingAsset`, `deleteTeachingAsset` (cascades junction links safely without touching objectives, activities, evidence, or assessments).
+- Junction link helpers: `linkAssetObjective`, `unlinkAssetObjective`, `linkAssetActivity`, `unlinkAssetActivity`, `linkAssetEvidence`, `unlinkAssetEvidence`.
+- Updated `getLessonGraph` to load `assetObjectiveLinks`, `assetActivityLinks`, `assetEvidenceLinks`.
 
 **API Endpoints**:
-- `GET / POST /api/plan/v3/[id]/assessments`: List with links/tools/readiness & create assessment
-- `GET / PATCH / DELETE /api/plan/v3/[id]/assessments/[asmId]`: Single assessment CRUD & link updates
-- `POST / PATCH / DELETE /api/plan/v3/[id]/assessments/[asmId]/tool`: Tool CRUD
-- `POST /api/plan/v3/[id]/assessments/[asmId]/tool/generate`: AI tool preview generation
+- `GET / POST /api/plan/v3/[id]/assets`: List with requirements & readiness; create asset or link.
+- `GET / PATCH / DELETE /api/plan/v3/[id]/assets/[assetId]`: Single asset CRUD & workflow status sync.
+- `POST /api/plan/v3/[id]/assets/recommend`: Return required/recommended/optional asset breakdown.
+- `POST /api/plan/v3/[id]/assets/generate`: Scoped AI generator returning preview only.
 
-**UI (Step 4)**:
-- `Step4Assessments.tsx`:
-  - Stepper Step 4 unlocked (`isAvailable = step <= 4`).
-  - Evidence-driven layout with linked Objectives displayed on each Evidence card.
-  - Recommendation engine badges ("💡 ข้อเสนอแนะตามธรรมชาติวิชา").
-  - Formative Quick Check integration from Step 3 activities.
-  - Dynamic Criteria UI adapting to criteria type (%, score, items, rubric level).
-  - Tool Editor & AI Preview before Apply modal with matrix table editor for Rubrics.
+**UI (Step 5)**:
+- `Step5TeachingPackage.tsx`:
+  - Stepper Step 5 unlocked (`isAvailable = step <= 5`).
+  - Precondition banner: blocks package builder with link to Step 4 if activities = 0 or assessment is not ready.
+  - Audience filter: ทั้งหมด (All) / นักเรียน (Student) / ครู (Teacher).
+  - Categorized asset lists: Required, Recommended, Optional.
+  - AI Generation Modal with Preview before Apply, duration warning, and Existing vs. Alternative comparison for regeneration.
+  - Manual asset creation modal ("+ เพิ่มสื่อเอง").
+  - Stale asset notification banner with "ตรวจทานแล้ว" acknowledgment.
+  - Package readiness summary header (`PACKAGE_READY` badge).
 
-**Automated Tests**:
-- `tests/test-v3-assessment-engine.js`: Tests A–O (All 15 test cases, 20 passed, AI CALLS: 0).
-- `tests/smoke-test-v3-assessment-gemini.js`: Live Gemini 2.5 Flash smoke tests (English Speaking Rubric, Math Scoring Guide, Science Checklist all PASS).
+**Automated & Smoke Tests**:
+- `tests/test-v3-teaching-package.js`: Tests A–O (All 15 test cases, 17/17 passed, AI CALLS: 0).
+- `tests/smoke-test-v3-teaching-package-gemini.js`: Live Gemini 2.5 Flash smoke tests (English Speaking Card, Math Problem Set, Science Experiment Sheet, Teacher Guide Timeline all PASS).
 
-### READY FOR V3.6 — TEACHING PACKAGE BUILDER
+### READY FOR V3.7 — QUALITY & PA READINESS ENGINE
 
-**Next Scope (Wave V3.6)**:
-- Teaching Package Generator (`v3_teaching_assets`, worksheets, slides, flashcards, teacher scripts)
-- Student Package Builder
-- Differentiation & Accommodation assets
+**Next Scope (Wave V3.7)**:
+- Quality Review Engine (PA-8 indicators alignment & rubric criteria evaluation)
+- PA Readiness Report
+- Rubric scoring & compliance check
 
 ### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
 - Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged

@@ -210,6 +210,30 @@ export interface V3AssessmentActivityLink {
   created_at: string;
 }
 
+export interface V3AssetObjectiveLink {
+  asset_id: string;
+  objective_id: string;
+  created_at: string;
+}
+
+export interface V3AssetActivityLink {
+  asset_id: string;
+  activity_id: string;
+  created_at: string;
+}
+
+export interface V3AssetEvidenceLink {
+  asset_id: string;
+  evidence_id: string;
+  created_at: string;
+}
+
+export interface V3TeachingAssetWithLinks extends V3TeachingAsset {
+  linkedObjectiveIds: string[];
+  linkedActivityIds: string[];
+  linkedEvidenceIds: string[];
+}
+
 /**
  * Composite Aggregate Root for Lesson V3
  * Loaded via getLessonGraph(planId)
@@ -228,6 +252,9 @@ export interface V3LessonGraph {
   assessmentActivityLinks: V3AssessmentActivityLink[];
   assessmentTools: V3AssessmentTool[];
   teachingAssets: V3TeachingAsset[];
+  assetObjectiveLinks?: V3AssetObjectiveLink[];
+  assetActivityLinks?: V3AssetActivityLink[];
+  assetEvidenceLinks?: V3AssetEvidenceLink[];
   postTeaching: V3PostTeachingRecord | null;
   reviews?: V3PlanReview[];
 }
@@ -566,5 +593,75 @@ export interface V3AssessmentReadiness {
     criteriaComplete: boolean;
     hasFormative: boolean;
     hasFeedback: boolean;
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Wave V3.6 — Teaching Package Builder Types
+// ─────────────────────────────────────────────────────────────────
+
+export type V3TeachingAssetType =
+  | 'WORKSHEET'
+  | 'ACTIVITY_SHEET'
+  | 'TASK_CARD'
+  | 'SPEAKING_CARD'
+  | 'READING_TEXT'
+  | 'EXPERIMENT_SHEET'
+  | 'DATA_TABLE'
+  | 'PROBLEM_SET'
+  | 'FLASHCARD'
+  | 'QUESTION_SET'
+  | 'QUIZ'
+  | 'EXIT_TICKET'
+  | 'ANSWER_KEY'
+  | 'TEACHER_GUIDE'
+  | 'ASSESSMENT_FORM'
+  | 'OTHER';
+
+export type V3AssetRequirementCategory = 'required' | 'recommended' | 'optional' | 'notNeeded';
+
+export interface V3TeachingAssetRequirementItem {
+  assetType: V3TeachingAssetType | string;
+  labelTh: string;
+  category: V3AssetRequirementCategory;
+  audience: V3AudienceType;
+  targetActivityPositions?: number[];
+  targetObjectiveIds?: string[];
+  targetEvidenceIds?: string[];
+  rationale: string;
+  isAssessmentToolReuse?: boolean;
+  reusableToolType?: string;
+  descriptionTh?: string;
+}
+
+export interface V3TeachingAssetRequirements {
+  required: V3TeachingAssetRequirementItem[];
+  recommended: V3TeachingAssetRequirementItem[];
+  optional: V3TeachingAssetRequirementItem[];
+  notNeeded: V3TeachingAssetRequirementItem[];
+  summary: string;
+}
+
+export interface V3TeachingPackageReadiness {
+  ready: boolean;
+  requiredAssets: Array<{
+    assetType: string;
+    labelTh: string;
+    ready: boolean;
+    existingAssetId?: string;
+    isAssessmentToolReuse?: boolean;
+  }>;
+  missingRequiredAssets: string[];
+  assetsNeedReview: Array<{
+    id: string;
+    title: string;
+    reason: string;
+  }>;
+  warnings: string[];
+  summary: {
+    blueprintReady: boolean;
+    assessmentReady: boolean;
+    requiredAssetsComplete: boolean;
+    allAssetsReviewed: boolean;
   };
 }
