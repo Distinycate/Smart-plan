@@ -53,119 +53,22 @@ export function findChromeExecutable(): string | null {
   return null;
 }
 
-/**
- * Pure JavaScript Fallback PDF Generator using pdf-lib
- * Ensures deployability in minimal container or serverless environments without Chromium.
- */
-async function generateFallbackPdf(
-  doc: V3LessonDocument,
-  packageType: PdfPackageType
-): Promise<Buffer> {
-  const isTeacher = packageType === 'teacher';
-  const meta = doc.metadata;
-  const pdfDoc = await PDFDocument.create();
-  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-
-  // A4 dimensions in points: 595.28 x 841.89 (72 points/inch)
-  const pageWidth = 595.28;
-  const pageHeight = 841.89;
-  const margin = 50;
-
-  // Add Cover / Main Page
-  let page = pdfDoc.addPage([pageWidth, pageHeight]);
-  let y = pageHeight - margin;
-
-  // Document Title
-  const titleText = isTeacher ? 'Lesson Plan (Smart Plan V3)' : 'Student Package (Smart Plan V3)';
-  page.drawText(titleText, { x: margin, y, size: 18, font: fontBold, color: rgb(0.1, 0.1, 0.2) });
-  y -= 25;
-
-  page.drawText(`Topic: ${meta.topic}`, { x: margin, y, size: 14, font: fontBold, color: rgb(0.2, 0.2, 0.3) });
-  y -= 20;
-
-  page.drawText(`Subject: ${meta.subject} | Grade: ${meta.grade} | Duration: ${meta.durationFormatted}`, {
-    x: margin,
-    y,
-    size: 10,
-    font,
-    color: rgb(0.3, 0.3, 0.4),
-  });
-  y -= 30;
-
-  if (isTeacher) {
-    // Render Section summaries
-    page.drawText('1. Lesson Overview & Curriculum Alignment', { x: margin, y, size: 12, font: fontBold, color: rgb(0.1, 0.2, 0.5) });
-    y -= 18;
-    page.drawText(`Curriculum: ${meta.curriculumVersion}`, { x: margin + 10, y, size: 10, font, color: rgb(0.2, 0.2, 0.2) });
-    y -= 25;
-
-    page.drawText('2. Learning Objectives & Assessment Matrix', { x: margin, y, size: 12, font: fontBold, color: rgb(0.1, 0.2, 0.5) });
-    y -= 18;
-    page.drawText(`Status: ${meta.statusLabel} | Blockers: 0`, { x: margin + 10, y, size: 10, font, color: rgb(0.2, 0.2, 0.2) });
-    y -= 25;
-
-    page.drawText('3. Appendices Attached:', { x: margin, y, size: 12, font: fontBold, color: rgb(0.1, 0.2, 0.5) });
-    y -= 18;
-    for (const app of doc.appendices) {
-      page.drawText(`• ${app.title} (${app.items.length} items)`, { x: margin + 10, y, size: 10, font, color: rgb(0.2, 0.2, 0.2) });
-      y -= 16;
-    }
-  } else {
-    // Student package
-    page.drawText('Student Name: ___________________________ Class: _____ No: ____ Date: ________', {
-      x: margin,
-      y,
-      size: 11,
-      font: fontBold,
-      color: rgb(0.2, 0.2, 0.2),
-    });
-    y -= 30;
-
-    page.drawText('Worksheets & Learning Materials Attached:', { x: margin, y, size: 12, font: fontBold, color: rgb(0.1, 0.2, 0.5) });
-    y -= 20;
-
-    for (const app of doc.appendices) {
-      if (app.category === 'ANSWER_KEYS' || app.category === 'TEACHER_GUIDE' || app.category === 'PA_READINESS') {
-        continue;
-      }
-      page.drawText(`• ${app.title} (${app.items.length} student items)`, { x: margin + 10, y, size: 10, font, color: rgb(0.2, 0.2, 0.2) });
-      y -= 16;
-    }
+export class PdfEngineUnavailableError extends Error {
+  code = 'PDF_ENGINE_UNAVAILABLE';
+  constructor(message?: string) {
+    super(
+      message ||
+        'Chromium headless browser is required to render canonical A4 PDF with full Thai typography, tables, and pagination. Please ensure Chromium is installed or configure CHROMIUM_PATH.'
+    );
+    this.name = 'PdfEngineUnavailableError';
   }
-
-  // Stamp deterministic footer & page numbers across all pages
-  const totalPages = pdfDoc.getPageCount();
-  for (let i = 0; i < totalPages; i++) {
-    const p = pdfDoc.getPage(i);
-    p.drawText(`Smart Plan V3 [${doc.documentSourceHash}]`, {
-      x: margin,
-      y: 25,
-      size: 8,
-      font,
-      color: rgb(0.5, 0.5, 0.5),
-    });
-    p.drawText(`Page ${i + 1} of ${totalPages}`, {
-      x: pageWidth - margin - 60,
-      y: 25,
-      size: 8,
-      font,
-      color: rgb(0.5, 0.5, 0.5),
-    });
-  }
-
-  // Embed documentSourceHash in PDF metadata
-  pdfDoc.setTitle(`${meta.topic} - ${isTeacher ? 'แผนการจัดการเรียนรู้' : 'ชุดใบงานผู้เรียน'}`);
-  pdfDoc.setSubject(`Smart Plan V3 Document - Source Hash: ${doc.documentSourceHash}`);
-  pdfDoc.setProducer('Smart Plan V3 PDF Export Engine');
-  pdfDoc.setKeywords([doc.documentSourceHash, packageType]);
-
-  const pdfBytes = await pdfDoc.save();
-  return Buffer.from(pdfBytes);
 }
 
 /**
  * Main PDF Generation Entrypoint
+ *
+ * Produces canonical A4 PDF using Headless Chrome with CDP Page.printToPDF.
+ * Zero silent degradation: If Chromium is missing or fails, throws PdfEngineUnavailableError.
  */
 export async function generatePdfDocument(
   doc: V3LessonDocument,
@@ -174,14 +77,16 @@ export async function generatePdfDocument(
   const isTeacher = packageType === 'teacher';
   const chromePath = findChromeExecutable();
 
-  // If Chrome is not found on the host, fallback to pure JavaScript pdf-lib engine
+  // Explicit failure policy: NEVER return a degraded/incomplete PDF silently
   if (!chromePath) {
-    console.warn('[SmartPlanV3] Chrome executable not found, generating fallback PDF via pdf-lib');
-    return await generateFallbackPdf(doc, packageType);
+    throw new PdfEngineUnavailableError(
+      'Chromium binary not found on host. Cannot generate canonical PDF. Configure CHROMIUM_PATH or install Chromium.'
+    );
   }
 
+  let browser: any = null;
   try {
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       executablePath: chromePath,
       headless: true,
       args: [
@@ -200,6 +105,13 @@ export async function generatePdfDocument(
     await page.setContent(html, {
       waitUntil: 'domcontentloaded',
       timeout: 30000,
+    });
+
+    // Wait for web fonts (Sarabun / Thai typography) to finish rendering
+    await page.evaluate(async () => {
+      if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
     });
 
     const headerTemplate = `
@@ -231,6 +143,7 @@ export async function generatePdfDocument(
     });
 
     await browser.close();
+    browser = null;
 
     // Post-process with pdf-lib to ensure exact metadata and hash embedding
     const pdfDoc = await PDFDocument.load(pdfUint8Array);
@@ -242,7 +155,17 @@ export async function generatePdfDocument(
     const finalBytes = await pdfDoc.save();
     return Buffer.from(finalBytes);
   } catch (err: any) {
-    console.error('[SmartPlanV3] Headless Chrome PDF error, falling back to pdf-lib:', err);
-    return await generateFallbackPdf(doc, packageType);
+    if (browser) {
+      try {
+        await browser.close();
+      } catch (_) {}
+    }
+    if (err instanceof PdfEngineUnavailableError) {
+      throw err;
+    }
+    console.error('[SmartPlanV3] Headless Chrome PDF render error:', err);
+    throw new PdfEngineUnavailableError(
+      `Headless Chrome PDF rendering failed: ${err.message || 'Unknown error'}`
+    );
   }
 }

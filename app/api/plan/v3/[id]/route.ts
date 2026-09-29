@@ -59,6 +59,17 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
     }
 
     const repo = new V3Repository(supabase);
+    const existing = await repo.getLessonById(id, user.id);
+    if (!existing) {
+      return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง' }, { status: 404 });
+    }
+    if (existing.status === 'FINAL') {
+      return NextResponse.json(
+        { success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL (ฉบับสมบูรณ์) ไม่อนุญาตให้แก้ไขโดยตรง' },
+        { status: 403 }
+      );
+    }
+
     const updated = await repo.updateLesson(id, body, user.id);
 
     return NextResponse.json({ success: true, data: updated });

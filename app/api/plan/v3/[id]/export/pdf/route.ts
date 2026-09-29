@@ -17,8 +17,9 @@ import { buildLessonAlignmentGraph } from '@/lib/smartPlanV3/quality/alignmentGr
 import { runStructuralQualityRules } from '@/lib/smartPlanV3/quality/qualityRules';
 import { deriveDocumentReadiness } from '@/lib/smartPlanV3/quality/qualityEngine';
 import { buildLessonDocument } from '@/lib/smartPlanV3/document/builder';
-import { DEFAULT_DOCUMENT_OPTIONS, type DocumentOptions } from '@/lib/smartPlanV3/document/types';
-import { generatePdfDocument, type PdfPackageType } from '@/lib/smartPlanV3/export/pdf';
+import { DEFAULT_DOCUMENT_OPTIONS, type DocumentOptions, type V3LessonDocument } from '@/lib/smartPlanV3/document/types';
+import { generatePdfDocument, PdfEngineUnavailableError, type PdfPackageType } from '@/lib/smartPlanV3/export/pdf';
+
 
 export async function GET(
   request: NextRequest,
@@ -102,8 +103,29 @@ export async function GET(
       );
     }
 
-    // 4. Assemble canonical model & generate PDF
-    const doc = buildLessonDocument(graph, options);
+    // 4. Assemble canonical model from FINAL immutable snapshot or live graph
+    let doc: V3LessonDocument;
+    if (graph.lesson.status === 'FINAL') {
+      const { data: finalVersion } = await supabase
+        .from('v3_plan_versions')
+        .select('snapshot')
+        .eq('lesson_plan_id', planId)
+        .eq('label', 'FINAL')
+        .order('version_number', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (finalVersion?.snapshot?.document) {
+        doc = finalVersion.snapshot.document as V3LessonDocument;
+      } else if (finalVersion?.snapshot?.lessonGraph) {
+        doc = buildLessonDocument(finalVersion.snapshot.lessonGraph, options);
+      } else {
+        doc = buildLessonDocument(graph, options);
+      }
+    } else {
+      doc = buildLessonDocument(graph, options);
+    }
+
     const pdfBuffer = await generatePdfDocument(doc, packageType);
     const safeFilename = `${doc.metadata.topic.replace(/[/\\?%*:|"<>]/g, '_')}_${packageType === 'teacher' ? 'TeacherPlan' : 'StudentMaterials'}.pdf`;
 
@@ -117,6 +139,17 @@ export async function GET(
       },
     });
   } catch (err: any) {
+    if (err instanceof PdfEngineUnavailableError || err.code === 'PDF_ENGINE_UNAVAILABLE') {
+      return NextResponse.json(
+        {
+          error: 'ไม่สามารถสร้างเอกสาร PDF ได้เนื่องจากเซิร์ฟเวอร์ยังไม่มี Chromium binary สำหรับเรนเดอร์เอกสารฉบับสมบูรณ์ (Canonical Document)',
+          code: 'PDF_ENGINE_UNAVAILABLE',
+          hint: 'โปรดติดตั้ง Chromium หรือตั้งค่าตัวแปรสภาพแวดล้อม CHROMIUM_PATH บนเซิร์ฟเวอร์',
+          detail: err.message,
+        },
+        { status: 503 }
+      );
+    }
     console.error('[SmartPlanV3] PDF export error:', err);
     return NextResponse.json(
       { error: err.message || 'Internal Server Error' },

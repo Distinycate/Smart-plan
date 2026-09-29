@@ -89,10 +89,34 @@ export async function POST(
       );
     }
 
-    // 3. Assemble Canonical Document
+    // 3. Idempotency Check: If already FINAL, return existing snapshot to prevent duplicate versions
+    if (graph.lesson.status === 'FINAL') {
+      const { data: existingFinalVersion } = await supabase
+        .from('v3_plan_versions')
+        .select('*')
+        .eq('lesson_plan_id', planId)
+        .eq('label', 'FINAL')
+        .order('version_number', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (existingFinalVersion) {
+        return NextResponse.json({
+          success: true,
+          status: 'FINAL',
+          version: existingFinalVersion.version_number,
+          documentSourceHash: existingFinalVersion.snapshot?.documentSourceHash || '',
+          finalizedAt: existingFinalVersion.created_at,
+          message: 'แผนการสอนได้รับการล็อคเป็น FINAL เรียบร้อยแล้ว (คืนค่า Snapshot ที่มีอยู่)',
+          isDuplicate: true,
+        });
+      }
+    }
+
+    // 4. Assemble Canonical Document
     const doc = buildLessonDocument(graph, DEFAULT_DOCUMENT_OPTIONS);
 
-    // 4. Query highest existing version_number for this plan
+    // 5. Query highest existing version_number for this plan
     const { data: latestVersionData } = await supabase
       .from('v3_plan_versions')
       .select('version_number')
@@ -104,8 +128,8 @@ export async function POST(
     const nextVersion = (latestVersionData?.version_number || 0) + 1;
     const finalizedTimestamp = new Date().toISOString();
 
-    // 5. Insert immutable snapshot into v3_plan_versions
-    const { error: versionInsertError } = await supabase
+    // 6. Insert immutable snapshot into v3_plan_versions
+    const { data: insertedVersion, error: versionInsertError } = await supabase
       .from('v3_plan_versions')
       .insert({
         lesson_plan_id: planId,
@@ -118,7 +142,9 @@ export async function POST(
           finalizedAt: finalizedTimestamp,
         },
         created_by: user.id,
-      });
+      })
+      .select('id')
+      .single();
 
     if (versionInsertError) {
       console.error('[SmartPlanV3] Failed to store snapshot in v3_plan_versions:', versionInsertError);
@@ -128,7 +154,7 @@ export async function POST(
       );
     }
 
-    // 6. Update lesson status to FINAL
+    // 7. Update lesson status to FINAL with rollback protection
     const { error: updateStatusError } = await supabase
       .from('v3_lesson_plans')
       .update({
@@ -139,9 +165,13 @@ export async function POST(
       .eq('user_id', user.id);
 
     if (updateStatusError) {
-      console.error('[SmartPlanV3] Failed to update lesson status to FINAL:', updateStatusError);
+      console.error('[SmartPlanV3] Failed to update lesson status to FINAL, rolling back snapshot:', updateStatusError);
+      // Rollback inserted snapshot version
+      if (insertedVersion?.id) {
+        await supabase.from('v3_plan_versions').delete().eq('id', insertedVersion.id);
+      }
       return NextResponse.json(
-        { error: `ไม่สามารถอัปเดตสถานะแผนเป็น FINAL: ${updateStatusError.message}` },
+        { error: `ไม่สามารถอัปเดตสถานะแผนเป็น FINAL: ${updateStatusError.message} (ทำการ Rollback เรียบร้อยแล้ว)` },
         { status: 500 }
       );
     }

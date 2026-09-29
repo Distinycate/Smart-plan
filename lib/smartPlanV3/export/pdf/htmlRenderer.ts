@@ -335,7 +335,74 @@ function renderAppendixItemHtml(item: AppendixItem, packageType: PdfPackageType)
         .join('');
     }
 
-    bodyHtml = instruction + problemsHtml + cardsHtml;
+    // Experiment Sheet: Materials
+    let materialsHtml = '';
+    if (content.materials && Array.isArray(content.materials)) {
+      materialsHtml = `
+        <div class="my-2">
+          <div class="font-bold text-xs text-slate-800">อุปกรณ์และสารเคมี:</div>
+          <ul class="list-disc pl-5 mt-1 text-xs text-slate-700 space-y-0.5">${content.materials.map((m: string) => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+        </div>
+      `;
+    }
+
+    // Experiment Sheet: Steps
+    let stepsHtml = '';
+    if (content.steps && Array.isArray(content.steps)) {
+      stepsHtml = `
+        <div class="my-2">
+          <div class="font-bold text-xs text-slate-800">ขั้นตอนการทดลอง:</div>
+          <div class="pl-2 mt-1 text-xs text-slate-700 space-y-1">${content.steps.map((s: string) => `<div>${escapeHtml(s)}</div>`).join('')}</div>
+        </div>
+      `;
+    }
+
+    // Experiment Sheet: Data Table
+    let dataTableHtml = '';
+    if (content.dataTable && content.dataTable.columns) {
+      const title = content.dataTable.title ? `<div class="font-bold text-xs text-slate-800 mb-1">${escapeHtml(content.dataTable.title)}</div>` : '';
+      const ths = content.dataTable.columns.map((c: string) => `<th class="py-1.5 px-2 border border-slate-300 text-center font-bold text-xs">${escapeHtml(c)}</th>`).join('');
+      const rows = (content.dataTable.initialRows || []).map((r: string[]) => {
+        const tds = r.map((cellText: string, cIdx: number) => {
+          let text = cellText;
+          if (packageType === 'student' && cIdx >= 2) {
+            text = '&nbsp;';
+          }
+          return `<td class="py-1.5 px-2 border border-slate-300 text-xs text-center">${escapeHtml(text)}</td>`;
+        }).join('');
+        return `<tr>${tds}</tr>`;
+      }).join('');
+      dataTableHtml = `
+        <div class="my-3">
+          ${title}
+          <table class="w-full text-xs border-collapse border border-slate-300">
+            <thead><tr class="bg-slate-100">${ths}</tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    // Experiment Sheet: Summary Prompt
+    let summaryHtml = '';
+    if (content.evidenceSummaryPrompt) {
+      if (packageType === 'student') {
+        summaryHtml = `
+          <div class="my-3 p-2 bg-slate-50 border border-slate-200 rounded text-xs text-slate-500">
+            <p class="font-bold text-slate-700">สรุปผลการทดลอง:</p>
+            <p class="mt-2">................................................................................................................................................................................................</p>
+          </div>
+        `;
+      } else {
+        summaryHtml = `
+          <div class="my-2 p-2 bg-emerald-50 border border-emerald-200 rounded text-xs text-emerald-800">
+            <span class="font-bold">แนวทางการสรุปผล:</span> ${escapeHtml(content.evidenceSummaryPrompt)}
+          </div>
+        `;
+      }
+    }
+
+    bodyHtml = instruction + problemsHtml + cardsHtml + materialsHtml + stepsHtml + dataTableHtml + summaryHtml;
   }
   // 2. Rubric
   else if (item.itemType === 'PERFORMANCE_RUBRIC' || item.itemType === 'RUBRIC' || content.levels) {

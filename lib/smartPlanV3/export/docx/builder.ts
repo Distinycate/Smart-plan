@@ -508,6 +508,60 @@ function buildAppendixItemElements(item: AppendixItem, packageType: DocxPackageT
         }
       }
     }
+
+    // Experiment Sheet: Materials List
+    if (content.materials && Array.isArray(content.materials)) {
+      elements.push(p('อุปกรณ์และสารเคมี:', { bold: true, spaceBefore: 60, spaceAfter: 20 }));
+      content.materials.forEach((m: string) => {
+        elements.push(p(`   • ${m}`, { spaceBefore: 10, spaceAfter: 10 }));
+      });
+    }
+
+    // Experiment Sheet: Steps List
+    if (content.steps && Array.isArray(content.steps)) {
+      elements.push(p('ขั้นตอนการทดลอง:', { bold: true, spaceBefore: 60, spaceAfter: 20 }));
+      content.steps.forEach((step: string) => {
+        elements.push(p(`   ${step}`, { spaceBefore: 15, spaceAfter: 15 }));
+      });
+    }
+
+    // Experiment Sheet: Data Table
+    if (content.dataTable && content.dataTable.columns) {
+      if (content.dataTable.title) {
+        elements.push(p(content.dataTable.title, { bold: true, spaceBefore: 60, spaceAfter: 30 }));
+      }
+      const cols = content.dataTable.columns;
+      const rowsData = content.dataTable.initialRows || [];
+      const colW = Math.floor(100 / cols.length);
+      const headerCells = cols.map((c: string) => cell(c, { header: true, widthPercent: colW, align: AlignmentType.CENTER }));
+      const tableRows: TableRow[] = [new TableRow({ children: headerCells })];
+      rowsData.forEach((r: string[]) => {
+        const rowCells = r.map((cellText: string, cIdx: number) => {
+          let displayText = cellText;
+          if (packageType === 'student' && cIdx >= 2) {
+            // For student: leave observation/results column open for recording
+            displayText = '';
+          }
+          return cell(displayText, { widthPercent: colW, align: AlignmentType.CENTER });
+        });
+        tableRows.push(new TableRow({ children: rowCells }));
+      });
+      elements.push(new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        borders: TABLE_BORDERS,
+        rows: tableRows,
+      }));
+    }
+
+    // Experiment Sheet: Evidence Summary Prompt
+    if (content.evidenceSummaryPrompt) {
+      if (packageType === 'student') {
+        elements.push(p('สรุปผลการทดลอง: ...........................................................................................................................................', { spaceBefore: 60 }));
+        elements.push(p('.......................................................................................................................................................................', { spaceBefore: 20, spaceAfter: 40 }));
+      } else {
+        elements.push(p(`แนวทางการสรุปผล: ${content.evidenceSummaryPrompt}`, { italic: true, color: '15803D', spaceBefore: 60, spaceAfter: 40 }));
+      }
+    }
   }
   // 2. Rubric
   else if (item.itemType === 'PERFORMANCE_RUBRIC' || item.itemType === 'RUBRIC' || content.levels) {
@@ -712,6 +766,17 @@ export async function generateDocxDocument(
     title: `${meta.topic} - ${isTeacher ? 'แผนการจัดการเรียนรู้' : 'ชุดใบงานผู้เรียน'}`,
     description: `Smart Plan V3 Document - Source Hash: ${doc.documentSourceHash}`,
     creator: 'Smart Plan V3 Export Engine',
+    styles: {
+      default: {
+        document: {
+          run: {
+            font: FONT_FAMILY,
+            size: SIZE_BODY,
+            color: '0F172A',
+          },
+        },
+      },
+    },
     sections: [
       {
         properties: {

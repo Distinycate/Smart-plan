@@ -16,7 +16,7 @@ import { buildLessonAlignmentGraph } from '@/lib/smartPlanV3/quality/alignmentGr
 import { runStructuralQualityRules } from '@/lib/smartPlanV3/quality/qualityRules';
 import { deriveDocumentReadiness } from '@/lib/smartPlanV3/quality/qualityEngine';
 import { buildLessonDocument } from '@/lib/smartPlanV3/document/builder';
-import { DEFAULT_DOCUMENT_OPTIONS, type DocumentOptions } from '@/lib/smartPlanV3/document/types';
+import { DEFAULT_DOCUMENT_OPTIONS, type DocumentOptions, type V3LessonDocument } from '@/lib/smartPlanV3/document/types';
 import { generateDocxDocument, type DocxPackageType } from '@/lib/smartPlanV3/export/docx';
 
 export async function GET(
@@ -102,8 +102,29 @@ export async function GET(
       );
     }
 
-    // 4. Assemble canonical model & generate DOCX
-    const doc = buildLessonDocument(graph, options);
+    // 4. Assemble canonical model from FINAL immutable snapshot or live graph
+    let doc: V3LessonDocument;
+    if (graph.lesson.status === 'FINAL') {
+      const { data: finalVersion } = await supabase
+        .from('v3_plan_versions')
+        .select('snapshot')
+        .eq('lesson_plan_id', planId)
+        .eq('label', 'FINAL')
+        .order('version_number', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (finalVersion?.snapshot?.document) {
+        doc = finalVersion.snapshot.document as V3LessonDocument;
+      } else if (finalVersion?.snapshot?.lessonGraph) {
+        doc = buildLessonDocument(finalVersion.snapshot.lessonGraph, options);
+      } else {
+        doc = buildLessonDocument(graph, options);
+      }
+    } else {
+      doc = buildLessonDocument(graph, options);
+    }
+
     const docxBuffer = await generateDocxDocument(doc, packageType);
     const safeFilename = `${doc.metadata.topic.replace(/[/\\?%*:|"<>]/g, '_')}_${packageType === 'teacher' ? 'TeacherPlan' : 'StudentMaterials'}.docx`;
 

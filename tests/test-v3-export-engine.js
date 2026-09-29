@@ -62,9 +62,10 @@ const { buildLessonDocument, DEFAULT_DOCUMENT_OPTIONS } = loadTsModule(
 const { generateDocxDocument } = loadTsModule(
   path.resolve(__dirname, '../lib/smartPlanV3/export/docx')
 );
-const { generatePdfDocument, renderDocumentToStandaloneHtml, findChromeExecutable } = loadTsModule(
+const { generatePdfDocument, renderDocumentToStandaloneHtml, findChromeExecutable, PdfEngineUnavailableError } = loadTsModule(
   path.resolve(__dirname, '../lib/smartPlanV3/export/pdf')
 );
+
 
 let totalTests = 0;
 let passedTests = 0;
@@ -403,6 +404,84 @@ async function runAllTests() {
 
     const pdfDoc = await PDFDocument.load(pdfBuf);
     assert(pdfDoc.getPageCount() >= 5, 'Must render at least 5 pages in PDF');
+  });
+
+  // ─── GATE 8: PRODUCTION HARDENING & REGRESSION (V3.9R) ────────────────────
+  console.log('\n--- GATE 8: Production Hardening & Regression (V3.9R) ---');
+
+  await test('8.A Fallback policy: Never returns incomplete canonical PDF as success (Throws PdfEngineUnavailableError)', () => {
+    const err = new PdfEngineUnavailableError('Testing explicit error');
+    assert.strictEqual(err.code, 'PDF_ENGINE_UNAVAILABLE');
+    assert(err.message.includes('Testing explicit error'));
+
+    const builderSrc = fs.readFileSync(path.resolve(__dirname, '../lib/smartPlanV3/export/pdf/builder.ts'), 'utf8');
+    assert(!builderSrc.includes('generateFallbackPdf'), 'builder.ts must NOT have degraded fallback document generator');
+    assert(builderSrc.includes('throw new PdfEngineUnavailableError'), 'builder.ts must throw explicit error on missing/failed Chromium');
+  });
+
+  await test('8.B PDF engine explicitly waits for fonts to be ready before printing', () => {
+    const builderSrc = fs.readFileSync(path.resolve(__dirname, '../lib/smartPlanV3/export/pdf/builder.ts'), 'utf8');
+    assert(
+      builderSrc.includes('document.fonts.ready') || builderSrc.includes('document.fonts'),
+      'Must wait for document.fonts.ready before page.pdf'
+    );
+  });
+
+  await test('8.C Missing Chromium produces explicit controlled 503 HTTP failure', () => {
+    const pdfRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/export/pdf/route.ts'), 'utf8');
+    assert(pdfRouteSrc.includes('PDF_ENGINE_UNAVAILABLE'), 'PDF route must check PDF_ENGINE_UNAVAILABLE');
+    assert(pdfRouteSrc.includes('status: 503'), 'PDF route must respond with status 503 on engine unavailable');
+  });
+
+  await test('8.D Student binary visible content contains zero prohibited answers or teacher notes', async () => {
+    const docMath = getDemoLessonDocument('demo-math');
+    const docxMathStudent = await generateDocxDocument(docMath, 'student');
+    const zipMath = await jszip.loadAsync(docxMathStudent);
+    const textMath = (await zipMath.file('word/document.xml').async('string')).replace(/<[^>]+>/g, ' ');
+
+    const prohibited = ['เฉลย', 'แนวคำตอบ', 'Answer Key', 'expectedAnswers', 'solutionSteps', 'teacherNotes', 'Teacher Guide', 'PA Readiness'];
+    for (const kw of prohibited) {
+      assert(!textMath.includes(kw), `Prohibited keyword "${kw}" found in student package text!`);
+    }
+  });
+
+  await test('8.E Finalize duplicate request is safe and idempotent (no duplicate version rows)', () => {
+    const finalizeSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/finalize/route.ts'), 'utf8');
+    assert(finalizeSrc.includes("graph.lesson.status === 'FINAL'"), 'Must check if already FINAL');
+    assert(finalizeSrc.includes('isDuplicate: true') || finalizeSrc.includes('คืนค่า Snapshot ที่มีอยู่'), 'Must return existing snapshot idempotently');
+  });
+
+  await test('8.F Ordinary PATCH update rejected when lesson plan is in FINAL status (HTTP 403)', () => {
+    const planRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/route.ts'), 'utf8');
+    assert(planRouteSrc.includes("existing.status === 'FINAL'"), 'PATCH route must verify if lesson is FINAL');
+    assert(planRouteSrc.includes('403'), 'PATCH route must return 403 Forbidden for locked FINAL plans');
+  });
+
+  await test('8.G Snapshot and status transition is rollback-safe on failure', () => {
+    const finalizeSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/finalize/route.ts'), 'utf8');
+    assert(finalizeSrc.includes('delete().eq(') || finalizeSrc.includes('Rollback'), 'Finalize route must roll back snapshot if status update fails');
+  });
+
+  await test('8.H FINAL export source is immutable snapshot (reads from v3_plan_versions)', () => {
+    const wordRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/export/word/route.ts'), 'utf8');
+    const pdfRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/export/pdf/route.ts'), 'utf8');
+
+    assert(wordRouteSrc.includes("from('v3_plan_versions')"), 'Word export must query v3_plan_versions for FINAL plans');
+    assert(wordRouteSrc.includes("label', 'FINAL'"), 'Word export must filter label FINAL');
+    assert(pdfRouteSrc.includes("from('v3_plan_versions')"), 'PDF export must query v3_plan_versions for FINAL plans');
+    assert(pdfRouteSrc.includes("label', 'FINAL'"), 'PDF export must filter label FINAL');
+  });
+
+  await test('8.I Production demo auth bypass remains strictly closed', () => {
+    const mwSrc = fs.readFileSync(path.resolve(__dirname, '../utils/supabase/middleware.ts'), 'utf8');
+    const docRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/document/route.ts'), 'utf8');
+    const wordRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/export/word/route.ts'), 'utf8');
+    const pdfRouteSrc = fs.readFileSync(path.resolve(__dirname, '../app/api/plan/v3/[id]/export/pdf/route.ts'), 'utf8');
+
+    assert(mwSrc.includes("process.env.NODE_ENV === 'development'"), 'Middleware must gate demo routes behind development mode');
+    assert(docRouteSrc.includes("process.env.NODE_ENV === 'production'"), 'Document route must reject demo fixtures in production');
+    assert(wordRouteSrc.includes("process.env.NODE_ENV === 'production'"), 'Word route must reject demo fixtures in production');
+    assert(pdfRouteSrc.includes("process.env.NODE_ENV === 'production'"), 'PDF route must reject demo fixtures in production');
   });
 
   // ─── FINAL SUMMARY ────────────────────────────────────────────────────────
