@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 import { deriveLessonWorkflowStatus } from '@/lib/smartPlanV3/rules/activityRules';
+import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
 interface RouteContext {
   params: { id: string; actId: string };
@@ -31,8 +32,13 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
-    if (lesson.status === 'FINAL') {
-      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    if (isLessonLocked(lesson.status)) {
+      return NextResponse.json({ success: false, error: `แผนการสอนอยู่ในสถานะ ${lesson.status} ไม่อนุญาตให้แก้ไข`, code: 'LESSON_IS_LOCKED' }, { status: 403 });
+    }
+
+    const existingAct = await repo.getActivityById(actId);
+    if (!existingAct || existingAct.lesson_plan_id !== planId) {
+      return NextResponse.json({ success: false, error: 'ไม่พบกิจกรรมที่ระบุ หรือกิจกรรมไม่ได้อยู่ในแผนนี้' }, { status: 404 });
     }
 
     const body = await req.json().catch(() => null);
@@ -122,8 +128,13 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
     }
-    if (lesson.status === 'FINAL') {
-      return NextResponse.json({ success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL ไม่อนุญาตให้แก้ไข', code: 'LESSON_IS_FINAL' }, { status: 403 });
+    if (isLessonLocked(lesson.status)) {
+      return NextResponse.json({ success: false, error: `แผนการสอนอยู่ในสถานะ ${lesson.status} ไม่อนุญาตให้แก้ไข`, code: 'LESSON_IS_LOCKED' }, { status: 403 });
+    }
+
+    const existingAct = await repo.getActivityById(actId);
+    if (!existingAct || existingAct.lesson_plan_id !== planId) {
+      return NextResponse.json({ success: false, error: 'ไม่พบกิจกรรมที่ระบุ หรือกิจกรรมไม่ได้อยู่ในแผนนี้' }, { status: 404 });
     }
 
     await repo.deleteActivity(actId);

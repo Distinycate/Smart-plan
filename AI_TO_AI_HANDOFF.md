@@ -361,7 +361,32 @@ system is production-ready until those checks pass.
 - Tests: `tests/test-v3-post-teaching.js` passes all 23 scenarios (A–W).
 - Regression: All 10 V3 test suites pass 100%. TypeScript: 0 errors. Build: PASS.
 
+### WAVE V3.11 — END-TO-END HARDENING & PRODUCTION CUTOVER — COMPLETE
+
+**Integration, Security & Production Closure**:
+- **Lifecycle & Lock Hardening**:
+  - `isLessonLocked(status)` helper strictly guards pre-teaching mutations across `FINAL`, `TAUGHT`, and `REFLECTED`.
+  - Disallowed arbitrary client PATCH on lifecycle state (`status`). Lifecycle transitions are 100% server-authoritative (`/finalize`, `/teach`, `/reflect`).
+  - Child entity endpoints (`objectives`, `activities`, `assessments`, `tools`, `assets`, `curriculum-links`, `evidence-links`) strictly enforce plan ID verification to eliminate IDOR vulnerabilities across plans and users.
+- **Student Evidence Upload Security**:
+  - Endpoint `POST /api/plan/v3/[id]/post-teaching/evidence/upload`: Validates magic bytes (JPEG, PNG, WebP, GIF, PDF), caps file size at 15MB, enforces path scoping `{userId}/{planId}/{uuid}.{ext}` in private bucket `v3_student_evidence`, and serves files via short-lived authenticated signed URLs (1 hour expiry).
+- **Service Role Audit**:
+  - Confirmed 0 occurrences of `SUPABASE_SERVICE_ROLE_KEY` in client components, browser bundles, public routes, or git-tracked environment files.
+- **Production Cutover & Legacy Coexistence**:
+  - `app/dashboard/page.tsx`: Sets Smart Plan V3 as primary default creation target (`/plan/v3/new`) when `isV3Enabled()`.
+  - Legacy routes (`/plan/new`, `/plan/[id]`, `/plan/[id]/preview`) and legacy folder views remain 100% functional with zero data sync conflicts.
+  - Zero-risk rollback switch via `NEXT_PUBLIC_ENABLE_SMART_PLAN_V3=false`.
+- **Automated Integration Tests**:
+  - `tests/test-v3-e2e-hardening.js`: 15/15 Integration Test Cases (A–O) PASS cleanly under plain Node.js.
+- **Full Regression & Quality Gate**:
+  - All 11 V3 Test Suites PASS (Subject Profiles, Workflow, Domain Graph, Blueprint, Assessment, Teaching Package, Quality, Document Model [24/24], Export Engine [47/47], Post-Teaching [23/23], E2E Hardening [15/15]).
+  - TypeScript: `npx tsc --noEmit` exits with 0 errors.
+  - Production Build: `npm run build` exits with code 0.
+- **Documentation**:
+  - `docs/SMART_PLAN_V3_PRODUCTION_RUNBOOK.md`: Comprehensive operational runbook covering environment, migrations 15–19, Chromium runtime, security, cutover, rollback, and troubleshooting checklist.
+
 ### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
 - Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged
 - Legacy routes (`/plan`, `/plan/new`, `/dashboard`) — unchanged
 - Feature Flag: `SMART_PLAN_V3` in `lib/featureFlags.ts` controls visibility
+- No bidirectional sync between legacy and V3 schemas

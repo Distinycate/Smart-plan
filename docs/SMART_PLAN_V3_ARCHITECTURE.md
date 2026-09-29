@@ -684,3 +684,23 @@ $$\text{REVIEWED} \longrightarrow \text{FINAL} \longrightarrow \text{TAUGHT} \lo
 - FINAL Snapshot ไม่ถูกเขียนทับ
 - การ Export และ Preview ใช้การ Overlay ข้อมูลผลการสอนจริงทับบน FINAL Snapshot
 - Provenance Hash คู่: `baseFinalHash` (แผนต้นฉบับ) และ `postTeachingSourceHash` (ผลการสอนและหลักฐานจริง)
+
+---
+
+## 16. Wave V3.11 — End-to-End Hardening & Production Cutover
+
+### 16.1 Lifecycle Security & Pre-Teaching Lock
+- **Central Lock Check:** ฟังก์ชัน `isLessonLocked(status)` ครอบคลุม `FINAL`, `TAUGHT`, และ `REFLECTED`
+- **IDOR Protection:** ตรวจสอบความสัมพันธ์ความเป็นเจ้าของแผน (`lesson_plan_id`) ของทุก Child Entity (วัตถุประสงค์, กิจกรรม, การวัดผล, สื่อ, หลักฐานการเรียนรู้) ป้องกันการส่ง ID ของแผนอื่นมาแก้ไขหรือลบ
+- **Server-Authoritative Lifecycle:** ป้องกัน arbitrary client PATCH บน `status` ทุกการเปลี่ยนสถานะต้องผ่าน dedicated authoritative endpoints (`/finalize`, `/teach`, `/reflect`)
+
+### 16.2 Student Evidence Storage Security
+- Supabase Private Storage Bucket: `v3_student_evidence`
+- Path Scoping บังคับ: `{user_id}/{plan_id}/{uuid}.{ext}`
+- Magic bytes verification ฝั่งเซิร์ฟเวอร์ รองรับเฉพาะไฟล์รูปภาพ (JPEG, PNG, WebP, GIF) และ PDF ป้องกัน malicious MIME spoofing
+- ขนาดไฟล์สูงสุด 15MB พร้อม short-lived signed URLs (อายุ 1 ชั่วโมง) ป้องกัน unauthorized public access
+
+### 16.3 Production Cutover & Coexistence
+- Default Entry: Dashboard นำทางผู้ใช้ไปยัง `/plan/v3/new` เป็นหลักเมื่อเปิด Feature Flag `SMART_PLAN_V3`
+- Legacy Coexistence: แผนเดิมและการสร้างแผนแบบเดิม (Legacy 5-tab) ยังคงเข้าถึงและทำงานได้สมบูรณ์ผ่านปุ่ม "สร้างแผนเดิม (Legacy)" (`/plan/new`)
+- Safe Rollback: สามารถปิด V3 ได้ทันทีด้วย `NEXT_PUBLIC_ENABLE_SMART_PLAN_V3=false` โดยไม่มีผลกระทบต่อข้อมูลแผนเดิมและแผน V3 ที่ถูกบันทึกไว้แล้ว

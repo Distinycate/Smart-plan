@@ -34,6 +34,19 @@ export async function PATCH(
       return NextResponse.json({ error: 'ไม่มีสิทธิ์แก้ไขหลักฐานของแผนนี้' }, { status: 403 });
     }
 
+    const { data: ev, error: evErr } = await supabase
+      .from('v3_observed_student_evidence')
+      .select('lesson_plan_id')
+      .eq('id', evidenceId)
+      .maybeSingle();
+
+    if (evErr || !ev) {
+      return NextResponse.json({ error: 'ไม่พบหลักฐานที่ระบุ' }, { status: 404 });
+    }
+    if (ev.lesson_plan_id !== planId) {
+      return NextResponse.json({ error: 'หลักฐานนี้ไม่ได้อยู่ในแผนการสอนที่ระบุ' }, { status: 400 });
+    }
+
     const body = await request.json();
     const repo = new V3Repository(supabase);
     const updated = await repo.updateObservedEvidence(evidenceId, body);
@@ -72,6 +85,19 @@ export async function DELETE(
     }
     if (lesson.user_id !== user.id) {
       return NextResponse.json({ error: 'ไม่มีสิทธิ์ลบหลักฐานของแผนนี้' }, { status: 403 });
+    }
+
+    const { data: ev, error: evErr } = await supabase
+      .from('v3_observed_student_evidence')
+      .select('lesson_plan_id')
+      .eq('id', evidenceId)
+      .maybeSingle();
+
+    if (evErr || !ev) {
+      return NextResponse.json({ error: 'ไม่พบหลักฐานที่ระบุ' }, { status: 404 });
+    }
+    if (ev.lesson_plan_id !== planId) {
+      return NextResponse.json({ error: 'หลักฐานนี้ไม่ได้อยู่ในแผนการสอนที่ระบุ' }, { status: 400 });
     }
 
     const repo = new V3Repository(supabase);

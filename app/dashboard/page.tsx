@@ -10,6 +10,7 @@ import {
   Calendar, Layers, BookOpen, Zap, TrendingUp, Star,
   Folder, FolderOpen, ChevronRight, ChevronDown
 } from 'lucide-react';
+import { isV3Enabled } from '@/lib/featureFlags';
 
 export default function TeacherDashboard() {
   const router = useRouter();
@@ -194,13 +195,35 @@ export default function TeacherDashboard() {
               <span className="h-pill">✅ Rubric 5 ระดับ</span>
               <span className="h-pill">✅ Active Learning</span>
             </div>
-            <div className="home-hero-actions">
-              <button className="btn btn-hero" onClick={() => router.push('/plan/new')}>
-                <Plus size={15} /> สร้างแผนการสอนใหม่
+            <div className="home-hero-actions flex flex-wrap gap-2">
+              <button
+                className="btn btn-hero"
+                onClick={() => router.push(isV3Enabled() ? '/plan/v3/new' : '/plan/new')}
+              >
+                <Plus size={15} /> {isV3Enabled() ? 'สร้างแผนการสอน V3 (PA-Ready)' : 'สร้างแผนการสอนใหม่'}
               </button>
+              {isV3Enabled() && (
+                <button
+                  className="btn btn-hero-outline"
+                  style={{ borderColor: '#6366f1', color: '#4f46e5', backgroundColor: '#eef2ff' }}
+                  onClick={() => router.push('/plan/v3')}
+                >
+                  <BookOpen size={15} /> คลังแผน V3
+                </button>
+              )}
               <button className="btn btn-hero-outline" style={{ borderColor: '#f472b6', color: '#db2777', backgroundColor: '#fce7f3' }} onClick={() => router.push('/evaluator')}>
                 <Zap size={15} /> ประเมินและพัฒนาแผน
               </button>
+              {isV3Enabled() && (
+                <button
+                  className="btn btn-hero-outline text-xs"
+                  style={{ borderColor: '#cbd5e1', color: '#64748b' }}
+                  onClick={() => router.push('/plan/new')}
+                  title="สร้างแผนด้วยแบบฟอร์ม 5 แท็บเดิม"
+                >
+                  สร้างแผนเดิม (Legacy)
+                </button>
+              )}
               <button className="btn btn-hero-outline" onClick={() => loadData(true)} disabled={refreshing}>
                 <RefreshCw size={14} className={refreshing ? 'spin-icon' : ''} />
                 {refreshing ? 'กำลังรีเฟรช...' : 'รีเฟรช'}
@@ -376,8 +399,8 @@ export default function TeacherDashboard() {
                 <Archive size={12} /> ที่เก็บถาวร
               </button>
             </div>
-            <button className="btn btn-hero btn-sm" style={{ background: 'var(--c-primary)', color: '#fff', height: '100%' }} onClick={() => router.push('/plan/new')}>
-              <Plus size={13} /> สร้างแผนใหม่
+            <button className="btn btn-hero btn-sm" style={{ background: 'var(--c-primary)', color: '#fff', height: '100%' }} onClick={() => router.push(isV3Enabled() ? '/plan/v3/new' : '/plan/new')}>
+              <Plus size={13} /> {isV3Enabled() ? 'สร้างแผนใหม่ (V3)' : 'สร้างแผนใหม่'}
             </button>
           </div>
         </div>
@@ -395,8 +418,8 @@ export default function TeacherDashboard() {
             <h3 style={{ margin: '0 0 8px', fontSize: 17, color: 'var(--c-gray-700)' }}>{emptyStateTitle}</h3>
             <p style={{ margin: '0 0 20px', fontSize: 14, color: 'var(--c-gray-400)' }}>{emptyStateDescription}</p>
             {activeTab === 'active' && (
-              <button className="btn btn-primary" onClick={() => router.push('/plan/new')}>
-                <Plus size={14} /> สร้างแผนการสอนใหม่
+              <button className="btn btn-primary" onClick={() => router.push(isV3Enabled() ? '/plan/v3/new' : '/plan/new')}>
+                <Plus size={14} /> {isV3Enabled() ? 'สร้างแผนการสอนใหม่ (V3)' : 'สร้างแผนการสอนใหม่'}
               </button>
             )}
             {activeTab === 'ai_fixed' && (

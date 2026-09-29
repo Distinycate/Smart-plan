@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { isValidUuid } from '@/lib/smartPlanV3/schemas';
+import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
 interface RouteContext {
   params: { id: string };
@@ -63,14 +64,23 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
     if (!existing) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง' }, { status: 404 });
     }
-    if (existing.status === 'FINAL') {
+    if (existing.status === 'FINAL' || isLessonLocked(existing.status)) {
       return NextResponse.json(
-        { success: false, error: 'แผนการสอนอยู่ในสถานะ FINAL (ฉบับสมบูรณ์) ไม่อนุญาตให้แก้ไขโดยตรง' },
+        { success: false, error: `แผนการสอนอยู่ในสถานะ ${existing.status} (ล็อกแล้ว) ไม่อนุญาตให้แก้ไขส่วนประกอบก่อนสอนโดยตรง`, code: 'LESSON_IS_LOCKED' },
         { status: 403 }
       );
     }
 
-    const updated = await repo.updateLesson(id, body, user.id);
+    // Disallow arbitrary client lifecycle status mutation
+    const { status: reqStatus, user_id: _reqUser, id: _reqId, created_at: _reqCreated, ...safeData } = body;
+    if (reqStatus !== undefined && reqStatus !== existing.status) {
+      return NextResponse.json(
+        { success: false, error: 'ไม่อนุญาตให้เปลี่ยนสถานะผ่าน API นี้โดยตรง กรุณาใช้ขั้นตอนตามวงจรการจัดการเรียนรู้' },
+        { status: 400 }
+      );
+    }
+
+    const updated = await repo.updateLesson(id, safeData, user.id);
 
     return NextResponse.json({ success: true, data: updated });
   } catch (err: any) {

@@ -7,6 +7,7 @@ import {
   deriveTeachingPackageReadiness,
 } from '@/lib/smartPlanV3/rules/teachingAssetRules';
 import { deriveLessonWorkflowStatus } from '@/lib/smartPlanV3/rules/activityRules';
+import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
 interface RouteContext {
   params: { id: string };
@@ -81,6 +82,9 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     const lesson = await repo.getLessonById(planId, user.id);
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์แก้ไข' }, { status: 404 });
+    }
+    if (isLessonLocked(lesson.status)) {
+      return NextResponse.json({ success: false, error: `แผนการสอนอยู่ในสถานะ ${lesson.status} ไม่อนุญาตให้แก้ไข`, code: 'LESSON_IS_LOCKED' }, { status: 403 });
     }
 
     const body = await req.json().catch(() => null);

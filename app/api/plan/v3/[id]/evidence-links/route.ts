@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { isValidUuid } from '@/lib/smartPlanV3/schemas';
+import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
 type Ctx = { params: { id: string } };
 
@@ -34,6 +35,9 @@ export async function POST(req: NextRequest, { params }: Ctx) {
     const lesson = await repo.getLessonById(planId, user.id);
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือไม่มีสิทธิ์แก้ไข' }, { status: 404 });
+    }
+    if (isLessonLocked(lesson.status)) {
+      return NextResponse.json({ success: false, error: `แผนการสอนอยู่ในสถานะ ${lesson.status} ไม่อนุญาตให้แก้ไข`, code: 'LESSON_IS_LOCKED' }, { status: 403 });
     }
 
     const { data: link, error } = await supabase
@@ -81,6 +85,9 @@ export async function DELETE(req: NextRequest, { params }: Ctx) {
     const lesson = await repo.getLessonById(planId, user.id);
     if (!lesson) {
       return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือไม่มีสิทธิ์แก้ไข' }, { status: 404 });
+    }
+    if (isLessonLocked(lesson.status)) {
+      return NextResponse.json({ success: false, error: `แผนการสอนอยู่ในสถานะ ${lesson.status} ไม่อนุญาตให้แก้ไข`, code: 'LESSON_IS_LOCKED' }, { status: 403 });
     }
 
     await supabase

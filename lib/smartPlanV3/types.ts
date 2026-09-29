@@ -12,6 +12,11 @@ export type V3LessonStatus =
   | 'TAUGHT'
   | 'REFLECTED';
 
+export function isLessonLocked(status: string | null | undefined): boolean {
+  if (!status) return false;
+  return ['FINAL', 'TAUGHT', 'REFLECTED'].includes(status);
+}
+
 export type V3SourceType = 'MANUAL' | 'AI';
 
 export type V3AudienceType = 'TEACHER' | 'STUDENT' | 'BOTH';
