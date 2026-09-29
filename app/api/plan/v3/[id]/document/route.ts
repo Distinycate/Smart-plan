@@ -20,18 +20,64 @@ import { deriveDocumentReadiness } from '@/lib/smartPlanV3/quality/qualityEngine
 import { buildLessonDocument, validateLessonDocumentModel } from '@/lib/smartPlanV3/document';
 import type { DocumentOptions } from '@/lib/smartPlanV3/document';
 
+function parseDocumentOptions(url: URL): Partial<DocumentOptions> {
+  const options: Partial<DocumentOptions> = {};
+
+  if (url.searchParams.has('includeCover')) {
+    options.includeCover = url.searchParams.get('includeCover') === '1' || url.searchParams.get('includeCover') === 'true';
+  }
+  if (url.searchParams.has('includeStudentAssets')) {
+    options.includeStudentAssets = url.searchParams.get('includeStudentAssets') !== '0' && url.searchParams.get('includeStudentAssets') !== 'false';
+  }
+  if (url.searchParams.has('includeAnswerKeys')) {
+    options.includeAnswerKeys = url.searchParams.get('includeAnswerKeys') !== '0' && url.searchParams.get('includeAnswerKeys') !== 'false';
+  }
+  if (url.searchParams.has('includeAssessmentTools')) {
+    options.includeAssessmentTools = url.searchParams.get('includeAssessmentTools') !== '0' && url.searchParams.get('includeAssessmentTools') !== 'false';
+  }
+  if (url.searchParams.has('includeTeacherGuide')) {
+    options.includeTeacherGuide = url.searchParams.get('includeTeacherGuide') === '1' || url.searchParams.get('includeTeacherGuide') === 'true';
+  }
+  if (url.searchParams.has('includePaReadinessAppendix')) {
+    options.includePaReadinessAppendix = url.searchParams.get('includePaReadinessAppendix') === '1' || url.searchParams.get('includePaReadinessAppendix') === 'true';
+  }
+  if (url.searchParams.has('includePostTeachingPlaceholder')) {
+    options.includePostTeachingPlaceholder = url.searchParams.get('includePostTeachingPlaceholder') !== '0' && url.searchParams.get('includePostTeachingPlaceholder') !== 'false';
+  }
+
+  return options;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const planId = params.id;
+    const url = new URL(request.url);
+    const options = parseDocumentOptions(url);
+
+    // Support demo fixtures for visual verification & preview testing
+    if (planId.startsWith('demo-')) {
+      const { getDemoLessonDocument } = await import('@/lib/smartPlanV3/document/fixtures');
+      const doc = getDemoLessonDocument(planId, options);
+      if (doc) {
+        const validation = validateLessonDocumentModel(doc);
+        return NextResponse.json({
+          success: true,
+          document: doc,
+          validation,
+        });
+      }
+      return NextResponse.json({ error: 'ไม่พบชุดข้อมูลตัวอย่างที่ระบุ' }, { status: 404 });
+    }
+
     const supabase = createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const planId = params.id;
     const repo = new V3Repository(supabase);
 
     // 1. Fetch lesson graph with ownership verification
@@ -57,10 +103,6 @@ export async function GET(
         { status: 409 }
       );
     }
-
-    // 3. Parse Document Options from query string
-    const url = new URL(request.url);
-    const options: Partial<DocumentOptions> = {};
 
     if (url.searchParams.has('includeCover')) {
       options.includeCover = url.searchParams.get('includeCover') === '1' || url.searchParams.get('includeCover') === 'true';

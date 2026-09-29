@@ -9,3 +9,4 @@ export * from './validators';
 export * from './pagination';
 export * from './sections';
 export * from './builder';
+export * from './fixtures';

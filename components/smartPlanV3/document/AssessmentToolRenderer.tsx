@@ -19,21 +19,29 @@ export const AssessmentToolRenderer: React.FC<Props> = ({ item }) => {
   if (itemType === 'RUBRIC' || itemType === 'PERFORMANCE_RUBRIC' || (content.levels && content.criteria)) {
     const levels = content.levels || [];
     const criteria = content.criteria || [];
+    const levelCount = levels.length;
+    const is5Levels = levelCount >= 5;
+    const is4Levels = levelCount === 4;
+
+    // Adaptive column widths and typography based on level count
+    const criteriaColWidth = is5Levels ? 'w-[18%]' : is4Levels ? 'w-[22%]' : 'w-[25%]';
+    const textSize = is5Levels ? 'text-[11px] leading-snug' : 'text-xs leading-relaxed';
+    const cellPadding = is5Levels ? 'p-1.5' : 'p-2';
 
     return (
-      <div className="tool-rubric space-y-3 text-left">
+      <div className="tool-rubric space-y-3 text-left avoid-break-inside">
         <div className="font-bold text-base text-slate-900 border-b pb-1">{title}</div>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-slate-300 text-xs sm:text-sm">
+        <div className="overflow-x-auto print:overflow-visible">
+          <table className={`w-full table-fixed border-collapse border border-slate-300 ${textSize}`}>
             <thead className="bg-slate-100">
               <tr>
-                <th className="border border-slate-300 p-2 text-left font-bold w-1/4">
-                  ประเด็นการประเมิน
+                <th className={`border border-slate-300 ${cellPadding} text-left font-bold ${criteriaColWidth} align-top`}>
+                  <div>ประเด็นการประเมิน</div>
                 </th>
                 {levels.map((lvl: any, lIdx: number) => (
-                  <th key={lIdx} className="border border-slate-300 p-2 text-center font-bold">
-                    <div>{lvl.label || `ระดับ ${lvl.score}`}</div>
-                    <div className="text-xs text-slate-500 font-normal">({lvl.score} คะแนน)</div>
+                  <th key={lIdx} className={`border border-slate-300 ${cellPadding} text-center font-bold align-top`}>
+                    <div className="break-words font-semibold">{lvl.label || `ระดับ ${lvl.score}`}</div>
+                    <div className="text-[10px] text-slate-500 font-normal">({lvl.score} คะแนน)</div>
                   </th>
                 ))}
               </tr>
@@ -41,16 +49,16 @@ export const AssessmentToolRenderer: React.FC<Props> = ({ item }) => {
             <tbody>
               {criteria.map((crit: any, cIdx: number) => (
                 <tr key={cIdx} className="align-top">
-                  <td className="border border-slate-300 p-2 font-medium bg-slate-50/50">
-                    <div>{crit.name}</div>
+                  <td className={`border border-slate-300 ${cellPadding} font-medium bg-slate-50/50 break-words`}>
+                    <div className="font-semibold text-slate-900">{crit.name}</div>
                     {crit.weight && crit.weight !== 1 && (
-                      <div className="text-xs text-slate-500">น้ำหนัก: {crit.weight}</div>
+                      <div className="text-[10px] text-slate-500">น้ำหนัก: {crit.weight}</div>
                     )}
                   </td>
                   {levels.map((lvl: any, lIdx: number) => {
                     const desc = crit.descriptors?.[String(lvl.score)] || crit.descriptors?.[lvl.score] || '-';
                     return (
-                      <td key={lIdx} className="border border-slate-300 p-2 text-xs sm:text-sm leading-relaxed text-slate-700">
+                      <td key={lIdx} className={`border border-slate-300 ${cellPadding} text-slate-700 break-words`}>
                         {desc}
                       </td>
                     );

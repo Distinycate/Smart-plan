@@ -54,10 +54,11 @@ export async function updateSession(request: NextRequest) {
   // Protect routes logic
   const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register');
   const isLandingPage = request.nextUrl.pathname === '/';
+  const isDemoPreview = request.nextUrl.pathname.startsWith('/plan/v3/demo-');
   
   // API routes are deliberately excluded by middleware.ts and must authorize
   // themselves. This guard is only the page-navigation boundary.
-  const isPublicPage = isAuthRoute || isLandingPage;
+  const isPublicPage = isAuthRoute || isLandingPage || isDemoPreview;
   if (!user && !isPublicPage) {
     // If not logged in and trying to access a protected page, redirect to login.
     // Keep the requested path so the user can continue their normal workflow.

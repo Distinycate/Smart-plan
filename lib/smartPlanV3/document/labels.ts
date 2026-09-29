@@ -50,6 +50,11 @@ export const ASSESSMENT_METHOD_LABELS: Record<string, string> = {
   TESTING: 'การทดสอบ / การตอบคำถาม',
   PORTFOLIO: 'การประเมินแฟ้มสะสมงาน',
   SELF_PEER: 'การประเมินตนเองและเพื่อนประเมิน',
+  DOCUMENT_ANALYSIS: 'การตรวจผลงาน / เอกสาร / แบบฝึกหัด',
+  WRITTEN_TEST: 'การทดสอบข้อเขียน / แบบทดสอบ',
+  INTERVIEW: 'การสัมภาษณ์ / การสนทนาซักถาม',
+  PRESENTATION: 'การนำเสนอผลงาน / การอภิปราย',
+  PRACTICAL_EXAM: 'การสอบปฏิบัติการทดลอง / การปฏิบัติจริง',
 };
 
 export const SECTION_TITLES = {
@@ -82,5 +87,12 @@ export function getAssessmentToolTypeLabel(toolType: string): string {
 }
 
 export function getAssessmentMethodLabel(method: string): string {
-  return ASSESSMENT_METHOD_LABELS[method] || method;
+  if (ASSESSMENT_METHOD_LABELS[method]) {
+    return ASSESSMENT_METHOD_LABELS[method];
+  }
+  // Prevent raw uppercase enum leakage
+  if (/^[A-Z0-9_]+$/.test(method)) {
+    return 'การประเมินผลตามสภาพจริง';
+  }
+  return method;
 }

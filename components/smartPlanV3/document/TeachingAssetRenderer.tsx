@@ -63,7 +63,7 @@ export const TeachingAssetRenderer: React.FC<Props> = ({ item }) => {
                   )}
                   {/* Answer Space / Solution Lines */}
                   {q.answerSpace && (
-                    <div className="mt-2 p-2 border border-dashed border-slate-300 rounded bg-slate-50/50 text-xs text-slate-500 min-h-[48px]">
+                    <div className="mt-2 p-2.5 border border-dashed border-slate-300 rounded bg-slate-50/50 text-xs text-slate-600 min-h-[48px] whitespace-pre-wrap leading-relaxed font-sans">
                       {q.answerSpace}
                     </div>
                   )}
