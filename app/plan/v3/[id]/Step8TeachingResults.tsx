@@ -21,6 +21,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { POST_TEACHING_SUGGESTION_GROUPS } from '@/lib/smartPlanV3/suggestions';
 
 interface Step8TeachingResultsProps {
   planId: string;
@@ -336,6 +337,28 @@ export default function Step8TeachingResults({
           <label className="block text-xs font-semibold text-slate-700 mb-1">
             บันทึกการจัดกิจกรรม บรรยากาศในชั้นเรียน และข้อสังเกตทั่วไป
           </label>
+          {(() => {
+            const group = POST_TEACHING_SUGGESTION_GROUPS.find((g) => g.field === 'actualTeachingNotes');
+            if (!group) return null;
+            return (
+              <div className="flex gap-1.5 flex-wrap mb-2">
+                <span className="text-xs text-slate-500 font-medium self-center">💡 ตัวเลือกด่วน:</span>
+                {group.chips.map((chip, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    disabled={isLocked || saving}
+                    onClick={() => {
+                      setTeachingNotes((prev) => (prev ? `${prev}\n• ${chip}` : `• ${chip}`));
+                    }}
+                    className="text-xs px-2.5 py-1 bg-slate-50 hover:bg-indigo-50 border border-slate-200 text-slate-700 hover:text-indigo-700 rounded-lg transition"
+                  >
+                    + {chip}
+                  </button>
+                ))}
+              </div>
+            );
+          })()}
           <textarea
             rows={4}
             className="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"

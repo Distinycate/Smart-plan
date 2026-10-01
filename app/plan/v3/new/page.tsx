@@ -435,7 +435,38 @@ export default function NewV3LessonPage() {
 
           {/* ─── Section C: Lesson Info ─── */}
           <section className="v3-section">
-            <h2 className="v3-section-title">📝 ข้อมูลแผน</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <h2 className="v3-section-title" style={{ margin: 0 }}>📝 ข้อมูลแผน</h2>
+              {selectedSubjectKey && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (selectedSubjectKey === 'ENGLISH') {
+                      setTopic('Talking about Jobs & Occupations');
+                      setUnitRef('Unit 2: People and Work');
+                      setStudentContext('ห้องเรียนปกติ 36 คน ระดับภาษาอังกฤษคละความสามารถ (A1–A2)');
+                    } else if (selectedSubjectKey === 'MATHEMATICS') {
+                      setTopic('การแก้โจทย์ปัญหาสมการเชิงเส้นตัวแปรเดียว');
+                      setUnitRef('หน่วยการเรียนรู้ที่ 2: สมการเชิงเส้น');
+                      setStudentContext('ห้องเรียนปกติ 38 คน มีทั้งกลุ่มที่เข้าใจเร็วและกลุ่มที่ต้องการการฝึกขั้นตอนวิธี');
+                    } else if (selectedSubjectKey === 'SCIENCE') {
+                      setTopic('การสังเคราะห์ด้วยแสงและการทดสอบแป้งในใบพืช');
+                      setUnitRef('หน่วยการเรียนรู้ที่ 3: การดำรงชีวิตของพืช');
+                      setStudentContext('ห้องเรียน 35 คน แบ่งกลุ่มปฏิบัติการทดลองกลุ่มละ 5 คน');
+                    } else {
+                      setTopic('การเรียนรู้และการนำไปใช้ในชีวิตประจำวัน');
+                      setUnitRef('หน่วยการเรียนรู้ที่ 1');
+                      setStudentContext('ห้องเรียนปกติ 35-40 คน จัดการเรียนรู้แบบ Active Learning');
+                    }
+                    setDuration(60);
+                  }}
+                  className="v3-btn v3-btn-ghost v3-btn-sm"
+                  style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem', color: '#4F46E5', borderColor: '#C7D2FE', background: '#EEF2FF' }}
+                >
+                  ✨ เติมข้อมูลแนะนำสำหรับวิชานี้
+                </button>
+              )}
+            </div>
 
             <Field label="เรื่อง (Topic)" required hint="ชื่อเรื่องที่สอนในคาบนี้ เช่น 'Talking about Jobs'">
               <input
@@ -445,6 +476,38 @@ export default function NewV3LessonPage() {
                 placeholder="เช่น Talking about Jobs, ระบบสุริยะ, สมการเชิงเส้น"
                 maxLength={200}
               />
+              {/* Quick Topic Chips */}
+              {selectedSubjectKey && (
+                <div style={{ marginTop: '0.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.4rem', alignItems: 'center' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#718096', fontWeight: 600 }}>💡 หัวข้อแนะนำ:</span>
+                  {(selectedSubjectKey === 'ENGLISH'
+                    ? ['Daily Routines', 'Talking about Jobs', 'Asking for Directions', 'Food & Ordering', 'My Free Time Activities']
+                    : selectedSubjectKey === 'MATHEMATICS'
+                    ? ['การแก้โจทย์ปัญหาสมการเชิงเส้น', 'การหาพื้นที่รูปเรขาคณิต', 'อัตราส่วนและร้อยละ', 'การบวกและการลบเศษส่วน']
+                    : selectedSubjectKey === 'SCIENCE'
+                    ? ['การสังเคราะห์ด้วยแสง', 'แรงเสียดทานและการเคลื่อนที่', 'ระบบนิเวศและห่วงโซ่อาหาร', 'การแยกสารเนื้อผสม']
+                    : ['การอ่านจับใจความสำคัญ', 'การทำงานร่วมกันเป็นทีม', 'การประยุกต์ใช้ในชีวิตประจำวัน']
+                  ).map(t => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setTopic(t)}
+                      style={{
+                        fontSize: '0.75rem',
+                        padding: '0.2rem 0.6rem',
+                        borderRadius: '9999px',
+                        border: topic === t ? '1px solid #4F46E5' : '1px solid #E2E8F0',
+                        background: topic === t ? '#EEF2FF' : '#F8FAFC',
+                        color: topic === t ? '#4338CA' : '#4A5568',
+                        cursor: 'pointer',
+                        fontWeight: topic === t ? 600 : 400,
+                      }}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              )}
             </Field>
 
             <div className="v3-row-2">
@@ -457,14 +520,38 @@ export default function NewV3LessonPage() {
                 />
               </Field>
               <Field label="เวลา (นาที)" required>
-                <input
-                  className="v3-input"
-                  type="number"
-                  value={duration}
-                  onChange={e => setDuration(Math.max(1, Number(e.target.value)))}
-                  min={1}
-                  step={5}
-                />
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <input
+                    className="v3-input"
+                    type="number"
+                    value={duration}
+                    onChange={e => setDuration(Math.max(1, Number(e.target.value)))}
+                    min={1}
+                    step={5}
+                    style={{ maxWidth: '100px' }}
+                  />
+                  <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+                    {[50, 60, 100, 120].map(m => (
+                      <button
+                        key={m}
+                        type="button"
+                        onClick={() => setDuration(m)}
+                        style={{
+                          fontSize: '0.75rem',
+                          padding: '0.25rem 0.5rem',
+                          borderRadius: '6px',
+                          border: duration === m ? '1px solid #4F46E5' : '1px solid #CBD5E0',
+                          background: duration === m ? '#4F46E5' : '#FFFFFF',
+                          color: duration === m ? '#FFFFFF' : '#4A5568',
+                          cursor: 'pointer',
+                          fontWeight: duration === m ? 600 : 400,
+                        }}
+                      >
+                        {m} นาที
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </Field>
             </div>
 
@@ -506,6 +593,37 @@ export default function NewV3LessonPage() {
                 placeholder="เช่น ห้อง ม.1/2 จำนวน 36 คน มีทักษะภาษาอังกฤษระดับ A1–A2"
                 rows={2}
               />
+              {/* Quick Context Chips */}
+              <div style={{ marginTop: '0.4rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.75rem', color: '#718096', fontWeight: 600 }}>💡 บริบทแนะนำ:</span>
+                {[
+                  'ชั้นเรียนปกติ (35–40 คน)',
+                  'ห้องเรียนคละความสามารถ (Mixed-Ability)',
+                  'เน้นการทำงานกลุ่มและฝึกปฏิบัติการ',
+                  'ห้องเรียนพร้อมอุปกรณ์ ICT และจอแสดงผล',
+                  'ห้องเรียนขนาดเล็ก (ไม่เกิน 25 คน)',
+                ].map(c => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => {
+                      setStudentContext(prev => prev ? `${prev}; ${c}` : c);
+                    }}
+                    style={{
+                      fontSize: '0.75rem',
+                      padding: '0.2rem 0.55rem',
+                      borderRadius: '6px',
+                      border: '1px solid #E2E8F0',
+                      background: '#F8FAFC',
+                      color: '#4A5568',
+                      cursor: 'pointer',
+                    }}
+                    title="คลิกเพื่อเติมข้อความ"
+                  >
+                    + {c}
+                  </button>
+                ))}
+              </div>
             </Field>
           </section>
 

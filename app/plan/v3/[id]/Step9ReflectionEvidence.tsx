@@ -21,6 +21,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { POST_TEACHING_SUGGESTION_GROUPS } from '@/lib/smartPlanV3/suggestions';
 
 interface Step9ReflectionEvidenceProps {
   planId: string;
@@ -524,6 +525,25 @@ export default function Step9ReflectionEvidence({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">สิ่งที่ได้ผลดี (What Worked)</label>
+            {(() => {
+              const group = POST_TEACHING_SUGGESTION_GROUPS.find((g) => g.field === 'whatWorked');
+              if (!group) return null;
+              return (
+                <div className="flex gap-1 flex-wrap mb-1.5">
+                  {group.chips.slice(0, 4).map((chip, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      disabled={saving}
+                      onClick={() => setWhatWorked((prev) => (prev ? `${prev}\n• ${chip}` : `• ${chip}`))}
+                      className="text-[11px] px-2 py-0.5 bg-slate-50 hover:bg-indigo-50 border border-slate-200 text-slate-700 hover:text-indigo-700 rounded transition"
+                    >
+                      + {chip}
+                    </button>
+                  ))}
+                </div>
+              );
+            })()}
             <textarea
               rows={3}
               className="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
@@ -535,6 +555,25 @@ export default function Step9ReflectionEvidence({
           </div>
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1">ปัญหาและอุปสรรคที่พบ (Problems Found)</label>
+            {(() => {
+              const group = POST_TEACHING_SUGGESTION_GROUPS.find((g) => g.field === 'problems');
+              if (!group) return null;
+              return (
+                <div className="flex gap-1 flex-wrap mb-1.5">
+                  {group.chips.slice(0, 4).map((chip, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      disabled={saving}
+                      onClick={() => setProblems((prev) => (prev ? `${prev}\n• ${chip}` : `• ${chip}`))}
+                      className="text-[11px] px-2 py-0.5 bg-slate-50 hover:bg-rose-50 border border-slate-200 text-slate-700 hover:text-rose-700 rounded transition"
+                    >
+                      + {chip}
+                    </button>
+                  ))}
+                </div>
+              );
+            })()}
             <textarea
               rows={3}
               className="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
@@ -583,6 +622,25 @@ export default function Step9ReflectionEvidence({
               </span>
             )}
           </div>
+          {(() => {
+            const group = POST_TEACHING_SUGGESTION_GROUPS.find((g) => g.field === 'remediationPlan');
+            if (!group) return null;
+            return (
+              <div className="flex gap-1 flex-wrap mb-1.5">
+                {group.chips.slice(0, 4).map((chip, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    disabled={saving}
+                    onClick={() => setRemediationPlan((prev) => (prev ? `${prev}\n• ${chip}` : `• ${chip}`))}
+                    className="text-[11px] px-2 py-0.5 bg-white hover:bg-amber-50 border border-amber-200 text-amber-900 rounded transition"
+                  >
+                    + {chip}
+                  </button>
+                ))}
+              </div>
+            );
+          })()}
           <textarea
             rows={3}
             className="w-full p-2.5 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
@@ -595,6 +653,25 @@ export default function Step9ReflectionEvidence({
 
         <div>
           <label className="block text-xs font-semibold text-slate-700 mb-1">ข้อเสนอแนะสำหรับการสอนครั้งต่อไป</label>
+          {(() => {
+            const group = POST_TEACHING_SUGGESTION_GROUPS.find((g) => g.field === 'nextLessonAdjustment');
+            if (!group) return null;
+            return (
+              <div className="flex gap-1 flex-wrap mb-1.5">
+                {group.chips.slice(0, 4).map((chip, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    disabled={saving}
+                    onClick={() => setNextLessonAdjustment((prev) => (prev ? `${prev}, ${chip}` : chip))}
+                    className="text-[11px] px-2 py-0.5 bg-slate-50 hover:bg-indigo-50 border border-slate-200 text-slate-700 hover:text-indigo-700 rounded transition"
+                  >
+                    + {chip}
+                  </button>
+                ))}
+              </div>
+            );
+          })()}
           <input
             type="text"
             className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"

@@ -22,6 +22,10 @@ import {
   validateActivityRules,
   suggestTimeNormalization,
 } from '@/lib/smartPlanV3/rules/activityRules';
+import {
+  getActivityFlowSuggestions,
+  ActivityFlowCandidate,
+} from '@/lib/smartPlanV3/suggestions';
 
 interface Step3ActivitiesProps {
   planId: string;
@@ -92,6 +96,11 @@ export default function Step3Activities({
   const [regenAlternative, setRegenAlternative] = useState<V3BlueprintActivityDraft | null>(null);
   const [showRegenModal, setShowRegenModal] = useState(false);
 
+  // Guided Activity Flows State (V3.12)
+  const [flowCandidates, setFlowCandidates] = useState<ActivityFlowCandidate[]>([]);
+  const [expandedFlowId, setExpandedFlowId] = useState<string | null>(null);
+  const [showFlowsSection, setShowFlowsSection] = useState(true);
+
   // Load activities on mount
   const fetchActivities = useCallback(async () => {
     try {
@@ -111,6 +120,28 @@ export default function Step3Activities({
   useEffect(() => {
     fetchActivities();
   }, [fetchActivities]);
+
+  const refreshFlowSuggestions = useCallback(() => {
+    if (!lesson) return;
+    const flows = getActivityFlowSuggestions({
+      subjectKey: lesson.subject_key,
+      learningFocus: lesson.learning_focus,
+      topic: lesson.topic,
+      durationMinutes: lesson.duration_minutes || 60,
+      objectiveIds: objectives.map(o => o.id),
+      evidenceIds: evidence.map(e => e.id),
+    });
+    setFlowCandidates(flows);
+  }, [lesson, objectives, evidence]);
+
+  useEffect(() => {
+    refreshFlowSuggestions();
+  }, [refreshFlowSuggestions]);
+
+  const handleSelectFlowCandidate = (flow: ActivityFlowCandidate) => {
+    setPreviewDrafts(flow.activities);
+    setShowPreviewModal(true);
+  };
 
   // Preconditions Check
   const objectivesWithoutEvidence = objectives.filter(
@@ -514,6 +545,140 @@ export default function Step3Activities({
           </div>
         </div>
       </div>
+
+      {/* ── Guided Choice: Activity Flow Candidates (V3.12) ── */}
+      {flowCandidates.length > 0 && showFlowsSection && (
+        <div className="v3-flow-suggestions-card" style={{ background: '#F8FAFC', border: '1px solid #CBD5E1', borderRadius: '12px', padding: '1.25rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#1E293B', margin: '0 0 0.25rem' }}>
+                💡 เลือกแนวทางการจัดกิจกรรมการเรียนรู้ (Activity Flows)
+              </h3>
+              <p style={{ fontSize: '0.8rem', color: '#64748B', margin: 0 }}>
+                ระบบเตรียม Flow กิจกรรมที่จัดสรรเวลาครบ {lesson.duration_minutes || 60} นาทีพอดี เลือกแนวทางที่ต้องการเพื่อดูรายละเอียดและปรับปรุง
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button
+                type="button"
+                onClick={refreshFlowSuggestions}
+                className="v3-btn v3-btn-ghost v3-btn-xs"
+                style={{ fontSize: '0.75rem', padding: '0.3rem 0.6rem' }}
+              >
+                🔄 เสนอแนวทางใหม่
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowFlowsSection(false)}
+                className="v3-btn v3-btn-ghost v3-btn-xs"
+                style={{ fontSize: '0.75rem', padding: '0.3rem 0.6rem' }}
+              >
+                ซ่อน
+              </button>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem' }}>
+            {flowCandidates.map((flow) => {
+              const isExpanded = expandedFlowId === flow.id;
+              return (
+                <div
+                  key={flow.id}
+                  style={{
+                    background: '#FFFFFF',
+                    border: '1px solid #E2E8F0',
+                    borderRadius: '10px',
+                    padding: '1rem',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem', gap: '0.5rem' }}>
+                      <h4 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1E293B', margin: 0 }}>
+                        {flow.name}
+                      </h4>
+                      <div style={{ display: 'flex', gap: '0.3rem', flexShrink: 0 }}>
+                        <span style={{ fontSize: '0.7rem', padding: '0.15rem 0.45rem', borderRadius: '9999px', background: '#EEF2FF', color: '#4F46E5', fontWeight: 600 }}>
+                          {flow.stepsCount} ขั้น
+                        </span>
+                        <span style={{ fontSize: '0.7rem', padding: '0.15rem 0.45rem', borderRadius: '9999px', background: '#ECFDF5', color: '#059669', fontWeight: 600 }}>
+                          {flow.totalMinutes} นาที
+                        </span>
+                      </div>
+                    </div>
+                    <p style={{ fontSize: '0.775rem', color: '#475569', marginBottom: '0.75rem', lineHeight: '1.4' }}>
+                      🎯 <em>{flow.bestFor}</em>
+                    </p>
+
+                    <div style={{ background: '#F8FAFC', borderRadius: '6px', padding: '0.6rem 0.75rem', marginBottom: '0.75rem' }}>
+                      <span style={{ fontSize: '0.725rem', fontWeight: 600, color: '#64748B', display: 'block', marginBottom: '0.35rem' }}>
+                        ขั้นตอนโดยย่อ:
+                      </span>
+                      <ul style={{ margin: 0, paddingLeft: '1.1rem', fontSize: '0.75rem', color: '#334155', lineHeight: '1.4' }}>
+                        {flow.summary.map((step, sIdx) => (
+                          <li key={sIdx} style={{ marginBottom: '0.15rem' }}>{step}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {isExpanded && (
+                      <div style={{ marginTop: '0.5rem', marginBottom: '0.75rem', borderTop: '1px dashed #E2E8F0', paddingTop: '0.5rem' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#334155', display: 'block', marginBottom: '0.4rem' }}>
+                          รายละเอียดกิจกรรมในแต่ละขั้น:
+                        </span>
+                        {flow.activities.map((act, aIdx) => (
+                          <div key={aIdx} style={{ fontSize: '0.725rem', background: '#F1F5F9', borderRadius: '6px', padding: '0.5rem', marginBottom: '0.4rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 600, color: '#1E293B', marginBottom: '0.2rem' }}>
+                              <span>{aIdx + 1}. {act.title}</span>
+                              <span style={{ color: '#4F46E5' }}>{act.minutes} นาที</span>
+                            </div>
+                            <div style={{ color: '#475569' }}><strong>ครู:</strong> {act.teacherActions}</div>
+                            <div style={{ color: '#475569' }}><strong>นักเรียน:</strong> {act.studentActions}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', paddingTop: '0.5rem', borderTop: '1px solid #F1F5F9' }}>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectFlowCandidate(flow)}
+                      className="v3-btn v3-btn-primary"
+                      style={{ flex: 1, fontSize: '0.8rem', padding: '0.4rem 0.75rem', justifyContent: 'center' }}
+                    >
+                      ✓ เลือกแผนกิจกรรมนี้
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExpandedFlowId(isExpanded ? null : flow.id)}
+                      className="v3-btn v3-btn-ghost"
+                      style={{ fontSize: '0.8rem', padding: '0.4rem 0.6rem' }}
+                    >
+                      {isExpanded ? 'ย่อ' : 'ดูรายละเอียด'}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+      {!showFlowsSection && flowCandidates.length > 0 && (
+        <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'flex-start' }}>
+          <button
+            type="button"
+            onClick={() => setShowFlowsSection(true)}
+            className="v3-btn v3-btn-ghost v3-btn-sm"
+            style={{ fontSize: '0.8rem', color: '#4F46E5', borderColor: '#C7D2FE', background: '#EEF2FF' }}
+          >
+            💡 แสดงแนวทางการจัดกิจกรรม 3 รูปแบบ (Activity Flows)
+          </button>
+        </div>
+      )}
 
       {/* ── AI Action & Toolbar ── */}
       <div className="v3-activity-toolbar">

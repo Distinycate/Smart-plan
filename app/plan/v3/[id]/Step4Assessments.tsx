@@ -24,6 +24,7 @@ import {
   validateAssessmentRules,
   deriveAssessmentReadiness,
 } from '@/lib/smartPlanV3/rules/assessmentRules';
+import { getAssessmentSuggestions, AssessmentCandidate } from '@/lib/smartPlanV3/suggestions';
 
 interface Step4AssessmentsProps {
   planId: string;
@@ -154,32 +155,47 @@ export default function Step4Assessments({
   const readiness = deriveAssessmentReadiness(mockGraph);
   const ruleSummary = validateAssessmentRules(mockGraph);
 
-  // Helper to open create modal with recommendations prefilled
-  const handleOpenCreateForEvidence = (evd: V3LearningEvidence) => {
-    const rec = getAssessmentRecommendations({
-      subjectKey: lesson.subject_key,
-      learningFocus: lesson.learning_focus,
-      evidenceType: evd.evidence_type,
-    });
-
+  // Helper to open create modal with recommendations or candidate prefilled
+  const handleOpenCreateForEvidence = (evd: V3LearningEvidence, candidate?: AssessmentCandidate) => {
     setIsNewAssessment(true);
     setTargetEvidenceId(evd.id);
     setEditingAssessment(null);
 
     const evdLabel = evd.description.length > 30 ? evd.description.substring(0, 30) + '...' : evd.description;
-    setFormName(`การประเมิน: ${evdLabel}`);
-    setFormType(rec.preferredAssessmentType);
-    setFormMethod(rec.suggestedMethod);
-    setFormCriteriaType(rec.defaultCriteriaType);
-    setFormCriteriaValue(rec.defaultCriteriaValue !== undefined ? rec.defaultCriteriaValue : 70);
-    setFormCriteriaText(rec.defaultCriteriaText || '');
-    setFormFormative(false);
-    setFormEvidenceIds([evd.id]);
-    setFormActivityIds([]);
 
-    const preferredTool = rec.preferredToolTypes[0] || 'RUBRIC';
-    setFormToolType(preferredTool);
-    setFormToolTitle(`แบบประเมิน: ${evdLabel}`);
+    if (candidate) {
+      setFormName(candidate.name);
+      setFormType(candidate.type);
+      setFormMethod(candidate.method);
+      setFormCriteriaType(candidate.criteriaType);
+      setFormCriteriaValue(candidate.criteriaValue !== undefined ? candidate.criteriaValue : 70);
+      setFormCriteriaText(candidate.criteriaText || '');
+      setFormFormative(false);
+      setFormEvidenceIds([evd.id]);
+      setFormActivityIds([]);
+      setFormToolType(candidate.toolType);
+      setFormToolTitle(candidate.toolTitle);
+    } else {
+      const rec = getAssessmentRecommendations({
+        subjectKey: lesson.subject_key,
+        learningFocus: lesson.learning_focus,
+        evidenceType: evd.evidence_type,
+      });
+
+      setFormName(`การประเมิน: ${evdLabel}`);
+      setFormType(rec.preferredAssessmentType);
+      setFormMethod(rec.suggestedMethod);
+      setFormCriteriaType(rec.defaultCriteriaType);
+      setFormCriteriaValue(rec.defaultCriteriaValue !== undefined ? rec.defaultCriteriaValue : 70);
+      setFormCriteriaText(rec.defaultCriteriaText || '');
+      setFormFormative(false);
+      setFormEvidenceIds([evd.id]);
+      setFormActivityIds([]);
+
+      const preferredTool = rec.preferredToolTypes[0] || 'RUBRIC';
+      setFormToolType(preferredTool);
+      setFormToolTitle(`แบบประเมิน: ${evdLabel}`);
+    }
   };
 
   // Helper to import Formative Quick Check from Activity
@@ -626,29 +642,114 @@ export default function Step4Assessments({
                     </button>
                   </div>
 
-                  {/* Recommendation Tag */}
-                  <div
-                    style={{
-                      background: '#F8FAFC',
-                      border: '1px solid #E2E8F0',
-                      borderRadius: '8px',
-                      padding: '0.5rem 0.75rem',
-                      fontSize: '0.8rem',
-                      color: '#475569',
-                      marginTop: '0.75rem',
-                    }}
-                  >
-                    <span style={{ color: '#4F46E5', fontWeight: 600 }}>💡 ข้อเสนอแนะตามธรรมชาติวิชา: </span>
-                    วิธี: <strong>{rec.suggestedMethod}</strong> | เครื่องมือ: <strong>{rec.preferredToolTypes.map((t) => TOOL_TYPE_LABELS[t] || t).join(', ')}</strong> | เกณฑ์: <strong>{rec.defaultCriteriaText}</strong>
-                  </div>
+                  {/* Recommendation & Guided Choice Candidates */}
+                  {(() => {
+                    const suggestions = getAssessmentSuggestions({
+                      subjectKey: lesson.subject_key,
+                      learningFocus: lesson.learning_focus,
+                      topic: lesson.topic,
+                      primaryEvidenceType: evd.evidence_type,
+                    });
+
+                    return (
+                      <div style={{ marginTop: '0.75rem' }}>
+                        {linkedAssessments.length === 0 ? (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#3730A3' }}>
+                                ✨ ข้อเสนอแนะวิธีประเมินที่เหมาะกับหลักฐานนี้ (เลือกใช้ได้ทันที):
+                              </span>
+                              <button
+                                className="v3-btn v3-btn-ghost v3-btn-xs"
+                                onClick={() => handleOpenCreateForEvidence(evd)}
+                              >
+                                ✍️ กำหนดเอง
+                              </button>
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.6rem' }}>
+                              {suggestions.map((cand) => (
+                                <div
+                                  key={cand.id}
+                                  style={{
+                                    border: cand.isRecommended ? '1.5px solid #818CF8' : '1px solid #E2E8F0',
+                                    borderRadius: '8px',
+                                    padding: '0.75rem',
+                                    background: cand.isRecommended ? '#F5F7FF' : '#FAFAFA',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                  }}
+                                >
+                                  <div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.35rem' }}>
+                                      <span
+                                        style={{
+                                          fontSize: '0.68rem',
+                                          fontWeight: 700,
+                                          padding: '0.1rem 0.4rem',
+                                          borderRadius: '4px',
+                                          background: cand.isRecommended ? '#4338CA' : '#E2E8F0',
+                                          color: cand.isRecommended ? 'white' : '#475569',
+                                        }}
+                                      >
+                                        {cand.isRecommended ? 'แนะนำ' : 'ทางเลือก'}
+                                      </span>
+                                      <strong style={{ fontSize: '0.85rem', color: '#1E293B' }}>{cand.name}</strong>
+                                    </div>
+                                    <div style={{ fontSize: '0.78rem', color: '#4B5563', lineHeight: 1.4 }}>
+                                      <div><strong>วิธี:</strong> {cand.method}</div>
+                                      <div><strong>เครื่องมือ:</strong> {cand.toolTitle}</div>
+                                      <div><strong>เกณฑ์ผ่าน:</strong> {cand.criteriaText}</div>
+                                    </div>
+                                    {cand.description && (
+                                      <p style={{ margin: '0.35rem 0 0', fontSize: '0.74rem', color: '#64748B' }}>
+                                        {cand.description}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.6rem', borderTop: '1px dashed #CBD5E1', paddingTop: '0.5rem' }}>
+                                    <button
+                                      className="v3-btn v3-btn-primary v3-btn-xs"
+                                      style={{ flex: 1 }}
+                                      onClick={() => handleOpenCreateForEvidence(evd, cand)}
+                                    >
+                                      ✓ เลือกใช้ข้อเสนอนี้
+                                    </button>
+                                    <button
+                                      className="v3-btn v3-btn-ghost v3-btn-xs"
+                                      onClick={() => handleOpenCreateForEvidence(evd, cand)}
+                                      title="เปิดปรับแก้รายละเอียดก่อนบันทึก"
+                                    >
+                                      ✏️ ปรับแก้
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              background: '#F8FAFC',
+                              border: '1px solid #E2E8F0',
+                              borderRadius: '8px',
+                              padding: '0.5rem 0.75rem',
+                              fontSize: '0.8rem',
+                              color: '#475569',
+                            }}
+                          >
+                            <span style={{ color: '#4F46E5', fontWeight: 600 }}>💡 ข้อเสนอแนะตามธรรมชาติวิชา: </span>
+                            วิธี: <strong>{rec.suggestedMethod}</strong> | เครื่องมือ: <strong>{rec.preferredToolTypes.map((t) => TOOL_TYPE_LABELS[t] || t).join(', ')}</strong> | เกณฑ์: <strong>{rec.defaultCriteriaText}</strong>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
 
                   {/* Attached Assessments List */}
                   <div style={{ marginTop: '1rem', borderTop: '1px dashed #E2E8F0', paddingTop: '0.75rem' }}>
-                    {linkedAssessments.length === 0 ? (
-                      <div style={{ color: '#D97706', fontSize: '0.85rem', fontStyle: 'italic', padding: '0.4rem 0' }}>
-                        ⚠️ ยังไม่มีการประเมินสำหรับหลักฐานนี้
-                      </div>
-                    ) : (
+                    {linkedAssessments.length === 0 ? null : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                         {linkedAssessments.map((asm, asmIdx) => {
                           const linkedActTitles = activities
@@ -783,6 +884,59 @@ export default function Step4Assessments({
             </h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1rem' }}>
+              {isNewAssessment && (
+                <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '8px', padding: '0.65rem 0.75rem' }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 600, color: '#475569', marginBottom: '0.4rem' }}>
+                    💡 เติมข้อมูลด่วนจากข้อเสนอแนะ:
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                    {getAssessmentSuggestions({
+                      subjectKey: lesson.subject_key,
+                      learningFocus: lesson.learning_focus,
+                      topic: lesson.topic,
+                    }).map((cand) => (
+                      <button
+                        key={cand.id}
+                        type="button"
+                        className="v3-btn v3-btn-ghost v3-btn-xs"
+                        style={{
+                          background: formName === cand.name ? '#EEF2FF' : 'white',
+                          borderColor: formName === cand.name ? '#6366F1' : '#CBD5E1',
+                          color: formName === cand.name ? '#4338CA' : '#334155',
+                          fontSize: '0.75rem',
+                          padding: '0.2rem 0.5rem',
+                        }}
+                        onClick={() => {
+                          setFormName(cand.name);
+                          setFormType(cand.type);
+                          setFormMethod(cand.method);
+                          setFormCriteriaType(cand.criteriaType);
+                          setFormCriteriaValue(cand.criteriaValue !== undefined ? cand.criteriaValue : 70);
+                          setFormCriteriaText(cand.criteriaText || '');
+                          setFormToolType(cand.toolType);
+                          setFormToolTitle(cand.toolTitle);
+                        }}
+                      >
+                        {cand.isRecommended ? '⭐ ' : ''}{cand.toolTitle}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      className="v3-btn v3-btn-ghost v3-btn-xs"
+                      style={{ color: '#64748B', fontSize: '0.75rem' }}
+                      onClick={() => {
+                        setFormName('');
+                        setFormMethod('');
+                        setFormCriteriaText('');
+                        setFormToolTitle('');
+                      }}
+                    >
+                      ✍️ ล้างเขียนเอง
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <div>
                 <label className="v3-form-label">ชื่อรายการประเมิน *</label>
                 <input

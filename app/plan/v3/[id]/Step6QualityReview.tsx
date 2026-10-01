@@ -271,6 +271,39 @@ function IssueCard({
               </button>
             )}
           </div>
+
+          {/* Guided Choice Resolution Options for Quality Issues */}
+          {(issue.category === 'ALIGNMENT' || issue.message.includes('หลักฐาน') || issue.title.includes('หลักฐาน')) && (
+            <div className="mt-3 pt-2.5 border-t border-slate-200/70">
+              <p className="text-xs font-semibold text-slate-700 mb-1.5">💡 ข้อเสนอแนะแนวทางแก้ไข:</p>
+              <div className="flex gap-1.5 flex-wrap">
+                <a
+                  href={`/plan/v3/${planId}?step=2`}
+                  className="text-xs px-2.5 py-1 bg-white hover:bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg font-medium transition"
+                >
+                  [การสังเกตการปฏิบัติ]
+                </a>
+                <a
+                  href={`/plan/v3/${planId}?step=2`}
+                  className="text-xs px-2.5 py-1 bg-white hover:bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg font-medium transition"
+                >
+                  [ผลงานนักเรียน / ชิ้นงาน]
+                </a>
+                <a
+                  href={`/plan/v3/${planId}?step=2`}
+                  className="text-xs px-2.5 py-1 bg-white hover:bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-lg font-medium transition"
+                >
+                  [Exit Ticket]
+                </a>
+                <a
+                  href={`/plan/v3/${planId}?step=2`}
+                  className="text-xs px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition"
+                >
+                  [เลือกเองในขั้นที่ 2]
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {showModal && (
@@ -707,7 +740,16 @@ export default function Step6QualityReview({ planId, graph, onBack, onGraphChang
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-2">
                     <h4 className="font-semibold text-amber-800">พบรายการที่ยังไม่เชื่อมโยงครบวงจร:</h4>
                     {orphans.objectivesWithoutEvidence?.length > 0 && (
-                      <p className="text-sm text-amber-700">• จุดประสงค์ไม่มีหลักฐาน: {orphans.objectivesWithoutEvidence.join(', ')}</p>
+                      <div className="space-y-1">
+                        <p className="text-sm text-amber-700">• จุดประสงค์ไม่มีหลักฐาน: {orphans.objectivesWithoutEvidence.join(', ')}</p>
+                        <div className="flex gap-1.5 flex-wrap items-center mt-1">
+                          <span className="text-xs text-amber-900 font-semibold">ข้อเสนอ:</span>
+                          <a href={`/plan/v3/${planId}?step=2`} className="text-xs bg-white hover:bg-amber-100 border border-amber-300 px-2 py-0.5 rounded text-amber-900 font-medium">[การสังเกตการปฏิบัติ]</a>
+                          <a href={`/plan/v3/${planId}?step=2`} className="text-xs bg-white hover:bg-amber-100 border border-amber-300 px-2 py-0.5 rounded text-amber-900 font-medium">[ผลงานนักเรียน]</a>
+                          <a href={`/plan/v3/${planId}?step=2`} className="text-xs bg-white hover:bg-amber-100 border border-amber-300 px-2 py-0.5 rounded text-amber-900 font-medium">[Exit Ticket]</a>
+                          <a href={`/plan/v3/${planId}?step=2`} className="text-xs bg-amber-200/80 hover:bg-amber-200 border border-amber-400 px-2 py-0.5 rounded text-amber-900 font-medium">[เลือกเอง]</a>
+                        </div>
+                      </div>
                     )}
                     {orphans.evidenceWithoutActivity?.length > 0 && (
                       <p className="text-sm text-amber-700">• หลักฐานไม่มีกิจกรรม: {orphans.evidenceWithoutActivity.join(', ')}</p>

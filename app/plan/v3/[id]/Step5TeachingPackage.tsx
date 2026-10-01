@@ -59,6 +59,12 @@ export default function Step5TeachingPackage({
   const [userPromptNotes, setUserPromptNotes] = useState('');
   const [isSavingAsset, setIsSavingAsset] = useState(false);
 
+  // Bulk Generation State
+  const [selectedAssetTypes, setSelectedAssetTypes] = useState<string[]>([]);
+  const [bulkGenerating, setBulkGenerating] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState<{ current: number; total: number; currentName: string } | null>(null);
+  const [bulkErrors, setBulkErrors] = useState<Record<string, string>>({});
+
   // Manual Asset Modal State
   const [isManualModalOpen, setIsManualModalOpen] = useState(false);
   const [manualTitle, setManualTitle] = useState('');
@@ -95,6 +101,96 @@ export default function Step5TeachingPackage({
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // Synchronize ungenerated assets for bulk checklist
+  useEffect(() => {
+    if (requirements) {
+      const needed: string[] = [];
+      requirements.required.forEach((r) => {
+        if (!r.isAssessmentToolReuse && !assets.some((a) => a.asset_type.toUpperCase() === r.assetType.toUpperCase())) {
+          needed.push(r.assetType);
+        }
+      });
+      requirements.recommended.forEach((r) => {
+        if (!assets.some((a) => a.asset_type.toUpperCase() === r.assetType.toUpperCase())) {
+          needed.push(r.assetType);
+        }
+      });
+      setSelectedAssetTypes(needed);
+    }
+  }, [requirements, assets]);
+
+  // Sequential Bulk Generation (1 Asset = 1 Scoped Job, no cascade failure)
+  const handleBulkGenerate = async () => {
+    if (selectedAssetTypes.length === 0 || bulkGenerating) return;
+    setBulkGenerating(true);
+    setBulkErrors({});
+
+    const allReqs = [
+      ...(requirements?.required || []),
+      ...(requirements?.recommended || []),
+      ...(requirements?.optional || []),
+    ];
+
+    const itemsToGenerate = selectedAssetTypes
+      .map((t) => allReqs.find((r) => r.assetType === t))
+      .filter((r): r is V3TeachingAssetRequirementItem => !!r && !r.isAssessmentToolReuse);
+
+    const errors: Record<string, string> = {};
+
+    for (let i = 0; i < itemsToGenerate.length; i++) {
+      const req = itemsToGenerate[i];
+      setBulkProgress({
+        current: i + 1,
+        total: itemsToGenerate.length,
+        currentName: req.labelTh,
+      });
+
+      try {
+        const genRes = await fetch(`/api/plan/v3/${planId}/assets/generate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            assetType: req.assetType,
+            activityId: activities[0]?.id,
+          }),
+        });
+
+        const genJson = await genRes.json();
+        if (!genJson.success) {
+          errors[req.labelTh] = genJson.error || 'สร้างไม่สำเร็จ';
+          continue;
+        }
+
+        const saveRes = await fetch(`/api/plan/v3/${planId}/assets`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: genJson.data.title || req.labelTh,
+            asset_type: req.assetType,
+            audience: req.audience,
+            content: genJson.data.preview,
+            generation_status: 'READY',
+            needs_review: false,
+            source: 'AI',
+            activityIds: activities.length > 0 ? [activities[0].id] : [],
+          }),
+        });
+
+        const saveJson = await saveRes.json();
+        if (!saveJson.success) {
+          errors[req.labelTh] = saveJson.error || 'บันทึกไม่สำเร็จ';
+        }
+      } catch (err: any) {
+        errors[req.labelTh] = err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ';
+      }
+    }
+
+    setBulkErrors(errors);
+    setBulkProgress(null);
+    setBulkGenerating(false);
+    await loadData();
+  };
 
   // Precondition Check
   const hasActivities = activities.length > 0;
@@ -416,6 +512,114 @@ export default function Step5TeachingPackage({
             </span>
             <span>รายการต้องตรวจ ({readiness?.assetsNeedReview.length || 0})</span>
           </div>
+        </div>
+      </div>
+
+      {/* ─── Guided Choice Checklist for Teaching Package ─────────────────── */}
+      <div
+        className="v3-editor-section"
+        style={{
+          background: '#FFFFFF',
+          border: '1.5px solid #E0E7FF',
+          borderRadius: '12px',
+          padding: '1.25rem',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '0.75rem' }}>
+          <div>
+            <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: '#312E81' }}>
+              ✨ แนะนำสำหรับแผนนี้ (เลือกและสร้างชุดพร้อมสอน)
+            </h3>
+            <p style={{ margin: '0.2rem 0 0', fontSize: '0.78rem', color: '#64748B' }}>
+              เลือกรายการที่ต้องการจัดเตรียม แล้วกดสร้างพร้อมกันได้ โดยระบบจะประมวลผลแยกรายชิ้นอย่างปลอดภัย
+            </p>
+          </div>
+
+          <button
+            className="v3-btn v3-btn-primary v3-btn-sm"
+            onClick={handleBulkGenerate}
+            disabled={bulkGenerating || selectedAssetTypes.length === 0}
+            style={{ fontWeight: 600 }}
+          >
+            {bulkGenerating
+              ? `กำลังสร้าง (${bulkProgress?.current || 0}/${bulkProgress?.total || 0})...`
+              : `สร้างรายการที่เลือก (${selectedAssetTypes.length}) 🚀`}
+          </button>
+        </div>
+
+        {bulkProgress && (
+          <div style={{ background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: '8px', padding: '0.6rem 0.8rem', marginBottom: '0.75rem', fontSize: '0.8rem', color: '#1E40AF' }}>
+            ⏳ กำลังสร้าง: <strong>{bulkProgress.currentName}</strong> ({bulkProgress.current} จาก {bulkProgress.total} รายการ)...
+          </div>
+        )}
+
+        {Object.keys(bulkErrors).length > 0 && (
+          <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '8px', padding: '0.6rem 0.8rem', marginBottom: '0.75rem', fontSize: '0.8rem', color: '#991B1B' }}>
+            ⚠️ มี {Object.keys(bulkErrors).length} รายการที่สร้างไม่สำเร็จ (รายการอื่นที่สำเร็จยังอยู่ครบ):
+            <ul style={{ margin: '0.3rem 0 0', paddingLeft: '1.2rem' }}>
+              {Object.entries(bulkErrors).map(([name, err]) => (
+                <li key={name}>{name}: {err}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.6rem' }}>
+          {[
+            ...(requirements?.required || []).map((r) => ({ ...r, badge: 'แนะนำ', isReq: true })),
+            ...(requirements?.recommended || []).map((r) => ({ ...r, badge: 'ทางเลือก', isReq: false })),
+          ].map((item) => {
+            const isReady = assets.some((a) => a.asset_type.toUpperCase() === item.assetType.toUpperCase()) || item.isAssessmentToolReuse;
+            const isChecked = selectedAssetTypes.includes(item.assetType);
+
+            return (
+              <label
+                key={item.assetType}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.6rem 0.75rem',
+                  borderRadius: '8px',
+                  border: isChecked ? '1.5px solid #818CF8' : '1px solid #E2E8F0',
+                  background: isReady ? '#F0FDF4' : isChecked ? '#F5F7FF' : '#FAFAFA',
+                  cursor: isReady ? 'default' : 'pointer',
+                  opacity: isReady ? 0.85 : 1,
+                }}
+              >
+                <input
+                  type="checkbox"
+                  disabled={isReady || bulkGenerating}
+                  checked={isReady || isChecked}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedAssetTypes([...selectedAssetTypes, item.assetType]);
+                    } else {
+                      setSelectedAssetTypes(selectedAssetTypes.filter((t) => t !== item.assetType));
+                    }
+                  }}
+                  style={{ accentColor: '#4F46E5', width: '16px', height: '16px' }}
+                />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1E293B', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {item.labelTh}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.3rem', marginTop: '0.2rem' }}>
+                    <span style={{ fontSize: '0.65rem', padding: '0.05rem 0.35rem', borderRadius: '4px', background: item.isReq ? '#FEE2E2' : '#E0E7FF', color: item.isReq ? '#991B1B' : '#3730A3', fontWeight: 600 }}>
+                      {item.badge}
+                    </span>
+                    {isReady && (
+                      <span style={{ fontSize: '0.65rem', padding: '0.05rem 0.35rem', borderRadius: '4px', background: '#DCFCE7', color: '#166534', fontWeight: 600 }}>
+                        ✓ พร้อมใช้
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </label>
+            );
+          })}
         </div>
       </div>
 

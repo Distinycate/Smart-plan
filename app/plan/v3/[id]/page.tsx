@@ -11,6 +11,12 @@ import Step5TeachingPackage from './Step5TeachingPackage';
 import Step6QualityReview from './Step6QualityReview';
 import Step8TeachingResults from './Step8TeachingResults';
 import Step9ReflectionEvidence from './Step9ReflectionEvidence';
+import {
+  getObjectiveSuggestions,
+  getEvidenceSuggestions,
+  ObjectiveCandidate,
+  EvidenceCandidate,
+} from '@/lib/smartPlanV3/suggestions';
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
@@ -260,6 +266,13 @@ export default function V3PlanEditorPage() {
   const [newEvdDesc, setNewEvdDesc] = useState('');
   const [addingEvd, setAddingEvd] = useState(false);
 
+  // Guided Choice State (V3.12)
+  const [objCandidates, setObjCandidates] = useState<ObjectiveCandidate[]>([]);
+  const [evdCandidates, setEvdCandidates] = useState<EvidenceCandidate[]>([]);
+  const [loadingObjSuggestions, setLoadingObjSuggestions] = useState(false);
+  const [showManualObj, setShowManualObj] = useState(false);
+  const [showManualEvd, setShowManualEvd] = useState(false);
+
   // ─── Load Graph ────────────────────────────────────────────────────────────
 
   const loadGraph = useCallback(async () => {
@@ -416,6 +429,98 @@ export default function V3PlanEditorPage() {
     }
   };
 
+  // ─── Guided Choice Operations (V3.12) ────────────────────────────────────
+
+  const refreshObjectiveSuggestions = useCallback(async () => {
+    if (!lesson) return;
+    setLoadingObjSuggestions(true);
+    try {
+      const res = await fetch(`/api/plan/v3/${planId}/objectives/suggestions`, { method: 'POST' });
+      const json = await res.json();
+      if (json.success && Array.isArray(json.candidates)) {
+        setObjCandidates(json.candidates);
+      } else {
+        const fallback = getObjectiveSuggestions({
+          subjectKey: lesson.subject_key,
+          learningFocus: lesson.learning_focus,
+          topic: lesson.topic,
+          durationMinutes: lesson.duration_minutes,
+        });
+        setObjCandidates(fallback);
+      }
+    } catch {
+      const fallback = getObjectiveSuggestions({
+        subjectKey: lesson.subject_key,
+        learningFocus: lesson.learning_focus,
+        topic: lesson.topic,
+        durationMinutes: lesson.duration_minutes,
+      });
+      setObjCandidates(fallback);
+    } finally {
+      setLoadingObjSuggestions(false);
+    }
+  }, [lesson, planId]);
+
+  useEffect(() => {
+    if (lesson) {
+      refreshObjectiveSuggestions();
+      const evds = getEvidenceSuggestions({
+        subjectKey: lesson.subject_key,
+        learningFocus: lesson.learning_focus,
+        topic: lesson.topic,
+        objectiveStatements: objectives.map(o => o.statement),
+      });
+      setEvdCandidates(evds);
+    }
+  }, [lesson, objectives.length]);
+
+  const selectObjectiveCandidate = async (candidate: ObjectiveCandidate) => {
+    if (!planId) return;
+    setAddingObj(true);
+    try {
+      const res = await fetch(`/api/plan/v3/${planId}/objectives`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ statement: candidate.statement, position: objectives.length }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setObjectives(prev => [...prev, data.data]);
+      }
+    } finally {
+      setAddingObj(false);
+    }
+  };
+
+  const selectEvidenceCandidate = async (candidate: EvidenceCandidate) => {
+    if (!planId) return;
+    setAddingEvd(true);
+    try {
+      const res = await fetch(`/api/plan/v3/${planId}/evidence`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          evidence_type: candidate.evidenceType,
+          description: candidate.description,
+          position: evidence.length,
+          source: 'MANUAL',
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        const newEvd = data.data;
+        setEvidence(prev => [...prev, newEvd]);
+        // Auto-link to latest unlinked objective or first objective
+        const unlinkedObj = objectives.find(o => !objEvdLinks.some(l => l.objective_id === o.id)) || objectives[0];
+        if (unlinkedObj) {
+          await linkEvidence(unlinkedObj.id, newEvd.id);
+        }
+      }
+    } finally {
+      setAddingEvd(false);
+    }
+  };
+
   // ─── Alignment Summary ────────────────────────────────────────────────────
 
   const objectivesWithoutEvidence = objectives.filter(obj =>
@@ -493,8 +598,30 @@ export default function V3PlanEditorPage() {
             {/* ─ Objectives ─ */}
             <div className="v3-editor-section">
               <div className="v3-section-header-row">
-                <h2 className="v3-section-title">🎯 จุดประสงค์การเรียนรู้</h2>
-                <span className="v3-count-badge">{objectives.length} ข้อ</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <h2 className="v3-section-title" style={{ margin: 0 }}>🎯 จุดประสงค์การเรียนรู้</h2>
+                  <span className="v3-count-badge">{objectives.length} ข้อ</span>
+                </div>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={refreshObjectiveSuggestions}
+                    disabled={loadingObjSuggestions}
+                    className="v3-btn v3-btn-ghost v3-btn-sm"
+                    style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem' }}
+                    title="สร้างข้อเสนอใหม่ตามบริบทแผนการสอน"
+                  >
+                    {loadingObjSuggestions ? 'กำลังประมวลผล...' : '🔄 เสนอใหม่'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowManualObj(prev => !prev)}
+                    className="v3-btn v3-btn-ghost v3-btn-sm"
+                    style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem' }}
+                  >
+                    {showManualObj ? 'ซ่อนการเขียนเอง' : '✍️ เขียนเอง'}
+                  </button>
+                </div>
               </div>
 
               {lesson.learning_focus && (
@@ -504,7 +631,105 @@ export default function V3PlanEditorPage() {
                 </div>
               )}
 
-              {objectives.length === 0 && (
+              {/* 💡 Guided Objective Suggestion Cards */}
+              {objCandidates.length > 0 && (
+                <div style={{ marginBottom: '1.25rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#334155' }}>
+                      💡 ข้อเสนอจุดประสงค์ที่เหมาะกับแผนนี้ (เลือกใช้หรือแก้ไขก่อนใช้):
+                    </span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem' }}>
+                    {objCandidates.map((c) => {
+                      const alreadyAdded = objectives.some(o => o.statement === c.statement);
+                      return (
+                        <div
+                          key={c.id}
+                          style={{
+                            border: alreadyAdded ? '1px solid #10B981' : '1px solid #E2E8F0',
+                            borderRadius: '10px',
+                            padding: '0.85rem',
+                            background: alreadyAdded ? '#F0FDF4' : '#FFFFFF',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                              <span
+                                style={{
+                                  fontSize: '0.75rem',
+                                  fontWeight: 600,
+                                  padding: '0.15rem 0.5rem',
+                                  borderRadius: '9999px',
+                                  border: '1px solid',
+                                }}
+                                className={c.levelBadgeCls || 'bg-blue-50 text-blue-700 border-blue-200'}
+                              >
+                                {c.levelLabelTh}
+                              </span>
+                              {alreadyAdded && (
+                                <span style={{ fontSize: '0.75rem', color: '#059669', fontWeight: 600 }}>
+                                  ✓ เลือกแล้ว
+                                </span>
+                              )}
+                            </div>
+                            <p style={{ fontSize: '0.875rem', color: '#1E293B', lineHeight: '1.4', margin: '0 0 0.4rem', fontWeight: 500 }}>
+                              {c.statement}
+                            </p>
+                            <p style={{ fontSize: '0.75rem', color: '#64748B', margin: 0 }}>
+                              🎯 <em>{c.rationale}</em>
+                            </p>
+                          </div>
+                          <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.75rem', paddingTop: '0.5rem', borderTop: '1px solid #F1F5F9' }}>
+                            <button
+                              type="button"
+                              onClick={() => selectObjectiveCandidate(c)}
+                              disabled={addingObj || alreadyAdded}
+                              style={{
+                                flex: 1,
+                                fontSize: '0.8rem',
+                                padding: '0.35rem 0.6rem',
+                                borderRadius: '6px',
+                                background: alreadyAdded ? '#D1FAE5' : '#4F46E5',
+                                color: alreadyAdded ? '#065F46' : '#FFFFFF',
+                                border: 'none',
+                                fontWeight: 600,
+                                cursor: alreadyAdded ? 'default' : 'pointer',
+                              }}
+                            >
+                              {alreadyAdded ? 'เลือกแล้ว' : '+ เลือกใช้ข้อนี้'}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNewObjText(c.statement);
+                                setShowManualObj(true);
+                              }}
+                              style={{
+                                fontSize: '0.8rem',
+                                padding: '0.35rem 0.6rem',
+                                borderRadius: '6px',
+                                background: '#F8FAFC',
+                                color: '#475569',
+                                border: '1px solid #CBD5E1',
+                                cursor: 'pointer',
+                              }}
+                              title="นำข้อความไปแก้ไขในช่องพิมพ์"
+                            >
+                              ✏️ แก้ไขก่อนใช้
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {objectives.length === 0 && objCandidates.length === 0 && (
                 <p className="v3-hint-empty">ยังไม่มีจุดประสงค์ เพิ่มจุดประสงค์การเรียนรู้ด้านล่าง</p>
               )}
 
@@ -524,35 +749,140 @@ export default function V3PlanEditorPage() {
                 ))}
               </div>
 
-              {/* Add Objective */}
-              <div className="v3-add-form">
-                <textarea
-                  className="v3-textarea"
-                  value={newObjText}
-                  onChange={e => setNewObjText(e.target.value)}
-                  placeholder="เพิ่มจุดประสงค์ เช่น 'นักเรียนสามารถถามและตอบเกี่ยวกับอาชีพได้โดยใช้โครงสร้างที่กำหนด'"
-                  rows={2}
-                  onKeyDown={e => { if (e.key === 'Enter' && e.ctrlKey) addObjective(); }}
-                />
-                <button
-                  className="v3-btn v3-btn-primary"
-                  onClick={addObjective}
-                  disabled={!newObjText.trim() || addingObj}
-                >
-                  {addingObj ? 'กำลังเพิ่ม...' : '+ เพิ่มจุดประสงค์'}
-                </button>
-              </div>
+              {/* Add Objective (Manual) */}
+              {(showManualObj || objectives.length === 0) && (
+                <div className="v3-add-form" style={{ marginTop: '0.75rem' }}>
+                  <textarea
+                    className="v3-textarea"
+                    value={newObjText}
+                    onChange={e => setNewObjText(e.target.value)}
+                    placeholder="เพิ่มจุดประสงค์ เช่น 'นักเรียนสามารถถามและตอบเกี่ยวกับอาชีพได้โดยใช้โครงสร้างที่กำหนด'"
+                    rows={2}
+                    onKeyDown={e => { if (e.key === 'Enter' && e.ctrlKey) addObjective(); }}
+                  />
+                  <button
+                    className="v3-btn v3-btn-primary"
+                    onClick={addObjective}
+                    disabled={!newObjText.trim() || addingObj}
+                  >
+                    {addingObj ? 'กำลังเพิ่ม...' : '+ เพิ่มจุดประสงค์'}
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* ─ Evidence ─ */}
             <div className="v3-editor-section">
               <div className="v3-section-header-row">
-                <h2 className="v3-section-title">📌 หลักฐานการเรียนรู้</h2>
-                <span className="v3-count-badge">{evidence.length} รายการ</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <h2 className="v3-section-title" style={{ margin: 0 }}>📌 หลักฐานการเรียนรู้</h2>
+                  <span className="v3-count-badge">{evidence.length} รายการ</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowManualEvd(prev => !prev)}
+                  className="v3-btn v3-btn-ghost v3-btn-sm"
+                  style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem' }}
+                >
+                  {showManualEvd ? 'ซ่อนการเขียนเอง' : '✍️ เขียนเอง'}
+                </button>
               </div>
-              <p className="v3-section-hint">นักเรียนจะแสดงให้เห็นว่าเรียนรู้สำเร็จอย่างไร? เชื่อมหลักฐานแต่ละอย่างกับจุดประสงค์ที่เกี่ยวข้อง</p>
+              <p className="v3-section-hint">นักเรียนจะแสดงให้เห็นว่าเรียนรู้สำเร็จอย่างไร? เลือกจากข้อเสนอแนะหรือกำหนดเอง</p>
 
-              {evidence.length === 0 && (
+              {/* 💡 Guided Evidence Suggestion Cards */}
+              {evdCandidates.length > 0 && (
+                <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ marginBottom: '0.5rem' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#334155' }}>
+                      💡 ข้อเสนอหลักฐานการเรียนรู้ที่แนะนำ:
+                    </span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '0.6rem' }}>
+                    {evdCandidates.map((ev) => {
+                      const alreadyAdded = evidence.some(e => e.description === ev.description || e.evidence_type === ev.evidenceType);
+                      return (
+                        <div
+                          key={ev.id}
+                          style={{
+                            border: '1px solid #E2E8F0',
+                            borderRadius: '8px',
+                            padding: '0.75rem',
+                            background: alreadyAdded ? '#F8FAFC' : '#FFFFFF',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
+                              <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#1E293B' }}>
+                                {ev.labelTh}
+                              </span>
+                              <span
+                                style={{
+                                  fontSize: '0.7rem',
+                                  padding: '0.1rem 0.4rem',
+                                  borderRadius: '9999px',
+                                  background: ev.recommended ? '#DCFCE7' : '#F1F5F9',
+                                  color: ev.recommended ? '#15803D' : '#475569',
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {ev.tag}
+                              </span>
+                            </div>
+                            <p style={{ fontSize: '0.775rem', color: '#64748B', margin: '0 0 0.5rem', lineHeight: '1.4' }}>
+                              {ev.description}
+                            </p>
+                          </div>
+                          <div style={{ display: 'flex', gap: '0.4rem' }}>
+                            <button
+                              type="button"
+                              onClick={() => selectEvidenceCandidate(ev)}
+                              disabled={addingEvd}
+                              style={{
+                                flex: 1,
+                                fontSize: '0.75rem',
+                                padding: '0.3rem 0.5rem',
+                                borderRadius: '6px',
+                                background: '#4F46E5',
+                                color: '#FFFFFF',
+                                border: 'none',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                              }}
+                            >
+                              + เลือกใช้หลักฐานนี้
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNewEvdType(ev.evidenceType);
+                                setNewEvdDesc(ev.description);
+                                setShowManualEvd(true);
+                              }}
+                              style={{
+                                fontSize: '0.75rem',
+                                padding: '0.3rem 0.5rem',
+                                borderRadius: '6px',
+                                background: '#F8FAFC',
+                                color: '#475569',
+                                border: '1px solid #CBD5E1',
+                                cursor: 'pointer',
+                              }}
+                              title="แก้ไขก่อนเพิ่ม"
+                            >
+                              ✏️ แก้ไข
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {evidence.length === 0 && evdCandidates.length === 0 && (
                 <p className="v3-hint-empty">ยังไม่มีหลักฐาน เพิ่มหลักฐานการเรียนรู้ด้านล่าง</p>
               )}
 
@@ -562,32 +892,34 @@ export default function V3PlanEditorPage() {
                 ))}
               </div>
 
-              {/* Add Evidence */}
-              <div className="v3-add-form v3-add-evd-form">
-                <select
-                  className="v3-select v3-select-sm"
-                  value={newEvdType}
-                  onChange={e => setNewEvdType(e.target.value)}
-                >
-                  {Object.entries(EVIDENCE_TYPE_LABELS).map(([k, v]) => (
-                    <option key={k} value={k}>{v}</option>
-                  ))}
-                </select>
-                <input
-                  className="v3-input"
-                  value={newEvdDesc}
-                  onChange={e => setNewEvdDesc(e.target.value)}
-                  placeholder="รายละเอียดหลักฐาน เช่น 'สนทนาเกี่ยวกับอาชีพในฝัน 2 นาที'"
-                  onKeyDown={e => { if (e.key === 'Enter') addEvidence(); }}
-                />
-                <button
-                  className="v3-btn v3-btn-primary"
-                  onClick={addEvidence}
-                  disabled={!newEvdDesc.trim() || addingEvd}
-                >
-                  {addingEvd ? 'กำลังเพิ่ม...' : '+ เพิ่ม'}
-                </button>
-              </div>
+              {/* Add Evidence (Manual) */}
+              {(showManualEvd || evidence.length === 0) && (
+                <div className="v3-add-form v3-add-evd-form" style={{ marginTop: '0.75rem' }}>
+                  <select
+                    className="v3-select v3-select-sm"
+                    value={newEvdType}
+                    onChange={e => setNewEvdType(e.target.value)}
+                  >
+                    {Object.entries(EVIDENCE_TYPE_LABELS).map(([k, v]) => (
+                      <option key={k} value={k}>{v}</option>
+                    ))}
+                  </select>
+                  <input
+                    className="v3-input"
+                    value={newEvdDesc}
+                    onChange={e => setNewEvdDesc(e.target.value)}
+                    placeholder="รายละเอียดหลักฐาน เช่น 'สนทนาเกี่ยวกับอาชีพในฝัน 2 นาที'"
+                    onKeyDown={e => { if (e.key === 'Enter') addEvidence(); }}
+                  />
+                  <button
+                    className="v3-btn v3-btn-primary"
+                    onClick={addEvidence}
+                    disabled={!newEvdDesc.trim() || addingEvd}
+                  >
+                    {addingEvd ? 'กำลังเพิ่ม...' : '+ เพิ่ม'}
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* ─ Alignment Summary ─ */}
