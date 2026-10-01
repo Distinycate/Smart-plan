@@ -331,7 +331,7 @@ async function englishLifecycle(ck) {
 
   // Check FINAL hash unchanged after TAUGHT
   const docAfterTaught = await req(`/api/plan/v3/${pid}/document`, {}, ck);
-  const hashAfterTaught = docAfterTaught.body?.baseFinalHash || docAfterTaught.body?.documentSourceHash;
+  const hashAfterTaught = docAfterTaught.body?.document?.baseFinalHash || docAfterTaught.body?.document?.documentSourceHash || docAfterTaught.body?.baseFinalHash || docAfterTaught.body?.documentSourceHash;
   chk(`FINAL snapshot hash unchanged after TAUGHT [${rid}]`, hashAfterTaught === finalHash, `hash=${hashAfterTaught}`);
 
   // Step 10: Observed Student Evidence (Post-TAUGHT must PASS)
@@ -365,7 +365,7 @@ async function englishLifecycle(ck) {
 
   // Check FINAL hash unchanged after REFLECTED
   const docAfterReflected = await req(`/api/plan/v3/${pid}/document`, {}, ck);
-  const hashAfterReflected = docAfterReflected.body?.baseFinalHash || docAfterReflected.body?.documentSourceHash;
+  const hashAfterReflected = docAfterReflected.body?.document?.baseFinalHash || docAfterReflected.body?.document?.documentSourceHash || docAfterReflected.body?.baseFinalHash || docAfterReflected.body?.documentSourceHash;
   chk(`FINAL snapshot hash unchanged after REFLECTED [${rid}]`, hashAfterReflected === finalHash, `hash=${hashAfterReflected}`);
 
   // Step 12: Immutability Enforced — Pre-teaching PATCH denied after REFLECTED
@@ -586,6 +586,15 @@ async function mathSmoke(ck) {
   }, ck);
   const eid = evr.body?.data?.id;
 
+  // Link Objective ↔ Evidence
+  if (oid && eid) {
+    const mel = await req(`/api/plan/v3/${pid}/evidence-links`, {
+      method: 'POST',
+      body: JSON.stringify({ objective_id: oid, evidence_id: eid }),
+    }, ck);
+    chk(`Math EVIDENCE-LINK [${rid}]`, mel.status === 201 || mel.status === 200, `HTTP ${mel.status}`);
+  }
+
   // Activities (60 min total)
   await req(`/api/plan/v3/${pid}/activities`, {
     method: 'POST',
@@ -772,6 +781,15 @@ async function scienceSmoke(ck) {
     }),
   }, ck);
   const eid = evr.body?.data?.id;
+
+  // Link Objective ↔ Evidence
+  if (oid && eid) {
+    const sel = await req(`/api/plan/v3/${pid}/evidence-links`, {
+      method: 'POST',
+      body: JSON.stringify({ objective_id: oid, evidence_id: eid }),
+    }, ck);
+    chk(`Science EVIDENCE-LINK [${rid}]`, sel.status === 201 || sel.status === 200, `HTTP ${sel.status}`);
+  }
 
   // Activities (60 min total)
   await req(`/api/plan/v3/${pid}/activities`, {
