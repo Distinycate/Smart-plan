@@ -260,6 +260,11 @@ export function deriveLessonWorkflowStatus(
   graph.activities.forEach((a) => {
     (a.linkedObjectiveIds || []).forEach((id) => coveredObjs.add(id));
   });
+  if (Array.isArray((graph as any).activityObjectiveLinks)) {
+    (graph as any).activityObjectiveLinks.forEach((l: any) => {
+      if (l && l.objective_id) coveredObjs.add(l.objective_id);
+    });
+  }
   const allObjectivesCovered =
     graph.objectives.length > 0 &&
     graph.objectives.every((o) => coveredObjs.has(o.id));

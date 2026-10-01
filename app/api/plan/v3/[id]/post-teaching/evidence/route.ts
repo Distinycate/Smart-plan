@@ -32,11 +32,28 @@ export async function POST(
       .eq('id', planId)
       .maybeSingle();
 
-    if (lErr || !lesson) {
-      return NextResponse.json({ error: 'ไม่พบแผนการสอน' }, { status: 404 });
+    if (lErr || !lesson || lesson.user_id !== user.id) {
+      return NextResponse.json({ error: 'ไม่พบแผนการสอน หรือไม่มีสิทธิ์เข้าถึง' }, { status: 404 });
     }
-    if (lesson.user_id !== user.id) {
-      return NextResponse.json({ error: 'ไม่มีสิทธิ์เพิ่มหลักฐานในแผนการสอนนี้' }, { status: 403 });
+
+    if (lesson.status === 'REFLECTED') {
+      return NextResponse.json(
+        {
+          error: 'แผนการสอนอยู่ในสถานะ REFLECTED (สะท้อนผลสมบูรณ์แล้ว) ไม่อนุญาตให้แก้ไขหรือเพิ่มหลักฐานเชิงประจักษ์',
+          code: 'RECORD_IS_LOCKED',
+        },
+        { status: 409 }
+      );
+    }
+
+    if (lesson.status !== 'TAUGHT') {
+      return NextResponse.json(
+        {
+          error: `แผนการสอนต้องอยู่ในสถานะ TAUGHT ก่อนจึงจะสามารถบันทึกหลักฐานเชิงประจักษ์ได้ (สถานะปัจจุบัน: ${lesson.status})`,
+          code: 'INVALID_LESSON_STATE',
+        },
+        { status: 409 }
+      );
     }
 
     const body = await request.json();

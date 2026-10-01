@@ -1547,6 +1547,21 @@ export class V3Repository {
       return rpcRes;
     }
 
+    if (rpcErr) {
+      if (rpcErr.code === 'P0002' || rpcErr.message?.includes('not found or access denied')) {
+        const err: any = new Error('ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง (Access denied)');
+        err.code = 'NOT_FOUND';
+        err.statusCode = 404;
+        throw err;
+      }
+      if (rpcErr.code === '22000' || rpcErr.message?.includes('Cannot record teaching')) {
+        const err: any = new Error(rpcErr.message);
+        err.code = 'INVALID_STATE_TRANSITION';
+        err.statusCode = 400;
+        throw err;
+      }
+    }
+
     // Direct query fallback for local testing or mock clients
     const { data: lesson, error: lErr } = await this.supabase
       .from('v3_lesson_plans')
@@ -1554,11 +1569,10 @@ export class V3Repository {
       .eq('id', planId)
       .maybeSingle();
 
-    if (lErr || !lesson) throw new Error('Lesson plan not found');
-    if (lesson.user_id !== userId) {
-      const err: any = new Error('Access denied: You do not own this lesson plan');
-      err.code = 'FORBIDDEN';
-      err.statusCode = 403;
+    if (lErr || !lesson || lesson.user_id !== userId) {
+      const err: any = new Error('ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง (Access denied)');
+      err.code = 'NOT_FOUND';
+      err.statusCode = 404;
       throw err;
     }
     if (!['FINAL', 'TAUGHT'].includes(lesson.status)) {
@@ -1628,6 +1642,21 @@ export class V3Repository {
       return rpcRes;
     }
 
+    if (rpcErr) {
+      if (rpcErr.code === 'P0002' || rpcErr.message?.includes('not found or access denied')) {
+        const err: any = new Error('ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง (Access denied)');
+        err.code = 'NOT_FOUND';
+        err.statusCode = 404;
+        throw err;
+      }
+      if (rpcErr.code === '22000' || rpcErr.message?.includes('Cannot record reflection')) {
+        const err: any = new Error(rpcErr.message);
+        err.code = 'INVALID_STATE_TRANSITION';
+        err.statusCode = 400;
+        throw err;
+      }
+    }
+
     // Direct query fallback for local testing or mock clients
     const { data: lesson, error: lErr } = await this.supabase
       .from('v3_lesson_plans')
@@ -1635,11 +1664,10 @@ export class V3Repository {
       .eq('id', planId)
       .maybeSingle();
 
-    if (lErr || !lesson) throw new Error('Lesson plan not found');
-    if (lesson.user_id !== userId) {
-      const err: any = new Error('Access denied: You do not own this lesson plan');
-      err.code = 'FORBIDDEN';
-      err.statusCode = 403;
+    if (lErr || !lesson || lesson.user_id !== userId) {
+      const err: any = new Error('ไม่พบแผนการสอน หรือคุณไม่มีสิทธิ์เข้าถึง (Access denied)');
+      err.code = 'NOT_FOUND';
+      err.statusCode = 404;
       throw err;
     }
     if (!['TAUGHT', 'REFLECTED'].includes(lesson.status)) {

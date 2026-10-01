@@ -132,12 +132,15 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     });
 
     // Recheck workflow status transition
-    const updatedGraph = await repo.getLessonGraph(planId, user.id);
+    const [updatedGraph, activities] = await Promise.all([
+      repo.getLessonGraph(planId, user.id),
+      repo.getActivities(planId),
+    ]);
     let newStatus = lesson.status;
     if (updatedGraph) {
       const readiness = deriveTeachingPackageReadiness(updatedGraph);
       const targetStatus = deriveLessonWorkflowStatus(lesson, {
-        activities: updatedGraph.activities,
+        activities,
         objectives: updatedGraph.objectives,
         packageReadiness: readiness,
       });

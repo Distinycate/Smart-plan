@@ -114,12 +114,15 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
     const updated = await repo.updateTeachingAsset(assetId, updateFields, linkOptions);
 
     // Recheck workflow status transition
-    const updatedGraph = await repo.getLessonGraph(planId, user.id);
+    const [updatedGraph, activities] = await Promise.all([
+      repo.getLessonGraph(planId, user.id),
+      repo.getActivities(planId),
+    ]);
     let newStatus: string = lesson.status;
     if (updatedGraph) {
       const readiness = deriveTeachingPackageReadiness(updatedGraph);
       const targetStatus = deriveLessonWorkflowStatus(lesson, {
-        activities: updatedGraph.activities,
+        activities,
         objectives: updatedGraph.objectives,
         packageReadiness: readiness,
       });
@@ -175,12 +178,15 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
     await repo.deleteTeachingAsset(assetId);
 
     // Recheck workflow status transition (downgrades if required asset was deleted)
-    const updatedGraph = await repo.getLessonGraph(planId, user.id);
+    const [updatedGraph, activities] = await Promise.all([
+      repo.getLessonGraph(planId, user.id),
+      repo.getActivities(planId),
+    ]);
     let newStatus: string = lesson.status;
     if (updatedGraph) {
       const readiness = deriveTeachingPackageReadiness(updatedGraph);
       const targetStatus = deriveLessonWorkflowStatus(lesson, {
-        activities: updatedGraph.activities,
+        activities,
         objectives: updatedGraph.objectives,
         packageReadiness: readiness,
       });

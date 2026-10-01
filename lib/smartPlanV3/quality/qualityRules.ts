@@ -447,7 +447,8 @@ function runPackageRules(
 
   // Check missing required assets
   for (const req of assetReqs.required) {
-    const fulfilled = graph.teachingAssets.some(
+    const isToolReuse = req.isAssessmentToolReuse && graph.assessmentTools && graph.assessmentTools.length > 0;
+    const fulfilled = isToolReuse || graph.teachingAssets.some(
       a => a.asset_type === req.assetType && a.generation_status === 'READY'
     );
     if (!fulfilled) {

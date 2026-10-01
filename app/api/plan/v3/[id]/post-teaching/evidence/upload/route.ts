@@ -68,15 +68,34 @@ export async function POST(
     // Verify ownership of the plan
     const { data: lesson, error: lErr } = await supabase
       .from('v3_lesson_plans')
-      .select('id, user_id')
+      .select('id, user_id, status')
       .eq('id', planId)
       .maybeSingle();
 
-    if (lErr || !lesson) {
-      return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน' }, { status: 404 });
+    if (lErr || !lesson || lesson.user_id !== user.id) {
+      return NextResponse.json({ success: false, error: 'ไม่พบแผนการสอน หรือไม่มีสิทธิ์เข้าถึง' }, { status: 404 });
     }
-    if (lesson.user_id !== user.id) {
-      return NextResponse.json({ success: false, error: 'ไม่มีสิทธิ์อัปโหลดหลักฐานสำหรับแผนการสอนนี้' }, { status: 403 });
+
+    if (lesson.status === 'REFLECTED') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'แผนการสอนอยู่ในสถานะ REFLECTED (สะท้อนผลสมบูรณ์แล้ว) ไม่อนุญาตให้อัปโหลดไฟล์หลักฐาน',
+          code: 'RECORD_IS_LOCKED',
+        },
+        { status: 409 }
+      );
+    }
+
+    if (lesson.status !== 'TAUGHT') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `แผนการสอนต้องอยู่ในสถานะ TAUGHT ก่อนจึงจะสามารถอัปโหลดไฟล์หลักฐานได้ (สถานะปัจจุบัน: ${lesson.status})`,
+          code: 'INVALID_LESSON_STATE',
+        },
+        { status: 409 }
+      );
     }
 
     const formData = await req.formData().catch(() => null);
