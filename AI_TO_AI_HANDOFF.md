@@ -197,8 +197,14 @@ system is production-ready until those checks pass.
 | V3.2 — Curriculum & Subject Profile Engine | `ae4922d` | ✅ DONE |
 | V3.3 — New Lesson Creation Workflow (Steps 1 & 2) | `9268fe3` / `7ac155e` | ✅ DONE |
 | V3.4 — 60-Minute Lesson Blueprint & Activity Engine | `959390e` | ✅ DONE |
-| V3.5 — Assessment Engine | 076eb21 | ✅ DONE |
-| V3.6 — Teaching Package Builder | (Current) | ✅ DONE |
+| V3.5 — Assessment Engine | `076eb21` | ✅ DONE |
+| V3.6 — Teaching Package Builder | `448b1d9` | ✅ DONE |
+| V3.7R — Quality & PA Compliance Hardening | `c484be7` | ✅ DONE |
+| V3.8 — Document Model & A4 Preview | `cfd4177` | ✅ DONE |
+| V3.9 — Word & PDF Export Engine | `54d5885` | ✅ DONE |
+| V3.10 — Post-Teaching & Student Evidence | `28df306` | ✅ DONE |
+| V3.11 — End-to-End Hardening & Production Cutover | `3160062` | ✅ DONE |
+| V3.12 — Guided Choice Lesson Authoring | `e73eb8c` | ✅ DONE |
 
 ### V3.6 Deliverables — Teaching Package Builder
 
@@ -384,6 +390,26 @@ system is production-ready until those checks pass.
   - Production Build: `npm run build` exits with code 0.
 - **Documentation**:
   - `docs/SMART_PLAN_V3_PRODUCTION_RUNBOOK.md`: Comprehensive operational runbook covering environment, migrations 15–19, Chromium runtime, security, cutover, rollback, and troubleshooting checklist.
+
+### WAVE V3.12 — GUIDED CHOICE LESSON AUTHORING & PRODUCTION CLOSURE — COMPLETE
+
+**Guided Choice Principles & Architecture**:
+- Shifts authoring experience from blank-slate typing to high-agency guided choices across all steps (Steps 1–9).
+- **Step 1 (Quick Start & Metadata Chips)**: One-click profile auto-fill for Topic, Grade, Focus, Duration, and Student Context chips without blocking manual customization.
+- **Step 2 (Tiered Objective Suggestions & Curated Evidence)**: 3 pedagogical tiers (Foundational, Core Target, Extension) with rationale, candidate regeneration safety (`🔄 เสนอใหม่` never wipes saved objectives), and curated evidence selection (Pair Speaking, Role-play, Lab Sheet, etc.).
+- **Step 3 (Pedagogical Flow Architectures)**: Subject-specific flows (English: 2W3P, Task-Based, Fluency; Math: Polya 4-Step; Science: 5E Inquiry) auto-normalized to exact target duration (50/60/100 min) with role allocations.
+- **Step 4 (Evidence-Aligned Assessment Tools)**: Performance rubrics (4-level: Beginning, Developing, Proficient, Advanced), observation checklists, peer reviews; strictly rejects MCQ as sole assessment for active skills.
+- **Step 5 (Guided Teaching Package Checklist)**: Multi-item generation checklists for student/teacher assets with resilient scoped background jobs.
+- **Step 6 (Scoped Quality Fix Suggestions)**: Anti-hallucination scoped patches targeting specific entities without destructive full-plan rewrites.
+- **Step 8 & 9 (Post-Teaching Quick Chips & Reflection Assist)**: Classroom reality chips (participation, pacing, remediation) and AI reflection synthesis strictly grounded on observed facts without hallucinating statistics.
+- **Resilience & Safety**: Deterministic fallback rules active on AI latency or network failure; refresh persistence verified; zero mandatory typing fields in standard flow.
+
+**Production UX Verification (`SMART PLAN V3.12P`)**:
+- Commit deployed: `e73eb8c` (Deployment `dpl_3aZ6KDoMfTvH417GV2AmZgEKhtYP` on `https://smart-plan-ten.vercel.app`, Status: READY).
+- Production live verification across English (Speaking M.1 60m), Math (Problem Solving 50m), and Science (Experiment 100m) all PASS.
+- Mobile viewport 375×812 (iPhone SE standard) verified with zero horizontal overflow (`scrollWidth === innerWidth === 375px`).
+- Automated tests: `tests/test-v312-guided-choice.js` (13/13 PASS).
+- Blockers: P0: 0, P1: 0.
 
 ### NON-DESTRUCTIVE INVARIANTS (MUST STAY)
 - Legacy tables (`LessonPlans`, `UnitPlans`, etc.) — unchanged
