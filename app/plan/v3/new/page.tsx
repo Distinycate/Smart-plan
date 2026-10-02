@@ -104,6 +104,9 @@ export default function NewV3LessonPage() {
   const [aiSelectedGrade, setAiSelectedGrade] = useState('');
   const [aiGenerating, setAiGenerating] = useState(false);
   const [aiProgressStep, setAiProgressStep] = useState(0);
+  const [aiProgressPercent, setAiProgressPercent] = useState(15);
+  const [aiSecondsElapsed, setAiSecondsElapsed] = useState(0);
+  const [aiCreatedPlanId, setAiCreatedPlanId] = useState<string | null>(null);
 
   // Manual Mode States
   const [curriculumVersion] = useState(CURRICULUM_VERSION);
@@ -258,9 +261,27 @@ export default function NewV3LessonPage() {
     setError(null);
     setAiGenerating(true);
     setAiProgressStep(1);
+    setAiProgressPercent(20);
+    setAiSecondsElapsed(0);
+    setAiCreatedPlanId(null);
 
-    const stepTimer1 = setTimeout(() => setAiProgressStep(2), 1200);
-    const stepTimer2 = setTimeout(() => setAiProgressStep(3), 2600);
+    // Dynamic timer & progress animation
+    const startTime = Date.now();
+    const intervalTimer = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      setAiSecondsElapsed(elapsed);
+
+      if (elapsed === 1) {
+        setAiProgressStep(2);
+        setAiProgressPercent(50);
+      } else if (elapsed === 2) {
+        setAiProgressStep(3);
+        setAiProgressPercent(78);
+      } else if (elapsed >= 3) {
+        setAiProgressStep(3);
+        setAiProgressPercent(prev => Math.min(96, prev + 3));
+      }
+    }, 600);
 
     try {
       const res = await fetch('/api/plan/v3/ai-generate', {
@@ -275,25 +296,26 @@ export default function NewV3LessonPage() {
         }),
       });
 
+      clearInterval(intervalTimer);
       const data = await res.json();
       if (!data.success) {
         setError(data.error || 'AI ไม่สามารถสร้างแผนได้ กรุณาลองใหม่อีกครั้ง');
         setAiGenerating(false);
-        clearTimeout(stepTimer1);
-        clearTimeout(stepTimer2);
         return;
       }
 
       setAiProgressStep(4);
+      setAiProgressPercent(100);
+      setAiCreatedPlanId(data.data.id);
+
       setTimeout(() => {
         router.push(`/plan/v3/${data.data.id}?step=1`);
-      }, 500);
+      }, 400);
 
     } catch {
-      setError('เกิดข้อผิดพลาดในการเชื่อมต่อ AI กรุณาลองใหม่อีกครั้ง');
+      clearInterval(intervalTimer);
+      setError('เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณากดปุ่มสร้างอีกครั้ง');
       setAiGenerating(false);
-      clearTimeout(stepTimer1);
-      clearTimeout(stepTimer2);
     }
   };
 
@@ -362,6 +384,15 @@ export default function NewV3LessonPage() {
           body: JSON.stringify({ links }),
         });
       }
+
+      // Pre-provision K-P-A objectives and evidence immediately so Step 2 loads pre-filled
+      try {
+        await fetch(`/api/plan/v3/${planId}/auto-provision`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ healMissingOnly: false }),
+        });
+      } catch {}
 
       router.push(`/plan/v3/${planId}?step=2`);
     } catch {
@@ -546,19 +577,57 @@ export default function NewV3LessonPage() {
 
                 {/* AI Progress Box during generation */}
                 {aiGenerating && (
-                  <div className="ai-generation-box">
-                    <div className="flex items-center gap-3">
-                      <div className="apple-spinner-blue" />
-                      <div>
-                        <div className="font-bold text-sm text-[#0071E3]">
-                          {aiProgressStep === 1 && '1/3 กำลังวิเคราะห์มาตรฐานและตัวชี้วัด...'}
-                          {aiProgressStep === 2 && '2/3 กำหนดเป้าหมาย K-P-A และหลักฐานการเรียนรู้...'}
-                          {aiProgressStep === 3 && '3/3 วางโครงสร้างกิจกรรมการสอน 60 นาที (Active Learning)...'}
+                  <div className="ai-generation-box" role="status" aria-live="polite">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="apple-spinner-blue shrink-0" />
+                        <span className="font-bold text-sm text-[#0071E3]">
+                          {aiProgressStep === 1 && '1/4 กำลังเชื่อมโยงมาตรฐานและตัวชี้วัด...'}
+                          {aiProgressStep === 2 && '2/4 กำหนดเป้าหมาย K-P-A และภาระงาน...'}
+                          {aiProgressStep === 3 && '3/4 วางกิจกรรม Active Learning 5 ขั้น (60 นาที)...'}
                           {aiProgressStep >= 4 && '✨ เสร็จสิ้น! กำลังเปิดหน้าแผนการสอน...'}
-                        </div>
-                        <div className="text-xs text-slate-500 mt-0.5">ใช้เวลาประมาณ 3–5 วินาที</div>
+                        </span>
                       </div>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                        {aiProgressPercent}%
+                      </span>
                     </div>
+
+                    {/* Animated Apple Progress Bar */}
+                    <div className="w-full bg-blue-100/80 rounded-full h-2 overflow-hidden mb-2">
+                      <div
+                        className="bg-gradient-to-r from-[#0071E3] to-[#4338CA] h-full transition-all duration-300 ease-out rounded-full"
+                        style={{ width: `${aiProgressPercent}%` }}
+                      />
+                    </div>
+
+                    {/* Status Text and Countdown */}
+                    <div className="flex items-center justify-between text-xs text-slate-500">
+                      <span>
+                        {aiProgressStep >= 4
+                          ? 'บันทึกข้อมูลเรียบร้อย กำลังเข้าสู่แผน...'
+                          : `กำลังจัดเตรียมโครงสร้างแผน (เหลืออีกประมาณ ${Math.max(1, 4 - aiSecondsElapsed)} วินาที)`}
+                      </span>
+                      <span className="text-slate-400">ใช้เวลาเฉลี่ย 2–3 วินาที</span>
+                    </div>
+
+                    {/* Instant Access if taking longer than 4s */}
+                    {aiSecondsElapsed >= 4 && (
+                      <div className="mt-3 pt-2.5 border-t border-blue-200/60 flex items-center justify-between">
+                        <span className="text-xs text-blue-700">ระบบบันทึกข้อมูลเข้าฐานข้อมูลเรียบร้อยแล้ว</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (aiCreatedPlanId) {
+                              router.push(`/plan/v3/${aiCreatedPlanId}?step=1`);
+                            }
+                          }}
+                          className="text-xs font-bold text-[#0071E3] hover:underline"
+                        >
+                          {aiCreatedPlanId ? '⚡ เปิดดูแผนทันที →' : 'กำลังเปิดแผนให้อัตโนมัติ...'}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -829,8 +898,17 @@ export default function NewV3LessonPage() {
                         disabled={!aiPrompt.trim() || aiGenerating}
                         className="apple-btn-primary w-full shadow-sm"
                       >
-                        <Wand2 className="w-4 h-4" />
-                        <span>เริ่มสร้างแผนด้วย AI ทันที</span>
+                        {aiGenerating ? (
+                          <>
+                            <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                            <span>กำลังสร้างแผน ({aiProgressPercent}%)...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Wand2 className="w-4 h-4" />
+                            <span>เริ่มสร้างแผนด้วย AI ทันที</span>
+                          </>
+                        )}
                       </button>
                     ) : (
                       <button

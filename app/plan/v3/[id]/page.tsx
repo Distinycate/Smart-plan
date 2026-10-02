@@ -706,9 +706,13 @@ export default function V3PlanEditorPage() {
         postTeaching: g.postTeaching || null,
       });
 
-      // ⚡ Zero-Cold-Start Auto-Provisioning:
-      // If plan has 0 objectives, auto-populate the best K-P-A objectives & evidence immediately
+      // Reveal the editor UI immediately — do not hold user behind a fullscreen blocker
+      setLoading(false);
+
+      // ⚡ Zero-Cold-Start Auto-Provisioning (Background non-blocking):
+      // If plan has 0 objectives, auto-populate the best K-P-A objectives & evidence smoothly
       if ((!g.objectives || g.objectives.length === 0) && g.lesson && !isLessonLocked(g.lesson.status)) {
+        setHealingKpa(true);
         try {
           const autoRes = await fetch(`/api/plan/v3/${planId}/auto-provision`, {
             method: 'POST',
@@ -729,11 +733,12 @@ export default function V3PlanEditorPage() {
           }
         } catch (e) {
           console.error('Auto-provision failed', e);
+        } finally {
+          setHealingKpa(false);
         }
       }
     } catch {
       setError('ไม่สามารถโหลดข้อมูลได้');
-    } finally {
       setLoading(false);
     }
   }, [planId]);
