@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Sparkles, CheckCircle2 } from 'lucide-react';
 import {
   V3AssessmentWithLinks,
   V3AssessmentType,
@@ -246,6 +247,88 @@ export default function Step4Assessments({
     }
   };
 
+  // 1-Click Auto Provision Assessments for all Evidences
+  const handleAutoSetupAssessments = async () => {
+    if (evidence.length === 0) return;
+    setSaving(true);
+    setSaveStatus('AI กำลังเตรียมเครื่องมือประเมิน...');
+
+    try {
+      for (let idx = 0; idx < evidence.length; idx++) {
+        const evd = evidence[idx];
+        const suggestions = getAssessmentSuggestions({
+          subjectKey: lesson.subject_key,
+          learningFocus: lesson.learning_focus,
+          topic: lesson.topic,
+          primaryEvidenceType: evd.evidence_type,
+        });
+
+        const cand = suggestions[0] || {
+          name: `ประเมินผล: ${evd.description.substring(0, 30)}`,
+          type: 'PERFORMANCE',
+          method: 'การประเมินการปฏิบัติ/ตรวจผลงาน',
+          criteriaType: 'RUBRIC_LEVEL',
+          criteriaValue: 3,
+          criteriaText: 'ผ่านเกณฑ์ระดับ 3 (ดี) ขึ้นไป',
+          toolType: 'RUBRIC',
+          toolTitle: `แบบประเมิน: ${evd.description.substring(0, 30)}`,
+        };
+
+        const preferredTool = (cand as any).toolType || 'RUBRIC';
+        const payload = {
+          name: cand.name,
+          assessment_type: cand.type,
+          method: cand.method,
+          criteria_type: cand.criteriaType,
+          criteria_value: cand.criteriaValue !== null && cand.criteriaValue !== undefined ? Number(cand.criteriaValue) : 3,
+          criteria_text: cand.criteriaText || 'ผ่านเกณฑ์ระดับ 3 ขึ้นไป',
+          formative: (cand as any).isFormative || false,
+          evidenceIds: [evd.id],
+          activityIds: [],
+          tool: {
+            tool_type: preferredTool,
+            title: `แบบประเมิน: ${cand.name}`,
+            content: {
+              title: `แบบประเมิน: ${cand.name}`,
+              levels: [
+                { score: 4, label: 'ระดับ 4 (ดีเยี่ยม)' },
+                { score: 3, label: 'ระดับ 3 (ดี/ผ่านเกณฑ์)' },
+                { score: 2, label: 'ระดับ 2 (พอใช้)' },
+                { score: 1, label: 'ระดับ 1 (ปรับปรุง)' },
+              ],
+              criteria: [
+                {
+                  name: 'ความถูกต้องและคุณภาพของการเรียนรู้',
+                  descriptors: {
+                    '4': 'ปฏิบัติได้ถูกต้องครบถ้วนอย่างคล่องแคล่วและชัดเจน',
+                    '3': 'ปฏิบัติได้ถูกต้องตามเกณฑ์มาตรฐานที่กำหนด',
+                    '2': 'ปฏิบัติได้บางส่วนโดยมีครูช่วยให้คำแนะนำ',
+                    '1': 'ยังไม่สามารถปฏิบัติได้ตามเกณฑ์มาตรฐาน',
+                  },
+                },
+              ],
+            },
+            source: 'AI',
+          },
+        };
+
+        await fetch(`/api/plan/v3/${planId}/assessments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      await loadData();
+      setSaveStatus('สร้างเครื่องมือประเมินสำเร็จ');
+      setTimeout(() => setSaveStatus(''), 3000);
+    } catch (err: any) {
+      alert(`สร้างเครื่องมืออัตโนมัติไม่สำเร็จ: ${err.message}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   // Save assessment (Create or Update)
   const handleSaveAssessment = async () => {
     if (!formName.trim() || !formMethod.trim()) {
@@ -455,48 +538,83 @@ export default function Step4Assessments({
       <div className="v3-editor-section">
         <div className="v3-section-header-row">
           <div>
-            <h2 className="v3-section-title">🎯 ขั้นที่ 4 — การวัดและประเมินผล (Evidence-Driven Assessment)</h2>
+            <h2 className="v3-section-title">📊 สรุปความครอบคลุมการวัดและประเมินผล (Assessment Alignment)</h2>
             <p className="v3-section-hint">
-              เชื่อมโยงสิ่งที่ต้องการวัด (Evidence) สู่ วิธีประเมิน เครื่องมือ และเกณฑ์ตัดสิน ตามธรรมชาติของวิชา
+              ตรวจสอบว่าหลักฐานการเรียนรู้ทั้งหมดได้รับการประเมินด้วยเครื่องมือและเกณฑ์ตัดสินที่สอดคล้องตามเกณฑ์ ว.PA
             </p>
           </div>
-          {saveStatus && <span className="v3-save-indicator save-ok">{saveStatus}</span>}
+          {saveStatus && <span className="v3-save-indicator-badge save-ok">{saveStatus}</span>}
         </div>
 
-        {/* Coverage Badges */}
+        {/* Coverage Badges Grid */}
         <div className="v3-summary-grid">
           <div className="v3-summary-item">
             <span className="v3-summary-num">
               {readiness.assessedEvidenceCount} / {readiness.totalEvidenceCount}
             </span>
-            <span className="v3-summary-label">หลักฐานมีการประเมิน {readiness.summary.evidenceCoverage ? '✓' : '⚠️'}</span>
+            <span className="v3-summary-label">หลักฐานที่มีการประเมิน {readiness.summary.evidenceCoverage ? '✓' : '⚠️'}</span>
           </div>
           <div className="v3-summary-item">
             <span className="v3-summary-num">
               {ruleSummary.toolsCompleteness.withTools} / {ruleSummary.toolsCompleteness.total}
             </span>
-            <span className="v3-summary-label">มีเครื่องมือครบ {readiness.summary.toolsComplete ? '✓' : '⚠️'}</span>
+            <span className="v3-summary-label">เครื่องมือประเมินครบ {readiness.summary.toolsComplete ? '✓' : '⚠️'}</span>
           </div>
           <div className="v3-summary-item">
             <span className="v3-summary-num">
               {ruleSummary.criteriaCompleteness.withCriteria} / {ruleSummary.criteriaCompleteness.total}
             </span>
-            <span className="v3-summary-label">กำหนดเกณฑ์ผ่าน {readiness.summary.criteriaComplete ? '✓' : '⚠️'}</span>
+            <span className="v3-summary-label">กำหนดเกณฑ์ตัดสิน {readiness.summary.criteriaComplete ? '✓' : '⚠️'}</span>
           </div>
           <div className="v3-summary-item">
-            <span className="v3-summary-num" style={{ fontSize: '1.2rem', color: readiness.summary.hasFormative ? '#10B981' : '#F59E0B' }}>
-              {readiness.summary.hasFormative ? 'มีแล้ว ✓' : 'ยังไม่มี ⚠'}
+            <span className="v3-summary-num" style={{ fontSize: '1.25rem', color: readiness.summary.hasFormative ? '#10B981' : '#F59E0B' }}>
+              {readiness.summary.hasFormative ? 'มีแล้ว ✓' : 'ยังไม่มี ⚠️'}
             </span>
             <span className="v3-summary-label">ประเมินระหว่างเรียน</span>
           </div>
         </div>
 
-        {/* Warnings */}
-        {readiness.warnings.length > 0 && (
+        {/* 1-Click AI Auto Setup Banner when no assessments yet */}
+        {assessments.length === 0 && evidence.length > 0 && (
+          <div style={{
+            background: 'linear-gradient(135deg, #EFF6FF 0%, #EEF2FF 100%)',
+            border: '1px solid #BFDBFE',
+            borderRadius: '16px',
+            padding: '1.25rem 1.5rem',
+            marginTop: '1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{ maxWidth: '640px' }}>
+              <div style={{ fontWeight: 800, color: '#1E40AF', fontSize: '0.95rem', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Sparkles className="w-4 h-4 text-blue-600" />
+                <span>ยังไม่มีแบบประเมิน ให้ AI กำหนดเครื่องมือและเกณฑ์ตัดสินให้อัตโนมัติ</span>
+              </div>
+              <p style={{ fontSize: '0.825rem', color: '#3B82F6', margin: 0, lineHeight: 1.5 }}>
+                ระบบจะวิเคราะห์หลักฐานทั้ง {evidence.length} ชิ้น และสร้างแบบประเมิน (Rubrics 4 ระดับ) พร้อมเกณฑ์ผ่านให้อัตโนมัติตรงตามวิชา
+              </p>
+            </div>
+            <button
+              type="button"
+              className="v3-btn v3-btn-primary"
+              disabled={saving}
+              onClick={handleAutoSetupAssessments}
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>{saving ? 'กำลังประมวลผล...' : '⚡ สร้างเครื่องมือประเมินอัตโนมัติ'}</span>
+            </button>
+          </div>
+        )}
+
+        {/* Deduplicated Warnings only when assessments exist */}
+        {readiness.warnings.length > 0 && assessments.length > 0 && (
           <div className="v3-alignment-warning" style={{ marginTop: '1rem' }}>
             <strong>คำแนะนำความสอดคล้อง (Alignment Check):</strong>
             <ul>
-              {readiness.warnings.map((w, idx) => (
+              {Array.from(new Set(readiness.warnings)).map((w, idx) => (
                 <li key={idx}>{w}</li>
               ))}
             </ul>
@@ -857,22 +975,6 @@ export default function Step4Assessments({
             })}
           </div>
         )}
-
-        {/* Navigation Actions */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid #E2E8F0' }}>
-          <button
-            className="v3-btn v3-btn-ghost"
-            onClick={() => router.push(`/plan/v3/${planId}?step=3`)}
-          >
-            ← ย้อนกลับไปขั้นที่ 3
-          </button>
-          <button
-            className="v3-btn v3-btn-primary"
-            onClick={() => router.push(`/plan/v3/${planId}?step=5`)}
-          >
-            ไปขั้นที่ 5 — ชุดพร้อมสอน →
-          </button>
-        </div>
       </div>
 
       {/* ─── Modal: Create/Edit Assessment ─────────────────────────────────── */}
@@ -1342,24 +1444,6 @@ export default function Step4Assessments({
           </div>
         </div>
       )}
-
-      {/* ─── Bottom Navigation ────────────────────────────────────────────── */}
-      <div className="v3-step-nav-actions" style={{ marginTop: '1.5rem' }}>
-        <button
-          className="v3-btn v3-btn-ghost"
-          onClick={() => router.push(`/plan/v3/${planId}?step=3`)}
-        >
-          ← ย้อนกลับไปขั้นที่ 3 (ออกแบบกิจกรรม)
-        </button>
-        <button
-          className="v3-btn v3-btn-primary"
-          onClick={() => router.push(`/plan/v3/${planId}?step=5`)}
-          disabled={!readiness.ready}
-          title={!readiness.ready ? 'กรุณากำหนดการประเมินให้ครบทุกหลักฐานก่อน' : 'ไปต่อขั้นชุดพร้อมสอน'}
-        >
-          ไปขั้นที่ 5 — ชุดพร้อมสอน (Teaching Package) →
-        </button>
-      </div>
 
       <style jsx>{`
         .v3-step4-container { display: flex; flex-direction: column; gap: 1.25rem; }
