@@ -16,7 +16,7 @@ import {
   Layers,
   FileText
 } from 'lucide-react';
-import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink, V3LessonActivity, V3LessonGraph } from '@/lib/smartPlanV3/types';
+import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink, V3LessonActivity, V3LessonGraph, isLessonLocked } from '@/lib/smartPlanV3/types';
 import { getStatusLabel, getSubjectLabel, formatDuration, SaveState, SAVE_STATE_LABELS } from '@/lib/smartPlanV3/labels';
 import Step3Activities from './Step3Activities';
 import Step4Assessments from './Step4Assessments';
@@ -468,7 +468,7 @@ function Step1View({ lesson, curriculumLinks, onUpdate, onNext }: {
 // ─── Objective CRUD ──────────────────────────────────────────────────────────
 
 function ObjectiveCard({
-  obj, index, onDelete, onUpdate, linkedEvidenceIds, allEvidence, onLinkEvidence, onUnlinkEvidence
+  obj, index, onDelete, onUpdate, linkedEvidenceIds, allEvidence, onLinkEvidence, onUnlinkEvidence, onQuickLink
 }: {
   obj: V3LessonObjective;
   index: number;
@@ -478,6 +478,7 @@ function ObjectiveCard({
   allEvidence: V3LearningEvidence[];
   onLinkEvidence: (objId: string, evdId: string) => void;
   onUnlinkEvidence: (objId: string, evdId: string) => void;
+  onQuickLink?: (objId: string) => void;
 }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(obj.statement);
@@ -491,11 +492,14 @@ function ObjectiveCard({
   const isK = statement.includes('(K)') || statement.includes('ความรู้');
   const isP = statement.includes('(P)') || statement.includes('ทักษะ');
   const isA = statement.includes('(A)') || statement.includes('คุณลักษณะ') || statement.includes('เจตคติ');
+  const isUnlinked = linkedEvidenceIds.length === 0;
 
   return (
-    <div className="v3-obj-card">
+    <div className={`v3-obj-card ${isUnlinked ? 'is-unlinked' : ''}`}>
       <div className="v3-obj-header">
-        <span className="v3-obj-num">{index + 1}</span>
+        <span className="v3-obj-num" style={{ background: isUnlinked ? '#FEE2E2' : undefined, color: isUnlinked ? '#DC2626' : undefined }}>
+          {index + 1}
+        </span>
         {!editing ? (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
@@ -512,6 +516,11 @@ function ObjectiveCard({
               {isA && (
                 <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.5rem', borderRadius: '9999px', background: '#FFFBEB', color: '#92400E', border: '1px solid #FDE68A', fontWeight: 700 }}>
                   🌟 A - คุณลักษณะอันพึงประสงค์
+                </span>
+              )}
+              {isUnlinked && (
+                <span className="v3-unlinked-alert">
+                  🔴 ยังไม่ได้ผูกชิ้นงาน/ภาระงาน
                 </span>
               )}
             </div>
@@ -542,9 +551,21 @@ function ObjectiveCard({
       </div>
 
       {/* Evidence Links */}
-      {allEvidence.length > 0 && (
-        <div className="v3-obj-evidence">
-          <p className="v3-obj-evidence-label">🔗 หลักฐานที่เชื่อมโยง:</p>
+      <div className="v3-obj-evidence" style={{ background: isUnlinked ? '#FEF2F2' : undefined, borderRadius: '8px', padding: '0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.35rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <p className="v3-obj-evidence-label" style={{ margin: 0 }}>🔗 ชิ้นงาน/หลักฐานที่เชื่อมโยง:</p>
+          {isUnlinked && onQuickLink && (
+            <button
+              type="button"
+              className="v3-quick-link-btn"
+              onClick={() => onQuickLink(obj.id)}
+              title="ผูกกับชิ้นงานทันทีโดยไม่ต้องคลิกเลือกเอง"
+            >
+              ⚡ ผูกกับชิ้นงานทันที (1 คลิก)
+            </button>
+          )}
+        </div>
+        {allEvidence.length > 0 ? (
           <div className="v3-obj-evidence-list">
             {allEvidence.map(evd => {
               const linked = linkedEvidenceIds.includes(evd.id);
@@ -560,8 +581,21 @@ function ObjectiveCard({
               );
             })}
           </div>
-        </div>
-      )}
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem' }}>
+            <span style={{ fontSize: '0.775rem', color: '#DC2626' }}>ยังไม่มีชิ้นงานในแผน</span>
+            {onQuickLink && (
+              <button
+                type="button"
+                className="v3-quick-link-btn"
+                onClick={() => onQuickLink(obj.id)}
+              >
+                ⚡ สร้างชิ้นงานและผูกทันที
+              </button>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -627,6 +661,9 @@ export default function V3PlanEditorPage() {
   const [loadingObjSuggestions, setLoadingObjSuggestions] = useState(false);
   const [showManualObj, setShowManualObj] = useState(false);
   const [showManualEvd, setShowManualEvd] = useState(false);
+  const [showAltObjectives, setShowAltObjectives] = useState(false);
+  const [showAltEvidence, setShowAltEvidence] = useState(false);
+  const [healingKpa, setHealingKpa] = useState(false);
 
   // ─── Load Graph ────────────────────────────────────────────────────────────
 
@@ -668,6 +705,32 @@ export default function V3PlanEditorPage() {
         assetEvidenceLinks: g.assetEvidenceLinks || [],
         postTeaching: g.postTeaching || null,
       });
+
+      // ⚡ Zero-Cold-Start Auto-Provisioning:
+      // If plan has 0 objectives, auto-populate the best K-P-A objectives & evidence immediately
+      if ((!g.objectives || g.objectives.length === 0) && g.lesson && !isLessonLocked(g.lesson.status)) {
+        try {
+          const autoRes = await fetch(`/api/plan/v3/${planId}/auto-provision`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ healMissingOnly: false }),
+          }).then(r => r.json());
+          if (autoRes.success && autoRes.data) {
+            const pg = autoRes.data;
+            if (pg.objectives?.length) {
+              setObjectives(pg.objectives.sort((a: V3LessonObjective, b: V3LessonObjective) => a.position - b.position));
+            }
+            if (pg.evidence?.length) {
+              setEvidence(pg.evidence.sort((a: V3LearningEvidence, b: V3LearningEvidence) => a.position - b.position));
+            }
+            if (pg.objectiveEvidenceLinks) {
+              setObjEvdLinks(pg.objectiveEvidenceLinks);
+            }
+          }
+        } catch (e) {
+          console.error('Auto-provision failed', e);
+        }
+      }
     } catch {
       setError('ไม่สามารถโหลดข้อมูลได้');
     } finally {
@@ -895,6 +958,59 @@ export default function V3PlanEditorPage() {
       }
     } catch {
       setObjEvdLinks(previousLinks);
+    }
+  };
+
+  // ─── ⚡ 1-Click Zero-Cold-Start Auto-Heal & Quick-Link Operations ───────────
+
+  const handleAutoHealKpa = async () => {
+    if (!planId) return;
+    setHealingKpa(true);
+    setSaveState('saving');
+    try {
+      const res = await fetch(`/api/plan/v3/${planId}/auto-provision`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ healMissingOnly: true }),
+      });
+      const json = await res.json();
+      if (json.success && json.data) {
+        const pg = json.data;
+        if (pg.objectives) setObjectives(pg.objectives.sort((a: any, b: any) => a.position - b.position));
+        if (pg.evidence) setEvidence(pg.evidence.sort((a: any, b: any) => a.position - b.position));
+        if (pg.objectiveEvidenceLinks) setObjEvdLinks(pg.objectiveEvidenceLinks);
+        setSaveState('saved');
+      } else {
+        setSaveState('error');
+      }
+    } catch {
+      setSaveState('error');
+    } finally {
+      setHealingKpa(false);
+      setTimeout(() => setSaveState('idle'), 2000);
+    }
+  };
+
+  const quickLinkObjective = async (objId: string) => {
+    if (!planId) return;
+    if (evidence.length === 0) {
+      await handleAutoHealKpa();
+      return;
+    }
+    const primaryEvd = evidence[0];
+    await linkEvidence(objId, primaryEvd.id);
+  };
+
+  const linkAllUnlinkedObjectives = async () => {
+    if (!planId) return;
+    if (evidence.length === 0) {
+      await handleAutoHealKpa();
+      return;
+    }
+    const primaryEvd = evidence[0];
+    const unlinked = objectives.filter(o => !objEvdLinks.some(l => l.objective_id === o.id));
+    for (const obj of unlinked) {
+      await linkEvidence(obj.id, primaryEvd.id);
     }
   };
 
@@ -1287,120 +1403,182 @@ export default function V3PlanEditorPage() {
                 </div>
               )}
 
-              {/* 💡 Guided Objective Suggestion Cards */}
+              {/* 🔴 Inline Red Warning Banner: Missing K-P-A Domains */}
+              {!isKpaComplete && (
+                <div className="v3-red-required-banner">
+                  <div className="v3-red-required-icon">🔴</div>
+                  <div className="v3-red-required-body">
+                    <h4 className="v3-red-required-title">ยังระบุเป้าหมายไม่ครบ 3 ด้าน (K-P-A) ตามเกณฑ์ ว.PA</h4>
+                    <p className="v3-red-required-desc">
+                      ขาดด้าน: {[!hasK && 'ความรู้ (K)', !hasP && 'ทักษะกระบวนการ (P)', !hasA && 'คุณลักษณะอันพึงประสงค์ (A)'].filter(Boolean).join(', ')} — ระบบสามารถเติมจุดประสงค์ที่สอดคล้องให้ครบโดยอัตโนมัติ
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAutoHealKpa}
+                    disabled={healingKpa}
+                    className="v3-btn v3-btn-danger v3-btn-sm"
+                    style={{ background: '#DC2626', color: '#FFFFFF', borderRadius: '980px', fontWeight: 600, padding: '0.45rem 1.1rem', flexShrink: 0 }}
+                  >
+                    {healingKpa ? 'กำลังเติม...' : '⚡ เติมด้านที่ขาดให้อัตโนมัติ (1 คลิก)'}
+                  </button>
+                </div>
+              )}
+
+              {/* ⚠️ Warning Banner: Unlinked Objectives */}
+              {objectivesWithoutEvidence.length > 0 && (
+                <div className="v3-red-required-banner" style={{ background: '#FFF7ED', borderColor: '#FDBA74' }}>
+                  <div className="v3-red-required-icon">⚠️</div>
+                  <div className="v3-red-required-body">
+                    <h4 className="v3-red-required-title" style={{ color: '#C2410C' }}>
+                      มีจุดประสงค์ {objectivesWithoutEvidence.length} ข้อที่ยังไม่ได้ผูกกับชิ้นงาน/ภาระงาน
+                    </h4>
+                    <p className="v3-red-required-desc" style={{ color: '#9A3412' }}>
+                      ตามหลักสูตรและเกณฑ์ ว.PA ทุกจุดประสงค์ต้องมีหลักฐานประเมินรองรับ
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={linkAllUnlinkedObjectives}
+                    disabled={healingKpa}
+                    className="v3-btn v3-btn-sm"
+                    style={{ background: '#EA580C', color: '#FFFFFF', borderRadius: '980px', fontWeight: 600, padding: '0.45rem 1.1rem', flexShrink: 0 }}
+                  >
+                    ⚡ ผูกชิ้นงานให้ครบทุกข้อทันที (1 คลิก)
+                  </button>
+                </div>
+              )}
+
+              {/* 💡 Collapsible Objective Candidates (Clean Apple UI) */}
               {objCandidates.length > 0 && (
                 <div style={{ marginBottom: '1.25rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#1E293B' }}>
-                      💡 ข้อเสนอจุดประสงค์การเรียนรู้ตามเกณฑ์ ว.PA (K-P-A):
+                  <div
+                    className="v3-collapsible-bar"
+                    onClick={() => setShowAltObjectives(prev => !prev)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="v3-collapsible-title">
+                      <span>💡 ตัวเลือกจุดประสงค์อื่น ๆ แนะนำตามเกณฑ์ ว.PA</span>
+                      <span className="v3-collapsible-badge">({objCandidates.length} ตัวเลือก)</span>
+                    </div>
+                    <span style={{ fontSize: '0.8rem', color: '#0071E3', fontWeight: 600 }}>
+                      {showAltObjectives ? '▲ ซ่อนตัวเลือก' : '▼ ดูตัวเลือกอื่นเพิ่มเติม'}
                     </span>
-                    <button
-                      type="button"
-                      onClick={selectAllKpaCandidates}
-                      disabled={addingObj || objCandidates.every(c => objectives.some(o => o.statement === c.statement))}
-                      className="v3-btn v3-btn-primary v3-btn-sm"
-                      style={{ fontSize: '0.8rem', padding: '0.45rem 1.1rem', background: '#0071E3', borderRadius: '980px', fontWeight: 600, boxShadow: '0 2px 8px rgba(0, 113, 227, 0.28)' }}
-                    >
-                      ✨ เลือกครบชุด K-P-A อัตโนมัติ (3 ด้าน)
-                    </button>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem' }}>
-                    {objCandidates.map((c) => {
-                      const alreadyAdded = objectives.some(o => o.statement === c.statement);
-                      const isK = c.category === 'K' || c.statement.includes('(K)');
-                      const isP = c.category === 'P' || c.statement.includes('(P)');
-                      const isA = c.category === 'A' || c.statement.includes('(A)');
 
-                      const badgeLabel = isK ? '📘 K - ด้านความรู้' : isP ? '🛠️ P - ด้านทักษะ/ปฏิบัติ' : isA ? '🌟 A - คุณลักษณะ' : c.levelLabelTh;
-                      const badgeCls = isK ? 'bg-blue-50 text-blue-800 border-blue-200' : isP ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : isA ? 'bg-amber-50 text-amber-800 border-amber-200' : (c.levelBadgeCls || 'bg-slate-100 text-slate-800 border-slate-200');
-
-                      return (
-                        <div
-                          key={c.id}
-                          style={{
-                            border: alreadyAdded ? '1.5px solid #34C759' : isK ? '1.5px solid #BFDBFE' : isP ? '1.5px solid #A7F3D0' : isA ? '1.5px solid #FDE68A' : '1px solid rgba(0, 0, 0, 0.08)',
-                            borderRadius: '16px',
-                            padding: '1rem',
-                            background: alreadyAdded ? '#F0FDF4' : '#FFFFFF',
-                            boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                          }}
+                  {showAltObjectives && (
+                    <div style={{ animation: 'fadeIn 0.2s ease-out' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: '0.6rem' }}>
+                        <button
+                          type="button"
+                          onClick={selectAllKpaCandidates}
+                          disabled={addingObj || objCandidates.every(c => objectives.some(o => o.statement === c.statement))}
+                          className="v3-btn v3-btn-primary v3-btn-sm"
+                          style={{ fontSize: '0.8rem', padding: '0.45rem 1.1rem', background: '#0071E3', borderRadius: '980px', fontWeight: 600 }}
                         >
-                          <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.45rem' }}>
-                              <span
-                                style={{
-                                  fontSize: '0.75rem',
-                                  fontWeight: 700,
-                                  padding: '0.15rem 0.55rem',
-                                  borderRadius: '980px',
-                                  border: '1px solid',
-                                }}
-                                className={badgeCls}
-                              >
-                                {badgeLabel}
-                              </span>
-                              {alreadyAdded && (
-                                <span style={{ fontSize: '0.75rem', color: '#15803D', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                                  ✓ เลือกแล้ว
-                                </span>
-                              )}
+                          ✨ เลือกครบชุด K-P-A อัตโนมัติ (3 ด้าน)
+                        </button>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem' }}>
+                        {objCandidates.map((c) => {
+                          const alreadyAdded = objectives.some(o => o.statement === c.statement);
+                          const isK = c.category === 'K' || c.statement.includes('(K)');
+                          const isP = c.category === 'P' || c.statement.includes('(P)');
+                          const isA = c.category === 'A' || c.statement.includes('(A)');
+
+                          const badgeLabel = isK ? '📘 K - ด้านความรู้' : isP ? '🛠️ P - ด้านทักษะ/ปฏิบัติ' : isA ? '🌟 A - คุณลักษณะ' : c.levelLabelTh;
+                          const badgeCls = isK ? 'bg-blue-50 text-blue-800 border-blue-200' : isP ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : isA ? 'bg-amber-50 text-amber-800 border-amber-200' : (c.levelBadgeCls || 'bg-slate-100 text-slate-800 border-slate-200');
+
+                          return (
+                            <div
+                              key={c.id}
+                              style={{
+                                border: alreadyAdded ? '1.5px solid #34C759' : isK ? '1.5px solid #BFDBFE' : isP ? '1.5px solid #A7F3D0' : isA ? '1.5px solid #FDE68A' : '1px solid rgba(0, 0, 0, 0.08)',
+                                borderRadius: '16px',
+                                padding: '1rem',
+                                background: alreadyAdded ? '#F0FDF4' : '#FFFFFF',
+                                boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-between',
+                                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                              }}
+                            >
+                              <div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.45rem' }}>
+                                  <span
+                                    style={{
+                                      fontSize: '0.75rem',
+                                      fontWeight: 700,
+                                      padding: '0.15rem 0.55rem',
+                                      borderRadius: '980px',
+                                      border: '1px solid',
+                                    }}
+                                    className={badgeCls}
+                                  >
+                                    {badgeLabel}
+                                  </span>
+                                  {alreadyAdded && (
+                                    <span style={{ fontSize: '0.75rem', color: '#15803D', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                                      ✓ เลือกแล้ว
+                                    </span>
+                                  )}
+                                </div>
+                                <p style={{ fontSize: '0.875rem', color: '#1D1D1F', lineHeight: '1.45', margin: '0 0 0.45rem', fontWeight: 500 }}>
+                                  {c.statement}
+                                </p>
+                                <p style={{ fontSize: '0.75rem', color: '#86868B', margin: 0 }}>
+                                  🎯 <em>{c.rationale}</em>
+                                </p>
+                              </div>
+                              <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.75rem', paddingTop: '0.5rem', borderTop: '1px solid #F1F5F9' }}>
+                                <button
+                                  type="button"
+                                  onClick={() => selectObjectiveCandidate(c)}
+                                  disabled={addingObj || alreadyAdded}
+                                  style={{
+                                    flex: 1,
+                                    fontSize: '0.8rem',
+                                    padding: '0.45rem 0.75rem',
+                                    borderRadius: '980px',
+                                    background: alreadyAdded ? '#ECFDF5' : '#0071E3',
+                                    color: alreadyAdded ? '#047857' : '#FFFFFF',
+                                    border: alreadyAdded ? '1px solid #A7F3D0' : 'none',
+                                    fontWeight: 600,
+                                    cursor: alreadyAdded ? 'default' : 'pointer',
+                                    transition: 'all 0.15s ease',
+                                  }}
+                                >
+                                  {alreadyAdded ? '✓ เลือกแล้ว' : '+ เลือกใช้ข้อนี้'}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setNewObjText(c.statement);
+                                    setShowManualObj(true);
+                                  }}
+                                  style={{
+                                    fontSize: '0.8rem',
+                                    padding: '0.45rem 0.75rem',
+                                    borderRadius: '980px',
+                                    background: '#F8FAFC',
+                                    color: '#475569',
+                                    border: '1px solid #E2E8F0',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.15s ease',
+                                  }}
+                                  title="นำข้อความไปแก้ไขในช่องพิมพ์"
+                                >
+                                  ✏️ แก้ไข
+                                </button>
+                              </div>
                             </div>
-                            <p style={{ fontSize: '0.875rem', color: '#1D1D1F', lineHeight: '1.45', margin: '0 0 0.45rem', fontWeight: 500 }}>
-                              {c.statement}
-                            </p>
-                            <p style={{ fontSize: '0.75rem', color: '#86868B', margin: 0 }}>
-                              🎯 <em>{c.rationale}</em>
-                            </p>
-                          </div>
-                          <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.75rem', paddingTop: '0.5rem', borderTop: '1px solid #F1F5F9' }}>
-                            <button
-                              type="button"
-                              onClick={() => selectObjectiveCandidate(c)}
-                              disabled={addingObj || alreadyAdded}
-                              style={{
-                                flex: 1,
-                                fontSize: '0.8rem',
-                                padding: '0.45rem 0.75rem',
-                                borderRadius: '980px',
-                                background: alreadyAdded ? '#ECFDF5' : '#0071E3',
-                                color: alreadyAdded ? '#047857' : '#FFFFFF',
-                                border: alreadyAdded ? '1px solid #A7F3D0' : 'none',
-                                fontWeight: 600,
-                                cursor: alreadyAdded ? 'default' : 'pointer',
-                                transition: 'all 0.15s ease',
-                              }}
-                            >
-                              {alreadyAdded ? '✓ เลือกแล้ว' : '+ เลือกใช้ข้อนี้'}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setNewObjText(c.statement);
-                                setShowManualObj(true);
-                              }}
-                              style={{
-                                fontSize: '0.8rem',
-                                padding: '0.45rem 0.75rem',
-                                borderRadius: '980px',
-                                background: '#F8FAFC',
-                                color: '#475569',
-                                border: '1px solid #E2E8F0',
-                                cursor: 'pointer',
-                                transition: 'all 0.15s ease',
-                              }}
-                              title="นำข้อความไปแก้ไขในช่องพิมพ์"
-                            >
-                              ✏️ แก้ไข
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -1420,6 +1598,7 @@ export default function V3PlanEditorPage() {
                     allEvidence={evidence}
                     onLinkEvidence={linkEvidence}
                     onUnlinkEvidence={unlinkEvidence}
+                    onQuickLink={quickLinkObjective}
                   />
                 ))}
               </div>
@@ -1464,101 +1643,115 @@ export default function V3PlanEditorPage() {
               </div>
               <p className="v3-section-hint">นักเรียนจะแสดงให้เห็นว่าเรียนรู้สำเร็จอย่างไร? เลือกจากข้อเสนอแนะหรือกำหนดเอง</p>
 
-              {/* 💡 Guided Evidence Suggestion Cards */}
+              {/* 💡 Collapsible Evidence Candidates (Clean Apple UI) */}
               {evdCandidates.length > 0 && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ marginBottom: '0.5rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#334155' }}>
-                      💡 ข้อเสนอหลักฐานการเรียนรู้ที่แนะนำ:
+                <div style={{ marginBottom: '1.25rem' }}>
+                  <div
+                    className="v3-collapsible-bar"
+                    onClick={() => setShowAltEvidence(prev => !prev)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="v3-collapsible-title">
+                      <span>💡 ตัวเลือกหลักฐานการเรียนรู้อื่น ๆ แนะนำ</span>
+                      <span className="v3-collapsible-badge">({evdCandidates.length} ตัวเลือก)</span>
+                    </div>
+                    <span style={{ fontSize: '0.8rem', color: '#0071E3', fontWeight: 600 }}>
+                      {showAltEvidence ? '▲ ซ่อนตัวเลือก' : '▼ ดูตัวเลือกอื่นเพิ่มเติม'}
                     </span>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '0.6rem' }}>
-                    {evdCandidates.map((ev) => {
-                      const alreadyAdded = evidence.some(e => e.description === ev.description || e.evidence_type === ev.evidenceType);
-                      return (
-                        <div
-                          key={ev.id}
-                          style={{
-                            border: '1px solid rgba(0, 0, 0, 0.08)',
-                            borderRadius: '14px',
-                            padding: '0.85rem 1rem',
-                            background: alreadyAdded ? '#F8FAFC' : '#FFFFFF',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            transition: 'all 0.2s ease',
-                          }}
-                        >
-                          <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-                              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1D1D1F' }}>
-                                {ev.labelTh}
-                              </span>
-                              <span
-                                style={{
-                                  fontSize: '0.7rem',
-                                  padding: '0.1rem 0.5rem',
-                                  borderRadius: '980px',
-                                  background: ev.recommended ? '#ECFDF5' : '#F1F5F9',
-                                  color: ev.recommended ? '#047857' : '#475569',
-                                  border: ev.recommended ? '1px solid #A7F3D0' : '1px solid #E2E8F0',
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {ev.tag}
-                              </span>
+
+                  {showAltEvidence && (
+                    <div style={{ animation: 'fadeIn 0.2s ease-out' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '0.6rem' }}>
+                        {evdCandidates.map((ev) => {
+                          const alreadyAdded = evidence.some(e => e.description === ev.description || e.evidence_type === ev.evidenceType);
+                          return (
+                            <div
+                              key={ev.id}
+                              style={{
+                                border: '1px solid rgba(0, 0, 0, 0.08)',
+                                borderRadius: '14px',
+                                padding: '0.85rem 1rem',
+                                background: alreadyAdded ? '#F8FAFC' : '#FFFFFF',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-between',
+                                transition: 'all 0.2s ease',
+                              }}
+                            >
+                              <div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1D1D1F' }}>
+                                    {ev.labelTh}
+                                  </span>
+                                  <span
+                                    style={{
+                                      fontSize: '0.7rem',
+                                      padding: '0.1rem 0.5rem',
+                                      borderRadius: '980px',
+                                      background: ev.recommended ? '#ECFDF5' : '#F1F5F9',
+                                      color: ev.recommended ? '#047857' : '#475569',
+                                      border: ev.recommended ? '1px solid #A7F3D0' : '1px solid #E2E8F0',
+                                      fontWeight: 600,
+                                    }}
+                                  >
+                                    {ev.tag}
+                                  </span>
+                                </div>
+                                <p style={{ fontSize: '0.8rem', color: '#64748B', margin: '0 0 0.5rem', lineHeight: '1.45' }}>
+                                  {ev.description}
+                                </p>
+                              </div>
+                              <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #F1F5F9' }}>
+                                <button
+                                  type="button"
+                                  onClick={() => selectEvidenceCandidate(ev)}
+                                  disabled={addingEvd}
+                                  style={{
+                                    flex: 1,
+                                    fontSize: '0.75rem',
+                                    padding: '0.4rem 0.65rem',
+                                    borderRadius: '980px',
+                                    background: '#0071E3',
+                                    color: '#FFFFFF',
+                                    border: 'none',
+                                    fontWeight: 600,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.15s ease',
+                                  }}
+                                >
+                                  + เลือกใช้หลักฐานนี้
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setNewEvdType(ev.evidenceType);
+                                    setNewEvdDesc(ev.description);
+                                    setShowManualEvd(true);
+                                  }}
+                                  style={{
+                                    fontSize: '0.75rem',
+                                    padding: '0.4rem 0.65rem',
+                                    borderRadius: '980px',
+                                    background: '#F8FAFC',
+                                    color: '#475569',
+                                    border: '1px solid #E2E8F0',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.15s ease',
+                                  }}
+                                  title="แก้ไขก่อนเพิ่ม"
+                                >
+                                  ✏️ แก้ไข
+                                </button>
+                              </div>
                             </div>
-                            <p style={{ fontSize: '0.8rem', color: '#64748B', margin: '0 0 0.5rem', lineHeight: '1.45' }}>
-                              {ev.description}
-                            </p>
-                          </div>
-                          <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #F1F5F9' }}>
-                            <button
-                              type="button"
-                              onClick={() => selectEvidenceCandidate(ev)}
-                              disabled={addingEvd}
-                              style={{
-                                flex: 1,
-                                fontSize: '0.75rem',
-                                padding: '0.4rem 0.65rem',
-                                borderRadius: '980px',
-                                background: '#0071E3',
-                                color: '#FFFFFF',
-                                border: 'none',
-                                fontWeight: 600,
-                                cursor: 'pointer',
-                                transition: 'all 0.15s ease',
-                              }}
-                            >
-                              + เลือกใช้หลักฐานนี้
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setNewEvdType(ev.evidenceType);
-                                setNewEvdDesc(ev.description);
-                                setShowManualEvd(true);
-                              }}
-                              style={{
-                                fontSize: '0.75rem',
-                                padding: '0.4rem 0.65rem',
-                                borderRadius: '980px',
-                                background: '#F8FAFC',
-                                color: '#475569',
-                                border: '1px solid #E2E8F0',
-                                cursor: 'pointer',
-                                transition: 'all 0.15s ease',
-                              }}
-                              title="แก้ไขก่อนเพิ่ม"
-                            >
-                              ✏️ แก้ไข
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -1679,6 +1872,7 @@ export default function V3PlanEditorPage() {
                 setLesson(prev => prev ? { ...prev, status: newStatus } : null);
               }}
               onNavigateToStep={(s) => router.push(`/plan/v3/${planId}?step=${s}`)}
+              onGraphChanged={loadGraph}
             />
           </>
         )}

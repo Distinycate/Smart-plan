@@ -36,6 +36,7 @@ interface Step3ActivitiesProps {
   objEvdLinks: V3ObjectiveEvidenceLink[];
   onLessonStatusChange: (newStatus: V3LessonStatus) => void;
   onNavigateToStep: (step: number) => void;
+  onGraphChanged?: () => void;
 }
 
 export default function Step3Activities({
@@ -47,10 +48,12 @@ export default function Step3Activities({
   objEvdLinks,
   onLessonStatusChange,
   onNavigateToStep,
+  onGraphChanged,
 }: Step3ActivitiesProps) {
   // Activities state
   const [activities, setActivities] = useState<V3ActivityWithLinks[]>([]);
   const [loading, setLoading] = useState(true);
+  const [healingAndGenerating, setHealingAndGenerating] = useState(false);
 
   // AI Generation state
   const [generating, setGenerating] = useState(false);
@@ -99,7 +102,7 @@ export default function Step3Activities({
   // Guided Activity Flows State (V3.12)
   const [flowCandidates, setFlowCandidates] = useState<ActivityFlowCandidate[]>([]);
   const [expandedFlowId, setExpandedFlowId] = useState<string | null>(null);
-  const [showFlowsSection, setShowFlowsSection] = useState(true);
+  const [showFlowsSection, setShowFlowsSection] = useState(false);
 
   // Load activities on mount
   const fetchActivities = useCallback(async () => {
@@ -227,6 +230,33 @@ export default function Step3Activities({
       setGenError('บริการ AI ขัดข้องชั่วคราว ข้อมูลแผนของคุณยังอยู่ครบ กรุณาลองใหม่อีกครั้ง');
     } finally {
       setGenerating(false);
+    }
+  };
+
+  // ⚡ 1-Click Zero-Cold-Start Auto-Heal & Generate Blueprint (No Backtracking!)
+  const handleOneClickAutoHealAndGenerate = async () => {
+    setHealingAndGenerating(true);
+    setGenError(null);
+    try {
+      // 1. Auto-provision missing prerequisites
+      const provRes = await fetch(`/api/plan/v3/${planId}/auto-provision`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ healMissingOnly: false }),
+      });
+      const provJson = await provRes.json();
+      if (!provJson.success) {
+        setGenError(provJson.error || 'เตรียมข้อมูลตั้งต้นไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+        return;
+      }
+      if (onGraphChanged) onGraphChanged();
+
+      // 2. Direct execute blueprint generation
+      await executeGenerateBlueprint();
+    } catch (err: any) {
+      setGenError('เกิดข้อผิดพลาดในการประมวลผล กรุณาลองใหม่อีกครั้ง');
+    } finally {
+      setHealingAndGenerating(false);
     }
   };
 
@@ -468,36 +498,39 @@ export default function Step3Activities({
     }
   };
 
-  // Render: Precondition Warning Screen
-  if (!isPreconditionMet) {
-    return (
-      <div className="v3-editor-section v3-precondition-blocked">
-        <div className="v3-blocked-icon">⚠️</div>
-        <h2 className="v3-blocked-title">ยังสร้างกิจกรรมไม่ได้</h2>
-        <p className="v3-blocked-desc">
-          การออกแบบกิจกรรมการเรียนรู้แบบโครงสร้างต้องใช้ข้อมูลเป้าหมายที่ชัดเจน เพื่อให้ AI และระบบสามารถออกแบบกิจกรรมได้ตรงจุด
-        </p>
-        <div className="v3-missing-list">
-          <strong>สิ่งที่ต้องดำเนินการให้ครบก่อน:</strong>
-          <ul>
-            {missingPreconditions.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <button
-          className="v3-btn v3-btn-primary"
-          onClick={() => onNavigateToStep(2)}
-          style={{ marginTop: '1rem' }}
-        >
-          ← กลับไปกำหนดเป้าหมายในขั้นที่ 2
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="v3-step3-container">
+      {/* 🔴 Inline Red Warning Banner: Missing Preconditions (No Backtracking!) */}
+      {!isPreconditionMet && (
+        <div className="v3-red-required-banner">
+          <div className="v3-red-required-icon">🔴</div>
+          <div className="v3-red-required-body">
+            <h4 className="v3-red-required-title">ยังขาดข้อมูลเป้าหมายที่จำเป็นสำหรับการออกแบบกิจกรรม:</h4>
+            <p className="v3-red-required-desc">
+              ขาด: {missingPreconditions.join(' • ')} — ครูไม่ต้องกดย้อนกลับ ระบบสามารถช่วยเตรียมเป้าหมายและหลักฐานให้ครบในคลิกเดียว
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleOneClickAutoHealAndGenerate}
+            disabled={healingAndGenerating || generating}
+            className="v3-btn v3-btn-danger"
+            style={{
+              background: '#DC2626',
+              color: '#FFFFFF',
+              borderRadius: '980px',
+              fontWeight: 600,
+              padding: '0.5rem 1.25rem',
+              flexShrink: 0,
+              boxShadow: '0 2px 10px rgba(220, 38, 38, 0.3)',
+              fontSize: '0.85rem',
+            }}
+          >
+            {healingAndGenerating ? '⚡ กำลังเตรียมข้อมูล & สร้างกิจกรรม...' : '⚡ เติมข้อมูลที่ขาด & สร้างกิจกรรม 5 ขั้นทันที (1 คลิก)'}
+          </button>
+        </div>
+      )}
+
       {/* ── Rule Summary Panel ── */}
       <div className="v3-rule-summary-panel">
         <div className="v3-rule-panel-header">
@@ -509,12 +542,13 @@ export default function Step3Activities({
 
         <div className="v3-rule-grid">
           {/* Duration */}
-          <div className={`v3-rule-item ${ruleSummary.duration.valid ? 'passed' : 'warning'}`}>
-            <span className="v3-rule-label">เวลาคาบเรียน</span>
-            <span className="v3-rule-value">{ruleSummary.duration.message}</span>
+          <div className={`v3-rule-item ${ruleSummary.duration.valid ? 'passed' : 'error'}`}>
+            <span className="v3-rule-label">{ruleSummary.duration.valid ? 'เวลาคาบเรียน' : '🔴 เวลาคาบเรียน'}</span>
+            <span className="v3-rule-value" style={{ fontWeight: 600 }}>{ruleSummary.duration.message}</span>
             {!ruleSummary.duration.valid && timeSuggestions.length > 0 && (
               <button
-                className="v3-btn v3-btn-xs v3-btn-ghost v3-time-adjust-btn"
+                className="v3-btn v3-btn-xs v3-time-adjust-btn"
+                style={{ background: '#EF4444', color: '#FFF', borderRadius: '980px', marginTop: '0.35rem', fontWeight: 600 }}
                 onClick={handleApplyTimeAdjustment}
                 title={timeSuggestions[0].reason}
               >
@@ -524,9 +558,9 @@ export default function Step3Activities({
           </div>
 
           {/* Objectives Coverage */}
-          <div className={`v3-rule-item ${ruleSummary.objectives.allCovered ? 'passed' : 'warning'}`}>
-            <span className="v3-rule-label">จุดประสงค์การเรียนรู้</span>
-            <span className="v3-rule-value">{ruleSummary.objectives.message}</span>
+          <div className={`v3-rule-item ${ruleSummary.objectives.allCovered ? 'passed' : 'error'}`}>
+            <span className="v3-rule-label">{ruleSummary.objectives.allCovered ? 'จุดประสงค์การเรียนรู้' : '🔴 จุดประสงค์การเรียนรู้'}</span>
+            <span className="v3-rule-value" style={{ fontWeight: 600 }}>{ruleSummary.objectives.message}</span>
           </div>
 
           {/* Evidence Coverage */}
@@ -878,13 +912,38 @@ export default function Step3Activities({
       {loading ? (
         <div className="v3-loading-activities">กำลังโหลดกิจกรรม...</div>
       ) : activities.length === 0 ? (
-        <div className="v3-empty-activities">
-          <div className="v3-empty-icon">💡</div>
-          <h3>ยังไม่มีกิจกรรมในแผนนี้</h3>
-          <p>
-            คุณสามารถกดปุ่ม <strong>"✨ ช่วยออกแบบกิจกรรม 60 นาที ด้วย AI"</strong> เพื่อให้ AI ช่วยร่างตามธรรมชาติวิชา
-            หรือกด <strong>"+ เพิ่มกิจกรรมเอง"</strong> เพื่อสร้างทีละขั้นตอน
+        <div className="v3-empty-activities" style={{ border: '2px dashed #CBD5E1', padding: '2.5rem 1.5rem', background: '#FFFFFF', borderRadius: '18px', textAlign: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.03)' }}>
+          <div className="v3-empty-icon" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>✨</div>
+          <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#1D1D1F', marginBottom: '0.5rem' }}>ยังไม่มีกิจกรรมในแผนนี้</h3>
+          <p style={{ color: '#64748B', maxWidth: '480px', margin: '0 auto 1.5rem', fontSize: '0.875rem', lineHeight: 1.5 }}>
+            ระบบจะช่วยสร้างโครงสร้างกิจกรรม Active Learning 5 ขั้นตอน (ครบ 60 นาที) ที่เชื่อมโยงกับเป้าหมาย K-P-A และหลักฐานการเรียนรู้ให้อัตโนมัติ
           </p>
+          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="v3-btn v3-btn-primary"
+              onClick={!isPreconditionMet ? handleOneClickAutoHealAndGenerate : handleGenerateClick}
+              disabled={generating || healingAndGenerating}
+              style={{
+                padding: '0.65rem 1.8rem',
+                fontSize: '0.925rem',
+                fontWeight: 600,
+                borderRadius: '980px',
+                background: '#0071E3',
+                boxShadow: '0 4px 14px rgba(0, 113, 227, 0.35)',
+              }}
+            >
+              {generating || healingAndGenerating ? '⚡ กำลังสร้างกิจกรรม...' : '✨ สร้างกิจกรรม 5 ขั้นครบ 60 นาทีทันที'}
+            </button>
+            <button
+              type="button"
+              className="v3-btn v3-btn-ghost"
+              onClick={() => setShowAddForm(true)}
+              style={{ borderRadius: '980px', fontSize: '0.875rem' }}
+            >
+              + เพิ่มกิจกรรมเอง
+            </button>
+          </div>
         </div>
       ) : (
         <div className="v3-activities-timeline">
@@ -1326,6 +1385,7 @@ export default function Step3Activities({
         .v3-rule-item { border-radius: 8px; padding: 0.75rem; font-size: 0.8rem; display: flex; flex-direction: column; gap: 0.25rem; }
         .v3-rule-item.passed { background: #F0FDF4; border: 1px solid #BBF7D0; color: #166534; }
         .v3-rule-item.warning { background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; }
+        .v3-rule-item.error { background: #FEF2F2; border: 1.5px solid #F87171; color: #B91C1C; }
         .v3-rule-label { font-size: 0.7rem; font-weight: 700; opacity: 0.8; text-transform: uppercase; }
         .v3-rule-value { font-weight: 600; }
         .v3-time-adjust-btn { margin-top: 0.4rem; background: white; border-color: #F59E0B; color: #D97706; }

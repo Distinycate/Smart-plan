@@ -549,10 +549,12 @@ export default function Step4Assessments({
         {/* Coverage Badges Grid */}
         <div className="v3-summary-grid">
           <div className="v3-summary-item">
-            <span className="v3-summary-num">
+            <span className="v3-summary-num" style={{ color: readiness.summary.evidenceCoverage ? '#10B981' : '#EF4444' }}>
               {readiness.assessedEvidenceCount} / {readiness.totalEvidenceCount}
             </span>
-            <span className="v3-summary-label">หลักฐานที่มีการประเมิน {readiness.summary.evidenceCoverage ? '✓' : '⚠️'}</span>
+            <span className="v3-summary-label" style={{ color: readiness.summary.evidenceCoverage ? undefined : '#DC2626', fontWeight: readiness.summary.evidenceCoverage ? 500 : 700 }}>
+              {readiness.summary.evidenceCoverage ? 'หลักฐานที่มีการประเมิน ✓' : '🔴 หลักฐานที่ประเมิน ยังไม่ครบ'}
+            </span>
           </div>
           <div className="v3-summary-item">
             <span className="v3-summary-num">
@@ -573,6 +575,43 @@ export default function Step4Assessments({
             <span className="v3-summary-label">ประเมินระหว่างเรียน</span>
           </div>
         </div>
+
+        {/* 🔴 Inline Red Warning Banner if evidence is missing completely */}
+        {evidence.length === 0 && (
+          <div className="v3-red-required-banner" style={{ marginTop: '1.25rem' }}>
+            <div className="v3-red-required-icon">🔴</div>
+            <div className="v3-red-required-body">
+              <h4 className="v3-red-required-title">ยังไม่มีหลักฐานการเรียนรู้สำหรับผูกกับเครื่องมือประเมิน</h4>
+              <p className="v3-red-required-desc">
+                ครูไม่ต้องกดย้อนกลับ ระบบสามารถช่วยเตรียมหลักฐานการเรียนรู้และสร้างเครื่องมือประเมินให้ทันทีใน 1 คลิก
+              </p>
+            </div>
+            <button
+              type="button"
+              className="v3-btn v3-btn-danger"
+              disabled={saving}
+              onClick={async () => {
+                setSaving(true);
+                setSaveStatus('กำลังเตรียมหลักฐานและเครื่องมือ...');
+                try {
+                  await fetch(`/api/plan/v3/${planId}/auto-provision`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ healMissingOnly: false }),
+                  });
+                  await handleAutoSetupAssessments();
+                } catch {
+                  setSaveStatus('เกิดข้อผิดพลาดในการประมวลผล');
+                } finally {
+                  setSaving(false);
+                }
+              }}
+              style={{ background: '#DC2626', color: '#FFFFFF', borderRadius: '980px', fontWeight: 600, padding: '0.5rem 1.25rem', flexShrink: 0 }}
+            >
+              ⚡ เตรียมหลักฐาน & สร้างเครื่องมือทันที (1 คลิก)
+            </button>
+          </div>
+        )}
 
         {/* 1-Click AI Auto Setup Banner when no assessments yet */}
         {assessments.length === 0 && evidence.length > 0 && (
@@ -711,20 +750,26 @@ export default function Step4Assessments({
                 <div
                   key={evd.id}
                   style={{
-                    border: '1px solid #E2E8F0',
+                    border: linkedAssessments.length > 0 ? '1px solid #E2E8F0' : '1.5px solid #F87171',
                     borderRadius: '12px',
                     padding: '1.25rem',
-                    background: linkedAssessments.length > 0 ? '#FFFFFF' : '#FFFDF7',
+                    background: linkedAssessments.length > 0 ? '#FFFFFF' : '#FFFBFB',
+                    boxShadow: linkedAssessments.length > 0 ? undefined : '0 2px 8px rgba(239, 68, 68, 0.06)',
                   }}
                 >
                   {/* Evidence Header */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
                     <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
                         <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#1E293B' }}>
                           หลักฐานที่ {evdIdx + 1}: {evd.description}
                         </span>
                         <span className="v3-evd-type-badge">{evd.evidence_type}</span>
+                        {linkedAssessments.length === 0 && (
+                          <span className="v3-unlinked-alert">
+                            🔴 ยังไม่มีเครื่องมือประเมิน
+                          </span>
+                        )}
                       </div>
 
                       {/* Traceability: Linked Objectives */}
