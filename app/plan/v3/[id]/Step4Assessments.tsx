@@ -1353,9 +1353,9 @@ export default function Step4Assessments({
         </button>
         <button
           className="v3-btn v3-btn-primary"
-          onClick={() => alert('ขั้นที่ 5 — Teaching Package Builder จะเปิดใน Wave V3.6')}
+          onClick={() => router.push(`/plan/v3/${planId}?step=5`)}
           disabled={!readiness.ready}
-          title={!readiness.ready ? 'กรุณากำหนดการประเมินให้ครบทุกหลักฐานก่อน' : undefined}
+          title={!readiness.ready ? 'กรุณากำหนดการประเมินให้ครบทุกหลักฐานก่อน' : 'ไปต่อขั้นชุดพร้อมสอน'}
         >
           ไปขั้นที่ 5 — ชุดพร้อมสอน (Teaching Package) →
         </button>

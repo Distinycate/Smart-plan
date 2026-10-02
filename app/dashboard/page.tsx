@@ -195,41 +195,39 @@ export default function TeacherDashboard() {
               <span className="h-pill">✅ Rubric 5 ระดับ</span>
               <span className="h-pill">✅ Active Learning</span>
             </div>
-            <div className="home-hero-actions flex flex-wrap gap-2">
+            <div className="home-hero-actions flex flex-wrap gap-2.5">
               <button
-                className="btn btn-hero"
+                className="btn btn-hero font-bold text-blue-600 shadow-md hover:bg-blue-50"
                 onClick={() => router.push(isV3Enabled() ? '/plan/v3/new' : '/plan/new')}
               >
-                <Plus size={15} /> {isV3Enabled() ? 'สร้างแผนการสอน V3 (PA-Ready)' : 'สร้างแผนการสอนใหม่'}
+                <Plus size={16} /> {isV3Enabled() ? 'สร้างแผนการสอน V3 (PA-Ready)' : 'สร้างแผนการสอนใหม่'}
               </button>
               {isV3Enabled() && (
                 <button
-                  className="btn btn-hero-outline"
-                  style={{ borderColor: '#6366f1', color: '#4f46e5', backgroundColor: '#eef2ff' }}
+                  className="btn btn-hero-outline hover:bg-white/20"
                   onClick={() => router.push('/plan/v3')}
                 >
                   <BookOpen size={15} /> คลังแผน V3
                 </button>
               )}
-              <button className="btn btn-hero-outline" style={{ borderColor: '#f472b6', color: '#db2777', backgroundColor: '#fce7f3' }} onClick={() => router.push('/evaluator')}>
+              <button className="btn btn-hero-outline hover:bg-white/20" onClick={() => router.push('/evaluator')}>
                 <Zap size={15} /> ประเมินและพัฒนาแผน
               </button>
               {isV3Enabled() && (
                 <button
-                  className="btn btn-hero-outline text-xs"
-                  style={{ borderColor: '#cbd5e1', color: '#64748b' }}
+                  className="btn btn-hero-outline text-xs opacity-80 hover:opacity-100 hover:bg-white/20"
                   onClick={() => router.push('/plan/new')}
                   title="สร้างแผนด้วยแบบฟอร์ม 5 แท็บเดิม"
                 >
                   สร้างแผนเดิม (Legacy)
                 </button>
               )}
-              <button className="btn btn-hero-outline" onClick={() => loadData(true)} disabled={refreshing}>
+              <button className="btn btn-hero-outline hover:bg-white/20" onClick={() => loadData(true)} disabled={refreshing}>
                 <RefreshCw size={14} className={refreshing ? 'spin-icon' : ''} />
                 {refreshing ? 'กำลังรีเฟรช...' : 'รีเฟรช'}
               </button>
               {typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('userId') && (
-                <button className="btn btn-hero-outline" style={{ borderColor: '#ef4444', color: '#ef4444', backgroundColor: '#fef2f2' }} onClick={() => router.push('/admin')}>
+                <button className="btn btn-hero-outline hover:bg-rose-500/20" onClick={() => router.push('/admin')}>
                   ← กลับหน้า Admin
                 </button>
               )}
@@ -561,16 +559,17 @@ export default function TeacherDashboard() {
 
         /* ── HERO ── */
         .hero-wrap {
-          background: linear-gradient(135deg, #f9a8d4 0%, #f472b6 60%, #fb7185 100%);
+          background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #4f46e5 100%);
           border-radius: 24px;
           overflow: hidden;
           margin-bottom: 20px;
           position: relative;
+          box-shadow: 0 10px 30px -5px rgba(37, 99, 235, 0.25);
         }
         .hero-wrap::before {
           content: '';
           position: absolute; inset: 0;
-          background: radial-gradient(ellipse at 70% 20%, rgba(129,140,248,0.25) 0%, transparent 60%);
+          background: radial-gradient(ellipse at 70% 20%, rgba(255,255,255,0.15) 0%, transparent 65%);
           pointer-events: none;
         }
         .hero-content {
@@ -590,12 +589,12 @@ export default function TeacherDashboard() {
           letter-spacing: -0.8px;
         }
         .hero-accent {
-          background: linear-gradient(90deg, #fde68a, #fca5a5, #c4b5fd);
+          background: linear-gradient(90deg, #93c5fd, #c7d2fe, #e0e7ff);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
         .hero-desc {
-          color: rgba(255,255,255,0.82);
+          color: rgba(255,255,255,0.85);
           font-size: 14.5px;
           line-height: 1.75;
           margin: 0 0 18px;
@@ -616,19 +615,29 @@ export default function TeacherDashboard() {
           padding: 6px 11px;
           border-radius: 999px;
           background: rgba(255,255,255,0.12);
-          color: rgba(255,255,255,0.9);
+          color: rgba(255,255,255,0.92);
           font-size: 12px;
           font-weight: 600;
         }
         .home-hero-actions { display:flex; gap:10px; flex-wrap:wrap; }
         .btn-hero {
-          background:#fff; color:#f472b6;
-          box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+          background:#fff; color:#2563eb;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .btn-hero:hover {
+          background: #f8fafc;
+          transform: translateY(-1px);
         }
         .btn-hero-outline {
-          background: rgba(255,255,255,0.14);
+          background: rgba(255,255,255,0.12);
           color:#fff;
-          border:1px solid rgba(255,255,255,0.28);
+          border:1px solid rgba(255,255,255,0.25);
+          backdrop-filter: blur(8px);
+        }
+        .btn-hero-outline:hover {
+          background: rgba(255,255,255,0.2);
+          border-color: rgba(255,255,255,0.4);
+          transform: translateY(-1px);
         }
         .hero-img-wrap { width: 300px; display:flex; justify-content:center; align-items:center; }
         .hero-img {

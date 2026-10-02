@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { 
+  BookOpen, Sparkles, Target, Clock, Calendar, Users, 
+  ArrowRight, ArrowLeft, Check, Layers, AlertCircle, FileText, CheckCircle2, ChevronRight 
+} from 'lucide-react';
 import { subjectNameToKey } from '@/lib/smartPlanV3/labels';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
@@ -34,17 +39,29 @@ interface LearningFocus {
 
 const CURRICULUM_VERSION = 'OBEC-2551-REV60';
 
+const STEPS_NAV = [
+  { num: 1, label: 'ข้อมูลแผน' },
+  { num: 2, label: 'เป้าหมาย' },
+  { num: 3, label: 'กิจกรรม' },
+  { num: 4, label: 'ประเมินผล' },
+  { num: 5, label: 'ชุดพร้อมสอน' },
+  { num: 6, label: 'ตรวจคุณภาพ' },
+  { num: 7, label: 'เอกสาร' },
+  { num: 8, label: 'ผลการสอน' },
+  { num: 9, label: 'สะท้อนผล' },
+];
+
 function Field({ label, required, children, hint }: {
   label: string; required?: boolean; children: React.ReactNode; hint?: string;
 }) {
   return (
-    <div className="v3-field">
-      <label className="v3-label">
+    <div className="flex flex-col gap-1.5 mb-4">
+      <label className="text-xs font-semibold text-slate-700 tracking-wide uppercase flex items-center gap-1">
         {label}
-        {required && <span className="v3-required"> *</span>}
+        {required && <span className="text-rose-500 font-bold">*</span>}
       </label>
       {children}
-      {hint && <p className="v3-hint">{hint}</p>}
+      {hint && <p className="text-xs text-slate-500 font-normal leading-relaxed mt-0.5">{hint}</p>}
     </div>
   );
 }
@@ -58,7 +75,7 @@ function Select({ value, onChange, options, placeholder, disabled }: {
 }) {
   return (
     <select
-      className="v3-select"
+      className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 disabled:bg-slate-50 disabled:text-slate-400 disabled:border-slate-200 disabled:cursor-not-allowed cursor-pointer shadow-xs"
       value={value}
       onChange={e => onChange(e.target.value)}
       disabled={disabled}
@@ -148,7 +165,7 @@ export default function NewV3LessonPage() {
     if (subj && !courseName) {
       setCourseName(subj.nameTh);
     }
-  }, [selectedSubjectKey]);
+  }, [selectedSubjectKey, subjects, courseName]);
 
   // Load standards when grade changes
   useEffect(() => {
@@ -161,7 +178,6 @@ export default function NewV3LessonPage() {
     }
 
     setLoadingStandards(true);
-    // Find learning area from selected subject
     const subj = subjects.find(s => subjectNameToKey(s.nameTh) === selectedSubjectKey);
     const area = subj?.learningArea || selectedSubjectKey;
 
@@ -174,7 +190,7 @@ export default function NewV3LessonPage() {
         }
       })
       .finally(() => setLoadingStandards(false));
-  }, [selectedSubjectKey, selectedGrade]);
+  }, [selectedSubjectKey, selectedGrade, subjects]);
 
   // Load indicators when standard changes
   useEffect(() => {
@@ -194,7 +210,7 @@ export default function NewV3LessonPage() {
         if (res.success) setIndicators(res.data || []);
       })
       .finally(() => setLoadingIndicators(false));
-  }, [selectedStandard]);
+  }, [selectedStandard, selectedSubjectKey, selectedGrade, subjects]);
 
   // Load focus guidance when focus changes
   useEffect(() => {
@@ -210,7 +226,6 @@ export default function NewV3LessonPage() {
       })
       .catch(() => {});
   }, [selectedSubjectKey, selectedFocus]);
-
 
   const toggleIndicator = useCallback((code: string) => {
     setSelectedIndicators(prev =>
@@ -234,7 +249,6 @@ export default function NewV3LessonPage() {
     setError(null);
 
     try {
-      // Build lesson payload
       const payload = {
         title: topic.trim(),
         topic: topic.trim(),
@@ -265,9 +279,7 @@ export default function NewV3LessonPage() {
 
       const planId = data.data.id;
 
-      // Save curriculum links if indicators were selected
       if (selectedIndicators.length > 0) {
-        const subj = subjects.find(s => subjectNameToKey(s.nameTh) === selectedSubjectKey);
         const std = standards.find(s => s.code === selectedStandard);
 
         const links = selectedIndicators.map(indCode => {
@@ -298,47 +310,124 @@ export default function NewV3LessonPage() {
     }
   };
 
-  // ─── Render ──────────────────────────────────────────────────────────────
-
   return (
-    <div className="v3-new-page">
-      {/* Step Navigation */}
-      <div className="v3-step-nav">
-        {['ข้อมูลแผน', 'เป้าหมาย', 'กิจกรรม', 'ประเมินผล', 'ชุดพร้อมสอน', 'ตรวจคุณภาพ', 'เอกสาร'].map((label, i) => (
-          <div key={i} className={`v3-step-item ${i === 0 ? 'active' : 'disabled'}`}>
-            <div className="v3-step-dot">{i + 1}</div>
-            <span className="v3-step-label">{label}</span>
+    <div className="min-h-screen bg-slate-50/70 pb-28 font-sans">
+      {/* ─── Breadcrumb & Header ─── */}
+      <div className="bg-white/85 backdrop-blur-xl border-b border-slate-200/80 sticky top-16 z-30">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 mb-1">
+              <Link href="/plan/v3" className="hover:text-blue-600 transition">แผนการสอน V3</Link>
+              <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+              <span className="text-slate-800 font-semibold">สร้างแผนการจัดการเรียนรู้ใหม่</span>
+            </div>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+              <span>ขั้นที่ 1 — ข้อมูลแผนการสอน</span>
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200">
+                PA-Ready
+              </span>
+            </h1>
           </div>
-        ))}
+          <div className="flex items-center gap-2">
+            <Link href="/plan/v3" className="v3-btn v3-btn-secondary text-xs">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>ยกเลิก</span>
+            </Link>
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!canSubmit || submitting}
+              className="v3-btn v3-btn-primary text-xs shadow-sm"
+            >
+              {submitting ? (
+                <>
+                  <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                  <span>กำลังบันทึก...</span>
+                </>
+              ) : (
+                <>
+                  <span>สร้างแผนและไปขั้นที่ 2</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* ─── Modern Stepper ─── */}
+        <div className="border-t border-slate-100 overflow-x-auto scrollbar-none">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center gap-0">
+            {STEPS_NAV.map((s, idx) => {
+              const isActive = s.num === 1;
+              return (
+                <div
+                  key={s.num}
+                  className={`flex items-center gap-2 py-3 px-3 sm:px-4 border-b-2 font-medium text-xs whitespace-nowrap transition-all ${
+                    isActive
+                      ? 'border-blue-600 text-blue-600 font-bold bg-blue-50/40'
+                      : 'border-transparent text-slate-400'
+                  }`}
+                >
+                  <span
+                    className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                      isActive ? 'bg-blue-600 text-white shadow-xs' : 'bg-slate-200 text-slate-500'
+                    }`}
+                  >
+                    {s.num}
+                  </span>
+                  <span>{s.label}</span>
+                  {idx < STEPS_NAV.length - 1 && (
+                    <span className="w-4 h-px bg-slate-200 ml-2 hidden lg:inline-block" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      <div className="v3-new-body">
-        <div className="v3-new-card">
-          <h1 className="v3-card-title">ขั้นที่ 1 — ข้อมูลแผนการสอน</h1>
-          <p className="v3-card-desc">เลือกหลักสูตร วิชา ระดับชั้น และกรอกข้อมูลพื้นฐานของแผน</p>
+      {/* ─── Body Form ─── */}
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-8">
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-8">
+          
+          {/* Header intro */}
+          <div className="border-b border-slate-100 pb-5">
+            <h2 className="text-lg font-bold text-slate-900">กำหนดข้อมูลตั้งต้นของแผนการสอน</h2>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
+              ระบุกลุ่มสาระ มาตรฐาน ตัวชี้วัด และลักษณะการเรียนรู้ที่เน้น เพื่อให้ระบบ AI และผู้ช่วยสอนจัดโครงสร้างกิจกรรมและประเมินผลตามเกณฑ์ ว.PA ได้อย่างสอดคล้องที่สุด
+            </p>
+          </div>
 
           {/* ─── Section A: Curriculum & Subject ─── */}
-          <section className="v3-section">
-            <h2 className="v3-section-title">📌 หลักสูตรและกลุ่มสาระ</h2>
+          <section className="space-y-5">
+            <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+              <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
+                <BookOpen className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900">1. หลักสูตรและกลุ่มสาระการเรียนรู้</h3>
+                <p className="text-xs text-slate-500">เลือกกลุ่มสาระและระดับชั้นตามหลักสูตรแกนกลาง</p>
+              </div>
+            </div>
 
-            <div className="v3-row-2">
-              <Field label="หลักสูตร" required>
-                <input
-                  className="v3-input"
-                  value="หลักสูตรแกนกลางการศึกษาขั้นพื้นฐาน พ.ศ. 2551 (ปรับปรุง 2560)"
-                  readOnly
-                  style={{ background: '#F7FAFC', color: '#718096' }}
-                />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="หลักสูตรแกนกลาง" required>
+                <div className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 font-medium flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>หลักสูตรแกนกลาง พ.ศ. 2551 (ปรับปรุง 2560)</span>
+                </div>
               </Field>
 
               <Field label="กลุ่มสาระการเรียนรู้ / วิชา" required>
                 {loadingSubjects ? (
-                  <div className="v3-loading-text">กำลังโหลดข้อมูลหลักสูตร...</div>
+                  <div className="text-xs text-slate-400 py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 animate-pulse">
+                    กำลังโหลดข้อมูลหลักสูตร...
+                  </div>
                 ) : (
                   <Select
                     value={selectedSubjectKey}
-                    onChange={v => { setSelectedSubjectKey(v); }}
-                    placeholder="— เลือกกลุ่มสาระ —"
+                    onChange={v => setSelectedSubjectKey(v)}
+                    placeholder="— เลือกกลุ่มสาระการเรียนรู้ —"
                     options={subjects.map(s => ({
                       value: subjectNameToKey(s.nameTh),
                       label: s.nameTh,
@@ -348,8 +437,8 @@ export default function NewV3LessonPage() {
               </Field>
             </div>
 
-            <div className="v3-row-2">
-              <Field label="ระดับชั้น" required>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="ระดับชั้นที่สอน" required>
                 <Select
                   value={selectedGrade}
                   onChange={setSelectedGrade}
@@ -358,11 +447,15 @@ export default function NewV3LessonPage() {
                   options={availableGrades.map(g => ({ value: g, label: g }))}
                 />
                 {selectedSubjectKey && availableGrades.length === 0 && (
-                  <p className="v3-hint v3-hint-warn">ยังไม่มีข้อมูลหลักสูตรสำหรับวิชานี้</p>
+                  <p className="text-xs text-amber-600 font-medium mt-1">ยังไม่มีข้อมูลหลักสูตรสำหรับวิชานี้</p>
                 )}
               </Field>
 
-              <Field label="ลักษณะการเรียนรู้ที่เน้น" required hint="ระบุว่าคาบนี้เน้นอะไรเป็นหลัก เพื่อช่วยออกแบบหลักฐานและกิจกรรม">
+              <Field 
+                label="ลักษณะการเรียนรู้ที่เน้น (Learning Focus)" 
+                required 
+                hint="ระบุเป้าหมายแกนเพื่อปรับรูปแบบกิจกรรมและการประเมินผล"
+              >
                 <Select
                   value={selectedFocus}
                   onChange={setSelectedFocus}
@@ -370,62 +463,91 @@ export default function NewV3LessonPage() {
                   disabled={learningFocuses.length === 0}
                   options={learningFocuses.map(f => ({ value: f.key, label: f.labelTh }))}
                 />
-                {focusGuidance && (
-                  <div className="v3-focus-guidance">
-                    💡 {focusGuidance}
-                  </div>
-                )}
               </Field>
             </div>
+
+            {focusGuidance && (
+              <div className="p-3.5 bg-blue-50/70 border border-blue-200/80 rounded-xl text-xs text-blue-900 flex items-start gap-2.5">
+                <Sparkles className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                <div className="leading-relaxed">
+                  <span className="font-bold text-blue-950">คำแนะนำสำหรับจุดเน้นนี้: </span>
+                  {focusGuidance}
+                </div>
+              </div>
+            )}
           </section>
 
           {/* ─── Section B: Standard & Indicators ─── */}
           {selectedGrade && (
-            <section className="v3-section">
-              <h2 className="v3-section-title">📋 มาตรฐานและตัวชี้วัด</h2>
-              <p className="v3-section-hint">สำหรับแผน 1 ชั่วโมง ควรเลือกเฉพาะตัวชี้วัดที่เกี่ยวข้องโดยตรงกับคาบนี้</p>
+            <section className="space-y-5 pt-4 border-t border-slate-100">
+              <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                  <Target className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900">2. มาตรฐานและตัวชี้วัด</h3>
+                  <p className="text-xs text-slate-500">สำหรับแผน 1 คาบ ควรเน้นตัวชี้วัดที่ปฏิบัติได้จริง</p>
+                </div>
+              </div>
 
-              <Field label="มาตรฐานการเรียนรู้">
+              <Field label="มาตรฐานการเรียนรู้" required>
                 {loadingStandards ? (
-                  <div className="v3-loading-text">กำลังโหลดมาตรฐาน...</div>
+                  <div className="text-xs text-slate-400 py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 animate-pulse">
+                    กำลังโหลดมาตรฐานการเรียนรู้...
+                  </div>
                 ) : standards.length === 0 ? (
-                  <div className="v3-hint">ไม่พบมาตรฐานสำหรับวิชา/ชั้นนี้</div>
+                  <div className="text-xs text-slate-500 py-2">ไม่พบมาตรฐานสำหรับกลุ่มสาระ/ชั้นนี้</div>
                 ) : (
                   <Select
                     value={selectedStandard}
                     onChange={setSelectedStandard}
-                    placeholder="— เลือกมาตรฐาน —"
+                    placeholder="— เลือกมาตรฐานการเรียนรู้ —"
                     options={standards.map(s => ({ value: s.code, label: `${s.code} — ${s.text}` }))}
                   />
                 )}
               </Field>
 
               {selectedStandard && (
-                <Field label="ตัวชี้วัด (เลือกได้หลายข้อ)">
+                <Field label="ตัวชี้วัด (เลือกตัวชี้วัดที่ตรงกับคาบนี้)">
                   {loadingIndicators ? (
-                    <div className="v3-loading-text">กำลังโหลดตัวชี้วัด...</div>
+                    <div className="text-xs text-slate-400 py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 animate-pulse">
+                      กำลังโหลดตัวชี้วัด...
+                    </div>
                   ) : indicators.length === 0 ? (
-                    <div className="v3-hint">ไม่พบตัวชี้วัดสำหรับมาตรฐานนี้</div>
+                    <div className="text-xs text-slate-500 py-2">ไม่พบตัวชี้วัดสำหรับมาตรฐานนี้</div>
                   ) : (
-                    <div className="v3-indicator-list">
-                      {indicators.map(ind => (
-                        <label key={ind.code} className="v3-indicator-item">
-                          <input
-                            type="checkbox"
-                            checked={selectedIndicators.includes(ind.code)}
-                            onChange={() => toggleIndicator(ind.code)}
-                            className="v3-checkbox"
-                          />
-                          <span>
-                            <strong>{ind.code}</strong> — {ind.text}
-                          </span>
-                        </label>
-                      ))}
+                    <div className="space-y-2 mt-1">
+                      {indicators.map(ind => {
+                        const isSelected = selectedIndicators.includes(ind.code);
+                        return (
+                          <label
+                            key={ind.code}
+                            className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-blue-50/70 border-blue-400 text-blue-950 shadow-xs ring-1 ring-blue-300'
+                                : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50/60'
+                            }`}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() => toggleIndicator(ind.code)}
+                              className="w-4 h-4 mt-0.5 rounded text-blue-600 focus:ring-blue-500 border-slate-300 shrink-0 cursor-pointer accent-blue-600"
+                            />
+                            <div className="text-xs leading-relaxed">
+                              <span className="font-bold text-slate-900 mr-1.5">{ind.code}</span>
+                              <span>{ind.text}</span>
+                            </div>
+                          </label>
+                        );
+                      })}
                     </div>
                   )}
+
                   {selectedIndicators.length > 3 && (
-                    <div className="v3-focus-guidance v3-focus-warn">
-                      ⚠️ เลือกตัวชี้วัดหลายข้อมาก อาจทำให้แผน 1 ชั่วโมงนี้หนักเกินไป
+                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-center gap-2 mt-2">
+                      <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                      <span>เลือกตัวชี้วัดมากกว่า 3 ข้อ อาจทำให้กิจกรรมในคาบเรียน 1 ชั่วโมงแน่นเกินไป</span>
                     </div>
                   )}
                 </Field>
@@ -434,9 +556,18 @@ export default function NewV3LessonPage() {
           )}
 
           {/* ─── Section C: Lesson Info ─── */}
-          <section className="v3-section">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-              <h2 className="v3-section-title" style={{ margin: 0 }}>📝 ข้อมูลแผน</h2>
+          <section className="space-y-5 pt-4 border-t border-slate-100">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center font-bold">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900">3. รายละเอียดแผนการสอน</h3>
+                  <p className="text-xs text-slate-500">หัวข้อ เวลาสอน และบริบทของนักเรียน</p>
+                </div>
+              </div>
+
               {selectedSubjectKey && (
                 <button
                   type="button"
@@ -460,26 +591,27 @@ export default function NewV3LessonPage() {
                     }
                     setDuration(60);
                   }}
-                  className="v3-btn v3-btn-ghost v3-btn-sm"
-                  style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem', color: '#4F46E5', borderColor: '#C7D2FE', background: '#EEF2FF' }}
+                  className="v3-btn v3-btn-ai text-xs"
                 >
-                  ✨ เติมข้อมูลแนะนำสำหรับวิชานี้
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>เติมข้อมูลตัวอย่างแนะนำ</span>
                 </button>
               )}
             </div>
 
-            <Field label="เรื่อง (Topic)" required hint="ชื่อเรื่องที่สอนในคาบนี้ เช่น 'Talking about Jobs'">
+            <Field label="ชื่อเรื่อง / หัวข้อการสอน (Topic)" required hint="ชื่อบทเรียนที่ระบุในแผนการจัดการเรียนรู้ เช่น 'Talking about Jobs'">
               <input
-                className="v3-input"
+                className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
                 value={topic}
                 onChange={e => setTopic(e.target.value)}
-                placeholder="เช่น Talking about Jobs, ระบบสุริยะ, สมการเชิงเส้น"
+                placeholder="เช่น การสังเคราะห์ด้วยแสง, Talking about Jobs, สมการเชิงเส้น"
                 maxLength={200}
               />
+
               {/* Quick Topic Chips */}
               {selectedSubjectKey && (
-                <div style={{ marginTop: '0.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.4rem', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#718096', fontWeight: 600 }}>💡 หัวข้อแนะนำ:</span>
+                <div className="mt-2 flex flex-wrap gap-1.5 items-center">
+                  <span className="text-[11px] font-semibold text-slate-500 mr-1">💡 หัวข้อแนะนำ:</span>
                   {(selectedSubjectKey === 'ENGLISH'
                     ? ['Daily Routines', 'Talking about Jobs', 'Asking for Directions', 'Food & Ordering', 'My Free Time Activities']
                     : selectedSubjectKey === 'MATHEMATICS'
@@ -492,16 +624,11 @@ export default function NewV3LessonPage() {
                       key={t}
                       type="button"
                       onClick={() => setTopic(t)}
-                      style={{
-                        fontSize: '0.75rem',
-                        padding: '0.2rem 0.6rem',
-                        borderRadius: '9999px',
-                        border: topic === t ? '1px solid #4F46E5' : '1px solid #E2E8F0',
-                        background: topic === t ? '#EEF2FF' : '#F8FAFC',
-                        color: topic === t ? '#4338CA' : '#4A5568',
-                        cursor: 'pointer',
-                        fontWeight: topic === t ? 600 : 400,
-                      }}
+                      className={`text-xs px-2.5 py-1 rounded-full border transition-all cursor-pointer font-medium ${
+                        topic === t
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 hover:text-blue-700'
+                      }`}
                     >
                       {t}
                     </button>
@@ -510,42 +637,37 @@ export default function NewV3LessonPage() {
               )}
             </Field>
 
-            <div className="v3-row-2">
-              <Field label="หน่วยการเรียนรู้">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="หน่วยการเรียนรู้ (Unit)">
                 <input
-                  className="v3-input"
+                  className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
                   value={unitRef}
                   onChange={e => setUnitRef(e.target.value)}
-                  placeholder="เช่น หน่วยที่ 3 ชีวิตประจำวัน"
+                  placeholder="เช่น หน่วยการเรียนรู้ที่ 2"
                 />
               </Field>
-              <Field label="เวลา (นาที)" required>
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+
+              <Field label="ระยะเวลาสอน (นาที)" required>
+                <div className="flex items-center gap-2">
                   <input
-                    className="v3-input"
                     type="number"
                     value={duration}
                     onChange={e => setDuration(Math.max(1, Number(e.target.value)))}
                     min={1}
                     step={5}
-                    style={{ maxWidth: '100px' }}
+                    className="w-20 px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 text-center transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs"
                   />
-                  <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+                  <div className="flex gap-1.5 flex-wrap">
                     {[50, 60, 100, 120].map(m => (
                       <button
                         key={m}
                         type="button"
                         onClick={() => setDuration(m)}
-                        style={{
-                          fontSize: '0.75rem',
-                          padding: '0.25rem 0.5rem',
-                          borderRadius: '6px',
-                          border: duration === m ? '1px solid #4F46E5' : '1px solid #CBD5E0',
-                          background: duration === m ? '#4F46E5' : '#FFFFFF',
-                          color: duration === m ? '#FFFFFF' : '#4A5568',
-                          cursor: 'pointer',
-                          fontWeight: duration === m ? 600 : 400,
-                        }}
+                        className={`text-xs px-2.5 py-1.5 rounded-lg border font-semibold transition-all cursor-pointer ${
+                          duration === m
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                            : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                        }`}
                       >
                         {m} นาที
                       </button>
@@ -555,52 +677,52 @@ export default function NewV3LessonPage() {
               </Field>
             </div>
 
-            <div className="v3-row-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Field label="ชื่อรายวิชา">
                 <input
-                  className="v3-input"
+                  className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
                   value={courseName}
                   onChange={e => setCourseName(e.target.value)}
                   placeholder="เช่น ภาษาอังกฤษพื้นฐาน"
                 />
               </Field>
+
               <Field label="รหัสวิชา">
                 <input
-                  className="v3-input"
+                  className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
                   value={courseCode}
                   onChange={e => setCourseCode(e.target.value)}
                   placeholder="เช่น อ21101"
                 />
               </Field>
-            </div>
 
-            <div className="v3-row-2">
               <Field label="วันที่สอน">
                 <input
-                  className="v3-input"
                   type="date"
                   value={teachingDate}
                   onChange={e => setTeachingDate(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs"
                 />
               </Field>
             </div>
 
-            <Field label="บริบทผู้เรียน" hint="อธิบายกลุ่มผู้เรียนโดยสังเขป เช่น จำนวนนักเรียน ระดับความสามารถ ความต้องการพิเศษ">
+            <Field label="บริบทผู้เรียนและห้องเรียน" hint="ช่วยให้ระบบปรับระดับความยากและกิจกรรมให้เหมาะสมกับผู้เรียนจริง">
               <textarea
-                className="v3-textarea"
+                className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-normal transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400 min-h-[75px] resize-y"
                 value={studentContext}
                 onChange={e => setStudentContext(e.target.value)}
-                placeholder="เช่น ห้อง ม.1/2 จำนวน 36 คน มีทักษะภาษาอังกฤษระดับ A1–A2"
+                placeholder="เช่น ห้อง ม.1/2 จำนวน 36 คน ทักษะภาษาคละความสามารถ เน้นกิจกรรมกลุ่มและมีจอ Smart TV"
                 rows={2}
               />
+
               {/* Quick Context Chips */}
-              <div style={{ marginTop: '0.4rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: '#718096', fontWeight: 600 }}>💡 บริบทแนะนำ:</span>
+              <div className="mt-2 flex flex-wrap gap-1.5 items-center">
+                <span className="text-[11px] font-semibold text-slate-500 mr-1">💡 เติมบริบท:</span>
                 {[
                   'ชั้นเรียนปกติ (35–40 คน)',
                   'ห้องเรียนคละความสามารถ (Mixed-Ability)',
                   'เน้นการทำงานกลุ่มและฝึกปฏิบัติการ',
-                  'ห้องเรียนพร้อมอุปกรณ์ ICT และจอแสดงผล',
+                  'มีอุปกรณ์ ICT และจอแสดงผล',
                   'ห้องเรียนขนาดเล็ก (ไม่เกิน 25 คน)',
                 ].map(c => (
                   <button
@@ -609,16 +731,8 @@ export default function NewV3LessonPage() {
                     onClick={() => {
                       setStudentContext(prev => prev ? `${prev}; ${c}` : c);
                     }}
-                    style={{
-                      fontSize: '0.75rem',
-                      padding: '0.2rem 0.55rem',
-                      borderRadius: '6px',
-                      border: '1px solid #E2E8F0',
-                      background: '#F8FAFC',
-                      color: '#4A5568',
-                      cursor: 'pointer',
-                    }}
-                    title="คลิกเพื่อเติมข้อความ"
+                    className="text-xs px-2.5 py-1 rounded-lg border border-slate-200 bg-slate-50 hover:bg-blue-50/50 hover:border-blue-300 text-slate-600 hover:text-blue-700 transition cursor-pointer font-medium"
+                    title="คลิกเพื่อต่อท้ายข้อความ"
                   >
                     + {c}
                   </button>
@@ -627,184 +741,47 @@ export default function NewV3LessonPage() {
             </Field>
           </section>
 
-          {/* ─── Error & Submit ─── */}
+          {/* ─── Error Notification ─── */}
           {error && (
-            <div className="v3-alert v3-alert-error">{error}</div>
+            <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-sm flex items-center gap-3">
+              <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+              <span>{error}</span>
+            </div>
           )}
 
-          <div className="v3-form-actions">
+          {/* ─── Bottom Actions ─── */}
+          <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-4">
             <button
               type="button"
               onClick={() => router.push('/plan/v3')}
-              className="v3-btn v3-btn-ghost"
+              className="v3-btn v3-btn-secondary"
               disabled={submitting}
             >
-              ยกเลิก
+              <ArrowLeft className="w-4 h-4" />
+              <span>ยกเลิก</span>
             </button>
+
             <button
               type="button"
               onClick={handleSubmit}
-              className="v3-btn v3-btn-primary"
-              disabled={!canSubmit}
-              aria-busy={submitting}
+              disabled={!canSubmit || submitting}
+              className="v3-btn v3-btn-primary shadow-md px-6 py-2.5"
             >
-              {submitting ? 'กำลังบันทึก...' : 'บันทึกและไปขั้นถัดไป →'}
+              {submitting ? (
+                <>
+                  <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                  <span>กำลังสร้างแผน...</span>
+                </>
+              ) : (
+                <>
+                  <span>บันทึกและไปขั้นที่ 2 (กำหนดเป้าหมาย)</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </div>
         </div>
-      </div>
-
-      <style jsx>{`
-        .v3-new-page {
-          min-height: 100vh;
-          background: #F7FAFC;
-          font-family: 'Noto Sans Thai', sans-serif;
-        }
-        .v3-step-nav {
-          display: flex;
-          align-items: center;
-          background: white;
-          border-bottom: 1px solid #e2e8f0;
-          padding: 0 2rem;
-          overflow-x: auto;
-          gap: 0;
-        }
-        .v3-step-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 1rem 1.25rem;
-          cursor: default;
-          white-space: nowrap;
-          border-bottom: 2px solid transparent;
-          transition: all 0.15s;
-        }
-        .v3-step-item.active {
-          border-bottom-color: #4F46E5;
-          color: #4F46E5;
-        }
-        .v3-step-item.disabled {
-          color: #CBD5E0;
-        }
-        .v3-step-dot {
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 0.7rem;
-          font-weight: 700;
-        }
-        .v3-step-item.active .v3-step-dot { background: #4F46E5; color: white; }
-        .v3-step-item.disabled .v3-step-dot { background: #EDF2F7; color: #CBD5E0; }
-        .v3-step-label { font-size: 0.85rem; font-weight: 500; }
-        .v3-new-body {
-          max-width: 760px;
-          margin: 0 auto;
-          padding: 2rem 1.5rem;
-        }
-        .v3-new-card {
-          background: white;
-          border-radius: 12px;
-          border: 1px solid #e2e8f0;
-          padding: 2rem;
-        }
-        .v3-card-title { font-size: 1.4rem; font-weight: 700; color: #1a202c; margin: 0 0 0.25rem; }
-        .v3-card-desc { color: #718096; margin: 0 0 2rem; font-size: 0.9rem; }
-        .v3-section {
-          margin-bottom: 2rem;
-          padding-bottom: 2rem;
-          border-bottom: 1px solid #EDF2F7;
-        }
-        .v3-section:last-of-type { border-bottom: none; }
-        .v3-section-title { font-size: 1rem; font-weight: 600; color: #2D3748; margin: 0 0 1rem; }
-        .v3-section-hint { font-size: 0.8rem; color: #718096; margin: -0.5rem 0 1rem; }
-        .v3-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        @media (max-width: 560px) { .v3-row-2 { grid-template-columns: 1fr; } }
-        .v3-field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
-        .v3-label { font-size: 0.875rem; font-weight: 600; color: #4A5568; }
-        .v3-required { color: #E53E3E; }
-        .v3-input, .v3-select, .v3-textarea {
-          border: 1px solid #CBD5E0;
-          border-radius: 8px;
-          padding: 0.6rem 0.75rem;
-          font-size: 0.9rem;
-          color: #2D3748;
-          background: white;
-          transition: border-color 0.15s;
-          font-family: inherit;
-          width: 100%;
-          box-sizing: border-box;
-        }
-        .v3-input:focus, .v3-select:focus, .v3-textarea:focus {
-          outline: none;
-          border-color: #4F46E5;
-          box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
-        }
-        .v3-select:disabled { background: #F7FAFC; color: #A0AEC0; cursor: not-allowed; }
-        .v3-textarea { resize: vertical; min-height: 60px; }
-        .v3-hint { font-size: 0.75rem; color: #A0AEC0; margin: 0; }
-        .v3-hint-warn { color: #D69E2E; }
-        .v3-loading-text { font-size: 0.85rem; color: #718096; padding: 0.5rem 0; }
-        .v3-focus-guidance {
-          font-size: 0.8rem;
-          color: #2B6CB0;
-          background: #EBF8FF;
-          border-radius: 6px;
-          padding: 0.5rem 0.75rem;
-          margin-top: 0.5rem;
-          border-left: 3px solid #63B3ED;
-        }
-        .v3-focus-warn { background: #FFFBEB; color: #92400E; border-left-color: #F6AD55; }
-        .v3-indicator-list { display: flex; flex-direction: column; gap: 0.5rem; }
-        .v3-indicator-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 0.6rem;
-          padding: 0.6rem 0.75rem;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
-          cursor: pointer;
-          font-size: 0.875rem;
-          color: #4A5568;
-          transition: background 0.1s;
-        }
-        .v3-indicator-item:hover { background: #F7FAFC; }
-        .v3-indicator-item:has(.v3-checkbox:checked) {
-          background: #EEF2FF;
-          border-color: #A5B4FC;
-          color: #3730A3;
-        }
-        .v3-checkbox { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; accent-color: #4F46E5; }
-        .v3-alert { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.875rem; }
-        .v3-alert-error { background: #FFF5F5; color: #C53030; border: 1px solid #FED7D7; }
-        .v3-form-actions {
-          display: flex;
-          justify-content: flex-end;
-          gap: 0.75rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid #EDF2F7;
-        }
-        .v3-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.6rem 1.25rem;
-          border-radius: 8px;
-          font-weight: 600;
-          cursor: pointer;
-          border: none;
-          font-size: 0.9rem;
-          transition: all 0.15s;
-          font-family: inherit;
-        }
-        .v3-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .v3-btn-primary { background: #4F46E5; color: white; }
-        .v3-btn-primary:hover:not(:disabled) { background: #4338CA; }
-        .v3-btn-ghost { background: transparent; color: #718096; border: 1px solid #CBD5E0; }
-        .v3-btn-ghost:hover:not(:disabled) { background: #F7FAFC; }
-      `}</style>
+      </main>
     </div>
   );
 }

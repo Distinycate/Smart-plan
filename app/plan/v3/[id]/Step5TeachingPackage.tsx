@@ -1361,10 +1361,12 @@ export default function Step5TeachingPackage({
           className="v3-btn v3-btn-primary"
           disabled={!readiness?.ready}
           onClick={() => {
-            alert('ชุดพร้อมสอนครบถ้วนสมบูรณ์! พร้อมสำหรับขั้นที่ 6 — ตรวจคุณภาพ (Quality & PA Readiness Engine ใน Wave V3.7)');
+            if (onNavigateToStep) onNavigateToStep(6);
+            else router.push(`/plan/v3/${planId}?step=6`);
           }}
+          title={!readiness?.ready ? 'กรุณาเตรียมสื่อจำเป็นให้ครบก่อน' : 'ไปต่อขั้นตรวจคุณภาพ'}
         >
-          {readiness?.ready ? 'ไปขั้นที่ 6 — ตรวจคุณภาพ (Locked) →' : 'กรุณาเตรียมสื่อจำเป็นให้ครบก่อน'}
+          {readiness?.ready ? 'ไปขั้นที่ 6 — ตรวจคุณภาพ (Quality Review) →' : 'กรุณาเตรียมสื่อจำเป็นให้ครบก่อน'}
         </button>
       </div>
 

@@ -3,6 +3,19 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import {
+  Check,
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle2,
+  Eye,
+  Sparkles,
+  BookOpen,
+  Calendar,
+  Clock,
+  Layers,
+  FileText
+} from 'lucide-react';
 import { V3LessonPlan, V3LessonObjective, V3LearningEvidence, V3ObjectiveEvidenceLink, V3LessonCurriculumLink, V3LessonActivity, V3LessonGraph } from '@/lib/smartPlanV3/types';
 import { getStatusLabel, getSubjectLabel, formatDuration, SaveState, SAVE_STATE_LABELS } from '@/lib/smartPlanV3/labels';
 import Step3Activities from './Step3Activities';
@@ -20,47 +33,73 @@ import {
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
-function StepNav({ currentStep, planId, lessonStatus, onNavigate }: { currentStep: number; planId: string; lessonStatus?: string; onNavigate: (step: number) => void }) {
+function StepNav({
+  currentStep,
+  planId,
+  lessonStatus,
+  onNavigate,
+}: {
+  currentStep: number;
+  planId: string;
+  lessonStatus?: string;
+  onNavigate: (step: number) => void;
+}) {
   const steps = [
-    'ข้อมูลแผน',
-    'เป้าหมาย',
-    'ออกแบบการเรียนรู้',
-    'ประเมินผล',
-    'ชุดพร้อมสอน',
-    'ตรวจคุณภาพ',
-    'เอกสารและพิมพ์',
-    'ผลการสอน',
-    'สะท้อนผลและหลักฐาน',
+    { num: 1, label: 'ข้อมูลแผน' },
+    { num: 2, label: 'เป้าหมาย' },
+    { num: 3, label: 'ออกแบบกิจกรรม' },
+    { num: 4, label: 'ประเมินผล' },
+    { num: 5, label: 'ชุดพร้อมสอน' },
+    { num: 6, label: 'ตรวจคุณภาพ' },
+    { num: 7, label: 'เอกสาร/พิมพ์' },
+    { num: 8, label: 'ผลการสอน' },
+    { num: 9, label: 'สะท้อนผล' },
   ];
-  return (
-    <nav className="v3-step-nav" aria-label="ขั้นตอน">
-      {steps.map((label, i) => {
-        const step = i + 1;
-        const isActive = step === currentStep;
-        let isAvailable = step <= 6;
-        if (step === 7) {
-          isAvailable = ['REVIEWED', 'FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
-        } else if (step === 8) {
-          isAvailable = ['FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
-        } else if (step === 9) {
-          isAvailable = ['TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
-        }
 
-        return (
-          <button
-            key={step}
-            className={`v3-step-item ${isActive ? 'active' : ''} ${!isAvailable ? 'disabled' : ''}`}
-            onClick={() => isAvailable && !isActive ? onNavigate(step) : undefined}
-            disabled={!isAvailable}
-            title={!isAvailable ? (step === 7 ? 'ต้องผ่านการตรวจคุณภาพในขั้นที่ 6 ก่อน' : step === 8 ? 'ต้องล็อคแผนเป็น FINAL ก่อนบันทึกผลการสอน' : 'ต้องบันทึกผลการสอน (TAUGHT) ก่อนสะท้อนผล') : undefined}
-            aria-current={isActive ? 'step' : undefined}
-          >
-            <div className="v3-step-dot">{step}</div>
-            <span className="v3-step-label">{label}</span>
-          </button>
-        );
-      })}
-    </nav>
+  return (
+    <div className="v3-step-nav-wrapper">
+      <nav className="v3-step-nav" aria-label="ขั้นตอนการจัดทำแผน">
+        {steps.map((item, i) => {
+          const step = item.num;
+          const isActive = step === currentStep;
+          const isCompleted = step < currentStep;
+          let isAvailable = step <= 6;
+          if (step === 7) {
+            isAvailable = ['REVIEWED', 'FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+          } else if (step === 8) {
+            isAvailable = ['FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+          } else if (step === 9) {
+            isAvailable = ['TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+          }
+
+          return (
+            <button
+              key={step}
+              type="button"
+              className={`v3-step-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${!isAvailable ? 'disabled' : ''}`}
+              onClick={() => isAvailable && !isActive ? onNavigate(step) : undefined}
+              disabled={!isAvailable}
+              title={
+                !isAvailable
+                  ? step === 7
+                    ? 'ต้องผ่านการตรวจคุณภาพในขั้นที่ 6 ก่อน'
+                    : step === 8
+                    ? 'ต้องล็อคแผนเป็น FINAL ก่อนบันทึกผลการสอน'
+                    : 'ต้องบันทึกผลการสอน (TAUGHT) ก่อนสะท้อนผล'
+                  : undefined
+              }
+              aria-current={isActive ? 'step' : undefined}
+            >
+              <div className="v3-step-dot">
+                {isCompleted ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : step}
+              </div>
+              <span className="v3-step-label">{item.label}</span>
+              {i < steps.length - 1 && <span className="v3-step-connector" />}
+            </button>
+          );
+        })}
+      </nav>
+    </div>
   );
 }
 
@@ -68,15 +107,136 @@ function SaveIndicator({ state }: { state: SaveState }) {
   if (state === 'idle') return null;
   const label = SAVE_STATE_LABELS[state];
   const cls = state === 'error' ? 'save-error' : state === 'saved' ? 'save-ok' : 'save-info';
-  return <span className={`v3-save-indicator ${cls}`}>{label}</span>;
+  return (
+    <div className={`v3-save-indicator-badge ${cls}`}>
+      {state === 'saved' && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />}
+      {state === 'saving' && <div className="w-3 h-3 rounded-full border-2 border-indigo-600 border-t-transparent animate-spin" />}
+      <span>{label}</span>
+    </div>
+  );
+}
+
+function V3BottomActionBar({
+  currentStep,
+  totalSteps = 9,
+  lessonStatus,
+  onNavigate,
+  planId,
+}: {
+  currentStep: number;
+  totalSteps?: number;
+  lessonStatus?: string;
+  onNavigate: (step: number) => void;
+  planId: string;
+}) {
+  const stepTitles = [
+    'ข้อมูลแผนการสอน',
+    'เป้าหมายการเรียนรู้',
+    'ออกแบบกิจกรรมการเรียนรู้',
+    'การวัดและประเมินผล',
+    'ชุดพร้อมสอน (Teaching Package)',
+    'ตรวจคุณภาพและ PA Readiness',
+    'เอกสารและสั่งพิมพ์ A4',
+    'บันทึกผลการสอนจริง',
+    'สะท้อนผลและหลักฐานเชิงประจักษ์',
+  ];
+
+  const currentTitle = stepTitles[currentStep - 1] || '';
+  const nextTitle = currentStep < totalSteps ? stepTitles[currentStep] : '';
+
+  let isNextAvailable = currentStep < totalSteps;
+  if (currentStep === 6) {
+    isNextAvailable = ['REVIEWED', 'FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+  } else if (currentStep === 7) {
+    isNextAvailable = ['FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+  } else if (currentStep === 8) {
+    isNextAvailable = ['TAUGHT', 'REFLECTED'].includes(lessonStatus || '');
+  }
+
+  return (
+    <aside className="v3-bottom-nav-bar" aria-label="แถบควบคุมขั้นตอน">
+      <div className="v3-bottom-nav-inner">
+        {/* Left: Back button */}
+        <div className="flex items-center gap-2">
+          {currentStep > 1 ? (
+            <button
+              type="button"
+              className="v3-btn v3-btn-secondary"
+              onClick={() => onNavigate(currentStep - 1)}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>ย้อนกลับ (ขั้นที่ {currentStep - 1})</span>
+            </button>
+          ) : (
+            <Link href="/plan/v3" className="v3-btn v3-btn-secondary">
+              <ArrowLeft className="w-4 h-4" />
+              <span>หน้ารวมแผน</span>
+            </Link>
+          )}
+        </div>
+
+        {/* Center: Current progress badge */}
+        <div className="v3-bottom-nav-center">
+          <div className="flex items-center gap-2">
+            <span className="v3-nav-step-pill">
+              ขั้นตอนที่ {currentStep} จาก {totalSteps}
+            </span>
+            <span className="font-semibold text-slate-800 text-sm hidden md:inline">
+              {currentTitle}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>ระบบบันทึกข้อมูลอัตโนมัติ</span>
+          </div>
+        </div>
+
+        {/* Right: Next button or Preview A4 */}
+        <div className="flex items-center gap-2.5">
+          {['REVIEWED', 'FINAL', 'TAUGHT', 'REFLECTED'].includes(lessonStatus || '') && (
+            <Link
+              href={`/plan/v3/${planId}/preview`}
+              className="v3-btn v3-btn-ghost text-xs hidden sm:inline-flex items-center gap-1.5"
+              title="ดูเอกสารฉบับพิมพ์ A4"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>ดูตัวอย่าง A4</span>
+            </Link>
+          )}
+
+          {currentStep < totalSteps ? (
+            <button
+              type="button"
+              className="v3-btn v3-btn-primary"
+              disabled={!isNextAvailable}
+              onClick={() => onNavigate(currentStep + 1)}
+              title={!isNextAvailable ? 'กรุณาดำเนินการในขั้นตอนนี้ให้ครบถ้วนก่อน' : `ไปยัง${nextTitle}`}
+            >
+              <span>ถัดไป: {nextTitle || `ขั้นที่ ${currentStep + 1}`}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          ) : (
+            <Link
+              href={`/plan/v3/${planId}/preview`}
+              className="v3-btn v3-btn-primary"
+            >
+              <span>ดูเอกสาร A4 ฉบับสมบูรณ์</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
+        </div>
+      </div>
+    </aside>
+  );
 }
 
 // ─── Step 1 View (read + edit) ───────────────────────────────────────────────
 
-function Step1View({ lesson, curriculumLinks, onUpdate }: {
+function Step1View({ lesson, curriculumLinks, onUpdate, onNext }: {
   lesson: V3LessonPlan;
   curriculumLinks: V3LessonCurriculumLink[];
   onUpdate: (patch: Partial<V3LessonPlan>) => void;
+  onNext: () => void;
 }) {
   return (
     <div className="v3-editor-section">
@@ -85,15 +245,15 @@ function Step1View({ lesson, curriculumLinks, onUpdate }: {
       <div className="v3-info-grid">
         <div className="v3-info-row">
           <span className="v3-info-label">วิชา</span>
-          <span className="v3-info-value">{getSubjectLabel(lesson.subject_key)}</span>
+          <span className="v3-info-value font-semibold text-slate-900">{getSubjectLabel(lesson.subject_key)}</span>
         </div>
         <div className="v3-info-row">
           <span className="v3-info-label">ระดับชั้น</span>
-          <span className="v3-info-value">{lesson.grade_level}</span>
+          <span className="v3-info-value font-semibold text-slate-800">{lesson.grade_level}</span>
         </div>
         <div className="v3-info-row">
           <span className="v3-info-label">เรื่อง</span>
-          <span className="v3-info-value">{lesson.topic}</span>
+          <span className="v3-info-value font-bold text-blue-700 text-base">{lesson.topic}</span>
         </div>
         <div className="v3-info-row">
           <span className="v3-info-label">เวลา</span>
@@ -115,7 +275,7 @@ function Step1View({ lesson, curriculumLinks, onUpdate }: {
 
       {curriculumLinks.length > 0 && (
         <div className="v3-curriculum-summary">
-          <h3 className="v3-subsection-title">📋 ตัวชี้วัด ({curriculumLinks.length} ข้อ)</h3>
+          <h3 className="v3-subsection-title">📋 ตัวชี้วัดที่เลือก ({curriculumLinks.length} ข้อ)</h3>
           <ul className="v3-indicator-summary">
             {curriculumLinks.map(link => (
               <li key={link.id} className="v3-indicator-chip">
@@ -127,9 +287,20 @@ function Step1View({ lesson, curriculumLinks, onUpdate }: {
         </div>
       )}
 
-      <Link href="/plan/v3/new" className="v3-btn v3-btn-ghost v3-btn-sm" style={{ marginTop: '1rem', display: 'inline-flex' }}>
-        ← สร้างแผนใหม่
-      </Link>
+      {/* Navigation action buttons */}
+      <div className="v3-step-nav-actions" style={{ marginTop: '2rem', display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+        <Link href="/plan/v3" className="v3-btn v3-btn-secondary">
+          ← กลับไปหน้ารวมแผน
+        </Link>
+        <button
+          type="button"
+          onClick={onNext}
+          className="v3-btn v3-btn-primary"
+        >
+          <span>ดำเนินการต่อ: กำหนดเป้าหมายการเรียนรู้ (ขั้นที่ 2)</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
     </div>
   );
 }
@@ -576,7 +747,12 @@ export default function V3PlanEditorPage() {
 
       <div className="v3-editor-body">
         {currentStep === 1 && (
-          <Step1View lesson={lesson} curriculumLinks={curriculumLinks} onUpdate={() => {}} />
+          <Step1View
+            lesson={lesson}
+            curriculumLinks={curriculumLinks}
+            onUpdate={() => {}}
+            onNext={() => router.push(`/plan/v3/${planId}?step=2`)}
+          />
         )}
 
         {currentStep === 2 && (
@@ -953,18 +1129,22 @@ export default function V3PlanEditorPage() {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="v3-step-nav-actions">
+            <div className="v3-step-nav-actions" style={{ marginTop: '2rem', display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
               <button
-                className="v3-btn v3-btn-ghost"
+                type="button"
+                className="v3-btn v3-btn-secondary"
                 onClick={() => router.push(`/plan/v3/${planId}?step=1`)}
               >
-                ← ย้อนกลับ
+                <ArrowLeft className="w-4 h-4" />
+                <span>ย้อนกลับไปข้อมูลแผน (ขั้นที่ 1)</span>
               </button>
               <button
+                type="button"
                 className="v3-btn v3-btn-primary"
                 onClick={() => router.push(`/plan/v3/${planId}?step=3`)}
               >
-                ไปขั้นที่ 3 — ออกแบบการเรียนรู้ →
+                <span>ดำเนินการต่อ: ออกแบบกิจกรรมการเรียนรู้ (ขั้นที่ 3)</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -1079,97 +1259,708 @@ export default function V3PlanEditorPage() {
         )}
       </div>
 
+      <V3BottomActionBar
+        currentStep={currentStep}
+        totalSteps={9}
+        lessonStatus={lesson?.status}
+        onNavigate={(s) => router.push(`/plan/v3/${planId}?step=${s}`)}
+        planId={planId}
+      />
+
       <style jsx>{`
-        .v3-editor-page { min-height: 100vh; background: #F7FAFC; font-family: 'Noto Sans Thai', sans-serif; }
-        .v3-editor-header { background: white; border-bottom: 1px solid #e2e8f0; padding: 0.75rem 2rem; }
-        .v3-editor-header-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-        .v3-editor-breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: #4A5568; }
-        .v3-breadcrumb-link { color: #4F46E5; text-decoration: none; }
-        .v3-breadcrumb-link:hover { text-decoration: underline; }
-        .v3-breadcrumb-sep { color: #CBD5E0; }
-        .v3-editor-meta { display: flex; align-items: center; gap: 0.75rem; }
-        .v3-save-indicator { font-size: 0.8rem; }
-        .save-ok { color: #38A169; }
-        .save-error { color: #E53E3E; }
-        .save-info { color: #718096; }
-        .v3-step-nav { display: flex; background: white; border-bottom: 1px solid #e2e8f0; padding: 0 2rem; overflow-x: auto; gap: 0; }
-        .v3-step-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; cursor: pointer; white-space: nowrap; border: none; background: transparent; border-bottom: 2px solid transparent; transition: all 0.15s; font-family: inherit; }
-        .v3-step-item.active { border-bottom-color: #4F46E5; color: #4F46E5; }
-        .v3-step-item.disabled { color: #CBD5E0; cursor: not-allowed; }
-        .v3-step-dot { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
-        .v3-step-item.active .v3-step-dot { background: #4F46E5; color: white; }
-        .v3-step-item.disabled .v3-step-dot { background: #EDF2F7; color: #CBD5E0; }
-        .v3-step-label { font-size: 0.82rem; font-weight: 500; }
-        .v3-editor-body { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
-        .v3-editor-section { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 1.5rem; margin-bottom: 1.25rem; }
-        .v3-section-compact { padding: 1rem 1.25rem; }
-        .v3-section-title { font-size: 1rem; font-weight: 700; color: #2D3748; margin: 0 0 1rem; }
-        .v3-section-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-        .v3-section-hint { font-size: 0.8rem; color: #718096; margin: -0.5rem 0 1rem; }
-        .v3-count-badge { font-size: 0.75rem; background: #EEF2FF; color: #4F46E5; padding: 0.15rem 0.5rem; border-radius: 20px; font-weight: 600; }
-        .v3-hint-empty { color: #A0AEC0; font-size: 0.875rem; font-style: italic; padding: 0.5rem 0; }
-        .v3-info-grid { display: flex; flex-direction: column; gap: 0; }
-        .v3-info-row { display: flex; align-items: flex-start; padding: 0.5rem 0; border-bottom: 1px solid #EDF2F7; gap: 1rem; }
-        .v3-info-row:last-child { border-bottom: none; }
-        .v3-info-label { width: 140px; flex-shrink: 0; font-size: 0.8rem; font-weight: 600; color: #718096; }
-        .v3-info-value { flex: 1; font-size: 0.875rem; color: #2D3748; }
-        .v3-focus-badge { background: #EEF2FF; color: #4F46E5; padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
-        .v3-curriculum-summary { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #EDF2F7; }
-        .v3-subsection-title { font-size: 0.875rem; font-weight: 600; color: #4A5568; margin: 0 0 0.5rem; }
-        .v3-indicator-summary { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
-        .v3-indicator-chip { font-size: 0.8rem; color: #4A5568; background: #EDF2F7; padding: 0.3rem 0.6rem; border-radius: 6px; }
-        .v3-indicator-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .v3-chip-tag { background: #EEF2FF; color: #4338CA; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 600; }
-        .v3-guidance-box { background: #EBF8FF; border-left: 3px solid #63B3ED; border-radius: 6px; padding: 0.6rem 0.75rem; font-size: 0.82rem; color: #2B6CB0; margin-bottom: 1rem; }
-        .v3-hint-small { font-size: 0.75rem; color: #4299E1; }
-        .v3-obj-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
-        .v3-obj-card { border: 1px solid #E2E8F0; border-radius: 10px; padding: 1rem; }
-        .v3-obj-header { display: flex; align-items: flex-start; gap: 0.75rem; }
-        .v3-obj-num { width: 24px; height: 24px; background: #4F46E5; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
-        .v3-obj-statement { flex: 1; font-size: 0.9rem; color: #2D3748; margin: 0; line-height: 1.5; }
-        .v3-obj-textarea { flex: 1; min-height: 60px; resize: vertical; }
-        .v3-obj-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
-        .v3-obj-evidence { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #EDF2F7; }
-        .v3-obj-evidence-label { font-size: 0.75rem; color: #718096; margin: 0 0 0.4rem; }
-        .v3-obj-evidence-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-        .v3-evd-chip { font-size: 0.75rem; border: 1px solid #CBD5E0; border-radius: 20px; padding: 0.2rem 0.6rem; background: white; cursor: pointer; color: #718096; transition: all 0.1s; }
-        .v3-evd-chip.linked { background: #EEF2FF; border-color: #A5B4FC; color: #4338CA; font-weight: 600; }
-        .v3-evd-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
-        .v3-evd-card { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid #E2E8F0; border-radius: 8px; }
-        .v3-evd-type-badge { background: #EDF2F7; color: #4A5568; font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
-        .v3-evd-desc { flex: 1; font-size: 0.875rem; color: #2D3748; margin: 0; }
-        .v3-add-form { display: flex; flex-direction: column; gap: 0.5rem; background: #FAFAFA; border: 1px dashed #CBD5E0; border-radius: 8px; padding: 0.75rem; }
-        .v3-add-evd-form { flex-direction: row; flex-wrap: wrap; align-items: center; }
-        .v3-select-sm { width: auto; flex-shrink: 0; }
-        .v3-section-summary { background: #FAFAFA; }
-        .v3-summary-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-        .v3-summary-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
-        .v3-summary-num { font-size: 1.75rem; font-weight: 700; color: #4F46E5; }
-        .v3-summary-label { font-size: 0.75rem; color: #718096; }
-        .v3-alignment-warning { background: #FFFBEB; border: 1px solid #F6AD55; border-radius: 8px; padding: 0.75rem; font-size: 0.85rem; color: #92400E; }
-        .v3-alignment-warning ul { margin: 0.4rem 0 0; padding-left: 1.25rem; }
-        .v3-step-nav-actions { display: flex; justify-content: space-between; padding-top: 1rem; }
-        .v3-icon-btn { background: transparent; border: none; cursor: pointer; font-size: 1rem; padding: 0.25rem; border-radius: 4px; transition: background 0.1s; }
-        .v3-icon-btn:hover { background: #EDF2F7; }
-        .v3-icon-danger:hover { background: #FFF5F5; }
-        .v3-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 20px; font-weight: 600; }
-        .v3-status-draft { background: #EEF2FF; color: #4F46E5; }
-        .v3-status-blueprint_ready { background: #FEF3C7; color: #B45309; }
-        .v3-status-final { background: #D1FAE5; color: #065F46; }
-        .v3-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.55rem 1rem; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 0.875rem; transition: all 0.15s; font-family: inherit; white-space: nowrap; }
-        .v3-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .v3-btn-primary { background: #4F46E5; color: white; }
-        .v3-btn-primary:hover:not(:disabled) { background: #4338CA; }
-        .v3-btn-ghost { background: transparent; color: #718096; border: 1px solid #CBD5E0; text-decoration: none; }
-        .v3-btn-ghost:hover:not(:disabled) { background: #F7FAFC; }
-        .v3-btn-sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
-        .v3-btn-xs { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
-        .v3-input, .v3-select, .v3-textarea { border: 1px solid #CBD5E0; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.875rem; color: #2D3748; background: white; font-family: inherit; width: 100%; box-sizing: border-box; }
-        .v3-input:focus, .v3-select:focus, .v3-textarea:focus { outline: none; border-color: #4F46E5; box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
-        .v3-textarea { resize: vertical; min-height: 48px; flex: 1; }
-        .v3-loading-screen, .v3-error-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1rem; color: #718096; }
-        .v3-spinner { width: 32px; height: 32px; border: 3px solid #EDF2F7; border-top-color: #4F46E5; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .v3-editor-page {
+          min-height: 100vh;
+          background: #F8FAFC;
+          font-family: var(--font-body, 'Inter', 'Sarabun', -apple-system, sans-serif);
+          padding-bottom: 5rem;
+        }
+        .v3-editor-header {
+          background: rgba(255, 255, 255, 0.88);
+          backdrop-filter: blur(16px);
+          border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+          padding: 0.85rem 2rem;
+          position: sticky;
+          top: 64px;
+          z-index: 30;
+        }
+        .v3-editor-header-inner {
+          max-width: 1000px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+        }
+        .v3-editor-breadcrumb {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          color: #475569;
+          font-weight: 500;
+        }
+        .v3-breadcrumb-link {
+          color: #2563EB;
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 0.15s;
+        }
+        .v3-breadcrumb-link:hover {
+          color: #1D4ED8;
+          text-decoration: underline;
+        }
+        .v3-breadcrumb-sep {
+          color: #CBD5E1;
+        }
+        .v3-editor-meta {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+        .v3-save-indicator-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          font-size: 0.75rem;
+          font-weight: 600;
+          padding: 0.25rem 0.65rem;
+          border-radius: 9999px;
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+        }
+        .v3-save-indicator-badge.save-ok {
+          color: #059669;
+          background: #ECFDF5;
+          border-color: #A7F3D0;
+        }
+        .v3-save-indicator-badge.save-error {
+          color: #E11D48;
+          background: #FFF1F2;
+          border-color: #FECDD3;
+        }
+        .v3-save-indicator-badge.save-info {
+          color: #4F46E5;
+          background: #EEF2FF;
+          border-color: #C7D2FE;
+        }
+        .v3-step-nav-wrapper {
+          background: #FFFFFF;
+          border-bottom: 1px solid #E2E8F0;
+          overflow-x: auto;
+          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+          position: sticky;
+          top: 114px;
+          z-index: 25;
+        }
+        .v3-step-nav {
+          max-width: 1040px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          padding: 0.5rem 1rem;
+          gap: 0.25rem;
+          white-space: nowrap;
+        }
+        .v3-step-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.45rem 0.75rem;
+          border-radius: 9999px;
+          cursor: pointer;
+          white-space: nowrap;
+          border: 1px solid transparent;
+          background: transparent;
+          transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+          font-family: inherit;
+          color: #475569;
+        }
+        .v3-step-item:hover:not(.disabled):not(.active) {
+          background: #F1F5F9;
+          color: #0F172A;
+        }
+        .v3-step-item.active {
+          background: #EFF6FF;
+          border-color: #BFDBFE;
+          color: #1D4ED8;
+          font-weight: 700;
+          box-shadow: 0 1px 3px 0 rgba(37, 99, 235, 0.1);
+        }
+        .v3-step-item.completed {
+          color: #059669;
+        }
+        .v3-step-item.completed:hover {
+          background: #ECFDF5;
+        }
+        .v3-step-item.disabled {
+          color: #94A3B8;
+          cursor: not-allowed;
+          opacity: 0.6;
+        }
+        .v3-step-dot {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75rem;
+          font-weight: 700;
+          flex-shrink: 0;
+          background: #E2E8F0;
+          color: #475569;
+          transition: all 0.15s;
+        }
+        .v3-step-item.active .v3-step-dot {
+          background: #2563EB;
+          color: #FFFFFF;
+          box-shadow: 0 0 10px rgba(37, 99, 235, 0.35);
+        }
+        .v3-step-item.completed .v3-step-dot {
+          background: #10B981;
+          color: #FFFFFF;
+        }
+        .v3-step-item.disabled .v3-step-dot {
+          background: #F1F5F9;
+          color: #CBD5E1;
+        }
+        .v3-step-label {
+          font-size: 0.825rem;
+          font-weight: 600;
+        }
+        .v3-step-connector {
+          width: 10px;
+          height: 1.5px;
+          background: #E2E8F0;
+          margin-left: 0.2rem;
+          flex-shrink: 0;
+        }
+        .v3-bottom-nav-bar {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 45;
+          background: rgba(255, 255, 255, 0.94);
+          backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(226, 232, 240, 0.9);
+          box-shadow: 0 -4px 20px -2px rgba(15, 23, 42, 0.08);
+          padding: 0.75rem 1.5rem;
+        }
+        .v3-bottom-nav-inner {
+          max-width: 1040px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+        }
+        .v3-bottom-nav-center {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.2rem;
+        }
+        .v3-nav-step-pill {
+          background: #F1F5F9;
+          color: #334155;
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 0.15rem 0.6rem;
+          border-radius: 9999px;
+          border: 1px solid #E2E8F0;
+        }
+        .v3-editor-body {
+          max-width: 900px;
+          margin: 0 auto;
+          padding: 2rem 1.5rem 6rem;
+        }
+        .v3-editor-section {
+          background: white;
+          border-radius: 18px;
+          border: 1px solid rgba(226, 232, 240, 0.85);
+          padding: 1.75rem;
+          margin-bottom: 1.5rem;
+          box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 4px 12px -2px rgba(15, 23, 42, 0.02);
+        }
+        .v3-section-compact {
+          padding: 1.15rem 1.5rem;
+        }
+        .v3-section-title {
+          font-size: 1.05rem;
+          font-weight: 700;
+          color: #0F172A;
+          margin: 0 0 1.15rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .v3-section-header-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.85rem;
+        }
+        .v3-section-hint {
+          font-size: 0.825rem;
+          color: #64748B;
+          margin: -0.5rem 0 1.25rem;
+        }
+        .v3-count-badge {
+          font-size: 0.75rem;
+          background: #EFF6FF;
+          color: #2563EB;
+          padding: 0.2rem 0.6rem;
+          border-radius: 9999px;
+          font-weight: 700;
+          border: 1px solid #DBEAFE;
+        }
+        .v3-hint-empty {
+          color: #94A3B8;
+          font-size: 0.875rem;
+          font-style: italic;
+          padding: 0.75rem 0;
+        }
+        .v3-info-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+        }
+        .v3-info-row {
+          display: flex;
+          align-items: flex-start;
+          padding: 0.65rem 0;
+          border-bottom: 1px solid #F1F5F9;
+          gap: 1.25rem;
+        }
+        .v3-info-row:last-child {
+          border-bottom: none;
+        }
+        .v3-info-label {
+          width: 140px;
+          flex-shrink: 0;
+          font-size: 0.825rem;
+          font-weight: 600;
+          color: #64748B;
+        }
+        .v3-info-value {
+          flex: 1;
+          font-size: 0.875rem;
+          color: #1E293B;
+        }
+        .v3-focus-badge {
+          background: #EFF6FF;
+          color: #2563EB;
+          padding: 0.2rem 0.6rem;
+          border-radius: 8px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          border: 1px solid #DBEAFE;
+        }
+        .v3-curriculum-summary {
+          margin-top: 1.25rem;
+          padding-top: 1.25rem;
+          border-top: 1px solid #F1F5F9;
+        }
+        .v3-subsection-title {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #334155;
+          margin: 0 0 0.65rem;
+        }
+        .v3-indicator-summary {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        }
+        .v3-indicator-chip {
+          font-size: 0.825rem;
+          color: #334155;
+          background: #F8FAFC;
+          padding: 0.45rem 0.8rem;
+          border-radius: 8px;
+          border: 1px solid #E2E8F0;
+        }
+        .v3-indicator-chips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .v3-chip-tag {
+          background: #EFF6FF;
+          color: #1D4ED8;
+          font-size: 0.8rem;
+          padding: 0.25rem 0.65rem;
+          border-radius: 8px;
+          font-weight: 700;
+          border: 1px solid #DBEAFE;
+        }
+        .v3-guidance-box {
+          background: #EFF6FF;
+          border-left: 3px solid #3B82F6;
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          font-size: 0.85rem;
+          color: #1E40AF;
+          margin-bottom: 1.25rem;
+        }
+        .v3-hint-small {
+          font-size: 0.75rem;
+          color: #3B82F6;
+        }
+        .v3-obj-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.85rem;
+          margin-bottom: 1.25rem;
+        }
+        .v3-obj-card {
+          border: 1px solid #E2E8F0;
+          border-radius: 14px;
+          padding: 1.15rem;
+          background: #FFFFFF;
+          box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03);
+          transition: all 0.15s ease;
+        }
+        .v3-obj-card:hover {
+          border-color: #CBD5E1;
+          box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+        }
+        .v3-obj-header {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.85rem;
+        }
+        .v3-obj-num {
+          width: 26px;
+          height: 26px;
+          background: #2563EB;
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75rem;
+          font-weight: 700;
+          flex-shrink: 0;
+          margin-top: 2px;
+          box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+        .v3-obj-statement {
+          flex: 1;
+          font-size: 0.925rem;
+          color: #0F172A;
+          margin: 0;
+          line-height: 1.5;
+          font-weight: 500;
+        }
+        .v3-obj-textarea {
+          flex: 1;
+          min-height: 60px;
+          resize: vertical;
+        }
+        .v3-obj-actions {
+          display: flex;
+          gap: 0.4rem;
+          flex-shrink: 0;
+        }
+        .v3-obj-evidence {
+          margin-top: 0.85rem;
+          padding-top: 0.85rem;
+          border-top: 1px solid #F1F5F9;
+        }
+        .v3-obj-evidence-label {
+          font-size: 0.75rem;
+          color: #64748B;
+          margin: 0 0 0.5rem;
+          font-weight: 600;
+        }
+        .v3-obj-evidence-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.45rem;
+        }
+        .v3-evd-chip {
+          font-size: 0.75rem;
+          border: 1px solid #CBD5E1;
+          border-radius: 9999px;
+          padding: 0.25rem 0.7rem;
+          background: white;
+          cursor: pointer;
+          color: #64748B;
+          transition: all 0.15s;
+          font-weight: 500;
+        }
+        .v3-evd-chip:hover {
+          border-color: #3B82F6;
+          color: #2563EB;
+          background: #EFF6FF;
+        }
+        .v3-evd-chip.linked {
+          background: #EFF6FF;
+          border-color: #93C5FD;
+          color: #1D4ED8;
+          font-weight: 700;
+        }
+        .v3-evd-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.65rem;
+          margin-bottom: 1.25rem;
+        }
+        .v3-evd-card {
+          display: flex;
+          align-items: center;
+          gap: 0.85rem;
+          padding: 0.85rem 1rem;
+          border: 1px solid #E2E8F0;
+          border-radius: 12px;
+          background: white;
+        }
+        .v3-evd-type-badge {
+          background: #F1F5F9;
+          color: #334155;
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 0.25rem 0.6rem;
+          border-radius: 8px;
+          white-space: nowrap;
+          flex-shrink: 0;
+          border: 1px solid #E2E8F0;
+        }
+        .v3-evd-desc {
+          flex: 1;
+          font-size: 0.875rem;
+          color: #0F172A;
+          margin: 0;
+          font-weight: 500;
+        }
+        .v3-add-form {
+          display: flex;
+          flex-direction: column;
+          gap: 0.65rem;
+          background: #F8FAFC;
+          border: 1px dashed #CBD5E1;
+          border-radius: 12px;
+          padding: 1rem;
+        }
+        .v3-add-evd-form {
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+        .v3-select-sm {
+          width: auto;
+          flex-shrink: 0;
+        }
+        .v3-section-summary {
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+        }
+        .v3-summary-grid {
+          display: flex;
+          gap: 2rem;
+          flex-wrap: wrap;
+          margin-bottom: 1rem;
+        }
+        .v3-summary-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.25rem;
+        }
+        .v3-summary-num {
+          font-size: 2rem;
+          font-weight: 800;
+          color: #2563EB;
+          line-height: 1;
+        }
+        .v3-summary-label {
+          font-size: 0.75rem;
+          color: #64748B;
+          font-weight: 600;
+        }
+        .v3-alignment-warning {
+          background: #FFFBEB;
+          border: 1px solid #FCD34D;
+          border-radius: 12px;
+          padding: 0.85rem 1rem;
+          font-size: 0.85rem;
+          color: #92400E;
+          font-weight: 500;
+        }
+        .v3-alignment-warning ul {
+          margin: 0.4rem 0 0;
+          padding-left: 1.25rem;
+        }
+        .v3-step-nav-actions {
+          display: flex;
+          justify-content: space-between;
+          padding-top: 1rem;
+        }
+        .v3-icon-btn {
+          background: transparent;
+          border: 1px solid transparent;
+          cursor: pointer;
+          font-size: 1rem;
+          padding: 0.35rem;
+          border-radius: 8px;
+          transition: all 0.15s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .v3-icon-btn:hover {
+          background: #F1F5F9;
+          border-color: #E2E8F0;
+        }
+        .v3-icon-danger:hover {
+          background: #FFF1F2;
+          border-color: #FECDD3;
+        }
+        .v3-badge {
+          font-size: 0.75rem;
+          padding: 0.25rem 0.7rem;
+          border-radius: 9999px;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+        }
+        .v3-status-draft {
+          background: #EFF6FF;
+          color: #1D4ED8;
+          border: 1px solid #DBEAFE;
+        }
+        .v3-status-blueprint_ready {
+          background: #FEF3C7;
+          color: #B45309;
+          border: 1px solid #FDE68A;
+        }
+        .v3-status-final {
+          background: #ECFDF5;
+          color: #065F46;
+          border: 1px solid #A7F3D0;
+        }
+        .v3-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          padding: 0.625rem 1.15rem;
+          border-radius: 12px;
+          font-weight: 600;
+          cursor: pointer;
+          border: 1px solid transparent;
+          font-size: 0.875rem;
+          transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+          font-family: inherit;
+          white-space: nowrap;
+          text-decoration: none;
+        }
+        .v3-btn:active {
+          transform: scale(0.98);
+        }
+        .v3-btn:disabled {
+          opacity: 0.45;
+          cursor: not-allowed;
+          transform: none !important;
+          box-shadow: none !important;
+        }
+        .v3-btn-primary {
+          background: linear-gradient(180deg, #3B82F6 0%, #2563EB 100%);
+          color: white;
+          border-color: #1D4ED8;
+          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+        }
+        .v3-btn-primary:hover:not(:disabled) {
+          background: linear-gradient(180deg, #2563EB 0%, #1D4ED8 100%);
+          box-shadow: 0 4px 12px -2px rgba(37, 99, 235, 0.35);
+          transform: translateY(-1px);
+        }
+        .v3-btn-secondary {
+          background: white;
+          color: #1E293B;
+          border-color: #CBD5E1;
+          box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+        }
+        .v3-btn-secondary:hover:not(:disabled) {
+          background: #F8FAFC;
+          border-color: #94A3B8;
+          color: #0F172A;
+          transform: translateY(-1px);
+        }
+        .v3-btn-ghost {
+          background: transparent;
+          color: #475569;
+          border-color: #E2E8F0;
+        }
+        .v3-btn-ghost:hover:not(:disabled) {
+          background: #F1F5F9;
+          color: #0F172A;
+          border-color: #CBD5E1;
+        }
+        .v3-btn-sm {
+          padding: 0.4rem 0.85rem;
+          font-size: 0.8rem;
+          border-radius: 10px;
+        }
+        .v3-btn-xs {
+          padding: 0.25rem 0.6rem;
+          font-size: 0.75rem;
+          border-radius: 8px;
+        }
+        .v3-input,
+        .v3-select,
+        .v3-textarea {
+          border: 1px solid #CBD5E1;
+          border-radius: 10px;
+          padding: 0.625rem 0.85rem;
+          font-size: 0.875rem;
+          color: #0F172A;
+          background: white;
+          font-family: inherit;
+          width: 100%;
+          box-sizing: border-box;
+          transition: all 0.15s ease;
+        }
+        .v3-input:focus,
+        .v3-select:focus,
+        .v3-textarea:focus {
+          outline: none;
+          border-color: #2563EB;
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+        .v3-textarea {
+          resize: vertical;
+          min-height: 52px;
+          flex: 1;
+        }
+        .v3-loading-screen,
+        .v3-error-screen {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 60vh;
+          gap: 1.25rem;
+          color: #64748B;
+        }
+        .v3-spinner {
+          width: 36px;
+          height: 36px;
+          border: 3px solid #E2E8F0;
+          border-top-color: #2563EB;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
       `}</style>
     </div>
   );
