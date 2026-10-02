@@ -4,12 +4,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
-  BookOpen, Sparkles, Target, Clock, Calendar, Users, 
-  ArrowRight, ArrowLeft, Check, Layers, AlertCircle, FileText, CheckCircle2, ChevronRight 
+  Sparkles, BookOpen, Clock, Calendar, Users, 
+  ArrowRight, ArrowLeft, Check, Target, ChevronRight,
+  School, User, Layers, CheckCircle2, AlertCircle, Wand2
 } from 'lucide-react';
-import { subjectNameToKey } from '@/lib/smartPlanV3/labels';
+import { subjectNameToKey, getSubjectLabel } from '@/lib/smartPlanV3/labels';
 import TeacherProfileBanner from '@/components/smartPlanV3/TeacherProfileBanner';
-import { getStoredTeacherProfile } from '@/lib/smartPlanV3/teacherProfile';
+import { getStoredTeacherProfile, TeacherProfile } from '@/lib/smartPlanV3/teacherProfile';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -38,65 +39,73 @@ interface LearningFocus {
   descriptionTh: string;
 }
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
-
 const CURRICULUM_VERSION = 'OBEC-2551-REV60';
 
-const STEPS_NAV = [
-  { num: 1, label: 'ข้อมูลแผน' },
-  { num: 2, label: 'เป้าหมาย' },
-  { num: 3, label: 'กิจกรรม' },
-  { num: 4, label: 'ประเมินผล' },
-  { num: 5, label: 'ชุดพร้อมสอน' },
-  { num: 6, label: 'ตรวจคุณภาพ' },
-  { num: 7, label: 'เอกสาร' },
-  { num: 8, label: 'ผลการสอน' },
-  { num: 9, label: 'สะท้อนผล' },
+const PRESET_PLANS = [
+  {
+    label: '🇬🇧 อังกฤษ ม.4: Present Progressive',
+    subjectKey: 'ENGLISH',
+    grade: 'ม.4',
+    topic: 'How to use the Present Progressive Tense',
+    focus: 'COMMUNICATION',
+    desc: 'เน้นการสื่อสารสถานการณ์จริงและการทำงานกลุ่ม',
+  },
+  {
+    label: '📐 คณิต ม.2: สมการเชิงเส้นตัวแปรเดียว',
+    subjectKey: 'MATHEMATICS',
+    grade: 'ม.2',
+    topic: 'การแก้โจทย์ปัญหาสมการเชิงเส้นตัวแปรเดียว',
+    focus: 'PROBLEM_SOLVING',
+    desc: 'ฝึกกระบวนการคิดวิเคราะห์และแก้ปัญหาเป็นขั้นตอน',
+  },
+  {
+    label: '🔬 วิทย์ ม.3: การสังเคราะห์ด้วยแสง',
+    subjectKey: 'SCIENCE',
+    grade: 'ม.3',
+    topic: 'การสังเคราะห์ด้วยแสงและการทดสอบแป้งในพืช',
+    focus: 'SCIENTIFIC_INQUIRY',
+    desc: 'ลงมือทดลองในห้องปฏิบัติการและสรุปผลเชิงประจักษ์',
+  },
+  {
+    label: '🇹🇭 ภาษาไทย ม.1: การอ่านจับใจความสำคัญ',
+    subjectKey: 'THAI',
+    grade: 'ม.1',
+    topic: 'การอ่านจับใจความสำคัญจากบทร้อยแก้ว',
+    focus: 'COMMUNICATION',
+    desc: 'เทคนิคการจับประเด็นและเขียนแผนภาพความคิด',
+  },
+  {
+    label: '⚽ สุขศึกษา ม.1: ทักษะการเคลื่อนไหว',
+    subjectKey: 'HEALTH_PE',
+    grade: 'ม.1',
+    topic: 'การเคลื่อนไหวร่างกายขั้นพื้นฐานและการทำงานเป็นทีม',
+    focus: 'PHYSICAL_PRACTICE',
+    desc: 'ฝึกปฏิบัติการออกกำลังกายและกติกาความปลอดภัย',
+  },
+  {
+    label: '🌏 สังคม ม.4: การอนุรักษ์สิ่งแวดล้อม',
+    subjectKey: 'SOCIAL_STUDIES',
+    grade: 'ม.4',
+    topic: 'การจัดการทรัพยากรธรรมชาติและสิ่งแวดล้อมอย่างยั่งยืน',
+    focus: 'CRITICAL_THINKING',
+    desc: 'วิเคราะห์ปัญหาสิ่งแวดล้อมในชุมชนและเสนอทางออก',
+  },
 ];
-
-function Field({ label, required, children, hint }: {
-  label: string; required?: boolean; children: React.ReactNode; hint?: string;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5 mb-4">
-      <label className="text-xs font-semibold text-slate-700 tracking-wide uppercase flex items-center gap-1">
-        {label}
-        {required && <span className="text-rose-500 font-bold">*</span>}
-      </label>
-      {children}
-      {hint && <p className="text-xs text-slate-500 font-normal leading-relaxed mt-0.5">{hint}</p>}
-    </div>
-  );
-}
-
-function Select({ value, onChange, options, placeholder, disabled }: {
-  value: string;
-  onChange: (v: string) => void;
-  options: { value: string; label: string }[];
-  placeholder?: string;
-  disabled?: boolean;
-}) {
-  return (
-    <select
-      className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 disabled:bg-slate-50 disabled:text-slate-400 disabled:border-slate-200 disabled:cursor-not-allowed cursor-pointer shadow-xs"
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      disabled={disabled}
-    >
-      {placeholder && <option value="">{placeholder}</option>}
-      {options.map(o => (
-        <option key={o.value} value={o.value}>{o.label}</option>
-      ))}
-    </select>
-  );
-}
-
-// ─── Main Component ────────────────────────────────────────────────────────
 
 export default function NewV3LessonPage() {
   const router = useRouter();
 
-  // Step 1 fields
+  // Mode: 'ai' (1-click AI generation) vs 'manual' (step-by-step custom form)
+  const [creationMode, setCreationMode] = useState<'ai' | 'manual'>('ai');
+
+  // AI Mode States
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [aiSelectedSubject, setAiSelectedSubject] = useState('');
+  const [aiSelectedGrade, setAiSelectedGrade] = useState('');
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiProgressStep, setAiProgressStep] = useState(0);
+
+  // Manual Mode States
   const [curriculumVersion] = useState(CURRICULUM_VERSION);
   const [subjects, setSubjects] = useState<CurriculumSubject[]>([]);
   const [selectedSubjectKey, setSelectedSubjectKey] = useState('');
@@ -107,17 +116,8 @@ export default function NewV3LessonPage() {
   const [indicators, setIndicators] = useState<CurriculumIndicator[]>([]);
   const [selectedIndicators, setSelectedIndicators] = useState<string[]>([]);
   const [learningFocuses, setLearningFocuses] = useState<LearningFocus[]>([]);
-  const [focusGuidance, setFocusGuidance] = useState('');
 
-  // Formative vs Summative Indicator Filter & Custom Indicators
-  const [indicatorFilter, setIndicatorFilter] = useState<'ALL' | 'DURING' | 'FINAL'>('ALL');
-  const [customIndicators, setCustomIndicators] = useState<CurriculumIndicator[]>([]);
-  const [showCustomInput, setShowCustomInput] = useState(false);
-  const [customCode, setCustomCode] = useState('');
-  const [customText, setCustomText] = useState('');
-  const [customType, setCustomType] = useState<'during' | 'final'>('during');
-
-  // Lesson info
+  // Common metadata
   const [topic, setTopic] = useState('');
   const [unitRef, setUnitRef] = useState('');
   const [courseName, setCourseName] = useState('');
@@ -126,6 +126,9 @@ export default function NewV3LessonPage() {
   const [teachingDate, setTeachingDate] = useState('');
   const [studentContext, setStudentContext] = useState('');
 
+  // Teacher Profile state
+  const [teacherProfile, setTeacherProfile] = useState<TeacherProfile | null>(null);
+
   // Loading states
   const [loadingSubjects, setLoadingSubjects] = useState(true);
   const [loadingStandards, setLoadingStandards] = useState(false);
@@ -133,16 +136,22 @@ export default function NewV3LessonPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load teacher profile defaults on mount
+  // On mount: load teacher profile & subjects
   useEffect(() => {
     const prof = getStoredTeacherProfile();
-    if (prof.defaultSubjectKey) setSelectedSubjectKey(prof.defaultSubjectKey);
-    if (prof.defaultGrade) setSelectedGrade(prof.defaultGrade);
-    if (prof.defaultDurationMinutes) setDuration(prof.defaultDurationMinutes);
-  }, []);
+    setTeacherProfile(prof);
+    if (prof.defaultSubjectKey) {
+      setSelectedSubjectKey(prof.defaultSubjectKey);
+      setAiSelectedSubject(prof.defaultSubjectKey);
+    }
+    if (prof.defaultGrade) {
+      setSelectedGrade(prof.defaultGrade);
+      setAiSelectedGrade(prof.defaultGrade);
+    }
+    if (prof.defaultDurationMinutes) {
+      setDuration(prof.defaultDurationMinutes);
+    }
 
-  // Load subjects on mount
-  useEffect(() => {
     fetch('/api/plan/v3/curriculum/subjects')
       .then(r => r.json())
       .then(res => {
@@ -151,12 +160,11 @@ export default function NewV3LessonPage() {
       .finally(() => setLoadingSubjects(false));
   }, []);
 
-  // Load subject profile (learning focuses) when subject changes
+  // When subject changes: load focuses
   useEffect(() => {
     if (!selectedSubjectKey) {
       setLearningFocuses([]);
       setSelectedFocus('');
-      setFocusGuidance('');
       return;
     }
 
@@ -172,20 +180,18 @@ export default function NewV3LessonPage() {
       })
       .catch(() => {});
 
-    // Reset downstream
     setStandards([]);
     setSelectedStandard('');
     setIndicators([]);
     setSelectedIndicators([]);
 
-    // Auto-fill course name from subject label
     const subj = subjects.find(s => subjectNameToKey(s.nameTh) === selectedSubjectKey);
     if (subj && !courseName) {
       setCourseName(subj.nameTh);
     }
   }, [selectedSubjectKey, subjects, courseName]);
 
-  // Load standards when grade changes and auto-suggest course code
+  // When grade changes: load standards
   useEffect(() => {
     if (!selectedSubjectKey || !selectedGrade) {
       setStandards([]);
@@ -193,30 +199,6 @@ export default function NewV3LessonPage() {
       setIndicators([]);
       setSelectedIndicators([]);
       return;
-    }
-
-    // Auto-fill standard English course code & name based on grade
-    if (selectedSubjectKey === 'ENGLISH') {
-      const g = selectedGrade.trim();
-      if (g.includes('4')) {
-        setCourseName('ภาษาอังกฤษพื้นฐาน 1');
-        setCourseCode('อ31101');
-      } else if (g.includes('5')) {
-        setCourseName('ภาษาอังกฤษพื้นฐาน 3');
-        setCourseCode('อ32101');
-      } else if (g.includes('6')) {
-        setCourseName('ภาษาอังกฤษพื้นฐาน 5');
-        setCourseCode('อ33101');
-      } else if (g.includes('1')) {
-        setCourseName('ภาษาอังกฤษพื้นฐาน 1');
-        setCourseCode('อ21101');
-      } else if (g.includes('2')) {
-        setCourseName('ภาษาอังกฤษพื้นฐาน 3');
-        setCourseCode('อ22101');
-      } else if (g.includes('3')) {
-        setCourseName('ภาษาอังกฤษพื้นฐาน 5');
-        setCourseCode('อ23101');
-      }
     }
 
     setLoadingStandards(true);
@@ -234,7 +216,7 @@ export default function NewV3LessonPage() {
       .finally(() => setLoadingStandards(false));
   }, [selectedSubjectKey, selectedGrade, subjects]);
 
-  // Load indicators when standard changes
+  // When standard changes: load indicators
   useEffect(() => {
     if (!selectedSubjectKey || !selectedGrade || !selectedStandard) {
       setIndicators([]);
@@ -254,63 +236,74 @@ export default function NewV3LessonPage() {
       .finally(() => setLoadingIndicators(false));
   }, [selectedStandard, selectedSubjectKey, selectedGrade, subjects]);
 
-  // Load focus guidance when focus changes
-  useEffect(() => {
-    if (!selectedSubjectKey || !selectedFocus) { setFocusGuidance(''); return; }
-    fetch(`/api/plan/v3/subject-profiles/${selectedSubjectKey}?focus=${selectedFocus}`)
-      .then(r => r.json())
-      .then(res => {
-        if (res.success && res.data?.objectiveGuidance?.length > 0) {
-          setFocusGuidance(res.data.objectiveGuidance[0]);
-        } else {
-          setFocusGuidance('');
-        }
-      })
-      .catch(() => {});
-  }, [selectedSubjectKey, selectedFocus]);
-
   const toggleIndicator = useCallback((code: string) => {
     setSelectedIndicators(prev =>
       prev.includes(code) ? prev.filter(c => c !== code) : [...prev, code]
     );
   }, []);
 
-  const handleAddCustomIndicator = () => {
-    if (!customCode.trim() || !customText.trim()) return;
-    const newInd: CurriculumIndicator = {
-      code: customCode.trim(),
-      text: customText.trim(),
-      standardCode: selectedStandard || 'ตัวชี้วัดสถานศึกษา',
-      type: customType,
-    };
-    setCustomIndicators(prev => [...prev, newInd]);
-    setSelectedIndicators(prev => [...prev, newInd.code]);
-    setCustomCode('');
-    setCustomText('');
-    setShowCustomInput(false);
-  };
-
-  const allIndicators = [...indicators, ...customIndicators];
-
-  const filteredIndicators = allIndicators.filter(ind => {
-    if (indicatorFilter === 'ALL') return true;
-    if (indicatorFilter === 'DURING') return ind.type === 'during' || !ind.type;
-    if (indicatorFilter === 'FINAL') return ind.type === 'final';
-    return true;
-  });
-
   const availableGrades = (() => {
     const subj = subjects.find(s => subjectNameToKey(s.nameTh) === selectedSubjectKey);
-    return subj?.supportedGrades || [];
+    return subj?.supportedGrades || ['ป.1', 'ป.2', 'ป.3', 'ป.4', 'ป.5', 'ป.6', 'ม.1', 'ม.2', 'ม.3', 'ม.4', 'ม.5', 'ม.6'];
   })();
 
-  const canSubmit = !!(
-    selectedSubjectKey && selectedGrade && topic.trim() && selectedFocus
-    && !submitting
+  // ─── 1-Click AI Generation ────────────────────────────────────────────────
+  const handleAiFastGenerate = async (presetPrompt?: string) => {
+    const promptToUse = (presetPrompt || aiPrompt || topic).trim();
+    if (!promptToUse) {
+      setError('กรุณาพิมพ์หัวข้อหรือเลือกแนวทางตัวอย่างที่ต้องการสอน');
+      return;
+    }
+
+    setError(null);
+    setAiGenerating(true);
+    setAiProgressStep(1);
+
+    const stepTimer1 = setTimeout(() => setAiProgressStep(2), 1200);
+    const stepTimer2 = setTimeout(() => setAiProgressStep(3), 2600);
+
+    try {
+      const res = await fetch('/api/plan/v3/ai-generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: promptToUse,
+          subjectKey: aiSelectedSubject || selectedSubjectKey || undefined,
+          gradeLevel: aiSelectedGrade || selectedGrade || undefined,
+          topic: promptToUse,
+          durationMinutes: duration || 60,
+        }),
+      });
+
+      const data = await res.json();
+      if (!data.success) {
+        setError(data.error || 'AI ไม่สามารถสร้างแผนได้ กรุณาลองใหม่อีกครั้ง');
+        setAiGenerating(false);
+        clearTimeout(stepTimer1);
+        clearTimeout(stepTimer2);
+        return;
+      }
+
+      setAiProgressStep(4);
+      setTimeout(() => {
+        router.push(`/plan/v3/${data.data.id}?step=1`);
+      }, 500);
+
+    } catch {
+      setError('เกิดข้อผิดพลาดในการเชื่อมต่อ AI กรุณาลองใหม่อีกครั้ง');
+      setAiGenerating(false);
+      clearTimeout(stepTimer1);
+      clearTimeout(stepTimer2);
+    }
+  };
+
+  // ─── Manual Form Submission ───────────────────────────────────────────────
+  const canSubmitManual = !!(
+    selectedSubjectKey && selectedGrade && topic.trim() && !submitting
   );
 
-  const handleSubmit = async () => {
-    if (!canSubmit) return;
+  const handleManualSubmit = async () => {
+    if (!canSubmitManual) return;
     setSubmitting(true);
     setError(null);
 
@@ -319,13 +312,14 @@ export default function NewV3LessonPage() {
         title: topic.trim(),
         topic: topic.trim(),
         course_name: courseName.trim() || topic.trim(),
-        course_code: courseCode.trim(),
+        course_code: courseCode.trim() || 'ว11101',
         subject_key: selectedSubjectKey,
         grade_level: selectedGrade,
         curriculum_version: curriculumVersion,
         unit_reference: unitRef.trim() || null,
         duration_minutes: duration,
-        learning_focus: selectedFocus || null,
+        learning_focus: selectedFocus || 'ACTIVE_LEARNING',
+        pedagogical_approach: 'Active Learning',
         teaching_date: teachingDate || null,
         student_context: studentContext.trim() || null,
       };
@@ -347,9 +341,8 @@ export default function NewV3LessonPage() {
 
       if (selectedIndicators.length > 0) {
         const std = standards.find(s => s.code === selectedStandard);
-
         const links = selectedIndicators.map(indCode => {
-          const ind = allIndicators.find(i => i.code === indCode);
+          const ind = indicators.find(i => i.code === indCode);
           const typeBadge = ind?.type === 'final' ? '[ปลายทาง]' : '[ระหว่างทาง]';
           return {
             lesson_plan_id: planId,
@@ -377,614 +370,933 @@ export default function NewV3LessonPage() {
     }
   };
 
+  const activeTopicDisplay = (creationMode === 'ai' ? aiPrompt : topic) || 'ยังไม่ได้ระบุหัวข้อบทเรียน';
+  const activeSubjectDisplay = getSubjectLabel(creationMode === 'ai' ? (aiSelectedSubject || selectedSubjectKey) : selectedSubjectKey);
+  const activeGradeDisplay = (creationMode === 'ai' ? aiSelectedGrade : selectedGrade) || 'ยังไม่ระบุ';
+
   return (
-    <div className="min-h-screen bg-slate-50/70 pb-28 font-sans">
-      {/* ─── Breadcrumb & Header ─── */}
-      <div className="bg-white/85 backdrop-blur-xl border-b border-slate-200/80 sticky top-16 z-30">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 mb-1">
-              <Link href="/plan/v3" className="hover:text-blue-600 transition">แผนการสอน V3</Link>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              <span className="text-slate-800 font-semibold">สร้างแผนการจัดการเรียนรู้ใหม่</span>
-            </div>
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-              <span>ขั้นที่ 1 — ข้อมูลแผนการสอน</span>
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200">
-                PA-Ready
-              </span>
-            </h1>
+    <div className="new-plan-page">
+      {/* ─── Apple Frosted Header ─── */}
+      <header className="new-plan-header">
+        <div className="header-inner">
+          <div className="header-breadcrumbs">
+            <Link href="/plan/v3" className="crumb-link">แผนการสอน V3</Link>
+            <ChevronRight className="w-3.5 h-3.5 text-[#86868B]" />
+            <span className="crumb-current">สร้างแผนการจัดการเรียนรู้</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Link href="/plan/v3" className="v3-btn v3-btn-secondary text-xs">
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>ยกเลิก</span>
-            </Link>
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={!canSubmit || submitting}
-              className="v3-btn v3-btn-primary text-xs shadow-sm"
-            >
-              {submitting ? (
-                <>
-                  <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                  <span>กำลังบันทึก...</span>
-                </>
-              ) : (
-                <>
-                  <span>สร้างแผนและไปขั้นที่ 2</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </>
-              )}
-            </button>
+
+          <div className="header-title-row">
+            <div>
+              <h1 className="header-title">สร้างแผนการจัดการเรียนรู้</h1>
+              <p className="header-subtitle">
+                ออกแบบแผนการสอน 60 นาทีตามเกณฑ์มาตรฐาน ว.PA และหลักสูตรแกนกลาง
+              </p>
+            </div>
+
+            <div className="header-actions">
+              <Link href="/plan/v3" className="apple-btn-secondary">
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>ยกเลิก</span>
+              </Link>
+            </div>
           </div>
         </div>
+      </header>
 
-        {/* ─── Modern Stepper ─── */}
-        <div className="border-t border-slate-100 overflow-x-auto scrollbar-none">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center gap-0">
-            {STEPS_NAV.map((s, idx) => {
-              const isActive = s.num === 1;
-              return (
-                <div
-                  key={s.num}
-                  className={`flex items-center gap-2 py-3 px-3 sm:px-4 border-b-2 font-medium text-xs whitespace-nowrap transition-all ${
-                    isActive
-                      ? 'border-blue-600 text-blue-600 font-bold bg-blue-50/40'
-                      : 'border-transparent text-slate-400'
-                  }`}
-                >
-                  <span
-                    className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                      isActive ? 'bg-blue-600 text-white shadow-xs' : 'bg-slate-200 text-slate-500'
-                    }`}
-                  >
-                    {s.num}
-                  </span>
-                  <span>{s.label}</span>
-                  {idx < STEPS_NAV.length - 1 && (
-                    <span className="w-4 h-px bg-slate-200 ml-2 hidden lg:inline-block" />
-                  )}
-                </div>
-              );
-            })}
-          </div>
+      {/* ─── Main Content Container (PC 2-Column Responsive Layout) ─── */}
+      <main className="new-plan-main">
+        {/* ─── Profile Widget (One-time Setup) ─── */}
+        <div className="mb-6">
+          <TeacherProfileBanner
+            compact
+            onProfileChange={(p) => {
+              setTeacherProfile(p);
+              if (p.defaultSubjectKey && !selectedSubjectKey) {
+                setSelectedSubjectKey(p.defaultSubjectKey);
+                setAiSelectedSubject(p.defaultSubjectKey);
+              }
+              if (p.defaultGrade && !selectedGrade) {
+                setSelectedGrade(p.defaultGrade);
+                setAiSelectedGrade(p.defaultGrade);
+              }
+              if (p.defaultDurationMinutes) setDuration(p.defaultDurationMinutes);
+            }}
+          />
         </div>
-      </div>
 
-      {/* ─── Body Form ─── */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-6">
-        {/* ─── Permanent Teacher & School Profile Banner (ใส่ครั้งเดียว ใช้ทุกแผน) ─── */}
-        <TeacherProfileBanner
-          onProfileChange={(p) => {
-            if (p.defaultSubjectKey && !selectedSubjectKey) setSelectedSubjectKey(p.defaultSubjectKey);
-            if (p.defaultGrade && !selectedGrade) setSelectedGrade(p.defaultGrade);
-            if (p.defaultDurationMinutes) setDuration(p.defaultDurationMinutes);
-          }}
-        />
+        {/* ─── Mode Segmented Control ─── */}
+        <div className="mode-segmented-bar">
+          <button
+            type="button"
+            className={`mode-tab ${creationMode === 'ai' ? 'active' : ''}`}
+            onClick={() => setCreationMode('ai')}
+          >
+            <Sparkles className="w-4 h-4 text-[#0071E3]" />
+            <span className="font-bold">⚡ ผู้ช่วย AI ร่างแผนทันที (แนะนำ - เร็วที่สุด)</span>
+          </button>
+          <button
+            type="button"
+            className={`mode-tab ${creationMode === 'manual' ? 'active' : ''}`}
+            onClick={() => setCreationMode('manual')}
+          >
+            <BookOpen className="w-4 h-4 text-[#86868B]" />
+            <span className="font-semibold">✍️ กำหนดข้อมูลและเลือกตัวชี้วัดเอง</span>
+          </button>
+        </div>
 
-        <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-8">
-          
-          {/* Header intro */}
-          <div className="border-b border-slate-100 pb-5">
-            <h2 className="text-lg font-bold text-slate-900">กำหนดข้อมูลตั้งต้นของแผนการสอน</h2>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
-              ระบุกลุ่มสาระ มาตรฐาน ตัวชี้วัด และลักษณะการเรียนรู้ที่เน้น เพื่อให้ระบบ AI และผู้ช่วยสอนจัดโครงสร้างกิจกรรมและประเมินผลตามเกณฑ์ ว.PA ได้อย่างสอดคล้องที่สุด
-            </p>
+        {error && (
+          <div className="apple-alert-error">
+            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+            <span>{error}</span>
           </div>
+        )}
 
-          {/* ─── Section A: Curriculum & Subject ─── */}
-          <section className="space-y-5">
-            <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
-              <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-                <BookOpen className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-slate-900">1. หลักสูตรและกลุ่มสาระการเรียนรู้</h3>
-                <p className="text-xs text-slate-500">เลือกกลุ่มสาระและระดับชั้นตามหลักสูตรแกนกลาง</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="หลักสูตรแกนกลาง" required>
-                <div className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 font-medium flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>หลักสูตรแกนกลาง พ.ศ. 2551 (ปรับปรุง 2560)</span>
-                </div>
-              </Field>
-
-              <Field label="กลุ่มสาระการเรียนรู้ / วิชา" required>
-                {loadingSubjects ? (
-                  <div className="text-xs text-slate-400 py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 animate-pulse">
-                    กำลังโหลดข้อมูลหลักสูตร...
-                  </div>
-                ) : (
-                  <Select
-                    value={selectedSubjectKey}
-                    onChange={v => setSelectedSubjectKey(v)}
-                    placeholder="— เลือกกลุ่มสาระการเรียนรู้ —"
-                    options={subjects.map(s => ({
-                      value: subjectNameToKey(s.nameTh),
-                      label: s.nameTh,
-                    }))}
-                  />
-                )}
-              </Field>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="ระดับชั้นที่สอน" required>
-                <Select
-                  value={selectedGrade}
-                  onChange={setSelectedGrade}
-                  placeholder="— เลือกระดับชั้น —"
-                  disabled={!selectedSubjectKey || availableGrades.length === 0}
-                  options={availableGrades.map(g => ({ value: g, label: g }))}
-                />
-                {selectedSubjectKey && availableGrades.length === 0 && (
-                  <p className="text-xs text-amber-600 font-medium mt-1">ยังไม่มีข้อมูลหลักสูตรสำหรับวิชานี้</p>
-                )}
-              </Field>
-
-              <Field 
-                label="ลักษณะการเรียนรู้ที่เน้น (Learning Focus)" 
-                required 
-                hint="ระบุเป้าหมายแกนเพื่อปรับรูปแบบกิจกรรมและการประเมินผล"
-              >
-                <Select
-                  value={selectedFocus}
-                  onChange={setSelectedFocus}
-                  placeholder="— เลือกลักษณะการเรียนรู้ —"
-                  disabled={learningFocuses.length === 0}
-                  options={learningFocuses.map(f => ({ value: f.key, label: f.labelTh }))}
-                />
-              </Field>
-            </div>
-
-            {focusGuidance && (
-              <div className="p-3.5 bg-blue-50/70 border border-blue-200/80 rounded-xl text-xs text-blue-900 flex items-start gap-2.5">
-                <Sparkles className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-                <div className="leading-relaxed">
-                  <span className="font-bold text-blue-950">คำแนะนำสำหรับจุดเน้นนี้: </span>
-                  {focusGuidance}
-                </div>
-              </div>
-            )}
-          </section>
-
-          {/* ─── Section B: Standard & Indicators ─── */}
-          {selectedGrade && (
-            <section className="space-y-5 pt-4 border-t border-slate-100">
-              <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
-                <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-                  <Target className="w-4 h-4" />
-                </div>
+        {/* ─── Desktop 2-Column Layout ─── */}
+        <div className="workspace-grid">
+          {/* Left Column: Input Forms */}
+          <div className="workspace-form-col">
+            {creationMode === 'ai' ? (
+              /* ─── AI Fast Mode Workspace ─── */
+              <div className="apple-card p-6 sm:p-8 space-y-6">
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">2. มาตรฐานและตัวชี้วัด (ระหว่างทาง / ปลายทาง)</h3>
-                  <p className="text-xs text-slate-500">ระบบจำแนกตัวชี้วัดระหว่างทางและปลายทางตาม ว1532/2566 โดยอัตโนมัติ</p>
+                  <h2 className="card-heading flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-[#0071E3]" />
+                    <span>ระบุเรื่องที่ต้องการสอน ให้ AI ออกแบบทั้งแผน</span>
+                  </h2>
+                  <p className="card-subheading">
+                    พิมพ์ชื่อเรื่องที่ต้องการสอน หรือคลิกเลือกตัวอย่างด้านล่าง ระบบจะค้นหาตัวชี้วัด กำหนดเป้าหมาย K-P-A และวางแผนกิจกรรมให้ครบในคลิกเดียว
+                  </p>
                 </div>
-              </div>
 
-              <Field label="มาตรฐานการเรียนรู้" required>
-                {loadingStandards ? (
-                  <div className="text-xs text-slate-400 py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 animate-pulse">
-                    กำลังโหลดมาตรฐานการเรียนรู้...
-                  </div>
-                ) : standards.length === 0 ? (
-                  <div className="text-xs text-slate-500 py-2">ไม่พบมาตรฐานสำหรับกลุ่มสาระ/ชั้นนี้</div>
-                ) : (
-                  <Select
-                    value={selectedStandard}
-                    onChange={setSelectedStandard}
-                    placeholder="— เลือกมาตรฐานการเรียนรู้ —"
-                    options={standards.map(s => ({ value: s.code, label: `${s.code} — ${s.text}` }))}
-                  />
-                )}
-              </Field>
-
-              {selectedStandard && (
-                <Field label="ตัวชี้วัด (เลือกตัวชี้วัดที่ตรงกับคาบนี้)">
-                  {/* Indicator Filter Tabs */}
-                  {allIndicators.length > 0 && (
-                    <div className="flex flex-wrap items-center gap-2 mb-3">
-                      <button
-                        type="button"
-                        onClick={() => setIndicatorFilter('ALL')}
-                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
-                          indicatorFilter === 'ALL'
-                            ? 'bg-slate-800 text-white shadow-xs'
-                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                        }`}
-                      >
-                        ทั้งหมด ({allIndicators.length})
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setIndicatorFilter('DURING')}
-                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
-                          indicatorFilter === 'DURING'
-                            ? 'bg-emerald-600 text-white shadow-xs'
-                            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                        }`}
-                      >
-                        <span>🟢 ระหว่างทาง</span>
-                        <span className="opacity-80">({allIndicators.filter(i => i.type === 'during' || !i.type).length})</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setIndicatorFilter('FINAL')}
-                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
-                          indicatorFilter === 'FINAL'
-                            ? 'bg-indigo-600 text-white shadow-xs'
-                            : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
-                        }`}
-                      >
-                        <span>🟣 ปลายทาง</span>
-                        <span className="opacity-80">({allIndicators.filter(i => i.type === 'final').length})</span>
-                      </button>
-                    </div>
-                  )}
-
-                  {loadingIndicators ? (
-                    <div className="text-xs text-slate-400 py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 animate-pulse">
-                      กำลังโหลดตัวชี้วัด...
-                    </div>
-                  ) : filteredIndicators.length === 0 ? (
-                    <div className="text-xs text-slate-500 py-2">ไม่พบตัวชี้วัดในหมวดหมู่นี้</div>
-                  ) : (
-                    <div className="space-y-2 mt-1">
-                      {filteredIndicators.map(ind => {
-                        const isSelected = selectedIndicators.includes(ind.code);
-                        const isSummative = ind.type === 'final';
-                        return (
-                          <label
-                            key={ind.code}
-                            className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-                              isSelected
-                                ? 'bg-blue-50/70 border-blue-400 text-blue-950 shadow-xs ring-1 ring-blue-300'
-                                : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50/60'
-                            }`}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={isSelected}
-                              onChange={() => toggleIndicator(ind.code)}
-                              className="w-4 h-4 mt-0.5 rounded text-blue-600 focus:ring-blue-500 border-slate-300 shrink-0 cursor-pointer accent-blue-600"
-                            />
-                            <div className="text-xs leading-relaxed flex-1">
-                              <div className="flex flex-wrap items-center gap-2 mb-1">
-                                <span className="font-bold text-slate-900">{ind.code}</span>
-                                {isSummative ? (
-                                  <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                                    🟣 ปลายทาง (Summative)
-                                  </span>
-                                ) : (
-                                  <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                    🟢 ระหว่างทาง (Formative)
-                                  </span>
-                                )}
-                              </div>
-                              <span>{ind.text}</span>
-                            </div>
-                          </label>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {/* ─── Custom Indicator Manual Input ─── */}
-                  <div className="pt-2">
-                    {!showCustomInput ? (
-                      <button
-                        type="button"
-                        onClick={() => setShowCustomInput(true)}
-                        className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition flex items-center gap-1.5 py-1"
-                      >
-                        <span>➕ เพิ่มตัวชี้วัด / ผลการเรียนรู้เพิ่มเติมด้วยตนเอง (เขียนเอง)</span>
-                      </button>
-                    ) : (
-                      <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3 mt-2 shadow-inner">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-slate-800">
-                            ✍️ เพิ่มตัวชี้วัดหรือผลการเรียนรู้ด้วยตนเอง
-                          </span>
-                          <span className="text-[11px] text-slate-500">สำหรับรายวิชาเพิ่มเติมหรือหลักสูตรสถานศึกษา</span>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                          <input
-                            type="text"
-                            placeholder="รหัส เช่น ต 1.1 ม.4/1 หรือ ผลการเรียนรู้ข้อ 1"
-                            value={customCode}
-                            onChange={e => setCustomCode(e.target.value)}
-                            className="px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600"
-                          />
-                          <input
-                            type="text"
-                            placeholder="ข้อความระบุพฤติกรรม/เนื้อหาตัวชี้วัด"
-                            value={customText}
-                            onChange={e => setCustomText(e.target.value)}
-                            className="sm:col-span-2 px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600"
-                          />
-                        </div>
-                        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs text-slate-600">ประเภท:</span>
-                            <select
-                              value={customType}
-                              onChange={e => setCustomType(e.target.value as 'during' | 'final')}
-                              className="px-2.5 py-1.5 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600"
-                            >
-                              <option value="during">🟢 ตัวชี้วัดระหว่างทาง (Formative)</option>
-                              <option value="final">🟣 ตัวชี้วัดปลายทาง (Summative)</option>
-                            </select>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={() => setShowCustomInput(false)}
-                              className="px-3 py-1.5 text-xs text-slate-600 hover:text-slate-800 font-medium"
-                            >
-                              ยกเลิก
-                            </button>
-                            <button
-                              type="button"
-                              onClick={handleAddCustomIndicator}
-                              className="px-4 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-xs"
-                            >
-                              เพิ่มตัวชี้วัดนี้
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {selectedIndicators.length > 3 && (
-                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-center gap-2 mt-2">
-                      <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
-                      <span>เลือกตัวชี้วัดมากกว่า 3 ข้อ อาจทำให้กิจกรรมในคาบเรียน 1 ชั่วโมงแน่นเกินไป</span>
-                    </div>
-                  )}
-                </Field>
-              )}
-            </section>
-          )}
-
-          {/* ─── Section C: Lesson Info ─── */}
-          <section className="space-y-5 pt-4 border-t border-slate-100">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center font-bold">
-                  <FileText className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-slate-900">3. รายละเอียดแผนการสอน</h3>
-                  <p className="text-xs text-slate-500">หัวข้อ เวลาสอน และบริบทของนักเรียน</p>
-                </div>
-              </div>
-
-              {selectedSubjectKey && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (selectedSubjectKey === 'ENGLISH') {
-                      setTopic('How to use the Present Progressive Tense');
-                      setUnitRef('Unit 1: Life stages');
-                      setStudentContext('ชั้น ม.4 จำนวน 36 คน ระดับภาษาคละความสามารถ (A2–B1) เน้นกระบวนการ Active Learning');
-                    } else if (selectedSubjectKey === 'MATHEMATICS') {
-                      setTopic('การแก้โจทย์ปัญหาสมการเชิงเส้นตัวแปรเดียว');
-                      setUnitRef('หน่วยการเรียนรู้ที่ 2: สมการเชิงเส้น');
-                      setStudentContext('ห้องเรียนปกติ 38 คน มีทั้งกลุ่มที่เข้าใจเร็วและกลุ่มที่ต้องการการฝึกขั้นตอนวิธี');
-                    } else if (selectedSubjectKey === 'SCIENCE') {
-                      setTopic('การสังเคราะห์ด้วยแสงและการทดสอบแป้งในใบพืช');
-                      setUnitRef('หน่วยการเรียนรู้ที่ 3: การดำรงชีวิตของพืช');
-                      setStudentContext('ห้องเรียน 35 คน แบ่งกลุ่มปฏิบัติการทดลองกลุ่มละ 5 คน');
-                    } else {
-                      setTopic('การเรียนรู้และการนำไปใช้ในชีวิตประจำวัน');
-                      setUnitRef('หน่วยการเรียนรู้ที่ 1');
-                      setStudentContext('ห้องเรียนปกติ 35-40 คน จัดการเรียนรู้แบบ Active Learning');
-                    }
-                    setDuration(60);
-                  }}
-                  className="v3-btn v3-btn-ai text-xs"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>เติมตัวอย่างแผน PA อ้างอิง</span>
-                </button>
-              )}
-            </div>
-
-            <Field label="ชื่อเรื่อง / หัวข้อการสอน (Topic)" required hint="ชื่อบทเรียนที่ระบุในแผนการจัดการเรียนรู้ เช่น 'How to use the Present Progressive Tense'">
-              <input
-                className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
-                value={topic}
-                onChange={e => setTopic(e.target.value)}
-                placeholder="เช่น How to use the Present Progressive Tense, Talking about Jobs, สมการเชิงเส้น"
-                maxLength={200}
-              />
-
-              {/* Quick Topic Chips */}
-              {selectedSubjectKey && (
-                <div className="mt-2 flex flex-wrap gap-1.5 items-center">
-                  <span className="text-[11px] font-semibold text-slate-500 mr-1">💡 หัวข้อแนะนำตามแผนจริง:</span>
-                  {(selectedSubjectKey === 'ENGLISH'
-                    ? [
-                        'How to use the Present Progressive Tense',
-                        'Life stages & Daily routines',
-                        'Jobs & Career Aspirations',
-                        'Giving Directions in School',
-                        'Past Simple Tense in Storytelling',
-                        'Food & Ordering in Restaurants'
-                      ]
-                    : selectedSubjectKey === 'MATHEMATICS'
-                    ? ['การแก้โจทย์ปัญหาสมการเชิงเส้น', 'การหาพื้นที่รูปเรขาคณิต', 'อัตราส่วนและร้อยละ', 'การบวกและการลบเศษส่วน']
-                    : selectedSubjectKey === 'SCIENCE'
-                    ? ['การสังเคราะห์ด้วยแสง', 'แรงเสียดทานและการเคลื่อนที่', 'ระบบนิเวศและห่วงโซ่อาหาร', 'การแยกสารเนื้อผสม']
-                    : ['การอ่านจับใจความสำคัญ', 'การทำงานร่วมกันเป็นทีม', 'การประยุกต์ใช้ในชีวิตประจำวัน']
-                  ).map(t => (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setTopic(t)}
-                      className={`text-xs px-2.5 py-1 rounded-full border transition-all cursor-pointer font-medium ${
-                        topic === t
-                          ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 hover:text-blue-700'
-                      }`}
-                    >
-                      {t}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </Field>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="หน่วยการเรียนรู้ (Unit)">
-                <input
-                  className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
-                  value={unitRef}
-                  onChange={e => setUnitRef(e.target.value)}
-                  placeholder="เช่น หน่วยการเรียนรู้ที่ 2"
-                />
-              </Field>
-
-              <Field label="ระยะเวลาสอน (นาที)" required>
-                <div className="flex items-center gap-2">
+                <div className="space-y-2">
+                  <label className="input-label">ชื่อเรื่อง หรือ เนื้อหาที่ต้องการสอน *</label>
                   <input
-                    type="number"
-                    value={duration}
-                    onChange={e => setDuration(Math.max(1, Number(e.target.value)))}
-                    min={1}
-                    step={5}
-                    className="w-20 px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm font-semibold text-slate-900 text-center transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs"
+                    type="text"
+                    value={aiPrompt}
+                    onChange={(e) => {
+                      setAiPrompt(e.target.value);
+                      setTopic(e.target.value);
+                    }}
+                    placeholder="เช่น How to use the Present Progressive Tense, การแก้สมการเชิงเส้น, การสังเคราะห์ด้วยแสง..."
+                    className="apple-input-hero"
+                    disabled={aiGenerating}
                   />
-                  <div className="flex gap-1.5 flex-wrap">
-                    {[50, 60, 100, 120].map(m => (
+                </div>
+
+                {/* Subject & Grade quick selectors */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="input-label">กลุ่มสาระ / วิชา (ถ้าต้องการระบุ)</label>
+                    <select
+                      value={aiSelectedSubject}
+                      onChange={(e) => setAiSelectedSubject(e.target.value)}
+                      className="apple-select"
+                      disabled={aiGenerating}
+                    >
+                      <option value="">— ให้ AI ตรวจจับจากหัวข้ออัตโนมัติ —</option>
+                      {subjects.map(s => (
+                        <option key={s.subjectKey} value={subjectNameToKey(s.nameTh)}>
+                          {s.nameTh}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="input-label">ระดับชั้น</label>
+                    <select
+                      value={aiSelectedGrade}
+                      onChange={(e) => setAiSelectedGrade(e.target.value)}
+                      className="apple-select"
+                      disabled={aiGenerating}
+                    >
+                      <option value="">— ให้ AI แนะนำตามความเหมาะสม —</option>
+                      {['ป.1', 'ป.2', 'ป.3', 'ป.4', 'ป.5', 'ป.6', 'ม.1', 'ม.2', 'ม.3', 'ม.4', 'ม.5', 'ม.6'].map(g => (
+                        <option key={g} value={g}>{g}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* 1-Click Fast Presets */}
+                <div className="space-y-2.5 pt-2 border-t border-slate-100">
+                  <span className="text-xs font-semibold text-[#86868B] block">
+                    💡 หรือคลิกเลือกตัวอย่างแผนจริงที่ครูใช้สอนบ่อย:
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {PRESET_PLANS.map((preset, idx) => (
                       <button
-                        key={m}
+                        key={idx}
                         type="button"
-                        onClick={() => setDuration(m)}
-                        className={`text-xs px-2.5 py-1.5 rounded-lg border font-semibold transition-all cursor-pointer ${
-                          duration === m
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                            : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-                        }`}
+                        onClick={() => {
+                          setAiPrompt(preset.topic);
+                          setTopic(preset.topic);
+                          setAiSelectedSubject(preset.subjectKey);
+                          setAiSelectedGrade(preset.grade);
+                        }}
+                        className={`preset-card text-left ${aiPrompt === preset.topic ? 'selected' : ''}`}
+                        disabled={aiGenerating}
                       >
-                        {m} นาที
+                        <div className="font-bold text-xs text-[#1D1D1F]">{preset.label}</div>
+                        <div className="text-[11px] text-[#86868B] mt-0.5 line-clamp-1">{preset.desc}</div>
                       </button>
                     ))}
                   </div>
                 </div>
-              </Field>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Field label="ชื่อรายวิชา">
-                <input
-                  className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
-                  value={courseName}
-                  onChange={e => setCourseName(e.target.value)}
-                  placeholder="เช่น ภาษาอังกฤษพื้นฐาน"
-                />
-              </Field>
+                {/* AI Progress Box during generation */}
+                {aiGenerating && (
+                  <div className="ai-generation-box">
+                    <div className="flex items-center gap-3">
+                      <div className="apple-spinner-blue" />
+                      <div>
+                        <div className="font-bold text-sm text-[#0071E3]">
+                          {aiProgressStep === 1 && '1/3 กำลังวิเคราะห์มาตรฐานและตัวชี้วัด...'}
+                          {aiProgressStep === 2 && '2/3 กำหนดเป้าหมาย K-P-A และหลักฐานการเรียนรู้...'}
+                          {aiProgressStep === 3 && '3/3 วางโครงสร้างกิจกรรมการสอน 60 นาที (Active Learning)...'}
+                          {aiProgressStep >= 4 && '✨ เสร็จสิ้น! กำลังเปิดหน้าแผนการสอน...'}
+                        </div>
+                        <div className="text-xs text-slate-500 mt-0.5">ใช้เวลาประมาณ 3–5 วินาที</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
-              <Field label="รหัสวิชา">
-                <input
-                  className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
-                  value={courseCode}
-                  onChange={e => setCourseCode(e.target.value)}
-                  placeholder="เช่น อ21101"
-                />
-              </Field>
-
-              <Field label="วันที่สอน">
-                <input
-                  type="date"
-                  value={teachingDate}
-                  onChange={e => setTeachingDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs"
-                />
-              </Field>
-            </div>
-
-            <Field label="บริบทผู้เรียนและห้องเรียน" hint="ช่วยให้ระบบปรับระดับความยากและกิจกรรมให้เหมาะสมกับผู้เรียนจริง">
-              <textarea
-                className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-normal transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400 min-h-[75px] resize-y"
-                value={studentContext}
-                onChange={e => setStudentContext(e.target.value)}
-                placeholder="เช่น ห้อง ม.1/2 จำนวน 36 คน ทักษะภาษาคละความสามารถ เน้นกิจกรรมกลุ่มและมีจอ Smart TV"
-                rows={2}
-              />
-
-              {/* Quick Context Chips */}
-              <div className="mt-2 flex flex-wrap gap-1.5 items-center">
-                <span className="text-[11px] font-semibold text-slate-500 mr-1">💡 เติมบริบท:</span>
-                {[
-                  'ชั้นเรียนปกติ (35–40 คน)',
-                  'ห้องเรียนคละความสามารถ (Mixed-Ability)',
-                  'เน้นการทำงานกลุ่มและฝึกปฏิบัติการ',
-                  'มีอุปกรณ์ ICT และจอแสดงผล',
-                  'ห้องเรียนขนาดเล็ก (ไม่เกิน 25 คน)',
-                ].map(c => (
+                {/* Primary AI Submit Button */}
+                <div className="pt-2">
                   <button
-                    key={c}
                     type="button"
-                    onClick={() => {
-                      setStudentContext(prev => prev ? `${prev}; ${c}` : c);
-                    }}
-                    className="text-xs px-2.5 py-1 rounded-lg border border-slate-200 bg-slate-50 hover:bg-blue-50/50 hover:border-blue-300 text-slate-600 hover:text-blue-700 transition cursor-pointer font-medium"
-                    title="คลิกเพื่อต่อท้ายข้อความ"
+                    onClick={() => handleAiFastGenerate()}
+                    disabled={!aiPrompt.trim() || aiGenerating}
+                    className="apple-btn-hero w-full"
                   >
-                    + {c}
+                    {aiGenerating ? (
+                      <>
+                        <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                        <span>กำลังประมวลผลด้วย AI...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4" />
+                        <span>✨ ออกแบบแผนการสอนด้วย AI ในคลิกเดียว</span>
+                      </>
+                    )}
                   </button>
-                ))}
+                </div>
               </div>
-            </Field>
-          </section>
+            ) : (
+              /* ─── Manual Mode Workspace ─── */
+              <div className="apple-card p-6 sm:p-8 space-y-6">
+                <div>
+                  <h2 className="card-heading flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-[#0071E3]" />
+                    <span>กำหนดข้อมูลและตัวชี้วัดหลักสูตรแกนกลาง</span>
+                  </h2>
+                  <p className="card-subheading">
+                    เลือกกลุ่มสาระ มาตรฐานการเรียนรู้ และตัวชี้วัดตามหลักสูตรแกนกลาง 2551 (ปรับปรุง 2560)
+                  </p>
+                </div>
 
-          {/* ─── Error Notification ─── */}
-          {error && (
-            <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-sm flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
-              <span>{error}</span>
+                {/* Subject & Grade */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="input-label">กลุ่มสาระการเรียนรู้ / วิชา *</label>
+                    <select
+                      value={selectedSubjectKey}
+                      onChange={(e) => setSelectedSubjectKey(e.target.value)}
+                      className="apple-select"
+                    >
+                      <option value="">— เลือกกลุ่มสาระ —</option>
+                      {subjects.map(s => (
+                        <option key={s.subjectKey} value={subjectNameToKey(s.nameTh)}>
+                          {s.nameTh}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="input-label">ระดับชั้นที่สอน *</label>
+                    <select
+                      value={selectedGrade}
+                      onChange={(e) => setSelectedGrade(e.target.value)}
+                      className="apple-select"
+                      disabled={!selectedSubjectKey}
+                    >
+                      <option value="">— เลือกระดับชั้น —</option>
+                      {availableGrades.map(g => (
+                        <option key={g} value={g}>{g}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Topic & Duration */}
+                <div className="space-y-4 pt-2 border-t border-slate-100">
+                  <div>
+                    <label className="input-label">ชื่อเรื่อง / หัวข้อบทเรียน (Topic) *</label>
+                    <input
+                      type="text"
+                      value={topic}
+                      onChange={(e) => setTopic(e.target.value)}
+                      placeholder="เช่น Present Continuous Tense, การแก้สมการเชิงเส้น..."
+                      className="apple-input"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="input-label">เวลาสอน (นาที) *</label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          value={duration}
+                          onChange={(e) => setDuration(Math.max(1, Number(e.target.value)))}
+                          className="apple-input w-24 text-center font-bold"
+                        />
+                        <div className="flex gap-1.5">
+                          {[50, 60, 100].map(m => (
+                            <button
+                              key={m}
+                              type="button"
+                              onClick={() => setDuration(m)}
+                              className={`pill-time-btn ${duration === m ? 'active' : ''}`}
+                            >
+                              {m}น.
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="input-label">จุดเน้นการเรียนรู้</label>
+                      <select
+                        value={selectedFocus}
+                        onChange={(e) => setSelectedFocus(e.target.value)}
+                        className="apple-select"
+                        disabled={learningFocuses.length === 0}
+                      >
+                        {learningFocuses.map(f => (
+                          <option key={f.key} value={f.key}>{f.labelTh}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Standards & Indicators */}
+                {selectedGrade && (
+                  <div className="space-y-3 pt-2 border-t border-slate-100">
+                    <div>
+                      <label className="input-label">มาตรฐานการเรียนรู้</label>
+                      <select
+                        value={selectedStandard}
+                        onChange={(e) => setSelectedStandard(e.target.value)}
+                        className="apple-select"
+                      >
+                        <option value="">— เลือกมาตรฐานการเรียนรู้ —</option>
+                        {standards.map(s => (
+                          <option key={s.code} value={s.code}>{s.code} — {s.text}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {selectedStandard && (
+                      <div>
+                        <label className="input-label">ตัวชี้วัดในคาบนี้ (เลือก 1–2 ข้อ)</label>
+                        <div className="space-y-2 mt-1 max-h-56 overflow-y-auto pr-1">
+                          {indicators.map(ind => {
+                            const isSelected = selectedIndicators.includes(ind.code);
+                            return (
+                              <label
+                                key={ind.code}
+                                className={`indicator-choice-card ${isSelected ? 'selected' : ''}`}
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={isSelected}
+                                  onChange={() => toggleIndicator(ind.code)}
+                                  className="w-4 h-4 text-[#0071E3] rounded border-slate-300 accent-[#0071E3]"
+                                />
+                                <div className="text-xs flex-1">
+                                  <span className="font-bold text-[#1D1D1F] mr-2">{ind.code}</span>
+                                  <span className="text-slate-600">{ind.text}</span>
+                                </div>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="pt-4 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={handleManualSubmit}
+                    disabled={!canSubmitManual || submitting}
+                    className="apple-btn-hero w-full"
+                  >
+                    {submitting ? (
+                      <span>กำลังบันทึกข้อมูล...</span>
+                    ) : (
+                      <>
+                        <span>บันทึกและไปกำหนดเป้าหมาย (ขั้นที่ 2)</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Column: Live Interactive Plan Card (Desktop Preview) */}
+          <div className="workspace-preview-col">
+            <div className="sticky-preview-wrapper">
+              <div className="apple-preview-card">
+                <div className="preview-card-header">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#0071E3] animate-pulse" />
+                    <span className="preview-header-label">ตัวอย่างโครงสร้างแผนจริง (Live Preview)</span>
+                  </div>
+                  <span className="preview-status-pill">พร้อมสร้าง</span>
+                </div>
+
+                <div className="preview-card-body">
+                  <div className="preview-topic-block">
+                    <span className="preview-label">หัวข้อการจัดการเรียนรู้</span>
+                    <h3 className="preview-topic-title">{activeTopicDisplay}</h3>
+                  </div>
+
+                  <div className="preview-meta-grid">
+                    <div className="meta-box">
+                      <span className="meta-lbl">กลุ่มสาระการเรียนรู้</span>
+                      <span className="meta-val">{activeSubjectDisplay}</span>
+                    </div>
+                    <div className="meta-box">
+                      <span className="meta-lbl">ระดับชั้น</span>
+                      <span className="meta-val">{activeGradeDisplay}</span>
+                    </div>
+                    <div className="meta-box">
+                      <span className="meta-lbl">เวลาคาบเรียน</span>
+                      <span className="meta-val">{duration} นาที</span>
+                    </div>
+                    <div className="meta-box">
+                      <span className="meta-lbl">เกณฑ์มาตรฐาน</span>
+                      <span className="meta-val">ว.PA (PA-Ready)</span>
+                    </div>
+                  </div>
+
+                  {/* Teacher Information Summary */}
+                  <div className="preview-teacher-section">
+                    <div className="flex items-center gap-2 text-xs text-[#86868B]">
+                      <User className="w-3.5 h-3.5 text-[#0071E3]" />
+                      <span>ครูผู้สอน: </span>
+                      <strong className="text-[#1D1D1F]">{teacherProfile?.teacherName || 'ครูผู้สอน'}</strong>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-[#86868B] mt-1">
+                      <School className="w-3.5 h-3.5 text-[#0071E3]" />
+                      <span>สถานศึกษา: </span>
+                      <strong className="text-[#1D1D1F]">{teacherProfile?.schoolName || 'โรงเรียน'}</strong>
+                    </div>
+                  </div>
+
+                  {/* Features Guarantee Badges */}
+                  <div className="preview-badges-list">
+                    <div className="badge-item">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span>จุดประสงค์ K-P-A ครบ 3 ด้านตามเกณฑ์ ศธ.</span>
+                    </div>
+                    <div className="badge-item">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span>ไทม์ไลน์กิจกรรม Active Learning 5 ขั้น</span>
+                    </div>
+                    <div className="badge-item">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span>พร้อมส่งออกเอกสาร Word (Sarabun) และ PDF</span>
+                    </div>
+                  </div>
+
+                  {/* Desktop Quick Action */}
+                  <div className="pt-4 mt-4 border-t border-slate-100">
+                    {creationMode === 'ai' ? (
+                      <button
+                        type="button"
+                        onClick={() => handleAiFastGenerate()}
+                        disabled={!aiPrompt.trim() || aiGenerating}
+                        className="apple-btn-primary w-full shadow-sm"
+                      >
+                        <Wand2 className="w-4 h-4" />
+                        <span>เริ่มสร้างแผนด้วย AI ทันที</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleManualSubmit}
+                        disabled={!canSubmitManual || submitting}
+                        className="apple-btn-primary w-full shadow-sm"
+                      >
+                        <span>สร้างแผนและเริ่มกำหนดเป้าหมาย →</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-
-          {/* ─── Bottom Actions ─── */}
-          <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-4">
-            <button
-              type="button"
-              onClick={() => router.push('/plan/v3')}
-              className="v3-btn v3-btn-secondary"
-              disabled={submitting}
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>ยกเลิก</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={!canSubmit || submitting}
-              className="v3-btn v3-btn-primary shadow-md px-6 py-2.5"
-            >
-              {submitting ? (
-                <>
-                  <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                  <span>กำลังสร้างแผน...</span>
-                </>
-              ) : (
-                <>
-                  <span>บันทึกและไปขั้นที่ 2 (กำหนดเป้าหมาย)</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
           </div>
         </div>
       </main>
+
+      <style jsx>{`
+        /* ─── Apple Design Tokens & Typography ─── */
+        .new-plan-page {
+          min-height: 100vh;
+          background: #F5F5F7;
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Sarabun", "Helvetica Neue", sans-serif;
+          color: #1D1D1F;
+          padding-bottom: 5rem;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── Frosted Header ─── */
+        .new-plan-header {
+          background: rgba(255, 255, 255, 0.88);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+          position: sticky;
+          top: 0;
+          z-index: 30;
+          padding: 1rem 1.5rem;
+        }
+        .header-inner {
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+        .header-breadcrumbs {
+          display: flex;
+          align-items: center;
+          gap: 0.35rem;
+          font-size: 0.75rem;
+          color: #86868B;
+          margin-bottom: 0.4rem;
+        }
+        .crumb-link {
+          color: #86868B;
+          text-decoration: none;
+        }
+        .crumb-link:hover {
+          color: #0071E3;
+        }
+        .crumb-current {
+          color: #1D1D1F;
+          font-weight: 600;
+        }
+        .header-title-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        .header-title {
+          font-size: 1.4rem;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          margin: 0;
+          color: #1D1D1F;
+        }
+        .header-subtitle {
+          font-size: 0.8rem;
+          color: #86868B;
+          margin: 0.2rem 0 0;
+        }
+
+        /* ─── Workspace Layout ─── */
+        .new-plan-main {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 1.5rem 1.5rem 0;
+        }
+
+        /* ─── Mode Segmented Control ─── */
+        .mode-segmented-bar {
+          display: flex;
+          background: #E5E5EA;
+          padding: 4px;
+          border-radius: 14px;
+          margin-bottom: 1.5rem;
+          gap: 4px;
+        }
+        .mode-tab {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          padding: 0.65rem 1rem;
+          border-radius: 11px;
+          border: none;
+          background: transparent;
+          font-size: 0.85rem;
+          color: #48484A;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mode-tab.active {
+          background: #FFFFFF;
+          color: #1D1D1F;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ─── 2-Column Desktop Grid ─── */
+        .workspace-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        @media (min-width: 1024px) {
+          .workspace-grid {
+            grid-template-columns: 7fr 5fr;
+            gap: 1.75rem;
+          }
+        }
+
+        /* ─── Apple Cards ─── */
+        .apple-card {
+          background: #FFFFFF;
+          border-radius: 24px;
+          border: 1px solid rgba(0, 0, 0, 0.06);
+          box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+        }
+        .card-heading {
+          font-size: 1.1rem;
+          font-weight: 800;
+          color: #1D1D1F;
+          margin: 0 0 0.35rem;
+          letter-spacing: -0.015em;
+        }
+        .card-subheading {
+          font-size: 0.8rem;
+          color: #86868B;
+          margin: 0;
+          line-height: 1.45;
+        }
+
+        /* ─── Apple Form Inputs ─── */
+        .input-label {
+          display: block;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #1D1D1F;
+          margin-bottom: 0.35rem;
+        }
+        .apple-input-hero {
+          width: 100%;
+          padding: 0.85rem 1rem;
+          font-size: 0.95rem;
+          font-weight: 500;
+          color: #1D1D1F;
+          background: #FFFFFF;
+          border: 1.5px solid rgba(0, 0, 0, 0.12);
+          border-radius: 14px;
+          outline: none;
+          transition: all 0.2s ease;
+        }
+        .apple-input-hero:focus {
+          border-color: #0071E3;
+          box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
+        }
+        .apple-input {
+          width: 100%;
+          padding: 0.65rem 0.85rem;
+          font-size: 0.85rem;
+          font-weight: 500;
+          color: #1D1D1F;
+          background: #FFFFFF;
+          border: 1px solid rgba(0, 0, 0, 0.12);
+          border-radius: 12px;
+          outline: none;
+          transition: all 0.2s ease;
+        }
+        .apple-input:focus {
+          border-color: #0071E3;
+          box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+        }
+        .apple-select {
+          width: 100%;
+          padding: 0.65rem 0.85rem;
+          font-size: 0.85rem;
+          font-weight: 500;
+          color: #1D1D1F;
+          background: #FFFFFF;
+          border: 1px solid rgba(0, 0, 0, 0.12);
+          border-radius: 12px;
+          outline: none;
+          cursor: pointer;
+        }
+        .apple-select:focus {
+          border-color: #0071E3;
+          box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+        }
+
+        /* ─── Preset Cards ─── */
+        .preset-card {
+          background: #F5F5F7;
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          border-radius: 12px;
+          padding: 0.75rem 0.85rem;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+        .preset-card:hover {
+          background: #EBF4FE;
+          border-color: rgba(0, 113, 227, 0.3);
+        }
+        .preset-card.selected {
+          background: #EFF6FF;
+          border-color: #0071E3;
+          box-shadow: 0 0 0 1px #0071E3;
+        }
+
+        /* ─── Time Pill Buttons ─── */
+        .pill-time-btn {
+          padding: 0.45rem 0.7rem;
+          border-radius: 10px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          background: #FFFFFF;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #48484A;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+        .pill-time-btn:hover {
+          border-color: #0071E3;
+          color: #0071E3;
+        }
+        .pill-time-btn.active {
+          background: #0071E3;
+          color: #FFFFFF;
+          border-color: #0071E3;
+        }
+
+        /* ─── Indicator Choice Card ─── */
+        .indicator-choice-card {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          padding: 0.65rem 0.85rem;
+          border-radius: 12px;
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          background: #FAFAFA;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+        .indicator-choice-card:hover {
+          background: #FFFFFF;
+          border-color: #0071E3;
+        }
+        .indicator-choice-card.selected {
+          background: #EFF6FF;
+          border-color: #0071E3;
+        }
+
+        /* ─── Buttons ─── */
+        .apple-btn-hero {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          background: #0071E3;
+          color: #FFFFFF;
+          font-size: 0.95rem;
+          font-weight: 700;
+          padding: 0.85rem 1.5rem;
+          border-radius: 980px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 14px rgba(0, 113, 227, 0.25);
+        }
+        .apple-btn-hero:hover:not(:disabled) {
+          background: #0077ED;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35);
+        }
+        .apple-btn-hero:active:not(:disabled) {
+          transform: scale(0.98);
+        }
+        .apple-btn-hero:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          box-shadow: none;
+        }
+        .apple-btn-primary {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          background: #0071E3;
+          color: #FFFFFF;
+          font-size: 0.85rem;
+          font-weight: 700;
+          padding: 0.7rem 1.25rem;
+          border-radius: 980px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+        .apple-btn-primary:hover:not(:disabled) {
+          background: #0077ED;
+        }
+        .apple-btn-secondary {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          background: rgba(0, 0, 0, 0.04);
+          color: #1D1D1F;
+          font-size: 0.8rem;
+          font-weight: 600;
+          padding: 0.5rem 0.95rem;
+          border-radius: 980px;
+          text-decoration: none;
+          transition: all 0.15s ease;
+        }
+        .apple-btn-secondary:hover {
+          background: rgba(0, 0, 0, 0.08);
+        }
+
+        /* ─── Right Column Sticky Preview ─── */
+        .sticky-preview-wrapper {
+          position: sticky;
+          top: 5.5rem;
+        }
+        .apple-preview-card {
+          background: #FFFFFF;
+          border-radius: 24px;
+          border: 1px solid rgba(0, 0, 0, 0.06);
+          box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.04);
+          padding: 1.5rem;
+        }
+        .preview-card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-bottom: 0.85rem;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .preview-header-label {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #1D1D1F;
+        }
+        .preview-status-pill {
+          font-size: 0.7rem;
+          font-weight: 700;
+          background: #ECFDF5;
+          color: #047857;
+          padding: 0.15rem 0.55rem;
+          border-radius: 980px;
+          border: 1px solid #A7F3D0;
+        }
+        .preview-topic-block {
+          padding: 1rem 0;
+        }
+        .preview-label {
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: #86868B;
+          display: block;
+          margin-bottom: 0.25rem;
+        }
+        .preview-topic-title {
+          font-size: 1.15rem;
+          font-weight: 800;
+          color: #1D1D1F;
+          line-height: 1.35;
+          margin: 0;
+        }
+        .preview-meta-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+        .meta-box {
+          background: #F5F5F7;
+          border-radius: 12px;
+          padding: 0.65rem 0.85rem;
+        }
+        .meta-lbl {
+          font-size: 0.675rem;
+          font-weight: 600;
+          color: #86868B;
+          display: block;
+        }
+        .meta-val {
+          font-size: 0.825rem;
+          font-weight: 700;
+          color: #1D1D1F;
+          margin-top: 0.15rem;
+          display: block;
+        }
+        .preview-teacher-section {
+          background: rgba(0, 113, 227, 0.04);
+          border: 1px solid rgba(0, 113, 227, 0.12);
+          border-radius: 14px;
+          padding: 0.75rem 0.95rem;
+          margin-bottom: 1rem;
+        }
+        .preview-badges-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+        }
+        .badge-item {
+          display: flex;
+          align-items: center;
+          gap: 0.45rem;
+          font-size: 0.75rem;
+          color: #48484A;
+        }
+
+        /* ─── AI Generation Banner ─── */
+        .ai-generation-box {
+          background: #EFF6FF;
+          border: 1px solid #BFDBFE;
+          border-radius: 16px;
+          padding: 1rem 1.25rem;
+        }
+        .apple-spinner-blue {
+          width: 24px;
+          height: 24px;
+          border: 2.5px solid rgba(0, 113, 227, 0.15);
+          border-top-color: #0071E3;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+
+        .apple-alert-error {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: #FFF1F2;
+          border: 1px solid #FECDD3;
+          color: #BE123C;
+          padding: 0.75rem 1rem;
+          border-radius: 14px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          margin-bottom: 1.25rem;
+        }
+      `}</style>
     </div>
   );
 }

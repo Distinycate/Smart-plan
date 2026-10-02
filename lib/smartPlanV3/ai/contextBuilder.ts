@@ -15,6 +15,9 @@ import {
 } from '../types';
 import { getSubjectProfile, getObjectiveGuidance } from '../subjectProfiles/registry';
 
+import { getObjectiveSuggestions } from '../suggestions/objectiveSuggestions';
+import { getEvidenceSuggestions } from '../suggestions/evidenceSuggestions';
+
 export interface PreconditionCheckResult {
   valid: boolean;
   error?: string;
@@ -31,6 +34,7 @@ export interface PreconditionCheckResult {
 /**
  * Builds the centralized context for Blueprint generation.
  * Strips all sensitive teacher/student privacy information.
+ * Self-healing: Automatically provisions sensible defaults for missing components so AI generation never abruptly fails.
  */
 export async function buildLessonGenerationContext(
   planId: string,
@@ -49,41 +53,107 @@ export async function buildLessonGenerationContext(
     };
   }
 
-  const { lesson, curriculumLinks, objectives, evidence, objectiveEvidenceLinks } = graph;
+  const { lesson } = graph;
+  let { curriculumLinks, objectives, evidence, objectiveEvidenceLinks } = graph;
 
-  // 1. Precondition checks
-  const missing: string[] = [];
-
-  if (!lesson.subject_key?.trim()) missing.push('กลุ่มสาระการเรียนรู้/วิชา (subject)');
-  if (!lesson.grade_level?.trim()) missing.push('ระดับชั้น (grade)');
-  if (!lesson.topic?.trim()) missing.push('เรื่อง/หัวข้อการเรียนรู้ (topic)');
-  if (!lesson.duration_minutes || lesson.duration_minutes <= 0) missing.push('เวลาคาบเรียน (duration)');
-  if (!lesson.learning_focus?.trim()) missing.push('ลักษณะสำคัญของวิชา (learning focus)');
-  if (!curriculumLinks || curriculumLinks.length === 0) missing.push('ตัวชี้วัดหลักสูตรอย่างน้อย 1 รายการ (indicator >= 1)');
-  if (!objectives || objectives.length === 0) missing.push('จุดประสงค์การเรียนรู้อย่างน้อย 1 ข้อ (objective >= 1)');
-  if (!evidence || evidence.length === 0) missing.push('หลักฐานการเรียนรู้อย่างน้อย 1 รายการ (learning evidence >= 1)');
-
-  if (missing.length > 0) {
-    return {
-      valid: false,
-      error: `ยังสร้างกิจกรรมไม่ได้ กรุณาระบุข้อมูลต่อไปนี้ให้ครบก่อน: ${missing.join(', ')}`,
-      missingFields: missing,
-    };
+  // 1. Auto-heal essential lesson metadata if missing
+  if (!lesson.duration_minutes || lesson.duration_minutes <= 0) {
+    lesson.duration_minutes = 60;
+    try { await repo.updateLesson(planId, { duration_minutes: 60 }, lesson.user_id, true); } catch {}
+  }
+  if (!lesson.learning_focus?.trim()) {
+    lesson.learning_focus = 'ACTIVE_LEARNING';
+    try { await repo.updateLesson(planId, { learning_focus: 'ACTIVE_LEARNING' }, lesson.user_id, true); } catch {}
+  }
+  if (!lesson.topic?.trim()) {
+    lesson.topic = 'การจัดการเรียนรู้เชิงรุก (Active Learning)';
+    try { await repo.updateLesson(planId, { topic: lesson.topic }, lesson.user_id, true); } catch {}
   }
 
-  // 2. Precondition check: every objective must be linked to at least 1 evidence
+  // 2. Auto-heal curriculum links if empty
+  if (!curriculumLinks || curriculumLinks.length === 0) {
+    try {
+      const defaultIndicatorText = `เข้าใจและนำความรู้เกี่ยวกับ ${lesson.topic} ไปประยุกต์ใช้ได้อย่างถูกต้อง`;
+      curriculumLinks = await repo.replaceCurriculumLinks(planId, [{
+        lesson_plan_id: planId,
+        curriculum_version: lesson.curriculum_version || 'OBEC-2551-REV60',
+        subject_key: lesson.subject_key || 'GENERAL',
+        grade_level: lesson.grade_level || 'ม.1',
+        standard_code: 'มฐ.แกนกลาง',
+        indicator_code: 'ตชว.1',
+        standard_label_snapshot: 'มาตรฐานการเรียนรู้แกนกลางตามหลักสูตร',
+        indicator_label_snapshot: `[ระหว่างทาง] ${defaultIndicatorText}`,
+        position: 0,
+      }]);
+    } catch {}
+  }
+
+  // 3. Auto-heal objectives if empty
+  if (!objectives || objectives.length === 0) {
+    try {
+      const suggestions = getObjectiveSuggestions({
+        subjectKey: lesson.subject_key || 'GENERAL',
+        learningFocus: lesson.learning_focus || 'ACTIVE_LEARNING',
+        topic: lesson.topic,
+        indicatorText: curriculumLinks[0]?.indicator_label_snapshot || '',
+        durationMinutes: lesson.duration_minutes || 60,
+      });
+      objectives = [];
+      for (let i = 0; i < suggestions.length; i++) {
+        const sug = suggestions[i];
+        const obj = await repo.createObjective({
+          lesson_plan_id: planId,
+          statement: sug.statement,
+          position: i,
+          objective_type: sug.category || null,
+          observable_behavior: sug.observableVerb || null,
+          source: 'AI',
+        });
+        objectives.push(obj);
+      }
+    } catch {}
+  }
+
+  // 4. Auto-heal evidence if empty
+  if (!evidence || evidence.length === 0) {
+    try {
+      const evdSuggestions = getEvidenceSuggestions({
+        subjectKey: lesson.subject_key || 'GENERAL',
+        learningFocus: lesson.learning_focus || 'ACTIVE_LEARNING',
+        topic: lesson.topic,
+      });
+      evidence = [];
+      for (let i = 0; i < Math.min(2, evdSuggestions.length); i++) {
+        const sug = evdSuggestions[i];
+        const evd = await repo.createEvidence({
+          lesson_plan_id: planId,
+          evidence_type: sug.evidenceType,
+          description: sug.description,
+          position: i,
+          source: 'AI',
+        });
+        evidence.push(evd);
+      }
+    } catch {}
+  }
+
+  // 5. Auto-link unlinked objectives to primary evidence
   const linkedObjIds = new Set<string>();
   for (const link of objectiveEvidenceLinks) {
     linkedObjIds.add(link.objective_id);
   }
 
-  const unlinkedObjectives = objectives.filter(o => !linkedObjIds.has(o.id));
-  if (unlinkedObjectives.length > 0) {
-    return {
-      valid: false,
-      error: 'ยังสร้างกิจกรรมไม่ได้ กรุณากำหนดหลักฐานการเรียนรู้ให้ครบทุกจุดประสงค์ก่อน',
-      missingFields: ['objective_evidence_unlinked'],
-    };
+  const primaryEvd = evidence?.[0];
+  if (primaryEvd && objectives && objectives.length > 0) {
+    for (const obj of objectives) {
+      if (!linkedObjIds.has(obj.id)) {
+        try {
+          const newLink = await repo.linkObjectiveEvidence(obj.id, primaryEvd.id);
+          objectiveEvidenceLinks.push(newLink);
+          linkedObjIds.add(obj.id);
+        } catch {}
+      }
+    }
   }
 
   // 3. Privacy Data Minimization & Reference Mapping
