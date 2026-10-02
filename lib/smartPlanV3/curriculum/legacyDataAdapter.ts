@@ -26,6 +26,33 @@ const SUBJECT_AREA_MAP: Record<string, { nameTh: string; area: string }> = {
   'FOREIGN_LANGUAGE': { nameTh: 'ภาษาต่างประเทศ (ภาษาอังกฤษ)', area: 'ภาษาต่างประเทศ' },
 };
 
+function resolveSubjectInfo(subjectOrKey: string): { nameTh: string; area: string } | null {
+  if (!subjectOrKey) return null;
+  const upper = subjectOrKey.trim().toUpperCase();
+  if (SUBJECT_AREA_MAP[upper]) return SUBJECT_AREA_MAP[upper];
+
+  // Check aliases
+  if (upper === 'ENGLISH' || upper === 'ENG' || upper.includes('ภาษาอังกฤษ') || upper.includes('ภาษาต่างประเทศ')) {
+    return SUBJECT_AREA_MAP['FOREIGN_LANGUAGE'];
+  }
+  if (upper.includes('ไทย')) return SUBJECT_AREA_MAP['THAI'];
+  if (upper.includes('คณิต')) return SUBJECT_AREA_MAP['MATHEMATICS'];
+  if (upper.includes('วิทย์') || upper.includes('วิทยาศาสตร์')) return SUBJECT_AREA_MAP['SCIENCE'];
+  if (upper.includes('สังคม')) return SUBJECT_AREA_MAP['SOCIAL_STUDIES'];
+  if (upper.includes('สุข') || upper.includes('พล')) return SUBJECT_AREA_MAP['HEALTH_AND_PE'];
+  if (upper.includes('ศิลปะ')) return SUBJECT_AREA_MAP['ART'];
+  if (upper.includes('การงาน')) return SUBJECT_AREA_MAP['CAREER'];
+
+  // Check values in map
+  for (const info of Object.values(SUBJECT_AREA_MAP)) {
+    if (info.area === subjectOrKey.trim() || info.nameTh === subjectOrKey.trim()) {
+      return info;
+    }
+  }
+
+  return null;
+}
+
 export class LegacyCurriculumAdapter implements CurriculumProvider {
   private indexedByAreaAndGrade: Map<string, SubjectCurriculumData> = new Map();
 
@@ -43,6 +70,48 @@ export class LegacyCurriculumAdapter implements CurriculumProvider {
     }
   }
 
+  private findItem(area: string, gradeLevel: string): SubjectCurriculumData | undefined {
+    const g = gradeLevel.trim();
+    // 1. Direct match
+    let item = this.indexedByAreaAndGrade.get(`${area}::${g}`);
+    if (item) return item;
+
+    // 2. High school match: ม.4, ม.5, ม.6 -> ม.4-6
+    if (['ม.4', 'ม.5', 'ม.6', 'มัธยมศึกษาปีที่ 4', 'มัธยมศึกษาปีที่ 5', 'มัธยมศึกษาปีที่ 6'].includes(g)) {
+      item = this.indexedByAreaAndGrade.get(`${area}::ม.4-6`) || 
+             this.indexedByAreaAndGrade.get(`${area}::ม.4 - 6`) || 
+             this.indexedByAreaAndGrade.get(`${area}::ม.4`);
+      if (item) return item;
+    }
+
+    // 3. Middle school match: ม.1, ม.2, ม.3
+    if (['ม.1', 'ม.2', 'ม.3'].includes(g)) {
+      item = this.indexedByAreaAndGrade.get(`${area}::${g}`) || this.indexedByAreaAndGrade.get(`${area}::ม.1-3`);
+      if (item) return item;
+    }
+
+    // 4. Primary match: ป.1 - ป.6
+    if (g.startsWith('ป.') || g.startsWith('ประถมศึกษา')) {
+      const num = g.replace(/[^0-9]/g, '');
+      if (num) {
+        item = this.indexedByAreaAndGrade.get(`${area}::ป.${num}`);
+        if (item) return item;
+      }
+    }
+
+    // 5. Fallback iterate
+    for (const [key, data] of Array.from(this.indexedByAreaAndGrade.entries())) {
+      if (key.startsWith(`${area}::`)) {
+        const dataGrade = key.split('::')[1];
+        if (dataGrade.includes(g) || g.includes(dataGrade)) {
+          return data;
+        }
+      }
+    }
+
+    return undefined;
+  }
+
   async getVersions(): Promise<CurriculumVersion[]> {
     return [CANONICAL_CURRICULUM_VERSION];
   }
@@ -50,35 +119,58 @@ export class LegacyCurriculumAdapter implements CurriculumProvider {
   async getSubjects(): Promise<CurriculumSubject[]> {
     return Object.entries(SUBJECT_AREA_MAP).map(([key, info]) => {
       // Find all supported grades for this area
-      const grades = ALL_SUBJECT_CURRICULUM
+      const rawGrades = ALL_SUBJECT_CURRICULUM
         .filter(c => c.learningArea === info.area || c.subjectName === info.area)
         .map(c => c.gradeLevel);
+
+      // Expand ม.4-6 to ม.4, ม.5, ม.6 for friendly UI selection
+      const gradeSet = new Set<string>();
+      for (const rg of rawGrades) {
+        if (rg === 'ม.4-6' || rg === 'ม.4 - 6') {
+          gradeSet.add('ม.4');
+          gradeSet.add('ม.5');
+          gradeSet.add('ม.6');
+        } else {
+          gradeSet.add(rg);
+        }
+      }
 
       return {
         subjectKey: key,
         nameTh: info.nameTh,
         learningArea: info.area,
-        supportedGrades: Array.from(new Set(grades)),
+        supportedGrades: Array.from(gradeSet),
       };
     });
   }
 
   async getGrades(subjectKey: string): Promise<string[]> {
-    const info = SUBJECT_AREA_MAP[subjectKey.toUpperCase()];
+    const info = resolveSubjectInfo(subjectKey);
     if (!info) return [];
     
-    const grades = ALL_SUBJECT_CURRICULUM
+    const rawGrades = ALL_SUBJECT_CURRICULUM
       .filter(c => c.learningArea === info.area || c.subjectName === info.area)
       .map(c => c.gradeLevel);
+
+    const gradeSet = new Set<string>();
+    for (const rg of rawGrades) {
+      if (rg === 'ม.4-6' || rg === 'ม.4 - 6') {
+        gradeSet.add('ม.4');
+        gradeSet.add('ม.5');
+        gradeSet.add('ม.6');
+      } else {
+        gradeSet.add(rg);
+      }
+    }
       
-    return Array.from(new Set(grades));
+    return Array.from(gradeSet);
   }
 
-  async getStandards(subjectKey: string, gradeLevel: string, versionId?: string): Promise<CurriculumStandard[]> {
-    const info = SUBJECT_AREA_MAP[subjectKey.toUpperCase()];
+  async getStandards(subjectKey: string, gradeLevel: string, _versionId?: string): Promise<CurriculumStandard[]> {
+    const info = resolveSubjectInfo(subjectKey);
     if (!info) return [];
 
-    const item = this.indexedByAreaAndGrade.get(`${info.area}::${gradeLevel.trim()}`);
+    const item = this.findItem(info.area, gradeLevel);
     if (!item || !item.standards) return [];
 
     return item.standards.map(s => ({
@@ -92,12 +184,12 @@ export class LegacyCurriculumAdapter implements CurriculumProvider {
     subjectKey: string, 
     gradeLevel: string, 
     standardCode?: string, 
-    versionId?: string
+    _versionId?: string
   ): Promise<CurriculumIndicator[]> {
-    const info = SUBJECT_AREA_MAP[subjectKey.toUpperCase()];
+    const info = resolveSubjectInfo(subjectKey);
     if (!info) return [];
 
-    const item = this.indexedByAreaAndGrade.get(`${info.area}::${gradeLevel.trim()}`);
+    const item = this.findItem(info.area, gradeLevel);
     if (!item || !item.indicators) return [];
 
     let list = item.indicators.map(i => {
@@ -110,7 +202,7 @@ export class LegacyCurriculumAdapter implements CurriculumProvider {
         id: i.id,
         code: i.code.trim(),
         text: i.text.trim(),
-        type: i.type,
+        type: (i.type === 'during' || i.type === 'final') ? i.type : 'during',
         standardCode: stdCode,
         subjectKey: subjectKey.toUpperCase(),
         gradeLevel: gradeLevel.trim(),

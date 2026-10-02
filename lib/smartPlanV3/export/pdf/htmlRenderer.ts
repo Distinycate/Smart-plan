@@ -25,6 +25,7 @@ import type {
   ActivityTimelineSection,
   AssetSection,
   AssessmentSection,
+  TableSection,
   PostTeachingPlaceholderSection,
   PostTeachingRecordedSection,
 } from '@/lib/smartPlanV3/document/types';
@@ -235,26 +236,77 @@ function renderAssessmentHtml(section: AssessmentSection): string {
   `;
 }
 
+function renderTableHtml(section: TableSection): string {
+  const headersHtml = (section.headers && section.headers.length > 0)
+    ? `
+      <thead>
+        <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-300 text-xs">
+          ${section.headers.map((h, idx) => {
+            const widthStyle = section.columnWidths && section.columnWidths[idx] ? `style="width: ${section.columnWidths[idx]}"` : '';
+            return `<th class="py-2 px-3 border border-slate-300 text-left" ${widthStyle}>${escapeHtml(h)}</th>`;
+          }).join('')}
+        </tr>
+      </thead>
+    `
+    : '';
+
+  const rowsHtml = section.rows
+    .map(r => `
+      <tr class="border-b border-slate-200">
+        ${r.map((c, idx) => `
+          <td class="py-2 px-3 border border-slate-300 align-top text-xs ${idx === 0 ? 'font-semibold bg-slate-50/50' : 'text-slate-700'}">
+            <div style="white-space: pre-line;">${escapeHtml(c)}</div>
+          </td>
+        `).join('')}
+      </tr>
+    `)
+    .join('');
+
+  return `
+    <table class="w-full text-sm border-collapse border border-slate-300 my-2">
+      ${headersHtml}
+      <tbody>${rowsHtml}</tbody>
+    </table>
+  `;
+}
+
 function renderPostTeachingHtml(): string {
   return `
     <div class="border border-slate-300 p-4 text-sm text-slate-700 space-y-4 my-2">
       <div>
-        <p class="font-bold text-slate-800">1. ผลการจัดการเรียนรู้ตามจุดประสงค์:</p>
-        <p class="mt-1 pl-4">จำนวนนักเรียนทั้งหมด ............ คน | ผ่าน ............ คน (ร้อยละ ........) | ไม่ผ่าน ............ คน (ร้อยละ ........)</p>
+        <p class="font-bold text-slate-800">1. ผลการจัดการเรียนรู้ (K-P-A):</p>
+        <div class="mt-1 pl-4 text-xs text-slate-600 leading-relaxed">
+          <div>• ด้านความรู้ (K): ผ่านเกณฑ์ ............ คน (ร้อยละ ........) | ไม่ผ่าน ............ คน</div>
+          <div>• ด้านทักษะ/กระบวนการ (P): ผ่านเกณฑ์ ............ คน (ร้อยละ ........) | ไม่ผ่าน ............ คน</div>
+          <div>• ด้านคุณลักษณะอันพึงประสงค์ (A): ผ่านเกณฑ์ระดับดีขึ้นไป ............ คน (ร้อยละ ........)</div>
+        </div>
       </div>
       <div>
-        <p class="font-bold text-slate-800">2. ปัญหาและอุปสรรคที่พบ:</p>
+        <p class="font-bold text-slate-800">2. ปัญหาและอุปสรรค:</p>
         <p class="mt-1 pl-4 text-slate-400">.............................................................................................................................................................................................</p>
       </div>
       <div>
-        <p class="font-bold text-slate-800">3. แนวทางแก้ไขและพัฒนา (Remediation / Extension):</p>
+        <p class="font-bold text-slate-800">3. ข้อเสนอแนะ / แนวทางการแก้ไขและการพัฒนาต่อยอด:</p>
         <p class="mt-1 pl-4 text-slate-400">.............................................................................................................................................................................................</p>
       </div>
-      <div class="pt-4 text-right pr-8 space-y-1">
+      <div class="pt-2 text-right pr-8 space-y-1 text-xs">
         <p>ลงชื่อ ................................................................ ครูผู้สอน</p>
         <p>(................................................................)</p>
         <p>ตำแหน่ง .............................................................</p>
         <p>วันที่ ...... เดือน ........................... พ.ศ. .........</p>
+      </div>
+      <div class="mt-4 pt-3 border-t border-slate-200">
+        <p class="font-bold text-slate-800 mb-1">4. ความเห็นของผู้บริหารสถานศึกษา / ผู้ที่ได้รับมอบหมาย:</p>
+        <div class="p-2 bg-slate-50 border border-slate-200 rounded text-xs space-y-1">
+          <div>[  ] แผนการจัดการเรียนรู้มีความสอดคล้องกับมาตรฐานและตัวชี้วัด สามารถนำไปจัดกิจกรรมได้</div>
+          <div>[  ] ข้อเสนอแนะเพิ่มเติม: ................................................................................................................................</div>
+        </div>
+        <div class="pt-3 text-right pr-8 space-y-1 text-xs">
+          <p>ลงชื่อ ................................................................ ผู้ตรวจ / ผู้บริหาร</p>
+          <p>(................................................................)</p>
+          <p>ตำแหน่ง .............................................................</p>
+          <p>วันที่ ...... เดือน ........................... พ.ศ. .........</p>
+        </div>
       </div>
     </div>
   `;
@@ -704,6 +756,9 @@ export function renderDocumentToStandaloneHtml(
             break;
           case 'assessment':
             secContent = renderAssessmentHtml(section as AssessmentSection);
+            break;
+          case 'table':
+            secContent = renderTableHtml(section as TableSection);
             break;
           case 'postTeachingPlaceholder':
             secContent = renderPostTeachingHtml();

@@ -10,8 +10,8 @@ interface GenerateObjectiveOptions {
 }
 
 /**
- * Generate 3 distinct tiered objective candidates (Foundation / Target / Extended)
- * Strictly deterministic and grounded in Bloom's taxonomy & Subject Profile rules.
+ * Generate 3 distinct K-P-A objective candidates (Knowledge / Process / Attitude)
+ * Strictly deterministic and grounded in OBEC / ว.PA standards & Bloom's taxonomy.
  */
 export function getObjectiveSuggestions({
   subjectKey,
@@ -20,233 +20,304 @@ export function getObjectiveSuggestions({
   indicatorText = '',
   durationMinutes = 60,
 }: GenerateObjectiveOptions): ObjectiveCandidate[] {
-  const profile = getSubjectProfile(subjectKey);
   const cleanTopic = topic.trim() || 'บทเรียน';
   const focusKey = learningFocus?.toUpperCase() || '';
 
   // Extract clean indicator core if available
   const cleanIndicator = indicatorText.replace(/^[ตคยวสศงพ]\s*\d+(\.\d+)?\s*(ม\.\d+\/\d+|ป\.\d+\/\d+)?\s*[-—:]?\s*/i, '').trim();
 
-  // Tailored patterns by subject & focus
-  if (subjectKey === 'ENGLISH') {
+  // ──────────────────────────────────────────────────────────────────────────
+  // ENGLISH (ภาษาต่างประเทศ / ภาษาอังกฤษ)
+  // ──────────────────────────────────────────────────────────────────────────
+  if (subjectKey === 'ENGLISH' || subjectKey === 'FOREIGN_LANGUAGE') {
     if (focusKey === 'SPEAKING' || focusKey === 'COMMUNICATION') {
       return [
         {
-          id: 'obj-sug-1',
+          id: 'obj-sug-k',
+          category: 'K',
+          categoryLabelTh: 'ด้านความรู้ (Knowledge: K)',
+          categoryBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
           level: 'FOUNDATION',
-          levelLabelTh: 'ระดับพื้นฐาน (Foundation)',
+          levelLabelTh: 'K - ด้านความรู้',
           levelBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
-          statement: `นักเรียนสามารถออกเสียงคำศัพท์และระบุสำนวนภาษาอังกฤษเกี่ยวกับ ${cleanTopic} ได้อย่างถูกต้อง`,
-          rationale: 'เน้นความถูกต้องของการออกเสียงและจำแนกคำศัพท์พื้นฐานตามกรอบ CEFR',
-          observableVerb: 'ออกเสียงและระบุ',
+          statement: `นักเรียนสามารถอธิบายโครงสร้างประโยคและระบุความหมายของคำศัพท์เกี่ยวกับ ${cleanTopic} ได้อย่างถูกต้อง (K)`,
+          rationale: 'เน้นความถูกต้องของโครงสร้างภาษาและการจำแนกคำศัพท์ตามกรอบ CEFR',
+          observableVerb: 'อธิบายและระบุ',
         },
         {
-          id: 'obj-sug-2',
+          id: 'obj-sug-p',
+          category: 'P',
+          categoryLabelTh: 'ด้านทักษะกระบวนการ (Process: P)',
+          categoryBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
           level: 'TARGET',
-          levelLabelTh: 'ระดับเป้าหมายหลักคาบนี้ (Recommended)',
+          levelLabelTh: 'P - ด้านทักษะ/ปฏิบัติ',
           levelBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-          statement: `นักเรียนสามารถพูดถาม-ตอบและสนทนาแลกเปลี่ยนข้อมูลเกี่ยวกับ ${cleanTopic} กับคู่สนทนาได้อย่างน้อย 4-6 ประโยคตามโครงสร้างที่กำหนด`,
-          rationale: 'วัดการสื่อสารสองทางตามเป้าหมายของคาบเรียน มีเกณฑ์เชิงปริมาณและคุณภาพที่ชัดเจน',
-          observableVerb: 'พูดถาม-ตอบและสนทนา',
+          statement: `นักเรียนสามารถพูดสนทนาถาม-ตอบและออกเสียงสื่อสารเกี่ยวกับ ${cleanTopic} กับคู่สนทนาได้อย่างคล่องแคล่วและถูกต้องตามสถานการณ์ (P)`,
+          rationale: 'วัดการสื่อสารสองทางตามเป้าหมายของคาบเรียน มีเกณฑ์เชิงปริมาณและคุณภาพที่สังเกตได้',
+          observableVerb: 'พูดสนทนาและออกเสียงสื่อสาร',
         },
         {
-          id: 'obj-sug-3',
+          id: 'obj-sug-a',
+          category: 'A',
+          categoryLabelTh: 'ด้านคุณลักษณะ/เจตคติ (Attitude: A)',
+          categoryBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
           level: 'EXTENDED',
-          levelLabelTh: 'ระดับท้าทาย/ขยายผล (Extended)',
-          levelBadgeCls: 'bg-purple-100 text-purple-800 border-purple-200',
-          statement: `นักเรียนสามารถนำเสนอหรือแสดงบทบาทสมมติเพื่อสื่อสารเกี่ยวกับ ${cleanTopic} ได้อย่างคล่องแคล่วและสื่อความหมายได้เหมาะสมกับสถานการณ์`,
-          rationale: 'ส่งเสริมการประยุกต์ใช้ภาษาในสถานการณ์จำลอง (Production/Performance)',
-          observableVerb: 'นำเสนอและแสดงบทบาทสมมติ',
+          levelLabelTh: 'A - คุณลักษณะอันพึงประสงค์',
+          levelBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
+          statement: `นักเรียนมีความกระตือรือร้น ใฝ่เรียนรู้ และมีความมั่นใจกล้าแสดงออกในการสื่อสารภาษาอังกฤษ (A)`,
+          rationale: 'ส่งเสริมเจตคติเชิงบวก ความกล้าใช้ภาษา และคุณลักษณะอันพึงประสงค์ตามหลักสูตร',
+          observableVerb: 'ใฝ่เรียนรู้และกล้าแสดงออก',
         },
       ];
     } else if (focusKey === 'READING') {
       return [
         {
-          id: 'obj-sug-1',
+          id: 'obj-sug-k',
+          category: 'K',
+          categoryLabelTh: 'ด้านความรู้ (Knowledge: K)',
+          categoryBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
           level: 'FOUNDATION',
-          levelLabelTh: 'ระดับพื้นฐาน (Foundation)',
+          levelLabelTh: 'K - ด้านความรู้',
           levelBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
-          statement: `นักเรียนสามารถบอกความหมายของคำศัพท์สำคัญและระบุใจความสำคัญจากเรื่อง ${cleanTopic} ที่อ่านได้`,
+          statement: `นักเรียนสามารถบอกความหมายของคำศัพท์สำคัญและระบุใจความสำคัญจากเรื่อง ${cleanTopic} ที่อ่านได้อย่างถูกต้อง (K)`,
           rationale: 'เน้นการถอดรหัสความหมายและระบุสาระสำคัญระดับข้อความ',
           observableVerb: 'บอกความหมายและระบุใจความสำคัญ',
         },
         {
-          id: 'obj-sug-2',
+          id: 'obj-sug-p',
+          category: 'P',
+          categoryLabelTh: 'ด้านทักษะกระบวนการ (Process: P)',
+          categoryBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
           level: 'TARGET',
-          levelLabelTh: 'ระดับเป้าหมายหลักคาบนี้ (Recommended)',
+          levelLabelTh: 'P - ด้านทักษะ/ปฏิบัติ',
           levelBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-          statement: `นักเรียนสามารถตอบคำถามจับใจความและเรียงลำดับเหตุการณ์จากบทอ่านเรื่อง ${cleanTopic} ได้ถูกต้องอย่างน้อยร้อยละ 70`,
+          statement: `นักเรียนสามารถตอบคำถามจับใจความ เรียงลำดับเหตุการณ์ และสรุปประเด็นจากบทอ่านเรื่อง ${cleanTopic} ได้ถูกต้องอย่างน้อยร้อยละ 70 (P)`,
           rationale: 'วัดความเข้าใจในการอ่านเชิงวิเคราะห์ตามตัวชี้วัด',
           observableVerb: 'ตอบคำถามและเรียงลำดับ',
         },
         {
-          id: 'obj-sug-3',
+          id: 'obj-sug-a',
+          category: 'A',
+          categoryLabelTh: 'ด้านคุณลักษณะ/เจตคติ (Attitude: A)',
+          categoryBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
           level: 'EXTENDED',
-          levelLabelTh: 'ระดับท้าทาย/ขยายผล (Extended)',
-          levelBadgeCls: 'bg-purple-100 text-purple-800 border-purple-200',
-          statement: `นักเรียนสามารถสรุปความและแสดงความคิดเห็นหรือคาดคะเนเหตุการณ์จากเรื่อง ${cleanTopic} พร้อมให้เหตุผลประกอบได้`,
-          rationale: 'พัฒนาทักษะการคิดวิเคราะห์ขั้นสูงและการตีความ',
-          observableVerb: 'สรุปความและแสดงความคิดเห็น',
+          levelLabelTh: 'A - คุณลักษณะอันพึงประสงค์',
+          levelBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
+          statement: `นักเรียนมีวินัย มีนิสัยรักการอ่าน และมุ่งมั่นในการสืบค้นข้อมูลความรู้เพิ่มเติม (A)`,
+          rationale: 'ปลูกฝังนิสัยรักการอ่านและการเรียนรู้ตลอดชีวิต',
+          observableVerb: 'มีวินัยและมุ่งมั่น',
         },
       ];
     } else if (focusKey === 'WRITING') {
       return [
         {
-          id: 'obj-sug-1',
+          id: 'obj-sug-k',
+          category: 'K',
+          categoryLabelTh: 'ด้านความรู้ (Knowledge: K)',
+          categoryBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
           level: 'FOUNDATION',
-          levelLabelTh: 'ระดับพื้นฐาน (Foundation)',
+          levelLabelTh: 'K - ด้านความรู้',
           levelBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
-          statement: `นักเรียนสามารถเขียนสะกดคำและแต่งประโยคเดี่ยวเกี่ยวกับ ${cleanTopic} ได้ถูกต้องตามโครงสร้างไวยากรณ์`,
-          rationale: 'สร้างความแม่นยำในการเขียนระดับประโยค',
-          observableVerb: 'เขียนสะกดคำและแต่งประโยค',
+          statement: `นักเรียนสามารถเขียนสะกดคำศัพท์และอธิบายโครงสร้างไวยากรณ์ที่ใช้ในการเขียนเกี่ยวกับ ${cleanTopic} ได้ถูกต้อง (K)`,
+          rationale: 'สร้างความแม่นยำในการเขียนระดับคำและโครงสร้างประโยค',
+          observableVerb: 'เขียนสะกดคำและอธิบายโครงสร้าง',
         },
         {
-          id: 'obj-sug-2',
+          id: 'obj-sug-p',
+          category: 'P',
+          categoryLabelTh: 'ด้านทักษะกระบวนการ (Process: P)',
+          categoryBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
           level: 'TARGET',
-          levelLabelTh: 'ระดับเป้าหมายหลักคาบนี้ (Recommended)',
+          levelLabelTh: 'P - ด้านทักษะ/ปฏิบัติ',
           levelBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-          statement: `นักเรียนสามารถเขียนบรรยายหรือให้ข้อมูลเกี่ยวกับ ${cleanTopic} เป็นข้อความสั้นหรือย่อหน้า (3-5 ประโยค) ได้อย่างถูกต้องและสื่อความหมาย`,
+          statement: `นักเรียนสามารถเขียนประโยคบรรยายหรือข้อความสั้นเกี่ยวกับ ${cleanTopic} ได้อย่างถูกต้องตามหลักไวยากรณ์และสื่อความหมายชัดเจน (P)`,
           rationale: 'มุ่งเน้นการสื่อสารความหมายในการเขียนตามกรอบตัวชี้วัด',
-          observableVerb: 'เขียนบรรยาย',
+          observableVerb: 'เขียนประโยคบรรยาย',
         },
         {
-          id: 'obj-sug-3',
+          id: 'obj-sug-a',
+          category: 'A',
+          categoryLabelTh: 'ด้านคุณลักษณะ/เจตคติ (Attitude: A)',
+          categoryBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
           level: 'EXTENDED',
-          levelLabelTh: 'ระดับท้าทาย/ขยายผล (Extended)',
-          levelBadgeCls: 'bg-purple-100 text-purple-800 border-purple-200',
-          statement: `นักเรียนสามารถเขียนเรียบเรียงข้อมูลเกี่ยวกับ ${cleanTopic} และตรวจทานปรับปรุงความถูกต้องของงานเขียนของตนเองได้`,
-          rationale: 'ส่งเสริมกระบวนการเขียน (Process Writing) และการแก้ไขงาน',
-          observableVerb: 'เขียนเรียบเรียงและตรวจทาน',
-        },
-      ];
-    }
-  }
-
-  if (subjectKey === 'MATHEMATICS') {
-    if (focusKey === 'PROBLEM_SOLVING') {
-      return [
-        {
-          id: 'obj-sug-1',
-          level: 'FOUNDATION',
-          levelLabelTh: 'ระดับพื้นฐาน (Foundation)',
-          levelBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
-          statement: `นักเรียนสามารถวิเคราะห์สถานการณ์ปัญหาเรื่อง ${cleanTopic} และระบุสิ่งที่โจทย์กำหนดกับสิ่งที่โจทย์ต้องการทราบได้อย่างถูกต้อง`,
-          rationale: 'ขั้นทำความเข้าใจปัญหา (Understand the problem) ตามหลักโพลยา',
-          observableVerb: 'วิเคราะห์และระบุ',
-        },
-        {
-          id: 'obj-sug-2',
-          level: 'TARGET',
-          levelLabelTh: 'ระดับเป้าหมายหลักคาบนี้ (Recommended)',
-          levelBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-          statement: `นักเรียนสามารถวางแผนและแสดงขั้นตอนการแก้โจทย์ปัญหาเรื่อง ${cleanTopic} ได้อย่างเป็นลำดับขั้นตอนและได้คำตอบที่ถูกต้อง`,
-          rationale: 'วัดกระบวนการแก้ปัญหาและการแสดงวิธีทำเป็นขั้นตอน',
-          observableVerb: 'วางแผนและแสดงวิธีแก้ปัญหา',
-        },
-        {
-          id: 'obj-sug-3',
-          level: 'EXTENDED',
-          levelLabelTh: 'ระดับท้าทาย/ขยายผล (Extended)',
-          levelBadgeCls: 'bg-purple-100 text-purple-800 border-purple-200',
-          statement: `นักเรียนสามารถอธิบายเหตุผลและตรวจสอบความสมเหตุสมผลของคำตอบในการแก้ปัญหาเรื่อง ${cleanTopic} ได้`,
-          rationale: 'ขั้นตรวจสอบและสะท้อนผล (Look back & Reasoning) เพื่อสร้างความเข้าใจลึกซึ้ง',
-          observableVerb: 'อธิบายเหตุผลและตรวจสอบ',
+          levelLabelTh: 'A - คุณลักษณะอันพึงประสงค์',
+          levelBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
+          statement: `นักเรียนมีความละเอียดรอบคอบ มุ่งมั่นในการทำงาน และตรวจทานงานเขียนของตนเองอย่างสม่ำเสมอ (A)`,
+          rationale: 'ส่งเสริมวินัยการตรวจทานงานและจิตพิสัยในการทำงาน',
+          observableVerb: 'มีความรอบคอบและมุ่งมั่น',
         },
       ];
     } else {
+      // General English Communicative default
       return [
         {
-          id: 'obj-sug-1',
+          id: 'obj-sug-k',
+          category: 'K',
+          categoryLabelTh: 'ด้านความรู้ (Knowledge: K)',
+          categoryBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
           level: 'FOUNDATION',
-          levelLabelTh: 'ระดับพื้นฐาน (Foundation)',
+          levelLabelTh: 'K - ด้านความรู้',
           levelBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
-          statement: `นักเรียนสามารถอธิบายมโนทัศน์หรือสมบัติทางคณิตศาสตร์ที่เกี่ยวข้องกับ ${cleanTopic} ได้อย่างถูกต้อง`,
-          rationale: 'เน้นความเข้าใจเชิงมโนทัศน์ (Conceptual Understanding)',
-          observableVerb: 'อธิบายมโนทัศน์',
+          statement: `นักเรียนสามารถอธิบายโครงสร้างไวยากรณ์และระบุความหมายของคำศัพท์เกี่ยวกับ ${cleanTopic} ได้อย่างถูกต้อง (K)`,
+          rationale: 'ความรู้ความเข้าใจด้านคำศัพท์และโครงสร้างภาษาตามกรอบ CEFR',
+          observableVerb: 'อธิบายและระบุ',
         },
         {
-          id: 'obj-sug-2',
+          id: 'obj-sug-p',
+          category: 'P',
+          categoryLabelTh: 'ด้านทักษะกระบวนการ (Process: P)',
+          categoryBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
           level: 'TARGET',
-          levelLabelTh: 'ระดับเป้าหมายหลักคาบนี้ (Recommended)',
+          levelLabelTh: 'P - ด้านทักษะ/ปฏิบัติ',
           levelBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-          statement: `นักเรียนสามารถคำนวณและหาคำตอบของโจทย์เรื่อง ${cleanTopic} ได้อย่างถูกต้องแม่นยำอย่างน้อยร้อยละ 70`,
-          rationale: 'ความคล่องแคล่วในการคำนวณตามขั้นตอนวิธี',
-          observableVerb: 'คำนวณและหาคำตอบ',
+          statement: `นักเรียนสามารถแต่งประโยคและพูดสื่อสารเกี่ยวกับ ${cleanTopic} ได้อย่างถูกต้องและคล่องแคล่ว (P)`,
+          rationale: 'ทักษะการปฏิบัติและการสื่อสารเชิงสถานการณ์จริง',
+          observableVerb: 'แต่งประโยคและพูดสื่อสาร',
         },
         {
-          id: 'obj-sug-3',
+          id: 'obj-sug-a',
+          category: 'A',
+          categoryLabelTh: 'ด้านคุณลักษณะ/เจตคติ (Attitude: A)',
+          categoryBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
           level: 'EXTENDED',
-          levelLabelTh: 'ระดับท้าทาย/ขยายผล (Extended)',
-          levelBadgeCls: 'bg-purple-100 text-purple-800 border-purple-200',
-          statement: `นักเรียนสามารถประยุกต์ใช้ความรู้เรื่อง ${cleanTopic} ในการแก้ปัญหาหรือสร้างตัวอย่างโจทย์ทางคณิตศาสตร์ได้`,
-          rationale: 'การคิดขั้นสูงและการประยุกต์ใช้ความรู้',
-          observableVerb: 'ประยุกต์ใช้และสร้างโจทย์',
+          levelLabelTh: 'A - คุณลักษณะอันพึงประสงค์',
+          levelBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
+          statement: `นักเรียนมีความกระตือรือร้น ใฝ่เรียนรู้ และมีความมั่นใจในการใช้ภาษาอังกฤษเพื่อการสื่อสาร (A)`,
+          rationale: 'ส่งเสริมเจตคติที่ดีและคุณลักษณะอันพึงประสงค์ตามหลักสูตรแกนกลาง',
+          observableVerb: 'ใฝ่เรียนรู้และมั่นใจ',
         },
       ];
     }
   }
 
-  if (subjectKey === 'SCIENCE') {
+  // ──────────────────────────────────────────────────────────────────────────
+  // MATHEMATICS
+  // ──────────────────────────────────────────────────────────────────────────
+  if (subjectKey === 'MATHEMATICS') {
     return [
       {
-        id: 'obj-sug-1',
+        id: 'obj-sug-k',
+        category: 'K',
+        categoryLabelTh: 'ด้านความรู้ (Knowledge: K)',
+        categoryBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
         level: 'FOUNDATION',
-        levelLabelTh: 'ระดับพื้นฐาน (Foundation)',
+        levelLabelTh: 'K - ด้านความรู้',
         levelBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
-        statement: `นักเรียนสามารถระบุและอธิบายหลักการวิทยาศาสตร์เกี่ยวกับ ${cleanTopic} ได้อย่างถูกต้อง`,
-        rationale: 'ความรู้ความเข้าใจพื้นฐานเชิงวิทยาศาสตร์',
-        observableVerb: 'ระบุและอธิบาย',
+        statement: `นักเรียนสามารถอธิบายมโนทัศน์ สมบัติ และหลักการทางคณิตศาสตร์เรื่อง ${cleanTopic} ได้อย่างถูกต้อง (K)`,
+        rationale: 'เน้นความเข้าใจเชิงมโนทัศน์ (Conceptual Understanding)',
+        observableVerb: 'อธิบายมโนทัศน์',
       },
       {
-        id: 'obj-sug-2',
+        id: 'obj-sug-p',
+        category: 'P',
+        categoryLabelTh: 'ด้านทักษะกระบวนการ (Process: P)',
+        categoryBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
         level: 'TARGET',
-        levelLabelTh: 'ระดับเป้าหมายหลักคาบนี้ (Recommended)',
+        levelLabelTh: 'P - ด้านทักษะ/ปฏิบัติ',
         levelBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-        statement: `นักเรียนสามารถปฏิบัติการทดลอง/สำรวจ และบันทึกข้อมูลผลการทดลองเรื่อง ${cleanTopic} ได้อย่างถูกต้องและเป็นระบบ`,
-        rationale: 'ทักษะกระบวนการทางวิทยาศาสตร์และการลงมือปฏิบัติจริง',
-        observableVerb: 'ปฏิบัติการทดลองและบันทึกผล',
+        statement: `นักเรียนสามารถคำนวณ วางแผน และแสดงขั้นตอนการแก้โจทย์ปัญหาเรื่อง ${cleanTopic} ได้อย่างถูกต้องและเป็นระบบ (P)`,
+        rationale: 'ความคล่องแคล่วในการคำนวณและการแก้ปัญหาตามขั้นตอนวิธี',
+        observableVerb: 'คำนวณและแสดงวิธีทำ',
       },
       {
-        id: 'obj-sug-3',
+        id: 'obj-sug-a',
+        category: 'A',
+        categoryLabelTh: 'ด้านคุณลักษณะ/เจตคติ (Attitude: A)',
+        categoryBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
         level: 'EXTENDED',
-        levelLabelTh: 'ระดับท้าทาย/ขยายผล (Extended)',
-        levelBadgeCls: 'bg-purple-100 text-purple-800 border-purple-200',
-        statement: `นักเรียนสามารถวิเคราะห์ แปลความหมายข้อมูล และสรุปผลการทดลองเรื่อง ${cleanTopic} โดยใช้หลักฐานเชิงประจักษ์ได้`,
-        rationale: 'การลงข้อสรุปและการให้เหตุผลทางวิทยาศาสตร์โดยอิงหลักฐาน',
-        observableVerb: 'วิเคราะห์และสรุปผล',
+        levelLabelTh: 'A - คุณลักษณะอันพึงประสงค์',
+        levelBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
+        statement: `นักเรียนมีความละเอียดรอบคอบ มุ่งมั่นในการทำงาน และมีเจตคติที่ดีต่อคณิตศาสตร์ (A)`,
+        rationale: 'สร้างวินัยความรอบคอบในการคิดคำนวณและเจตคติที่ดี',
+        observableVerb: 'มีความรอบคอบและมุ่งมั่น',
       },
     ];
   }
 
-  // Generic fallback for any other subject (Social, Thai, PE, Arts, etc.)
+  // ──────────────────────────────────────────────────────────────────────────
+  // SCIENCE
+  // ──────────────────────────────────────────────────────────────────────────
+  if (subjectKey === 'SCIENCE') {
+    return [
+      {
+        id: 'obj-sug-k',
+        category: 'K',
+        categoryLabelTh: 'ด้านความรู้ (Knowledge: K)',
+        categoryBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
+        level: 'FOUNDATION',
+        levelLabelTh: 'K - ด้านความรู้',
+        levelBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
+        statement: `นักเรียนสามารถระบุและอธิบายหลักการทางวิทยาศาสตร์เกี่ยวกับ ${cleanTopic} ได้อย่างถูกต้อง (K)`,
+        rationale: 'ความรู้ความเข้าใจพื้นฐานเชิงวิทยาศาสตร์',
+        observableVerb: 'ระบุและอธิบาย',
+      },
+      {
+        id: 'obj-sug-p',
+        category: 'P',
+        categoryLabelTh: 'ด้านทักษะกระบวนการ (Process: P)',
+        categoryBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+        level: 'TARGET',
+        levelLabelTh: 'P - ด้านทักษะ/ปฏิบัติ',
+        levelBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+        statement: `นักเรียนสามารถปฏิบัติการทดลอง/สำรวจ บันทึกผล และแปลความหมายข้อมูลเรื่อง ${cleanTopic} โดยใช้หลักฐานเชิงประจักษ์ได้ (P)`,
+        rationale: 'ทักษะกระบวนการทางวิทยาศาสตร์และการลงมือปฏิบัติจริง',
+        observableVerb: 'ปฏิบัติการทดลองและแปลผล',
+      },
+      {
+        id: 'obj-sug-a',
+        category: 'A',
+        categoryLabelTh: 'ด้านคุณลักษณะ/เจตคติ (Attitude: A)',
+        categoryBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
+        level: 'EXTENDED',
+        levelLabelTh: 'A - คุณลักษณะอันพึงประสงค์',
+        levelBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
+        statement: `นักเรียนมีความซื่อสัตย์ในการบันทึกข้อมูล ใฝ่เรียนรู้ และทำงานร่วมกับผู้อื่นได้อย่างสร้างสรรค์ (A)`,
+        rationale: 'ส่งเสริมจิตวิทยาศาสตร์และการทำงานเป็นทีม',
+        observableVerb: 'มีความซื่อสัตย์และใฝ่เรียนรู้',
+      },
+    ];
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // GENERIC FALLBACK (Thai, Social Studies, Arts, PE, Health, etc.)
+  // ──────────────────────────────────────────────────────────────────────────
   const baseContent = cleanIndicator || cleanTopic;
   return [
     {
-      id: 'obj-sug-1',
+      id: 'obj-sug-k',
+      category: 'K',
+      categoryLabelTh: 'ด้านความรู้ (Knowledge: K)',
+      categoryBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
       level: 'FOUNDATION',
-      levelLabelTh: 'ระดับพื้นฐาน (Foundation)',
+      levelLabelTh: 'K - ด้านความรู้',
       levelBadgeCls: 'bg-blue-100 text-blue-800 border-blue-200',
-      statement: `นักเรียนสามารถอธิบายความรู้และหลักการสำคัญเกี่ยวกับ ${baseContent} ได้อย่างถูกต้อง`,
+      statement: `นักเรียนสามารถอธิบายความรู้และหลักการสำคัญเกี่ยวกับ ${baseContent} ได้อย่างถูกต้อง (K)`,
       rationale: 'ความรู้ความจำและความเข้าใจพื้นฐานในเนื้อหาบทเรียน',
       observableVerb: 'อธิบายความรู้',
     },
     {
-      id: 'obj-sug-2',
+      id: 'obj-sug-p',
+      category: 'P',
+      categoryLabelTh: 'ด้านทักษะกระบวนการ (Process: P)',
+      categoryBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
       level: 'TARGET',
-      levelLabelTh: 'ระดับเป้าหมายหลักคาบนี้ (Recommended)',
+      levelLabelTh: 'P - ด้านทักษะ/ปฏิบัติ',
       levelBadgeCls: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-      statement: `นักเรียนสามารถปฏิบัติกิจกรรมหรือประยุกต์ใช้ความรู้เรื่อง ${baseContent} ได้ตามเกณฑ์ที่กำหนดในคาบเรียน ${durationMinutes} นาที`,
+      statement: `นักเรียนสามารถปฏิบัติกิจกรรมหรือประยุกต์ใช้ทักษะเรื่อง ${baseContent} ได้ตามเกณฑ์ที่กำหนดในคาบเรียน ${durationMinutes} นาที (P)`,
       rationale: 'ทักษะและการนำไปใช้จริงสอดคล้องกับตัวชี้วัด',
       observableVerb: 'ปฏิบัติกิจกรรมหรือประยุกต์ใช้',
     },
     {
-      id: 'obj-sug-3',
+      id: 'obj-sug-a',
+      category: 'A',
+      categoryLabelTh: 'ด้านคุณลักษณะ/เจตคติ (Attitude: A)',
+      categoryBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
       level: 'EXTENDED',
-      levelLabelTh: 'ระดับท้าทาย/ขยายผล (Extended)',
-      levelBadgeCls: 'bg-purple-100 text-purple-800 border-purple-200',
-      statement: `นักเรียนสามารถวิเคราะห์ สะท้อนความคิดเห็น และเชื่อมโยงความรู้เรื่อง ${baseContent} สู่ชีวิตจริงหรือสถานการณ์จำลองได้`,
+      levelLabelTh: 'A - คุณลักษณะอันพึงประสงค์',
+      levelBadgeCls: 'bg-amber-100 text-amber-800 border-amber-200',
+      statement: `นักเรียนมีความมุ่งมั่นในการทำงาน ใฝ่เรียนรู้ และมีส่วนร่วมในกิจกรรมการเรียนรู้อย่างมีความรับผิดชอบ (A)`,
       rationale: 'การคิดวิเคราะห์ขั้นสูงและเจตคติคุณค่า',
-      observableVerb: 'วิเคราะห์และสะท้อนความคิดเห็น',
+      observableVerb: 'มีความมุ่งมั่นและรับผิดชอบ',
     },
   ];
 }

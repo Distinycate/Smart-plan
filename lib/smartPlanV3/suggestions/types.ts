@@ -14,6 +14,9 @@ export interface ObjectiveCandidate {
   statement: string;
   rationale: string;
   observableVerb: string;
+  category?: 'K' | 'P' | 'A';
+  categoryLabelTh?: string;
+  categoryBadgeCls?: string;
 }
 
 export interface EvidenceCandidate {

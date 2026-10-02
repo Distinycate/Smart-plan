@@ -24,11 +24,14 @@ import {
   buildCurriculumSection,
   buildKeyConceptSection,
   buildObjectivesSection,
+  buildCompetenciesSection,
+  buildCharacteristicsSection,
   buildLearningContentsSection,
   buildEvidenceSection,
   buildActivityTimelineSection,
   buildTeachingAssetSection,
   buildAssessmentSection,
+  buildRubricsSection,
   buildPostTeachingPlaceholderSection,
   buildDocumentAppendices,
 } from './sections';
@@ -38,7 +41,12 @@ export interface BuildDocumentOptions {
   readiness?: V3DocumentReadiness;
   paReviewResult?: any;
   teacherName?: string;
+  teacherPosition?: string;
   schoolName?: string;
+  affiliation?: string;
+  academicYear?: string;
+  semester?: string;
+  teacherProfile?: any;
 }
 
 export function buildLessonDocument(
@@ -55,12 +63,26 @@ export function buildLessonDocument(
     ? (params as Partial<DocumentOptions>)
     : (params as BuildDocumentOptions).options || {};
 
-  const {
-    readiness,
-    paReviewResult,
-    teacherName = 'ครูผู้สอน',
-    schoolName = 'สถานศึกษา',
-  } = isDirectOptions ? ({} as BuildDocumentOptions) : (params as BuildDocumentOptions);
+  const docParams = isDirectOptions ? ({} as BuildDocumentOptions) : (params as BuildDocumentOptions);
+  const profile = docParams.teacherProfile || {};
+
+  const teacherName = docParams.teacherName || profile.teacherName || 'นายทศพร ศรีพลพา';
+  const teacherPosition = docParams.teacherPosition || profile.teacherPosition || 'ครูชำนาญการพิเศษ';
+  const schoolName = docParams.schoolName || profile.schoolName || 'โรงเรียนเตรียมอุดมศึกษา ภาคตะวันออกเฉียงเหนือ';
+  const affiliation = docParams.affiliation || profile.affiliation || 'สำนักงานเขตพื้นที่การศึกษามัธยมศึกษาสกลนคร';
+  const academicYear = docParams.academicYear || profile.academicYear || '2567';
+  const semester = docParams.semester || profile.semester || '1';
+
+  const effectiveProfile = {
+    teacherName,
+    teacherPosition,
+    schoolName,
+    affiliation,
+    academicYear,
+    semester,
+  };
+
+  const { readiness, paReviewResult } = docParams;
 
   // 1. Verify Document Readiness Gate
   if (readiness && !readiness.ready) {
@@ -86,13 +108,17 @@ export function buildLessonDocument(
     unitTitle: lesson.unit_reference || 'หน่วยการเรียนรู้',
     subject: subjectLabel,
     subjectKey: lesson.subject_key || '',
-    courseName: lesson.topic || 'รายวิชาพื้นฐาน',
+    courseName: lesson.course_name || lesson.topic || 'รายวิชาพื้นฐาน',
     courseCode: lesson.course_code || '',
     grade: lesson.grade_level || 'มัธยมศึกษา',
     durationMinutes: lesson.duration_minutes || 60,
     durationFormatted: formatDocumentDuration(lesson.duration_minutes || 60),
     teacherName,
+    teacherPosition,
     schoolName,
+    affiliation,
+    academicYear,
+    semester,
     curriculumVersion: lesson.curriculum_version || 'หลักสูตรแกนกลางการศึกษาขั้นพื้นฐาน พ.ศ. 2551',
     teachingDate: lesson.teaching_date || null,
     status: lesson.status,
@@ -104,37 +130,46 @@ export function buildLessonDocument(
   // 3. Build Appendices FIRST to obtain cross-reference mapping (Requirement 24)
   const { appendices, appendixMap } = buildDocumentAppendices(graph, options, paReviewResult);
 
-  // 4. Build Canonical Sections in Exact Sequence (Requirement 7)
+  // 4. Build Canonical Sections in Exact Sequence (13 Authentic PA Sections)
   const sections: DocumentSection[] = [
     // 1. ข้อมูลแผนการจัดการเรียนรู้
-    buildMetadataSection(graph),
+    buildMetadataSection(graph, effectiveProfile),
 
-    // 2. มาตรฐานการเรียนรู้ / ตัวชี้วัด
+    // 2. มาตรฐานการเรียนรู้ / ตัวชี้วัด (ระหว่างทาง & ปลายทาง)
     buildCurriculumSection(graph),
 
-    // 3. สาระสำคัญ / แนวคิดสำคัญ
+    // 3. สาระสำคัญ / ความคิดรวบยอด
     buildKeyConceptSection(graph),
 
-    // 4. จุดประสงค์การเรียนรู้
+    // 4. จุดประสงค์การเรียนรู้ (K - P - A)
     buildObjectivesSection(graph),
 
-    // 5. สาระการเรียนรู้
+    // 5. สมรรถนะสำคัญของผู้เรียน (5 ด้าน)
+    buildCompetenciesSection(graph),
+
+    // 6. คุณลักษณะอันพึงประสงค์ (8 ประการ)
+    buildCharacteristicsSection(graph),
+
+    // 7. สาระการเรียนรู้ (ความรู้ / ทักษะ)
     buildLearningContentsSection(graph),
 
-    // 6. หลักฐาน / ภาระงานของผู้เรียน
+    // 8. หลักฐาน / ภาระงานของผู้เรียน
     buildEvidenceSection(graph, appendixMap),
 
-    // 7. กระบวนการจัดการเรียนรู้
+    // 9. กระบวนการจัดการเรียนรู้ (Active Learning Timeline)
     buildActivityTimelineSection(graph),
 
-    // 8. สื่อ / แหล่งเรียนรู้
+    // 10. สื่อ / แหล่งเรียนรู้
     buildTeachingAssetSection(graph, appendixMap),
 
-    // 9. การวัดและประเมินผล
+    // 11. การวัดและประเมินผลการเรียนรู้
     buildAssessmentSection(graph, appendixMap),
+
+    // 12. เกณฑ์การประเมินผลการเรียนรู้แบบรูบริกส์ (Rubrics 4 ระดับ)
+    buildRubricsSection(graph),
   ];
 
-  // 10. บันทึกหลังการจัดการเรียนรู้ (Placeholder ตามตัวเลือก)
+  // 13. บันทึกหลังการจัดการเรียนรู้ 4 มิติตาม ว.PA
   if (options.includePostTeachingPlaceholder) {
     sections.push(buildPostTeachingPlaceholderSection());
   }

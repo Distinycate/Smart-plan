@@ -8,6 +8,8 @@ import {
   ArrowRight, ArrowLeft, Check, Layers, AlertCircle, FileText, CheckCircle2, ChevronRight 
 } from 'lucide-react';
 import { subjectNameToKey } from '@/lib/smartPlanV3/labels';
+import TeacherProfileBanner from '@/components/smartPlanV3/TeacherProfileBanner';
+import { getStoredTeacherProfile } from '@/lib/smartPlanV3/teacherProfile';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -27,6 +29,7 @@ interface CurriculumIndicator {
   code: string;
   text: string;
   standardCode: string;
+  type?: 'during' | 'final';
 }
 
 interface LearningFocus {
@@ -106,6 +109,14 @@ export default function NewV3LessonPage() {
   const [learningFocuses, setLearningFocuses] = useState<LearningFocus[]>([]);
   const [focusGuidance, setFocusGuidance] = useState('');
 
+  // Formative vs Summative Indicator Filter & Custom Indicators
+  const [indicatorFilter, setIndicatorFilter] = useState<'ALL' | 'DURING' | 'FINAL'>('ALL');
+  const [customIndicators, setCustomIndicators] = useState<CurriculumIndicator[]>([]);
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const [customCode, setCustomCode] = useState('');
+  const [customText, setCustomText] = useState('');
+  const [customType, setCustomType] = useState<'during' | 'final'>('during');
+
   // Lesson info
   const [topic, setTopic] = useState('');
   const [unitRef, setUnitRef] = useState('');
@@ -121,6 +132,14 @@ export default function NewV3LessonPage() {
   const [loadingIndicators, setLoadingIndicators] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Load teacher profile defaults on mount
+  useEffect(() => {
+    const prof = getStoredTeacherProfile();
+    if (prof.defaultSubjectKey) setSelectedSubjectKey(prof.defaultSubjectKey);
+    if (prof.defaultGrade) setSelectedGrade(prof.defaultGrade);
+    if (prof.defaultDurationMinutes) setDuration(prof.defaultDurationMinutes);
+  }, []);
 
   // Load subjects on mount
   useEffect(() => {
@@ -154,7 +173,6 @@ export default function NewV3LessonPage() {
       .catch(() => {});
 
     // Reset downstream
-    setSelectedGrade('');
     setStandards([]);
     setSelectedStandard('');
     setIndicators([]);
@@ -167,7 +185,7 @@ export default function NewV3LessonPage() {
     }
   }, [selectedSubjectKey, subjects, courseName]);
 
-  // Load standards when grade changes
+  // Load standards when grade changes and auto-suggest course code
   useEffect(() => {
     if (!selectedSubjectKey || !selectedGrade) {
       setStandards([]);
@@ -175,6 +193,30 @@ export default function NewV3LessonPage() {
       setIndicators([]);
       setSelectedIndicators([]);
       return;
+    }
+
+    // Auto-fill standard English course code & name based on grade
+    if (selectedSubjectKey === 'ENGLISH') {
+      const g = selectedGrade.trim();
+      if (g.includes('4')) {
+        setCourseName('ภาษาอังกฤษพื้นฐาน 1');
+        setCourseCode('อ31101');
+      } else if (g.includes('5')) {
+        setCourseName('ภาษาอังกฤษพื้นฐาน 3');
+        setCourseCode('อ32101');
+      } else if (g.includes('6')) {
+        setCourseName('ภาษาอังกฤษพื้นฐาน 5');
+        setCourseCode('อ33101');
+      } else if (g.includes('1')) {
+        setCourseName('ภาษาอังกฤษพื้นฐาน 1');
+        setCourseCode('อ21101');
+      } else if (g.includes('2')) {
+        setCourseName('ภาษาอังกฤษพื้นฐาน 3');
+        setCourseCode('อ22101');
+      } else if (g.includes('3')) {
+        setCourseName('ภาษาอังกฤษพื้นฐาน 5');
+        setCourseCode('อ23101');
+      }
     }
 
     setLoadingStandards(true);
@@ -233,6 +275,30 @@ export default function NewV3LessonPage() {
     );
   }, []);
 
+  const handleAddCustomIndicator = () => {
+    if (!customCode.trim() || !customText.trim()) return;
+    const newInd: CurriculumIndicator = {
+      code: customCode.trim(),
+      text: customText.trim(),
+      standardCode: selectedStandard || 'ตัวชี้วัดสถานศึกษา',
+      type: customType,
+    };
+    setCustomIndicators(prev => [...prev, newInd]);
+    setSelectedIndicators(prev => [...prev, newInd.code]);
+    setCustomCode('');
+    setCustomText('');
+    setShowCustomInput(false);
+  };
+
+  const allIndicators = [...indicators, ...customIndicators];
+
+  const filteredIndicators = allIndicators.filter(ind => {
+    if (indicatorFilter === 'ALL') return true;
+    if (indicatorFilter === 'DURING') return ind.type === 'during' || !ind.type;
+    if (indicatorFilter === 'FINAL') return ind.type === 'final';
+    return true;
+  });
+
   const availableGrades = (() => {
     const subj = subjects.find(s => subjectNameToKey(s.nameTh) === selectedSubjectKey);
     return subj?.supportedGrades || [];
@@ -283,16 +349,17 @@ export default function NewV3LessonPage() {
         const std = standards.find(s => s.code === selectedStandard);
 
         const links = selectedIndicators.map(indCode => {
-          const ind = indicators.find(i => i.code === indCode);
+          const ind = allIndicators.find(i => i.code === indCode);
+          const typeBadge = ind?.type === 'final' ? '[ปลายทาง]' : '[ระหว่างทาง]';
           return {
             lesson_plan_id: planId,
             curriculum_version: curriculumVersion,
             subject_key: selectedSubjectKey,
             grade_level: selectedGrade,
-            standard_code: selectedStandard,
+            standard_code: ind?.standardCode || selectedStandard,
             indicator_code: indCode,
             standard_label_snapshot: std?.text || selectedStandard,
-            indicator_label_snapshot: ind?.text || indCode,
+            indicator_label_snapshot: `${typeBadge} ${ind?.text || indCode}`,
           };
         });
 
@@ -387,8 +454,17 @@ export default function NewV3LessonPage() {
       </div>
 
       {/* ─── Body Form ─── */}
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-8">
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-6">
+        {/* ─── Permanent Teacher & School Profile Banner (ใส่ครั้งเดียว ใช้ทุกแผน) ─── */}
+        <TeacherProfileBanner
+          onProfileChange={(p) => {
+            if (p.defaultSubjectKey && !selectedSubjectKey) setSelectedSubjectKey(p.defaultSubjectKey);
+            if (p.defaultGrade && !selectedGrade) setSelectedGrade(p.defaultGrade);
+            if (p.defaultDurationMinutes) setDuration(p.defaultDurationMinutes);
+          }}
+        />
+
+        <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-8">
           
           {/* Header intro */}
           <div className="border-b border-slate-100 pb-5">
@@ -485,8 +561,8 @@ export default function NewV3LessonPage() {
                   <Target className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">2. มาตรฐานและตัวชี้วัด</h3>
-                  <p className="text-xs text-slate-500">สำหรับแผน 1 คาบ ควรเน้นตัวชี้วัดที่ปฏิบัติได้จริง</p>
+                  <h3 className="text-sm font-bold text-slate-900">2. มาตรฐานและตัวชี้วัด (ระหว่างทาง / ปลายทาง)</h3>
+                  <p className="text-xs text-slate-500">ระบบจำแนกตัวชี้วัดระหว่างทางและปลายทางตาม ว1532/2566 โดยอัตโนมัติ</p>
                 </div>
               </div>
 
@@ -509,16 +585,58 @@ export default function NewV3LessonPage() {
 
               {selectedStandard && (
                 <Field label="ตัวชี้วัด (เลือกตัวชี้วัดที่ตรงกับคาบนี้)">
+                  {/* Indicator Filter Tabs */}
+                  {allIndicators.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <button
+                        type="button"
+                        onClick={() => setIndicatorFilter('ALL')}
+                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                          indicatorFilter === 'ALL'
+                            ? 'bg-slate-800 text-white shadow-xs'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        }`}
+                      >
+                        ทั้งหมด ({allIndicators.length})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIndicatorFilter('DURING')}
+                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                          indicatorFilter === 'DURING'
+                            ? 'bg-emerald-600 text-white shadow-xs'
+                            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                        }`}
+                      >
+                        <span>🟢 ระหว่างทาง</span>
+                        <span className="opacity-80">({allIndicators.filter(i => i.type === 'during' || !i.type).length})</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIndicatorFilter('FINAL')}
+                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                          indicatorFilter === 'FINAL'
+                            ? 'bg-indigo-600 text-white shadow-xs'
+                            : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
+                        }`}
+                      >
+                        <span>🟣 ปลายทาง</span>
+                        <span className="opacity-80">({allIndicators.filter(i => i.type === 'final').length})</span>
+                      </button>
+                    </div>
+                  )}
+
                   {loadingIndicators ? (
                     <div className="text-xs text-slate-400 py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 animate-pulse">
                       กำลังโหลดตัวชี้วัด...
                     </div>
-                  ) : indicators.length === 0 ? (
-                    <div className="text-xs text-slate-500 py-2">ไม่พบตัวชี้วัดสำหรับมาตรฐานนี้</div>
+                  ) : filteredIndicators.length === 0 ? (
+                    <div className="text-xs text-slate-500 py-2">ไม่พบตัวชี้วัดในหมวดหมู่นี้</div>
                   ) : (
                     <div className="space-y-2 mt-1">
-                      {indicators.map(ind => {
+                      {filteredIndicators.map(ind => {
                         const isSelected = selectedIndicators.includes(ind.code);
+                        const isSummative = ind.type === 'final';
                         return (
                           <label
                             key={ind.code}
@@ -534,8 +652,19 @@ export default function NewV3LessonPage() {
                               onChange={() => toggleIndicator(ind.code)}
                               className="w-4 h-4 mt-0.5 rounded text-blue-600 focus:ring-blue-500 border-slate-300 shrink-0 cursor-pointer accent-blue-600"
                             />
-                            <div className="text-xs leading-relaxed">
-                              <span className="font-bold text-slate-900 mr-1.5">{ind.code}</span>
+                            <div className="text-xs leading-relaxed flex-1">
+                              <div className="flex flex-wrap items-center gap-2 mb-1">
+                                <span className="font-bold text-slate-900">{ind.code}</span>
+                                {isSummative ? (
+                                  <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                    🟣 ปลายทาง (Summative)
+                                  </span>
+                                ) : (
+                                  <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    🟢 ระหว่างทาง (Formative)
+                                  </span>
+                                )}
+                              </div>
                               <span>{ind.text}</span>
                             </div>
                           </label>
@@ -543,6 +672,73 @@ export default function NewV3LessonPage() {
                       })}
                     </div>
                   )}
+
+                  {/* ─── Custom Indicator Manual Input ─── */}
+                  <div className="pt-2">
+                    {!showCustomInput ? (
+                      <button
+                        type="button"
+                        onClick={() => setShowCustomInput(true)}
+                        className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition flex items-center gap-1.5 py-1"
+                      >
+                        <span>➕ เพิ่มตัวชี้วัด / ผลการเรียนรู้เพิ่มเติมด้วยตนเอง (เขียนเอง)</span>
+                      </button>
+                    ) : (
+                      <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3 mt-2 shadow-inner">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-slate-800">
+                            ✍️ เพิ่มตัวชี้วัดหรือผลการเรียนรู้ด้วยตนเอง
+                          </span>
+                          <span className="text-[11px] text-slate-500">สำหรับรายวิชาเพิ่มเติมหรือหลักสูตรสถานศึกษา</span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                          <input
+                            type="text"
+                            placeholder="รหัส เช่น ต 1.1 ม.4/1 หรือ ผลการเรียนรู้ข้อ 1"
+                            value={customCode}
+                            onChange={e => setCustomCode(e.target.value)}
+                            className="px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600"
+                          />
+                          <input
+                            type="text"
+                            placeholder="ข้อความระบุพฤติกรรม/เนื้อหาตัวชี้วัด"
+                            value={customText}
+                            onChange={e => setCustomText(e.target.value)}
+                            className="sm:col-span-2 px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600"
+                          />
+                        </div>
+                        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-slate-600">ประเภท:</span>
+                            <select
+                              value={customType}
+                              onChange={e => setCustomType(e.target.value as 'during' | 'final')}
+                              className="px-2.5 py-1.5 bg-white border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-600"
+                            >
+                              <option value="during">🟢 ตัวชี้วัดระหว่างทาง (Formative)</option>
+                              <option value="final">🟣 ตัวชี้วัดปลายทาง (Summative)</option>
+                            </select>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setShowCustomInput(false)}
+                              className="px-3 py-1.5 text-xs text-slate-600 hover:text-slate-800 font-medium"
+                            >
+                              ยกเลิก
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleAddCustomIndicator}
+                              className="px-4 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-xs"
+                            >
+                              เพิ่มตัวชี้วัดนี้
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   {selectedIndicators.length > 3 && (
                     <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-center gap-2 mt-2">
@@ -573,9 +769,9 @@ export default function NewV3LessonPage() {
                   type="button"
                   onClick={() => {
                     if (selectedSubjectKey === 'ENGLISH') {
-                      setTopic('Talking about Jobs & Occupations');
-                      setUnitRef('Unit 2: People and Work');
-                      setStudentContext('ห้องเรียนปกติ 36 คน ระดับภาษาอังกฤษคละความสามารถ (A1–A2)');
+                      setTopic('How to use the Present Progressive Tense');
+                      setUnitRef('Unit 1: Life stages');
+                      setStudentContext('ชั้น ม.4 จำนวน 36 คน ระดับภาษาคละความสามารถ (A2–B1) เน้นกระบวนการ Active Learning');
                     } else if (selectedSubjectKey === 'MATHEMATICS') {
                       setTopic('การแก้โจทย์ปัญหาสมการเชิงเส้นตัวแปรเดียว');
                       setUnitRef('หน่วยการเรียนรู้ที่ 2: สมการเชิงเส้น');
@@ -594,26 +790,33 @@ export default function NewV3LessonPage() {
                   className="v3-btn v3-btn-ai text-xs"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>เติมข้อมูลตัวอย่างแนะนำ</span>
+                  <span>เติมตัวอย่างแผน PA อ้างอิง</span>
                 </button>
               )}
             </div>
 
-            <Field label="ชื่อเรื่อง / หัวข้อการสอน (Topic)" required hint="ชื่อบทเรียนที่ระบุในแผนการจัดการเรียนรู้ เช่น 'Talking about Jobs'">
+            <Field label="ชื่อเรื่อง / หัวข้อการสอน (Topic)" required hint="ชื่อบทเรียนที่ระบุในแผนการจัดการเรียนรู้ เช่น 'How to use the Present Progressive Tense'">
               <input
                 className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 font-medium transition-all focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 shadow-xs placeholder:text-slate-400"
                 value={topic}
                 onChange={e => setTopic(e.target.value)}
-                placeholder="เช่น การสังเคราะห์ด้วยแสง, Talking about Jobs, สมการเชิงเส้น"
+                placeholder="เช่น How to use the Present Progressive Tense, Talking about Jobs, สมการเชิงเส้น"
                 maxLength={200}
               />
 
               {/* Quick Topic Chips */}
               {selectedSubjectKey && (
                 <div className="mt-2 flex flex-wrap gap-1.5 items-center">
-                  <span className="text-[11px] font-semibold text-slate-500 mr-1">💡 หัวข้อแนะนำ:</span>
+                  <span className="text-[11px] font-semibold text-slate-500 mr-1">💡 หัวข้อแนะนำตามแผนจริง:</span>
                   {(selectedSubjectKey === 'ENGLISH'
-                    ? ['Daily Routines', 'Talking about Jobs', 'Asking for Directions', 'Food & Ordering', 'My Free Time Activities']
+                    ? [
+                        'How to use the Present Progressive Tense',
+                        'Life stages & Daily routines',
+                        'Jobs & Career Aspirations',
+                        'Giving Directions in School',
+                        'Past Simple Tense in Storytelling',
+                        'Food & Ordering in Restaurants'
+                      ]
                     : selectedSubjectKey === 'MATHEMATICS'
                     ? ['การแก้โจทย์ปัญหาสมการเชิงเส้น', 'การหาพื้นที่รูปเรขาคณิต', 'อัตราส่วนและร้อยละ', 'การบวกและการลบเศษส่วน']
                     : selectedSubjectKey === 'SCIENCE'

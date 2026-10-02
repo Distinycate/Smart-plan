@@ -18,7 +18,11 @@ export interface DocumentMetadata {
   durationMinutes: number;
   durationFormatted: string;
   teacherName: string;
+  teacherPosition?: string;
   schoolName: string;
+  affiliation?: string;
+  academicYear?: string;
+  semester?: string;
   curriculumVersion: string;
   teachingDate?: string | null;
   status: string;

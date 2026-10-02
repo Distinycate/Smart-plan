@@ -39,6 +39,7 @@ import type {
   ActivityTimelineSection,
   AssetSection,
   AssessmentSection,
+  TableSection,
   PostTeachingPlaceholderSection,
   PostTeachingRecordedSection,
 } from '@/lib/smartPlanV3/document/types';
@@ -335,6 +336,48 @@ function renderAssessmentSection(section: AssessmentSection): Table {
     width: { size: 100, type: WidthType.PERCENTAGE },
     borders: TABLE_BORDERS,
     rows,
+  });
+}
+
+function renderTableSection(section: TableSection): Table {
+  const colCount = (section.headers && section.headers.length > 0) ? section.headers.length : (section.rows[0]?.length || 1);
+  const defaultColW = Math.floor(100 / colCount);
+
+  const tableRows: TableRow[] = [];
+
+  if (section.headers && section.headers.length > 0) {
+    const headerCells = section.headers.map((h, idx) => {
+      let widthPercent = defaultColW;
+      if (section.columnWidths && section.columnWidths[idx]) {
+        const parsed = parseInt(section.columnWidths[idx], 10);
+        if (!isNaN(parsed)) widthPercent = parsed;
+      }
+      return cell(h, { header: true, widthPercent, align: AlignmentType.CENTER });
+    });
+    tableRows.push(new TableRow({ children: headerCells }));
+  }
+
+  section.rows.forEach(r => {
+    const rowCells = r.map((cText, idx) => {
+      let widthPercent = defaultColW;
+      if (section.columnWidths && section.columnWidths[idx]) {
+        const parsed = parseInt(section.columnWidths[idx], 10);
+        if (!isNaN(parsed)) widthPercent = parsed;
+      }
+      return cell(cText, {
+        widthPercent,
+        bold: idx === 0,
+        bg: idx === 0 ? COLOR_ALT_BG : undefined,
+        align: AlignmentType.LEFT,
+      });
+    });
+    tableRows.push(new TableRow({ children: rowCells }));
+  });
+
+  return new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    borders: TABLE_BORDERS,
+    rows: tableRows,
   });
 }
 
@@ -767,6 +810,10 @@ export async function generateDocxDocument(
 
         case 'assessment':
           children.push(renderAssessmentSection(section as AssessmentSection));
+          break;
+
+        case 'table':
+          children.push(renderTableSection(section as TableSection));
           break;
 
         case 'postTeachingPlaceholder':

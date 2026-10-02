@@ -277,12 +277,29 @@ function Step1View({ lesson, curriculumLinks, onUpdate, onNext }: {
         <div className="v3-curriculum-summary">
           <h3 className="v3-subsection-title">📋 ตัวชี้วัดที่เลือก ({curriculumLinks.length} ข้อ)</h3>
           <ul className="v3-indicator-summary">
-            {curriculumLinks.map(link => (
-              <li key={link.id} className="v3-indicator-chip">
-                <strong>{link.indicator_code}</strong>
-                {link.indicator_label_snapshot && <span> — {link.indicator_label_snapshot}</span>}
-              </li>
-            ))}
+            {curriculumLinks.map(link => {
+              const text = link.indicator_label_snapshot || '';
+              const isFormative = text.includes('[ระหว่างทาง]') || link.indicator_code.includes('ระหว่าง');
+              const isSummative = text.includes('[ปลายทาง]') || link.indicator_code.includes('ปลายทาง');
+              const cleanText = text.replace(/\[(ระหว่างทาง|ปลายทาง)\]\s*/g, '');
+
+              return (
+                <li key={link.id} className="v3-indicator-chip" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <strong style={{ color: '#1E293B' }}>{link.indicator_code}</strong>
+                  {isFormative && (
+                    <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.45rem', borderRadius: '9999px', background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0', fontWeight: 600 }}>
+                      🟢 ระหว่างทาง
+                    </span>
+                  )}
+                  {isSummative && (
+                    <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.45rem', borderRadius: '9999px', background: '#FAF5FF', color: '#6B21A8', border: '1px solid #E9D5FF', fontWeight: 600 }}>
+                      🟣 ปลายทาง
+                    </span>
+                  )}
+                  {cleanText && <span style={{ color: '#475569', fontSize: '0.85rem' }}>— {cleanText}</span>}
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
@@ -327,12 +344,36 @@ function ObjectiveCard({
     if (editing && textRef.current) textRef.current.focus();
   }, [editing]);
 
+  const statement = obj.statement || '';
+  const isK = statement.includes('(K)') || statement.includes('ความรู้');
+  const isP = statement.includes('(P)') || statement.includes('ทักษะ');
+  const isA = statement.includes('(A)') || statement.includes('คุณลักษณะ') || statement.includes('เจตคติ');
+
   return (
     <div className="v3-obj-card">
       <div className="v3-obj-header">
         <span className="v3-obj-num">{index + 1}</span>
         {!editing ? (
-          <p className="v3-obj-statement">{obj.statement}</p>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              {isK && (
+                <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.5rem', borderRadius: '9999px', background: '#EFF6FF', color: '#1E40AF', border: '1px solid #BFDBFE', fontWeight: 700 }}>
+                  📘 K - ด้านความรู้
+                </span>
+              )}
+              {isP && (
+                <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.5rem', borderRadius: '9999px', background: '#ECFDF5', color: '#065F46', border: '1px solid #A7F3D0', fontWeight: 700 }}>
+                  🛠️ P - ด้านทักษะ/ปฏิบัติ
+                </span>
+              )}
+              {isA && (
+                <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.5rem', borderRadius: '9999px', background: '#FFFBEB', color: '#92400E', border: '1px solid #FDE68A', fontWeight: 700 }}>
+                  🌟 A - คุณลักษณะอันพึงประสงค์
+                </span>
+              )}
+            </div>
+            <p className="v3-obj-statement">{obj.statement}</p>
+          </div>
         ) : (
           <textarea
             ref={textRef}
@@ -663,6 +704,28 @@ export default function V3PlanEditorPage() {
     }
   };
 
+  const selectAllKpaCandidates = async () => {
+    if (!planId || objCandidates.length === 0) return;
+    setAddingObj(true);
+    try {
+      for (let i = 0; i < objCandidates.length; i++) {
+        const c = objCandidates[i];
+        if (objectives.some(o => o.statement === c.statement)) continue;
+        const res = await fetch(`/api/plan/v3/${planId}/objectives`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ statement: c.statement, position: objectives.length + i }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setObjectives(prev => [...prev, data.data]);
+        }
+      }
+    } finally {
+      setAddingObj(false);
+    }
+  };
+
   const selectEvidenceCandidate = async (candidate: EvidenceCandidate) => {
     if (!planId) return;
     setAddingEvd(true);
@@ -761,12 +824,44 @@ export default function V3PlanEditorPage() {
             {curriculumLinks.length > 0 && (
               <div className="v3-editor-section v3-section-compact">
                 <h2 className="v3-section-title">📋 ตัวชี้วัดที่เลือก ({curriculumLinks.length} ข้อ)</h2>
-                <div className="v3-indicator-chips">
-                  {curriculumLinks.map(link => (
-                    <span key={link.id} className="v3-chip-tag">
-                      {link.indicator_code}
-                    </span>
-                  ))}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                  {curriculumLinks.map(link => {
+                    const text = link.indicator_label_snapshot || '';
+                    const isFormative = text.includes('[ระหว่างทาง]') || link.indicator_code.includes('ระหว่าง');
+                    const isSummative = text.includes('[ปลายทาง]') || link.indicator_code.includes('ปลายทาง');
+                    const cleanText = text.replace(/\[(ระหว่างทาง|ปลายทาง)\]\s*/g, '');
+
+                    return (
+                      <span
+                        key={link.id}
+                        className="v3-chip-tag"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          background: '#F8FAFC',
+                          border: '1px solid #E2E8F0',
+                          padding: '0.3rem 0.65rem',
+                          borderRadius: '8px',
+                          fontSize: '0.8rem',
+                        }}
+                        title={cleanText || link.indicator_code}
+                      >
+                        <span style={{ fontWeight: 700, color: '#1E293B' }}>{link.indicator_code}</span>
+                        {isFormative && (
+                          <span style={{ fontSize: '0.65rem', padding: '0.05rem 0.35rem', borderRadius: '9999px', background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0', fontWeight: 600 }}>
+                            🟢 ระหว่างทาง
+                          </span>
+                        )}
+                        {isSummative && (
+                          <span style={{ fontSize: '0.65rem', padding: '0.05rem 0.35rem', borderRadius: '9999px', background: '#FAF5FF', color: '#6B21A8', border: '1px solid #E9D5FF', fontWeight: 600 }}>
+                            🟣 ปลายทาง
+                          </span>
+                        )}
+                        {cleanText && <span style={{ color: '#64748B', maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{cleanText}</span>}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -778,7 +873,7 @@ export default function V3PlanEditorPage() {
                   <h2 className="v3-section-title" style={{ margin: 0 }}>🎯 จุดประสงค์การเรียนรู้</h2>
                   <span className="v3-count-badge">{objectives.length} ข้อ</span>
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                   <button
                     type="button"
                     onClick={refreshObjectiveSuggestions}
@@ -803,56 +898,72 @@ export default function V3PlanEditorPage() {
               {lesson.learning_focus && (
                 <div className="v3-guidance-box">
                   <strong>ลักษณะการเรียนรู้:</strong> {lesson.learning_focus} — ควรกำหนดจุดประสงค์ที่สังเกตและวัดได้ชัดเจน
-                  <br /><span className="v3-hint-small">สำหรับแผน {formatDuration(lesson.duration_minutes)} ควรมีจุดประสงค์ที่ชัดเจน 2–3 ข้อ</span>
+                  <br /><span className="v3-hint-small">สำหรับแผน {formatDuration(lesson.duration_minutes)} ควรมีจุดประสงค์ที่ชัดเจนครอบคลุม K - P - A (2–3 ข้อ)</span>
                 </div>
               )}
 
               {/* 💡 Guided Objective Suggestion Cards */}
               {objCandidates.length > 0 && (
                 <div style={{ marginBottom: '1.25rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#334155' }}>
-                      💡 ข้อเสนอจุดประสงค์ที่เหมาะกับแผนนี้ (เลือกใช้หรือแก้ไขก่อนใช้):
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#1E293B' }}>
+                      💡 ข้อเสนอจุดประสงค์การเรียนรู้ตามเกณฑ์ ว.PA (K-P-A):
                     </span>
+                    <button
+                      type="button"
+                      onClick={selectAllKpaCandidates}
+                      disabled={addingObj || objCandidates.every(c => objectives.some(o => o.statement === c.statement))}
+                      className="v3-btn v3-btn-primary v3-btn-xs"
+                      style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem', background: '#2563EB', borderRadius: '6px', fontWeight: 600 }}
+                    >
+                      ✨ เลือกครบชุด K-P-A อัตโนมัติ (3 ด้าน)
+                    </button>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem' }}>
                     {objCandidates.map((c) => {
                       const alreadyAdded = objectives.some(o => o.statement === c.statement);
+                      const isK = c.category === 'K' || c.statement.includes('(K)');
+                      const isP = c.category === 'P' || c.statement.includes('(P)');
+                      const isA = c.category === 'A' || c.statement.includes('(A)');
+
+                      const badgeLabel = isK ? '📘 K - ด้านความรู้' : isP ? '🛠️ P - ด้านทักษะ/ปฏิบัติ' : isA ? '🌟 A - คุณลักษณะ' : c.levelLabelTh;
+                      const badgeCls = isK ? 'bg-blue-100 text-blue-800 border-blue-200' : isP ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : isA ? 'bg-amber-100 text-amber-800 border-amber-200' : (c.levelBadgeCls || 'bg-slate-100 text-slate-800 border-slate-200');
+
                       return (
                         <div
                           key={c.id}
                           style={{
-                            border: alreadyAdded ? '1px solid #10B981' : '1px solid #E2E8F0',
-                            borderRadius: '10px',
-                            padding: '0.85rem',
+                            border: alreadyAdded ? '1.5px solid #10B981' : isK ? '1.5px solid #BFDBFE' : isP ? '1.5px solid #A7F3D0' : isA ? '1.5px solid #FDE68A' : '1px solid #E2E8F0',
+                            borderRadius: '12px',
+                            padding: '0.9rem',
                             background: alreadyAdded ? '#F0FDF4' : '#FFFFFF',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.03)',
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'space-between',
                           }}
                         >
                           <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.45rem' }}>
                               <span
                                 style={{
                                   fontSize: '0.75rem',
-                                  fontWeight: 600,
-                                  padding: '0.15rem 0.5rem',
+                                  fontWeight: 700,
+                                  padding: '0.15rem 0.55rem',
                                   borderRadius: '9999px',
                                   border: '1px solid',
                                 }}
-                                className={c.levelBadgeCls || 'bg-blue-50 text-blue-700 border-blue-200'}
+                                className={badgeCls}
                               >
-                                {c.levelLabelTh}
+                                {badgeLabel}
                               </span>
                               {alreadyAdded && (
-                                <span style={{ fontSize: '0.75rem', color: '#059669', fontWeight: 600 }}>
+                                <span style={{ fontSize: '0.75rem', color: '#059669', fontWeight: 700 }}>
                                   ✓ เลือกแล้ว
                                 </span>
                               )}
                             </div>
-                            <p style={{ fontSize: '0.875rem', color: '#1E293B', lineHeight: '1.4', margin: '0 0 0.4rem', fontWeight: 500 }}>
+                            <p style={{ fontSize: '0.875rem', color: '#1E293B', lineHeight: '1.45', margin: '0 0 0.45rem', fontWeight: 500 }}>
                               {c.statement}
                             </p>
                             <p style={{ fontSize: '0.75rem', color: '#64748B', margin: 0 }}>
@@ -1205,22 +1316,83 @@ export default function V3PlanEditorPage() {
         )}
 
         {currentStep === 7 && (
-          <div className="v3-editor-section text-center py-10 space-y-4 max-w-xl mx-auto">
-            <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto text-3xl">
+          <div className="v3-editor-section text-center py-8 space-y-5 max-w-2xl mx-auto">
+            <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-sm">
               📄
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900">เอกสารแผนการจัดการเรียนรู้ฉบับเต็ม</h2>
+              <h2 className="text-xl font-bold text-slate-900">เอกสารแผนการจัดการเรียนรู้ฉบับสมบูรณ์ (Canonical Document)</h2>
               <p className="text-sm text-slate-600 mt-1">
-                ประกอบเอกสารตามมาตรฐานกระทรวงศึกษาธิการและ ว.PA พร้อมใบงาน ภาระงาน เฉลย และเครื่องมือวัดผล
+                ประกอบเอกสารมาตรฐาน 13 หัวข้อตามเกณฑ์กระทรวงศึกษาธิการ และ ว.PA พร้อมใบงาน ภาระงาน เฉลย และเครื่องมือวัดผล
               </p>
             </div>
 
-            <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-left text-xs text-slate-700 space-y-1.5">
-              <div className="font-semibold text-slate-800">สถานะความพร้อมของเอกสาร:</div>
-              <div className="text-emerald-700">✓ แผนผ่านการตรวจสอบคุณภาพเชิงโครงสร้างและความสอดคล้อง (REVIEWED)</div>
-              <div>✓ ข้อมูลและภาคผนวกถูกจัดเรียงตาม Canonical Document Model</div>
-              <div>✓ พร้อมสำหรับการดูตัวอย่างบนหน้ากระดาษ A4 จริงและการพิมพ์</div>
+            {/* Quick Export Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+              <a
+                href={`/api/plan/v3/${planId}/export/word?package=teacher`}
+                target="_blank"
+                rel="noreferrer"
+                className="p-3.5 bg-blue-50/70 hover:bg-blue-100/70 border border-blue-200 rounded-xl transition flex flex-col justify-between"
+              >
+                <div>
+                  <div className="font-bold text-blue-900 text-sm flex items-center gap-1.5">
+                    <span>📘</span> ส่งออก Word (.docx)
+                  </div>
+                  <div className="text-xs text-blue-700 mt-1">ฟอนต์ TH Sarabun New แท้ ตารางสมบูรณ์ แก้ไขต่อได้ทันที</div>
+                </div>
+                <div className="mt-3 text-xs font-semibold text-blue-600">ดาวน์โหลด Word →</div>
+              </a>
+
+              <a
+                href={`/api/plan/v3/${planId}/export/pdf?package=teacher`}
+                target="_blank"
+                rel="noreferrer"
+                className="p-3.5 bg-rose-50/70 hover:bg-rose-100/70 border border-rose-200 rounded-xl transition flex flex-col justify-between"
+              >
+                <div>
+                  <div className="font-bold text-rose-900 text-sm flex items-center gap-1.5">
+                    <span>📕</span> ส่งออก PDF (.pdf)
+                  </div>
+                  <div className="text-xs text-rose-700 mt-1">จัดหน้า A4 คมชัด เลขหน้าสมบูรณ์ พร้อมแนบประเมิน ว.PA</div>
+                </div>
+                <div className="mt-3 text-xs font-semibold text-rose-600">ดาวน์โหลด PDF →</div>
+              </a>
+
+              <Link
+                href={`/plan/v3/${planId}/preview`}
+                className="p-3.5 bg-indigo-50/70 hover:bg-indigo-100/70 border border-indigo-200 rounded-xl transition flex flex-col justify-between"
+              >
+                <div>
+                  <div className="font-bold text-indigo-900 text-sm flex items-center gap-1.5">
+                    <span>🖨️</span> ดูตัวอย่าง A4 & สั่งพิมพ์
+                  </div>
+                  <div className="text-xs text-indigo-700 mt-1">ดูหน้ากระดาษเสมือนจริง ซูมเข้า-ออก และสั่งพิมพ์ทางเครื่องพิมพ์</div>
+                </div>
+                <div className="mt-3 text-xs font-semibold text-indigo-600">เปิดโหมดพรีวิว →</div>
+              </Link>
+            </div>
+
+            {/* Canonical 13 Sections Checklist */}
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-left text-xs text-slate-700 space-y-2">
+              <div className="font-bold text-slate-800 text-sm flex items-center gap-1.5">
+                <span>✓</span> องค์ประกอบ 13 หัวข้อตามมาตรฐาน ว.PA ที่ถูกบรรจุในเอกสาร:
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-slate-600">
+                <div>1. ข้อมูลทั่วไป ครูผู้สอน และสถานศึกษา</div>
+                <div>2. มาตรฐานและตัวชี้วัด (ระหว่างทาง / ปลายทาง)</div>
+                <div>3. สาระสำคัญ / ความคิดรวบยอด</div>
+                <div>4. จุดประสงค์การเรียนรู้ (K - P - A)</div>
+                <div>5. สมรรถนะสำคัญของผู้เรียน (5 ด้าน)</div>
+                <div>6. คุณลักษณะอันพึงประสงค์ (8 ประการ)</div>
+                <div>7. สาระการเรียนรู้ (Grammar, Vocab, Skills)</div>
+                <div>8. ชิ้นงาน / ภาระงาน (หลักฐานเชิงประจักษ์)</div>
+                <div>9. กิจกรรมการเรียนรู้ (Timeline ละเอียด)</div>
+                <div>10. สื่อ นวัตกรรม และแหล่งการเรียนรู้</div>
+                <div>11. การวัดและประเมินผลการเรียนรู้</div>
+                <div>12. เกณฑ์การประเมินแบบรูบริกส์ (4 ระดับ)</div>
+                <div className="col-span-full font-medium text-slate-800">13. บันทึกหลังการสอน (K-P-A, ปัญหา, แนวทางแก้ไข, ลายมือชื่อครูและผู้บริหาร)</div>
+              </div>
             </div>
 
             <div className="pt-2 flex justify-center gap-3">
@@ -1234,7 +1406,7 @@ export default function V3PlanEditorPage() {
                 href={`/plan/v3/${planId}/preview`}
                 className="v3-btn v3-btn-primary py-2.5 px-6 shadow-md"
               >
-                เปิดตัวอย่างเอกสาร A4 และสั่งพิมพ์ →
+                เปิดตัวอย่างเอกสาร A4 เต็มจอ →
               </Link>
             </div>
           </div>

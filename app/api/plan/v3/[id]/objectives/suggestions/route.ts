@@ -66,7 +66,7 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     // Optional LLM enhancement
     try {
       const prompt = `คุณคือผู้เชี่ยวชาญด้านการออกแบบหลักสูตรและการสอน (Curriculum & Instructional Design) ของกระทรวงศึกษาธิการไทย
-โปรดสร้างจุดประสงค์การเรียนรู้ 3 ระดับ (Observable & Measurable) ในรูปแบบ JSON ภาษาไทย สำหรับแผนการสอนนี้:
+โปรดสร้างจุดประสงค์การเรียนรู้ 3 ด้านตามมาตรฐาน ว.PA (K - P - A) ในรูปแบบ JSON ภาษาไทย สำหรับแผนการสอนนี้:
 - วิชา: ${plan.subject_key}
 - เรื่อง: ${plan.topic}
 - ลักษณะการเรียนรู้ (Focus): ${plan.learning_focus || 'ทั่วไป'}
@@ -76,36 +76,45 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
 คำสั่งสำคัญ:
 1. ข้อความต้องวัดและสังเกตได้จริงในคาบเรียน (Observable verbs เช่น ออกเสียง, พูดถาม-ตอบ, แสดงวิธีทำ, บันทึกผล)
 2. ห้ามใช้คำกำกวม เช่น "เข้าใจ", "รู้เรื่อง"
-3. แบ่งเป็น 3 ระดับ:
-   - ระดับ 1: พื้นฐาน (Foundation / Recall / Identification)
-   - ระดับ 2: เป้าหมายของคาบนี้ (Target / Core Application)
-   - ระดับ 3: ท้าทาย/ขยายผล (Extended / Higher-Order)
+3. แบ่งออกเป็น 3 ด้านตามเกณฑ์ ว.PA:
+   - ด้านความรู้ (Knowledge: K): ข้อความลงท้ายด้วย (K)
+   - ด้านทักษะ/กระบวนการ (Process/Skill: P): ข้อความลงท้ายด้วย (P)
+   - ด้านคุณลักษณะอันพึงประสงค์/เจตคติ (Attitude: A): ข้อความลงท้ายด้วย (A)
 4. ตอบกลับเฉพาะ JSON ที่มีโครงสร้างนี้เท่านั้น:
 {
   "candidates": [
     {
-      "id": "obj-sug-1",
+      "id": "obj-sug-k",
+      "category": "K",
+      "categoryLabelTh": "ด้านความรู้ (Knowledge: K)",
+      "categoryBadgeCls": "bg-blue-100 text-blue-800 border-blue-200",
       "level": "FOUNDATION",
-      "levelLabelTh": "ระดับพื้นฐาน (Foundation)",
+      "levelLabelTh": "K - ด้านความรู้",
       "levelBadgeCls": "bg-blue-100 text-blue-800 border-blue-200",
       "statement": "...",
       "rationale": "...",
       "observableVerb": "..."
     },
     {
-      "id": "obj-sug-2",
+      "id": "obj-sug-p",
+      "category": "P",
+      "categoryLabelTh": "ด้านทักษะกระบวนการ (Process: P)",
+      "categoryBadgeCls": "bg-emerald-100 text-emerald-800 border-emerald-200",
       "level": "TARGET",
-      "levelLabelTh": "ระดับเป้าหมายคาบนี้ (Recommended)",
+      "levelLabelTh": "P - ด้านทักษะ/ปฏิบัติ",
       "levelBadgeCls": "bg-emerald-100 text-emerald-800 border-emerald-200",
       "statement": "...",
       "rationale": "...",
       "observableVerb": "..."
     },
     {
-      "id": "obj-sug-3",
+      "id": "obj-sug-a",
+      "category": "A",
+      "categoryLabelTh": "ด้านคุณลักษณะ/เจตคติ (Attitude: A)",
+      "categoryBadgeCls": "bg-amber-100 text-amber-800 border-amber-200",
       "level": "EXTENDED",
-      "levelLabelTh": "ระดับท้าทาย/ขยายผล (Extended)",
-      "levelBadgeCls": "bg-purple-100 text-purple-800 border-purple-200",
+      "levelLabelTh": "A - คุณลักษณะอันพึงประสงค์",
+      "levelBadgeCls": "bg-amber-100 text-amber-800 border-amber-200",
       "statement": "...",
       "rationale": "...",
       "observableVerb": "..."
