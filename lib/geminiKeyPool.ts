@@ -46,7 +46,9 @@ export function buildGeminiKeyPool(
 
 export function geminiAttemptLimit(requestedAttempts: number, keyCount: number) {
   if (keyCount < 1) return 0;
-  return Math.max(1, Math.min(Math.max(requestedAttempts, keyCount), 8));
+  // Always allow at least 3 attempts so model-tier failover (2.5-flash -> 2.5-flash-lite -> 1.5-flash)
+  // or multi-key rotation has room to operate within the deadline.
+  return Math.max(3, Math.min(Math.max(requestedAttempts, keyCount), 8));
 }
 
 export function shouldRotateGeminiKey(status: number, remainingUntriedKeys: number) {

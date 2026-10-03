@@ -8,6 +8,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { V3Repository } from '../repository';
 import { V3LessonGraph, V3BlueprintActivityDraft } from '../types';
+import { getActivityFlowSuggestions } from '../suggestions/activityFlowSuggestions';
 
 export interface RegenerateSingleActivityResult {
   success: boolean;
@@ -109,46 +110,82 @@ export async function regenerateSingleActivity(
       },
     };
 
-    const response = await fetchGeminiWithRetry(apiUrl, payload, 2, options?.customApiKey, planId, 25_000);
+    const response = await fetchGeminiWithRetry(apiUrl, payload, 1, options?.customApiKey, planId, 5_000);
     const resJson = await response.json();
     const rawAiText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
 
-    if (!rawAiText) {
-      return { success: false, error: 'ไม่ได้รับเนื้อหาทางเลือกจาก AI' };
+    if (rawAiText) {
+      let cleaned = rawAiText.trim();
+      const match = cleaned.match(/```(?:json)?([\s\S]*?)```/);
+      if (match) cleaned = match[1].trim();
+      cleaned = cleaned.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+
+      const parsed = JSON.parse(cleaned);
+
+      const alternativeDraft: V3BlueprintActivityDraft = {
+        temporaryId: `ALT-${Date.now().toString(36)}`,
+        phase: parsed.phase || currentActivity.phase,
+        title: parsed.title || 'กิจกรรมทางเลือกใหม่',
+        minutes: Number(parsed.minutes) || currentActivity.minutes,
+        teacherActions: Array.isArray(parsed.teacherActions) ? parsed.teacherActions : [parsed.teacherActions || ''],
+        studentActions: Array.isArray(parsed.studentActions) ? parsed.studentActions : [parsed.studentActions || ''],
+        linkedObjectiveRefs: [],
+        linkedEvidenceRefs: [],
+        formativeCheck: parsed.formativeCheck,
+        feedback: parsed.feedback,
+        requiredAssetHints: Array.isArray(parsed.requiredAssetHints) ? parsed.requiredAssetHints : [],
+        resolvedObjectiveIds: currentObjIds,
+        resolvedEvidenceIds: currentEvdIds,
+      };
+
+      return {
+        success: true,
+        originalActivity: currentActivity,
+        alternativeDraft,
+      };
     }
-
-    let cleaned = rawAiText.trim();
-    const match = cleaned.match(/```(?:json)?([\s\S]*?)```/);
-    if (match) cleaned = match[1].trim();
-    cleaned = cleaned.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
-
-    const parsed = JSON.parse(cleaned);
-
-    const alternativeDraft: V3BlueprintActivityDraft = {
-      temporaryId: `ALT-${Date.now().toString(36)}`,
-      phase: parsed.phase || currentActivity.phase,
-      title: parsed.title || 'กิจกรรมทางเลือกใหม่',
-      minutes: Number(parsed.minutes) || currentActivity.minutes,
-      teacherActions: Array.isArray(parsed.teacherActions) ? parsed.teacherActions : [parsed.teacherActions || ''],
-      studentActions: Array.isArray(parsed.studentActions) ? parsed.studentActions : [parsed.studentActions || ''],
-      linkedObjectiveRefs: [],
-      linkedEvidenceRefs: [],
-      formativeCheck: parsed.formativeCheck,
-      feedback: parsed.feedback,
-      requiredAssetHints: Array.isArray(parsed.requiredAssetHints) ? parsed.requiredAssetHints : [],
-      resolvedObjectiveIds: currentObjIds,
-      resolvedEvidenceIds: currentEvdIds,
-    };
-
-    return {
-      success: true,
-      originalActivity: currentActivity,
-      alternativeDraft,
-    };
   } catch (err: any) {
-    return {
-      success: false,
-      error: err.message || 'ไม่สามารถขอแนวทางกิจกรรมใหม่ได้ กรุณาลองใหม่อีกครั้ง',
-    };
+    console.warn('[ActivityRegenService] AI call timed out or failed, generating instant deterministic alternative:', err);
   }
+
+  // ─── Instant Deterministic Alternative Fallback ───────────────────────────
+  const flows = getActivityFlowSuggestions({
+    subjectKey: lesson.subject_key || 'GENERAL',
+    learningFocus: lesson.learning_focus,
+    topic: lesson.topic,
+    durationMinutes: lesson.duration_minutes || 60,
+    objectiveIds: currentObjIds,
+    evidenceIds: currentEvdIds,
+  });
+
+  const matchingFlow = flows[0]?.activities || [];
+  const matchingAct = matchingFlow.find(a => a.phase === currentActivity.phase) || matchingFlow[0];
+
+  const alternativeDraft: V3BlueprintActivityDraft = {
+    temporaryId: `ALT-${Date.now().toString(36)}`,
+    phase: currentActivity.phase,
+    title: matchingAct ? `แนวทางใหม่: ${matchingAct.title}` : `แนวทาง Active Learning ทางเลือก (${currentActivity.phase})`,
+    minutes: currentActivity.minutes || 15,
+    teacherActions: matchingAct?.teacherActions || ['ครูผู้สอนจัดกิจกรรมแบบมีส่วนร่วมและกระตุ้นการคิด'],
+    studentActions: matchingAct?.studentActions || ['นักเรียนลงมือปฏิบัติร่วมกันเป็นกลุ่มย่อยหรือจับคู่'],
+    linkedObjectiveRefs: [],
+    linkedEvidenceRefs: [],
+    formativeCheck: matchingAct?.formativeCheck || {
+      enabled: true,
+      description: 'สังเกตการมีส่วนร่วมและการตอบคำถาม',
+    },
+    feedback: matchingAct?.feedback || {
+      enabled: true,
+      description: 'ครูให้คำแนะนำเสริมและข้อมูลย้อนกลับทันที',
+    },
+    requiredAssetHints: [],
+    resolvedObjectiveIds: currentObjIds,
+    resolvedEvidenceIds: currentEvdIds,
+  };
+
+  return {
+    success: true,
+    originalActivity: currentActivity,
+    alternativeDraft,
+  };
 }

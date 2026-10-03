@@ -131,10 +131,10 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: { responseMimeType: 'application/json', temperature: 0.2 },
         },
-        1,
+        2,
         undefined,
         planId,
-        15_000
+        4_500
       );
 
       const json = await response.json();

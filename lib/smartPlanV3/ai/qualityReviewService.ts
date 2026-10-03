@@ -9,6 +9,7 @@ import { createClient } from '@/utils/supabase/server';
 import { V3Repository } from '../repository';
 import type { V3LessonGraph } from '../types';
 import { buildLessonAlignmentGraph, buildEntityRefs, computeLessonHash } from '../quality/alignmentGraph';
+import { runStructuralQualityRules } from '../quality/qualityRules';
 import { buildQualityReviewSystemInstruction, buildQualityReviewPrompt } from './qualityReviewPrompt';
 import type { V3QualityReviewContext } from './qualityReviewPrompt';
 import { validateQualityReviewOutput } from './qualityReviewSchema';
@@ -186,25 +187,44 @@ export async function reviewLessonQuality(
     },
   };
 
-  const response = await fetchGeminiWithRetry(
-    apiUrl,
-    payload,
-    2,
-    undefined,
-    planId,
-    25_000
-  );
+  let validation: any = null;
 
-  const resJson = await response.json();
-  const rawText = resJson.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  try {
+    const response = await fetchGeminiWithRetry(
+      apiUrl,
+      payload,
+      1,
+      undefined,
+      planId,
+      5_500
+    );
 
-  // Validate output
-  const validation = validateQualityReviewOutput(rawText, allValidRefs);
+    const resJson = await response.json();
+    const rawText = resJson.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (rawText) {
+      validation = validateQualityReviewOutput(rawText, allValidRefs);
+    }
+  } catch (aiErr) {
+    console.warn('[QualityReviewService] AI call failed or timed out, using deterministic structural rules:', aiErr);
+  }
+
+  // If AI was unavailable or invalid, use structural quality rules as clean fallback
+  if (!validation || !validation.sanitizedIssues) {
+    const alignmentGraph = buildLessonAlignmentGraph(graph);
+    const structuralResult = runStructuralQualityRules(graph, alignmentGraph);
+
+    validation = {
+      sanitizedIssues: structuralResult.issues,
+      valid: true,
+      rejectedCount: 0,
+      errors: [],
+    };
+  }
 
   const reviewedAt = new Date().toISOString();
-  const status = validation.sanitizedIssues.some(i => i.severity === 'ERROR')
+  const status = validation.sanitizedIssues.some((i: any) => i.severity === 'ERROR')
     ? 'FAILED'
-    : validation.sanitizedIssues.some(i => i.severity === 'WARNING')
+    : validation.sanitizedIssues.some((i: any) => i.severity === 'WARNING')
     ? 'WARNING'
     : 'PASSED';
 

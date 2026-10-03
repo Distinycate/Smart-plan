@@ -8,6 +8,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { fetchGeminiWithRetry } from '@/lib/geminiClient';
 import { V3Repository } from '../repository';
 import { getSubjectProfile } from '../subjectProfiles/registry';
+import { getAssessmentSuggestions } from '../suggestions/assessmentSuggestions';
 import { buildAssessmentToolPrompt, AssessmentToolPromptInput } from './assessmentToolPrompt';
 import { validateAiToolResponse } from './assessmentToolSchema';
 
@@ -29,7 +30,7 @@ export interface GenerateAssessmentToolResult {
     toolType: string;
     title: string;
     content: Record<string, any>;
-    source: 'AI';
+    source: 'AI' | 'DETERMINISTIC_RULES';
   };
   meta?: {
     model: string;
@@ -135,10 +136,6 @@ export async function generateAssessmentTool(
     process.env.GEMINI_API_KEY_EVALUATE ||
     process.env.GEMINI_API_KEY;
 
-  if (!apiKey) {
-    return { success: false, error: 'ระบบยังไม่ได้ตั้งค่า GEMINI_API_KEY' };
-  }
-
   const model = process.env.GEMINI_FAST_MODEL || 'gemini-2.5-flash';
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
@@ -156,89 +153,97 @@ export async function generateAssessmentTool(
     const rawRes = await fetchGeminiWithRetry(
       apiUrl,
       primaryPayload,
-      3,
+      1,
       params.customApiKey,
       params.planId,
-      30_000
+      5_500
     );
 
     const resJson = await rawRes.json();
     const rawText = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!rawText) {
-      return { success: false, error: 'ไม่ได้รับข้อมูลตอบกลับจากแบบจำลอง AI' };
-    }
-
-    // 4. Validate output
-    const validation = validateAiToolResponse(rawText, params.toolType);
-    if (!validation.valid || !validation.toolContent) {
-      // Auto-retry once with correction prompt
-      console.warn('AI Assessment Tool response invalid, retrying with correction:', validation.error);
-      const correctionPrompt = `${userPrompt}\n\nข้อผิดพลาดในการสร้างรอบก่อนหน้า: ${validation.error}\nโปรดแก้ไขและส่งคืนเฉพาะ JSON ที่ถูกต้องสมบูรณ์ตาม Schema เท่านั้น`;
-
-      const retryPayload = {
-        contents: [{ role: 'user', parts: [{ text: correctionPrompt }] }],
-        systemInstruction: { parts: [{ text: systemInstruction }] },
-        generationConfig: {
-          temperature: 0.1,
-          maxOutputTokens: 2048,
-          responseMimeType: 'application/json',
-        },
-      };
-
-      const retryRes = await fetchGeminiWithRetry(
-        apiUrl,
-        retryPayload,
-        2,
-        params.customApiKey,
-        params.planId,
-        30_000
-      );
-
-      const retryJson = await retryRes.json();
-      const retryText = retryJson.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!retryText) {
-        return { success: false, error: validation.error || 'โครงสร้างข้อมูลเครื่องมือไม่ถูกต้อง' };
+    if (rawText) {
+      const validation = validateAiToolResponse(rawText, params.toolType);
+      if (validation.valid && validation.toolContent) {
+        const title = validation.toolContent.title || `เครื่องมือประเมิน (${params.toolType})`;
+        return {
+          success: true,
+          preview: {
+            toolType: params.toolType,
+            title,
+            content: validation.toolContent,
+            source: 'AI',
+          },
+          meta: {
+            model,
+            durationMs: Date.now() - startTime,
+          },
+        };
       }
-
-      const retryValidation = validateAiToolResponse(retryText, params.toolType);
-      if (!retryValidation.valid || !retryValidation.toolContent) {
-        return { success: false, error: retryValidation.error || 'โครงสร้างข้อมูลเครื่องมือไม่ถูกต้อง' };
-      }
-
-      const title = retryValidation.toolContent.title || `เครื่องมือประเมิน (${params.toolType})`;
-      return {
-        success: true,
-        preview: {
-          toolType: params.toolType,
-          title,
-          content: retryValidation.toolContent,
-          source: 'AI',
-        },
-        meta: {
-          model,
-          durationMs: Date.now() - startTime,
-        },
-      };
     }
-
-    const title = validation.toolContent.title || `เครื่องมือประเมิน (${params.toolType})`;
-    return {
-      success: true,
-      preview: {
-        toolType: params.toolType,
-        title,
-        content: validation.toolContent,
-        source: 'AI',
-      },
-      meta: {
-        model,
-        durationMs: Date.now() - startTime,
-      },
-    };
   } catch (err: any) {
-    return {
-      success: false,
-      error: `การเรียก AI ล้มเหลว: ${err.message || 'Network error'}`,
-    };
+    console.warn('[AssessmentToolService] AI call timed out or failed, generating instant deterministic rubric/checklist:', err);
   }
+
+  // ─── Instant Deterministic Fallback ───────────────────────────────────────
+  const suggestions = getAssessmentSuggestions({
+    subjectKey: lesson.subject_key || 'GENERAL',
+    learningFocus: lesson.learning_focus,
+    topic: lesson.topic,
+    primaryEvidenceType: evidenceType,
+  });
+
+  const chosen = suggestions.find(s => s.toolType === params.toolType) || suggestions[0];
+  const fallbackTitle = chosen ? chosen.toolTitle : `แบบประเมินและเกณฑ์รูบริกเรื่อง ${lesson.topic}`;
+
+  const fallbackContent = {
+    title: fallbackTitle,
+    description: chosen ? chosen.description : `เกณฑ์การประเมิน 4 ระดับคุณภาพสำหรับการจัดการเรียนรู้เรื่อง ${lesson.topic}`,
+    criteria: [
+      {
+        name: 'ด้านความรู้ความเข้าใจ (Knowledge: K)',
+        weight: 40,
+        levels: [
+          { level: 4, label: 'ดีมาก', description: `อธิบายและระบุสาระสำคัญเรื่อง ${lesson.topic} ได้อย่างถูกต้องครบถ้วน ชัดเจน และเชื่อมโยงประเด็นได้ดีเยี่ยม` },
+          { level: 3, label: 'ดี', description: `อธิบายสาระสำคัญเรื่อง ${lesson.topic} ได้ถูกต้องเป็นส่วนใหญ่ สื่อความหมายได้เข้าใจชัดเจน` },
+          { level: 2, label: 'พอใช้', description: `อธิบายสาระสำคัญเรื่อง ${lesson.topic} ได้บางส่วน ต้องมีคำชี้แนะเสริม` },
+          { level: 1, label: 'ปรับปรุง', description: `ยังไม่สามารถอธิบายสาระสำคัญเรื่อง ${lesson.topic} ได้ ต้องได้รับการช่วยเหลือ` },
+        ],
+      },
+      {
+        name: 'ด้านทักษะกระบวนการและการปฏิบัติ (Process: P)',
+        weight: 40,
+        levels: [
+          { level: 4, label: 'ดีมาก', description: `ลงมือปฏิบัติตามขั้นตอนได้อย่างคล่องแคล่ว ถูกต้อง และสร้างสรรค์ผลงานได้อย่างมีคุณภาพสูง` },
+          { level: 3, label: 'ดี', description: `ลงมือปฏิบัติตามขั้นตอนได้ถูกต้อง ทำงานเสร็จสมบูรณ์ตามเวลาที่กำหนด` },
+          { level: 2, label: 'พอใช้', description: `ปฏิบัติตามขั้นตอนได้ แต่ยังมีข้อผิดพลาดเล็กน้อย ทำงานล่าช้ากว่ากำหนด` },
+          { level: 1, label: 'ปรับปรุง', description: `ไม่สามารถปฏิบัติงานตามขั้นตอนได้ ต้องมีผู้ช่วยเหลือตลอดเวลา` },
+        ],
+      },
+      {
+        name: 'ด้านคุณลักษณะอันพึงประสงค์ (Attitude: A)',
+        weight: 20,
+        levels: [
+          { level: 4, label: 'ดีมาก', description: 'มีความมุ่งมั่น กระตือรือร้น และให้ความร่วมมือในการทำงานกลุ่มอย่างดีเยี่ยม' },
+          { level: 3, label: 'ดี', description: 'มีความมุ่งมั่นและร่วมมือในการทำงานกลุ่มเป็นอย่างดี' },
+          { level: 2, label: 'พอใช้', description: 'ร่วมมือในการทำงานเมื่อได้รับมอบหมาย แต่ยังขาดความกระตือรือร้น' },
+          { level: 1, label: 'ปรับปรุง', description: 'ไม่ค่อยมีส่วนร่วมในการทำงานกลุ่ม ต้องคอยกระตุ้นเตือน' },
+        ],
+      },
+    ],
+    passingScore: 60,
+  };
+
+  return {
+    success: true,
+    preview: {
+      toolType: params.toolType,
+      title: fallbackTitle,
+      content: fallbackContent,
+      source: 'DETERMINISTIC_RULES',
+    },
+    meta: {
+      model: 'deterministic-assessment-engine',
+      durationMs: Date.now() - startTime,
+    },
+  };
 }
