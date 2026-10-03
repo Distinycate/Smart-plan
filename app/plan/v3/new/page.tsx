@@ -307,10 +307,19 @@ export default function NewV3LessonPage() {
       setAiProgressStep(4);
       setAiProgressPercent(100);
       setAiCreatedPlanId(data.data.id);
+      setAiGenerating(false);
 
+      const targetUrl = `/plan/v3/${data.data.id}?step=1`;
+      try {
+        router.push(targetUrl);
+      } catch {}
+
+      // Hard redirect fallback to guarantee browser navigation
       setTimeout(() => {
-        router.push(`/plan/v3/${data.data.id}?step=1`);
-      }, 400);
+        if (typeof window !== 'undefined') {
+          window.location.href = targetUrl;
+        }
+      }, 250);
 
     } catch {
       clearInterval(intervalTimer);
@@ -394,7 +403,15 @@ export default function NewV3LessonPage() {
         });
       } catch {}
 
-      router.push(`/plan/v3/${planId}?step=2`);
+      const targetUrl = `/plan/v3/${planId}?step=2`;
+      try {
+        router.push(targetUrl);
+      } catch {}
+      setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          window.location.href = targetUrl;
+        }
+      }, 250);
     } catch {
       setError('เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองอีกครั้ง');
       setSubmitting(false);
@@ -611,46 +628,64 @@ export default function NewV3LessonPage() {
                       <span className="text-slate-400">ใช้เวลาเฉลี่ย 2–3 วินาที</span>
                     </div>
 
-                    {/* Instant Access if taking longer than 4s */}
-                    {aiSecondsElapsed >= 4 && (
+                    {/* Instant Access when plan is created or taking longer than 4s */}
+                    {aiCreatedPlanId ? (
                       <div className="mt-3 pt-2.5 border-t border-blue-200/60 flex items-center justify-between">
-                        <span className="text-xs text-blue-700">ระบบบันทึกข้อมูลเข้าฐานข้อมูลเรียบร้อยแล้ว</span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (aiCreatedPlanId) {
-                              router.push(`/plan/v3/${aiCreatedPlanId}?step=1`);
-                            }
+                        <span className="text-xs font-semibold text-emerald-700">✓ บันทึกข้อมูลเข้าฐานข้อมูลเรียบร้อยแล้ว</span>
+                        <a
+                          href={`/plan/v3/${aiCreatedPlanId}?step=1`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.location.href = `/plan/v3/${aiCreatedPlanId}?step=1`;
                           }}
-                          className="text-xs font-bold text-[#0071E3] hover:underline"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0071E3] hover:bg-[#0077ED] text-white text-xs font-bold rounded-lg shadow-sm transition-all"
                         >
-                          {aiCreatedPlanId ? '⚡ เปิดดูแผนทันที →' : 'กำลังเปิดแผนให้อัตโนมัติ...'}
-                        </button>
+                          ⚡ เปิดดูแผนทันที →
+                        </a>
                       </div>
-                    )}
+                    ) : aiSecondsElapsed >= 4 ? (
+                      <div className="mt-3 pt-2.5 border-t border-blue-200/60 flex items-center justify-between">
+                        <span className="text-xs text-blue-700">กำลังจัดเตรียมโครงสร้างแผนการสอน...</span>
+                        <span className="text-xs text-slate-400">กรุณารอสักครู่</span>
+                      </div>
+                    ) : null}
                   </div>
                 )}
 
                 {/* Primary AI Submit Button */}
                 <div className="pt-2">
-                  <button
-                    type="button"
-                    onClick={() => handleAiFastGenerate()}
-                    disabled={!aiPrompt.trim() || aiGenerating}
-                    className="apple-btn-hero w-full"
-                  >
-                    {aiGenerating ? (
-                      <>
-                        <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                        <span>กำลังประมวลผลด้วย AI...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-4 h-4" />
-                        <span>✨ ออกแบบแผนการสอนด้วย AI ในคลิกเดียว</span>
-                      </>
-                    )}
-                  </button>
+                  {aiCreatedPlanId ? (
+                    <a
+                      href={`/plan/v3/${aiCreatedPlanId}?step=1`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.location.href = `/plan/v3/${aiCreatedPlanId}?step=1`;
+                      }}
+                      className="apple-btn-hero w-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center gap-2 text-center"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-white" />
+                      <span>⚡ แผนสร้างเสร็จสมบูรณ์แล้ว! คลิกเพื่อเปิดดูแผนทันที →</span>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleAiFastGenerate()}
+                      disabled={!aiPrompt.trim() || aiGenerating}
+                      className="apple-btn-hero w-full"
+                    >
+                      {aiGenerating ? (
+                        <>
+                          <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                          <span>กำลังประมวลผลด้วย AI...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4" />
+                          <span>✨ ออกแบบแผนการสอนด้วย AI ในคลิกเดียว</span>
+                        </>
+                      )}
+                    </button>
+                  )}
                 </div>
               </div>
             ) : (
@@ -892,24 +927,37 @@ export default function NewV3LessonPage() {
                   {/* Desktop Quick Action */}
                   <div className="pt-4 mt-4 border-t border-slate-100">
                     {creationMode === 'ai' ? (
-                      <button
-                        type="button"
-                        onClick={() => handleAiFastGenerate()}
-                        disabled={!aiPrompt.trim() || aiGenerating}
-                        className="apple-btn-primary w-full shadow-sm"
-                      >
-                        {aiGenerating ? (
-                          <>
-                            <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                            <span>กำลังสร้างแผน ({aiProgressPercent}%)...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Wand2 className="w-4 h-4" />
-                            <span>เริ่มสร้างแผนด้วย AI ทันที</span>
-                          </>
-                        )}
-                      </button>
+                      aiCreatedPlanId ? (
+                        <a
+                          href={`/plan/v3/${aiCreatedPlanId}?step=1`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.location.href = `/plan/v3/${aiCreatedPlanId}?step=1`;
+                          }}
+                          className="apple-btn-primary w-full shadow-sm text-center block bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
+                        >
+                          ⚡ เปิดดูแผนทันที →
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleAiFastGenerate()}
+                          disabled={!aiPrompt.trim() || aiGenerating}
+                          className="apple-btn-primary w-full shadow-sm"
+                        >
+                          {aiGenerating ? (
+                            <>
+                              <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                              <span>กำลังสร้างแผน ({aiProgressPercent}%)...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Wand2 className="w-4 h-4" />
+                              <span>เริ่มสร้างแผนด้วย AI ทันที</span>
+                            </>
+                          )}
+                        </button>
+                      )
                     ) : (
                       <button
                         type="button"
