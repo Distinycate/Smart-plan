@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { requireUser } from '@/lib/auth/authorization';
+import { fetchDbGeminiKeys } from '@/lib/geminiKeyPool';
 
 export const CANONICAL_AI_ROUTE_KINDS = [
   'process-core',
@@ -249,6 +250,11 @@ export async function beginCanonicalAiRequest(
     userId = context.user.id;
   } catch {
     throw new CanonicalAiBoundaryError('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบก่อนใช้ AI', 401);
+  }
+  if (!process.env.GEMINI_API_KEY) {
+    const dbKeys = await fetchDbGeminiKeys();
+    if (dbKeys.primary) process.env.GEMINI_API_KEY = dbKeys.primary;
+    if (dbKeys.free) process.env.GEMINI_FREE_API_KEY = dbKeys.free;
   }
 
   const payload = await readPayload(req);

@@ -1,5 +1,6 @@
 import {
   buildGeminiKeyPool,
+  fetchDbGeminiKeys,
   geminiAttemptLimit,
   shouldRotateGeminiKey,
 } from './geminiKeyPool';
@@ -127,14 +128,17 @@ export async function fetchGeminiWithRetry(
   keyAffinity: string = '',
   timeoutMs: number = 28_000
 ) {
+  const dbKeys = await fetchDbGeminiKeys();
   const apiKeys = buildGeminiKeyPool(customApiKey, {
     GEMINI_API_KEYS: process.env.GEMINI_API_KEYS,
+    GEMINI_PAID_API_KEY: process.env.GEMINI_PAID_API_KEY || dbKeys.primary,
+    GEMINI_FREE_API_KEY: process.env.GEMINI_FREE_API_KEY || dbKeys.free,
     GEMINI_API_KEY_PROCESS: process.env.GEMINI_API_KEY_PROCESS,
     GEMINI_API_KEY_COMPLETION: process.env.GEMINI_API_KEY_COMPLETION,
     GEMINI_API_KEY_EVALUATE: process.env.GEMINI_API_KEY_EVALUATE,
     GEMINI_API_KEY_FIX: process.env.GEMINI_API_KEY_FIX,
     GEMINI_API_KEY_ALIGNMENT: process.env.GEMINI_API_KEY_ALIGNMENT,
-    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY || dbKeys.primary,
   });
 
   if (apiKeys.length === 0) {
