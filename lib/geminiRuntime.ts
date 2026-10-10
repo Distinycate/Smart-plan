@@ -1,5 +1,5 @@
 export const FAST_GEMINI_MODEL =
-  process.env.GEMINI_FAST_MODEL?.trim() || 'gemini-2.5-flash-lite';
+  process.env.GEMINI_FAST_MODEL?.trim() || 'gemini-flash-lite-latest';
 
 export const fastGeminiUrl = () =>
   `https://generativelanguage.googleapis.com/v1beta/models/${FAST_GEMINI_MODEL}:generateContent`;

@@ -19,24 +19,26 @@ let globalRequestCounter = Math.floor(Math.random() * 1000);
 
 /**
  * Resolves alternative model URL to tap into separate quota pools on retries.
- * Google maintains independent rate-limit quotas for 2.5-flash, 2.5-flash-lite, and 1.5-flash.
+ * Automatically normalizes legacy model names to current aliases supported by all API keys.
  */
 function resolveTieredModelUrl(baseUrl: string, attempt: number): string {
-  if (attempt === 0) return baseUrl;
+  const normalized = baseUrl
+    .replace('/gemini-2.5-flash-lite:', '/gemini-flash-lite-latest:')
+    .replace('/gemini-2.5-flash:', '/gemini-flash-latest:')
+    .replace('/gemini-1.5-flash:', '/gemini-flash-latest:')
+    .replace('/gemini-1.5-pro:', '/gemini-pro-latest:');
 
-  // On retry attempt 1: if primary was 2.5-flash, pivot to 2.5-flash-lite
-  if (baseUrl.includes('gemini-2.5-flash') && !baseUrl.includes('gemini-2.5-flash-lite')) {
-    return baseUrl.replace('/gemini-2.5-flash:', '/gemini-2.5-flash-lite:');
+  if (attempt === 0) return normalized;
+
+  // On retry attempt 1+: alternate between flash and flash-lite capacity pools
+  if (normalized.includes('gemini-flash-latest')) {
+    return normalized.replace('/gemini-flash-latest:', '/gemini-flash-lite-latest:');
+  }
+  if (normalized.includes('gemini-flash-lite-latest')) {
+    return normalized.replace('/gemini-flash-lite-latest:', '/gemini-flash-latest:');
   }
 
-  // On retry attempt 2+: pivot to gemini-1.5-flash (highest throughput capacity)
-  if (baseUrl.includes('gemini-2.5-flash') || baseUrl.includes('gemini-2.5-flash-lite')) {
-    return baseUrl
-      .replace('/gemini-2.5-flash-lite:', '/gemini-1.5-flash:')
-      .replace('/gemini-2.5-flash:', '/gemini-1.5-flash:');
-  }
-
-  return baseUrl;
+  return normalized;
 }
 
 /**
@@ -146,24 +148,20 @@ export async function fetchGeminiWithRetry(
   const deadline = Date.now() + timeoutMs;
   let lastStatus = 0;
   const rejectedKeyIndexes = new Set<number>();
-
-  // Distributed Start Index: Combines caller keyAffinity with globalAtomicCounter to interleave
-  // concurrent users across all available keys (essential for 10-20 concurrent users).
-  const affinityHash = keyAffinity
-    ? Array.from(keyAffinity).reduce((hash, char) => ((hash * 31) + char.charCodeAt(0)) >>> 0, 0)
-    : 0;
-  const globalOffset = (globalRequestCounter++) >>> 0;
-  const baseStartIndex = (affinityHash + globalOffset) % apiKeys.length;
+  // Always start with the highest priority key (key 0 / primary paid key).
+  // If exhausted or quota exceeded (401, 402, 403, 429), failover to subsequent fallback keys (free key).
+  // Once credits are topped up, subsequent requests automatically start from key 0 again.
+  const startIndex = 0;
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const remainingMs = deadline - Date.now();
     if (remainingMs < 1_500) break;
 
-    const keyIndex = (baseStartIndex + attempt) % apiKeys.length;
+    const keyIndex = (startIndex + attempt) % apiKeys.length;
     const currentKey = apiKeys[keyIndex];
     const baseUrl = apiUrl.split('?')[0];
 
-    // Multi-tier model failover: If attempt > 0, pivot to flash-lite or 1.5-flash
+    // Multi-tier model failover: Automatically normalizes aliases and pivots between flash and flash-lite
     const attemptBaseUrl = resolveTieredModelUrl(baseUrl, attempt);
     const finalUrl = `${attemptBaseUrl}?key=${encodeURIComponent(currentKey)}`;
 
@@ -190,7 +188,7 @@ export async function fetchGeminiWithRetry(
         `[Gemini API] status=${response.status} attempt=${attempt + 1}/${maxAttempts} model=${attemptBaseUrl.split('/').pop()} keySlot=${keyIndex + 1}/${apiKeys.length}`
       );
 
-      if ([401, 403, 429].includes(response.status)) {
+      if ([401, 402, 403, 429].includes(response.status)) {
         rejectedKeyIndexes.add(keyIndex);
       }
       const remainingUntriedKeys = apiKeys.length - rejectedKeyIndexes.size;

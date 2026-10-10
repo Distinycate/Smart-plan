@@ -1,6 +1,8 @@
 type GeminiEnvironment = {
   GEMINI_API_KEYS?: string;
   GEMINI_API_KEY?: string;
+  GEMINI_PAID_API_KEY?: string;
+  GEMINI_FREE_API_KEY?: string;
   GEMINI_API_KEY_PROCESS?: string;
   GEMINI_API_KEY_COMPLETION?: string;
   GEMINI_API_KEY_EVALUATE?: string;
@@ -22,10 +24,12 @@ export function buildGeminiKeyPool(
   customApiKey?: string,
   environment: GeminiEnvironment = process.env as GeminiEnvironment
 ) {
-  // Route-specific key is deliberately first. A shared pool is fallback, not
-  // an override, because old/disabled pool keys must not mask a valid route key.
+  // Priority order:
+  // 1. Primary/Paid keys (customApiKey, GEMINI_PAID_API_KEY, route keys, GEMINI_API_KEY)
+  // 2. Fallback/Free keys (GEMINI_FREE_API_KEY)
   const values = [
     customApiKey,
+    environment.GEMINI_PAID_API_KEY,
     environment.GEMINI_API_KEYS,
     environment.GEMINI_API_KEY_PROCESS,
     environment.GEMINI_API_KEY_COMPLETION,
@@ -33,6 +37,7 @@ export function buildGeminiKeyPool(
     environment.GEMINI_API_KEY_FIX,
     environment.GEMINI_API_KEY_ALIGNMENT,
     environment.GEMINI_API_KEY,
+    environment.GEMINI_FREE_API_KEY,
   ];
 
   return Array.from(new Set(
@@ -52,5 +57,5 @@ export function geminiAttemptLimit(requestedAttempts: number, keyCount: number) 
 }
 
 export function shouldRotateGeminiKey(status: number, remainingUntriedKeys: number) {
-  return [401, 403, 429].includes(status) && remainingUntriedKeys > 0;
+  return [401, 402, 403, 429].includes(status) && remainingUntriedKeys > 0;
 }

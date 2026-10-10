@@ -50,8 +50,8 @@ async function run() {
 
   assert.equal(modelFallbackResponse.status, 200);
   assert.equal(calls.length, 2);
-  assert.match(calls[0], /gemini-2\.5-flash-lite/);
-  assert.match(calls[1], /gemini-2\.5-flash:generateContent/);
+  assert.match(calls[0], /gemini-flash-lite-latest/);
+  assert.match(calls[1], /gemini-flash-latest:generateContent/);
   console.log('geminiClient fallback tests passed');
 }
 

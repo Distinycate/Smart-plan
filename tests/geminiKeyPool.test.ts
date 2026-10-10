@@ -21,8 +21,16 @@ assert.deepEqual(placeholdersRemoved, ['real-key']);
 assert.equal(geminiAttemptLimit(3, 6), 6);
 assert.equal(geminiAttemptLimit(20, 10), 8);
 assert.equal(shouldRotateGeminiKey(401, 2), true);
+assert.equal(shouldRotateGeminiKey(402, 2), true);
 assert.equal(shouldRotateGeminiKey(403, 1), true);
+assert.equal(shouldRotateGeminiKey(429, 1), true);
 assert.equal(shouldRotateGeminiKey(401, 0), false);
 assert.equal(shouldRotateGeminiKey(400, 2), false);
+
+const priorityFallbackPool = buildGeminiKeyPool(undefined, {
+  GEMINI_PAID_API_KEY: 'paid-key',
+  GEMINI_FREE_API_KEY: 'free-key',
+});
+assert.deepEqual(priorityFallbackPool, ['paid-key', 'free-key']);
 
 console.log('geminiKeyPool tests passed');
