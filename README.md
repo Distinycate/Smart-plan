@@ -44,6 +44,8 @@ See [migration runbook](docs/english-mastery-migration-plan.md) for `db:migrate 
 
 Deployment remains gated: [Vercel runbook](docs/english-mastery-vercel.md). Integration-branch automatic deploy is disabled until preview variables and database isolation are verified. No production promotion is included.
 
+The Supabase CLI has also been initialized locally. Use `npx --yes supabase@2.122.0 login`, then `npx --yes supabase@2.122.0 link --project-ref tfvlkfmayxsgneyajhrl` when inspection of the user-selected SmartLessonPlan project is needed. That project's main branch is production, not an approved staging target. Linking alone does not migrate the database. CLI `.temp` metadata and login tokens must remain outside Git; the reviewed module migration stays under `database/migrations/20_english_mastery.sql` and is not automatically replayed by local CLI setup.
+
 ## Documentation
 
 - [Audit and security-driven upgrade](docs/english-mastery-integration-audit.md)
