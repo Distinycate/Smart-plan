@@ -130,7 +130,7 @@ export async function reviewLessonQuality(
   userId: string,
   isAdmin = false
 ): Promise<V3AiQualityReviewResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const repo = new V3Repository(supabase);
 
   const graph = await repo.getLessonGraph(planId, userId, isAdmin);

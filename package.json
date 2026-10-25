@@ -7,9 +7,24 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:english:local": "node scripts/english/browser-tests.mjs --serve",
+    "emh:bootstrap": "node --import tsx scripts/english/bootstrap.ts",
+    "db:migrate": "node scripts/english/migrate.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint app components lib utils middleware.ts next.config.js --ext .js,.jsx,.ts,.tsx",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test:english": "node --import tsx --test tests/english/*.test.ts",
+    "test:host": "node scripts/english/host-tests.mjs",
+    "test": "npm run test:english && npm run test:host",
+    "test:e2e": "node scripts/english/browser-tests.mjs",
+    "test:a11y": "node scripts/english/browser-tests.mjs --grep @a11y",
+    "content:validate": "node --import tsx scripts/english/content.ts",
+    "content:import": "node --import tsx scripts/english/content.ts",
+    "content:verify": "node --import tsx scripts/english/content.ts --verify",
+    "db:validate": "node --import tsx --test tests/english/integration.test.ts",
+    "build:offline": "node scripts/english/build-offline.mjs",
+    "test:release": "npm run typecheck && npm run lint && npm test && npm run content:validate && npm run content:import -- --dry-run && npm run content:verify && npm run build:offline && npm run test:e2e"
   },
   "dependencies": {
     "@sparticuz/chromium": "^153.0.0",
@@ -20,23 +35,36 @@
     "dotenv": "^17.4.2",
     "framer-motion": "^12.40.0",
     "lucide-react": "^0.379.0",
-    "mammoth": "^1.12.0",
-    "next": "^14.2.3",
+    "mammoth": "1.13.0",
+    "next": "15.5.28",
     "pdf-lib": "^1.17.1",
     "puppeteer-core": "^25.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.6.0",
     "recharts": "^3.8.1",
-    "xlsx": "^0.18.5"
+    "server-only": "0.0.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+    "zod": "4.6.7"
+  },
+  "overrides": {
+    "esbuild": "0.28.2",
+    "postcss": "$postcss",
+    "@xmldom/xmldom": "^0.8.15"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.11.0",
+    "@electric-sql/pglite": "0.5.11",
+    "@playwright/test": "1.64.1",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.5.0",
-    "postcss": "^8.5.15",
+    "eslint": "8.57.1",
+    "eslint-config-next": "15.5.28",
+    "postcss": "8.5.31",
     "tailwindcss": "^4.3.0",
+    "tsx": "4.21.0",
     "typescript": "^5.4.5"
   }
 }

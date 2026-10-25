@@ -44,7 +44,7 @@ function errorResponse(
 export async function POST(req: NextRequest) {
   try {
     // ── 1. Auth ────────────────────────────────────────────────────────────
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return errorResponse('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบก่อน', 401);

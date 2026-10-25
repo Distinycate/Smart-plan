@@ -5,10 +5,8 @@ import { ensureDetailedRubrics } from '@/lib/lesson-plan/rubric-field-sanitizer'
 import { isAuthorizationError, requirePlanOwner, requirePlanReader } from '@/lib/auth/authorization';
 
 // GET a single plan
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const { id } = params;
     const { plan } = await requirePlanReader(id);
@@ -36,10 +34,8 @@ export async function GET(
 }
 
 // PUT update plan + auto backup
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const { id } = params;
     const rawBody = await req.json();
@@ -128,10 +124,8 @@ export async function PUT(
 
 // DELETE archives a plan. We keep the HTTP method for compatibility with the UI,
 // but the operation is intentionally non-destructive.
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const adminDb = getSupabaseAdmin();
     const { id } = params;

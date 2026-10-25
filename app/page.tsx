@@ -194,7 +194,7 @@ export default function LandingPage() {
             {/* Right: Text */}
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">
-                "เพราะเราเชื่อว่า <span className="text-pink-400">เวลาของคุณครูมีค่าที่สุด</span> สำหรับนักเรียน"
+                &quot;เพราะเราเชื่อว่า <span className="text-pink-400">เวลาของคุณครูมีค่าที่สุด</span> สำหรับนักเรียน&quot;
               </h2>
               <div className="space-y-6 text-lg font-medium text-slate-600 leading-relaxed">
                 <p>

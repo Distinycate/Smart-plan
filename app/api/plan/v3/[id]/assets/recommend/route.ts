@@ -5,18 +5,19 @@ import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 import { deriveTeachingAssetRequirements } from '@/lib/smartPlanV3/rules/teachingAssetRules';
 
 interface RouteContext {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 // POST /api/plan/v3/[id]/assets/recommend - คำนวณคำแนะนำสื่อที่จำเป็น/แนะนำ/เพิ่มเติมตามธรรมชาติวิชา
-export async function POST(req: NextRequest, { params }: RouteContext) {
+export async function POST(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId } = params;
     if (!isValidUuid(planId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

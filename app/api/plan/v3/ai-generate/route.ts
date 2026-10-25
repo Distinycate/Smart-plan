@@ -134,7 +134,7 @@ function getSubjectCurriculumDefaults(subjectKey: string, grade: string, topic: 
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

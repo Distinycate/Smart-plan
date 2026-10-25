@@ -3,7 +3,8 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { newEntityId, unitError, unitSuccess } from '@/lib/unitPlanApi';
 import { isAuthorizationError, requireUnitPlanOwner } from '@/lib/auth/authorization';
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const { supabase, user } = await requireUnitPlanOwner(params.id);
 

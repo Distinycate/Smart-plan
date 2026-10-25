@@ -1,0 +1,191 @@
+.emh {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  color: #172033;
+  line-height: 1.65;
+}
+.emh-heading {
+  padding: 1.5rem 0;
+}
+.emh h2 {
+  font-size: 2rem;
+  font-weight: 800;
+}
+.emh h3 {
+  font-size: 1.5rem;
+  font-weight: 750;
+  margin: 1.5rem 0 0.75rem;
+}
+.emh h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0.75rem 0;
+}
+.emh p {
+  margin: 0.5rem 0;
+}
+.emh-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.09em;
+  color: #415477;
+  font-weight: 700;
+}
+.emh nav ul {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+.emh nav a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: #e8edf7;
+  color: #23395b;
+}
+.emh nav a[aria-current] {
+  background: #243d78;
+  color: white;
+}
+.emh-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.emh-card {
+  padding: 1.25rem;
+  border: 1px solid #c5cedc;
+  border-radius: 0.75rem;
+  background: white;
+  margin: 0.75rem 0;
+  overflow-wrap: anywhere;
+}
+.emh button,
+.emh-button {
+  display: inline-block;
+  border-radius: 0.5rem;
+  border: 1px solid #243d78;
+  background: #243d78;
+  color: #fff;
+  padding: 0.6rem 0.9rem;
+  min-height: 44px;
+  margin: 0.3rem 0.3rem 0.3rem 0;
+  cursor: pointer;
+}
+.emh button:disabled {
+  background: #56627b;
+  cursor: not-allowed;
+}
+.emh :focus-visible {
+  outline: 3px solid #b44b00;
+  outline-offset: 3px;
+}
+.emh label {
+  display: block;
+  margin: 0.75rem 0;
+  font-weight: 600;
+}
+.emh textarea,
+.emh input:not([type="checkbox"]),
+.emh select {
+  display: block;
+  width: 100%;
+  border: 1px solid #6b7890;
+  border-radius: 0.4rem;
+  padding: 0.6rem;
+  background: white;
+  color: #172033;
+  font-weight: 400;
+  min-height: 44px;
+}
+.emh textarea {
+  min-height: 130px;
+}
+.emh input[type="checkbox"] {
+  margin: 0.5rem;
+  min-width: 20px;
+  min-height: 20px;
+}
+.emh a {
+  color: #1d408a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.emh .emh-button {
+  color: white;
+}
+.emh-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+}
+.emh-notice {
+  padding: 0.9rem;
+  border-left: 4px solid #987020;
+  background: #fff5d7;
+  color: #563e0b;
+}
+.emh-error {
+  padding: 1rem;
+  background: #fff0ef;
+  color: #8b1c18;
+}
+.emh details {
+  border-bottom: 1px solid #c5cedc;
+  padding: 0.75rem 0;
+}
+.emh summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.5rem;
+}
+.emh pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.85rem;
+  max-height: 480px;
+  overflow: auto;
+}
+.emh audio {
+  max-width: 100%;
+}
+.emh fieldset {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #c5cedc;
+  border-radius: 0.5rem;
+}
+.emh legend {
+  padding: 0 0.5rem;
+  font-weight: 700;
+}
+.emh-status {
+  min-height: 1.8rem;
+}
+.emh button.secondary {
+  background: white;
+  color: #243d78;
+}
+.emh ul {
+  padding-left: 1.3rem;
+}
+.emh hr {
+  margin: 1.5rem 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .emh * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+@media (max-width: 600px) {
+  .emh {
+    padding: 1rem;
+  }
+  .emh h2 {
+    font-size: 1.65rem;
+  }
+}

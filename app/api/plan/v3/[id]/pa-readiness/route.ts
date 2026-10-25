@@ -10,12 +10,10 @@ import { buildLessonAlignmentGraph, computeLessonHash } from '@/lib/smartPlanV3/
 import { evaluatePaReadiness } from '@/lib/smartPlanV3/pa/paReadinessEngine';
 import { getActivePaCriteriaVersion } from '@/lib/smartPlanV3/pa/registry';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

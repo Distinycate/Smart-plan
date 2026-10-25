@@ -8,10 +8,11 @@ import {
 } from '@/lib/smartPlanV3/subjectProfiles';
 
 interface RouteContext {
-  params: { key: string };
+  params: Promise<{ key: string }>;
 }
 
-export async function GET(req: NextRequest, { params }: RouteContext) {
+export async function GET(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { key } = params;
     const { searchParams } = new URL(req.url);

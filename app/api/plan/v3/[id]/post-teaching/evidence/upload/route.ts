@@ -49,17 +49,15 @@ function detectMagicMime(buffer: Buffer): string | null {
   return null;
 }
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const planId = params.id;
     if (!isValidUuid(planId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ success: false, error: 'กรุณาเข้าสู่ระบบก่อนใช้งาน' }, { status: 401 });
@@ -181,10 +179,8 @@ export async function POST(
  * GET /api/plan/v3/[id]/post-teaching/evidence/upload?path=...
  * Generates fresh signed URL for authorized owner to view file.
  */
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const planId = params.id;
     const { searchParams } = new URL(req.url);
@@ -194,7 +190,7 @@ export async function GET(
       return NextResponse.json({ success: false, error: 'พารามิเตอร์ไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ success: false, error: 'กรุณาเข้าสู่ระบบก่อนใช้งาน' }, { status: 401 });

@@ -7,7 +7,7 @@ import { ensureDetailedRubrics } from '@/lib/lesson-plan/rubric-field-sanitizer'
 // GET all plans
 export async function GET(req: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { searchParams } = new URL(req.url);
     const statusFilter = searchParams.get('status');
     const targetUserId = searchParams.get('userId');
@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
 // POST create plan
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !user) {

@@ -6,8 +6,9 @@ import { isAuthorizationError, requireUnitLessonOwner } from '@/lib/auth/authori
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string; lessonId: string } }
+  props: { params: Promise<{ id: string; lessonId: string }> }
 ) {
+  const params = await props.params;
   try {
     const { supabase, user, lesson: existing } = await requireUnitLessonOwner(params.id, params.lessonId);
 
@@ -93,8 +94,9 @@ export async function PUT(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string; lessonId: string } }
+  props: { params: Promise<{ id: string; lessonId: string }> }
 ) {
+  const params = await props.params;
   try {
     const { supabase, user, lesson: existing } = await requireUnitLessonOwner(params.id, params.lessonId);
 

@@ -1,0 +1,45 @@
+name: Smart Plan and English Mastery
+
+on:
+  push:
+    branches: [main, feature/english-mastery-integration]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: emh-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  local-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx --no-install playwright install --with-deps chromium
+      - name: Use installed Chromium for host PDF regression
+        run: node -e 'require("node:fs").appendFileSync(process.env.GITHUB_ENV, "CHROME_BIN=" + require("@playwright/test").chromium.executablePath() + "\n")'
+      - run: npm run test:release
+      - name: Preserve failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-release-failure
+          path: |
+            test-results/
+            /tmp/emh-test-next.log
+            /tmp/emh-test-provider.log
+          retention-days: 7
+          if-no-files-found: ignore

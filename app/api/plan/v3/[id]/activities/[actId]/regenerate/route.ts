@@ -4,7 +4,7 @@ import { regenerateSingleActivity } from '@/lib/smartPlanV3/ai/activityRegenServ
 import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 
 interface RouteContext {
-  params: { id: string; actId: string };
+  params: Promise<{ id: string; actId: string }>;
 }
 
 export const maxDuration = 45;
@@ -13,14 +13,15 @@ export const maxDuration = 45;
  * POST /api/plan/v3/[id]/activities/[actId]/regenerate
  * Generates an alternative proposal for a single activity without modifying the DB.
  */
-export async function POST(req: NextRequest, { params }: RouteContext) {
+export async function POST(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, actId } = params;
     if (!isValidUuid(planId) || !isValidUuid(actId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนหรือกิจกรรมไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

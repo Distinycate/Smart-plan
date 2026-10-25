@@ -16,7 +16,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   // Check role if logged in
@@ -106,6 +106,7 @@ export default async function RootLayout({
 
             {/* ACTION BUTTONS & USER */}
             <div className="flex items-center gap-3">
+              {user && process.env.EMH_ENABLED === 'true' && <Link href="/english" className="rounded-lg px-2 py-2 text-sm font-semibold text-indigo-800 border border-indigo-200">English Mastery</Link>}
               {user ? (
                 <div className="flex items-center gap-2.5 sm:gap-3">
                   {/* Quick Action: New Plan V3 */}
@@ -183,7 +184,7 @@ export default async function RootLayout({
                 ระบบจัดการแผนการสอนสำหรับคุณครู
               </span>
             </div>
-            <p className="text-center text-xs font-medium text-slate-400 sm:text-right">
+            <p className="text-center text-xs font-medium text-slate-600 sm:text-right">
               ออกแบบแผนการสอนอัจฉริยะตามมาตรฐาน สพฐ. และ ว.PA<br className="sm:hidden" />
               <span className="hidden sm:inline"> • </span>Copyright © 2026 By Mr.Nattapat Prompru. All rights reserved.
             </p>

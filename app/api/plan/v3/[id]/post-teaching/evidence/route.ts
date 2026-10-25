@@ -13,13 +13,11 @@ import { createClient } from '@/utils/supabase/server';
 import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { validateObservedEvidence } from '@/lib/smartPlanV3/rules/postTeachingRules';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const planId = params.id;
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

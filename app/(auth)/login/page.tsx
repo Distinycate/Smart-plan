@@ -4,7 +4,8 @@ import { login } from '../actions'
 import { SubmitButton } from '../components/SubmitButton'
 import { Sparkles } from 'lucide-react'
 
-export default function LoginPage({ searchParams }: { searchParams: { message: string } }) {
+export default async function LoginPage(props: { searchParams: Promise<{ message: string }> }) {
+  const searchParams = await props.searchParams;
   return (
     <div className="min-h-screen flex items-center justify-center relative bg-slate-50 py-10 px-4">
       {/* Pastel Gradient Background */}
@@ -55,6 +56,7 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
                 <input
                   className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium"
                   name="email"
+                  id="email"
                   type="email"
                   placeholder="you@school.ac.th"
                   required
@@ -74,6 +76,7 @@ export default function LoginPage({ searchParams }: { searchParams: { message: s
                   className="w-full rounded-2xl px-5 py-3.5 bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-300 focus:bg-white transition-all shadow-sm text-slate-800 placeholder:text-slate-400 font-medium"
                   type="password"
                   name="password"
+                  id="password"
                   placeholder="••••••••"
                   required
                 />

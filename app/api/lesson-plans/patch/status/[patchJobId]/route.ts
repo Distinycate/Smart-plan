@@ -8,13 +8,11 @@ function errorResponse(errorCode: string, message: string, status: number) {
   return NextResponse.json({ ok: false, errorCode, message }, { status });
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { patchJobId: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ patchJobId: string }> }) {
+  const params = await props.params;
   try {
     // 1. Authenticate user
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return errorResponse('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบก่อน', 401);
