@@ -25,7 +25,7 @@ Local working branch: `feature/english-mastery-integration`, based on Smart Plan
 
 ## Test commands and interpretation
 
-`npm run test:release` runs typecheck → lint → 16 SQL/domain tests + 30 host suites → content validate/dry-run/verify → offline production build → eight browser workflows (including two axe scans). `npm run test:a11y` runs the accessibility subset separately. See README for all commands.
+`npm run test:release` runs typecheck → lint → SQL/domain tests (16 original cases plus four host-RPC hardening cases) + 30 host suites → content validate/dry-run/verify → offline production build → eight browser workflows (including two axe scans). `npm run test:a11y` runs the accessibility subset separately. See README for all commands.
 
 The browser chain is browser → host Supabase SDK/cookies → real module API → Supabase HTTP contract double → actual PostgreSQL migration/RLS/transaction logic → UI. It is intentionally not described as a verified real Supabase deployment. Live Gemini/provider tests and historical post-migration scripts are not run against unspecified databases.
 
@@ -43,9 +43,11 @@ Lint now invokes ESLint directly because `next lint` is deprecated. `.github/wor
 
 Hosted Linux verification passed on application commit `a00ff67af136cd5fa6fef5fc58cbee79cde3eb7a`: [GitHub Actions run40154735847](https://github.com/Distinycate/Smart-plan/actions/runs/40154735847). The first hosted run caught a WCAG target-size failure when the sticky host header obscured a scrolled mobile navigation link. The header now scrolls normally on mobile and remains sticky from the desktop breakpoint. The mobile regression explicitly scrolls the exam link and checks it is clear of the header before running the full axe scan; no accessibility rule was disabled. The full local release suite also passed again after this fix.
 
+Follow-up local release verification also passed after adding the separately reviewed host-RPC candidate: 20/20 SQL/domain tests, 30/30 host suites, eight browser flows, content commands, lint, typecheck and build. The candidate remains unapplied remotely; see live readiness notes. Hosted CI for the follow-up is tracked on the PR.
+
 ## External release gates — NOT completed
 
-- Restore Vercel project/team access (connector currently 403), confirm Git linkage, preview variables and runtime target.
+- Vercel project/team access is now verified; Node24.x and existing production deployment protection were inspected. Integration-branch-specific Preview credentials are absent; existing Supabase/Gemini credentials target production and preview together. Do not reuse them for isolated EMH staging. Git linkage/root directory and exact preview release still require confirmation. See [live readiness findings and the local RPC patch](english-mastery-live-readiness.md).
 - Provide/approve isolated Smart Plan Supabase staging configuration; audit existing host RLS/RPCs before new learner access.
 - Supabase CLI2.122.0 login/init/link completed against the exact user-supplied project `tfvlkfmayxsgneyajhrl` (`SmartLessonPlan`, Distinycate's Org, Tokyo, ACTIVE_HEALTHY). The original connector lacks this project's grant, so the explicitly requested official CLI login was used. Inspection found 54 public tables with RLS enabled, no `emh_*` tables and no preview branches. The dashboard labels its main branch PRODUCTION. Only schema metadata was read; no domain migration, content import or learner-data write was performed. CLI tokens and `.temp` link metadata are excluded from Git.
 - Isolated Supabase branching is not yet provisioned: the dashboard requires a Pro upgrade and quotes branch compute at $0.01344/hour while the branch exists (excluding applicable taxes). No upgrade, new paid project or branch was created. The user's chosen production project is linked for inspection, not relabelled as staging.

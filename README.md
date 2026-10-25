@@ -54,3 +54,4 @@ The Supabase CLI has also been initialized locally. Use `npx --yes supabase@2.12
 - [Role mapping](docs/english-mastery-role-mapping.md)
 - [Supabase / real-provider checks](docs/english-mastery-supabase.md)
 - [Verification and remaining release gates](docs/english-mastery-integration-verification.md)
+- [Live access, staging isolation and reviewed RPC candidate](docs/english-mastery-live-readiness.md)

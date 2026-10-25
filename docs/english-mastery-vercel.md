@@ -1,10 +1,10 @@
 # Vercel preview/staging
 
-Target is the EXISTING Smart Plan project, documented as `smart-plan`, project `prj_9Trq1yqZHTalKScaaltT1DJBG58o`, team `distinycate-s-projects`. These identifiers come from host records; current connector inspection returned 403 and did not verify live settings. Do not create a second app to bypass access. No staging URL or READY deployment is claimed.
+Target is the EXISTING Smart Plan project `smart-plan`, project `prj_9Trq1yqZHTalKScaaltT1DJBG58o`, team `distinycate-s-projects`. Connector access was restored and project/account identity, Next.js framework, Node24.x and deployment protection were verified on 2026-10-25. Its old host production deployment is READY; no new EMH preview or staging deployment is claimed. See [live readiness findings](english-mastery-live-readiness.md) before deployment.
 
 `vercel.json` disables automatic deployment ONLY for `feature/english-mastery-integration` until environment isolation is verified. It does not change main/production branch behavior. See https://vercel.com/docs/project-configuration/git-configuration . Keep this guard when pushing unverified integration work.
 
-After authorized team access is restored:
+After an isolated Supabase staging target is approved:
 
 1. Confirm project, GitHub `Distinycate/Smart-plan`, branch/commit, root directory and Node24 runtime. Never substitute the old similarly named Smartplan repository.
 2. Set Preview branch-specific Supabase URL/anon/server key to the approved staging project. Do not inherit production secrets. Set EMH_ENABLED=true and EMH_ENV=staging; configure genuine recording policy only when approved. AI remains off. Never configure EMH_TEST_PROVIDER or test fixture secrets on Vercel.
