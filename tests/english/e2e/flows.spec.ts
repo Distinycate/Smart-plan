@@ -195,10 +195,26 @@ test("mobile layout and access-denied API @a11y", async ({ page }) => {
     return { status: r.status, body: await r.json() };
   });
   expect(result.status).toBe(403);
+  // A scrolled navigation target must remain clear of the host header on mobile.
+  const examLink = page.getByRole("link", {
+    name: "Exam simulation",
+    exact: true,
+  });
+  const targetIsClear = await examLink.evaluate((link) => {
+    link.scrollIntoView({ block: "start" });
+    const target = link.getBoundingClientRect();
+    const header = document.querySelector("header")!.getBoundingClientRect();
+    return target.top >= header.bottom || target.bottom <= header.top;
+  });
+  expect(
+    targetIsClear,
+    "Mobile navigation must not be hidden by the header",
+  ).toBe(true);
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
   expect(results.violations).toEqual([]);
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
     path: "test-results/emh-mobile.png",
     fullPage: true,

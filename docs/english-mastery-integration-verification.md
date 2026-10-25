@@ -41,10 +41,13 @@ Lint now invokes ESLint directly because `next lint` is deprecated. `.github/wor
 
 `typecheck` generates Next route types before invoking TypeScript, so a clean checkout does not depend on a previous local dev/build directory. Canonical Markdown is preserved byte-for-byte, including intentional trailing spaces used for Markdown line breaks; whitespace checks exclude only these source packages to preserve their checksums.
 
+The first hosted Linux run passed compilation, all SQL/host suites and seven browser workflows, but caught a WCAG target-size failure when the sticky host header obscured a scrolled mobile navigation link. The header now scrolls normally on mobile and remains sticky from the desktop breakpoint. The mobile regression explicitly scrolls the exam link and checks it is clear of the header before running the full axe scan; no accessibility rule was disabled. The full local release suite passed again after this fix. Hosted rerun status is recorded on the PR.
+
 ## External release gates — NOT completed
 
 - Restore Vercel project/team access (connector currently 403), confirm Git linkage, preview variables and runtime target.
 - Provide/approve isolated Smart Plan Supabase staging configuration; audit existing host RLS/RPCs before new learner access.
+- The connected Supabase account exposed only NS gallery and LLwebsite in DistinycatePrrivate. The user selected a different Supabase account for Smart Plan; no project was created and neither unrelated project was changed. Switch the Supabase connection to the intended account before selecting or provisioning staging.
 - Execute backed-up migration20, real login/session refresh, RLS, Storage and backup/restore verification, then content import/verify and least-privilege bootstrap.
 - Deploy and smoke-test that exact preview commit. No live URL, production promotion or external migration is claimed.
 - Obtain genuine academic/Thai/construct/level/fairness/key/copyright review, real audio production and technical/pronunciation QC, learner pilots and calibration/psychometric validation. None can be replaced by automated tests.
