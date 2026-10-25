@@ -31,6 +31,11 @@ export default async function RootLayout({
   return (
     <html lang="th">
       <body className="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-100 selection:text-indigo-900 min-h-screen flex flex-col">
+        {process.env.EMH_ISOLATED_LOCAL === 'true' && process.env.NEXT_PUBLIC_SUPABASE_URL === 'http://127.0.0.1:55321' && (
+          <aside aria-label="Local testing environment" className="print:hidden bg-amber-100 text-amber-950 text-center text-sm px-4 py-2 border-b border-amber-300">
+            ระบบทดสอบในเครื่อง · ฐานข้อมูลแยกจากระบบหลัก · ใช้ข้อมูลจำลอง · ไม่มีค่า AI
+          </aside>
+        )}
         <Toaster
           position="top-center"
           toastOptions={{

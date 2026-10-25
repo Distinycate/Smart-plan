@@ -1,5 +1,9 @@
 # Live release readiness — 2026-10-25
 
+## Available without added subscription cost
+
+An isolated persistent local runtime now runs real Supabase Auth/PostgreSQL/PostgREST/Storage, with a separate VM, synthetic accounts and loopback-only listeners. Four real-service browser flows passed, followed by a full VM stop/start and verification of browser login, previous attempts, writing history and deletion records. The prepared local app is usable without touching the main cloud database. See [operation and evidence](english-mastery-real-local.md). The full release regression also passed again: 22 SQL/domain cases, 30 host suites and eight contract-browser flows including two axe scans. The hosted staging gates below remain separate.
+
 ## Deployment access and isolation
 
 Vercel access is restored for the existing Smart Plan project. Project/account identity, Next.js, Node24.x and deployment protection were verified. Its existing production deployment is READY; this is the old host deployment, not the new EMH integration.

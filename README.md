@@ -4,6 +4,8 @@ Existing Smart Plan application with a native English Mastery module at `/englis
 
 ## Development
 
+The delivered prepared machine also has a persistent runtime using **real local Supabase**, synthetic Auth accounts and isolated Storage. Its app listens on `127.0.0.1:3190`, survives stop/start and adds no hosted subscription. See [the real local runtime guide](docs/english-mastery-real-local.md). This is separate from the disposable contract fixture below.
+
 Node24, npm and Chromium for browser tests:
 
 ```sh

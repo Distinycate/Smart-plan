@@ -2,6 +2,8 @@
 
 ## Scope and evidence
 
+Persistent real-service local verification is now complete in an isolated Colima/Supabase runtime: four browser workflows against real Auth/PostgreSQL/Storage, then an actual VM stop/start and browser/data persistence check. No main-system credentials or data are used by that runtime. The full regression passed again with 22 SQL/domain cases, 30 host suites and eight contract-browser workflows. See [the local runtime guide](english-mastery-real-local.md) for the exact boundary, account roles, evidence locations and remaining human/content gates.
+
 Local working branch: `feature/english-mastery-integration`, based on Smart Plan main `7eae600`. Native module, no SR/Firebase dependency. Original EMH and SR workspaces were not changed. Local tests use synthetic users/content-review fixtures only. Synthetic approvals exist only inside disposable test databases and are explicitly labelled; they never update imported source files or external systems.
 
 ## Acceptance mapping

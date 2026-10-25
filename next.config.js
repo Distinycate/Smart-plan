@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingRoot: __dirname,
   distDir: process.env.EMH_TEST_BUILD === 'true' ? '.next-emh-test' : '.next',
   serverExternalPackages: ['@sparticuz/chromium'],
   outputFileTracingIncludes: {
