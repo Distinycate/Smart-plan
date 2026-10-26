@@ -1,7 +1,13 @@
 "use client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Bi, Problem, StudyText } from "./LearningUI";
+import { modeThai, statusThai, unitThai } from "./learning-copy";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api, type Data } from "./api";
 export function Session({ initial }: { initial: Data }) {
+  const router = useRouter();
+  const navigating = useRef(false);
   const [session, setSession] = useState(initial),
     [drafts, setDrafts] = useState<Data>(initial.drafts),
     [plan, setPlan] = useState(initial.plan || ""),
@@ -27,7 +33,7 @@ export function Session({ initial }: { initial: Data }) {
       )
         return;
       const payload = JSON.stringify(latest.current);
-      if (payload === saved.current) return;
+      if (payload === saved.current) { setStatus("Saved"); return; }
       setStatus("Saving…");
       try {
         const next = await api("save", {
@@ -69,6 +75,24 @@ export function Session({ initial }: { initial: Data }) {
     window.addEventListener("beforeunload", warn);
     return () => window.removeEventListener("beforeunload", warn);
   }, []);
+  // Next.js links do not trigger beforeunload. Finish the queued save before leaving.
+  useEffect(() => {
+    const navigate = (event: MouseEvent) => {
+      const target = event.target instanceof Element ? event.target.closest('a[href]') : null;
+      if (!(target instanceof HTMLAnchorElement) || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || target.target === '_blank' || target.hasAttribute('download')) return;
+      const destination = new URL(target.href, window.location.href);
+      if (destination.origin !== window.location.origin || target.getAttribute('href')?.startsWith('#') ||
+          row.current.status !== 'ACTIVE' || JSON.stringify(latest.current) === saved.current) return;
+      event.preventDefault(); event.stopImmediatePropagation();
+      if (navigating.current) return;
+      navigating.current = true;
+      void save().then(() => {
+        if (!failed.current) router.push(destination.pathname + destination.search + destination.hash);
+      }).catch(() => {}).finally(() => { navigating.current = false; });
+    };
+    document.addEventListener('click', navigate, true);
+    return () => document.removeEventListener('click', navigate, true);
+  }, [save, router]);
   useEffect(() => {
     if (!session.deadlineAt) return;
     const tick = () =>
@@ -154,39 +178,25 @@ export function Session({ initial }: { initial: Data }) {
   const locked = session.status !== "ACTIVE" || busy || seconds === 0;
   return (
     <>
-      <h3>
-        {session.unitId} · {session.mode.replaceAll("_", " ")}
-      </h3>
-      {session.preview && (
-        <p className="emh-notice">
-          Authorised pre-human preview. This attempt is not evidence of
-          calibrated readiness.
-        </p>
-      )}
-      <p>
-        Frozen content: {session.snapshot.contentVersionId} · Rubric:{" "}
-        {session.snapshot.rubricVersionId}
-      </p>
+      <Link className="emh-back" href={`/english/units/${session.unitId}`}><Bi th="กลับไปอ่านบทเรียน" en="Back to unit" /></Link>
+      <header className="emh-page-title"><p className="emh-eyebrow">{session.unitId} · {unitThai(session.unitId)}</p><h3><Bi th={modeThai[session.mode] || 'ฝึกภาษา'} en={session.mode.replaceAll('_', ' ')} /></h3><p>ทำทีละข้อ ไม่ต้องรีบ คำตอบจะบันทึกอัตโนมัติเมื่อหยุดพิมพ์</p><p lang="en" className="emh-muted">Take your time. Your response saves automatically as you pause.</p></header>
+      {session.preview && <p className="emh-draft-note">ฉบับฝึกทดลอง ยังไม่ใช้รับรองระดับภาษา / Authorised pre-human preview.</p>}
+      <details><summary><Bi th="ข้อมูลชุดฝึกนี้" en="Session details" /></summary><p>Frozen content: {session.snapshot.contentVersionId} · Rubric: {session.snapshot.rubricVersionId}</p></details>
       {seconds !== null && session.status === "ACTIVE" && (
         <p role="timer" aria-live="off">
-          Time remaining: {Math.floor(seconds / 60)}:
-          {String(seconds % 60).padStart(2, "0")}. Responses are saved to the
-          same frozen session.
+          เวลาที่เหลือ / Time remaining: {Math.floor(seconds / 60)}:
+          {String(seconds % 60).padStart(2, "0")}. ระบบใช้คำตอบที่บันทึกไว้ในชุดฝึกนี้
         </p>
       )}
-      {error && (
-        <p role="alert" className="emh-error">
-          {error}
-        </p>
-      )}
+      {error && <Problem message={error} />}
       <p role="status" className="emh-status">
-        {status}
+        {status && <><span lang="th">{status === 'Saved' ? 'บันทึกแล้ว' : status === 'Saving…' ? 'กำลังบันทึก…' : status === 'Not saved' ? 'ยังไม่บันทึก กรุณาเก็บคำตอบไว้ก่อน' : status.startsWith('Submitted') ? 'ส่งคำตอบแล้ว' : status.startsWith('Time ended') ? 'หมดเวลา ส่งเฉพาะคำตอบที่บันทึกแล้ว' : 'บันทึกและไปข้อถัดไปแล้ว'}</span><span lang="en"> · {status}</span></>}
       </p>
       {["WRITING", "MEDIATION", "ONLINE_INTERACTION"].includes(
         session.mode,
       ) && (
         <div>
-          <label htmlFor="response-plan">Plan your response</label>
+          <label htmlFor="response-plan"><Bi th="วางแผนคำตอบ (จดสั้น ๆ ได้)" en="Plan your response" /></label>
           <textarea
             id="response-plan"
             value={plan}
@@ -201,9 +211,10 @@ export function Session({ initial }: { initial: Data }) {
         index !== (session.currentIndex || 0) ? null : (
           <fieldset key={item.stableId}>
             <legend>
-              Task {index + 1} · {item.title || item.skill}
+              ข้อที่ {index + 1} / Task {index + 1} · {modeThai[item.skill] || item.title || item.skill}
             </legend>
-            <p className="emh-text">{item.prompt}</p>
+            <p className="emh-session-helper">{item.responseType === 'SHORT_ANSWER' ? 'อ่านโจทย์ แล้วพิมพ์คำหรือวลีสั้น ๆ ที่ช่องด้านล่าง ไม่ต้องพิมพ์ทั้งประโยค เว้นแต่โจทย์กำหนด' : item.responseType === 'RECORDING' ? 'อ่านสถานการณ์ เตรียมสิ่งที่จะพูด แล้วอัดเสียงหรือเลือกไฟล์เสียงของคุณ' : 'อ่านสถานการณ์ แล้วตอบตามความเข้าใจของคุณ งานตอบอิสระจะรอผู้ตรวจให้คำแนะนำ'}</p>
+            <StudyText text={item.prompt} />
             {item.responseType === "RECORDING" ? (
               <Recorder
                 attemptId={session.id}
@@ -216,7 +227,7 @@ export function Session({ initial }: { initial: Data }) {
               />
             ) : (
               <div>
-                <label htmlFor={`response-${index}`}>Your response</label>
+                <label htmlFor={`response-${index}`}><Bi th="พิมพ์คำตอบของคุณ" en="Your response" /></label>
                 <textarea
                   id={`response-${index}`}
                   maxLength={30000}
@@ -235,15 +246,15 @@ export function Session({ initial }: { initial: Data }) {
               session.responses
                 .filter((r: Data) => r.itemId === item.stableId)
                 .map((r: Data) => (
-                  <div key={r.itemId}>
-                    <h4>Feedback</h4>
-                    <p>{r.feedback}</p>
+                  <div key={r.itemId} className="emh-feedback">
+                    <h4><Bi th="ผลการฝึกและคำแนะนำ" en="Feedback" /></h4>
+                    <p>{r.reviewStatus === 'PENDING_HUMAN' ? 'ส่งงานแล้ว รอผู้ตรวจให้คำแนะนำ' : r.score === 1 ? 'ตอบได้ตรงกับเฉลยแล้ว เก่งมากที่ได้ลองฝึก' : r.score === 0 ? 'คำตอบยังไม่ตรง ลองดูคำอธิบายแล้วกลับไปฝึกอีกครั้งได้' : statusThai[r.reviewStatus] || 'บันทึกผลการฝึกแล้ว'}</p>
+                    <p lang="en">{r.feedback}</p>
                     <p>
-                      {r.reviewStatus}
-                      {r.score !== null ? ` · Score ${r.score}` : ""}
+                      <span lang="en">{r.reviewStatus}{r.score !== null ? ` · Score ${r.score}` : ''}</span>
                     </p>
                     {r.remediation?.map((m: Data) => (
-                      <p key={m.errorTag}>Revisit: {m.action}</p>
+                      <p key={m.errorTag}>ลองทบทวนอีกครั้ง / Revisit: {m.action}</p>
                     ))}
                   </div>
                 ))}
@@ -257,24 +268,24 @@ export function Session({ initial }: { initial: Data }) {
             disabled={locked || failed.current}
             onClick={() => void advance()}
           >
-            Save and move to next task — previous task locks
+            <Bi th="บันทึกและไปข้อถัดไป (ข้อก่อนหน้าจะแก้ไม่ได้)" en="Save and move to next task — previous task locks" />
           </button>
         )}
       {session.status === "ACTIVE" && (
-        <>
+        <div className="emh-session-toolbar"><p className="emh-small">ตรวจคำตอบก่อนส่ง เมื่อส่งแล้วชุดนี้จะแก้ไม่ได้ แต่เริ่มฝึกครั้งใหม่ได้ / Review before submitting.</p>
           <button
             disabled={busy || failed.current || seconds === 0}
             onClick={() => void save().catch(() => {})}
           >
-            Save now
+            <Bi th="บันทึกตอนนี้" en="Save now" />
           </button>
           <button
             disabled={busy || failed.current}
             onClick={() => void submit()}
           >
-            Submit final response
+            <Bi th="ส่งคำตอบ" en="Submit final response" />
           </button>
-        </>
+        </div>
       )}
       {["WRITING", "MEDIATION", "ONLINE_INTERACTION"].includes(
         session.mode,
@@ -288,17 +299,18 @@ export function Session({ initial }: { initial: Data }) {
                 .catch((e) => setError(e.message))
             }
           >
-            Show saved writing history
+            <Bi th="ดูประวัติคำตอบที่บันทึก" en="Show saved writing history" />
           </button>
           {history.map((h) => (
             <details key={h.id}>
-              <summary>Saved {new Date(h.createdAt).toLocaleString()}</summary>
+              <summary>บันทึกเมื่อ / Saved {new Date(h.createdAt).toLocaleString("th-TH")}</summary>
               <p>Rubric: {h.rubricVersionId}</p>
               <pre>{JSON.stringify(h.responses, null, 2)}</pre>
             </details>
           ))}
         </>
       )}
+      <div className="emh-end-nav"><Link className="emh-button secondary" href={`/english/units/${session.unitId}`}><Bi th="กลับไปทบทวนบทเรียน" en="Review this unit" /></Link><Link className="emh-button secondary" href="/english/progress"><Bi th="ดูความก้าวหน้าของฉัน" en="View my progress" /></Link></div>
     </>
   );
 }
@@ -351,7 +363,7 @@ function Recorder({
       stream.current = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
-      const media = new MediaRecorder(stream.current),
+      const media = new MediaRecorder(stream.current, { audioBitsPerSecond: 64000 }),
         parts: BlobPart[] = [];
       recorder.current = media;
       media.ondataavailable = (e) => {
@@ -366,10 +378,10 @@ function Recorder({
       setRecording(true);
       limit.current = setTimeout(() => {
         if (media.state === "recording") media.stop();
-      }, 120000);
+      }, 300000);
     } catch {
       setError(
-        "Microphone unavailable. Check permission or upload an audio file.",
+        "ใช้ไมโครโฟนไม่ได้ กรุณาอนุญาตไมค์หรือเลือกไฟล์เสียง / Microphone unavailable. Check permission or upload an audio file.",
       );
       stream.current?.getTracks().forEach((t) => t.stop());
     }
@@ -400,13 +412,13 @@ function Recorder({
   return (
     <div>
       <p>
-        Private recording, maximum 3 MB. Only you and an authorised assigned
-        reviewer can access it. You may delete your recording below.
+        ไฟล์เสียงส่วนตัว อัดได้ไม่เกิน 5 นาที ขนาดไม่เกิน 3 MB เฉพาะคุณและผู้ตรวจที่ได้รับมอบหมายเท่านั้นที่เข้าถึงได้ คุณลบเสียงได้จากปุ่มด้านล่าง
+        / Private recording, maximum 3 MB. Only you and an assigned reviewer can access it.
       </p>
       <p>
         {policy?.configured
-          ? `Retention: ${policy.retentionDays} days from upload, under policy ${policy.version}. Expired recordings are inaccessible and queued for deletion.`
-          : "Recording policy is not configured or is still loading. Upload is disabled."}
+          ? `เก็บเสียง ${policy.retentionDays} วันนับจากอัปโหลด ตามนโยบาย ${policy.version} จากนั้นปิดการเข้าถึงและรอลบ / Retention: ${policy.retentionDays} days.`
+          : "กำลังโหลดหรือยังไม่ได้ตั้งค่านโยบายเสียง จึงยังอัปโหลดไม่ได้ / Recording policy is loading or unavailable."}
       </p>
       {!disabled && (
         <>
@@ -416,13 +428,13 @@ function Recorder({
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
             />
-            I understand the private recording notice and consent to upload.
+            <Bi th="ฉันเข้าใจการเก็บเสียงส่วนตัวและยินยอมอัปโหลด" en="I understand the private recording notice and consent to upload." />
           </label>
           <button
             disabled={!consent || recording || busy}
             onClick={() => void start()}
           >
-            Record audio
+            <Bi th="เริ่มอัดเสียง" en="Record audio" />
           </button>
           <button
             disabled={!recording}
@@ -431,10 +443,10 @@ function Recorder({
               recorder.current?.stop();
             }}
           >
-            Stop recording
+            <Bi th="หยุดอัดเสียง" en="Stop recording" />
           </button>
           <label>
-            Or choose an audio file
+            <Bi th="หรือเลือกไฟล์เสียงที่มีอยู่" en="Or choose an audio file" />
             <input
               type="file"
               accept="audio/webm,audio/ogg,audio/wav,audio/mp4,audio/mpeg"
@@ -443,7 +455,7 @@ function Recorder({
                 const f = e.target.files?.[0];
                 if (f) {
                   if (f.size > 3 * 1024 * 1024)
-                    setError("Maximum size is 3 MB.");
+                    setError("ไฟล์ต้องไม่เกิน 3 MB / Maximum size is 3 MB.");
                   else setBlob(f);
                 }
               }}
@@ -455,18 +467,19 @@ function Recorder({
             }
             onClick={() => void upload()}
           >
-            Upload private recording
+            <Bi th="บันทึกไฟล์เสียงส่วนตัว" en="Upload private recording" />
           </button>
         </>
       )}
       {recording && (
-        <p role="status">Recording… automatic stop after two minutes.</p>
+        <p role="status">กำลังอัดเสียง หยุดอัตโนมัติเมื่อครบ 5 นาที / Recording… automatic stop after five minutes.</p>
       )}
-      {error && <p role="alert">{error}</p>}
-      {url && <audio controls src={url} aria-label="Recording playback" />}
+      {error && <Problem message={error} />}
+      {deletedId && <p role="status">ลบไฟล์เสียงแล้ว / <span lang="en">Recording deleted.</span></p>}
+      {url && <audio controls src={url} aria-label="ฟังเสียงของคุณ / Recording playback" />}
       {recordingId && recordingId !== deletedId && (
         <>
-          <p role="status">Private recording saved</p>
+          <p role="status">บันทึกเสียงส่วนตัวแล้ว / Private recording saved</p>
           <button
             onClick={() =>
               api("playback", { id: recordingId })
@@ -474,14 +487,14 @@ function Recorder({
                 .catch((e) => setError(e.message))
             }
           >
-            Play saved recording
+            <Bi th="ฟังเสียงที่บันทึก" en="Play saved recording" />
           </button>
           <button
             className="secondary"
             onClick={() => {
               if (
                 window.confirm(
-                  "Delete this private recording? The attempt metadata remains, but the audio will be removed.",
+                  "ลบไฟล์เสียงนี้หรือไม่? ประวัติการฝึกยังอยู่ แต่ไฟล์เสียงจะถูกลบ / Delete this private recording?",
                 )
               )
                 api("deleteAudio", { id: recordingId })
@@ -489,13 +502,13 @@ function Recorder({
                     setDeletedId(recordingId);
                     setUrl("");
                     setBlob(null);
-                    setError("Recording deleted.");
+                    setError("");
                     if (!disabled) onSaved("");
                   })
                   .catch((e) => setError(e.message));
             }}
           >
-            Delete my recording
+            <Bi th="ลบไฟล์เสียงของฉัน" en="Delete my recording" />
           </button>
         </>
       )}

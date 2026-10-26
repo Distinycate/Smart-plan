@@ -29,7 +29,7 @@ npm run test:local:real
 node --import tsx scripts/english/local-persistence.ts
 ```
 
-The four browser tests exercise real password login, lesson progress/practice, writing autosave/history/final lock, private Storage upload/signed playback/direct-access denial/delete, real JWT row isolation and forbidden RPC/publishing. They create only synthetic test data. The persistence check verifies the IDs recorded by the browser test, logs in again and finds the earlier attempt in the app. Evidence is stored privately under `.emh-local`; it is not published to this public repository.
+The six browser tests exercise real password login, lesson progress/practice, writing autosave/history/final lock, private Storage upload/signed playback/direct-access denial/delete, real JWT row isolation and forbidden RPC/publishing. They also resolve all 96 units, render all six levels, and verify Thai topic search, mobile navigation, persisted completion and saving a fresh response before leaving a session. They create only synthetic test data. The persistence check verifies the IDs recorded by the browser test, logs in again and finds the earlier attempt in the app. Evidence is stored privately under `.emh-local`; it is not published to this public repository.
 
 ## Content and recording limits
 

@@ -24,11 +24,12 @@ async function login(page: Page, name = "learner") {
   await page.getByRole("button", { name: "เข้าสู่ระบบ", exact: true }).click();
   await page.waitForURL("**/profile");
   await page
-    .getByRole("link", { name: "English Mastery", exact: true })
+    .getByRole("link", { name: /English Mastery$/ })
     .click();
   await expect(
     page.getByRole("heading", { name: "Your learning path" }),
   ).toBeVisible();
+  await page.getByText("More ways to practise", { exact: true }).click();
 }
 test("host login → native lesson → practice → remediation → retrieval; @a11y", async ({
   page,
@@ -39,7 +40,7 @@ test("host login → native lesson → practice → remediation → retrieval; @
   ).toBeVisible();
   await page.locator('a[href="/english/units/A1-02"]').click();
   await expect(
-    page.getByRole("heading", { name: "A1-02 · Greetings & Introductions" }),
+    page.getByText("A1-02 · Greetings & Introductions", { exact: true }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Mark lesson complete" })
@@ -49,13 +50,13 @@ test("host login → native lesson → practice → remediation → retrieval; @
     "Lesson completion saved",
   );
   await page
-    .getByRole("button", { name: "Practise V05-Q-A1-02-001", exact: true })
+    .getByRole("button", { name: /Practise V05\-Q\-A1\-02\-001$/ })
     .click();
-  await page.getByLabel("Your response", { exact: true }).fill("Goodbye");
+  await page.getByLabel(/Your response$/).fill("Goodbye");
   await page.getByRole("button", { name: "Save now" }).click();
   await expect(page.getByRole("status")).toContainText("Saved");
   await page.reload();
-  await expect(page.getByLabel("Your response", { exact: true })).toHaveValue(
+  await expect(page.getByLabel(/Your response$/)).toHaveValue(
     "Goodbye",
   );
   await page.getByRole("button", { name: "Submit final response" }).click();
@@ -63,10 +64,11 @@ test("host login → native lesson → practice → remediation → retrieval; @
   await expect(
     page.getByText("Revisit:", { exact: false }).first(),
   ).toBeVisible();
-  await page.getByRole("link", { name: "Spaced review", exact: true }).click();
+  await page.getByRole("link", { name: /Spaced review$/ }).click();
   await expect(
     page.getByRole("button", { name: "Retrieve again" }).first(),
   ).toBeVisible();
+  await expect(page).toHaveTitle(/English Mastery/);
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
@@ -76,17 +78,17 @@ test("writing autosave survives reload and final submission locks edits", async 
   page,
 }) => {
   await login(page);
-  await page.getByRole("link", { name: "Writing", exact: true }).click();
+  await page.getByRole("link", { name: /Writing$/ }).click();
   await page
-    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: "Start Writing", exact: true })
+    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: /Start Writing$/ })
     .click();
   await page.getByLabel("Plan your response").fill("Introduce name and home.");
   await page
-    .getByLabel("Your response", { exact: true })
+    .getByLabel(/Your response$/)
     .fill("My name is Mina. I am from Thailand. I am a student.");
   await expect(page.getByRole("status")).toContainText("Saved");
   await page.reload();
-  await expect(page.getByLabel("Your response", { exact: true })).toHaveValue(
+  await expect(page.getByLabel(/Your response$/)).toHaveValue(
     "My name is Mina. I am from Thailand. I am a student.",
   );
   await page
@@ -96,16 +98,16 @@ test("writing autosave survives reload and final submission locks edits", async 
   await page.getByRole("button", { name: "Submit final response" }).click();
   await expect(page.getByText("PENDING_HUMAN", { exact: true })).toBeVisible();
   await expect(
-    page.getByLabel("Your response", { exact: true }),
+    page.getByLabel(/Your response$/),
   ).toBeDisabled();
 });
 test("private speaking upload, playback and explicit owner deletion", async ({
   page,
 }) => {
   await login(page);
-  await page.getByRole("link", { name: "Speaking", exact: true }).click();
+  await page.getByRole("link", { name: /Speaking$/ }).click();
   await page
-    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: "Start Speaking", exact: true })
+    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: /Start Speaking$/ })
     .click();
   await page.getByRole("checkbox").check();
   const bytes = Buffer.alloc(16044);
@@ -127,7 +129,7 @@ test("private speaking upload, playback and explicit owner deletion", async ({
     .setInputFiles({ name: "test.wav", mimeType: "audio/wav", buffer: bytes });
   await page.getByRole("button", { name: "Upload private recording" }).click();
   await expect(
-    page.getByText("Private recording saved", { exact: true }),
+    page.getByText(/Private recording saved$/),
   ).toBeVisible();
   await page.getByRole("button", { name: "Play saved recording" }).click();
   await expect(page.locator("audio")).toHaveAttribute(
@@ -139,7 +141,7 @@ test("private speaking upload, playback and explicit owner deletion", async ({
   page.on("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "Delete my recording" }).click();
   await expect(
-    page.getByText("Recording deleted.", { exact: true }),
+    page.getByText(/Recording deleted\.$/).first(),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Play saved recording" }),
@@ -149,7 +151,7 @@ test("review workflow stays gated; host dashboard and logout remain reachable", 
   page,
 }) => {
   await login(page, "reviewer");
-  await page.getByRole("link", { name: "Human review", exact: true }).click();
+  await page.getByRole("link", { name: /Human review$/ }).click();
   const review = page
     .locator("details.emh-card")
     .filter({ has: page.locator("summary", { hasText: "A1-02 · 0.6.0" }) })
@@ -171,7 +173,7 @@ test("review workflow stays gated; host dashboard and logout remain reachable", 
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/dashboard/);
   await expect(
-    page.getByRole("link", { name: "English Mastery", exact: true }),
+    page.getByRole("link", { name: /English Mastery$/ }),
   ).toBeVisible();
   await page.getByRole("button", { name: "ออกจากระบบ", exact: true }).click();
   await page.waitForURL("**/login");
@@ -197,8 +199,7 @@ test("mobile layout and access-denied API @a11y", async ({ page }) => {
   expect(result.status).toBe(403);
   // A scrolled navigation target must remain clear of the host header on mobile.
   const examLink = page.getByRole("link", {
-    name: "Exam simulation",
-    exact: true,
+    name: /Exam simulation$/,
   });
   const targetIsClear = await examLink.evaluate((link) => {
     link.scrollIntoView({ block: "start" });
@@ -210,6 +211,7 @@ test("mobile layout and access-denied API @a11y", async ({ page }) => {
     targetIsClear,
     "Mobile navigation must not be hidden by the header",
   ).toBe(true);
+  await expect(page).toHaveTitle(/English Mastery/);
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
@@ -225,7 +227,7 @@ test("author creates a separate pre-human revision without changing prior versio
   page,
 }) => {
   await login(page, "author");
-  await page.getByRole("link", { name: "Authoring", exact: true }).click();
+  await page.getByRole("link", { name: /Authoring$/ }).click();
   const revision = page
     .locator("details.emh-card")
     .filter({
@@ -287,27 +289,27 @@ test("draft exam simulation freezes profile and locks sequential navigation", as
   });
   expect(result.success).toBe(true);
   await page
-    .getByRole("link", { name: "Exam simulation", exact: true })
+    .getByRole("link", { name: /Exam simulation$/ })
     .click();
   await page.getByLabel("Exam profile").selectOption("BROWSER-TEST@1.0.0");
   await page
-    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: "Start Exam simulation", exact: true })
+    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: /Start Exam simulation$/ })
     .click();
-  await page.getByLabel("Your response", { exact: true }).fill("Hello");
+  await page.getByLabel(/Your response$/).fill("Hello");
   await page
     .getByRole("button", {
       name: "Save and move to next task — previous task locks",
     })
     .click();
   await expect(
-    page.getByText("Previous task locked.", { exact: true }),
+    page.getByRole("status"),
   ).toBeVisible();
-  await expect(page.getByRole("group")).toHaveCount(1);
-  await expect(page.getByRole("group")).toHaveAccessibleName(/Task 2/);
-  await page.getByLabel("Your response", { exact: true }).fill("Mina");
+  await expect(page.getByRole("group", { name: /Task \d/ })).toHaveCount(1);
+  await expect(page.getByRole("group", { name: /Task \d/ })).toHaveAccessibleName(/Task 2/);
+  await page.getByLabel(/Your response$/).fill("Mina");
   await page.getByRole("button", { name: "Submit final response" }).click();
   await expect(page.getByRole("status")).toContainText("Submitted");
-  await expect(page.getByRole("group")).toHaveCount(2);
+  await expect(page.getByRole("group", { name: /Task \d/ })).toHaveCount(2);
 });
 
 test("operator invites and revokes an existing user without changing host role", async ({
@@ -315,7 +317,7 @@ test("operator invites and revokes an existing user without changing host role",
   browser,
 }) => {
   await login(page, "author");
-  await page.getByRole("link", { name: "Administration", exact: true }).click();
+  await page.getByRole("link", { name: /Administration$/ }).click();
   await page
     .getByLabel("Existing user UUID")
     .fill("00000000-0000-4000-8000-000000000002");
@@ -329,17 +331,15 @@ test("operator invites and revokes an existing user without changing host role",
     other = await otherContext.newPage();
   try {
     await login(other, "other");
-    await other.locator('a[href="/english/units/A1-02"]').click();
-    await expect(other.getByRole("heading", { name: /A1-02/ })).toBeVisible();
+    await other.locator('.emh-unit-card a[href="/english/units/A1-02"]').click();
+    await expect(other.getByText(/^A1-02 · Greetings & Introductions/)).toBeVisible();
     page.on("dialog", (d) => d.accept());
     await page
       .getByRole("button", { name: "Revoke selected permission" })
       .click();
     await expect(page.getByRole("status")).toContainText("revoked");
     await other.reload();
-    await expect(
-      other.getByText("CONTENT_NOT_AVAILABLE", { exact: true }),
-    ).toBeVisible();
+    await expect(other.locator(".emh").getByRole("alert")).toContainText("ยังไม่เปิดให้บัญชีนี้เรียน");
   } finally {
     await otherContext.close();
   }

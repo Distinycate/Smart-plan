@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { context } from "@/lib/english-mastery/server";
 import { Module } from "@/components/english-mastery/Module";
+export const metadata: Metadata = { title: "ฝึกภาษาอังกฤษ | English Mastery", description: "ฝึกภาษาอังกฤษ A1–C2 ด้วยคำแนะนำไทยและอังกฤษ เรียนทีละขั้นและกลับมาฝึกต่อได้" };
 export const dynamic = "force-dynamic";
 export default async function EnglishPage(props: {
   params: Promise<{ path?: string[] }>;
@@ -38,14 +40,13 @@ export default async function EnglishPage(props: {
       <section className="mx-auto max-w-3xl p-8">
         <h2 className="text-2xl font-bold">English Mastery Hub</h2>
         <p className="my-4">
-          This module requires an enabled environment and an English Mastery
-          invitation. Your existing Smart Plan account is used; no new account
-          is needed.
+          พื้นที่ฝึกนี้ใช้บัญชี Smart Plan เดิมของคุณ หากยังเข้าไม่ได้ ให้ผู้ดูแลเปิดสิทธิ์การเรียนก่อน
+          / Use your Smart Plan account. An English Mastery invitation is required.
         </p>
-        <Link href="/login">Sign in with Smart Plan</Link>
+        <Link href="/login">เข้าสู่ระบบเพื่อเริ่มฝึก / Sign in with Smart Plan</Link>
         <p className="my-4">
-          If already signed in, ask the administrator to check your module
-          permissions and staging configuration.
+          หากเข้าสู่ระบบแล้วแต่ยังพบหน้านี้ กรุณาติดต่อผู้ดูแลเพื่อตรวจสิทธิ์
+          / Already signed in? Ask the administrator to check your access.
         </p>
       </section>
     );

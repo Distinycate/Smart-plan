@@ -13,20 +13,23 @@ async function login(page: Page, name = 'learner') {
   await page.getByLabel('รหัสผ่าน (Password)').fill(accounts[name].password);
   await page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
   await page.waitForURL('**/profile');
-  await page.getByRole('link', { name: 'English Mastery', exact: true }).click();
+  await page.getByRole('link', { name: /English Mastery$/ }).click();
   await expect(page.getByRole('heading', { name: 'Your learning path' })).toBeVisible();
+  await page.getByText('More ways to practise', { exact: true }).click();
 }
 test('real Auth, lesson completion, practice scoring and PostgreSQL persistence', async ({ page }) => {
   await login(page);
-  await page.locator('a[href="/english/units/A1-02"]').click();
-  await page.getByRole('button', { name: 'Mark lesson complete' }).first().click();
-  await expect(page.getByRole('status')).toContainText('Lesson completion saved');
-  await page.getByRole('button', { name: 'Practise V05-Q-A1-02-001', exact: true }).click();
-  await page.getByLabel('Your response', { exact: true }).fill('Goodbye');
+  await page.locator('.emh-unit-card a[href="/english/units/A1-02"]').click();
+  await expect(page.getByRole('button', { name: /(?:Mark lesson complete|Lesson completed)$/ })).toBeVisible();
+  const markComplete = page.getByRole('button', { name: 'Mark lesson complete' });
+  if (await markComplete.count()) { await markComplete.click(); await expect(page.getByRole('status')).toContainText('Lesson completion saved'); }
+  else await expect(page.getByRole('button', { name: 'Lesson completed', exact: false })).toBeDisabled();
+  await page.getByRole('button', { name: /Practise V05\-Q\-A1\-02\-001$/ }).click();
+  await page.getByLabel(/Your response$/).fill('Goodbye');
   await page.getByRole('button', { name: 'Save now' }).click();
   await expect(page.getByRole('status')).toContainText('Saved');
   await page.reload();
-  await expect(page.getByLabel('Your response', { exact: true })).toHaveValue('Goodbye');
+  await expect(page.getByLabel(/Your response$/)).toHaveValue('Goodbye');
   await page.getByRole('button', { name: 'Submit final response' }).click();
   await expect(page.getByText('SCORED · Score 0')).toBeVisible();
   const { data, error } = await db.from('emh_attempts').select('id,data').eq('owner_id', accounts.learner.id);
@@ -38,19 +41,19 @@ test('real Auth, lesson completion, practice scoring and PostgreSQL persistence'
 });
 test('real writing autosave/history and final submission stay stored and locked', async ({ page }) => {
   await login(page);
-  await page.getByRole('link', { name: 'Writing', exact: true }).click();
-  await page.locator('article').filter({ hasText: 'A1-02' }).getByRole('button', { name: 'Start Writing', exact: true }).click();
+  await page.getByRole('link', { name: /Writing$/ }).click();
+  await page.locator('article').filter({ hasText: 'A1-02' }).getByRole('button', { name: /Start Writing$/ }).click();
   await page.getByLabel('Plan your response').fill('SYNTHETIC LOCAL TEST: name and home.');
   const writing = 'My name is Mina. I am from Thailand. This is synthetic local test data.';
-  await page.getByLabel('Your response', { exact: true }).fill(writing);
+  await page.getByLabel(/Your response$/).fill(writing);
   await expect(page.getByRole('status')).toContainText('Saved');
   await page.reload();
-  await expect(page.getByLabel('Your response', { exact: true })).toHaveValue(writing);
+  await expect(page.getByLabel(/Your response$/)).toHaveValue(writing);
   await page.getByRole('button', { name: 'Show saved writing history' }).click();
   await expect(page.getByText('Saved ', { exact: false }).last()).toBeVisible();
   await page.getByRole('button', { name: 'Submit final response' }).click();
   await expect(page.getByText('PENDING_HUMAN', { exact: true })).toBeVisible();
-  await expect(page.getByLabel('Your response', { exact: true })).toBeDisabled();
+  await expect(page.getByLabel(/Your response$/)).toBeDisabled();
   const { data, error } = await db.from('emh_writing_versions').select('id,data').eq('owner_id', accounts.learner.id);
   expect(error).toBeNull();
   expect(data!.some(r => JSON.stringify(r.data).includes(writing))).toBe(true);
@@ -58,8 +61,8 @@ test('real writing autosave/history and final submission stay stored and locked'
 });
 test('real private Storage upload, signed playback, direct access denial and owner delete', async ({ page }) => {
   await login(page);
-  await page.getByRole('link', { name: 'Speaking', exact: true }).click();
-  await page.locator('article').filter({ hasText: 'A1-02' }).getByRole('button', { name: 'Start Speaking', exact: true }).click();
+  await page.getByRole('link', { name: /Speaking$/ }).click();
+  await page.locator('article').filter({ hasText: 'A1-02' }).getByRole('button', { name: /Start Speaking$/ }).click();
   await page.getByRole('checkbox').check();
   const bytes = Buffer.alloc(16044);
   bytes.write('RIFF'); bytes.writeUInt32LE(bytes.length - 8, 4); bytes.write('WAVE', 8);
@@ -68,7 +71,7 @@ test('real private Storage upload, signed playback, direct access denial and own
   bytes.writeUInt16LE(2, 32); bytes.writeUInt16LE(16, 34); bytes.write('data', 36); bytes.writeUInt32LE(16000, 40);
   await page.getByLabel('Or choose an audio file').setInputFiles({ name: 'synthetic-silence.wav', mimeType: 'audio/wav', buffer: bytes });
   await page.getByRole('button', { name: 'Upload private recording' }).click();
-  await expect(page.getByText('Private recording saved', { exact: true })).toBeVisible();
+  await expect(page.getByText(/Private recording saved$/)).toBeVisible();
   await page.getByRole('button', { name: 'Play saved recording' }).click();
   await expect(page.locator('audio')).toHaveAttribute('src', /^http:\/\/127\.0\.0\.1:55321\/storage\/v1\/object\/sign\//);
   const signed = await page.locator('audio').getAttribute('src');
@@ -87,7 +90,7 @@ test('real private Storage upload, signed playback, direct access denial and own
   await expect(page.getByText('PENDING_HUMAN', { exact: true })).toBeVisible();
   page.on('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: 'Delete my recording' }).click();
-  await expect(page.getByText('Recording deleted.', { exact: true })).toBeVisible();
+  await expect(page.getByText(/Recording deleted\.$/).first()).toBeVisible();
   expect((await db.storage.from('emh-learner-recordings').download(active.data.objectPath)).error).toBeTruthy();
   proof.deletedRecording = active.id;
 });
@@ -133,18 +136,69 @@ test('all 96 units resolve to full content; six levels render and a new unit sco
   expect(results.every(r => r.available && r.preview && r.lessons >= 3 && r.practice >= 20 && r.tasks === 4)).toBe(true);
   for (const id of ['A1-01','A2-01','B1-01','B2-02','C1-01','C2-16']) {
     await page.goto(`/english/units/${id}`);
-    await expect(page.getByRole('heading', { name: new RegExp(`^${id} ·`) })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Mark lesson complete' })).toHaveCount(4);
+    await expect(page.getByText(new RegExp(`^${id} ·`)).first()).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'ขั้นตอนบทเรียน / Lesson steps' }).getByRole('link')).toHaveCount(4);
     await expect(page.getByText('Reading A', { exact: false }).first()).toBeVisible();
   }
   await page.goto('/english/units/A1-01');
-  await page.getByRole('button', { name: 'Practise Q-A1-01-001', exact: true }).click();
+  await page.getByRole('button', { name: /Practise Q\-A1\-01\-001$/ }).click();
   const p = JSON.parse(readFileSync('content/english-mastery/course/A1-01.json', 'utf8'));
-  await page.getByLabel('Your response', { exact: true }).fill(p.practice[0].acceptedAnswers[0]);
+  await page.getByLabel(/Your response$/).fill(p.practice[0].acceptedAnswers[0]);
   await page.getByRole('button', { name: 'Submit final response' }).click();
   await expect(page.getByText('SCORED · Score 1')).toBeVisible();
   writeFileSync('.emh-local/course-browser-proof.json', JSON.stringify({
     verifiedAt: new Date().toISOString(), target: 'isolated-real-local-supabase',
     units: results, renderedLevels: 6, newUnitScoring: 'PASS', productionChanged: false,
+  }, null, 2), { mode: 0o600 });
+});
+
+test('Thai-first self-study persists completion and saves before navigation on real local services', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1100 });
+  await login(page);
+  await page.getByText('More ways to practise', { exact: true }).click();
+  await page.getByLabel(/CEFR learning level/).selectOption('A1');
+  await page.getByLabel(/Search units/).fill('อาหาร');
+  await expect(page.locator('.emh-unit-card')).toHaveCount(1);
+  await expect(page.locator('.emh-unit-card')).toContainText('Food & Drink');
+  await page.getByLabel(/Search units/).fill('');
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: '.emh-local/learning-desktop.png' });
+  await page.setViewportSize({ width: 375, height: 812 });
+  await expect(page.locator('body')).toHaveJSProperty('scrollWidth', 375);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: '.emh-local/learning-mobile.png' });
+  await page.locator('.emh-unit-card').filter({ hasText: 'A1-15' }).getByRole('link', { name: /Open unit$/ }).click();
+  await expect(page.getByRole('button', { name: /(?:Mark lesson complete|Lesson completed)$/ })).toBeVisible();
+  const mark = page.getByRole('button', { name: /Mark lesson complete$/ });
+  if (await mark.count()) await mark.click();
+  await expect(page.getByRole('button', { name: /Lesson completed$/ })).toBeDisabled();
+  await page.reload();
+  await expect(page.getByRole('button', { name: /Lesson completed$/ })).toBeDisabled();
+  const { data: completed, error } = await db.from('emh_lesson_progress').select('data').eq('owner_id', accounts.learner.id);
+  expect(error).toBeNull();
+  expect(completed!.some(row => row.data.unitId === 'A1-15' && row.data.lessonId === 'A1-15-L01')).toBe(true);
+  await page.getByRole('link', { name: /Next lesson$/ }).click();
+  await expect(page.getByRole('link', { name: /Previous lesson$/ })).toBeVisible();
+  await page.getByRole('link', { name: /Previous lesson$/ }).click();
+  await page.getByRole('button', { name: /Practise Q-A1-15-001$/ }).click();
+  await page.getByLabel(/Your response$/).fill('SYNTHETIC LOCAL UX SAVE');
+  const sessionUrl = page.url(), attemptId = sessionUrl.split('/').pop();
+  await page.getByRole('link', { name: /Back to unit$/ }).click();
+  await expect(page).toHaveURL(/\/english\/units\/A1-15$/);
+  await page.goto('/english');
+  await page.getByRole('link', { name: /Continue learning$/ }).click();
+  await expect(page).toHaveURL(sessionUrl);
+  await expect(page.getByLabel(/Your response$/)).toHaveValue('SYNTHETIC LOCAL UX SAVE');
+  const { data: attempt, error: attemptError } = await db.from('emh_attempts').select('data').eq('id', attemptId).single();
+  expect(attemptError).toBeNull();
+  expect(JSON.stringify(attempt?.data)).toContain('SYNTHETIC LOCAL UX SAVE');
+  await page.screenshot({ path: '.emh-local/practice-mobile.png', fullPage: true });
+  await page.getByRole('button', { name: /Submit final response$/ }).click();
+  await expect(page.getByLabel(/Your response$/)).toBeDisabled();
+  writeFileSync('.emh-local/ux-browser-proof.json', JSON.stringify({
+    verifiedAt: new Date().toISOString(), target: 'isolated-real-local-supabase',
+    thaiSearch: 'PASS', mobileOverflow: 'NONE', lessonCompletionPersisted: true,
+    saveBeforeNavigation: 'PASS', resumePersistedAnswer: 'PASS', finalSubmissionLocks: true,
+    attemptId, productionChanged: false,
   }, null, 2), { mode: 0o600 });
 });
