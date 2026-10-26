@@ -28,7 +28,7 @@ async function login(page: Page, name = "learner") {
     .click();
   await expect(
     page.getByRole("heading", { name: "Your learning path" }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 15000 });
   await page.getByText("More ways to practise", { exact: true }).click();
 }
 test("host login → native lesson → practice → remediation → retrieval; @a11y", async ({

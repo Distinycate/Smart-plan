@@ -1,6 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { mkdirSync } from 'node:fs';
 async function login(page:Page) {
  await page.goto('/login');
  await page.getByLabel('อีเมล (Email)').fill('learner@example.test');
@@ -8,7 +7,8 @@ async function login(page:Page) {
  await page.getByRole('button',{name:'เข้าสู่ระบบ',exact:true}).click();
  await page.waitForURL('**/profile');
  await page.getByRole('link',{name:/ฝึกภาษาอังกฤษ.*English Mastery/}).click();
- await expect(page.getByRole('heading',{name:/เส้นทางการเรียนของคุณ/})).toBeVisible();
+ // The first visit compiles the dev route on a fresh Linux runner.
+ await expect(page.getByRole('heading',{name:/เส้นทางการเรียนของคุณ/})).toBeVisible({timeout:15000});
 }
 test('beginner finds Thai topics, completes a lesson and sees saved progress after reload',async({page})=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
@@ -26,8 +26,7 @@ test('beginner finds Thai topics, completes a lesson and sees saved progress aft
  await page.getByLabel(/CEFR learning level/).selectOption('A2');
  await page.reload();await expect(page.getByLabel(/CEFR learning level/)).toHaveValue('A2');
  await page.getByLabel(/CEFR learning level/).selectOption('A1');
- mkdirSync('/private/tmp/emh-ux-proof',{recursive:true});
- await page.screenshot({path:'/private/tmp/emh-ux-proof/learning-desktop.png'});
+ await page.screenshot({path:test.info().outputPath('learning-desktop.png')});
  await expect(page).toHaveTitle(/English Mastery/);
  expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
  await page.locator('.emh-unit-card').filter({hasText:'A1-01'}).getByRole('link',{name:/เปิดบทเรียน/}).click();
@@ -42,7 +41,7 @@ test('beginner finds Thai topics, completes a lesson and sees saved progress aft
  await page.getByRole('link',{name:/บทก่อนหน้า/}).click();
  await page.getByText('Vocabulary and phrases (30)',{exact:true}).click();
  await expect(page.getByText('คำศัพท์ช่วยเรียน (30)',{exact:true})).toBeVisible();
- await page.screenshot({path:'/private/tmp/emh-ux-proof/lesson-desktop.png'});
+ await page.screenshot({path:test.info().outputPath('lesson-desktop.png')});
  await expect(page).toHaveTitle(/English Mastery/);
  const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
  expect(audit.violations).toEqual([]);expect(errors).toEqual([]);
@@ -51,8 +50,7 @@ test('mobile bilingual navigation saves a fresh answer before leaving and resume
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.setViewportSize({width:375,height:812});await login(page);
  await expect(page.locator('body')).toHaveJSProperty('scrollWidth',375);
- mkdirSync('/private/tmp/emh-ux-proof',{recursive:true});
- await page.screenshot({path:'/private/tmp/emh-ux-proof/learning-mobile.png'});
+ await page.screenshot({path:test.info().outputPath('learning-mobile.png')});
  await page.locator('.emh-unit-card').filter({hasText:'A1-01'}).getByRole('link',{name:/เปิดบทเรียน/}).click();
  await page.getByRole('button',{name:/Practise Q-A1-01-001$/}).click();
  await expect(page).toHaveURL(/\/english\/sessions\//);
@@ -69,7 +67,7 @@ test('mobile bilingual navigation saves a fresh answer before leaving and resume
  await expect(page.getByRole('status')).toContainText('ส่งคำตอบแล้ว');
  await expect(page.getByLabel(/Your response$/)).toBeDisabled();
  await expect(page.getByText('คำตอบยังไม่ตรง ลองดูคำอธิบายแล้วกลับไปฝึกอีกครั้งได้')).toBeVisible();
- await page.screenshot({path:'/private/tmp/emh-ux-proof/practice-mobile.png',fullPage:true});
+ await page.screenshot({path:test.info().outputPath('practice-mobile.png'),fullPage:true});
  await expect(page).toHaveTitle(/English Mastery/);
  const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
  expect(audit.violations).toEqual([]);expect(errors).toEqual([]);
