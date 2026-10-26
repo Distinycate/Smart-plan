@@ -22,3 +22,5 @@ All new domain tables are prefixed `public.emh_`. Existing Smart Plan LessonPlan
 Common row envelope: id, owner_id, JSONB data, revision, created_at. Generated indexed content/attempt/version keys add relational integrity. Content's canonical JSON hash survives JSONB key reordering. Raw source and answer keys remain server/reviewer-only; learner serialization is an explicit allowlist.
 
 Original six 0.5 source packages are preserved separately from six 0.6 full-text derivatives. Canonical Markdown source checksums are verified on import. Neither set is HUMAN_CHECKED. Legacy abbreviated 0.5 cannot be published. No real learner records were copied.
+
+Content authoring update, 2026-10-26: ninety original course drafts extend preview coverage to all 96 units, with 106 stored versions. Existing canonical/derivative bytes are preserved. See [content handoff](english-mastery-content-2026-10-26.md).

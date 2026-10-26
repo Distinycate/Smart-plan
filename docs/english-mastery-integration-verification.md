@@ -60,3 +60,7 @@ Follow-up local release verification also passed after adding the separately rev
 - Validate provider specifications and listening/replay behavior with approved audio before calling an exam profile ready. Current profiles remain DRAFT and all preview attempts remain ineligible for calibrated readiness.
 
 The source content remains PRE_HUMAN_CONTENT_COMPLETE, AI is OFF and official CEFR certification is never claimed. The full migration is not complete until the real staging gates pass.
+
+## Content expansion — 26 October 2026
+
+The earlier six-pilot result above is historical. All 96 units now have complete text drafts: 389 lessons, 1,950 practice items and 384 productive tasks. The loader verifies 106 versions including four retained initial course drafts. Twenty-eight SQL/domain checks pass; five real-local browser flows pass, including all-unit API coverage and six-level rendering. See [the content handoff](english-mastery-content-2026-10-26.md). Human academic review and audio production/QC remain pending.

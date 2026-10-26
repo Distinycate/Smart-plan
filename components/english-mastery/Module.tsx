@@ -161,7 +161,7 @@ function Catalog({ data, mode }: { data: Data; mode: string }) {
         {mode ? tabs.find((t) => t[0] === mode)?.[1] : "Your learning path"}
       </h3>
       <p>
-        96 curriculum units. The six complete exemplars are available only with
+        96 units with complete text drafts. Content is available only with
         explicit preview permission until human review is complete.
       </p>
       <label>

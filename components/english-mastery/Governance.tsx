@@ -113,8 +113,8 @@ export function Governance({
             <section className="emh-card">
               <h4>Canonical content pipeline</h4>
               <p>
-                96 unit metadata; six 0.5 source packages and six 0.6 structured
-                derivatives. Import never publishes.
+                96 units: six preserved 0.5 sources, six 0.6 pilot derivatives and
+                90 original course drafts. Import never publishes.
               </p>
               <button
                 onClick={() =>

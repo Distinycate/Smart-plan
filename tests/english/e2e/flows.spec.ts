@@ -37,7 +37,7 @@ test("host login → native lesson → practice → remediation → retrieval; @
   await expect(
     page.getByRole("link", { name: "สร้างแผนใหม่", exact: true }),
   ).toBeVisible();
-  await page.getByRole("link", { name: "Open unit", exact: true }).click();
+  await page.locator('a[href="/english/units/A1-02"]').click();
   await expect(
     page.getByRole("heading", { name: "A1-02 · Greetings & Introductions" }),
   ).toBeVisible();
@@ -78,7 +78,7 @@ test("writing autosave survives reload and final submission locks edits", async 
   await login(page);
   await page.getByRole("link", { name: "Writing", exact: true }).click();
   await page
-    .getByRole("button", { name: "Start Writing", exact: true })
+    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: "Start Writing", exact: true })
     .click();
   await page.getByLabel("Plan your response").fill("Introduce name and home.");
   await page
@@ -105,7 +105,7 @@ test("private speaking upload, playback and explicit owner deletion", async ({
   await login(page);
   await page.getByRole("link", { name: "Speaking", exact: true }).click();
   await page
-    .getByRole("button", { name: "Start Speaking", exact: true })
+    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: "Start Speaking", exact: true })
     .click();
   await page.getByRole("checkbox").check();
   const bytes = Buffer.alloc(16044);
@@ -291,7 +291,7 @@ test("draft exam simulation freezes profile and locks sequential navigation", as
     .click();
   await page.getByLabel("Exam profile").selectOption("BROWSER-TEST@1.0.0");
   await page
-    .getByRole("button", { name: "Start Exam simulation", exact: true })
+    .locator("article").filter({ hasText: "A1-02" }).getByRole("button", { name: "Start Exam simulation", exact: true })
     .click();
   await page.getByLabel("Your response", { exact: true }).fill("Hello");
   await page
@@ -329,7 +329,7 @@ test("operator invites and revokes an existing user without changing host role",
     other = await otherContext.newPage();
   try {
     await login(other, "other");
-    await other.getByRole("link", { name: "Open unit", exact: true }).click();
+    await other.locator('a[href="/english/units/A1-02"]').click();
     await expect(other.getByRole("heading", { name: /A1-02/ })).toBeVisible();
     page.on("dialog", (d) => d.accept());
     await page

@@ -24,7 +24,7 @@ async function main() {
     writeFileSync(file, JSON.stringify(accounts, null, 2), { mode: 0o600 });
   }
   const repo = new SupabaseRepository(client);
-  await importPackages(repo, accounts.author.id, false);
+  const imported = await importPackages(repo, accounts.author.id, false);
   for (const [name, account] of Object.entries(accounts)) {
     const permissions = name === 'author' ? PERMISSIONS.filter(p => p !== 'english.review') :
       name === 'reviewer' ? ['english.learn', 'english.preview', 'english.review', 'english.audit_attempts'] :
@@ -52,6 +52,6 @@ async function main() {
     NEXT_TELEMETRY_DISABLED: '1',
   };
   writeFileSync(path.join(r.root, '.env.local'), Object.entries(env).map(([k,v]) => `${k}=${v}`).join('\n')+'\n', { mode: 0o600 });
-  console.log('Four real local Auth accounts and 96 curriculum entries / 12 preview versions ready. Credentials saved privately; no content approved or published.');
+  console.log(`Four real local Auth accounts and ${imported.units} curriculum entries / ${imported.versions} preview versions ready. Credentials saved privately; no content approved or published.`);
 }
 main().catch(e => { console.error(e.code || e.message || 'LOCAL_SETUP_FAILED'); process.exitCode = 1; });

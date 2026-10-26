@@ -1,0 +1,16 @@
+{
+  "defaultVersion": "0.1.0",
+  "unitVersions": {
+    "A2-02": "0.1.1",
+    "A2-12": "0.1.1",
+    "A2-14": "0.1.1",
+    "C2-10": "0.1.1"
+  },
+  "history": [
+    "A2-02-0.1.0.json",
+    "A2-12-0.1.0.json",
+    "A2-14-0.1.0.json",
+    "C2-10-0.1.0.json"
+  ],
+  "reason": "Select complete lexical expressions for contextual clozes; preserve drafts already imported into the isolated runtime."
+}

@@ -8,12 +8,13 @@ import {
   type Change,
   type Json,
 } from "./repository";
+import { lexicalIndex } from "./lexical";
 import { hash, sha } from "./policy";
 import { unitManifest, pilotUnitIds } from "./manifest";
 
 const schema = z
   .object({
-    stableId: z.string().regex(/^UNIT-[ABC][12]-\d{2}-PILOT$/),
+    stableId: z.string().regex(/^UNIT-[ABC][12]-\d{2}-(PILOT|COURSE)$/),
     unitId: z.string(),
     version: z.string().regex(/^\d+\.\d+\.\d+$/),
     state: z.literal("PRE_HUMAN_CONTENT_COMPLETE"),
@@ -106,16 +107,37 @@ export function revisedPayload(raw: Json, previous: Json) {
 }
 export async function loadPackages(root = process.cwd()) {
   const packages: Json[] = [];
-  for (const kind of ["legacy", "complete"]) {
+  const releases = JSON.parse(await readFile(path.join(root, "content/english-mastery/course-releases.json"), "utf8"));
+  for (const kind of ["legacy", "complete", "course", "course-history"]) {
+    const course = kind.startsWith("course");
     const folder = path.join(root, "content/english-mastery", kind);
     const names = (await readdir(folder))
       .filter((n) => n.endsWith(".json"))
       .sort();
-    ensure(names.length === 6, "SIX_PILOTS_REQUIRED");
+    ensure(names.length === (kind === "course-history" ? releases.history.length : kind === "course" ? 90 : 6), "CONTENT_COVERAGE_REQUIRED");
+    if (kind === "course-history") ensure(hash(names) === hash([...releases.history].sort()), "HISTORY_COVERAGE_REQUIRED");
+    const units = new Set<string>();
     for (const name of names) {
       const raw = JSON.parse(await readFile(path.join(folder, name), "utf8"));
       schema.parse(raw);
-      ensure(pilotUnitIds.has(raw.unitId), "UNKNOWN_UNIT");
+      const meta = unitManifest.find((unit) => unit.id === raw.unitId);
+      ensure(meta && (course ? !pilotUnitIds.has(raw.unitId) : pilotUnitIds.has(raw.unitId)), "UNKNOWN_UNIT");
+      ensure(raw.level === meta.level && raw.title === meta.title, "UNIT_METADATA_CONFLICT");
+      ensure(!units.has(raw.unitId), "DUPLICATE_UNIT");
+      units.add(raw.unitId);
+      if (course) {
+        ensure(raw.version === (kind === "course-history" ? "0.1.0" : releases.unitVersions[raw.unitId] || releases.defaultVersion), "COURSE_VERSION_CONFLICT");
+        ensure(raw.derivation?.sourceFile === `${meta.level}.json`, "INVALID_PROVENANCE");
+        const sources = JSON.parse(await readFile(path.join(root, "content/english-mastery/authored", `${meta.level}.json`), "utf8"));
+        const matches = sources.filter((unit: Json) => unit.id === raw.unitId);
+        ensure(matches.length === 1, "SOURCE_UNIT_REQUIRED");
+        const source = JSON.stringify(matches[0], null, 2) + "\n";
+        validateCourseSource(raw, source, kind === "course-history");
+        packages.push({ id: `${raw.stableId}@${raw.version}`, stableId: raw.stableId,
+          unitId: raw.unitId, version: raw.version, state: raw.state,
+          checksum: hash(raw), sourceChecksum: sha(source), sourceVerified: true, payload: raw });
+        continue;
+      }
       const sourceFile =
         raw.derivation?.sourceFile ||
         raw.provenance.replace("Canonical v0.5 pilot: ", "").split(";")[0];
@@ -177,6 +199,47 @@ export async function loadPackages(root = process.cwd()) {
   );
   return packages;
 }
+
+export function validateCourseSource(raw: Json, source: string, historical = false) {
+  schema.parse(raw);
+  const { checksum, ...payload } = raw;
+  ensure(checksum === sha(JSON.stringify(payload)) && raw.sourceText === source &&
+    raw.derivation?.sourceChecksum === sha(source), "SOURCE_CHECKSUM_CONFLICT");
+  ensure(raw.stableId === `UNIT-${raw.unitId}-COURSE` && /^0\.1\.[01]$/.test(raw.version) &&
+    raw.derivation.sourceUnitId === raw.unitId, "COURSE_IDENTITY_CONFLICT");
+  ensure(raw.lessons.length >= 3 && raw.lessons.length <= 6 && raw.practice.length >= 20 &&
+    raw.tasks?.length === 4 && raw.vocabulary?.length >= 30 && raw.grammar?.length >= 3 &&
+    raw.inputs?.filter((i: Json) => i.kind === "READING").length === 2 &&
+    raw.inputs?.filter((i: Json) => i.kind === "LISTENING_SCRIPT").length === 2,
+    "INCOMPLETE_CONTENT");
+  ensure(raw.lessons.every((l: Json) => l.blocks.every((b: Json) =>
+    typeof b.text === "string" && b.text.trim())) &&
+    raw.inputs.every((i: Json) => typeof i.text === "string" && i.text.trim()), "EMPTY_LESSON");
+  const ids = [...raw.lessons.map((l: Json) => l.id), ...raw.inputs.map((i: Json) => i.id),
+    ...raw.practice.map((i: Json) => i.stableId), ...raw.tasks.map((i: Json) => i.stableId)];
+  ensure(new Set(ids).size === ids.length, "DUPLICATE_CONTENT_ID");
+  ensure(raw.reviewLog?.reviewers?.length === 0 &&
+    Object.entries(raw.reviewLog).every(([key, value]) => key === "reviewers" ||
+      value === (key === "learnerPilot" ? "NOT_RUN" : "PENDING")) &&
+    raw.audioStatus === "PRODUCTION_AND_QC_PENDING", "UNVERIFIED_REVIEW_CLAIM");
+  const normalise = (s: string) => s.toLowerCase().replace(/[’‘]/g, "'");
+  const targets = raw.vocabulary.filter((v: Json) => v.learningRole === "UNIT_TARGET");
+  ensure(targets.length === 15 && new Set(raw.vocabulary.map((v: Json) => normalise(v.item))).size === raw.vocabulary.length,
+    "VOCABULARY_COVERAGE_REQUIRED");
+  for (const v of targets) {
+    ensure(raw.inputs.some((i: Json) => i.text.includes(v.example)) &&
+      normalise(v.example).includes(normalise(v.item)), "VOCABULARY_SOURCE_CONFLICT");
+    if (!historical) ensure(lexicalIndex(v.example, v.item) >= 0, "PARTIAL_LEXICAL_MATCH");
+  }
+  for (const item of [...raw.practice, ...raw.tasks]) {
+    ensure(item.prompt?.trim() && item.expected?.trim() &&
+      ["SHORT_ANSWER", "OPEN_RESPONSE", "RECORDING"].includes(item.responseType), "INVALID_ITEM");
+    if (item.sourceId) ensure(raw.inputs.some((i: Json) => i.id === item.sourceId), "UNKNOWN_INPUT");
+    if (item.responseType === "SHORT_ANSWER") ensure(item.acceptedAnswers?.length > 0 &&
+      item.acceptedAnswers.every((answer: string) => targets.some((v: Json) => v.item === answer &&
+        item.explanation.includes(v.example))), "ANSWER_SOURCE_CONFLICT");
+  }
+}
 export async function importPackages(
   repo: Repository,
   actorId: string,
@@ -211,7 +274,8 @@ export async function importPackages(
     dryRun,
     units: 96,
     pilots: 6,
-    versions: 12,
+    availableUnits: new Set(content.map((p) => p.unitId)).size,
+    versions: content.length,
     changes: changes.length,
     state: "PRE_HUMAN_CONTENT_COMPLETE",
   };

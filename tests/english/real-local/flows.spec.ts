@@ -18,7 +18,7 @@ async function login(page: Page, name = 'learner') {
 }
 test('real Auth, lesson completion, practice scoring and PostgreSQL persistence', async ({ page }) => {
   await login(page);
-  await page.getByRole('link', { name: 'Open unit', exact: true }).click();
+  await page.locator('a[href="/english/units/A1-02"]').click();
   await page.getByRole('button', { name: 'Mark lesson complete' }).first().click();
   await expect(page.getByRole('status')).toContainText('Lesson completion saved');
   await page.getByRole('button', { name: 'Practise V05-Q-A1-02-001', exact: true }).click();
@@ -39,7 +39,7 @@ test('real Auth, lesson completion, practice scoring and PostgreSQL persistence'
 test('real writing autosave/history and final submission stay stored and locked', async ({ page }) => {
   await login(page);
   await page.getByRole('link', { name: 'Writing', exact: true }).click();
-  await page.getByRole('button', { name: 'Start Writing', exact: true }).click();
+  await page.locator('article').filter({ hasText: 'A1-02' }).getByRole('button', { name: 'Start Writing', exact: true }).click();
   await page.getByLabel('Plan your response').fill('SYNTHETIC LOCAL TEST: name and home.');
   const writing = 'My name is Mina. I am from Thailand. This is synthetic local test data.';
   await page.getByLabel('Your response', { exact: true }).fill(writing);
@@ -59,7 +59,7 @@ test('real writing autosave/history and final submission stay stored and locked'
 test('real private Storage upload, signed playback, direct access denial and owner delete', async ({ page }) => {
   await login(page);
   await page.getByRole('link', { name: 'Speaking', exact: true }).click();
-  await page.getByRole('button', { name: 'Start Speaking', exact: true }).click();
+  await page.locator('article').filter({ hasText: 'A1-02' }).getByRole('button', { name: 'Start Speaking', exact: true }).click();
   await page.getByRole('checkbox').check();
   const bytes = Buffer.alloc(16044);
   bytes.write('RIFF'); bytes.writeUInt32LE(bytes.length - 8, 4); bytes.write('WAVE', 8);
@@ -109,4 +109,42 @@ test('real JWT access control and no fabricated publication/review', async ({ pa
   await page.screenshot({ path: '.emh-local/local-ready.png', fullPage: true });
   proof.completedAt = new Date().toISOString();
   writeFileSync('.emh-local/real-service-proof.json', JSON.stringify(proof, null, 2), { mode: 0o600 });
+});
+
+test('all 96 units resolve to full content; six levels render and a new unit scores', async ({ page }) => {
+  await login(page, 'author');
+  const results = await page.evaluate(async () => {
+    const call = async (op: string, body: unknown) => {
+      const response = await fetch(`/api/english/${op}`, { method: 'POST',
+        headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      if (!response.ok) throw Error(`${op}: ${response.status}`);
+      return (await response.json()).data;
+    };
+    const catalog = await call('catalog', {});
+    const counts = [];
+    for (const unit of catalog.units) {
+      const content = await call('content', { unitId: unit.id });
+      counts.push({ id: unit.id, available: unit.available, lessons: content.lessons.length,
+        practice: content.practice.length, tasks: content.tasks.length, preview: content.preview });
+    }
+    return counts;
+  });
+  expect(results).toHaveLength(96);
+  expect(results.every(r => r.available && r.preview && r.lessons >= 3 && r.practice >= 20 && r.tasks === 4)).toBe(true);
+  for (const id of ['A1-01','A2-01','B1-01','B2-02','C1-01','C2-16']) {
+    await page.goto(`/english/units/${id}`);
+    await expect(page.getByRole('heading', { name: new RegExp(`^${id} ·`) })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Mark lesson complete' })).toHaveCount(4);
+    await expect(page.getByText('Reading A', { exact: false }).first()).toBeVisible();
+  }
+  await page.goto('/english/units/A1-01');
+  await page.getByRole('button', { name: 'Practise Q-A1-01-001', exact: true }).click();
+  const p = JSON.parse(readFileSync('content/english-mastery/course/A1-01.json', 'utf8'));
+  await page.getByLabel('Your response', { exact: true }).fill(p.practice[0].acceptedAnswers[0]);
+  await page.getByRole('button', { name: 'Submit final response' }).click();
+  await expect(page.getByText('SCORED · Score 1')).toBeVisible();
+  writeFileSync('.emh-local/course-browser-proof.json', JSON.stringify({
+    verifiedAt: new Date().toISOString(), target: 'isolated-real-local-supabase',
+    units: results, renderedLevels: 6, newUnitScoring: 'PASS', productionChanged: false,
+  }, null, 2), { mode: 0o600 });
 });

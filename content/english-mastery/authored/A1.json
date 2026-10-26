@@ -1,0 +1,722 @@
+[
+  {
+    "id": "A1-01",
+    "aim": "สะกดชื่อและแยกชื่ออักษรออกจากเสียงในคำ",
+    "a": "My name is Pim. P-I-M. This is my name card. The first letter is P. The last letter is M. My bag is blue. In bag, the first sound is /b/. A letter name and a sound are not always the same. I say my name slowly. My partner writes it. Then we check the card together.",
+    "b": "Class note: Write your first name in capital letters. Write your family name below it. Do not write a real phone number. Use the example number 0123. Ask a partner to read your name. Check each letter.",
+    "l1": "A: What is your name?\nB: Ben. B-E-N.\nA: B or P?\nB: B. B as in bag.\nA: Thank you, Ben. Is this right?\nB: Yes, it is.",
+    "l2": "Please look at the word map. It has three letters. Listen to the first sound: /m/. Now look at pen. Its first sound is /p/. Say the words, then spell them. A sound is not a letter name.",
+    "v": "name=ชื่อ;card=บัตร;first=แรก;letter=ตัวอักษร;last=สุดท้าย;bag=กระเป๋า;blue=สีน้ำเงิน;sound=เสียง;slowly=อย่างช้า;partner=คู่ฝึก;check=ตรวจสอบ;capital letters=อักษรตัวใหญ่;family name=นามสกุล;below=ข้างใต้;spell=สะกด",
+    "g": [
+      [
+        "What is …?",
+        "ถามชื่อหรือข้อมูล",
+        "What is your name?"
+      ],
+      [
+        "Is this …?",
+        "ตรวจสอบสิ่งที่เห็น",
+        "Is this right?"
+      ],
+      [
+        "Imperative",
+        "คำสั่งสั้นในกิจกรรม",
+        "Write your name."
+      ]
+    ],
+    "q": [
+      [
+        "What colour is Pim's bag?",
+        "blue",
+        "a"
+      ],
+      [
+        "What is the last letter of Pim's name?",
+        "M",
+        "a"
+      ],
+      [
+        "Where do you write the family name?",
+        "below the first name",
+        "b"
+      ],
+      [
+        "Does Ben's name start with B or P?",
+        "B",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A1-03",
+    "aim": "ให้และถามข้อมูลส่วนตัวจำลองโดยไม่เปิดเผยข้อมูลจริง",
+    "a": "This is a practice form. Her first name is Mali and her family name is Dee. She is nineteen. She is from Thailand and lives in a small town. Her favourite colour is green. Her class is English A. Her student number is 24. The form is for a classroom activity, not a real application. Her address and telephone number are not on it.",
+    "b": "Student card: Name: Leo Tan. Age: twenty. Country: Malaysia. Class: English B. Student number: 31. Please use the student number on your work. You can leave the optional address box empty.",
+    "l1": "A: What is your first name?\nB: Leo.\nA: How old are you?\nB: I am twenty.\nA: Which class are you in?\nB: English B.\nA: Thank you. You can skip the address.",
+    "l2": "Here is the new form. Name and class are required. Address is optional. Write clearly. Use a fictional person for this exercise. You do not need to share a real address or telephone number.",
+    "v": "practice=การฝึก;form=แบบฟอร์ม;first name=ชื่อ;family name=นามสกุล;nineteen=สิบเก้า;town=เมืองเล็ก;favourite=ที่ชอบที่สุด;green=สีเขียว;class=ชั้นเรียน;student number=รหัสผู้เรียน;address=ที่อยู่;telephone number=หมายเลขโทรศัพท์;optional=ไม่บังคับ;required=จำเป็นต้องกรอก;empty=ว่าง",
+    "g": [
+      [
+        "How old …?",
+        "ถามอายุ",
+        "How old are you?"
+      ],
+      [
+        "her / his",
+        "บอกความเป็นเจ้าของ",
+        "Her class is English A."
+      ],
+      [
+        "be from / live in",
+        "แยกประเทศต้นทางกับที่อยู่",
+        "She is from Thailand. She lives in a small town."
+      ]
+    ],
+    "q": [
+      [
+        "How old is Mali?",
+        "nineteen",
+        "a"
+      ],
+      [
+        "What is Mali's student number?",
+        "24",
+        "a"
+      ],
+      [
+        "What is Leo's class?",
+        "English B",
+        "b"
+      ],
+      [
+        "Is the address required or optional?",
+        "optional",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-04",
+    "aim": "บอกความสัมพันธ์และลักษณะคนโดยใช้ข้อมูลที่มี",
+    "a": "I am Nida. This is a photo of my family. My mother, Dao, is a cook. My father, Lek, is a driver. My brother, Win, is tall. He has short hair. My sister, Fon, has glasses. She is a student. We live with our grandmother, Noi. She likes music. Our family is small, but we have many friends. Every family can be different.",
+    "b": "Photo label: Sam and his aunt, June. Sam is a child. June is an artist. She has long hair. Sam has a red hat. They are in a park. This label does not tell us Sam's age or where he lives.",
+    "l1": "A: Who is she?\nB: She is my sister, Fon.\nA: Is she a teacher?\nB: No, she is a student.\nA: And who is he?\nB: He is my brother, Win.",
+    "l2": "Look at Sam's photo. The woman is his aunt, not his mother. Her name is June. She is an artist. The boy has a red hat. Please describe what you know. Do not guess his age.",
+    "v": "photo=ภาพถ่าย;family=ครอบครัว;mother=แม่;father=พ่อ;brother=พี่ชายหรือน้องชาย;sister=พี่สาวหรือน้องสาว;tall=สูง;short hair=ผมสั้น;glasses=แว่นตา;grandmother=ย่า หรือยาย;aunt=ป้า หรือน้า หรืออา;child=เด็ก;artist=ศิลปิน;long hair=ผมยาว;hat=หมวก",
+    "g": [
+      [
+        "Who is …?",
+        "ถามว่าเป็นใคร",
+        "Who is she?"
+      ],
+      [
+        "has / have",
+        "บอกลักษณะ",
+        "She has glasses."
+      ],
+      [
+        "possessive 's",
+        "เชื่อมคนกับสิ่งของ",
+        "Sam's hat is red."
+      ]
+    ],
+    "q": [
+      [
+        "What is Dao's job?",
+        "cook",
+        "a"
+      ],
+      [
+        "Who has glasses?",
+        "Fon",
+        "a"
+      ],
+      [
+        "What colour is Sam's hat?",
+        "red",
+        "b"
+      ],
+      [
+        "Is June Sam's mother or aunt?",
+        "aunt",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-05",
+    "aim": "อ่านวัน เวลา และจำนวนในตารางง่าย ๆ",
+    "a": "Our English club meets on Tuesday. The lesson starts at nine o'clock and finishes at ten. There are twelve students. The room number is 15. On Friday, we meet at half past two in the afternoon. The next class is on 6 May. Bring one notebook and two pens. Check the day and the time before you come.",
+    "b": "Library hours: Monday to Friday, 8:30 to 17:00. Saturday, 9:00 to 12:00. Closed on Sunday. A reading group meets on Saturday at ten. There are eight places. The date on this sample notice is 12 June.",
+    "l1": "A: Is the club on Monday?\nB: No, on Tuesday.\nA: At ten?\nB: It starts at nine. It finishes at ten.\nA: Room fifteen?\nB: Yes. See you there.",
+    "l2": "The reading group is on Saturday. Please arrive at a quarter to ten. The group starts at ten o'clock. The library closes at twelve. This is a morning activity, not an evening activity.",
+    "v": "Tuesday=วันอังคาร;starts=เริ่ม;finishes=จบ;twelve=สิบสอง;room number=หมายเลขห้อง;Friday=วันศุกร์;half past two=สองนาฬิกาสามสิบนาที;afternoon=ช่วงบ่าย;date=วันที่;notebook=สมุด;Saturday=วันเสาร์;closed=ปิด;Sunday=วันอาทิตย์;quarter to ten=เก้านาฬิกาสี่สิบห้านาที;morning=ช่วงเช้า",
+    "g": [
+      [
+        "at + time",
+        "ระบุเวลา",
+        "The lesson starts at nine."
+      ],
+      [
+        "on + day/date",
+        "ระบุวัน",
+        "We meet on Tuesday."
+      ],
+      [
+        "There are + plural",
+        "บอกจำนวน",
+        "There are twelve students."
+      ]
+    ],
+    "q": [
+      [
+        "On which day is the nine-o'clock club?",
+        "Tuesday",
+        "a"
+      ],
+      [
+        "How many pens should students bring?",
+        "two",
+        "a"
+      ],
+      [
+        "On which day is the library closed?",
+        "Sunday",
+        "b"
+      ],
+      [
+        "At what time should the reading group arrive?",
+        "a quarter to ten",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-06",
+    "aim": "บอกห้อง สิ่งของ และตำแหน่งในบ้าน",
+    "a": "My flat is small. There is a kitchen and a bathroom. There are two bedrooms. In the living room, a sofa is next to the window. A lamp is on the table. My keys are under a book. The book is on the shelf. My bike is outside the door. I like the flat because it is near my school.",
+    "b": "Room note: Please put the chair beside the desk. Keep the bag under the chair. The cup goes on the tray, not on the floor. There is a clean towel in the bathroom. The spare key is in the blue box.",
+    "l1": "A: Where are my keys?\nB: Under the book.\nA: On the desk?\nB: No, the book is on the shelf.\nA: Here they are. Thank you.\nB: You are welcome.",
+    "l2": "Welcome. Your room is on the left. The bathroom is opposite your room. There is a towel on the bed. Please leave your shoes by the door. The kitchen is at the end of the hall.",
+    "v": "flat=ห้องชุด;kitchen=ครัว;bathroom=ห้องน้ำ;bedrooms=ห้องนอน;living room=ห้องนั่งเล่น;sofa=โซฟา;window=หน้าต่าง;lamp=โคมไฟ;keys=กุญแจ;under=ข้างใต้;shelf=ชั้นวางของ;outside=ข้างนอก;beside=ข้าง ๆ;towel=ผ้าเช็ดตัว;opposite=ตรงข้าม",
+    "g": [
+      [
+        "There is / There are",
+        "บอกสิ่งที่มี",
+        "There is a kitchen. There are two bedrooms."
+      ],
+      [
+        "Where …?",
+        "ถามตำแหน่ง",
+        "Where are my keys?"
+      ],
+      [
+        "on / under / next to",
+        "บอกตำแหน่งสัมพันธ์",
+        "The keys are under a book."
+      ]
+    ],
+    "q": [
+      [
+        "How many bedrooms are in the flat?",
+        "two",
+        "a"
+      ],
+      [
+        "Where is the lamp?",
+        "on the table",
+        "a"
+      ],
+      [
+        "Where is the spare key?",
+        "in the blue box",
+        "b"
+      ],
+      [
+        "Where is the bathroom in the welcome message?",
+        "opposite your room",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-07",
+    "aim": "บอกกิจวัตรและลำดับเวลาในวันปกติ",
+    "a": "I get up at six. I wash my face and have breakfast. I walk to school at seven. My first lesson starts at eight. At noon, I have lunch with a friend. After school, I do my homework. I sometimes play a game. I have dinner at seven in the evening. I read a book before bed. I go to bed at ten.",
+    "b": "May works in a shop. She starts work at nine and finishes at five. She takes a bus home. She cooks dinner on weekdays. On Sunday, she visits a friend. She does not work on Sunday.",
+    "l1": "A: What time do you get up?\nB: At six.\nA: Do you take a bus to school?\nB: No, I walk.\nA: What do you do after school?\nB: I do my homework.",
+    "l2": "My weekday is busy. First, I have breakfast. Then I go to work. I have lunch at one. After work, I buy food. At home, I cook and read. I usually go to bed early.",
+    "v": "get up=ตื่นและลุกจากเตียง;wash=ล้าง;breakfast=อาหารเช้า;walk=เดิน;noon=เที่ยง;lunch=อาหารกลางวัน;homework=การบ้าน;sometimes=บางครั้ง;dinner=อาหารเย็น;before=ก่อน;go to bed=เข้านอน;weekdays=วันทำงาน;takes a bus=นั่งรถประจำทาง;usually=โดยปกติ;early=แต่เช้าหรือก่อนเวลาปกติ",
+    "g": [
+      [
+        "present simple",
+        "กิจวัตร",
+        "I walk to school."
+      ],
+      [
+        "he/she + verb-s",
+        "กิจวัตรของบุคคลที่สาม",
+        "She cooks dinner."
+      ],
+      [
+        "Do you …?",
+        "ถามกิจวัตร",
+        "Do you take a bus?"
+      ]
+    ],
+    "q": [
+      [
+        "What time does the first writer get up?",
+        "six",
+        "a"
+      ],
+      [
+        "What does the writer do before bed?",
+        "read a book",
+        "a"
+      ],
+      [
+        "Does May work on Sunday?",
+        "no",
+        "b"
+      ],
+      [
+        "What does the speaker buy after work?",
+        "food",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-08",
+    "aim": "บอกความชอบและความสามารถโดยไม่สับสนกัน",
+    "a": "I like drawing, but I do not like running. I can draw a house and a tree. I cannot swim yet. My friend Kai likes swimming. He can swim, but he cannot ride a bike. We both like music. I play the guitar slowly. Kai sings with me. We practise on Saturday. Liking an activity does not always mean you can do it well.",
+    "b": "Club choices: Art club on Monday, music club on Wednesday, sports club on Friday. Beginners are welcome. You do not need to be good at an activity. Choose one club. Tell the teacher what you enjoy and what you want to learn.",
+    "l1": "A: Can you play the guitar?\nB: A little. I am a beginner.\nA: Do you like singing?\nB: Yes, I do. Can we practise together?\nA: Yes. Wednesday is good for me.",
+    "l2": "I enjoy sport, but I cannot run fast. I like the sports club because people help me. My friend enjoys art. She can paint very well. This week, we try a new activity together.",
+    "v": "drawing=การวาดภาพ;running=การวิ่ง;house=บ้าน;tree=ต้นไม้;swim=ว่ายน้ำ;yet=ยัง;ride a bike=ขี่จักรยาน;both=ทั้งสอง;guitar=กีตาร์;practise=ฝึก;beginners=ผู้เริ่มต้น;choose=เลือก;enjoy=เพลิดเพลินกับ;fast=เร็ว;paint=วาดด้วยสี",
+    "g": [
+      [
+        "like + -ing",
+        "บอกความชอบ",
+        "I like drawing."
+      ],
+      [
+        "can/cannot + base verb",
+        "บอกความสามารถ",
+        "I cannot swim yet."
+      ],
+      [
+        "but",
+        "เชื่อมความต่าง",
+        "He can swim, but he cannot ride a bike."
+      ]
+    ],
+    "q": [
+      [
+        "What activity does the first writer not like?",
+        "running",
+        "a"
+      ],
+      [
+        "Who cannot ride a bike?",
+        "Kai",
+        "a"
+      ],
+      [
+        "On which day is music club?",
+        "Wednesday",
+        "b"
+      ],
+      [
+        "Is the guitar player a beginner?",
+        "yes",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A1-09",
+    "aim": "เลือกและสั่งอาหารง่าย ๆ พร้อมบอกความต้องการ",
+    "a": "At the café, I order rice and vegetables. I would like water, too. My friend chooses soup and bread. The menu has tea, coffee and juice. A small juice is thirty baht. There is no milk in my tea. I ask about the food before I order. I do not assume that a dish is safe for an allergy just because I cannot see an ingredient.",
+    "b": "Sample menu: Vegetable rice, 45 baht. Soup and bread, 40 baht. Water, 10 baht. Tea, 20 baht. Juice, 30 baht. Please ask staff about ingredients. This menu is a language exercise, not allergy advice.",
+    "l1": "A: What would you like?\nB: Soup and bread, please.\nA: Anything to drink?\nB: Water, please.\nA: Hot or cold?\nB: Cold, thank you.",
+    "l2": "Today we have vegetable rice and soup. The soup is hot. We have cold water and juice. Please tell us what you would like. If you need information about ingredients, ask a member of staff.",
+    "v": "order=สั่งอาหาร;rice=ข้าว;vegetables=ผัก;water=น้ำ;soup=ซุป;bread=ขนมปัง;menu=รายการอาหาร;tea=ชา;coffee=กาแฟ;juice=น้ำผลไม้;milk=นม;ingredient=ส่วนผสม;hot=ร้อน;cold=เย็น;staff=พนักงาน",
+    "g": [
+      [
+        "would like",
+        "สั่งอย่างสุภาพ",
+        "I would like water."
+      ],
+      [
+        "some / a",
+        "นามนับไม่ได้กับหน่วยนับ",
+        "Some rice and a small juice, please."
+      ],
+      [
+        "no / not",
+        "ปฏิเสธข้อมูล",
+        "There is no milk in my tea."
+      ]
+    ],
+    "q": [
+      [
+        "What does the first writer order with rice?",
+        "vegetables",
+        "a"
+      ],
+      [
+        "How much is a small juice?",
+        "thirty baht",
+        "a"
+      ],
+      [
+        "How much is soup and bread?",
+        "40 baht",
+        "b"
+      ],
+      [
+        "Does the customer want hot or cold water?",
+        "cold",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A1-10",
+    "aim": "ถามราคา ขนาด และจำนวนก่อนซื้อสินค้า",
+    "a": "I need a blue notebook and a pen. The notebook costs twenty baht. The pen costs ten baht. I buy one notebook and two pens. The total is forty baht. I give the shopkeeper fifty baht. My change is ten baht. I check the receipt. I do not buy the red bag because it is too expensive for me today.",
+    "b": "Shop card: Small bag, 90 baht. Large bag, 120 baht. Blue notebook, 20 baht. Black pen, 10 baht. Cash only today. Please keep your receipt. Ask about the return policy before you pay.",
+    "l1": "A: How much is this small bag?\nB: Ninety baht.\nA: Is there a blue one?\nB: Yes, here it is.\nA: I will take it.\nB: Thank you. Here is your receipt.",
+    "l2": "Please check your change. A notebook and one pen cost thirty baht. If you pay with fifty baht, your change is twenty baht. This is a sample transaction for class. Prices in real shops can be different.",
+    "v": "need=ต้องการ;notebook=สมุด;pen=ปากกา;costs=มีราคา;buy=ซื้อ;total=ยอดรวม;shopkeeper=คนขายของ;change=เงินทอน;receipt=ใบเสร็จ;expensive=แพง;small=เล็ก;large=ใหญ่;cash=เงินสด;return policy=เงื่อนไขการคืนสินค้า;pay=จ่ายเงิน",
+    "g": [
+      [
+        "How much …?",
+        "ถามราคา",
+        "How much is this bag?"
+      ],
+      [
+        "this / these",
+        "ชี้หนึ่งชิ้นหรือหลายชิ้น",
+        "This notebook is blue. These pens are black."
+      ],
+      [
+        "one / two + noun",
+        "จำนวนกับพหูพจน์",
+        "I buy two pens."
+      ]
+    ],
+    "q": [
+      [
+        "How many pens does the writer buy?",
+        "two",
+        "a"
+      ],
+      [
+        "What is the writer's change?",
+        "ten baht",
+        "a"
+      ],
+      [
+        "How much is the large bag?",
+        "120 baht",
+        "b"
+      ],
+      [
+        "What is the change from fifty for a thirty-baht purchase?",
+        "twenty baht",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-11",
+    "aim": "เข้าใจและให้เส้นทางสั้น ๆ โดยใช้จุดสังเกต",
+    "a": "Our library is next to the bank. The café is opposite the library. From the bus stop, go straight along Green Street. Turn left at the park. The library is on your right. It is between the bank and a school. The walk takes about five minutes. If you do not understand, ask the speaker to show you on a map.",
+    "b": "Simple map in words: The bank, library and school stand in that order on the north side of Green Street. The café faces the library on the south side. The park is west of the bank. This is a fictional map for directions practice.",
+    "l1": "A: Excuse me. Where is the library?\nB: Go straight. Turn left at the park.\nA: Left at the park?\nB: Yes. It is on your right.\nA: Thank you.\nB: You are welcome.",
+    "l2": "You are at the library door. The bank is next to the library. The café is across the street. Use the crossing to get there. Do not cross just because this exercise says the café is opposite.",
+    "v": "library=ห้องสมุด;bank=ธนาคาร;opposite=ตรงข้าม;bus stop=ป้ายรถประจำทาง;straight=ตรงไป;along=ไปตาม;turn left=เลี้ยวซ้าย;park=สวนสาธารณะ;right=ขวา;between=ระหว่าง;map=แผนที่;north=ทิศเหนือ;south=ทิศใต้;west=ทิศตะวันตก;crossing=ทางข้าม",
+    "g": [
+      [
+        "imperatives",
+        "ให้เส้นทางเป็นขั้น",
+        "Turn left at the park."
+      ],
+      [
+        "between … and …",
+        "ระบุตำแหน่ง",
+        "It is between the bank and a school."
+      ],
+      [
+        "Where is …?",
+        "ถามสถานที่",
+        "Where is the library?"
+      ]
+    ],
+    "q": [
+      [
+        "What is opposite the library?",
+        "the café",
+        "a"
+      ],
+      [
+        "At which place do you turn left?",
+        "the park",
+        "a"
+      ],
+      [
+        "Which side of Green Street has the café?",
+        "south",
+        "b"
+      ],
+      [
+        "What should you use to cross the street?",
+        "the crossing",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-12",
+    "aim": "ถามปลายทาง เวลาออก และช่องทางขึ้นรถ",
+    "a": "I am at the station with my sister. We want to go to River Town. The train leaves at ten fifteen. Our tickets are for platform two. The journey takes one hour. We sit together and put our bags under the seats. At the next station, we stay on the train. River Town is the final stop. We check the destination before we get off.",
+    "b": "Sample departure board: River Town, 10:15, platform 2. Hill City, 10:30, platform 4. Lake Village, 11:00, platform 1. Check the live board at a real station because platforms can change.",
+    "l1": "A: Does this train go to River Town?\nB: Yes. It leaves at ten fifteen.\nA: Which platform?\nB: Platform two.\nA: Do I get off at the next station?\nB: No. River Town is the final stop.",
+    "l2": "This is a practice announcement. The River Town train is on platform two. Please have your ticket ready. Keep your bag close. If you need help, ask station staff. Do not leave the train until you check the station name.",
+    "v": "station=สถานี;sister=พี่สาวหรือน้องสาว;train=รถไฟ;leaves=ออกเดินทาง;tickets=ตั๋ว;platform=ชานชาลา;journey=การเดินทาง;hour=ชั่วโมง;seats=ที่นั่ง;next=ถัดไป;final stop=ป้ายสุดท้าย;destination=ปลายทาง;get off=ลงจากรถ;departure board=ป้ายเวลาออก;announcement=ประกาศ",
+    "g": [
+      [
+        "Does … go to …?",
+        "ตรวจปลายทาง",
+        "Does this train go to River Town?"
+      ],
+      [
+        "Which + noun",
+        "ถามตัวเลือก",
+        "Which platform?"
+      ],
+      [
+        "at / to",
+        "เวลาและทิศทาง",
+        "The train leaves at ten fifteen. We go to River Town."
+      ]
+    ],
+    "q": [
+      [
+        "Where does the writer want to go?",
+        "River Town",
+        "a"
+      ],
+      [
+        "How long is the journey?",
+        "one hour",
+        "a"
+      ],
+      [
+        "Which platform is for Hill City?",
+        "4",
+        "b"
+      ],
+      [
+        "Is River Town the next or final stop?",
+        "final stop",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A1-13",
+    "aim": "บอกสถานที่ทำงาน การเรียน และเวลาว่าง",
+    "a": "My name is Bo. I work in a café in the morning. I clean tables and serve drinks. In the afternoon, I study English at a college. I carry a notebook in my bag. After class, I meet a friend at the library. On my free day, I play football or read. I am busy, but I have time for a short rest.",
+    "b": "Community board: Book club, Thursday at 18:00, library. Football practice, Saturday at 16:00, park. English class, Monday at 14:00, college. These activities are free. Bring water for outdoor activities.",
+    "l1": "A: Where do you work?\nB: In a café.\nA: Do you study too?\nB: Yes, in the afternoon.\nA: What do you do in your free time?\nB: I read or play football.",
+    "l2": "The book club is at the library this Thursday. It starts at six in the evening. Bring a book you like. You can listen first. You do not need to speak to the whole group on your first visit.",
+    "v": "work=ทำงาน;café=ร้านกาแฟ;clean=ทำความสะอาด;tables=โต๊ะ;serve=เสิร์ฟ;drinks=เครื่องดื่ม;study=เรียน;college=วิทยาลัย;carry=ถือหรือพก;free day=วันว่าง;football=ฟุตบอล;rest=พัก;community=ชุมชน;outdoor=กลางแจ้ง;whole group=ทั้งกลุ่ม",
+    "g": [
+      [
+        "Where do you …?",
+        "ถามสถานที่กิจกรรม",
+        "Where do you work?"
+      ],
+      [
+        "in the morning/afternoon",
+        "ระบุช่วงเวลา",
+        "I study in the afternoon."
+      ],
+      [
+        "or",
+        "ให้ทางเลือก",
+        "I read or play football."
+      ]
+    ],
+    "q": [
+      [
+        "Where does Bo work?",
+        "in a café",
+        "a"
+      ],
+      [
+        "When does Bo study English?",
+        "in the afternoon",
+        "a"
+      ],
+      [
+        "Where is football practice?",
+        "at the park",
+        "b"
+      ],
+      [
+        "What should people bring to the book club?",
+        "a book",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-14",
+    "aim": "บอกความไม่สบายและขอความช่วยเหลือพื้นฐาน",
+    "a": "I do not feel well today. I have a headache and I am tired. I tell my teacher, 'I need a short rest.' My friend asks, 'Would you like some water?' I say yes. I can say where it hurts, but I cannot explain every word. I ask to speak to a health professional. This story practises language; it does not tell you what treatment to use.",
+    "b": "Help card: I do not feel well. My head hurts. I need help. Please speak slowly. I do not understand this word. Can you write it down? For a real urgent problem, contact an appropriate local emergency service or a nearby adult/professional.",
+    "l1": "A: Are you all right?\nB: I feel tired. My head hurts.\nA: Would you like water?\nB: Yes, please. I need help.\nA: I can ask a member of staff.\nB: Thank you.",
+    "l2": "Please tell the receptionist your name. Say why you are here in simple words. You can point to the place that hurts. Ask for repetition when you need it. Do not say you understand if you need more help.",
+    "v": "feel=รู้สึก;headache=อาการปวดศีรษะ;tired=เหนื่อย;rest=พัก;water=น้ำ;hurts=เจ็บหรือปวด;help=ความช่วยเหลือ;slowly=อย่างช้า;understand=เข้าใจ;write it down=เขียนไว้;urgent=เร่งด่วน;adult=ผู้ใหญ่;receptionist=พนักงานต้อนรับ;point=ชี้;repetition=การพูดซ้ำ",
+    "g": [
+      [
+        "have + symptom",
+        "บอกอาการเป็นภาษา",
+        "I have a headache."
+      ],
+      [
+        "need + noun",
+        "ขอสิ่งจำเป็น",
+        "I need help."
+      ],
+      [
+        "Can you …?",
+        "ขอให้ช่วย",
+        "Can you write it down?"
+      ]
+    ],
+    "q": [
+      [
+        "What symptom does the writer name?",
+        "a headache",
+        "a"
+      ],
+      [
+        "What does the friend offer?",
+        "water",
+        "a"
+      ],
+      [
+        "Which phrase asks someone to write?",
+        "Can you write it down?",
+        "b"
+      ],
+      [
+        "Whom should you tell your name to?",
+        "the receptionist",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A1-15",
+    "aim": "เขียนข้อความสั้นและตอบรับโดยตรวจข้อมูลสำคัญ",
+    "a": "Hi Kim. Are you free on Saturday? Let's meet at the library at two. Bring your English book. We can study for one hour and then have a drink. Please reply before Friday evening. If you cannot come, that is OK. We can choose another day. From May.",
+    "b": "Hi May. Thanks for your message. Saturday is good, but I work until two. Can we meet at three? I can bring my book and a notebook. Please tell me if three is OK. Kim.",
+    "l1": "A: Did you see my message?\nB: Yes. Is three o'clock OK?\nA: Yes. At the library?\nB: Yes, near the front door.\nA: Great. See you on Saturday.\nB: See you.",
+    "l2": "Before you send a message, check the name, day, time and place. Use a short greeting. Make your request clear. Read the reply. A suggested time is not a confirmed time until the other person agrees.",
+    "v": "free=ว่าง;meet=พบกัน;bring=นำมา;study=เรียน;hour=ชั่วโมง;reply=ตอบกลับ;evening=ช่วงเย็น;another=อีกหนึ่ง;message=ข้อความ;until=จนถึง;front door=ประตูหน้า;send=ส่ง;greeting=คำทักทาย;request=คำขอ;agrees=ตกลง",
+    "g": [
+      [
+        "Let's + verb",
+        "ชวนทำกิจกรรม",
+        "Let's meet at the library."
+      ],
+      [
+        "Can we …?",
+        "เสนอเปลี่ยนเวลา",
+        "Can we meet at three?"
+      ],
+      [
+        "before / until",
+        "แยกเส้นตายกับช่วงต่อเนื่อง",
+        "Please reply before Friday. I work until two."
+      ]
+    ],
+    "q": [
+      [
+        "Where does May suggest meeting?",
+        "at the library",
+        "a"
+      ],
+      [
+        "When should Kim reply?",
+        "before Friday evening",
+        "a"
+      ],
+      [
+        "What time does Kim suggest?",
+        "three",
+        "b"
+      ],
+      [
+        "Where exactly will they meet?",
+        "near the front door",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A1-16",
+    "aim": "ใช้ข้อมูลคน เวลา สถานที่ และคำขอร่วมกันในสถานการณ์เดียว",
+    "a": "Our class has a welcome day on Saturday. It starts at nine at the community centre. I am on the welcome team. I ask visitors their first names and give them name cards. The reading room is on the left. The café is next to it. A drink costs ten baht. At ten, we meet in the main room for a game. Visitors can ask us for help.",
+    "b": "Welcome card: Saturday, 09:00–11:00. Community centre, Green Street. Bring a notebook. Water is free. Café drinks cost 10 baht. Reading room on the left; main room at the end of the hall. Use fictional visitor names during practice.",
+    "l1": "A: Hello. My name is Lin.\nB: Welcome, Lin. Here is your card.\nA: Where is the reading room?\nB: On the left.\nA: What time is the game?\nB: At ten in the main room.",
+    "l2": "Thank you for coming. Our game starts at ten. Please go to the main room. Bring your name card. After the game, you can read or visit the café. The welcome team can help you find the rooms.",
+    "v": "welcome=ยินดีต้อนรับ;community centre=ศูนย์ชุมชน;team=ทีม;visitors=ผู้มาเยี่ยม;name cards=ป้ายชื่อ;reading room=ห้องอ่านหนังสือ;left=ซ้าย;next to=ติดกับ;costs=มีราคา;main room=ห้องหลัก;game=เกม;hall=โถงทางเดิน;free=ไม่เสียค่าใช้จ่าย;find=หา;after=หลังจาก",
+    "g": [
+      [
+        "integrating wh-questions",
+        "ถามข้อมูลคน เวลา และที่",
+        "What is your name? Where is the room?"
+      ],
+      [
+        "at + time / place",
+        "เชื่อมข้อมูลกิจกรรม",
+        "It starts at nine at the community centre."
+      ],
+      [
+        "can + verb",
+        "เสนอความช่วยเหลือ",
+        "We can help you."
+      ]
+    ],
+    "q": [
+      [
+        "On which day is the welcome day?",
+        "Saturday",
+        "a"
+      ],
+      [
+        "How much does a café drink cost?",
+        "ten baht",
+        "a"
+      ],
+      [
+        "Where is the main room?",
+        "at the end of the hall",
+        "b"
+      ],
+      [
+        "What should visitors bring to the game?",
+        "their name card",
+        "l2"
+      ]
+    ]
+  }
+]

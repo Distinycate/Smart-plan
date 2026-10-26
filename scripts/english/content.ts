@@ -21,6 +21,8 @@ async function main() {
           mode: "LOCAL_VALIDATION_AND_DRY_RUN",
           units: 96,
           canonicalPilots: 6,
+          availableUnits: new Set(packages.map((p) => p.unitId)).size,
+          newCourseUnits: new Set(packages.filter((p) => p.stableId.endsWith("-COURSE")).map(p => p.unitId)).size,
           versions: packages.length,
           sourceChecksumsVerified: true,
           states: Array.from(new Set(packages.map((p) => p.state))),

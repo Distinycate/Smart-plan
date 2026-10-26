@@ -33,7 +33,7 @@ The four browser tests exercise real password login, lesson progress/practice, w
 
 ## Content and recording limits
 
-Six pilots have complete preview lesson payloads; the remaining 90 units are curriculum metadata. All 12 imported versions remain `PRE_HUMAN_CONTENT_COMPLETE`. There are no fabricated human reviews, publications, audio QC or CEFR certificates. Objective practice can score against its configured answer key; productive tasks await actual human review and AI scoring remains disabled.
+All 96 units now have complete preview text: six preserved pilot derivatives and ninety original course drafts. All 106 imported source/derivative/course versions remain `PRE_HUMAN_CONTENT_COMPLETE`. See [the content handoff](english-mastery-content-2026-10-26.md) for scope and pending human/audio review. There are no fabricated human reviews, publications, audio QC or CEFR certificates. Objective practice can score against its configured answer key; productive tasks await actual human review and AI scoring remains disabled.
 
 Recordings use the explicitly labelled `LOCAL-TEST-ONLY` policy and one-day expiry for synthetic audio. This is not an approved institution-wide retention policy. Learners must consent and can delete immediately. The existing operator retention action must be run to remove expired files; elapsed time alone does not delete objects. Do not enter real learner data or voice until the real operator has approved the relevant policy and access model.
 

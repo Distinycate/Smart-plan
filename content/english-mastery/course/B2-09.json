@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B2-09-COURSE",
+  "unitId": "B2-09",
+  "level": "B2",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B2-09; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Certainty, Probability & Deduction",
+  "canDo": "ใช้คำแสดงความแน่ใจตามหลักฐานและรักษาทางเลือกอื่น. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.",
+  "outcomes": [
+    "Use the language of certainty, probability & deduction to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B2-09-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Certainty, Probability & Deduction\nเป้าหมาย: ใช้คำแสดงความแน่ใจตามหลักฐานและรักษาทางเลือกอื่น\n\nUse the language of certainty, probability & deduction to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nThe office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\n\nRead for purpose, then locate the people, events, conditions and limits. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nReading B\nEvidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B2-09-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "must / might / could\nหน้าที่: ระดับการอนุมาน\nModel: The lights could be on a timer.\nTry: change one detail while preserving the function. Check the result against the source.\n\nmay have + participle\nหน้าที่: อนุมานเหตุการณ์ก่อนหน้า\nModel: Someone may have stepped out.\nTry: change one detail while preserving the function. Check the result against the source.\n\ncannot conclude\nหน้าที่: ระบุขีดจำกัดหลักฐาน\nModel: We cannot conclude who is inside.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nTarget vocabulary in context\ntimer — เครื่องตั้งเวลา\nAnother points out that the lights may be on a timer.\n\ncoat — เสื้อคลุม\nA third notices a coat on the chair and suggests that someone might have stepped out briefly.\n\nstepped out — ออกไปชั่วครู่\nA third notices a coat on the chair and suggests that someone might have stepped out briefly.\n\nobservation — ข้อสังเกต\nEach observation supports possibilities, but none proves who is present.\n\npossibilities — ความเป็นไปได้\nEach observation supports possibilities, but none proves who is present.\n\nproves — พิสูจน์\nEach observation supports possibilities, but none proves who is present.\n\nelsewhere — ที่อื่น\nLater, the manager confirms that she is working elsewhere and left the coat yesterday.\n\ndeduction — การอนุมาน\nThe episode shows why deduction should remain open to revision.\n\nrevision — การปรับข้อสรุป\nThe episode shows why deduction should remain open to revision.\n\ncompelling — หนักแน่นน่าเชื่อ\nStrong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\n\ninference — ข้ออนุมาน\nStrong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\n\nvisible — มองเห็น\nCoat visible through window.\n\nwarrants — มีเหตุผลรองรับ\nThen ask whether the evidence warrants that commitment.\n\ncommitment — ระดับการยืนยัน\nRank expressions such as might, probably and must according to the commitment they convey in context.\n\nexplicitly — อย่างชัดแจ้ง\nWhen new information arrives, revise the conclusion explicitly rather than quietly pretending it was always your view.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B2-09-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: She must be there; the lights are on.\nB: They could be on a timer.\nA: I hadn't considered that. Should I say she might be there?\nB: Yes, until we have stronger evidence. We should check rather than enter without permission.\n\nListening script B\nRank expressions such as might, probably and must according to the commitment they convey in context. Then ask whether the evidence warrants that commitment. When new information arrives, revise the conclusion explicitly rather than quietly pretending it was always your view.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B2-09-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nใช้คำแสดงความแน่ใจตามหลักฐานและรักษาทางเลือกอื่น\n\nPrepare a 180–240-word response and a 120–180-second spoken response using the unit inputs. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nmust / might / could: The lights could be on a timer.\nmay have + participle: Someone may have stepped out.\ncannot conclude: We cannot conclude who is inside.\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B2-09-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เครื่องตั้งเวลา.\nAnother points out that the lights may be on a ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "timer"
+      ],
+      "expected": "timer",
+      "explanation": "timer means เครื่องตั้งเวลา in this context. Full source sentence: Another points out that the lights may be on a timer.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เสื้อคลุม.\nA third notices a ____ on the chair and suggests that someone might have stepped out briefly.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "coat"
+      ],
+      "expected": "coat",
+      "explanation": "coat means เสื้อคลุม in this context. Full source sentence: A third notices a coat on the chair and suggests that someone might have stepped out briefly.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ออกไปชั่วครู่.\nA third notices a coat on the chair and suggests that someone might have ____ briefly.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "stepped out"
+      ],
+      "expected": "stepped out",
+      "explanation": "stepped out means ออกไปชั่วครู่ in this context. Full source sentence: A third notices a coat on the chair and suggests that someone might have stepped out briefly.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อสังเกต.\nEach ____ supports possibilities, but none proves who is present.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "observation"
+      ],
+      "expected": "observation",
+      "explanation": "observation means ข้อสังเกต in this context. Full source sentence: Each observation supports possibilities, but none proves who is present.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ความเป็นไปได้.\nEach observation supports ____, but none proves who is present.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "possibilities"
+      ],
+      "expected": "possibilities",
+      "explanation": "possibilities means ความเป็นไปได้ in this context. Full source sentence: Each observation supports possibilities, but none proves who is present.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: พิสูจน์.\nEach observation supports possibilities, but none ____ who is present.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "proves"
+      ],
+      "expected": "proves",
+      "explanation": "proves means พิสูจน์ in this context. Full source sentence: Each observation supports possibilities, but none proves who is present.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ที่อื่น.\nLater, the manager confirms that she is working ____ and left the coat yesterday.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "elsewhere"
+      ],
+      "expected": "elsewhere",
+      "explanation": "elsewhere means ที่อื่น in this context. Full source sentence: Later, the manager confirms that she is working elsewhere and left the coat yesterday.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การอนุมาน.\nThe episode shows why ____ should remain open to revision.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "deduction"
+      ],
+      "expected": "deduction",
+      "explanation": "deduction means การอนุมาน in this context. Full source sentence: The episode shows why deduction should remain open to revision.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การปรับข้อสรุป.\nThe episode shows why deduction should remain open to ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "revision"
+      ],
+      "expected": "revision",
+      "explanation": "revision means การปรับข้อสรุป in this context. Full source sentence: The episode shows why deduction should remain open to revision.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: หนักแน่นน่าเชื่อ.\nStrong modal language can be appropriate when evidence is ____, but familiar patterns alone do not make an inference certain.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "compelling"
+      ],
+      "expected": "compelling",
+      "explanation": "compelling means หนักแน่นน่าเชื่อ in this context. Full source sentence: Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้ออนุมาน.\nStrong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an ____ certain.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "inference"
+      ],
+      "expected": "inference",
+      "explanation": "inference means ข้ออนุมาน in this context. Full source sentence: Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: มองเห็น.\nCoat ____ through window.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "visible"
+      ],
+      "expected": "visible",
+      "explanation": "visible means มองเห็น in this context. Full source sentence: Coat visible through window.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-09-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nThe office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\n\nWhat alternative explanation is offered for the lights? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "a timer",
+      "explanation": "Reference answer: a timer. Accept an accurate paraphrase that preserves scope. Check against B2-09-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-09-READ-A"
+    },
+    {
+      "stableId": "Q-B2-09-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nThe office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\n\nWhen did the manager leave the coat? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "yesterday",
+      "explanation": "Reference answer: yesterday. Accept an accurate paraphrase that preserves scope. Check against B2-09-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-09-READ-A"
+    },
+    {
+      "stableId": "Q-B2-09-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nEvidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside.\n\nHow many knocks received no answer? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "two",
+      "explanation": "Reference answer: two. Accept an accurate paraphrase that preserves scope. Check against B2-09-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-09-READ-B"
+    },
+    {
+      "stableId": "Q-B2-09-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script B — text-supported comprehension\nRank expressions such as might, probably and must according to the commitment they convey in context. Then ask whether the evidence warrants that commitment. When new information arrives, revise the conclusion explicitly rather than quietly pretending it was always your view.\n\nWhat should happen when new information arrives? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "revise the conclusion explicitly",
+      "explanation": "Reference answer: revise the conclusion explicitly. Accept an accurate paraphrase that preserves scope. Check against B2-09-LISTEN-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-09-LISTEN-B"
+    },
+    {
+      "stableId": "Q-B2-09-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Use must / might / could to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: The lights could be on a timer.",
+      "expected": "Check the function ระดับการอนุมาน; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function ระดับการอนุมาน; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B2-09-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. Someone may have stepped out.\n2. We cannot conclude who is inside.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for อนุมานเหตุการณ์ก่อนหน้า versus ระบุขีดจำกัดหลักฐาน. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for อนุมานเหตุการณ์ก่อนหน้า versus ระบุขีดจำกัดหลักฐาน. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B2-09-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nEvidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B2-09-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B2-09-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B2-09-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY",
+        "B2-09_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nThe office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.",
+      "expected": "Provide a relevant supported detail from B2-09-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B2-09-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B2-09-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 180–240 words for a classmate who needs to understand certainty, probability & deduction. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nSources\nThe office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\n\nEvidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside."
+    },
+    {
+      "stableId": "TASK-B2-09-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 120–180-second spoken response about certainty, probability & deduction. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInput\nThe office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\n\nA: She must be there; the lights are on.\nB: They could be on a timer.\nA: I hadn't considered that. Should I say she might be there?\nB: Yes, until we have stronger evidence. We should check rather than enter without permission."
+    },
+    {
+      "stableId": "TASK-B2-09-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nThe office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\n\nReading B\nEvidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside."
+    },
+    {
+      "stableId": "TASK-B2-09-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-09_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about certainty, probability & deduction, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nEvidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside.\n\nA: She must be there; the lights are on.\nB: They could be on a timer.\nA: I hadn't considered that. Should I say she might be there?\nB: Yes, until we have stronger evidence. We should check rather than enter without permission."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B2-09-001",
+      "item": "timer",
+      "thai": "เครื่องตั้งเวลา",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Another points out that the lights may be on a timer.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-002",
+      "item": "coat",
+      "thai": "เสื้อคลุม",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A third notices a coat on the chair and suggests that someone might have stepped out briefly.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-003",
+      "item": "stepped out",
+      "thai": "ออกไปชั่วครู่",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A third notices a coat on the chair and suggests that someone might have stepped out briefly.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-004",
+      "item": "observation",
+      "thai": "ข้อสังเกต",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Each observation supports possibilities, but none proves who is present.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-005",
+      "item": "possibilities",
+      "thai": "ความเป็นไปได้",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Each observation supports possibilities, but none proves who is present.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-006",
+      "item": "proves",
+      "thai": "พิสูจน์",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Each observation supports possibilities, but none proves who is present.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-007",
+      "item": "elsewhere",
+      "thai": "ที่อื่น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Later, the manager confirms that she is working elsewhere and left the coat yesterday.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-008",
+      "item": "deduction",
+      "thai": "การอนุมาน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The episode shows why deduction should remain open to revision.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-009",
+      "item": "revision",
+      "thai": "การปรับข้อสรุป",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The episode shows why deduction should remain open to revision.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-010",
+      "item": "compelling",
+      "thai": "หนักแน่นน่าเชื่อ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-011",
+      "item": "inference",
+      "thai": "ข้ออนุมาน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-012",
+      "item": "visible",
+      "thai": "มองเห็น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Coat visible through window.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-013",
+      "item": "warrants",
+      "thai": "มีเหตุผลรองรับ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Then ask whether the evidence warrants that commitment.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-014",
+      "item": "commitment",
+      "thai": "ระดับการยืนยัน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Rank expressions such as might, probably and must according to the commitment they convey in context.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-015",
+      "item": "explicitly",
+      "thai": "อย่างชัดแจ้ง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "When new information arrives, revise the conclusion explicitly rather than quietly pretending it was always your view.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-09-REV-1",
+      "item": "evidence",
+      "thai": "หลักฐาน",
+      "example": "The evidence supports a limited conclusion.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-2",
+      "item": "claim",
+      "thai": "ข้ออ้าง",
+      "example": "That claim needs more support.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-3",
+      "item": "assumption",
+      "thai": "ข้อสมมติ",
+      "example": "The estimate depends on an assumption.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-4",
+      "item": "alternative",
+      "thai": "ทางเลือกหรือคำอธิบายอื่น",
+      "example": "Consider an alternative explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-5",
+      "item": "whereas",
+      "thai": "ในขณะที่ต่างกัน",
+      "example": "A measures cost, whereas B measures access.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-6",
+      "item": "nevertheless",
+      "thai": "ถึงกระนั้น",
+      "example": "The sample is small; nevertheless, it raises a useful question.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-7",
+      "item": "to some extent",
+      "thai": "ในระดับหนึ่ง",
+      "example": "I agree to some extent.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-8",
+      "item": "provided that",
+      "thai": "โดยมีเงื่อนไขว่า",
+      "example": "The proposal works provided that access is maintained.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-9",
+      "item": "tends to",
+      "thai": "มีแนวโน้มที่จะ",
+      "example": "The report tends to emphasise benefits.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-10",
+      "item": "may indicate",
+      "thai": "อาจบ่งชี้",
+      "example": "The change may indicate a problem.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-11",
+      "item": "trade-off",
+      "thai": "การได้อย่างเสียอย่าง",
+      "example": "There is a trade-off between speed and detail.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-12",
+      "item": "limitation",
+      "thai": "ข้อจำกัด",
+      "example": "Acknowledge the main limitation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-13",
+      "item": "counterargument",
+      "thai": "ข้อโต้แย้งอีกด้าน",
+      "example": "Address the strongest counterargument fairly.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-14",
+      "item": "consequence",
+      "thai": "ผลที่ตามมา",
+      "example": "Consider an unintended consequence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-09-REV-15",
+      "item": "justify",
+      "thai": "ให้เหตุผลรองรับ",
+      "example": "Justify the recommendation with relevant evidence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B2-09-1",
+      "form": "must / might / could",
+      "use": "ระดับการอนุมาน",
+      "example": "The lights could be on a timer."
+    },
+    {
+      "id": "G-B2-09-2",
+      "form": "may have + participle",
+      "use": "อนุมานเหตุการณ์ก่อนหน้า",
+      "example": "Someone may have stepped out."
+    },
+    {
+      "id": "G-B2-09-3",
+      "form": "cannot conclude",
+      "use": "ระบุขีดจำกัดหลักฐาน",
+      "example": "We cannot conclude who is inside."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B2-09-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "The office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain."
+    },
+    {
+      "id": "B2-09-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Evidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside."
+    },
+    {
+      "id": "B2-09-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: She must be there; the lights are on.\nB: They could be on a timer.\nA: I hadn't considered that. Should I say she might be there?\nB: Yes, until we have stronger evidence. We should check rather than enter without permission."
+    },
+    {
+      "id": "B2-09-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Rank expressions such as might, probably and must according to the commitment they convey in context. Then ask whether the evidence warrants that commitment. When new information arrives, revise the conclusion explicitly rather than quietly pretending it was always your view."
+    }
+  ],
+  "pronunciation": "Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B2-0.1",
+    "level": "B2",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B2: Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B2-09-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Certainty, Probability & Deduction; explain one source detail and use must / might / could in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-09-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Certainty, Probability & Deduction; explain one source detail and use may have + participle in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-09-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Certainty, Probability & Deduction; explain one source detail and use cannot conclude in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-09-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Certainty, Probability & Deduction; explain one source detail and use must / might / could in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B2-09_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B2-09-015 and the mediation task."
+    },
+    {
+      "errorTag": "B2-09_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B2-09-001",
+      "Q-B2-09-002",
+      "Q-B2-09-003",
+      "Q-B2-09-004",
+      "Q-B2-09-005",
+      "Q-B2-09-006",
+      "Q-B2-09-007",
+      "Q-B2-09-008",
+      "Q-B2-09-009",
+      "Q-B2-09-010",
+      "Q-B2-09-011",
+      "Q-B2-09-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B2-09-013",
+      "Q-B2-09-014",
+      "Q-B2-09-015",
+      "Q-B2-09-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B2-09-1",
+      "TASK-B2-09-2",
+      "TASK-B2-09-3",
+      "TASK-B2-09-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B2.json",
+    "sourceUnitId": "B2-09",
+    "sourceChecksum": "6e6efdef8211c072fdc438e79a2a773804773acd98c714a13d2191578d682c33"
+  },
+  "sourceText": "{\n  \"id\": \"B2-09\",\n  \"aim\": \"ใช้คำแสดงความแน่ใจตามหลักฐานและรักษาทางเลือกอื่น\",\n  \"a\": \"The office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.\",\n  \"b\": \"Evidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside.\",\n  \"l1\": \"A: She must be there; the lights are on.\\nB: They could be on a timer.\\nA: I hadn't considered that. Should I say she might be there?\\nB: Yes, until we have stronger evidence. We should check rather than enter without permission.\",\n  \"l2\": \"Rank expressions such as might, probably and must according to the commitment they convey in context. Then ask whether the evidence warrants that commitment. When new information arrives, revise the conclusion explicitly rather than quietly pretending it was always your view.\",\n  \"v\": \"timer=เครื่องตั้งเวลา;coat=เสื้อคลุม;stepped out=ออกไปชั่วครู่;observation=ข้อสังเกต;possibilities=ความเป็นไปได้;proves=พิสูจน์;elsewhere=ที่อื่น;deduction=การอนุมาน;revision=การปรับข้อสรุป;compelling=หนักแน่นน่าเชื่อ;inference=ข้ออนุมาน;visible=มองเห็น;warrants=มีเหตุผลรองรับ;commitment=ระดับการยืนยัน;explicitly=อย่างชัดแจ้ง\",\n  \"g\": [\n    [\n      \"must / might / could\",\n      \"ระดับการอนุมาน\",\n      \"The lights could be on a timer.\"\n    ],\n    [\n      \"may have + participle\",\n      \"อนุมานเหตุการณ์ก่อนหน้า\",\n      \"Someone may have stepped out.\"\n    ],\n    [\n      \"cannot conclude\",\n      \"ระบุขีดจำกัดหลักฐาน\",\n      \"We cannot conclude who is inside.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"What alternative explanation is offered for the lights?\",\n      \"a timer\",\n      \"a\"\n    ],\n    [\n      \"When did the manager leave the coat?\",\n      \"yesterday\",\n      \"a\"\n    ],\n    [\n      \"How many knocks received no answer?\",\n      \"two\",\n      \"b\"\n    ],\n    [\n      \"What should happen when new information arrives?\",\n      \"revise the conclusion explicitly\",\n      \"l2\"\n    ]\n  ]\n}\n",
+  "checksum": "3a8f9b3ee86f720da14d58d8920a88a8eee788112adb2cc2b3bea11e678898ff"
+}

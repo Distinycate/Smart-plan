@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B1-16-COURSE",
+  "unitId": "B1-16",
+  "level": "B1",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B1-16; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Integrated B1 Communication",
+  "canDo": "รวมข้อมูลหลายชิ้นเพื่อวางแผน ชี้แจง และประเมินกิจกรรม. Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.",
+  "outcomes": [
+    "Use the language of integrated b1 communication to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B1-16-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Integrated B1 Communication\nเป้าหมาย: รวมข้อมูลหลายชิ้นเพื่อวางแผน ชี้แจง และประเมินกิจกรรม\n\nUse the language of integrated b1 communication to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nOur group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\n\nRead for purpose, then locate the people, events, conditions and limits. Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.\n\nReading B\nPartner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B1-16-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "have been asked to\nหน้าที่: อธิบายงานที่ได้รับ\nModel: We have been asked to plan an event.\nTry: change one detail while preserving the function. Check the result against the source.\n\nif + condition\nหน้าที่: ยืนยันทรัพยากร\nModel: I can collect the books if someone helps.\nTry: change one detail while preserving the function. Check the result against the source.\n\nwill / would\nหน้าที่: แผนกับข้อเสนอในอนาคต\nModel: We will review what we would change next time.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก\n\nTarget vocabulary in context\nneighbourhood — ละแวกชุมชน\nOur group has been asked to plan a neighbourhood reading afternoon.\n\nprovide — จัดหา\nThe library can provide books, but the community room is available only from two to five.\n\navailable — พร้อมให้ใช้\nThe library can provide books, but the community room is available only from two to five.\n\nexpect — คาดว่าจะมี\nWe expect about twenty visitors, including people who prefer a quiet space.\n\nquiet space — พื้นที่เงียบ\nWe expect about twenty visitors, including people who prefer a quiet space.\n\npropose — เสนอ\nWe propose a shared welcome, two small reading groups and an optional discussion.\n\noptional — ไม่บังคับ\nWe propose a shared welcome, two small reading groups and an optional discussion.\n\npractical — ในทางปฏิบัติ\nOne volunteer will record practical problems without collecting visitors' private details.\n\nmeaningfully — อย่างมีความหมาย\nSuccess will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\n\nschedule — กำหนดการ\nSuccess will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\n\nlend — ให้ยืม\nPartner email: We can lend thirty books.\n\nlarge print — ตัวพิมพ์ใหญ่\nSome books have large print.\n\ntransport — การขนส่ง\nWe cannot provide transport, so arrange collection before confirming your plan.\n\nbriefing — การชี้แจง\nYour final briefing should connect the sources.\n\nunresolved — ยังไม่ตกลง\nMark unresolved details clearly.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B1-16-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: Can the library deliver the books?\nB: No. We need to collect them.\nA: Who can do that on Friday?\nB: I can, if someone helps carry the boxes.\nA: Let's confirm that before we send the final invitation.\n\nListening script B\nYour final briefing should connect the sources. Explain the room schedule, book collection and participants' needs. Mark unresolved details clearly. In the review, describe what happened and what you would change next time, using examples rather than invented success claims.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B1-16-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nรวมข้อมูลหลายชิ้นเพื่อวางแผน ชี้แจง และประเมินกิจกรรม\n\nPrepare a 120–160-word response and a 90–120-second spoken response using the unit inputs. Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nhave been asked to: We have been asked to plan an event.\nif + condition: I can collect the books if someone helps.\nwill / would: We will review what we would change next time.\nให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B1-16-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ละแวกชุมชน.\nOur group has been asked to plan a ____ reading afternoon.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "neighbourhood"
+      ],
+      "expected": "neighbourhood",
+      "explanation": "neighbourhood means ละแวกชุมชน in this context. Full source sentence: Our group has been asked to plan a neighbourhood reading afternoon.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: จัดหา.\nThe library can ____ books, but the community room is available only from two to five.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "provide"
+      ],
+      "expected": "provide",
+      "explanation": "provide means จัดหา in this context. Full source sentence: The library can provide books, but the community room is available only from two to five.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: พร้อมให้ใช้.\nThe library can provide books, but the community room is ____ only from two to five.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "available"
+      ],
+      "expected": "available",
+      "explanation": "available means พร้อมให้ใช้ in this context. Full source sentence: The library can provide books, but the community room is available only from two to five.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: คาดว่าจะมี.\nWe ____ about twenty visitors, including people who prefer a quiet space.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "expect"
+      ],
+      "expected": "expect",
+      "explanation": "expect means คาดว่าจะมี in this context. Full source sentence: We expect about twenty visitors, including people who prefer a quiet space.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: พื้นที่เงียบ.\nWe expect about twenty visitors, including people who prefer a ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "quiet space"
+      ],
+      "expected": "quiet space",
+      "explanation": "quiet space means พื้นที่เงียบ in this context. Full source sentence: We expect about twenty visitors, including people who prefer a quiet space.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เสนอ.\nWe ____ a shared welcome, two small reading groups and an optional discussion.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "propose"
+      ],
+      "expected": "propose",
+      "explanation": "propose means เสนอ in this context. Full source sentence: We propose a shared welcome, two small reading groups and an optional discussion.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ไม่บังคับ.\nWe propose a shared welcome, two small reading groups and an ____ discussion.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "optional"
+      ],
+      "expected": "optional",
+      "explanation": "optional means ไม่บังคับ in this context. Full source sentence: We propose a shared welcome, two small reading groups and an optional discussion.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ในทางปฏิบัติ.\nOne volunteer will record ____ problems without collecting visitors' private details.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "practical"
+      ],
+      "expected": "practical",
+      "explanation": "practical means ในทางปฏิบัติ in this context. Full source sentence: One volunteer will record practical problems without collecting visitors' private details.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: อย่างมีความหมาย.\nSuccess will mean that people could join ____, not simply that we completed every activity on the schedule.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "meaningfully"
+      ],
+      "expected": "meaningfully",
+      "explanation": "meaningfully means อย่างมีความหมาย in this context. Full source sentence: Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: กำหนดการ.\nSuccess will mean that people could join meaningfully, not simply that we completed every activity on the ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "schedule"
+      ],
+      "expected": "schedule",
+      "explanation": "schedule means กำหนดการ in this context. Full source sentence: Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ให้ยืม.\nPartner email: We can ____ thirty books.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "lend"
+      ],
+      "expected": "lend",
+      "explanation": "lend means ให้ยืม in this context. Full source sentence: Partner email: We can lend thirty books.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ตัวพิมพ์ใหญ่.\nSome books have ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "large print"
+      ],
+      "expected": "large print",
+      "explanation": "large print means ตัวพิมพ์ใหญ่ in this context. Full source sentence: Some books have large print.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-16-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nOur group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\n\nWhen is the room available? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "from two to five",
+      "explanation": "Reference answer: from two to five. Accept an accurate paraphrase that preserves scope. Check against B1-16-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-16-READ-A"
+    },
+    {
+      "stableId": "Q-B1-16-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nOur group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\n\nAbout how many visitors are expected? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "twenty",
+      "explanation": "Reference answer: twenty. Accept an accurate paraphrase that preserves scope. Check against B1-16-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-16-READ-A"
+    },
+    {
+      "stableId": "Q-B1-16-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nPartner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan.\n\nWhen must the books be returned? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Monday",
+      "explanation": "Reference answer: Monday. Accept an accurate paraphrase that preserves scope. Check against B1-16-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-16-READ-B"
+    },
+    {
+      "stableId": "Q-B1-16-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script A — text-supported comprehension\nA: Can the library deliver the books?\nB: No. We need to collect them.\nA: Who can do that on Friday?\nB: I can, if someone helps carry the boxes.\nA: Let's confirm that before we send the final invitation.\n\nDoes the library provide transport? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "no",
+      "explanation": "Reference answer: no. Accept an accurate paraphrase that preserves scope. Check against B1-16-LISTEN-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-16-LISTEN-A"
+    },
+    {
+      "stableId": "Q-B1-16-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Use have been asked to to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: We have been asked to plan an event.",
+      "expected": "Check the function อธิบายงานที่ได้รับ; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function อธิบายงานที่ได้รับ; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B1-16-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. I can collect the books if someone helps.\n2. We will review what we would change next time.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for ยืนยันทรัพยากร versus แผนกับข้อเสนอในอนาคต. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for ยืนยันทรัพยากร versus แผนกับข้อเสนอในอนาคต. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B1-16-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nPartner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B1-16-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B1-16-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B1-16-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY",
+        "B1-16_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nOur group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.",
+      "expected": "Provide a relevant supported detail from B1-16-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B1-16-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B1-16-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 120–160 words for a classmate who needs to understand integrated b1 communication. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.\n\nSources\nOur group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\n\nPartner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan."
+    },
+    {
+      "stableId": "TASK-B1-16-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 90–120-second spoken response about integrated b1 communication. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.\n\nInput\nOur group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\n\nA: Can the library deliver the books?\nB: No. We need to collect them.\nA: Who can do that on Friday?\nB: I can, if someone helps carry the boxes.\nA: Let's confirm that before we send the final invitation."
+    },
+    {
+      "stableId": "TASK-B1-16-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nOur group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\n\nReading B\nPartner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan."
+    },
+    {
+      "stableId": "TASK-B1-16-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-16_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about integrated b1 communication, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nPartner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan.\n\nA: Can the library deliver the books?\nB: No. We need to collect them.\nA: Who can do that on Friday?\nB: I can, if someone helps carry the boxes.\nA: Let's confirm that before we send the final invitation."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B1-16-001",
+      "item": "neighbourhood",
+      "thai": "ละแวกชุมชน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Our group has been asked to plan a neighbourhood reading afternoon.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-002",
+      "item": "provide",
+      "thai": "จัดหา",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The library can provide books, but the community room is available only from two to five.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-003",
+      "item": "available",
+      "thai": "พร้อมให้ใช้",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The library can provide books, but the community room is available only from two to five.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-004",
+      "item": "expect",
+      "thai": "คาดว่าจะมี",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "We expect about twenty visitors, including people who prefer a quiet space.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-005",
+      "item": "quiet space",
+      "thai": "พื้นที่เงียบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "We expect about twenty visitors, including people who prefer a quiet space.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-006",
+      "item": "propose",
+      "thai": "เสนอ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "We propose a shared welcome, two small reading groups and an optional discussion.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-007",
+      "item": "optional",
+      "thai": "ไม่บังคับ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "We propose a shared welcome, two small reading groups and an optional discussion.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-008",
+      "item": "practical",
+      "thai": "ในทางปฏิบัติ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "One volunteer will record practical problems without collecting visitors' private details.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-009",
+      "item": "meaningfully",
+      "thai": "อย่างมีความหมาย",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-010",
+      "item": "schedule",
+      "thai": "กำหนดการ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-011",
+      "item": "lend",
+      "thai": "ให้ยืม",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Partner email: We can lend thirty books.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-012",
+      "item": "large print",
+      "thai": "ตัวพิมพ์ใหญ่",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Some books have large print.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-013",
+      "item": "transport",
+      "thai": "การขนส่ง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "We cannot provide transport, so arrange collection before confirming your plan.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-014",
+      "item": "briefing",
+      "thai": "การชี้แจง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Your final briefing should connect the sources.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-015",
+      "item": "unresolved",
+      "thai": "ยังไม่ตกลง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Mark unresolved details clearly.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-16-REV-1",
+      "item": "however",
+      "thai": "อย่างไรก็ตาม",
+      "example": "The plan is useful; however, it costs more.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-2",
+      "item": "although",
+      "thai": "แม้ว่า",
+      "example": "Although the room is small, it is quiet.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-3",
+      "item": "therefore",
+      "thai": "ดังนั้น",
+      "example": "The time changed; therefore, we sent an update.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-4",
+      "item": "for example",
+      "thai": "ตัวอย่างเช่น",
+      "example": "For example, one member needs a quieter space.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-5",
+      "item": "in my view",
+      "thai": "ในมุมมองของฉัน",
+      "example": "In my view, a short trial is reasonable.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-6",
+      "item": "according to",
+      "thai": "ตามข้อมูลจาก",
+      "example": "According to the note, the room closes at five.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-7",
+      "item": "suggest",
+      "thai": "เสนอแนะ",
+      "example": "I suggest checking the details first.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-8",
+      "item": "consider",
+      "thai": "พิจารณา",
+      "example": "We should consider another explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-9",
+      "item": "advantage",
+      "thai": "ข้อดี",
+      "example": "One advantage is the shorter journey.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-10",
+      "item": "disadvantage",
+      "thai": "ข้อเสีย",
+      "example": "The main disadvantage is the cost.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-11",
+      "item": "reason",
+      "thai": "เหตุผล",
+      "example": "Give a reason for your choice.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-12",
+      "item": "result",
+      "thai": "ผลลัพธ์",
+      "example": "The result was different from our plan.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-13",
+      "item": "experience",
+      "thai": "ประสบการณ์",
+      "example": "Describe one experience that changed your view.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-14",
+      "item": "improve",
+      "thai": "ปรับปรุง",
+      "example": "Feedback can help us improve the plan.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-16-REV-15",
+      "item": "review",
+      "thai": "ทบทวน",
+      "example": "We will review the arrangement next week.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B1-16-1",
+      "form": "have been asked to",
+      "use": "อธิบายงานที่ได้รับ",
+      "example": "We have been asked to plan an event."
+    },
+    {
+      "id": "G-B1-16-2",
+      "form": "if + condition",
+      "use": "ยืนยันทรัพยากร",
+      "example": "I can collect the books if someone helps."
+    },
+    {
+      "id": "G-B1-16-3",
+      "form": "will / would",
+      "use": "แผนกับข้อเสนอในอนาคต",
+      "example": "We will review what we would change next time."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B1-16-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "Our group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule."
+    },
+    {
+      "id": "B1-16-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Partner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan."
+    },
+    {
+      "id": "B1-16-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: Can the library deliver the books?\nB: No. We need to collect them.\nA: Who can do that on Friday?\nB: I can, if someone helps carry the boxes.\nA: Let's confirm that before we send the final invitation."
+    },
+    {
+      "id": "B1-16-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Your final briefing should connect the sources. Explain the room schedule, book collection and participants' needs. Mark unresolved details clearly. In the review, describe what happened and what you would change next time, using examples rather than invented success claims."
+    }
+  ],
+  "pronunciation": "Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B1-0.1",
+    "level": "B1",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B1: Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B1-16-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Integrated B1 Communication; explain one source detail and use have been asked to in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-16-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Integrated B1 Communication; explain one source detail and use if + condition in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-16-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Integrated B1 Communication; explain one source detail and use will / would in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-16-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Integrated B1 Communication; explain one source detail and use have been asked to in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B1-16_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B1-16-015 and the mediation task."
+    },
+    {
+      "errorTag": "B1-16_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B1-16-001",
+      "Q-B1-16-002",
+      "Q-B1-16-003",
+      "Q-B1-16-004",
+      "Q-B1-16-005",
+      "Q-B1-16-006",
+      "Q-B1-16-007",
+      "Q-B1-16-008",
+      "Q-B1-16-009",
+      "Q-B1-16-010",
+      "Q-B1-16-011",
+      "Q-B1-16-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B1-16-013",
+      "Q-B1-16-014",
+      "Q-B1-16-015",
+      "Q-B1-16-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B1-16-1",
+      "TASK-B1-16-2",
+      "TASK-B1-16-3",
+      "TASK-B1-16-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B1.json",
+    "sourceUnitId": "B1-16",
+    "sourceChecksum": "d02746103d596e29fadb9d27f3d008aed09543a61263042005a958ee2ccddc7f"
+  },
+  "sourceText": "{\n  \"id\": \"B1-16\",\n  \"aim\": \"รวมข้อมูลหลายชิ้นเพื่อวางแผน ชี้แจง และประเมินกิจกรรม\",\n  \"a\": \"Our group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.\",\n  \"b\": \"Partner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan.\",\n  \"l1\": \"A: Can the library deliver the books?\\nB: No. We need to collect them.\\nA: Who can do that on Friday?\\nB: I can, if someone helps carry the boxes.\\nA: Let's confirm that before we send the final invitation.\",\n  \"l2\": \"Your final briefing should connect the sources. Explain the room schedule, book collection and participants' needs. Mark unresolved details clearly. In the review, describe what happened and what you would change next time, using examples rather than invented success claims.\",\n  \"v\": \"neighbourhood=ละแวกชุมชน;provide=จัดหา;available=พร้อมให้ใช้;expect=คาดว่าจะมี;quiet space=พื้นที่เงียบ;propose=เสนอ;optional=ไม่บังคับ;practical=ในทางปฏิบัติ;meaningfully=อย่างมีความหมาย;schedule=กำหนดการ;lend=ให้ยืม;large print=ตัวพิมพ์ใหญ่;transport=การขนส่ง;briefing=การชี้แจง;unresolved=ยังไม่ตกลง\",\n  \"g\": [\n    [\n      \"have been asked to\",\n      \"อธิบายงานที่ได้รับ\",\n      \"We have been asked to plan an event.\"\n    ],\n    [\n      \"if + condition\",\n      \"ยืนยันทรัพยากร\",\n      \"I can collect the books if someone helps.\"\n    ],\n    [\n      \"will / would\",\n      \"แผนกับข้อเสนอในอนาคต\",\n      \"We will review what we would change next time.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"When is the room available?\",\n      \"from two to five\",\n      \"a\"\n    ],\n    [\n      \"About how many visitors are expected?\",\n      \"twenty\",\n      \"a\"\n    ],\n    [\n      \"When must the books be returned?\",\n      \"Monday\",\n      \"b\"\n    ],\n    [\n      \"Does the library provide transport?\",\n      \"no\",\n      \"l1\"\n    ]\n  ]\n}\n",
+  "checksum": "b80b3b351882a2b19e1d30ce3293dea07720cf6d04f53a7ec45d92763e1ae317"
+}

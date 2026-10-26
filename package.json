@@ -27,7 +27,9 @@
     "content:verify": "node --import tsx scripts/english/content.ts --verify",
     "db:validate": "node --import tsx --test tests/english/integration.test.ts",
     "build:offline": "node scripts/english/build-offline.mjs",
-    "test:release": "npm run typecheck && npm run lint && npm test && npm run content:validate && npm run content:import -- --dry-run && npm run content:verify && npm run build:offline && npm run test:e2e"
+    "test:release": "npm run typecheck && npm run lint && npm test && npm run content:validate && npm run content:import -- --dry-run && npm run content:verify && npm run build:offline && npm run test:e2e",
+    "content:build": "node --import tsx scripts/english/build-course.ts",
+    "content:local": "node --import tsx scripts/english/local-content.ts"
   },
   "dependencies": {
     "@sparticuz/chromium": "^153.0.0",

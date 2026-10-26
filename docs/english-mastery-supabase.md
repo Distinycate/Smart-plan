@@ -15,6 +15,6 @@ Required real staging evidence:
 5. Verify raw answer keys/content/review notes never reach learner or unauthenticated requests.
 6. Verify private bucket direct object URLs fail, signed URLs expire, reviewer scope works and deletion physically removes objects.
 7. Configure an approved recording notice/retention policy and assign expiry cleanup execution. Do not invent a legal retention period.
-8. Import/verify all 96 metadata and six original + six derivative versions. Zero publications unless humans actually review them.
+8. Import/verify all 96 units and 106 versions (six original + six pilot derivatives + ninety current course drafts + four retained initial drafts). Zero publications unless humans actually review them.
 
 No claim that free-tier capacity is sufficient indefinitely. No billing changes were made.

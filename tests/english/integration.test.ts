@@ -42,18 +42,32 @@ after(async () => {
   await db?.close();
 });
 
-test("96 metadata and both versions of six canonical pilots; idempotent import", async () => {
-  assert.equal((await loadPackages()).length, 12);
+test("96 complete units with both preserved pilot versions; idempotent import", async () => {
+  assert.equal((await loadPackages()).length, 106);
   assert.equal((await repo.list("curriculum")).length, 96);
   assert.equal((await importPackages(repo, USERS.author, false)).changes, 0);
   const rows = await repo.list("content_versions");
-  assert.equal(rows.length, 12);
+  assert.equal(rows.length, 106);
   assert(rows.every((r) => r.data.state === "PRE_HUMAN_CONTENT_COMPLETE"));
   assert.equal(
     (await db.query<{ body: string }>('SELECT body FROM "LessonPlans"')).rows[0]
       .body,
     "existing host data",
   );
+});
+test("complete curriculum is previewable while new course tasks keep answers private", async () => {
+  const catalog = await learner.run("catalog", {});
+  assert.equal(catalog.units.filter((u: any) => u.available).length, 96);
+  for (const unitId of ["A1-01", "A2-01", "B1-01", "B2-02", "C1-01", "C2-16"]) {
+    const content = await learner.run("content", { unitId });
+    assert.equal(content.lessons.length, 4);
+    assert.equal(content.preview, true);
+    assert(!JSON.stringify(content).includes('"acceptedAnswers"'));
+    const attempt = await learner.run("start", { contentVersionId: content.id,
+      mode: "PRACTICE", requestId: request() });
+    assert(attempt.items.length > 0);
+    assert.equal(attempt.snapshot.contentVersionId, content.id);
+  }
 });
 test("source payload immutable; jsonb canonical checksum survives round trip", async () => {
   const row = (await repo.get("content_versions", version))!;
