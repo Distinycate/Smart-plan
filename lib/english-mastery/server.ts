@@ -2,7 +2,7 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import { requireUser } from "@/lib/auth/authorization";
 import { SupabaseRepository, ensure } from "./repository";
-import type { Actor, Grant } from "./policy";
+import { accountGrants, type Actor } from "./policy";
 export function serviceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -19,9 +19,7 @@ export async function context() {
   const rows = await repository.list("permissions", host.user.id);
   const actor: Actor = {
     id: host.user.id,
-    grants: rows
-      .filter((row) => !row.data.revokedAt)
-      .map((row) => row.data as Grant),
+    grants: accountGrants(rows, process.env.EMH_SELF_STUDY_ENABLED === "true"),
   };
   ensure(actor.grants.length > 0, "EMH_INVITATION_REQUIRED", 403);
   return { actor, repository, client };

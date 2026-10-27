@@ -23,6 +23,21 @@ export interface Actor {
   id: string;
   grants: Grant[];
 }
+// Only the verified Smart Plan identity receives these learner permissions.
+// Explicit grants (including revocations and unit scopes) override defaults.
+export function accountGrants(
+  rows: { data: Json }[],
+  selfStudyEnabled: boolean,
+): Grant[] {
+  const grants = rows.filter((row) => !row.data.revokedAt).map((row) => row.data as Grant);
+  if (selfStudyEnabled) {
+    for (const permission of ["english.learn", "english.preview"] as const) {
+      if (!rows.some((row) => row.data.permission === permission))
+        grants.push({ permission, units: ["*"], reviewTypes: [] });
+    }
+  }
+  return grants;
+}
 export const identifier = z
   .string()
   .min(1)
