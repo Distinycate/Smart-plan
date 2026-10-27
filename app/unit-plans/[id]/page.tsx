@@ -1,6 +1,7 @@
 import UnitPlannerForm from '../UnitPlannerForm';
 
-export default function EditUnitPlanPage({ params }: { params: { id: string } }) {
+export default async function EditUnitPlanPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   return <UnitPlannerForm unitPlanId={params.id} />;
 }
 

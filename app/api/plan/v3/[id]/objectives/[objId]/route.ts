@@ -4,7 +4,7 @@ import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
-type Ctx = { params: { id: string; objId: string } };
+type Ctx = { params: Promise<{ id: string; objId: string }> };
 
 /**
  * PATCH /api/plan/v3/[id]/objectives/[objId]
@@ -18,7 +18,7 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
       return NextResponse.json({ success: false, error: 'รหัสไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ success: false, error: 'กรุณาเข้าสู่ระบบก่อนใช้งาน' }, { status: 401 });
@@ -82,7 +82,7 @@ export async function DELETE(req: NextRequest, { params }: Ctx) {
       return NextResponse.json({ success: false, error: 'รหัสไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ success: false, error: 'กรุณาเข้าสู่ระบบก่อนใช้งาน' }, { status: 401 });

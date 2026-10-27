@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   const context = 'api/evaluations/create';
   let step = 'parse_request';
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return fail('AUTH_REQUIRED', 'กรุณาเข้าสู่ระบบก่อนสร้างงานประเมิน', { step });

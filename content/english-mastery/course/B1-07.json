@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B1-07-COURSE",
+  "unitId": "B1-07",
+  "level": "B1",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B1-07; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Technology in Everyday Life",
+  "canDo": "อธิบายปัญหาเทคโนโลยีและตัดสินใจเรื่องข้อมูลส่วนตัว. Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.",
+  "outcomes": [
+    "Use the language of technology in everyday life to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B1-07-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Technology in Everyday Life\nเป้าหมาย: อธิบายปัญหาเทคโนโลยีและตัดสินใจเรื่องข้อมูลส่วนตัว\n\nUse the language of technology in everyday life to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nI downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.\n\nRead for purpose, then locate the people, events, conditions and limits. Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.\n\nReading B\nSupport note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B1-07-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "asked for / required\nหน้าที่: บอกสิ่งที่ระบบร้องขอ\nModel: The app asked for access to photos.\nTry: change one detail while preserving the function. Check the result against the source.\n\npassive state\nหน้าที่: อธิบายการตั้งค่า\nModel: Notifications were turned off.\nTry: change one detail while preserving the function. Check the result against the source.\n\nwhat + clause\nหน้าที่: รายงานปัญหา\nModel: Explain what happened and what you tried.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก\n\nTarget vocabulary in context\ndownloaded — ดาวน์โหลด\nI downloaded a calendar app to organise a study group.\n\ncalendar — ปฏิทิน\nI downloaded a calendar app to organise a study group.\n\nsetup — การตั้งค่าเริ่มต้น\nDuring setup, it asked for access to my contacts and photos.\n\naccess — การเข้าถึง\nDuring setup, it asked for access to my contacts and photos.\n\ncontacts — รายชื่อผู้ติดต่อ\nDuring setup, it asked for access to my contacts and photos.\n\nsettings — การตั้งค่า\nI checked the settings and asked whether the group could use a simpler shared timetable.\n\nshared — ใช้ร่วมกัน\nI checked the settings and asked whether the group could use a simpler shared timetable.\n\nreminder — การเตือน\nLater, a reminder failed because notifications were turned off.\n\nnotifications — การแจ้งเตือน\nLater, a reminder failed because notifications were turned off.\n\nconvenience — ความสะดวก\nConvenience matters, but it is useful to understand what information an app requests and which features you actually need.\n\nfeatures — คุณสมบัติ\nConvenience matters, but it is useful to understand what information an app requests and which features you actually need.\n\nenabled — เปิดใช้งาน\nB: Are notifications enabled?\n\nscreenshot — ภาพหน้าจอ\nRemove personal information from a screenshot before sharing it.\n\npermission — สิทธิ์อนุญาต\nIf you are unsure about a permission request, check the explanation rather than accepting it automatically.\n\nautomatically — โดยอัตโนมัติ\nIf you are unsure about a permission request, check the explanation rather than accepting it automatically.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B1-07-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: The reminder didn't appear.\nB: Are notifications enabled?\nA: No, they are off.\nB: Try changing that setting and creating a test event.\nA: Should I send you my password?\nB: No. Describe the screen without sharing private information.\n\nListening script B\nA useful support message includes the task, what happened and what you already tried. Remove personal information from a screenshot before sharing it. If you are unsure about a permission request, check the explanation rather than accepting it automatically.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B1-07-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nอธิบายปัญหาเทคโนโลยีและตัดสินใจเรื่องข้อมูลส่วนตัว\n\nPrepare a 120–160-word response and a 90–120-second spoken response using the unit inputs. Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nasked for / required: The app asked for access to photos.\npassive state: Notifications were turned off.\nwhat + clause: Explain what happened and what you tried.\nให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B1-07-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ดาวน์โหลด.\nI ____ a calendar app to organise a study group.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "downloaded"
+      ],
+      "expected": "downloaded",
+      "explanation": "downloaded means ดาวน์โหลด in this context. Full source sentence: I downloaded a calendar app to organise a study group.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ปฏิทิน.\nI downloaded a ____ app to organise a study group.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "calendar"
+      ],
+      "expected": "calendar",
+      "explanation": "calendar means ปฏิทิน in this context. Full source sentence: I downloaded a calendar app to organise a study group.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การตั้งค่าเริ่มต้น.\nDuring ____, it asked for access to my contacts and photos.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "setup"
+      ],
+      "expected": "setup",
+      "explanation": "setup means การตั้งค่าเริ่มต้น in this context. Full source sentence: During setup, it asked for access to my contacts and photos.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การเข้าถึง.\nDuring setup, it asked for ____ to my contacts and photos.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "access"
+      ],
+      "expected": "access",
+      "explanation": "access means การเข้าถึง in this context. Full source sentence: During setup, it asked for access to my contacts and photos.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: รายชื่อผู้ติดต่อ.\nDuring setup, it asked for access to my ____ and photos.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "contacts"
+      ],
+      "expected": "contacts",
+      "explanation": "contacts means รายชื่อผู้ติดต่อ in this context. Full source sentence: During setup, it asked for access to my contacts and photos.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การตั้งค่า.\nI checked the ____ and asked whether the group could use a simpler shared timetable.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "settings"
+      ],
+      "expected": "settings",
+      "explanation": "settings means การตั้งค่า in this context. Full source sentence: I checked the settings and asked whether the group could use a simpler shared timetable.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ใช้ร่วมกัน.\nI checked the settings and asked whether the group could use a simpler ____ timetable.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "shared"
+      ],
+      "expected": "shared",
+      "explanation": "shared means ใช้ร่วมกัน in this context. Full source sentence: I checked the settings and asked whether the group could use a simpler shared timetable.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การเตือน.\nLater, a ____ failed because notifications were turned off.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "reminder"
+      ],
+      "expected": "reminder",
+      "explanation": "reminder means การเตือน in this context. Full source sentence: Later, a reminder failed because notifications were turned off.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การแจ้งเตือน.\nLater, a reminder failed because ____ were turned off.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "notifications"
+      ],
+      "expected": "notifications",
+      "explanation": "notifications means การแจ้งเตือน in this context. Full source sentence: Later, a reminder failed because notifications were turned off.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ความสะดวก.\n____ matters, but it is useful to understand what information an app requests and which features you actually need.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "convenience"
+      ],
+      "expected": "convenience",
+      "explanation": "convenience means ความสะดวก in this context. Full source sentence: Convenience matters, but it is useful to understand what information an app requests and which features you actually need.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: คุณสมบัติ.\nConvenience matters, but it is useful to understand what information an app requests and which ____ you actually need.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "features"
+      ],
+      "expected": "features",
+      "explanation": "features means คุณสมบัติ in this context. Full source sentence: Convenience matters, but it is useful to understand what information an app requests and which features you actually need.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เปิดใช้งาน.\nB: Are notifications ____?\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "enabled"
+      ],
+      "expected": "enabled",
+      "explanation": "enabled means เปิดใช้งาน in this context. Full source sentence: B: Are notifications enabled?",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-07-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nI downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.\n\nWhat type of app did the writer download? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "a calendar app",
+      "explanation": "Reference answer: a calendar app. Accept an accurate paraphrase that preserves scope. Check against B1-07-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-07-READ-A"
+    },
+    {
+      "stableId": "Q-B1-07-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nI downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.\n\nWhy did the reminder fail? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "notifications were turned off",
+      "explanation": "Reference answer: notifications were turned off. Accept an accurate paraphrase that preserves scope. Check against B1-07-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-07-READ-A"
+    },
+    {
+      "stableId": "Q-B1-07-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nSupport note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help.\n\nHow far ahead should the test event be? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "five minutes",
+      "explanation": "Reference answer: five minutes. Accept an accurate paraphrase that preserves scope. Check against B1-07-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-07-READ-B"
+    },
+    {
+      "stableId": "Q-B1-07-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script A — text-supported comprehension\nA: The reminder didn't appear.\nB: Are notifications enabled?\nA: No, they are off.\nB: Try changing that setting and creating a test event.\nA: Should I send you my password?\nB: No. Describe the screen without sharing private information.\n\nShould the user send a password? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "no",
+      "explanation": "Reference answer: no. Accept an accurate paraphrase that preserves scope. Check against B1-07-LISTEN-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-07-LISTEN-A"
+    },
+    {
+      "stableId": "Q-B1-07-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Use asked for / required to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: The app asked for access to photos.",
+      "expected": "Check the function บอกสิ่งที่ระบบร้องขอ; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function บอกสิ่งที่ระบบร้องขอ; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B1-07-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. Notifications were turned off.\n2. Explain what happened and what you tried.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for อธิบายการตั้งค่า versus รายงานปัญหา. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for อธิบายการตั้งค่า versus รายงานปัญหา. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B1-07-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nSupport note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B1-07-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B1-07-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B1-07-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY",
+        "B1-07_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nI downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.",
+      "expected": "Provide a relevant supported detail from B1-07-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B1-07-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B1-07-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 120–160 words for a classmate who needs to understand technology in everyday life. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.\n\nSources\nI downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.\n\nSupport note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help."
+    },
+    {
+      "stableId": "TASK-B1-07-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 90–120-second spoken response about technology in everyday life. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.\n\nInput\nI downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.\n\nA: The reminder didn't appear.\nB: Are notifications enabled?\nA: No, they are off.\nB: Try changing that setting and creating a test event.\nA: Should I send you my password?\nB: No. Describe the screen without sharing private information."
+    },
+    {
+      "stableId": "TASK-B1-07-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nI downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.\n\nReading B\nSupport note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help."
+    },
+    {
+      "stableId": "TASK-B1-07-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-07_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about technology in everyday life, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nSupport note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help.\n\nA: The reminder didn't appear.\nB: Are notifications enabled?\nA: No, they are off.\nB: Try changing that setting and creating a test event.\nA: Should I send you my password?\nB: No. Describe the screen without sharing private information."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B1-07-001",
+      "item": "downloaded",
+      "thai": "ดาวน์โหลด",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "I downloaded a calendar app to organise a study group.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-002",
+      "item": "calendar",
+      "thai": "ปฏิทิน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "I downloaded a calendar app to organise a study group.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-003",
+      "item": "setup",
+      "thai": "การตั้งค่าเริ่มต้น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "During setup, it asked for access to my contacts and photos.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-004",
+      "item": "access",
+      "thai": "การเข้าถึง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "During setup, it asked for access to my contacts and photos.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-005",
+      "item": "contacts",
+      "thai": "รายชื่อผู้ติดต่อ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "During setup, it asked for access to my contacts and photos.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-006",
+      "item": "settings",
+      "thai": "การตั้งค่า",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "I checked the settings and asked whether the group could use a simpler shared timetable.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-007",
+      "item": "shared",
+      "thai": "ใช้ร่วมกัน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "I checked the settings and asked whether the group could use a simpler shared timetable.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-008",
+      "item": "reminder",
+      "thai": "การเตือน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Later, a reminder failed because notifications were turned off.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-009",
+      "item": "notifications",
+      "thai": "การแจ้งเตือน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Later, a reminder failed because notifications were turned off.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-010",
+      "item": "convenience",
+      "thai": "ความสะดวก",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Convenience matters, but it is useful to understand what information an app requests and which features you actually need.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-011",
+      "item": "features",
+      "thai": "คุณสมบัติ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Convenience matters, but it is useful to understand what information an app requests and which features you actually need.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-012",
+      "item": "enabled",
+      "thai": "เปิดใช้งาน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "B: Are notifications enabled?",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-013",
+      "item": "screenshot",
+      "thai": "ภาพหน้าจอ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Remove personal information from a screenshot before sharing it.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-014",
+      "item": "permission",
+      "thai": "สิทธิ์อนุญาต",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "If you are unsure about a permission request, check the explanation rather than accepting it automatically.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-015",
+      "item": "automatically",
+      "thai": "โดยอัตโนมัติ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "If you are unsure about a permission request, check the explanation rather than accepting it automatically.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-07-REV-1",
+      "item": "however",
+      "thai": "อย่างไรก็ตาม",
+      "example": "The plan is useful; however, it costs more.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-2",
+      "item": "although",
+      "thai": "แม้ว่า",
+      "example": "Although the room is small, it is quiet.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-3",
+      "item": "therefore",
+      "thai": "ดังนั้น",
+      "example": "The time changed; therefore, we sent an update.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-4",
+      "item": "for example",
+      "thai": "ตัวอย่างเช่น",
+      "example": "For example, one member needs a quieter space.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-5",
+      "item": "in my view",
+      "thai": "ในมุมมองของฉัน",
+      "example": "In my view, a short trial is reasonable.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-6",
+      "item": "according to",
+      "thai": "ตามข้อมูลจาก",
+      "example": "According to the note, the room closes at five.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-7",
+      "item": "suggest",
+      "thai": "เสนอแนะ",
+      "example": "I suggest checking the details first.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-8",
+      "item": "consider",
+      "thai": "พิจารณา",
+      "example": "We should consider another explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-9",
+      "item": "advantage",
+      "thai": "ข้อดี",
+      "example": "One advantage is the shorter journey.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-10",
+      "item": "disadvantage",
+      "thai": "ข้อเสีย",
+      "example": "The main disadvantage is the cost.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-11",
+      "item": "reason",
+      "thai": "เหตุผล",
+      "example": "Give a reason for your choice.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-12",
+      "item": "result",
+      "thai": "ผลลัพธ์",
+      "example": "The result was different from our plan.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-13",
+      "item": "experience",
+      "thai": "ประสบการณ์",
+      "example": "Describe one experience that changed your view.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-14",
+      "item": "improve",
+      "thai": "ปรับปรุง",
+      "example": "Feedback can help us improve the plan.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-07-REV-15",
+      "item": "review",
+      "thai": "ทบทวน",
+      "example": "We will review the arrangement next week.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B1-07-1",
+      "form": "asked for / required",
+      "use": "บอกสิ่งที่ระบบร้องขอ",
+      "example": "The app asked for access to photos."
+    },
+    {
+      "id": "G-B1-07-2",
+      "form": "passive state",
+      "use": "อธิบายการตั้งค่า",
+      "example": "Notifications were turned off."
+    },
+    {
+      "id": "G-B1-07-3",
+      "form": "what + clause",
+      "use": "รายงานปัญหา",
+      "example": "Explain what happened and what you tried."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B1-07-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "I downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need."
+    },
+    {
+      "id": "B1-07-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Support note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help."
+    },
+    {
+      "id": "B1-07-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: The reminder didn't appear.\nB: Are notifications enabled?\nA: No, they are off.\nB: Try changing that setting and creating a test event.\nA: Should I send you my password?\nB: No. Describe the screen without sharing private information."
+    },
+    {
+      "id": "B1-07-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "A useful support message includes the task, what happened and what you already tried. Remove personal information from a screenshot before sharing it. If you are unsure about a permission request, check the explanation rather than accepting it automatically."
+    }
+  ],
+  "pronunciation": "Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B1-0.1",
+    "level": "B1",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B1: Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B1-07-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Technology in Everyday Life; explain one source detail and use asked for / required in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-07-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Technology in Everyday Life; explain one source detail and use passive state in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-07-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Technology in Everyday Life; explain one source detail and use what + clause in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-07-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Technology in Everyday Life; explain one source detail and use asked for / required in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B1-07_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B1-07-015 and the mediation task."
+    },
+    {
+      "errorTag": "B1-07_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B1-07-001",
+      "Q-B1-07-002",
+      "Q-B1-07-003",
+      "Q-B1-07-004",
+      "Q-B1-07-005",
+      "Q-B1-07-006",
+      "Q-B1-07-007",
+      "Q-B1-07-008",
+      "Q-B1-07-009",
+      "Q-B1-07-010",
+      "Q-B1-07-011",
+      "Q-B1-07-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B1-07-013",
+      "Q-B1-07-014",
+      "Q-B1-07-015",
+      "Q-B1-07-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B1-07-1",
+      "TASK-B1-07-2",
+      "TASK-B1-07-3",
+      "TASK-B1-07-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B1.json",
+    "sourceUnitId": "B1-07",
+    "sourceChecksum": "9f5699c6137debd086a112ee88d414d25e13b90fac51088179f9d208d630d7ad"
+  },
+  "sourceText": "{\n  \"id\": \"B1-07\",\n  \"aim\": \"อธิบายปัญหาเทคโนโลยีและตัดสินใจเรื่องข้อมูลส่วนตัว\",\n  \"a\": \"I downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.\",\n  \"b\": \"Support note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help.\",\n  \"l1\": \"A: The reminder didn't appear.\\nB: Are notifications enabled?\\nA: No, they are off.\\nB: Try changing that setting and creating a test event.\\nA: Should I send you my password?\\nB: No. Describe the screen without sharing private information.\",\n  \"l2\": \"A useful support message includes the task, what happened and what you already tried. Remove personal information from a screenshot before sharing it. If you are unsure about a permission request, check the explanation rather than accepting it automatically.\",\n  \"v\": \"downloaded=ดาวน์โหลด;calendar=ปฏิทิน;setup=การตั้งค่าเริ่มต้น;access=การเข้าถึง;contacts=รายชื่อผู้ติดต่อ;settings=การตั้งค่า;shared=ใช้ร่วมกัน;reminder=การเตือน;notifications=การแจ้งเตือน;convenience=ความสะดวก;features=คุณสมบัติ;enabled=เปิดใช้งาน;screenshot=ภาพหน้าจอ;permission=สิทธิ์อนุญาต;automatically=โดยอัตโนมัติ\",\n  \"g\": [\n    [\n      \"asked for / required\",\n      \"บอกสิ่งที่ระบบร้องขอ\",\n      \"The app asked for access to photos.\"\n    ],\n    [\n      \"passive state\",\n      \"อธิบายการตั้งค่า\",\n      \"Notifications were turned off.\"\n    ],\n    [\n      \"what + clause\",\n      \"รายงานปัญหา\",\n      \"Explain what happened and what you tried.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"What type of app did the writer download?\",\n      \"a calendar app\",\n      \"a\"\n    ],\n    [\n      \"Why did the reminder fail?\",\n      \"notifications were turned off\",\n      \"a\"\n    ],\n    [\n      \"How far ahead should the test event be?\",\n      \"five minutes\",\n      \"b\"\n    ],\n    [\n      \"Should the user send a password?\",\n      \"no\",\n      \"l1\"\n    ]\n  ]\n}\n",
+  "checksum": "0509799a5314ccc5e746e866f9a80ef64c0e733334d0d4291b0fd592c6096e68"
+}

@@ -1,9 +1,8 @@
 'use client'
 
-import { useFormState } from 'react-dom'
 import { submitFeedback } from './actions'
 import { SubmitButton } from '../(auth)/components/SubmitButton'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { MessageSquare } from 'lucide-react'
 
@@ -14,7 +13,14 @@ const initialState: { success: boolean; message?: string; error?: string } = {
 }
 
 export default function FeedbackForm() {
-  const [state, formAction] = useFormState(submitFeedback, initialState)
+  const [state, setState] = useState(initialState)
+  async function formAction(formData: FormData) {
+    try {
+      setState(await submitFeedback(state, formData))
+    } catch {
+      setState({ success: false, error: 'ไม่สามารถส่งข้อความได้ กรุณาลองอีกครั้ง' })
+    }
+  }
   const formRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import { validateCreateLessonInput } from '@/lib/smartPlanV3/schemas';
 // GET /api/plan/v3 - ดึงรายการแผน V3 ของผู้ใช้
 export async function GET(req: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 // POST /api/plan/v3 - สร้างแผน V3 ใหม่
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

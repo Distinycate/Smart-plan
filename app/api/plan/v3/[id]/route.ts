@@ -5,18 +5,19 @@ import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
 interface RouteContext {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 // GET /api/plan/v3/[id] - ดึง Full Graph ของแผนการสอน
-export async function GET(req: NextRequest, { params }: RouteContext) {
+export async function GET(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id } = params;
     if (!isValidUuid(id)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
@@ -40,14 +41,15 @@ export async function GET(req: NextRequest, { params }: RouteContext) {
 }
 
 // PATCH /api/plan/v3/[id] - ปรับปรุงข้อมูลแผน
-export async function PATCH(req: NextRequest, { params }: RouteContext) {
+export async function PATCH(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id } = params;
     if (!isValidUuid(id)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
@@ -89,14 +91,15 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
 }
 
 // DELETE /api/plan/v3/[id] - ลบแผนการสอน
-export async function DELETE(req: NextRequest, { params }: RouteContext) {
+export async function DELETE(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id } = params;
     if (!isValidUuid(id)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

@@ -4,7 +4,8 @@ import { signup } from '../actions'
 import { SubmitButton } from '../components/SubmitButton'
 import { Sparkles } from 'lucide-react'
 
-export default function RegisterPage({ searchParams }: { searchParams: { message: string } }) {
+export default async function RegisterPage(props: { searchParams: Promise<{ message: string }> }) {
+  const searchParams = await props.searchParams;
   return (
     <div className="min-h-screen flex items-center justify-center relative bg-slate-50 py-10 px-4">
       {/* Pastel Gradient Background */}

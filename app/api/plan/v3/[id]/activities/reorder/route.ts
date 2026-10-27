@@ -5,21 +5,22 @@ import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
 interface RouteContext {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
  * PUT /api/plan/v3/[id]/activities/reorder
  * Normalizes and persists sequential positions (0, 1, 2...) for activities.
  */
-export async function PUT(req: NextRequest, { params }: RouteContext) {
+export async function PUT(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId } = params;
     if (!isValidUuid(planId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

@@ -448,7 +448,7 @@ export default function V3PlanPreviewPage() {
       {showDebug && document && (
         <div className="no-print max-w-7xl mx-auto px-4 mb-4">
           <div className="p-4 bg-slate-900 text-slate-100 rounded-xl overflow-x-auto text-xs font-mono max-h-96">
-            <div className="font-bold text-amber-400 mb-2">// Canonical V3LessonDocument Model (Developer Debug)</div>
+            <div className="font-bold text-amber-400 mb-2">{'// Canonical V3LessonDocument Model (Developer Debug)'}</div>
             <pre>{JSON.stringify(document, null, 2)}</pre>
           </div>
         </div>

@@ -1,0 +1,74 @@
+import { test, expect, type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+async function login(page:Page) {
+ await page.goto('/login');
+ await page.getByLabel('อีเมล (Email)').fill('learner@example.test');
+ await page.getByLabel('รหัสผ่าน (Password)').fill('local-fixture-password');
+ await page.getByRole('button',{name:'เข้าสู่ระบบ',exact:true}).click();
+ await page.waitForURL('**/profile');
+ await page.getByRole('link',{name:/ฝึกภาษาอังกฤษ.*English Mastery/}).click();
+ // The first visit compiles the dev route on a fresh Linux runner.
+ await expect(page.getByRole('heading',{name:/เส้นทางการเรียนของคุณ/})).toBeVisible({timeout:15000});
+}
+test('beginner finds Thai topics, completes a lesson and sees saved progress after reload',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.setViewportSize({width:1440,height:1100});
+ await login(page);
+ await expect(page.getByRole('navigation',{name:'เมนูการเรียน / English Mastery'}).getByRole('link')).toHaveCount(4);
+ await expect(page.getByRole('link',{name:/ฝึกเขียน Writing$/})).not.toBeVisible();
+ await page.getByLabel(/ค้นหาหัวข้อ Search units/).fill('อาหาร');
+ await expect(page.locator('.emh-unit-card')).toHaveCount(1);
+ await expect(page.locator('.emh-unit-card')).toContainText('Food & Drink');
+ await page.getByLabel(/Search units/).fill('nothingmatches123');
+ await expect(page.getByRole('button',{name:/ล้างคำค้น/})).toBeVisible();
+ await page.getByRole('button',{name:/ล้างคำค้น/}).click();
+ await expect(page.locator('.emh-unit-card')).toHaveCount(16);
+ await page.getByLabel(/CEFR learning level/).selectOption('A2');
+ await page.reload();await expect(page.getByLabel(/CEFR learning level/)).toHaveValue('A2');
+ await page.getByLabel(/CEFR learning level/).selectOption('A1');
+ await page.screenshot({path:test.info().outputPath('learning-desktop.png')});
+ await expect(page).toHaveTitle(/English Mastery/);
+ expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
+ await page.locator('.emh-unit-card').filter({hasText:'A1-01'}).getByRole('link',{name:/เปิดบทเรียน/}).click();
+ await expect(page.getByRole('navigation',{name:'ขั้นตอนบทเรียน / Lesson steps'}).getByRole('link')).toHaveCount(4);
+ await expect(page.getByText('เสียง ตัวอักษร และการสะกด',{exact:true}).first()).toBeVisible();
+ await page.getByRole('button',{name:/ฉันเรียนบทนี้แล้ว/}).click();
+ await expect(page.getByRole('status')).toContainText('บันทึกว่าเรียนบทนี้แล้ว');
+ await page.reload();await expect(page.getByRole('button',{name:/บันทึกว่าเรียนแล้ว/})).toBeDisabled();
+ await expect(page.getByRole('progressbar')).toHaveAttribute('value','1');
+ await page.getByRole('link',{name:/บทถัดไป Next lesson/}).click();
+ await expect(page.getByRole('link',{name:/บทก่อนหน้า/})).toBeVisible();
+ await page.getByRole('link',{name:/บทก่อนหน้า/}).click();
+ await page.getByText('Vocabulary and phrases (30)',{exact:true}).click();
+ await expect(page.getByText('คำศัพท์ช่วยเรียน (30)',{exact:true})).toBeVisible();
+ await page.screenshot({path:test.info().outputPath('lesson-desktop.png')});
+ await expect(page).toHaveTitle(/English Mastery/);
+ const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
+ expect(audit.violations).toEqual([]);expect(errors).toEqual([]);
+});
+test('mobile bilingual navigation saves a fresh answer before leaving and resumes it',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.setViewportSize({width:375,height:812});await login(page);
+ await expect(page.locator('body')).toHaveJSProperty('scrollWidth',375);
+ await page.screenshot({path:test.info().outputPath('learning-mobile.png')});
+ await page.locator('.emh-unit-card').filter({hasText:'A1-01'}).getByRole('link',{name:/เปิดบทเรียน/}).click();
+ await page.getByRole('button',{name:/Practise Q-A1-01-001$/}).click();
+ await expect(page).toHaveURL(/\/english\/sessions\//);
+ const sessionUrl=page.url();
+ await page.getByLabel(/พิมพ์คำตอบของคุณ Your response/).fill('my new saved answer');
+ // Leave before the 700ms debounce: the navigation guard must await the save.
+ await page.getByRole('link',{name:/กลับไปอ่านบทเรียน Back to unit/}).click();
+ await expect(page).toHaveURL(/\/english\/units\/A1-01$/);
+ await page.goto('/english');
+ await page.getByRole('link',{name:/ฝึกต่อจากครั้งก่อน Continue learning/}).click();
+ await expect(page).toHaveURL(sessionUrl);
+ await expect(page.getByLabel(/Your response$/)).toHaveValue('my new saved answer');
+ await page.getByRole('button',{name:/ส่งคำตอบ Submit final response/}).click();
+ await expect(page.getByRole('status')).toContainText('ส่งคำตอบแล้ว');
+ await expect(page.getByLabel(/Your response$/)).toBeDisabled();
+ await expect(page.getByText('คำตอบยังไม่ตรง ลองดูคำอธิบายแล้วกลับไปฝึกอีกครั้งได้')).toBeVisible();
+ await page.screenshot({path:test.info().outputPath('practice-mobile.png'),fullPage:true});
+ await expect(page).toHaveTitle(/English Mastery/);
+ const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
+ expect(audit.violations).toEqual([]);expect(errors).toEqual([]);
+});

@@ -3,10 +3,8 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { isAuthorizationError, requirePlanOwner } from '@/lib/auth/authorization';
 
 // PATCH /api/plans/[id]/restore
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const { id } = params;
     const timestamp = new Date().toISOString();

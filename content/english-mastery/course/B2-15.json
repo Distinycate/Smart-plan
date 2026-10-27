@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B2-15-COURSE",
+  "unitId": "B2-15",
+  "level": "B2",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B2-15; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Complex Listening & Inference",
+  "canDo": "ติดตามการแก้ไขคำพูดและแยกความหมายชัดแจ้งจากข้ออนุมาน. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.",
+  "outcomes": [
+    "Use the language of complex listening & inference to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B2-15-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Complex Listening & Inference\nเป้าหมาย: ติดตามการแก้ไขคำพูดและแยกความหมายชัดแจ้งจากข้ออนุมาน\n\nUse the language of complex listening & inference to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\n\nRead for purpose, then locate the people, events, conditions and limits. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nReading B\nMeeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B2-15-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "probably / assuming\nหน้าที่: รักษาทั้งความน่าจะเป็นและข้อแม้\nModel: We can probably open, assuming inspection is complete.\nTry: change one detail while preserving the function. Check the result against the source.\n\nunderstatement\nหน้าที่: ถ้อยคำอ่อนที่สื่อข้อกังวล\nModel: I wouldn't call it comfortable.\nTry: change one detail while preserving the function. Check the result against the source.\n\nnot … but …\nหน้าที่: แยกข้อเสนอจากความเข้าใจผิด\nModel: I am not saying cancel; I am saying prepare a backup.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nTarget vocabulary in context\ncoordinator — ผู้ประสานงาน\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.\n\ninspection — การตรวจ\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.\n\nconfirmed — ยืนยันแล้ว\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.\n\nprobability — ความน่าจะเป็น\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.\n\ncondition — เงื่อนไข\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.\n\nhedges — ถ้อยคำลดความแน่นอน\nListeners need to track hedges, corrections and what each speaker is responding to.\n\ncorrections — การแก้คำพูด\nListeners need to track hedges, corrections and what each speaker is responding to.\n\nintonation — ทำนองเสียง\nIntonation may help, but a single pause or stressed word cannot establish a person's private intention.\n\ncommitments — ข้อผูกพัน\nA careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\n\ninferences — ข้ออนุมาน\nA careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\n\npending — ยังรอ\nInspection—pending.\n\nprovisionally — โดยยังไม่ยืนยัน\nEquipment delivery—Thursday, provisionally.\n\nstaffing — การจัดคน\nStaffing—confirmed for Friday afternoon only.\n\nslips — ล่าช้ากว่ากำหนด\nIf the delivery slips, we have very little room to recover.\n\nbackup — แผนสำรอง\nI am not saying we must cancel; I am saying we need a backup and a clear decision point.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B2-15-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: We can probably open on Friday, assuming inspection is complete.\nB: Is Friday confirmed, then?\nA: Not yet. It is our target.\nB: I'll note it as conditional and check again after inspection.\nA: Good. The afternoon staff are confirmed.\n\nListening script B\nThe schedule is, well, possible, but I wouldn't call it comfortable. If the delivery slips, we have very little room to recover. I am not saying we must cancel; I am saying we need a backup and a clear decision point.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B2-15-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nติดตามการแก้ไขคำพูดและแยกความหมายชัดแจ้งจากข้ออนุมาน\n\nPrepare a 180–240-word response and a 120–180-second spoken response using the unit inputs. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nprobably / assuming: We can probably open, assuming inspection is complete.\nunderstatement: I wouldn't call it comfortable.\nnot … but …: I am not saying cancel; I am saying prepare a backup.\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B2-15-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ผู้ประสานงาน.\nIn a fictional planning discussion, the ____ says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "coordinator"
+      ],
+      "expected": "coordinator",
+      "explanation": "coordinator means ผู้ประสานงาน in this context. Full source sentence: In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การตรวจ.\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the ____ is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "inspection"
+      ],
+      "expected": "inspection",
+      "explanation": "inspection means การตรวจ in this context. Full source sentence: In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ยืนยันแล้ว.\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is ____.' The summary loses both probability and condition.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "confirmed"
+      ],
+      "expected": "confirmed",
+      "explanation": "confirmed means ยืนยันแล้ว in this context. Full source sentence: In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ความน่าจะเป็น.\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both ____ and condition.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "probability"
+      ],
+      "expected": "probability",
+      "explanation": "probability means ความน่าจะเป็น in this context. Full source sentence: In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เงื่อนไข.\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "condition"
+      ],
+      "expected": "condition",
+      "explanation": "condition means เงื่อนไข in this context. Full source sentence: In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ถ้อยคำลดความแน่นอน.\nListeners need to track ____, corrections and what each speaker is responding to.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "hedges"
+      ],
+      "expected": "hedges",
+      "explanation": "hedges means ถ้อยคำลดความแน่นอน in this context. Full source sentence: Listeners need to track hedges, corrections and what each speaker is responding to.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การแก้คำพูด.\nListeners need to track hedges, ____ and what each speaker is responding to.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "corrections"
+      ],
+      "expected": "corrections",
+      "explanation": "corrections means การแก้คำพูด in this context. Full source sentence: Listeners need to track hedges, corrections and what each speaker is responding to.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ทำนองเสียง.\n____ may help, but a single pause or stressed word cannot establish a person's private intention.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "intonation"
+      ],
+      "expected": "intonation",
+      "explanation": "intonation means ทำนองเสียง in this context. Full source sentence: Intonation may help, but a single pause or stressed word cannot establish a person's private intention.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อผูกพัน.\nA careful account separates explicit ____ from reasonable inferences and checks uncertainty when the next action depends on it.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "commitments"
+      ],
+      "expected": "commitments",
+      "explanation": "commitments means ข้อผูกพัน in this context. Full source sentence: A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้ออนุมาน.\nA careful account separates explicit commitments from reasonable ____ and checks uncertainty when the next action depends on it.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "inferences"
+      ],
+      "expected": "inferences",
+      "explanation": "inferences means ข้ออนุมาน in this context. Full source sentence: A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ยังรอ.\nInspection—____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "pending"
+      ],
+      "expected": "pending",
+      "explanation": "pending means ยังรอ in this context. Full source sentence: Inspection—pending.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: โดยยังไม่ยืนยัน.\nEquipment delivery—Thursday, ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "provisionally"
+      ],
+      "expected": "provisionally",
+      "explanation": "provisionally means โดยยังไม่ยืนยัน in this context. Full source sentence: Equipment delivery—Thursday, provisionally.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-15-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\n\nWhat condition applies to Friday opening? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "inspection must be complete",
+      "explanation": "Reference answer: inspection must be complete. Accept an accurate paraphrase that preserves scope. Check against B2-15-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-15-READ-A"
+    },
+    {
+      "stableId": "Q-B2-15-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\n\nWhat does the incorrect summary call Friday opening? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "confirmed",
+      "explanation": "Reference answer: confirmed. Accept an accurate paraphrase that preserves scope. Check against B2-15-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-15-READ-A"
+    },
+    {
+      "stableId": "Q-B2-15-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nMeeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late.\n\nFor which period is staffing confirmed? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Friday afternoon only",
+      "explanation": "Reference answer: Friday afternoon only. Accept an accurate paraphrase that preserves scope. Check against B2-15-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-15-READ-B"
+    },
+    {
+      "stableId": "Q-B2-15-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script B — text-supported comprehension\nThe schedule is, well, possible, but I wouldn't call it comfortable. If the delivery slips, we have very little room to recover. I am not saying we must cancel; I am saying we need a backup and a clear decision point.\n\nDoes the second speaker explicitly demand cancellation? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "no",
+      "explanation": "Reference answer: no. Accept an accurate paraphrase that preserves scope. Check against B2-15-LISTEN-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-15-LISTEN-B"
+    },
+    {
+      "stableId": "Q-B2-15-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Use probably / assuming to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: We can probably open, assuming inspection is complete.",
+      "expected": "Check the function รักษาทั้งความน่าจะเป็นและข้อแม้; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function รักษาทั้งความน่าจะเป็นและข้อแม้; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B2-15-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. I wouldn't call it comfortable.\n2. I am not saying cancel; I am saying prepare a backup.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for ถ้อยคำอ่อนที่สื่อข้อกังวล versus แยกข้อเสนอจากความเข้าใจผิด. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for ถ้อยคำอ่อนที่สื่อข้อกังวล versus แยกข้อเสนอจากความเข้าใจผิด. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B2-15-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nMeeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B2-15-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B2-15-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B2-15-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY",
+        "B2-15_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.",
+      "expected": "Provide a relevant supported detail from B2-15-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B2-15-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B2-15-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 180–240 words for a classmate who needs to understand complex listening & inference. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nSources\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\n\nMeeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late."
+    },
+    {
+      "stableId": "TASK-B2-15-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 120–180-second spoken response about complex listening & inference. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInput\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\n\nA: We can probably open on Friday, assuming inspection is complete.\nB: Is Friday confirmed, then?\nA: Not yet. It is our target.\nB: I'll note it as conditional and check again after inspection.\nA: Good. The afternoon staff are confirmed."
+    },
+    {
+      "stableId": "TASK-B2-15-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nIn a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\n\nReading B\nMeeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late."
+    },
+    {
+      "stableId": "TASK-B2-15-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-15_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about complex listening & inference, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nMeeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late.\n\nA: We can probably open on Friday, assuming inspection is complete.\nB: Is Friday confirmed, then?\nA: Not yet. It is our target.\nB: I'll note it as conditional and check again after inspection.\nA: Good. The afternoon staff are confirmed."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B2-15-001",
+      "item": "coordinator",
+      "thai": "ผู้ประสานงาน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-002",
+      "item": "inspection",
+      "thai": "การตรวจ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-003",
+      "item": "confirmed",
+      "thai": "ยืนยันแล้ว",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-004",
+      "item": "probability",
+      "thai": "ความน่าจะเป็น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-005",
+      "item": "condition",
+      "thai": "เงื่อนไข",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-006",
+      "item": "hedges",
+      "thai": "ถ้อยคำลดความแน่นอน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Listeners need to track hedges, corrections and what each speaker is responding to.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-007",
+      "item": "corrections",
+      "thai": "การแก้คำพูด",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Listeners need to track hedges, corrections and what each speaker is responding to.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-008",
+      "item": "intonation",
+      "thai": "ทำนองเสียง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Intonation may help, but a single pause or stressed word cannot establish a person's private intention.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-009",
+      "item": "commitments",
+      "thai": "ข้อผูกพัน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-010",
+      "item": "inferences",
+      "thai": "ข้ออนุมาน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-011",
+      "item": "pending",
+      "thai": "ยังรอ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Inspection—pending.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-012",
+      "item": "provisionally",
+      "thai": "โดยยังไม่ยืนยัน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Equipment delivery—Thursday, provisionally.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-013",
+      "item": "staffing",
+      "thai": "การจัดคน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Staffing—confirmed for Friday afternoon only.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-014",
+      "item": "slips",
+      "thai": "ล่าช้ากว่ากำหนด",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "If the delivery slips, we have very little room to recover.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-015",
+      "item": "backup",
+      "thai": "แผนสำรอง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "I am not saying we must cancel; I am saying we need a backup and a clear decision point.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-15-REV-1",
+      "item": "evidence",
+      "thai": "หลักฐาน",
+      "example": "The evidence supports a limited conclusion.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-2",
+      "item": "claim",
+      "thai": "ข้ออ้าง",
+      "example": "That claim needs more support.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-3",
+      "item": "assumption",
+      "thai": "ข้อสมมติ",
+      "example": "The estimate depends on an assumption.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-4",
+      "item": "alternative",
+      "thai": "ทางเลือกหรือคำอธิบายอื่น",
+      "example": "Consider an alternative explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-5",
+      "item": "whereas",
+      "thai": "ในขณะที่ต่างกัน",
+      "example": "A measures cost, whereas B measures access.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-6",
+      "item": "nevertheless",
+      "thai": "ถึงกระนั้น",
+      "example": "The sample is small; nevertheless, it raises a useful question.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-7",
+      "item": "to some extent",
+      "thai": "ในระดับหนึ่ง",
+      "example": "I agree to some extent.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-8",
+      "item": "provided that",
+      "thai": "โดยมีเงื่อนไขว่า",
+      "example": "The proposal works provided that access is maintained.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-9",
+      "item": "tends to",
+      "thai": "มีแนวโน้มที่จะ",
+      "example": "The report tends to emphasise benefits.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-10",
+      "item": "may indicate",
+      "thai": "อาจบ่งชี้",
+      "example": "The change may indicate a problem.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-11",
+      "item": "trade-off",
+      "thai": "การได้อย่างเสียอย่าง",
+      "example": "There is a trade-off between speed and detail.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-12",
+      "item": "limitation",
+      "thai": "ข้อจำกัด",
+      "example": "Acknowledge the main limitation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-13",
+      "item": "counterargument",
+      "thai": "ข้อโต้แย้งอีกด้าน",
+      "example": "Address the strongest counterargument fairly.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-14",
+      "item": "consequence",
+      "thai": "ผลที่ตามมา",
+      "example": "Consider an unintended consequence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-15-REV-15",
+      "item": "justify",
+      "thai": "ให้เหตุผลรองรับ",
+      "example": "Justify the recommendation with relevant evidence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B2-15-1",
+      "form": "probably / assuming",
+      "use": "รักษาทั้งความน่าจะเป็นและข้อแม้",
+      "example": "We can probably open, assuming inspection is complete."
+    },
+    {
+      "id": "G-B2-15-2",
+      "form": "understatement",
+      "use": "ถ้อยคำอ่อนที่สื่อข้อกังวล",
+      "example": "I wouldn't call it comfortable."
+    },
+    {
+      "id": "G-B2-15-3",
+      "form": "not … but …",
+      "use": "แยกข้อเสนอจากความเข้าใจผิด",
+      "example": "I am not saying cancel; I am saying prepare a backup."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B2-15-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it."
+    },
+    {
+      "id": "B2-15-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Meeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late."
+    },
+    {
+      "id": "B2-15-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: We can probably open on Friday, assuming inspection is complete.\nB: Is Friday confirmed, then?\nA: Not yet. It is our target.\nB: I'll note it as conditional and check again after inspection.\nA: Good. The afternoon staff are confirmed."
+    },
+    {
+      "id": "B2-15-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "The schedule is, well, possible, but I wouldn't call it comfortable. If the delivery slips, we have very little room to recover. I am not saying we must cancel; I am saying we need a backup and a clear decision point."
+    }
+  ],
+  "pronunciation": "Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B2-0.1",
+    "level": "B2",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B2: Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B2-15-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Complex Listening & Inference; explain one source detail and use probably / assuming in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-15-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Complex Listening & Inference; explain one source detail and use understatement in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-15-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Complex Listening & Inference; explain one source detail and use not … but … in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-15-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Complex Listening & Inference; explain one source detail and use probably / assuming in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B2-15_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B2-15-015 and the mediation task."
+    },
+    {
+      "errorTag": "B2-15_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B2-15-001",
+      "Q-B2-15-002",
+      "Q-B2-15-003",
+      "Q-B2-15-004",
+      "Q-B2-15-005",
+      "Q-B2-15-006",
+      "Q-B2-15-007",
+      "Q-B2-15-008",
+      "Q-B2-15-009",
+      "Q-B2-15-010",
+      "Q-B2-15-011",
+      "Q-B2-15-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B2-15-013",
+      "Q-B2-15-014",
+      "Q-B2-15-015",
+      "Q-B2-15-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B2-15-1",
+      "TASK-B2-15-2",
+      "TASK-B2-15-3",
+      "TASK-B2-15-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B2.json",
+    "sourceUnitId": "B2-15",
+    "sourceChecksum": "045329a01693a239a50a8443e2f1aa9ff42194ba8b60044383f05da3955678e0"
+  },
+  "sourceText": "{\n  \"id\": \"B2-15\",\n  \"aim\": \"ติดตามการแก้ไขคำพูดและแยกความหมายชัดแจ้งจากข้ออนุมาน\",\n  \"a\": \"In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.\",\n  \"b\": \"Meeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late.\",\n  \"l1\": \"A: We can probably open on Friday, assuming inspection is complete.\\nB: Is Friday confirmed, then?\\nA: Not yet. It is our target.\\nB: I'll note it as conditional and check again after inspection.\\nA: Good. The afternoon staff are confirmed.\",\n  \"l2\": \"The schedule is, well, possible, but I wouldn't call it comfortable. If the delivery slips, we have very little room to recover. I am not saying we must cancel; I am saying we need a backup and a clear decision point.\",\n  \"v\": \"coordinator=ผู้ประสานงาน;inspection=การตรวจ;confirmed=ยืนยันแล้ว;probability=ความน่าจะเป็น;condition=เงื่อนไข;hedges=ถ้อยคำลดความแน่นอน;corrections=การแก้คำพูด;intonation=ทำนองเสียง;commitments=ข้อผูกพัน;inferences=ข้ออนุมาน;pending=ยังรอ;provisionally=โดยยังไม่ยืนยัน;staffing=การจัดคน;slips=ล่าช้ากว่ากำหนด;backup=แผนสำรอง\",\n  \"g\": [\n    [\n      \"probably / assuming\",\n      \"รักษาทั้งความน่าจะเป็นและข้อแม้\",\n      \"We can probably open, assuming inspection is complete.\"\n    ],\n    [\n      \"understatement\",\n      \"ถ้อยคำอ่อนที่สื่อข้อกังวล\",\n      \"I wouldn't call it comfortable.\"\n    ],\n    [\n      \"not … but …\",\n      \"แยกข้อเสนอจากความเข้าใจผิด\",\n      \"I am not saying cancel; I am saying prepare a backup.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"What condition applies to Friday opening?\",\n      \"inspection must be complete\",\n      \"a\"\n    ],\n    [\n      \"What does the incorrect summary call Friday opening?\",\n      \"confirmed\",\n      \"a\"\n    ],\n    [\n      \"For which period is staffing confirmed?\",\n      \"Friday afternoon only\",\n      \"b\"\n    ],\n    [\n      \"Does the second speaker explicitly demand cancellation?\",\n      \"no\",\n      \"l2\"\n    ]\n  ]\n}\n",
+  "checksum": "208caaeb8a0e8757cea8461b46410ce523f04176d41d7181fe86af06782df61b"
+}

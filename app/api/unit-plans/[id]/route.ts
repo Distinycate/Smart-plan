@@ -4,7 +4,8 @@ import { newEntityId, unitError, unitSuccess } from '@/lib/unitPlanApi';
 import { UnitPlanStatus, validateUnitPlan } from '@/lib/unitPlanValidation';
 import { isAuthorizationError, requireUnitPlanOwner } from '@/lib/auth/authorization';
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const ownership = await requireUnitPlanOwner(params.id);
     const { supabase } = ownership;
@@ -26,7 +27,8 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const ownership = await requireUnitPlanOwner(params.id);
     const { supabase, user } = ownership;

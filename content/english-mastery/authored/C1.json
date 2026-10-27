@@ -1,0 +1,722 @@
+[
+  {
+    "id": "C1-01",
+    "aim": "ใช้ประโยคซับซ้อนเพื่อจัดลำดับข้อมูลโดยไม่ทำความหมายคลุมเครือ",
+    "a": "The committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.",
+    "b": "Editing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review.",
+    "l1": "A: Could I begin with the condition instead?\nB: Yes: Provided that access is clarified, the committee approves the pilot.\nA: Does that change the decision?\nB: It need not, but it changes the emphasis. Check tense and whether the condition has already been met.",
+    "l2": "In a long sentence, identify the main clause and each dependent relationship. Check what every pronoun and reduced clause refers to. If the reader must hold too many unresolved details at once, divide the sentence while preserving the logical links.",
+    "v": "provided that=โดยมีเงื่อนไขว่า;registration=การลงทะเบียน;omitted=ละออก;minutes=รายงานการประชุม;unconditional=ไม่มีเงื่อนไข;foreground=ทำให้เด่นก่อน;unresolved=ยังไม่ยุติ;syntax=วากยสัมพันธ์;subordinate clause=อนุประโยค;concession=การยอมรับข้อโต้แย้ง;dependency=ความขึ้นต่อกัน;qualifications=ข้อจำกัดประกอบ;agency=ผู้กระทำและความรับผิดชอบ;reduced clause=อนุประโยคลดรูป;logical links=ความเชื่อมโยงทางตรรกะ",
+    "g": [
+      [
+        "conditional inversion",
+        "สมมติสิ่งที่ไม่ได้เกิด",
+        "Had the condition been omitted, the meaning would have changed."
+      ],
+      [
+        "fronted condition",
+        "เลือกข้อมูลนำหน้า",
+        "Provided that access is clarified, the pilot may proceed."
+      ],
+      [
+        "participle clause with clear actor",
+        "หลีกเลี่ยงส่วนขยายลอย",
+        "Having reviewed the plan, the committee approved it."
+      ]
+    ],
+    "q": [
+      [
+        "What condition accompanied approval?",
+        "access arrangements had to be clarified before registration opened",
+        "a"
+      ],
+      [
+        "What would omission of the condition suggest?",
+        "unconditional approval",
+        "a"
+      ],
+      [
+        "Which version explicitly names the reviewer?",
+        "Version B",
+        "b"
+      ],
+      [
+        "What should be preserved when dividing a sentence?",
+        "the logical links",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C1-02",
+    "aim": "เลือกคำและคำขยายที่สะท้อนน้ำหนักข้ออ้างอย่างแม่นยำ",
+    "a": "An evaluation describes a new booking process as 'promising rather than proven.' The distinction matters. Promising signals grounds for further investigation; proven would imply a substantially stronger evidential position. Similarly, feasible concerns whether a plan can be carried out, while desirable concerns whether it should be preferred. A proposal may be feasible but undesirable because it places an unfair burden on a small group. Precision often depends on keeping neighbouring concepts apart rather than choosing an impressive synonym. Before replacing a word, ask what contrast it establishes, what evidence it presupposes and what practical inference the reader is likely to draw.",
+    "b": "Review note: The pilot was acceptable to the eight participants interviewed. This does not establish acceptability among non-participants. The process was efficient in staff time but remained difficult for some first-time users. Each evaluative term requires a stated criterion and a defined population.",
+    "l1": "A: Could I replace promising with successful?\nB: Only if the evidence supports that stronger judgement.\nA: The process saved staff time.\nB: Then specify that dimension. Success overall would require considering other goals and affected users.",
+    "l2": "When editing an evaluative adjective, identify its criterion, scope and degree. A more forceful word is not necessarily a more precise one. Keep distinctions such as possible, feasible, advisable and required visible when they affect a decision.",
+    "v": "promising=มีแนวโน้มดี;proven=พิสูจน์แล้ว;grounds=เหตุรองรับ;evidential=เกี่ยวกับหลักฐาน;feasible=ทำได้จริง;desirable=น่าพึงประสงค์;burden=ภาระ;neighbouring concepts=แนวคิดที่ใกล้กัน;presupposes=ถือเป็นข้อสมมติไว้ก่อน;inference=ข้ออนุมาน;acceptable=ยอมรับได้;non-participants=ผู้ไม่ได้เข้าร่วม;criterion=เกณฑ์;dimension=ด้านที่ประเมิน;advisable=ควรทำ",
+    "g": [
+      [
+        "rather than",
+        "สร้างความต่างเชิงความหมาย",
+        "The result is promising rather than proven."
+      ],
+      [
+        "in terms of / with respect to",
+        "ระบุด้านที่ประเมิน",
+        "It was efficient in terms of staff time."
+      ],
+      [
+        "not necessarily",
+        "จำกัดความสัมพันธ์ที่ไม่ตายตัว",
+        "A stronger word is not necessarily more precise."
+      ]
+    ],
+    "q": [
+      [
+        "Which term signals grounds for further investigation?",
+        "promising",
+        "a"
+      ],
+      [
+        "What does feasible concern?",
+        "whether a plan can be carried out",
+        "a"
+      ],
+      [
+        "How many participants were interviewed?",
+        "eight",
+        "b"
+      ],
+      [
+        "Which dimension showed a saving?",
+        "staff time",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C1-03",
+    "aim": "ใช้กลุ่มคำขั้นสูงให้ตรงความหมาย บริบท และระดับภาษา",
+    "a": "A policy analyst writes that a finding 'raises serious concerns' but does not 'constitute conclusive evidence.' These combinations do different work: one establishes the importance of a question, while the other limits the strength of the inference. Replacing them with stronger-sounding phrases can unintentionally alter the argument. In another paragraph, 'broad consensus' is used although two groups explicitly dissent. The phrase is grammatically conventional but factually misleading. Sophisticated phraseology requires more than fluent word combinations. It requires choosing a phrase whose conventional meaning, degree and discourse function fit the evidence and the relationship with the reader.",
+    "b": "Editorial bank: pose a challenge; make a distinction; lend support to a view; call an assumption into question; exercise caution; reach a qualified conclusion. These phrases are resources, not evidence. A writer must still explain what the challenge, support or qualification actually consists of.",
+    "l1": "A: This phrase sounds academic. Can I use it?\nB: What does it commit you to?\nA: Broad consensus suggests substantial agreement.\nB: Then account for the two dissenting groups. Fluency should not erase disagreement.",
+    "l2": "Record advanced expressions with their grammatical patterns and pragmatic limits. Compare lend support to with demonstrate and establish. Build a sentence that names the supporting evidence, then check whether the phrase overstates its force.",
+    "v": "analyst=นักวิเคราะห์;raises serious concerns=ทำให้เกิดข้อกังวลสำคัญ;constitute=ถือเป็น;conclusive evidence=หลักฐานชี้ขาด;inference=ข้ออนุมาน;broad consensus=ฉันทามติในวงกว้าง;dissent=คัดค้าน;conventional=เป็นแบบแผนปกติ;misleading=ชวนเข้าใจผิด;discourse function=หน้าที่ในเนื้อความ;pose a challenge=ก่อความท้าทาย;lend support to=ช่วยสนับสนุน;exercise caution=ใช้ความระมัดระวัง;qualified conclusion=ข้อสรุปที่มีข้อจำกัด;pragmatic limits=ขอบเขตตามบริบทการใช้",
+    "g": [
+      [
+        "verb–noun phraseology",
+        "หน้าที่เชิงอภิปราย",
+        "The finding raises concerns but does not establish a cause."
+      ],
+      [
+        "lend support to + noun",
+        "ระดับหลักฐาน",
+        "The observation lends support to a limited hypothesis."
+      ],
+      [
+        "although + concession",
+        "เก็บข้อยกเว้น",
+        "The phrase is fluent although it misrepresents agreement."
+      ]
+    ],
+    "q": [
+      [
+        "What does the phrase conclusive evidence concern?",
+        "the strength of the inference",
+        "a"
+      ],
+      [
+        "How many groups explicitly dissent?",
+        "two",
+        "a"
+      ],
+      [
+        "Which expression in the bank means to use care?",
+        "exercise caution",
+        "b"
+      ],
+      [
+        "What should fluency not erase?",
+        "disagreement",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C1-04",
+    "aim": "ตีความสำนวนและภาษานัยโดยตรวจบริบท ไม่แปลตรงคำ",
+    "a": "After a difficult planning meeting, a colleague says, 'We are not out of the woods yet.' She is not referring to a forest. The project has passed one review, but funding remains uncertain. Later, someone describes a tentative schedule as 'set in stone.' The metaphor suggests immovability, which conflicts with the actual provisional status. Idioms can efficiently communicate shared attitudes, but they can also conceal assumptions or confuse people unfamiliar with the expression. In an international team, a plain-language reformulation may be more inclusive. Understanding an idiom includes recognising when it is useful, how strongly it frames the situation and when it should be explained.",
+    "b": "Context note: 'That went well' may be sincere praise or irony, depending on the preceding event and delivery. A transcript alone may not resolve the interpretation. List plausible readings and the contextual evidence that would distinguish them; do not treat your first impression as the speaker's verified intention.",
+    "l1": "A: Are we out of the woods now?\nB: Not quite. The design is approved, but funding is unresolved.\nA: So we have cleared one stage, not every risk.\nB: Exactly. Let's use that clearer wording in the public update.",
+    "l2": "The deadline is not set in stone, though changing it would affect other teams. I don't want to move the goalposts without consultation. In plain terms, we can discuss the date, but we should not change the agreed criteria unexpectedly.",
+    "v": "out of the woods=พ้นปัญหาหรืออันตราย;funding=เงินสนับสนุน;tentative=ยังไม่แน่นอน;set in stone=ตายตัวเปลี่ยนไม่ได้;metaphor=อุปลักษณ์;provisional=ชั่วคราวยังไม่ยืนยัน;idioms=สำนวน;conceal=ปิดบัง;inclusive=ครอบคลุมคนหลากหลาย;irony=การสื่อแบบประชดหรือย้อนความหมาย;delivery=วิธีเปล่งถ้อยคำ;plausible=เป็นไปได้มีเหตุผล;move the goalposts=เปลี่ยนเกณฑ์ระหว่างทาง;consultation=การหารือ;criteria=เกณฑ์",
+    "g": [
+      [
+        "idiom + literal paraphrase",
+        "ยืนยันความหมายตามบริบท",
+        "We are not out of the woods: some risks remain."
+      ],
+      [
+        "though + qualification",
+        "เก็บข้อจำกัด",
+        "The date can change, though other teams would be affected."
+      ],
+      [
+        "may + interpretation",
+        "ไม่ฟันธงเจตนา",
+        "The phrase may be ironic in that context."
+      ]
+    ],
+    "q": [
+      [
+        "What remains uncertain after the review?",
+        "funding",
+        "a"
+      ],
+      [
+        "Which phrase suggests immovability?",
+        "set in stone",
+        "a"
+      ],
+      [
+        "Can a transcript alone always resolve irony?",
+        "no",
+        "b"
+      ],
+      [
+        "What should not change unexpectedly?",
+        "the agreed criteria",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C1-05",
+    "aim": "ปรับน้ำเสียงและระดับภาษาโดยคงความรับผิดชอบของข้อความ",
+    "a": "An internal note says, 'We missed the deadline because two approvals arrived late.' A public update changes this to, 'The timetable has been adjusted.' The revised sentence is smoother but removes both the missed commitment and the stated reason. Register adaptation should not become a way to obscure accountability. A more appropriate public version might say, 'We were unable to meet the original date while awaiting two approvals; the revised schedule is below.' The wording remains professional without pretending that the delay was simply a planned adjustment. Tone, detail and directness can change across audiences, but material facts and commitments should remain recoverable.",
+    "b": "Audience briefs: Team members need the operational cause and next owner. Service users need the practical effect, revised date and route for questions. A funding body may need the reason, mitigation and reporting implications. None of these audiences benefits from a reassuring phrase that hides a relevant limitation.",
+    "l1": "A: Can we make the update sound more positive?\nB: Yes, but not by removing the missed deadline.\nA: We could explain the revised plan and who is handling it.\nB: That changes the tone while retaining the facts users need.",
+    "l2": "Before rewriting, identify the reader's purpose and the writer's obligations. Adjust technical detail, courtesy and sentence density. Then compare the versions for changes in agency, certainty, responsibility or promised action. Politeness does not require vagueness.",
+    "v": "internal note=บันทึกภายใน;approvals=การอนุมัติ;adjusted=ปรับ;register=ระดับภาษา;obscure=ทำให้ไม่ชัด;accountability=ความรับผิดชอบตรวจสอบได้;awaiting=กำลังรอ;revised schedule=กำหนดการใหม่;recoverable=ยังระบุคืนได้;operational=ด้านการดำเนินงาน;mitigation=การลดผลกระทบ;reassuring=ทำให้อุ่นใจ;obligations=หน้าที่ผูกพัน;density=ความหนาแน่นของสาร;vagueness=ความคลุมเครือ",
+    "g": [
+      [
+        "active versus agentless passive",
+        "ตรวจความรับผิดชอบ",
+        "We missed the date. / The date was changed."
+      ],
+      [
+        "while + -ing",
+        "ให้บริบทโดยไม่ลบข้อเท็จจริง",
+        "We were delayed while awaiting approval."
+      ],
+      [
+        "audience-sensitive reformulation",
+        "ปรับภาษาคงสาร",
+        "Here is the revised schedule and contact point."
+      ]
+    ],
+    "q": [
+      [
+        "What reason does the internal note give for the delay?",
+        "two approvals arrived late",
+        "a"
+      ],
+      [
+        "What does the smoother public version remove?",
+        "the missed commitment and the reason",
+        "a"
+      ],
+      [
+        "What do service users need besides the revised date?",
+        "the practical effect and a route for questions",
+        "b"
+      ],
+      [
+        "Does politeness require vagueness?",
+        "no",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C1-06",
+    "aim": "อนุมานจากโครงสร้างและสิ่งที่ละไว้โดยแยกจากข้อกล่าวชัด",
+    "a": "A fictional museum director writes, 'We welcome the proposal's ambition. Before discussing implementation, however, we would need a clearer account of maintenance costs.' The first sentence is positive, but the second establishes a condition that limits immediate support. A reader may reasonably infer caution, yet it would be inaccurate to report that the director has rejected the proposal. The sequence of praise and reservation performs a diplomatic function. Advanced reading requires attention to what a text foregrounds, postpones or leaves unsaid, while resisting the temptation to convert every implication into a definite hidden message. Interpretations should remain tied to specific textual cues and open to alternatives.",
+    "b": "Follow-up note: The director requests a revised cost model and has not scheduled an implementation meeting. The note does not say whether a satisfactory model would guarantee approval. The absence of a meeting is evidence of the present stage, not proof of permanent opposition.",
+    "l1": "A: Is the director against the proposal?\nB: The text shows a reservation about costs. It does not settle her final position.\nA: What supports that reading?\nB: Before discussing implementation and would need both make further information a condition.",
+    "l2": "For each inference, cite the words or structural choice that supports it. Then state an alternative interpretation and what further context would help. Do not confuse your knowledge of similar situations with evidence that this particular speaker has the same intention.",
+    "v": "ambition=ความมุ่งหมายที่กว้าง;implementation=การดำเนินการ;maintenance costs=ค่าบำรุงรักษา;condition=เงื่อนไข;infer=อนุมาน;caution=ความระมัดระวัง;rejected=ปฏิเสธ;reservation=ข้อสงวน;diplomatic=รักษาน้ำใจเชิงยุทธวิธี;foregrounds=ทำให้เด่น;textual cues=เบาะแสในข้อความ;alternatives=คำตีความอื่น;satisfactory=น่าพอใจ;opposition=การคัดค้าน;structural choice=การเลือกโครงสร้าง",
+    "g": [
+      [
+        "would need",
+        "เงื่อนไขที่สื่อท่าทีสงวน",
+        "We would need a clearer cost model."
+      ],
+      [
+        "before + -ing",
+        "จัดขั้นตอนและเงื่อนไข",
+        "Before implementing, clarify maintenance costs."
+      ],
+      [
+        "does not entail rejection",
+        "แยกข้อสงวนจากปฏิเสธ",
+        "A reservation does not establish final opposition."
+      ]
+    ],
+    "q": [
+      [
+        "Which cost category needs clarification?",
+        "maintenance costs",
+        "a"
+      ],
+      [
+        "Has the director explicitly rejected the proposal?",
+        "no",
+        "a"
+      ],
+      [
+        "Would a satisfactory model guarantee approval according to the note?",
+        "the note does not say",
+        "b"
+      ],
+      [
+        "Which two expressions signal a condition?",
+        "before discussing implementation and would need",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C1-07",
+    "aim": "ประเมินโครงสร้างเหตุผลและค้นหาข้อสมมติที่เชื่อมหลักฐาน",
+    "a": "An argument for extending a mentoring programme states that participants reported greater confidence, therefore the programme should be offered to every new employee. The evidence may support continued investigation, but the recommendation depends on additional assumptions: that the sample is representative, confidence predicts relevant outcomes and the programme can scale without losing quality. These assumptions are not necessarily false. They are simply not established by the reported confidence measure alone. Evaluating an argument means reconstructing its strongest defensible form before testing the links. Dismissing it as useless because it is incomplete would be as unhelpful as treating the recommendation as proven.",
+    "b": "Counterposition: Expansion should wait until workload and access are examined. This position does not deny that participants valued the programme. It questions whether immediate universal provision is justified. A fair response should address that timing and scope concern rather than accuse critics of opposing support for new staff.",
+    "l1": "A: The confidence results are positive, so why hesitate?\nB: Because the proposed scale is much broader than the evidence.\nA: What would strengthen the recommendation?\nB: Information about non-participants, delivery capacity and outcomes beyond self-reported confidence.",
+    "l2": "Identify the conclusion, reasons and unstated bridge between them. Test the bridge with a plausible counterexample. Then decide whether the argument should be rejected, narrowed or supported conditionally. Evaluation should improve the reasoning, not merely label a fallacy.",
+    "v": "mentoring=การเป็นพี่เลี้ยง;confidence=ความมั่นใจ;assumptions=ข้อสมมติ;representative=เป็นตัวแทน;predicts=ทำนาย;outcomes=ผลลัพธ์;scale=ขยายขนาด;reconstructing=สร้างเหตุผลกลับให้ชัด;defensible=ปกป้องได้ด้วยเหตุผล;universal provision=การจัดให้ทุกคน;justified=มีเหตุผลรองรับ;delivery capacity=ศักยภาพดำเนินงาน;counterexample=ตัวอย่างโต้แย้ง;narrowed=จำกัดขอบเขต;fallacy=เหตุผลวิบัติ",
+    "g": [
+      [
+        "therefore with a warrant",
+        "ตรวจสะพานเหตุผล",
+        "Participants valued it; expansion requires further assumptions."
+      ],
+      [
+        "not necessarily",
+        "ไม่ถือว่าข้อสมมติเป็นเท็จทันที",
+        "The assumptions are not necessarily false."
+      ],
+      [
+        "conditional recommendation",
+        "เสนออย่างพอดีหลักฐาน",
+        "Expansion may be justified if capacity and access are established."
+      ]
+    ],
+    "q": [
+      [
+        "What did participants report?",
+        "greater confidence",
+        "a"
+      ],
+      [
+        "Who would receive the expanded programme?",
+        "every new employee",
+        "a"
+      ],
+      [
+        "Does the counterposition deny that participants valued the programme?",
+        "no",
+        "b"
+      ],
+      [
+        "What should be tested with a counterexample?",
+        "the unstated bridge between reasons and conclusion",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C1-09",
+    "aim": "ติดตามคำพูดต่อเนื่องที่มีการแทรก แก้คำ และสงวนท่าที",
+    "a": "A planning transcript reads, 'We have the funding—well, the first instalment—and we should be able to start next month, assuming recruitment goes to plan.' An inattentive summary turns this into a fully funded project starting next month. The repair narrows the funding claim, while should and assuming qualify the schedule. In natural speech, such information may appear in brief insertions rather than neatly separated sentences. A listener must maintain a provisional interpretation and update it as the turn develops. Familiarity with conversational rhythm helps, but interpreting dense speech also requires conceptual attention to scope, source and the distinction between a forecast and a commitment.",
+    "b": "Written clarification: First instalment received. Later payments depend on milestones. Recruitment remains open. The proposed start date is a forecast, not an authorised public announcement. The transcript and clarification should be read together.",
+    "l1": "A: So we're fully funded and starting next month?\nB: Not fully funded—the first instalment is in. And next month is still conditional on recruitment.\nA: I'll separate confirmed funding from the forecast date.\nB: Please do; the public notice has not been authorised.",
+    "l2": "I am broadly comfortable with the direction, though not, I should stress, with every detail. The access plan needs work. If we resolve that, I can support a pilot. I would not describe this as approval for a full rollout.",
+    "v": "instalment=เงินงวด;recruitment=การรับบุคลากร;inattentive=ไม่ใส่ใจ;repair=การแก้คำพูด;narrows=จำกัดให้แคบ;qualify=ใส่ข้อจำกัด;insertions=ส่วนแทรก;provisional=ยังปรับได้;forecast=การคาดการณ์;commitment=ข้อผูกพัน;milestones=เป้าหมายระหว่างทาง;authorised=ได้รับอนุมัติ;clarification=คำชี้แจง;broadly=โดยภาพรวม;rollout=การนำใช้เต็มรูปแบบ",
+    "g": [
+      [
+        "self-repair",
+        "อัปเดตขอบเขตคำกล่าว",
+        "We have the funding—well, the first instalment."
+      ],
+      [
+        "should be able to",
+        "คาดการณ์แบบไม่รับประกัน",
+        "We should be able to start next month."
+      ],
+      [
+        "not with every detail",
+        "แยกเห็นด้วยภาพรวมจากทั้งหมด",
+        "I support the direction, not every detail."
+      ]
+    ],
+    "q": [
+      [
+        "Which part of the funding has arrived?",
+        "the first instalment",
+        "a"
+      ],
+      [
+        "What conditions the proposed start?",
+        "recruitment going to plan",
+        "a"
+      ],
+      [
+        "What do later payments depend on?",
+        "milestones",
+        "b"
+      ],
+      [
+        "Does the speaker approve a full rollout?",
+        "no",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C1-10",
+    "aim": "เขียนเชิงวิชาการหรือวิชาชีพให้ผู้อ่านตรวจเหตุผลและข้อจำกัดได้",
+    "a": "A professional briefing recommends revising a feedback form. Its opening identifies the decision, then summarises the evidence: users frequently skipped an ambiguous question, and staff interpreted blank responses inconsistently. The briefing distinguishes observed completion patterns from assumptions about users' motives. It proposes testing revised wording with a small, varied group before replacing the form. The writer defines what the test can establish—whether the question is understood as intended—and what it cannot establish on its own, such as the truth of every response. This explicit boundary makes the recommendation easier to evaluate and prevents a technical improvement from being presented as a complete solution to data quality.",
+    "b": "Draft paragraph: The revised wording eliminates response bias. Editorial response: The claim is too broad. A wording test may identify misunderstandings, but other sources of bias remain. Specify the tested problem, the method and the limited inference that the results permit.",
+    "l1": "A: Should the executive summary include limitations?\nB: Include those that materially affect the decision.\nA: Even if they make the recommendation less impressive?\nB: They make its basis clearer. The reader needs to know what approval would actually authorise.",
+    "l2": "Use headings to support a line of reasoning, not to divide unrelated notes. Define key terms consistently and make references unambiguous. End with an actionable recommendation whose scope matches the evidence and whose owner and review point are identifiable.",
+    "v": "briefing=เอกสารชี้แจง;ambiguous=กำกวม;inconsistently=ไม่สอดคล้องกัน;motives=แรงจูงใจ;varied=หลากหลาย;intended=ที่ตั้งใจไว้;boundary=ขอบเขต;data quality=คุณภาพข้อมูล;response bias=อคติในการตอบ;inference=ข้ออนุมาน;executive summary=บทสรุปผู้บริหาร;materially=อย่างมีนัยสำคัญต่อเรื่อง;unambiguous=ไม่กำกวม;actionable=นำไปดำเนินการได้;identifiable=ระบุได้",
+    "g": [
+      [
+        "distinguish X from Y",
+        "แยกประเภทหลักฐาน",
+        "Distinguish skipped responses from users' motives."
+      ],
+      [
+        "what … can and cannot establish",
+        "กำหนดขอบเขตการทดสอบ",
+        "The test can establish comprehension, not truthfulness."
+      ],
+      [
+        "whose + clause",
+        "ระบุส่วนสัมพันธ์ในข้อเสนอ",
+        "Make a recommendation whose owner is identifiable."
+      ]
+    ],
+    "q": [
+      [
+        "What kind of question did users skip?",
+        "an ambiguous question",
+        "a"
+      ],
+      [
+        "What would the wording test examine?",
+        "whether the question is understood as intended",
+        "a"
+      ],
+      [
+        "Why is eliminates response bias too broad?",
+        "other sources of bias remain",
+        "b"
+      ],
+      [
+        "Which limitations belong in the executive summary?",
+        "those that materially affect the decision",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C1-11",
+    "aim": "เลือกโครงสร้างรายงาน ข้อเสนอ และรีวิวให้เหมาะกับการตัดสินใจ",
+    "a": "Three documents concern the same fictional exhibition. A report records attendance patterns and access difficulties. A review evaluates the visitor experience against stated criteria. A proposal recommends changes for the next event, including responsibility, cost and a way to assess the result. Their evidence may overlap, but their purposes differ. Problems arise when a recommendation is presented as a finding or when a personal impression is treated as representative feedback. A strong document makes these transitions explicit. It can move from observation to evaluation and then to action, provided the reader can see where the evidence ends and the writer's judgement begins.",
+    "b": "Recommendation extract: Provide duplicate labels at seated reading height and test their placement with visitors before the next opening. Assign the exhibition coordinator to arrange testing. Cost estimates remain provisional. The recommendation follows observed reading difficulties but does not claim to solve every access barrier.",
+    "l1": "A: Is 'the exhibition was inaccessible' a finding?\nB: It may be too broad. What was actually observed?\nA: Some visitors could not comfortably read two labels.\nB: Report that precisely, then explain the wider concern and proposed response.",
+    "l2": "Choose headings that match the genre and reader's decision. A proposal needs implementation detail, while a review needs explicit evaluative criteria. Across genres, retain limitations and distinguish observed evidence from recommendations and personal judgement.",
+    "v": "attendance patterns=รูปแบบจำนวนผู้เข้าร่วม;criteria=เกณฑ์;proposal=ข้อเสนอ;responsibility=ความรับผิดชอบ;overlap=ทับซ้อน;representative=เป็นตัวแทน;transitions=ช่วงเชื่อม;observation=ข้อสังเกต;evaluation=การประเมิน;judgement=การตัดสิน;duplicate=สำเนาเพิ่มเติม;seated=ในท่านั่ง;placement=ตำแหน่งติดตั้ง;barrier=อุปสรรค;genre=ประเภทงานเขียน",
+    "g": [
+      [
+        "observation → evaluation → recommendation",
+        "แยกหน้าที่ประโยค",
+        "Two labels were high; this impeded reading; provide lower copies."
+      ],
+      [
+        "provided + clause",
+        "ระบุเงื่อนไขความชัดเจน",
+        "The transition works provided the reader can trace it."
+      ],
+      [
+        "does not claim to",
+        "จำกัดขอบเขตทางแก้",
+        "This does not claim to solve every access barrier."
+      ]
+    ],
+    "q": [
+      [
+        "Which genre records attendance patterns?",
+        "a report",
+        "a"
+      ],
+      [
+        "What must a proposal include beyond a suggested change?",
+        "responsibility, cost and a way to assess the result",
+        "a"
+      ],
+      [
+        "Who should arrange label testing?",
+        "the exhibition coordinator",
+        "b"
+      ],
+      [
+        "How many labels caused the observed reading difficulty?",
+        "two",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C1-12",
+    "aim": "โน้มน้าวและทักท้วงอย่างรักษาความสัมพันธ์โดยไม่ซ่อนประเด็น",
+    "a": "During a budget discussion, a coordinator disagrees with cutting the translation budget. Rather than accuse colleagues of indifference, she acknowledges the financial constraint and explains the practical consequence: some participants would lose access to essential instructions. She proposes translating the core material first and reviewing demand for supplementary documents. Her diplomatic wording does not dilute the central objection. It makes the basis of disagreement explicit while offering a feasible next step. Persuasion is strongest when it engages with the other party's legitimate concern. Courtesy becomes counterproductive if it leaves listeners unable to tell whether a proposal is accepted, opposed or conditional.",
+    "b": "Two formulations: 'That is an interesting idea' leaves the response unclear. 'I understand the cost concern, but I cannot support removing access to essential instructions; could we prioritise the core material?' identifies common ground, a boundary and an alternative. Tone should support, not replace, substance.",
+    "l1": "A: We need to reduce spending.\nB: I agree about the constraint. My concern is losing access to essential instructions.\nA: What would you prioritise?\nB: Core translations first, with a review of supplementary material. I would need that condition recorded before supporting the reduction.",
+    "l2": "Acknowledge the strongest reasonable point before challenging the proposed action. Make your non-negotiable concern clear without overstating motives. Offer an alternative only if it addresses the underlying problem, and distinguish willingness to discuss from agreement to proceed.",
+    "v": "indifference=ความไม่ใส่ใจ;constraint=ข้อจำกัด;consequence=ผลที่ตามมา;essential=จำเป็น;core material=เนื้อหาหลัก;supplementary=เสริม;diplomatic=รักษาความสัมพันธ์;dilute=ทำให้น้ำหนักลดลง;objection=ข้อคัดค้าน;legitimate=ชอบด้วยเหตุผล;counterproductive=ให้ผลตรงข้าม;common ground=จุดร่วม;boundary=เส้นที่ยอมไม่ได้;non-negotiable=ต่อรองไม่ได้;underlying=ที่อยู่เบื้องหลัง",
+    "g": [
+      [
+        "acknowledgement + explicit boundary",
+        "สุภาพแต่ชัดเจน",
+        "I understand the cost concern, but I cannot support that cut."
+      ],
+      [
+        "could we + alternative",
+        "เสนอทางเลือก",
+        "Could we prioritise the core material?"
+      ],
+      [
+        "would need before",
+        "เงื่อนไขสนับสนุน",
+        "I would need that condition recorded before agreeing."
+      ]
+    ],
+    "q": [
+      [
+        "Which budget cut is disputed?",
+        "the translation budget",
+        "a"
+      ],
+      [
+        "What is the proposed first priority?",
+        "translating the core material",
+        "a"
+      ],
+      [
+        "Why is the phrase \"That is an interesting idea\" insufficient?",
+        "it leaves acceptance or opposition unclear",
+        "b"
+      ],
+      [
+        "What must be recorded before support is given?",
+        "the condition about core translations and review",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C1-13",
+    "aim": "บริหารการพูดยาวและหลายผู้พูดโดยรักษาสายเหตุผล",
+    "a": "In a panel discussion, one speaker answers a question about access by moving into a long explanation of cost. A second speaker interrupts politely: 'Could we return to who is currently unable to participate? The cost issue matters, but it is not the question we were asked.' The intervention does not merely compete for airtime; it restores the discussion's purpose. Later, the chair summarises two areas of agreement and one unresolved difference, then invites a quieter participant to respond without pressuring them to speak. Skilled interaction combines extended reasoning with listening, turn management and accurate uptake of other people's contributions.",
+    "b": "Chair's notes: Shared concern—clear information before registration. Agreement—test revised instructions. Unresolved—whether to retain face-to-face support throughout the trial. Next question—what evidence would justify reducing that support? The summary should not convert a discussion of reduction into a decision to remove it.",
+    "l1": "A: May I come in briefly? I think we are answering a different question.\nB: Go ahead.\nA: Before comparing costs, can we identify who cannot use the current process?\nB: That is fair. Let me connect my cost point to that access issue.",
+    "l2": "I will draw the strands together. We agree on testing clearer instructions; we do not yet agree on reducing personal support. Rather than reopen every point, could each group specify what evidence it would need before accepting that change?",
+    "v": "panel discussion=การอภิปรายเป็นคณะ;interrupts=แทรกพูด;airtime=เวลาพูด;intervention=การเข้าแทรก;restores=ทำให้กลับคืน;chair=ประธานการสนทนา;unresolved=ยังไม่ยุติ;pressuring=กดดัน;turn management=การจัดลำดับพูด;uptake=การรับประเด็นไปต่อ;contributions=สิ่งที่แต่ละคนเสนอ;retain=คงไว้;justify=ให้เหตุผลรองรับ;strands=สายประเด็น;specify=ระบุให้ชัด",
+    "g": [
+      [
+        "polite interruption",
+        "ขอพื้นที่และระบุจุดประสงค์",
+        "May I come in briefly to clarify the question?"
+      ],
+      [
+        "not yet agreement",
+        "รักษาสถานะข้อถกเถียง",
+        "We do not yet agree on reducing support."
+      ],
+      [
+        "what evidence would …?",
+        "เปลี่ยนการยืนกรานเป็นเกณฑ์",
+        "What evidence would justify the change?"
+      ]
+    ],
+    "q": [
+      [
+        "What topic did the first speaker move into?",
+        "cost",
+        "a"
+      ],
+      [
+        "What did the intervention restore?",
+        "the discussion's purpose",
+        "a"
+      ],
+      [
+        "What remains unresolved?",
+        "whether to retain face-to-face support throughout the trial",
+        "b"
+      ],
+      [
+        "What does the chair ask each group to specify?",
+        "the evidence needed before accepting the change",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C1-14",
+    "aim": "ย่อและเรียบเรียงใหม่โดยรักษาสารสำคัญกับสถานะข้อสรุป",
+    "a": "A source report states that three of twelve interviewees found the revised form easier, five noticed no difference and four preferred the previous version. A summary saying 'Users welcomed the revision' is concise but unfaithful. It replaces a mixed distribution with a positive collective judgement. A better summary might say, 'Interview responses were mixed, with only a minority reporting improved ease of use.' Even this version omits the exact distribution, which may matter to some readers. Summarisation always involves selection; the key is to make losses appropriate to the purpose without distorting the balance, certainty or practical implications of the source.",
+    "b": "Audience task: A project lead needs the distribution before deciding whether to expand the trial. A general update may only need to know that responses were mixed and further testing is planned. Neither audience should be told that a majority preferred the new version.",
+    "l1": "A: Can I say the form was unpopular?\nB: That also goes beyond the data. Four preferred the old version; five noticed no difference.\nA: So mixed is safer?\nB: Yes, but include the numbers when the decision depends on them.",
+    "l2": "List the source's essential propositions, then select according to the reader's purpose. After compressing, ask whether the apparent balance or certainty has shifted. Where exact quantities matter, preserve them or provide a clear route to the full figures.",
+    "v": "interviewees=ผู้ให้สัมภาษณ์;revised=ปรับใหม่;distribution=การกระจายของคำตอบ;collective judgement=การตัดสินเหมารวม;minority=ส่วนน้อย;ease of use=ความง่ายในการใช้;omits=ละออก;summarisation=การสรุปย่อ;selection=การเลือก;distorting=บิดเบือน;implications=ผลหรือนัยที่ตามมา;majority=ส่วนใหญ่;propositions=สารหรือข้อเสนอความ;compressing=การย่อ;quantities=ปริมาณ",
+    "g": [
+      [
+        "quantifiers",
+        "รักษาสัดส่วน",
+        "Only three of twelve reported improvement."
+      ],
+      [
+        "mixed rather than uniform",
+        "ไม่สรุปเสียงเดียว",
+        "Responses were mixed rather than uniformly positive."
+      ],
+      [
+        "purpose-dependent omission",
+        "อธิบายการเลือกสาร",
+        "The numbers may be omitted only if that does not distort the purpose."
+      ]
+    ],
+    "q": [
+      [
+        "How many interviewees found the new form easier?",
+        "three",
+        "a"
+      ],
+      [
+        "How many noticed no difference?",
+        "five",
+        "a"
+      ],
+      [
+        "Which reader needs the full distribution for a decision?",
+        "the project lead",
+        "b"
+      ],
+      [
+        "How many preferred the previous version?",
+        "four",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C1-15",
+    "aim": "ใช้คำเชื่อมและการอ้างกลับให้ความสัมพันธ์ระหว่างประเด็นชัด",
+    "a": "A draft paragraph begins with rising attendance, moves to staff workload and ends with a recommendation to reduce opening hours. The writer inserts therefore before the recommendation, but the causal link remains unexplained. Cohesive language can signal a relationship; it cannot create a valid relationship on its own. Another sentence uses this to refer ambiguously to either increased attendance or increased workload. Revising the paragraph requires naming the referent and explaining the mechanism: higher attendance has increased staffing demands beyond the current rota. Even then, reducing hours is only one possible response. The conclusion needs an argument about alternatives, not merely a stronger connective.",
+    "b": "Revised transition: 'This increase in workload has exposed a staffing gap. One response would be to revise the rota; another would be to reduce hours. The following section compares their effects on access.' The transition names the issue and previews a comparison without pretending the choice is already settled.",
+    "l1": "A: I've added however and therefore. Does it flow better?\nB: Perhaps on the surface. What does this refer to in the third sentence?\nA: The workload increase.\nB: Name it, then explain why your recommendation follows rather than another option.",
+    "l2": "Track topic continuity, reference and logical relations separately. Use repeated key terms when a synonym would blur the concept. A clear paragraph can repeat an important noun; avoiding repetition at all costs may damage precision and coherence.",
+    "v": "attendance=จำนวนผู้มาใช้;workload=ภาระงาน;recommendation=ข้อเสนอแนะ;causal link=ความเชื่อมโยงเหตุผล;cohesive=เชื่อมโยงเนื้อความ;ambiguously=อย่างกำกวม;referent=สิ่งที่คำอ้างถึง;mechanism=กลไก;rota=ตารางเวร;connective=คำเชื่อม;staffing gap=ช่องว่างกำลังคน;transition=ช่วงเชื่อม;previews=บอกล่วงหน้า;topic continuity=ความต่อเนื่องหัวเรื่อง;coherence=ความเป็นเหตุเป็นผลต่อเนื่อง",
+    "g": [
+      [
+        "explicit reference",
+        "ทำคำอ้างกลับให้ชัด",
+        "This increase in workload has exposed a gap."
+      ],
+      [
+        "therefore with a valid relation",
+        "ไม่ให้คำเชื่อมแทนเหตุผล",
+        "Therefore is appropriate only when the conclusion follows."
+      ],
+      [
+        "one … another …",
+        "จัดทางเลือกเป็นคู่",
+        "One response is to revise the rota; another is to reduce hours."
+      ]
+    ],
+    "q": [
+      [
+        "Which connective fails to supply the missing argument?",
+        "therefore",
+        "a"
+      ],
+      [
+        "What is this intended to refer to?",
+        "the increase in workload",
+        "a"
+      ],
+      [
+        "Which two responses does the revised transition compare?",
+        "revising the rota and reducing hours",
+        "b"
+      ],
+      [
+        "Can repeating an important noun improve clarity?",
+        "yes",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C1-16",
+    "aim": "จัดทำข้อเสนอรวมที่ระบุข้อผูกพัน หลักฐาน และจุดยังไม่ตกลง",
+    "a": "A fictional partnership plans a shared learning centre. The funder wants a measurable outcome within six months; community representatives want access for people who rarely attend existing services; staff want a workload that can be sustained. These priorities overlap but are not interchangeable. A synthesis organised only by source would leave the decision-maker to connect them. Our briefing instead groups the material by access, evaluation and delivery capacity, attributing each claim and retaining conditions. It recommends a staged pilot, specifies what will be measured and explains which needs the measures might miss. The aim is an accountable decision, not a document that sounds consensual because all disagreement has been edited away.",
+    "b": "Source notes: Funder—continuation depends on an agreed evaluation plan. Community group—attendance alone may miss barriers faced by non-users. Staff—capacity limited to three evenings weekly unless additional support is provided. No party has approved a permanent service or a universal success criterion.",
+    "l1": "A: Can we promise measurable impact in six months?\nB: We can propose measures, but we must distinguish activity counts from longer-term impact.\nA: What should the briefing say?\nB: State what the pilot can test, what it cannot establish and whose approval is still required.",
+    "l2": "Present the shared purpose, then the material tensions. Attribute each condition and identify its decision owner. End with a sequence of actions that is feasible under the stated resources. Preserve uncertainty where resolving it would require evidence the sources do not provide.",
+    "v": "partnership=ความร่วมมือ;funder=ผู้ให้ทุน;measurable=วัดได้;representatives=ตัวแทน;sustained=ดำเนินต่อได้;interchangeable=แทนกันได้;synthesis=การสังเคราะห์;attributing=ระบุแหล่งเจ้าของข้ออ้าง;staged=เป็นระยะ;accountable=ตรวจสอบความรับผิดชอบได้;consensual=ดูมีฉันทามติ;continuation=การดำเนินต่อ;non-users=ผู้ไม่ได้ใช้บริการ;criterion=เกณฑ์;tensions=ความตึงระหว่างความต้องการ",
+    "g": [
+      [
+        "organising by issue",
+        "เชื่อมแหล่งข้อมูลตามปัญหา",
+        "On access, the community group challenges attendance-only measures."
+      ],
+      [
+        "unless + condition",
+        "รักษาขีดจำกัดทรัพยากร",
+        "Capacity remains three evenings unless support increases."
+      ],
+      [
+        "can test / cannot establish",
+        "กำหนดขอบเขตการนำร่อง",
+        "The pilot can test delivery but cannot establish long-term impact."
+      ]
+    ],
+    "q": [
+      [
+        "Within what period does the funder want a measurable outcome?",
+        "six months",
+        "a"
+      ],
+      [
+        "How is the briefing organised?",
+        "by access, evaluation and delivery capacity",
+        "a"
+      ],
+      [
+        "What is the current weekly staffing limit?",
+        "three evenings",
+        "b"
+      ],
+      [
+        "What distinction should be made about impact?",
+        "activity counts versus longer-term impact",
+        "l1"
+      ]
+    ]
+  }
+]

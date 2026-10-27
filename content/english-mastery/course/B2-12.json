@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B2-12-COURSE",
+  "unitId": "B2-12",
+  "level": "B2",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B2-12; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Paraphrase & Reformulation",
+  "canDo": "ถอดความโดยรักษาขอบเขต เหตุ เงื่อนไข และผู้กระทำ. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.",
+  "outcomes": [
+    "Use the language of paraphrase & reformulation to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B2-12-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Paraphrase & Reformulation\nเป้าหมาย: ถอดความโดยรักษาขอบเขต เหตุ เงื่อนไข และผู้กระทำ\n\nUse the language of paraphrase & reformulation to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\nRead for purpose, then locate the people, events, conditions and limits. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nReading B\nSecond source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B2-12-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "reported that\nหน้าที่: รักษาชนิดหลักฐาน\nModel: Participants reported that it helped.\nTry: change one detail while preserving the function. Check the result against the source.\n\nsome / a number of\nหน้าที่: รักษาขอบเขตกลุ่ม\nModel: A number of participants found it helpful.\nTry: change one detail while preserving the function. Check the result against the source.\n\nintroduced alongside\nหน้าที่: ไม่แยกเหตุโดยไม่มีหลักฐาน\nModel: The room change was introduced alongside smaller groups.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nTarget vocabulary in context\noriginal — ต้นฉบับ\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\n\nparticipants — ผู้เข้าร่วม\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\n\nconcentrate — มีสมาธิ\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\n\nparaphrase — การถอดความ\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\n\npopulation — กลุ่มที่กล่าวถึง\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\n\ncertainty — ความแน่นอน\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\n\nself-report — ข้อมูลที่ผู้เข้าร่วมรายงานเอง\nSome becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule.\n\nestablished — ยืนยันแล้ว\nSome becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule.\n\nboundaries — ขอบเขต\nA better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\nreformulation — การเรียบเรียงใหม่\nA better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\ncommits to — ยืนยันไว้\nA better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\nalongside — ควบคู่กับ\nSecond source: The room change was introduced alongside smaller group sizes.\n\nisolate — แยกผลเฉพาะ\nThe report does not isolate the effect of either change.\n\nfidelity — ความตรงต่อสาร\nUse a fidelity checklist: population, time, degree, agency, conditions and evidence type.\n\nagency — ผู้กระทำและความรับผิดชอบ\nUse a fidelity checklist: population, time, degree, agency, conditions and evidence type.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B2-12-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: My version uses different words. Is that enough?\nB: No. Check whether you changed who, when or how certain the claim is.\nA: I changed some to everyone.\nB: That expands the claim. Restore the original scope before polishing the style.\n\nListening script B\nUse a fidelity checklist: population, time, degree, agency, conditions and evidence type. Compare your paraphrase with the source after drafting. If your reader could draw a stronger conclusion from your version, revise it or clearly label your interpretation.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B2-12-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nถอดความโดยรักษาขอบเขต เหตุ เงื่อนไข และผู้กระทำ\n\nPrepare a 180–240-word response and a 120–180-second spoken response using the unit inputs. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nreported that: Participants reported that it helped.\nsome / a number of: A number of participants found it helpful.\nintroduced alongside: The room change was introduced alongside smaller groups.\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B2-12-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ต้นฉบับ.\nThe ____ sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "original"
+      ],
+      "expected": "original",
+      "explanation": "original means ต้นฉบับ in this context. Full source sentence: The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ผู้เข้าร่วม.\nThe original sentence reads, 'Some ____ reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "participants"
+      ],
+      "expected": "participants",
+      "explanation": "participants means ผู้เข้าร่วม in this context. Full source sentence: The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: มีสมาธิ.\nThe original sentence reads, 'Some participants reported that the quieter room helped them ____ during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "concentrate"
+      ],
+      "expected": "concentrate",
+      "explanation": "concentrate means มีสมาธิ in this context. Full source sentence: The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การถอดความ.\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's ____ says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "paraphrase"
+      ],
+      "expected": "paraphrase",
+      "explanation": "paraphrase means การถอดความ in this context. Full source sentence: The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: กลุ่มที่กล่าวถึง.\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the ____, certainty and evidence type.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "population"
+      ],
+      "expected": "population",
+      "explanation": "population means กลุ่มที่กล่าวถึง in this context. Full source sentence: The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ความแน่นอน.\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, ____ and evidence type.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "certainty"
+      ],
+      "expected": "certainty",
+      "explanation": "certainty means ความแน่นอน in this context. Full source sentence: The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อมูลที่ผู้เข้าร่วมรายงานเอง.\nSome becomes everyone; ____ becomes an established effect; a limited trial becomes a general rule.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "self-report"
+      ],
+      "expected": "self-report",
+      "explanation": "self-report means ข้อมูลที่ผู้เข้าร่วมรายงานเอง in this context. Full source sentence: Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ยืนยันแล้ว.\nSome becomes everyone; self-report becomes an ____ effect; a limited trial becomes a general rule.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "established"
+      ],
+      "expected": "established",
+      "explanation": "established means ยืนยันแล้ว in this context. Full source sentence: Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ขอบเขต.\nA better paraphrase keeps those ____: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "boundaries"
+      ],
+      "expected": "boundaries",
+      "explanation": "boundaries means ขอบเขต in this context. Full source sentence: A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การเรียบเรียงใหม่.\nA better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective ____ may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "reformulation"
+      ],
+      "expected": "reformulation",
+      "explanation": "reformulation means การเรียบเรียงใหม่ in this context. Full source sentence: A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ยืนยันไว้.\nA better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "commits to"
+      ],
+      "expected": "commits to",
+      "explanation": "commits to means ยืนยันไว้ in this context. Full source sentence: A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ควบคู่กับ.\nSecond source: The room change was introduced ____ smaller group sizes.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "alongside"
+      ],
+      "expected": "alongside",
+      "explanation": "alongside means ควบคู่กับ in this context. Full source sentence: Second source: The room change was introduced alongside smaller group sizes.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-12-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\nWhich word was wrongly changed to everyone? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "some",
+      "explanation": "Reference answer: some. Accept an accurate paraphrase that preserves scope. Check against B2-12-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-12-READ-A"
+    },
+    {
+      "stableId": "Q-B2-12-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\nWhat type of evidence did the original sentence report? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "participants' self-reports",
+      "explanation": "Reference answer: participants' self-reports. Accept an accurate paraphrase that preserves scope. Check against B2-12-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-12-READ-A"
+    },
+    {
+      "stableId": "Q-B2-12-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nSecond source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation.\n\nWhat other change occurred alongside the room change? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "smaller group sizes",
+      "explanation": "Reference answer: smaller group sizes. Accept an accurate paraphrase that preserves scope. Check against B2-12-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-12-READ-B"
+    },
+    {
+      "stableId": "Q-B2-12-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script A — text-supported comprehension\nA: My version uses different words. Is that enough?\nB: No. Check whether you changed who, when or how certain the claim is.\nA: I changed some to everyone.\nB: That expands the claim. Restore the original scope before polishing the style.\n\nWhat should be restored before polishing style? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "the original scope",
+      "explanation": "Reference answer: the original scope. Accept an accurate paraphrase that preserves scope. Check against B2-12-LISTEN-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-12-LISTEN-A"
+    },
+    {
+      "stableId": "Q-B2-12-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Use reported that to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: Participants reported that it helped.",
+      "expected": "Check the function รักษาชนิดหลักฐาน; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function รักษาชนิดหลักฐาน; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B2-12-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. A number of participants found it helpful.\n2. The room change was introduced alongside smaller groups.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for รักษาขอบเขตกลุ่ม versus ไม่แยกเหตุโดยไม่มีหลักฐาน. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for รักษาขอบเขตกลุ่ม versus ไม่แยกเหตุโดยไม่มีหลักฐาน. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B2-12-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nSecond source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B2-12-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B2-12-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B2-12-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY",
+        "B2-12_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.",
+      "expected": "Provide a relevant supported detail from B2-12-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B2-12-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B2-12-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 180–240 words for a classmate who needs to understand paraphrase & reformulation. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nSources\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\nSecond source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation."
+    },
+    {
+      "stableId": "TASK-B2-12-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 120–180-second spoken response about paraphrase & reformulation. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInput\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\nA: My version uses different words. Is that enough?\nB: No. Check whether you changed who, when or how certain the claim is.\nA: I changed some to everyone.\nB: That expands the claim. Restore the original scope before polishing the style."
+    },
+    {
+      "stableId": "TASK-B2-12-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nThe original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\n\nReading B\nSecond source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation."
+    },
+    {
+      "stableId": "TASK-B2-12-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-12_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about paraphrase & reformulation, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nSecond source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation.\n\nA: My version uses different words. Is that enough?\nB: No. Check whether you changed who, when or how certain the claim is.\nA: I changed some to everyone.\nB: That expands the claim. Restore the original scope before polishing the style."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B2-12-001",
+      "item": "original",
+      "thai": "ต้นฉบับ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-002",
+      "item": "participants",
+      "thai": "ผู้เข้าร่วม",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-003",
+      "item": "concentrate",
+      "thai": "มีสมาธิ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-004",
+      "item": "paraphrase",
+      "thai": "การถอดความ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-005",
+      "item": "population",
+      "thai": "กลุ่มที่กล่าวถึง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-006",
+      "item": "certainty",
+      "thai": "ความแน่นอน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-007",
+      "item": "self-report",
+      "thai": "ข้อมูลที่ผู้เข้าร่วมรายงานเอง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-008",
+      "item": "established",
+      "thai": "ยืนยันแล้ว",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-009",
+      "item": "boundaries",
+      "thai": "ขอบเขต",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-010",
+      "item": "reformulation",
+      "thai": "การเรียบเรียงใหม่",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-011",
+      "item": "commits to",
+      "thai": "ยืนยันไว้",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-012",
+      "item": "alongside",
+      "thai": "ควบคู่กับ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Second source: The room change was introduced alongside smaller group sizes.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-013",
+      "item": "isolate",
+      "thai": "แยกผลเฉพาะ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The report does not isolate the effect of either change.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-014",
+      "item": "fidelity",
+      "thai": "ความตรงต่อสาร",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Use a fidelity checklist: population, time, degree, agency, conditions and evidence type.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-015",
+      "item": "agency",
+      "thai": "ผู้กระทำและความรับผิดชอบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Use a fidelity checklist: population, time, degree, agency, conditions and evidence type.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-12-REV-1",
+      "item": "evidence",
+      "thai": "หลักฐาน",
+      "example": "The evidence supports a limited conclusion.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-2",
+      "item": "claim",
+      "thai": "ข้ออ้าง",
+      "example": "That claim needs more support.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-3",
+      "item": "assumption",
+      "thai": "ข้อสมมติ",
+      "example": "The estimate depends on an assumption.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-4",
+      "item": "alternative",
+      "thai": "ทางเลือกหรือคำอธิบายอื่น",
+      "example": "Consider an alternative explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-5",
+      "item": "whereas",
+      "thai": "ในขณะที่ต่างกัน",
+      "example": "A measures cost, whereas B measures access.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-6",
+      "item": "nevertheless",
+      "thai": "ถึงกระนั้น",
+      "example": "The sample is small; nevertheless, it raises a useful question.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-7",
+      "item": "to some extent",
+      "thai": "ในระดับหนึ่ง",
+      "example": "I agree to some extent.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-8",
+      "item": "provided that",
+      "thai": "โดยมีเงื่อนไขว่า",
+      "example": "The proposal works provided that access is maintained.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-9",
+      "item": "tends to",
+      "thai": "มีแนวโน้มที่จะ",
+      "example": "The report tends to emphasise benefits.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-10",
+      "item": "may indicate",
+      "thai": "อาจบ่งชี้",
+      "example": "The change may indicate a problem.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-11",
+      "item": "trade-off",
+      "thai": "การได้อย่างเสียอย่าง",
+      "example": "There is a trade-off between speed and detail.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-12",
+      "item": "limitation",
+      "thai": "ข้อจำกัด",
+      "example": "Acknowledge the main limitation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-13",
+      "item": "counterargument",
+      "thai": "ข้อโต้แย้งอีกด้าน",
+      "example": "Address the strongest counterargument fairly.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-14",
+      "item": "consequence",
+      "thai": "ผลที่ตามมา",
+      "example": "Consider an unintended consequence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-12-REV-15",
+      "item": "justify",
+      "thai": "ให้เหตุผลรองรับ",
+      "example": "Justify the recommendation with relevant evidence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B2-12-1",
+      "form": "reported that",
+      "use": "รักษาชนิดหลักฐาน",
+      "example": "Participants reported that it helped."
+    },
+    {
+      "id": "G-B2-12-2",
+      "form": "some / a number of",
+      "use": "รักษาขอบเขตกลุ่ม",
+      "example": "A number of participants found it helpful."
+    },
+    {
+      "id": "G-B2-12-3",
+      "form": "introduced alongside",
+      "use": "ไม่แยกเหตุโดยไม่มีหลักฐาน",
+      "example": "The room change was introduced alongside smaller groups."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B2-12-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to."
+    },
+    {
+      "id": "B2-12-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Second source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation."
+    },
+    {
+      "id": "B2-12-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: My version uses different words. Is that enough?\nB: No. Check whether you changed who, when or how certain the claim is.\nA: I changed some to everyone.\nB: That expands the claim. Restore the original scope before polishing the style."
+    },
+    {
+      "id": "B2-12-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Use a fidelity checklist: population, time, degree, agency, conditions and evidence type. Compare your paraphrase with the source after drafting. If your reader could draw a stronger conclusion from your version, revise it or clearly label your interpretation."
+    }
+  ],
+  "pronunciation": "Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B2-0.1",
+    "level": "B2",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B2: Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B2-12-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Paraphrase & Reformulation; explain one source detail and use reported that in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-12-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Paraphrase & Reformulation; explain one source detail and use some / a number of in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-12-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Paraphrase & Reformulation; explain one source detail and use introduced alongside in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-12-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Paraphrase & Reformulation; explain one source detail and use reported that in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B2-12_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B2-12-015 and the mediation task."
+    },
+    {
+      "errorTag": "B2-12_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B2-12-001",
+      "Q-B2-12-002",
+      "Q-B2-12-003",
+      "Q-B2-12-004",
+      "Q-B2-12-005",
+      "Q-B2-12-006",
+      "Q-B2-12-007",
+      "Q-B2-12-008",
+      "Q-B2-12-009",
+      "Q-B2-12-010",
+      "Q-B2-12-011",
+      "Q-B2-12-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B2-12-013",
+      "Q-B2-12-014",
+      "Q-B2-12-015",
+      "Q-B2-12-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B2-12-1",
+      "TASK-B2-12-2",
+      "TASK-B2-12-3",
+      "TASK-B2-12-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B2.json",
+    "sourceUnitId": "B2-12",
+    "sourceChecksum": "945982663ecd424840a3343730d3a29d69e3dcd8b99222befe1c16502f10e858"
+  },
+  "sourceText": "{\n  \"id\": \"B2-12\",\n  \"aim\": \"ถอดความโดยรักษาขอบเขต เหตุ เงื่อนไข และผู้กระทำ\",\n  \"a\": \"The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.\",\n  \"b\": \"Second source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation.\",\n  \"l1\": \"A: My version uses different words. Is that enough?\\nB: No. Check whether you changed who, when or how certain the claim is.\\nA: I changed some to everyone.\\nB: That expands the claim. Restore the original scope before polishing the style.\",\n  \"l2\": \"Use a fidelity checklist: population, time, degree, agency, conditions and evidence type. Compare your paraphrase with the source after drafting. If your reader could draw a stronger conclusion from your version, revise it or clearly label your interpretation.\",\n  \"v\": \"original=ต้นฉบับ;participants=ผู้เข้าร่วม;concentrate=มีสมาธิ;paraphrase=การถอดความ;population=กลุ่มที่กล่าวถึง;certainty=ความแน่นอน;self-report=ข้อมูลที่ผู้เข้าร่วมรายงานเอง;established=ยืนยันแล้ว;boundaries=ขอบเขต;reformulation=การเรียบเรียงใหม่;commits to=ยืนยันไว้;alongside=ควบคู่กับ;isolate=แยกผลเฉพาะ;fidelity=ความตรงต่อสาร;agency=ผู้กระทำและความรับผิดชอบ\",\n  \"g\": [\n    [\n      \"reported that\",\n      \"รักษาชนิดหลักฐาน\",\n      \"Participants reported that it helped.\"\n    ],\n    [\n      \"some / a number of\",\n      \"รักษาขอบเขตกลุ่ม\",\n      \"A number of participants found it helpful.\"\n    ],\n    [\n      \"introduced alongside\",\n      \"ไม่แยกเหตุโดยไม่มีหลักฐาน\",\n      \"The room change was introduced alongside smaller groups.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"Which word was wrongly changed to everyone?\",\n      \"some\",\n      \"a\"\n    ],\n    [\n      \"What type of evidence did the original sentence report?\",\n      \"participants' self-reports\",\n      \"a\"\n    ],\n    [\n      \"What other change occurred alongside the room change?\",\n      \"smaller group sizes\",\n      \"b\"\n    ],\n    [\n      \"What should be restored before polishing style?\",\n      \"the original scope\",\n      \"l1\"\n    ]\n  ]\n}\n",
+  "checksum": "3455f5d42784ae6091fcbd07fc959a38790f554b984024db42ba0d3588e2c812"
+}
