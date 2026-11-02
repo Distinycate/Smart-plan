@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 export type ApplicationRole = 'user' | 'admin';
 
 export type AuthorizationContext = {
-  supabase: ReturnType<typeof createClient>;
+  supabase: Awaited<ReturnType<typeof createClient>>;
   user: User;
   role: ApplicationRole;
 };
@@ -28,7 +28,7 @@ function requireIdentifier(value: string, label: string) {
   return identifier;
 }
 
-async function getRole(supabase: ReturnType<typeof createClient>, userId: string): Promise<ApplicationRole> {
+async function getRole(supabase: Awaited<ReturnType<typeof createClient>>, userId: string): Promise<ApplicationRole> {
   const { data, error } = await supabase
     .from('profiles')
     .select('role')
@@ -47,7 +47,7 @@ async function getRole(supabase: ReturnType<typeof createClient>, userId: string
  * body, query strings, localStorage, or an unverified client-provided userId.
  */
 export async function requireUser(): Promise<AuthorizationContext> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user }, error } = await supabase.auth.getUser();
 
   if (error || !user) {

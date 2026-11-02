@@ -4,18 +4,19 @@ import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 import { generateAssessmentTool } from '@/lib/smartPlanV3/ai/assessmentToolService';
 
 interface RouteContext {
-  params: { id: string; asmId: string };
+  params: Promise<{ id: string; asmId: string }>;
 }
 
 // POST /api/plan/v3/[id]/assessments/[asmId]/tool/generate - AI สร้างเครื่องมือประเมิน (Preview First)
-export async function POST(req: NextRequest, { params }: RouteContext) {
+export async function POST(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, asmId } = params;
     if (!isValidUuid(planId) || !isValidUuid(asmId)) {
       return NextResponse.json({ success: false, error: 'รหัสไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ success: false, error: 'กรุณาเข้าสู่ระบบก่อนใช้งาน' }, { status: 401 });

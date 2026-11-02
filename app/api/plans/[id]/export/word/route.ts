@@ -262,10 +262,8 @@ const renderRubricTableWord = (rubricText: string) => {
   `;
 };
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const { id } = params;
     // Word is a data-disclosure boundary. Do not rely on UI links or RLS alone.

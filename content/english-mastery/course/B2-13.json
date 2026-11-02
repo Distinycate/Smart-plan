@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B2-13-COURSE",
+  "unitId": "B2-13",
+  "level": "B2",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B2-13; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Essay Writing & Argumentation",
+  "canDo": "เขียนข้อโต้แย้งที่มีเหตุผลรองรับและตอบข้อโต้แย้งจริง. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.",
+  "outcomes": [
+    "Use the language of essay writing & argumentation to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B2-13-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Essay Writing & Argumentation\nเป้าหมาย: เขียนข้อโต้แย้งที่มีเหตุผลรองรับและตอบข้อโต้แย้งจริง\n\nUse the language of essay writing & argumentation to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nA student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\nRead for purpose, then locate the people, events, conditions and limits. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nReading B\nPlanning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B2-13-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "concession + response\nหน้าที่: ตอบข้อจำกัดอย่างเป็นธรรม\nModel: Although staffing is limited, a short trial may be feasible.\nTry: change one detail while preserving the function. Check the result against the source.\n\nnot … yet\nหน้าที่: จำกัดข้อเสนอ\nModel: This is not a permanent commitment yet.\nTry: change one detail while preserving the function. Check the result against the source.\n\nclaim–reason link\nหน้าที่: เชื่อมเหตุผลกับข้อเสนอ\nModel: A trial would help establish whether demand exists.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nTarget vocabulary in context\nessay — เรียงความ\nA student essay argues that a college should provide a quiet common room.\n\nfeasible — ทำได้จริง\nIts strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes.\n\nproposal — ข้อเสนอ\nIts strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes.\n\nacknowledges — ยอมรับ\nThe paragraph then acknowledges that space and staffing are limited.\n\nstaffing — การจัดกำลังคน\nThe paragraph then acknowledges that space and staffing are limited.\n\ndismissing — ปัดทิ้ง\nInstead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.\n\ntrial — การทดลอง\nInstead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.\n\nusage — การใช้งาน\nInstead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.\n\ndevelops — ขยายให้ชัด\nAn effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\nobjection — ข้อคัดค้าน\nAn effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\nproportionate — ได้สัดส่วน\nAn effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\ncommitment — ข้อผูกพัน\nPlanning notes: Position—trial a quiet room, not a permanent commitment yet.\n\nunmet needs — ความต้องการที่ยังไม่ตอบสนอง\nReview—usage and unmet needs after four weeks.\n\nopponents — ผู้คัดค้าน\nA: My counterargument says opponents don't care about students.\n\nlogical connection — ความเชื่อมโยงทางเหตุผล\nA linking phrase cannot repair a missing logical connection.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B2-13-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: My counterargument says opponents don't care about students.\nB: Is that their actual point?\nA: They raised staffing costs.\nB: Address that concern fairly. You can support the proposal while explaining its limits and conditions.\n\nListening script B\nBuild each paragraph around a function: establish the need, evaluate the option, address a limitation or draw a conclusion. A linking phrase cannot repair a missing logical connection. Check that your conclusion does not promise more than your evidence supports.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B2-13-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nเขียนข้อโต้แย้งที่มีเหตุผลรองรับและตอบข้อโต้แย้งจริง\n\nPrepare a 180–240-word response and a 120–180-second spoken response using the unit inputs. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nconcession + response: Although staffing is limited, a short trial may be feasible.\nnot … yet: This is not a permanent commitment yet.\nclaim–reason link: A trial would help establish whether demand exists.\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B2-13-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เรียงความ.\nA student ____ argues that a college should provide a quiet common room.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "essay"
+      ],
+      "expected": "essay",
+      "explanation": "essay means เรียงความ in this context. Full source sentence: A student essay argues that a college should provide a quiet common room.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ทำได้จริง.\nIts strongest paragraph connects a practical need to a ____ proposal: students who cannot study at home need a low-cost space between classes.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "feasible"
+      ],
+      "expected": "feasible",
+      "explanation": "feasible means ทำได้จริง in this context. Full source sentence: Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อเสนอ.\nIts strongest paragraph connects a practical need to a feasible ____: students who cannot study at home need a low-cost space between classes.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "proposal"
+      ],
+      "expected": "proposal",
+      "explanation": "proposal means ข้อเสนอ in this context. Full source sentence: Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ยอมรับ.\nThe paragraph then ____ that space and staffing are limited.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "acknowledges"
+      ],
+      "expected": "acknowledges",
+      "explanation": "acknowledges means ยอมรับ in this context. Full source sentence: The paragraph then acknowledges that space and staffing are limited.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การจัดกำลังคน.\nThe paragraph then acknowledges that space and ____ are limited.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "staffing"
+      ],
+      "expected": "staffing",
+      "explanation": "staffing means การจัดกำลังคน in this context. Full source sentence: The paragraph then acknowledges that space and staffing are limited.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ปัดทิ้ง.\nInstead of ____ this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "dismissing"
+      ],
+      "expected": "dismissing",
+      "explanation": "dismissing means ปัดทิ้ง in this context. Full source sentence: Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การทดลอง.\nInstead of dismissing this concern, it proposes a ____ during existing opening hours and explains how usage could be reviewed.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "trial"
+      ],
+      "expected": "trial",
+      "explanation": "trial means การทดลอง in this context. Full source sentence: Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การใช้งาน.\nInstead of dismissing this concern, it proposes a trial during existing opening hours and explains how ____ could be reviewed.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "usage"
+      ],
+      "expected": "usage",
+      "explanation": "usage means การใช้งาน in this context. Full source sentence: Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ขยายให้ชัด.\nAn effective argument ____ the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "develops"
+      ],
+      "expected": "develops",
+      "explanation": "develops means ขยายให้ชัด in this context. Full source sentence: An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อคัดค้าน.\nAn effective argument develops the link between claim and evidence, considers a fair ____ and reaches a conclusion proportionate to what has been established.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "objection"
+      ],
+      "expected": "objection",
+      "explanation": "objection means ข้อคัดค้าน in this context. Full source sentence: An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ได้สัดส่วน.\nAn effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion ____ to what has been established.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "proportionate"
+      ],
+      "expected": "proportionate",
+      "explanation": "proportionate means ได้สัดส่วน in this context. Full source sentence: An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อผูกพัน.\nPlanning notes: Position—trial a quiet room, not a permanent ____ yet.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "commitment"
+      ],
+      "expected": "commitment",
+      "explanation": "commitment means ข้อผูกพัน in this context. Full source sentence: Planning notes: Position—trial a quiet room, not a permanent commitment yet.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-13-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nA student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\nWhat facility does the essay propose? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "a quiet common room",
+      "explanation": "Reference answer: a quiet common room. Accept an accurate paraphrase that preserves scope. Check against B2-13-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-13-READ-A"
+    },
+    {
+      "stableId": "Q-B2-13-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nA student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\nDuring which hours would the trial operate? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "existing opening hours",
+      "explanation": "Reference answer: existing opening hours. Accept an accurate paraphrase that preserves scope. Check against B2-13-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-13-READ-A"
+    },
+    {
+      "stableId": "Q-B2-13-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nPlanning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results.\n\nWhen would usage be reviewed? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "after four weeks",
+      "explanation": "Reference answer: after four weeks. Accept an accurate paraphrase that preserves scope. Check against B2-13-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-13-READ-B"
+    },
+    {
+      "stableId": "Q-B2-13-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script A — text-supported comprehension\nA: My counterargument says opponents don't care about students.\nB: Is that their actual point?\nA: They raised staffing costs.\nB: Address that concern fairly. You can support the proposal while explaining its limits and conditions.\n\nWhat concern did the opponents actually raise? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "staffing costs",
+      "explanation": "Reference answer: staffing costs. Accept an accurate paraphrase that preserves scope. Check against B2-13-LISTEN-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-13-LISTEN-A"
+    },
+    {
+      "stableId": "Q-B2-13-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Use concession + response to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: Although staffing is limited, a short trial may be feasible.",
+      "expected": "Check the function ตอบข้อจำกัดอย่างเป็นธรรม; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function ตอบข้อจำกัดอย่างเป็นธรรม; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B2-13-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. This is not a permanent commitment yet.\n2. A trial would help establish whether demand exists.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for จำกัดข้อเสนอ versus เชื่อมเหตุผลกับข้อเสนอ. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for จำกัดข้อเสนอ versus เชื่อมเหตุผลกับข้อเสนอ. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B2-13-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nPlanning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B2-13-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B2-13-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B2-13-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY",
+        "B2-13_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nA student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.",
+      "expected": "Provide a relevant supported detail from B2-13-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B2-13-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B2-13-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 180–240 words for a classmate who needs to understand essay writing & argumentation. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nSources\nA student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\nPlanning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results."
+    },
+    {
+      "stableId": "TASK-B2-13-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 120–180-second spoken response about essay writing & argumentation. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInput\nA student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\nA: My counterargument says opponents don't care about students.\nB: Is that their actual point?\nA: They raised staffing costs.\nB: Address that concern fairly. You can support the proposal while explaining its limits and conditions."
+    },
+    {
+      "stableId": "TASK-B2-13-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nA student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\n\nReading B\nPlanning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results."
+    },
+    {
+      "stableId": "TASK-B2-13-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-13_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about essay writing & argumentation, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nPlanning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results.\n\nA: My counterargument says opponents don't care about students.\nB: Is that their actual point?\nA: They raised staffing costs.\nB: Address that concern fairly. You can support the proposal while explaining its limits and conditions."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B2-13-001",
+      "item": "essay",
+      "thai": "เรียงความ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A student essay argues that a college should provide a quiet common room.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-002",
+      "item": "feasible",
+      "thai": "ทำได้จริง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-003",
+      "item": "proposal",
+      "thai": "ข้อเสนอ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-004",
+      "item": "acknowledges",
+      "thai": "ยอมรับ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The paragraph then acknowledges that space and staffing are limited.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-005",
+      "item": "staffing",
+      "thai": "การจัดกำลังคน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The paragraph then acknowledges that space and staffing are limited.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-006",
+      "item": "dismissing",
+      "thai": "ปัดทิ้ง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-007",
+      "item": "trial",
+      "thai": "การทดลอง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-008",
+      "item": "usage",
+      "thai": "การใช้งาน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-009",
+      "item": "develops",
+      "thai": "ขยายให้ชัด",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-010",
+      "item": "objection",
+      "thai": "ข้อคัดค้าน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-011",
+      "item": "proportionate",
+      "thai": "ได้สัดส่วน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-012",
+      "item": "commitment",
+      "thai": "ข้อผูกพัน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Planning notes: Position—trial a quiet room, not a permanent commitment yet.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-013",
+      "item": "unmet needs",
+      "thai": "ความต้องการที่ยังไม่ตอบสนอง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Review—usage and unmet needs after four weeks.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-014",
+      "item": "opponents",
+      "thai": "ผู้คัดค้าน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A: My counterargument says opponents don't care about students.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-015",
+      "item": "logical connection",
+      "thai": "ความเชื่อมโยงทางเหตุผล",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A linking phrase cannot repair a missing logical connection.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-13-REV-1",
+      "item": "evidence",
+      "thai": "หลักฐาน",
+      "example": "The evidence supports a limited conclusion.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-2",
+      "item": "claim",
+      "thai": "ข้ออ้าง",
+      "example": "That claim needs more support.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-3",
+      "item": "assumption",
+      "thai": "ข้อสมมติ",
+      "example": "The estimate depends on an assumption.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-4",
+      "item": "alternative",
+      "thai": "ทางเลือกหรือคำอธิบายอื่น",
+      "example": "Consider an alternative explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-5",
+      "item": "whereas",
+      "thai": "ในขณะที่ต่างกัน",
+      "example": "A measures cost, whereas B measures access.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-6",
+      "item": "nevertheless",
+      "thai": "ถึงกระนั้น",
+      "example": "The sample is small; nevertheless, it raises a useful question.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-7",
+      "item": "to some extent",
+      "thai": "ในระดับหนึ่ง",
+      "example": "I agree to some extent.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-8",
+      "item": "provided that",
+      "thai": "โดยมีเงื่อนไขว่า",
+      "example": "The proposal works provided that access is maintained.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-9",
+      "item": "tends to",
+      "thai": "มีแนวโน้มที่จะ",
+      "example": "The report tends to emphasise benefits.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-10",
+      "item": "may indicate",
+      "thai": "อาจบ่งชี้",
+      "example": "The change may indicate a problem.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-11",
+      "item": "trade-off",
+      "thai": "การได้อย่างเสียอย่าง",
+      "example": "There is a trade-off between speed and detail.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-12",
+      "item": "limitation",
+      "thai": "ข้อจำกัด",
+      "example": "Acknowledge the main limitation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-13",
+      "item": "counterargument",
+      "thai": "ข้อโต้แย้งอีกด้าน",
+      "example": "Address the strongest counterargument fairly.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-14",
+      "item": "consequence",
+      "thai": "ผลที่ตามมา",
+      "example": "Consider an unintended consequence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-13-REV-15",
+      "item": "justify",
+      "thai": "ให้เหตุผลรองรับ",
+      "example": "Justify the recommendation with relevant evidence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B2-13-1",
+      "form": "concession + response",
+      "use": "ตอบข้อจำกัดอย่างเป็นธรรม",
+      "example": "Although staffing is limited, a short trial may be feasible."
+    },
+    {
+      "id": "G-B2-13-2",
+      "form": "not … yet",
+      "use": "จำกัดข้อเสนอ",
+      "example": "This is not a permanent commitment yet."
+    },
+    {
+      "id": "G-B2-13-3",
+      "form": "claim–reason link",
+      "use": "เชื่อมเหตุผลกับข้อเสนอ",
+      "example": "A trial would help establish whether demand exists."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B2-13-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "A student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established."
+    },
+    {
+      "id": "B2-13-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Planning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results."
+    },
+    {
+      "id": "B2-13-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: My counterargument says opponents don't care about students.\nB: Is that their actual point?\nA: They raised staffing costs.\nB: Address that concern fairly. You can support the proposal while explaining its limits and conditions."
+    },
+    {
+      "id": "B2-13-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Build each paragraph around a function: establish the need, evaluate the option, address a limitation or draw a conclusion. A linking phrase cannot repair a missing logical connection. Check that your conclusion does not promise more than your evidence supports."
+    }
+  ],
+  "pronunciation": "Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B2-0.1",
+    "level": "B2",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B2: Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B2-13-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Essay Writing & Argumentation; explain one source detail and use concession + response in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-13-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Essay Writing & Argumentation; explain one source detail and use not … yet in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-13-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Essay Writing & Argumentation; explain one source detail and use claim–reason link in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-13-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Essay Writing & Argumentation; explain one source detail and use concession + response in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B2-13_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B2-13-015 and the mediation task."
+    },
+    {
+      "errorTag": "B2-13_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B2-13-001",
+      "Q-B2-13-002",
+      "Q-B2-13-003",
+      "Q-B2-13-004",
+      "Q-B2-13-005",
+      "Q-B2-13-006",
+      "Q-B2-13-007",
+      "Q-B2-13-008",
+      "Q-B2-13-009",
+      "Q-B2-13-010",
+      "Q-B2-13-011",
+      "Q-B2-13-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B2-13-013",
+      "Q-B2-13-014",
+      "Q-B2-13-015",
+      "Q-B2-13-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B2-13-1",
+      "TASK-B2-13-2",
+      "TASK-B2-13-3",
+      "TASK-B2-13-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B2.json",
+    "sourceUnitId": "B2-13",
+    "sourceChecksum": "ad0c544a1f2eb2ea2581ecdc224fc7f0b07f2dadc36d263b722f4026e803f4e3"
+  },
+  "sourceText": "{\n  \"id\": \"B2-13\",\n  \"aim\": \"เขียนข้อโต้แย้งที่มีเหตุผลรองรับและตอบข้อโต้แย้งจริง\",\n  \"a\": \"A student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.\",\n  \"b\": \"Planning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results.\",\n  \"l1\": \"A: My counterargument says opponents don't care about students.\\nB: Is that their actual point?\\nA: They raised staffing costs.\\nB: Address that concern fairly. You can support the proposal while explaining its limits and conditions.\",\n  \"l2\": \"Build each paragraph around a function: establish the need, evaluate the option, address a limitation or draw a conclusion. A linking phrase cannot repair a missing logical connection. Check that your conclusion does not promise more than your evidence supports.\",\n  \"v\": \"essay=เรียงความ;feasible=ทำได้จริง;proposal=ข้อเสนอ;acknowledges=ยอมรับ;staffing=การจัดกำลังคน;dismissing=ปัดทิ้ง;trial=การทดลอง;usage=การใช้งาน;develops=ขยายให้ชัด;objection=ข้อคัดค้าน;proportionate=ได้สัดส่วน;commitment=ข้อผูกพัน;unmet needs=ความต้องการที่ยังไม่ตอบสนอง;opponents=ผู้คัดค้าน;logical connection=ความเชื่อมโยงทางเหตุผล\",\n  \"g\": [\n    [\n      \"concession + response\",\n      \"ตอบข้อจำกัดอย่างเป็นธรรม\",\n      \"Although staffing is limited, a short trial may be feasible.\"\n    ],\n    [\n      \"not … yet\",\n      \"จำกัดข้อเสนอ\",\n      \"This is not a permanent commitment yet.\"\n    ],\n    [\n      \"claim–reason link\",\n      \"เชื่อมเหตุผลกับข้อเสนอ\",\n      \"A trial would help establish whether demand exists.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"What facility does the essay propose?\",\n      \"a quiet common room\",\n      \"a\"\n    ],\n    [\n      \"During which hours would the trial operate?\",\n      \"existing opening hours\",\n      \"a\"\n    ],\n    [\n      \"When would usage be reviewed?\",\n      \"after four weeks\",\n      \"b\"\n    ],\n    [\n      \"What concern did the opponents actually raise?\",\n      \"staffing costs\",\n      \"l1\"\n    ]\n  ]\n}\n",
+  "checksum": "0c3d46d7c75a5ae95520e8eb7545fa90d20dd85120731da2f6ec5fb97dcf41ec"
+}

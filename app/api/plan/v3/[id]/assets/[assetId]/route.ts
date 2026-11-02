@@ -7,18 +7,19 @@ import { deriveTeachingPackageReadiness } from '@/lib/smartPlanV3/rules/teaching
 import { deriveLessonWorkflowStatus } from '@/lib/smartPlanV3/rules/activityRules';
 
 interface RouteContext {
-  params: { id: string; assetId: string };
+  params: Promise<{ id: string; assetId: string }>;
 }
 
 // GET /api/plan/v3/[id]/assets/[assetId]
-export async function GET(req: NextRequest, { params }: RouteContext) {
+export async function GET(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, assetId } = params;
     if (!isValidUuid(planId) || !isValidUuid(assetId)) {
       return NextResponse.json({ success: false, error: 'รหัสไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
@@ -47,14 +48,15 @@ export async function GET(req: NextRequest, { params }: RouteContext) {
 }
 
 // PATCH /api/plan/v3/[id]/assets/[assetId]
-export async function PATCH(req: NextRequest, { params }: RouteContext) {
+export async function PATCH(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, assetId } = params;
     if (!isValidUuid(planId) || !isValidUuid(assetId)) {
       return NextResponse.json({ success: false, error: 'รหัสไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
@@ -147,14 +149,15 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
 }
 
 // DELETE /api/plan/v3/[id]/assets/[assetId]
-export async function DELETE(req: NextRequest, { params }: RouteContext) {
+export async function DELETE(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, assetId } = params;
     if (!isValidUuid(planId) || !isValidUuid(assetId)) {
       return NextResponse.json({ success: false, error: 'รหัสไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

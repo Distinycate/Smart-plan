@@ -7,7 +7,7 @@ import { getObjectiveSuggestions } from '@/lib/smartPlanV3/suggestions/objective
 import { getEvidenceSuggestions } from '@/lib/smartPlanV3/suggestions/evidenceSuggestions';
 
 interface RouteContext {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -17,14 +17,15 @@ interface RouteContext {
  * and links them together so teachers with no curriculum background have a
  * complete, pedagogically aligned foundation from day 1 without manual linking.
  */
-export async function POST(req: NextRequest, { params }: RouteContext) {
+export async function POST(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId } = params;
     if (!isValidUuid(planId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

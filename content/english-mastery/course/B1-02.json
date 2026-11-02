@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B1-02-COURSE",
+  "unitId": "B1-02",
+  "level": "B1",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B1-02; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Education & Learning",
+  "canDo": "วางแผนเรียนและอธิบายว่ากลยุทธ์ใดช่วยงานใด. Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.",
+  "outcomes": [
+    "Use the language of education & learning to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B1-02-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Education & Learning\nเป้าหมาย: วางแผนเรียนและอธิบายว่ากลยุทธ์ใดช่วยงานใด\n\nUse the language of education & learning to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nPloy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.\n\nRead for purpose, then locate the people, events, conditions and limits. Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.\n\nReading B\nStudy plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B1-02-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "used to + verb\nหน้าที่: นิสัยเดิม\nModel: She used to highlight every sentence.\nTry: change one detail while preserving the function. Check the result against the source.\n\nafter + -ing\nหน้าที่: เชื่อมลำดับการเรียน\nModel: After reading, she closed the book.\nTry: change one detail while preserving the function. Check the result against the source.\n\nif + present\nหน้าที่: ปรับแผนตามเงื่อนไข\nModel: Change the plan if the workload is unrealistic.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก\n\nTarget vocabulary in context\nhighlight — เน้นข้อความ\nPloy used to highlight almost every sentence in her textbook.\n\ntextbook — ตำรา\nPloy used to highlight almost every sentence in her textbook.\n\nroutine — กิจวัตร\nShe changed her routine.\n\nsection — ส่วน\nAfter reading a short section, she closed the book and wrote three points from memory.\n\nmemory — ความจำ\nAfter reading a short section, she closed the book and wrote three points from memory.\n\nmissed — ตกหล่น\nThen she checked what she had missed.\n\nclassmate — เพื่อนร่วมชั้น\nOnce a week, she explained an idea to a classmate and asked for questions.\n\ngaps — ช่องว่าง\nThis approach helped her notice gaps in her understanding.\n\nunderstanding — ความเข้าใจ\nThis approach helped her notice gaps in her understanding.\n\nfeedback — ข้อมูลย้อนกลับ\nHer plan combined practice, feedback and time to rest.\n\nrecall — นึกคืน\nStudy plan: Monday—read one section and recall three points.\n\nworkload — ปริมาณงาน\nChange the plan if the workload is unrealistic.\n\nunrealistic — ไม่สอดคล้องความเป็นจริง\nChange the plan if the workload is unrealistic.\n\nrecurring — เกิดซ้ำ\nAt the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer.\n\nspecific — เฉพาะเจาะจง\nAt the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B1-02-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: How do you know you understand a topic?\nB: I try to explain it without my notes.\nA: What if you forget something?\nB: I check the text, then try again later.\nA: Do you study for hours at once?\nB: No. Short sessions fit my week better.\n\nListening script B\nYour strategy should match the task. Remembering a term and writing an argument require different practice. Keep a small error log. At the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B1-02-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nวางแผนเรียนและอธิบายว่ากลยุทธ์ใดช่วยงานใด\n\nPrepare a 120–160-word response and a 90–120-second spoken response using the unit inputs. Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nused to + verb: She used to highlight every sentence.\nafter + -ing: After reading, she closed the book.\nif + present: Change the plan if the workload is unrealistic.\nให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B1-02-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เน้นข้อความ.\nPloy used to ____ almost every sentence in her textbook.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "highlight"
+      ],
+      "expected": "highlight",
+      "explanation": "highlight means เน้นข้อความ in this context. Full source sentence: Ploy used to highlight almost every sentence in her textbook.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ตำรา.\nPloy used to highlight almost every sentence in her ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "textbook"
+      ],
+      "expected": "textbook",
+      "explanation": "textbook means ตำรา in this context. Full source sentence: Ploy used to highlight almost every sentence in her textbook.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: กิจวัตร.\nShe changed her ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "routine"
+      ],
+      "expected": "routine",
+      "explanation": "routine means กิจวัตร in this context. Full source sentence: She changed her routine.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ส่วน.\nAfter reading a short ____, she closed the book and wrote three points from memory.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "section"
+      ],
+      "expected": "section",
+      "explanation": "section means ส่วน in this context. Full source sentence: After reading a short section, she closed the book and wrote three points from memory.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ความจำ.\nAfter reading a short section, she closed the book and wrote three points from ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "memory"
+      ],
+      "expected": "memory",
+      "explanation": "memory means ความจำ in this context. Full source sentence: After reading a short section, she closed the book and wrote three points from memory.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ตกหล่น.\nThen she checked what she had ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "missed"
+      ],
+      "expected": "missed",
+      "explanation": "missed means ตกหล่น in this context. Full source sentence: Then she checked what she had missed.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เพื่อนร่วมชั้น.\nOnce a week, she explained an idea to a ____ and asked for questions.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "classmate"
+      ],
+      "expected": "classmate",
+      "explanation": "classmate means เพื่อนร่วมชั้น in this context. Full source sentence: Once a week, she explained an idea to a classmate and asked for questions.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ช่องว่าง.\nThis approach helped her notice ____ in her understanding.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "gaps"
+      ],
+      "expected": "gaps",
+      "explanation": "gaps means ช่องว่าง in this context. Full source sentence: This approach helped her notice gaps in her understanding.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ความเข้าใจ.\nThis approach helped her notice gaps in her ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "understanding"
+      ],
+      "expected": "understanding",
+      "explanation": "understanding means ความเข้าใจ in this context. Full source sentence: This approach helped her notice gaps in her understanding.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อมูลย้อนกลับ.\nHer plan combined practice, ____ and time to rest.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "feedback"
+      ],
+      "expected": "feedback",
+      "explanation": "feedback means ข้อมูลย้อนกลับ in this context. Full source sentence: Her plan combined practice, feedback and time to rest.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: นึกคืน.\nStudy plan: Monday—read one section and ____ three points.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "recall"
+      ],
+      "expected": "recall",
+      "explanation": "recall means นึกคืน in this context. Full source sentence: Study plan: Monday—read one section and recall three points.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ปริมาณงาน.\nChange the plan if the ____ is unrealistic.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "workload"
+      ],
+      "expected": "workload",
+      "explanation": "workload means ปริมาณงาน in this context. Full source sentence: Change the plan if the workload is unrealistic.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-02-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nPloy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.\n\nWhat did Ploy write after closing the book? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "three points from memory",
+      "explanation": "Reference answer: three points from memory. Accept an accurate paraphrase that preserves scope. Check against B1-02-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-02-READ-A"
+    },
+    {
+      "stableId": "Q-B1-02-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nPloy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.\n\nWhom did she explain ideas to? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "a classmate",
+      "explanation": "Reference answer: a classmate. Accept an accurate paraphrase that preserves scope. Check against B1-02-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-02-READ-A"
+    },
+    {
+      "stableId": "Q-B1-02-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nStudy plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic.\n\nWhat happens on Friday? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "review errors with a partner",
+      "explanation": "Reference answer: review errors with a partner. Accept an accurate paraphrase that preserves scope. Check against B1-02-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-02-READ-B"
+    },
+    {
+      "stableId": "Q-B1-02-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script B — text-supported comprehension\nYour strategy should match the task. Remembering a term and writing an argument require different practice. Keep a small error log. At the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer.\n\nWhat kind of feedback should learners ask for? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "specific feedback",
+      "explanation": "Reference answer: specific feedback. Accept an accurate paraphrase that preserves scope. Check against B1-02-LISTEN-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-02-LISTEN-B"
+    },
+    {
+      "stableId": "Q-B1-02-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Use used to + verb to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: She used to highlight every sentence.",
+      "expected": "Check the function นิสัยเดิม; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function นิสัยเดิม; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B1-02-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. After reading, she closed the book.\n2. Change the plan if the workload is unrealistic.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for เชื่อมลำดับการเรียน versus ปรับแผนตามเงื่อนไข. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for เชื่อมลำดับการเรียน versus ปรับแผนตามเงื่อนไข. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B1-02-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nStudy plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B1-02-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B1-02-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B1-02-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY",
+        "B1-02_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nPloy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.",
+      "expected": "Provide a relevant supported detail from B1-02-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B1-02-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B1-02-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 120–160 words for a classmate who needs to understand education & learning. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.\n\nSources\nPloy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.\n\nStudy plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic."
+    },
+    {
+      "stableId": "TASK-B1-02-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 90–120-second spoken response about education & learning. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.\n\nInput\nPloy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.\n\nA: How do you know you understand a topic?\nB: I try to explain it without my notes.\nA: What if you forget something?\nB: I check the text, then try again later.\nA: Do you study for hours at once?\nB: No. Short sessions fit my week better."
+    },
+    {
+      "stableId": "TASK-B1-02-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nPloy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.\n\nReading B\nStudy plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic."
+    },
+    {
+      "stableId": "TASK-B1-02-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-02_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about education & learning, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nStudy plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic.\n\nA: How do you know you understand a topic?\nB: I try to explain it without my notes.\nA: What if you forget something?\nB: I check the text, then try again later.\nA: Do you study for hours at once?\nB: No. Short sessions fit my week better."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B1-02-001",
+      "item": "highlight",
+      "thai": "เน้นข้อความ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Ploy used to highlight almost every sentence in her textbook.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-002",
+      "item": "textbook",
+      "thai": "ตำรา",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Ploy used to highlight almost every sentence in her textbook.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-003",
+      "item": "routine",
+      "thai": "กิจวัตร",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "She changed her routine.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-004",
+      "item": "section",
+      "thai": "ส่วน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "After reading a short section, she closed the book and wrote three points from memory.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-005",
+      "item": "memory",
+      "thai": "ความจำ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "After reading a short section, she closed the book and wrote three points from memory.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-006",
+      "item": "missed",
+      "thai": "ตกหล่น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Then she checked what she had missed.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-007",
+      "item": "classmate",
+      "thai": "เพื่อนร่วมชั้น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Once a week, she explained an idea to a classmate and asked for questions.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-008",
+      "item": "gaps",
+      "thai": "ช่องว่าง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "This approach helped her notice gaps in her understanding.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-009",
+      "item": "understanding",
+      "thai": "ความเข้าใจ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "This approach helped her notice gaps in her understanding.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-010",
+      "item": "feedback",
+      "thai": "ข้อมูลย้อนกลับ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Her plan combined practice, feedback and time to rest.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-011",
+      "item": "recall",
+      "thai": "นึกคืน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Study plan: Monday—read one section and recall three points.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-012",
+      "item": "workload",
+      "thai": "ปริมาณงาน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Change the plan if the workload is unrealistic.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-013",
+      "item": "unrealistic",
+      "thai": "ไม่สอดคล้องความเป็นจริง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Change the plan if the workload is unrealistic.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-014",
+      "item": "recurring",
+      "thai": "เกิดซ้ำ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "At the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-015",
+      "item": "specific",
+      "thai": "เฉพาะเจาะจง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "At the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-02-REV-1",
+      "item": "however",
+      "thai": "อย่างไรก็ตาม",
+      "example": "The plan is useful; however, it costs more.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-2",
+      "item": "although",
+      "thai": "แม้ว่า",
+      "example": "Although the room is small, it is quiet.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-3",
+      "item": "therefore",
+      "thai": "ดังนั้น",
+      "example": "The time changed; therefore, we sent an update.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-4",
+      "item": "for example",
+      "thai": "ตัวอย่างเช่น",
+      "example": "For example, one member needs a quieter space.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-5",
+      "item": "in my view",
+      "thai": "ในมุมมองของฉัน",
+      "example": "In my view, a short trial is reasonable.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-6",
+      "item": "according to",
+      "thai": "ตามข้อมูลจาก",
+      "example": "According to the note, the room closes at five.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-7",
+      "item": "suggest",
+      "thai": "เสนอแนะ",
+      "example": "I suggest checking the details first.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-8",
+      "item": "consider",
+      "thai": "พิจารณา",
+      "example": "We should consider another explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-9",
+      "item": "advantage",
+      "thai": "ข้อดี",
+      "example": "One advantage is the shorter journey.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-10",
+      "item": "disadvantage",
+      "thai": "ข้อเสีย",
+      "example": "The main disadvantage is the cost.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-11",
+      "item": "reason",
+      "thai": "เหตุผล",
+      "example": "Give a reason for your choice.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-12",
+      "item": "result",
+      "thai": "ผลลัพธ์",
+      "example": "The result was different from our plan.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-13",
+      "item": "experience",
+      "thai": "ประสบการณ์",
+      "example": "Describe one experience that changed your view.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-14",
+      "item": "improve",
+      "thai": "ปรับปรุง",
+      "example": "Feedback can help us improve the plan.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-02-REV-15",
+      "item": "review",
+      "thai": "ทบทวน",
+      "example": "We will review the arrangement next week.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B1-02-1",
+      "form": "used to + verb",
+      "use": "นิสัยเดิม",
+      "example": "She used to highlight every sentence."
+    },
+    {
+      "id": "G-B1-02-2",
+      "form": "after + -ing",
+      "use": "เชื่อมลำดับการเรียน",
+      "example": "After reading, she closed the book."
+    },
+    {
+      "id": "G-B1-02-3",
+      "form": "if + present",
+      "use": "ปรับแผนตามเงื่อนไข",
+      "example": "Change the plan if the workload is unrealistic."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B1-02-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "Ploy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest."
+    },
+    {
+      "id": "B1-02-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Study plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic."
+    },
+    {
+      "id": "B1-02-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: How do you know you understand a topic?\nB: I try to explain it without my notes.\nA: What if you forget something?\nB: I check the text, then try again later.\nA: Do you study for hours at once?\nB: No. Short sessions fit my week better."
+    },
+    {
+      "id": "B1-02-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Your strategy should match the task. Remembering a term and writing an argument require different practice. Keep a small error log. At the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer."
+    }
+  ],
+  "pronunciation": "Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B1-0.1",
+    "level": "B1",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B1: Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B1-02-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Education & Learning; explain one source detail and use used to + verb in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-02-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Education & Learning; explain one source detail and use after + -ing in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-02-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Education & Learning; explain one source detail and use if + present in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-02-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Education & Learning; explain one source detail and use used to + verb in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B1-02_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B1-02-015 and the mediation task."
+    },
+    {
+      "errorTag": "B1-02_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B1-02-001",
+      "Q-B1-02-002",
+      "Q-B1-02-003",
+      "Q-B1-02-004",
+      "Q-B1-02-005",
+      "Q-B1-02-006",
+      "Q-B1-02-007",
+      "Q-B1-02-008",
+      "Q-B1-02-009",
+      "Q-B1-02-010",
+      "Q-B1-02-011",
+      "Q-B1-02-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B1-02-013",
+      "Q-B1-02-014",
+      "Q-B1-02-015",
+      "Q-B1-02-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B1-02-1",
+      "TASK-B1-02-2",
+      "TASK-B1-02-3",
+      "TASK-B1-02-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B1.json",
+    "sourceUnitId": "B1-02",
+    "sourceChecksum": "d69605238f1a86d34ca2eb6412d0cdd5a87079ed0f46a9e706b2411c42dd62c8"
+  },
+  "sourceText": "{\n  \"id\": \"B1-02\",\n  \"aim\": \"วางแผนเรียนและอธิบายว่ากลยุทธ์ใดช่วยงานใด\",\n  \"a\": \"Ploy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.\",\n  \"b\": \"Study plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic.\",\n  \"l1\": \"A: How do you know you understand a topic?\\nB: I try to explain it without my notes.\\nA: What if you forget something?\\nB: I check the text, then try again later.\\nA: Do you study for hours at once?\\nB: No. Short sessions fit my week better.\",\n  \"l2\": \"Your strategy should match the task. Remembering a term and writing an argument require different practice. Keep a small error log. At the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer.\",\n  \"v\": \"highlight=เน้นข้อความ;textbook=ตำรา;routine=กิจวัตร;section=ส่วน;memory=ความจำ;missed=ตกหล่น;classmate=เพื่อนร่วมชั้น;gaps=ช่องว่าง;understanding=ความเข้าใจ;feedback=ข้อมูลย้อนกลับ;recall=นึกคืน;workload=ปริมาณงาน;unrealistic=ไม่สอดคล้องความเป็นจริง;recurring=เกิดซ้ำ;specific=เฉพาะเจาะจง\",\n  \"g\": [\n    [\n      \"used to + verb\",\n      \"นิสัยเดิม\",\n      \"She used to highlight every sentence.\"\n    ],\n    [\n      \"after + -ing\",\n      \"เชื่อมลำดับการเรียน\",\n      \"After reading, she closed the book.\"\n    ],\n    [\n      \"if + present\",\n      \"ปรับแผนตามเงื่อนไข\",\n      \"Change the plan if the workload is unrealistic.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"What did Ploy write after closing the book?\",\n      \"three points from memory\",\n      \"a\"\n    ],\n    [\n      \"Whom did she explain ideas to?\",\n      \"a classmate\",\n      \"a\"\n    ],\n    [\n      \"What happens on Friday?\",\n      \"review errors with a partner\",\n      \"b\"\n    ],\n    [\n      \"What kind of feedback should learners ask for?\",\n      \"specific feedback\",\n      \"l2\"\n    ]\n  ]\n}\n",
+  "checksum": "8d6d494e972ff5e76e9cfae330c0a124029762b242d966cb69c32fa78a561631"
+}

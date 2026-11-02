@@ -1,0 +1,722 @@
+[
+  {
+    "id": "C2-01",
+    "aim": "เลือกคำที่รักษาความต่างละเอียดระหว่างหลักฐาน สิทธิ และข้อผูกพัน",
+    "a": "The fictional archive's board described access as guaranteed, although its policy merely made visitors eligible to apply. Eligibility establishes a threshold; a guarantee implies an outcome. Replacing one with the other is therefore a substantive change, not a stylistic improvement. The policy also permitted staff to waive a fee in exceptional circumstances. A summary saying that staff were obliged to do so silently converted discretion into a duty. Precision requires attention to entailment: what must be true if a sentence is true, and what remains merely possible? An editor can make wording more accessible while preserving these distinctions, but cannot resolve an inconvenient ambiguity by inventing a commitment.",
+    "b": "Policy extract: Applicants who meet the residency criterion may request access. Approval remains subject to capacity and preservation requirements. Staff may waive the fee where documented hardship makes payment impracticable. The extract specifies neither an automatic entitlement nor a deadline for decisions.",
+    "l1": "A: Could we promise access to every eligible applicant?\nB: Only by changing the policy, not by paraphrasing it.\nA: Then our heading is misleading.\nB: Yes. State who can apply, retain the approval conditions and distinguish a possible waiver from a mandatory one.",
+    "l2": "Read the revised sentence backwards against the source. Does it now imply an outcome where the original offered a process? Has permission become obligation? A smoother sentence can be less faithful. Where the source is indeterminate, identify the question requiring a policy decision rather than answering it editorially.",
+    "v": "eligible=มีคุณสมบัติสมัคร;threshold=เกณฑ์ขั้นต่ำ;substantive=เปลี่ยนสาระ;waive=ยกเว้น;obliged=มีหน้าที่ต้อง;discretion=ดุลพินิจ;entailment=ความหมายที่จำเป็นต้องตามมา;ambiguity=ความกำกวม;criterion=เกณฑ์;impracticable=ทำจริงได้ยากเกินควร;entitlement=สิทธิที่พึงได้รับ;mandatory=บังคับ;indeterminate=ยังไม่กำหนดชัด;editorially=โดยการแก้ถ้อยคำ;preservation=การอนุรักษ์",
+    "g": [
+      [
+        "eligible to apply / entitled to receive",
+        "แยกคุณสมบัติจากสิทธิรับผล",
+        "Eligible visitors may apply; they are not automatically entitled to access."
+      ],
+      [
+        "may / must",
+        "แยกดุลพินิจจากหน้าที่",
+        "Staff may waive the fee, but are not required to do so."
+      ],
+      [
+        "subject to",
+        "คงเงื่อนไขกำกับ",
+        "Approval is subject to capacity."
+      ]
+    ],
+    "q": [
+      [
+        "What did the board's description incorrectly imply?",
+        "that access was guaranteed rather than subject to application and approval",
+        "a"
+      ],
+      [
+        "What does replacing permission with obligation change?",
+        "discretion becomes a duty",
+        "a"
+      ],
+      [
+        "Does the extract specify a decision deadline?",
+        "no",
+        "b"
+      ],
+      [
+        "What should an editor do with an indeterminate policy point?",
+        "identify the question requiring a policy decision rather than invent an answer",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C2-02",
+    "aim": "ใช้กลุ่มคำอย่างแม่นยำโดยพิจารณาความแรงและหน้าที่ทางวาทกรรม",
+    "a": "The review distinguishes evidence that lends weight to an explanation from evidence that bears out a prediction. The first expression increases plausibility; the second suggests that an expected pattern has been observed. Neither automatically establishes causation. Elsewhere, a witness casts doubt on the timetable without calling the entire project into question. Treating these phrases as interchangeable erases the scope of the challenge. Phraseology is not ornamental vocabulary added after reasoning is complete. A recurrent combination can encode stance, distribute responsibility or signal how a claim relates to earlier discussion. Competent use therefore requires sensitivity to its usual company, its pragmatic force and the particular proposition it modifies.",
+    "b": "Editorial choices: The new figures lend weight to the staffing explanation. The audit bears out the prediction of a shortfall. One disputed date casts doubt on the timetable. It does not, by itself, undermine the rationale for the service. These sentences make different commitments.",
+    "l1": "A: I wrote that the figures vindicate our whole approach.\nB: That is a stronger claim than the analysis supports.\nA: Would lend weight to be more proportionate?\nB: Yes, if you identify the specific explanation and retain the competing account.",
+    "l2": "Build a lexical network around the function, not a list of supposed synonyms. Note which expression introduces corroboration, which expresses reservation and which signals a concession. Test each choice in a complete sentence and ask what a careful reader would infer about the strength and scope of the evidence.",
+    "v": "lends weight to=เพิ่มน้ำหนักให้;bears out=สนับสนุนสิ่งที่คาดไว้;plausibility=ความสมเหตุสมผลที่เป็นไปได้;casts doubt on=ทำให้สงสัย;interchangeable=ใช้แทนกันได้;ornamental=เพื่อประดับ;recurrent=เกิดซ้ำเป็นแบบแผน;encode=บรรจุความหมายไว้;pragmatic force=แรงของเจตนาทางภาษา;shortfall=ส่วนที่ขาด;vindicate=พิสูจน์ความถูกต้องให้;proportionate=ได้สัดส่วนกับหลักฐาน;corroboration=การสนับสนุนยืนยัน;reservation=ข้อสงวน;concession=การยอมรับบางประเด็น",
+    "g": [
+      [
+        "scope of a challenge",
+        "จำกัดสิ่งที่ถูกทักท้วง",
+        "The discrepancy casts doubt on the date, not the entire rationale."
+      ],
+      [
+        "lend weight to + account",
+        "เพิ่มความเป็นไปได้โดยไม่พิสูจน์",
+        "The figures lend weight to that explanation."
+      ],
+      [
+        "by itself",
+        "จำกัดพลังของหลักฐานชิ้นเดียว",
+        "The observation does not by itself establish causation."
+      ]
+    ],
+    "q": [
+      [
+        "Which expression suggests an expected pattern has been observed?",
+        "bears out",
+        "a"
+      ],
+      [
+        "Does either expression automatically establish causation?",
+        "no",
+        "a"
+      ],
+      [
+        "What does the disputed date cast doubt on?",
+        "the timetable",
+        "b"
+      ],
+      [
+        "Why is vindicate our whole approach too strong?",
+        "the analysis supports only a specific explanation and retains a competing account",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-03",
+    "aim": "วิเคราะห์นัยและท่าทีโดยแยกหลักฐานทางภาษาออกจากการคาดเจตนา",
+    "a": "A chair calls the proposal refreshingly ambitious before asking who will deliver it with the current staff. The adjective can convey genuine approval, but the following question introduces a practical reservation. Reading the praise as pure sarcasm would exceed the evidence; reading it as unconditional endorsement would ignore the qualification. A later minute records that members acknowledged the proposal's ambition. This formulation preserves neither clear approval nor explicit rejection, and its institutional neutrality may be deliberate. Interpreting stance involves weighing lexical choices, sequence, context and the consequences of alternative readings. It also requires distinguishing a defensible inference from a confident story about a speaker's private motives.",
+    "b": "Two draft summaries: 'The chair enthusiastically endorsed the proposal' overstates commitment. 'The chair praised its ambition while questioning delivery capacity' records the observable sequence. Neither the transcript nor the minute establishes whether the chair privately favours the proposal overall.",
+    "l1": "A: So the chair was mocking us?\nB: Possibly, but the words do not settle that.\nA: What can we safely report?\nB: A favourable description followed by a capacity question. Keep the implied reservation without attributing an unverified motive.",
+    "l2": "Consider what remains constant across plausible interpretations. Here, delivery capacity is questioned whether the opening praise is sincere, strategic or ironic. Report that stable implication, then label any more speculative reading. Precision can mean preserving several live interpretations rather than selecting the most dramatic one.",
+    "v": "refreshingly=อย่างให้ความรู้สึกใหม่ที่ดี;reservation=ข้อสงวน;sarcasm=การประชด;endorsement=การสนับสนุนรับรอง;qualification=ข้อจำกัดกำกับ;institutional neutrality=ความเป็นกลางในนามองค์กร;stance=ท่าที;defensible inference=การอนุมานที่มีเหตุรองรับ;private motives=แรงจูงใจภายใน;observable=สังเกตได้;attributing=ระบุว่าเป็นของผู้ใด;unverified=ยังไม่ยืนยัน;ironic=มีนัยย้อนแย้ง;speculative=เชิงคาดคะเน;live interpretations=การตีความที่ยังเป็นไปได้",
+    "g": [
+      [
+        "praise while questioning",
+        "รักษาท่าทีสองด้าน",
+        "The chair praised the ambition while questioning capacity."
+      ],
+      [
+        "whether … or …",
+        "หาสารร่วมหลายการตีความ",
+        "Capacity is questioned whether the praise is sincere or ironic."
+      ],
+      [
+        "does not establish whether",
+        "ระบุขอบเขตความรู้",
+        "The transcript does not establish whether the chair favours adoption."
+      ]
+    ],
+    "q": [
+      [
+        "What practical concern follows the praise?",
+        "who will deliver the proposal with current staff",
+        "a"
+      ],
+      [
+        "Why is pure sarcasm an overconfident reading?",
+        "the language also permits genuine approval with a practical reservation",
+        "a"
+      ],
+      [
+        "Which summary stays closest to the observable sequence?",
+        "the chair praised its ambition while questioning delivery capacity",
+        "b"
+      ],
+      [
+        "What remains constant across the proposed interpretations?",
+        "delivery capacity is questioned",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C2-04",
+    "aim": "อธิบายผลของอุปมาและการพาดพิงโดยไม่สมมติว่าทุกคนมีพื้นฐานเดียวกัน",
+    "a": "In an original essay, a curator describes a new digital catalogue as a map that has mistaken itself for the territory. The image criticises the assumption that a representation can exhaust the complexity of what it represents. Later, she calls the catalogue a useful doorway, shifting from a warning about substitution to an invitation to exploration. These metaphors are compatible only if their functions are kept distinct. A literal paraphrase can recover the argument but lose the tonal movement from scepticism to qualified welcome. Interpretation should explain how the image works in this passage without treating recognition of a cultural allusion as a test of intelligence or membership.",
+    "b": "Essay conclusion: 'The catalogue cannot contain every history attached to an object. It can, however, help a visitor discover which questions to ask next.' The final concession limits the earlier criticism. The writer rejects completeness, not the value of cataloguing itself.",
+    "l1": "A: Is the doorway image contradicting the map image?\nB: Not necessarily. One warns against replacing reality; the other describes a route into inquiry.\nA: How do we explain that to someone unfamiliar with the imagery?\nB: State the two functions, then show how the conclusion reconciles them.",
+    "l2": "Start with the local context before looking for a remote reference. Explain the literal proposition, the associations activated by the image and the attitude it invites. If an allusion is uncertain, offer it as a possibility. Do not make the argument depend on an attribution the passage cannot support.",
+    "v": "curator=ภัณฑารักษ์;territory=พื้นที่จริงที่ถูกแทนภาพ;representation=สิ่งแทนความจริง;exhaust=ครอบคลุมจนหมด;substitution=การนำสิ่งหนึ่งแทนอีกสิ่ง;tonal movement=การเปลี่ยนท่วงทำนอง;scepticism=ความสงสัยเชิงวิพากษ์;qualified welcome=การต้อนรับที่มีข้อจำกัด;allusion=การพาดพิง;concession=การยอมรับอีกด้าน;cataloguing=การจัดทำรายการ;inquiry=การสืบค้นหาความรู้;reconciles=ทำให้เห็นว่าไปด้วยกันได้;associations=ความคิดเชื่อมโยง;attribution=การระบุที่มา",
+    "g": [
+      [
+        "cannot … can, however …",
+        "รักษาขีดจำกัดและประโยชน์",
+        "The catalogue cannot contain every history; it can, however, prompt inquiry."
+      ],
+      [
+        "reject X, not Y",
+        "จำกัดเป้าการวิจารณ์",
+        "The writer rejects completeness, not cataloguing itself."
+      ],
+      [
+        "only if",
+        "ระบุเงื่อนไขการตีความ",
+        "The metaphors are compatible only if their functions remain distinct."
+      ]
+    ],
+    "q": [
+      [
+        "What assumption does the map image criticise?",
+        "that a representation can exhaust the complexity of what it represents",
+        "a"
+      ],
+      [
+        "What change does the doorway metaphor introduce?",
+        "a move towards qualified welcome or exploration",
+        "a"
+      ],
+      [
+        "Does the writer reject all value in cataloguing?",
+        "no; the catalogue can help visitors find questions",
+        "b"
+      ],
+      [
+        "What should happen before searching for a remote reference?",
+        "examine the local context",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C2-05",
+    "aim": "สร้างเหตุผลของคู่สนทนาในรูปที่แข็งแรงแล้วตรวจสมมติฐานแฝง",
+    "a": "A fictional institute argues that because its voluntary workshop attracted many experienced applicants, making the workshop compulsory would improve every employee's performance. The conclusion relies on several unstated bridges: that attendance caused the reported improvement, that volunteers resemble non-volunteers in relevant respects, and that a compulsory version would preserve the conditions that made the voluntary one useful. Challenging these assumptions does not show that compulsory training must fail. It shows that the proposed inference outruns the evidence. A fair reconstruction gives the argument its strongest plausible form before testing the necessity of each bridge, considering alternatives and distinguishing insufficient support from a demonstrated falsehood.",
+    "b": "Evidence note: Participants reported higher confidence after the workshop. No comparison group was used, and performance was not directly assessed. Several participants had previously sought additional training. The note supports further investigation; it does not establish the size of any effect on workplace performance.",
+    "l1": "A: Are you saying the workshop is useless?\nB: No. I am questioning the inference from these volunteers to all employees.\nA: What would strengthen it?\nB: Evidence about outcomes, alternative explanations and whether the compulsory setting changes participation.",
+    "l2": "Separate the factual premise, the evaluative premise and the proposed action. Ask what would have to be true for the conclusion to follow. Then construct a counterexample that preserves the stated facts while challenging the inference. A counterexample tests the reasoning; it need not describe what actually happened.",
+    "v": "compulsory=ภาคบังคับ;unstated=ไม่ได้กล่าวชัด;volunteers=ผู้สมัครใจ;relevant respects=ด้านที่เกี่ยวข้อง;inference=การอนุมาน;outruns=เกินกว่าสิ่งที่รองรับ;reconstruction=การสร้างข้อโต้แย้งขึ้นใหม่;necessity=ความจำเป็น;falsehood=ข้อความเท็จ;comparison group=กลุ่มเปรียบเทียบ;assessed=ประเมิน;factual premise=ข้ออ้างตั้งต้นเชิงข้อเท็จจริง;evaluative premise=ข้ออ้างตั้งต้นเชิงคุณค่า;counterexample=ตัวอย่างโต้แย้ง;alternative explanations=คำอธิบายอื่นที่เป็นไปได้",
+    "g": [
+      [
+        "does not follow that",
+        "แยกการทักท้วงจากข้อสรุปตรงข้าม",
+        "It does not follow that the workshop is useless."
+      ],
+      [
+        "would have to",
+        "เปิดสมมติฐานที่จำเป็น",
+        "The groups would have to be comparable in relevant respects."
+      ],
+      [
+        "even if … would not establish",
+        "คงข้อเท็จจริงแต่ทดสอบการอนุมาน",
+        "Even if confidence rose, that would not establish improved performance."
+      ]
+    ],
+    "q": [
+      [
+        "What population does the proposal generalise to?",
+        "every employee",
+        "a"
+      ],
+      [
+        "Does insufficient support demonstrate that the proposal is false?",
+        "no",
+        "a"
+      ],
+      [
+        "What outcome was reported rather than directly assessed performance?",
+        "higher confidence",
+        "b"
+      ],
+      [
+        "What does a counterexample preserve while challenging an inference?",
+        "the stated facts",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "C2-06",
+    "aim": "สังเคราะห์ข้ามแหล่งโดยรักษาความต่างของหน่วยวัด เวลา และกลุ่มข้อมูล",
+    "a": "Three reports appear to disagree about a fictional reading programme. The first records increased registrations, the second unchanged weekly attendance and the third fewer visits per active member. These findings are not necessarily inconsistent: a larger registered population can coexist with stable attendance and less frequent use by each active participant. A synthesis that simply labels the evidence mixed conceals the difference between the denominators. Reconstruction requires identifying each source's population, period, unit of analysis and operational definition before arranging claims around a shared question. Where these cannot be aligned, the writer should retain the incompatibility rather than manufacture a common metric that none of the sources actually measured.",
+    "b": "Source ledger: A—registrations rose from 80 to 100 over one term. B—average weekly attendance remained 40 during that term. C—average visits per active member fell from four to three, but active membership was defined differently from registration. No source measures learning gains or explains causation.",
+    "l1": "A: Can I say participation improved?\nB: Only after defining participation. Registrations increased; the other measures did not.\nA: Should I average the figures?\nB: No. They have different units and denominators. Present the distinction before drawing any overall judgement.",
+    "l2": "Create a claim map with a source beside every proposition. Mark comparable measures, unresolved definitions and genuinely contradictory statements separately. Organise the final synthesis around the decision the reader faces, but do not let a tidy structure conceal differences that would change that decision.",
+    "v": "registrations=การลงทะเบียน;denominators=ตัวหารหรือฐานประชากร;unit of analysis=หน่วยที่วิเคราะห์;operational definition=นิยามที่ใช้วัด;aligned=ทำให้เทียบกันได้;incompatibility=ความไม่เข้ากัน;common metric=มาตรวัดร่วม;ledger=บัญชีข้อมูล;learning gains=ผลการเรียนรู้ที่เพิ่มขึ้น;causation=ความเป็นเหตุเป็นผล;participation=การมีส่วนร่วม;claim map=แผนผังข้ออ้าง;comparable=เทียบกันได้;contradictory=ขัดแย้งกัน;proposition=ข้อความหรือข้อเสนอความ",
+    "g": [
+      [
+        "can coexist with",
+        "อธิบายผลที่ไม่ขัดกัน",
+        "More registrations can coexist with stable attendance."
+      ],
+      [
+        "only after defining",
+        "จำกัดข้อสรุปด้วยนิยาม",
+        "We can assess participation only after defining the measure."
+      ],
+      [
+        "where … cannot … retain",
+        "รักษาความไม่เทียบกัน",
+        "Where definitions cannot be aligned, retain the distinction."
+      ]
+    ],
+    "q": [
+      [
+        "Why are the three findings not necessarily inconsistent?",
+        "they measure different populations or units of participation",
+        "a"
+      ],
+      [
+        "What could the phrase mixed evidence conceal?",
+        "different denominators and operational definitions",
+        "a"
+      ],
+      [
+        "Which measure stayed at 40?",
+        "average weekly attendance",
+        "b"
+      ],
+      [
+        "Why should the figures not be averaged?",
+        "they have different units and denominators",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-07",
+    "aim": "ประเมินกลวิธีโน้มน้าวควบคู่กับคุณภาพเหตุผลและทางเลือกที่ถูกละ",
+    "a": "A campaign for a fictional cultural centre frames the choice as either embracing the future or retreating into irrelevance. The antithesis is memorable, but it excludes intermediate options such as a limited trial or a partnership. Repetition of the phrase our shared future invites identification with the proposal before its costs are examined. Neither device makes the proposal wrong; rhetorical effectiveness and evidential adequacy are separate questions. A critical response should describe the persuasive mechanism, reconstruct the substantive case and restore excluded alternatives. Simply naming a fallacy can become another shortcut if it replaces analysis of the actual reasons and consequences at issue.",
+    "b": "Budget note: The full centre would require a three-year commitment. A smaller partnership could be reviewed after six months. The campaign speech mentions the first option's potential reach but does not compare its reversibility with the partnership. No decision has yet been authorised.",
+    "l1": "A: The speech persuaded the room. Does that settle the case?\nB: It shows persuasive success with that audience, not necessarily a sound comparison.\nA: What should our response do?\nB: Acknowledge the shared aim, then compare reach, cost and reversibility across the available options.",
+    "l2": "Track where the audience is invited to identify, fear, hope or infer. Then ask which invitation is supported by a reason and which relies on an unexamined association. Effective criticism can retain the speaker's legitimate aspiration while rejecting the false restriction on how it might be pursued.",
+    "v": "frames=วางกรอบ;antithesis=การวางความตรงข้าม;intermediate=อยู่ระหว่าง;identification=ความรู้สึกเป็นพวกเดียวกัน;rhetorical=เชิงวาทศิลป์;evidential adequacy=ความเพียงพอของหลักฐาน;substantive case=เหตุผลเชิงสาระ;fallacy=เหตุผลวิบัติ;reversibility=ความย้อนกลับแก้ได้;authorised=ได้รับอนุมัติ;persuasive success=ความสำเร็จในการโน้มน้าว;unexamined association=ความเชื่อมโยงที่ไม่ได้ตรวจ;legitimate aspiration=ความมุ่งหวังที่มีเหตุผล;restriction=การจำกัด;consequences=ผลที่ตามมา",
+    "g": [
+      [
+        "either … or …",
+        "ตรวจกรอบทางเลือก",
+        "Either approve the centre or accept decline excludes other options."
+      ],
+      [
+        "neither … nor …",
+        "แยกการประเมินสองด้าน",
+        "Neither applause nor memorable phrasing establishes the budget case."
+      ],
+      [
+        "while retaining",
+        "ทักท้วงวิธีแต่รักษาจุดหมาย",
+        "We can question the restriction while retaining the shared aim."
+      ]
+    ],
+    "q": [
+      [
+        "Which intermediate options does the speech exclude?",
+        "a limited trial or a partnership",
+        "a"
+      ],
+      [
+        "Does identifying a rhetorical device prove the proposal wrong?",
+        "no",
+        "a"
+      ],
+      [
+        "When could the smaller partnership be reviewed?",
+        "after six months",
+        "b"
+      ],
+      [
+        "Which three criteria should the response compare?",
+        "reach, cost and reversibility",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-08",
+    "aim": "เปลี่ยนสำนวนและเสียงผู้เขียนโดยคงตัวผู้รับผิดชอบและเงื่อนไข",
+    "a": "An internal incident note states that a coordinator postponed the workshop after two access checks remained incomplete. A public update recasts this as unforeseen circumstances necessitated a scheduling adjustment. The latter is more impersonal, but it also obscures agency and removes the specific reason. Register transformation is therefore not a neutral change of surface. A responsible editor asks which details the new audience needs, which may legitimately be withheld and which omissions would mislead. Formality can coexist with direct responsibility. A concise public version could say that the coordinator postponed the workshop while the team completed access checks, retaining the causal relationship without disclosing unnecessary personal information.",
+    "b": "Approved facts for this fictional exercise: The coordinator made the decision. Two checks were incomplete on Monday. No revised date is confirmed. Participants will receive an update on Thursday. The note contains no finding of negligence and no evidence that the checks failed.",
+    "l1": "A: Could we say the checks failed?\nB: No. Incomplete is not the same as failed.\nA: And a friendlier version?\nB: Use direct, considerate language, but keep the decision-maker, the reason and the fact that the new date remains unconfirmed.",
+    "l2": "Compare versions proposition by proposition. Look for changes in agency, certainty, timing and evaluative colouring. A warmer voice may add an acknowledgement of inconvenience; it should not add an apology on behalf of someone who has not authorised one or a promise the source does not support.",
+    "v": "recasts=เรียบเรียงให้เป็นอีกแบบ;impersonal=ไม่ระบุตัวบุคคล;obscures=ทำให้ไม่ชัด;agency=ผู้กระทำหรือความเป็นผู้กระทำ;register transformation=การเปลี่ยนระดับสำนวน;withheld=ไม่เปิดเผย;causal relationship=ความสัมพันธ์เชิงเหตุ;negligence=ความประมาท;unconfirmed=ยังไม่ยืนยัน;considerate=คำนึงถึงผู้อื่น;proposition by proposition=ทีละสารความ;evaluative colouring=นัยประเมินค่า;acknowledgement=การรับรู้และกล่าวถึง;inconvenience=ความไม่สะดวก;authorised=อนุญาตแล้ว",
+    "g": [
+      [
+        "active agency",
+        "รักษาผู้ตัดสินใจ",
+        "The coordinator postponed the workshop."
+      ],
+      [
+        "incomplete versus failed",
+        "ไม่เปลี่ยนสถานะงานเป็นผลประเมิน",
+        "The checks were incomplete; they had not been reported as failed."
+      ],
+      [
+        "while + ongoing action",
+        "ระบุเหตุและงานที่ดำเนินอยู่",
+        "The workshop is postponed while the team completes the checks."
+      ]
+    ],
+    "q": [
+      [
+        "What does the impersonal update obscure?",
+        "the coordinator's agency and the specific reason for postponement",
+        "a"
+      ],
+      [
+        "What may be omitted without losing the causal relationship?",
+        "unnecessary personal information",
+        "a"
+      ],
+      [
+        "When will participants receive an update?",
+        "Thursday",
+        "b"
+      ],
+      [
+        "Is a revised date confirmed?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-09",
+    "aim": "ติดตามบทพูดหนาแน่นที่แก้ไขกลางประโยคและแยกข้อยุติจากข้อเสนอ",
+    "a": "The transcript of a fictional planning call contains false starts, embedded qualifications and a late correction. An initial reference to Friday is superseded by Monday, while a proposed launch remains conditional on accessibility testing. A listener who records only prominent nouns and dates may produce a fluent but inaccurate summary. Skilled processing tracks how later turns revise earlier propositions and whether a speaker is reporting a decision, floating an option or resisting an implication. The learning task uses an authored transcript until recorded audio is available; it cannot yet establish comprehension at natural speed or under real acoustic conditions.",
+    "b": "Decision ledger after the call: Review meeting—Monday. Launch—unconfirmed, dependent on accessibility testing. Supplier notice—draft now, send only after approval. The ledger must not turn preparation of a notice into permission to send it. No launch date was agreed.",
+    "l1": "A: Friday should work—sorry, Monday for the review, not the launch.\nB: Assuming the access tests are complete?\nA: For the launch, yes. We can review incomplete results on Monday.\nB: Shall I notify the supplier?\nA: Draft the notice, certainly, but hold it until we approve the next step.",
+    "l2": "Let me disentangle that. Monday is fixed for reviewing what we have; it is not a promise that testing will be complete. We may prepare the supplier message in parallel. Sending it remains a separate decision, and nothing in this call authorises launch.",
+    "v": "false starts=การเริ่มพูดแล้วเปลี่ยน;embedded qualifications=ข้อจำกัดที่แทรกในข้อความ;superseded=ถูกแทนที่ด้วยข้อมูลใหม่;conditional=มีเงื่อนไข;prominent=เด่น;propositions=สารหรือข้อความเสนอ;floating an option=เสนอทางเลือกลองดู;acoustic conditions=สภาพเสียงจริง;decision ledger=บันทึกสถานะการตัดสินใจ;dependent on=ขึ้นกับ;notify=แจ้ง;hold it=รอไว้ก่อน;disentangle=แยกประเด็นที่พันกัน;in parallel=ควบคู่กัน;authorises=ให้อำนาจอนุญาต",
+    "g": [
+      [
+        "self-repair",
+        "ใช้ข้อมูลแก้ล่าสุด",
+        "Friday—sorry, Monday—is the review date."
+      ],
+      [
+        "not a promise that",
+        "ป้องกันการยกระดับข้อผูกพัน",
+        "The meeting is not a promise that testing will be complete."
+      ],
+      [
+        "prepare versus send",
+        "แยกการเตรียมจากการอนุมัติ",
+        "We may prepare the notice, but must wait for approval to send it."
+      ]
+    ],
+    "q": [
+      [
+        "Which date supersedes Friday?",
+        "Monday",
+        "a"
+      ],
+      [
+        "What cannot transcript-only work yet establish?",
+        "natural-speed listening comprehension under real acoustic conditions",
+        "a"
+      ],
+      [
+        "What condition governs launch?",
+        "accessibility testing",
+        "b"
+      ],
+      [
+        "May the supplier notice be sent immediately?",
+        "no; it may be drafted but must be held until approval",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-10",
+    "aim": "เขียนสังเคราะห์เชิงวิชาการที่แยกความต่างทางแนวคิดและระดับหลักฐาน",
+    "a": "Two fictional studies use the term engagement differently. One counts contributions during seminars; the other analyses reflective journals. A review that reports one positive and one negative finding without discussing this conceptual divergence creates a misleading dispute. Critical synthesis should explain what each operationalisation makes visible and what it leaves unmeasured. It can then ask whether the studies address competing accounts of the same phenomenon or different dimensions of a broader construct. The writer's contribution lies partly in this reconstruction, but an elegant conceptual framework must remain answerable to the sources. A proposed explanation should be marked as an interpretation, not retrospectively attributed to the original researchers.",
+    "b": "Study notes: Study A—more spoken contributions after a new discussion format; no measure of contribution quality. Study B—richer reflective journals among some quieter participants; no comparable baseline. Both studies concern one class and neither tests long-term learning. No significance tests are supplied in this exercise.",
+    "l1": "A: Can I conclude that discussion format improves engagement?\nB: Specify the dimension and the limits. A counts contributions; B examines reflection without a comparable baseline.\nA: Where does my own synthesis enter?\nB: In explaining the relationship between those measures, clearly labelled as your interpretation.",
+    "l2": "Organise the review around a conceptual question rather than a procession of article summaries. Use attribution to distinguish reported findings, methodological criticism and your own reconstruction. End with a question the evidence leaves open, specifying what kind of observation could help resolve it without claiming a research design guarantees certainty.",
+    "v": "conceptual divergence=ความต่างของแนวคิด;operationalisation=การแปลงแนวคิดเป็นสิ่งวัด;unmeasured=ไม่ได้วัด;phenomenon=ปรากฏการณ์;construct=มโนทัศน์ที่ศึกษา;answerable to=ต้องตรวจสอบเทียบกับ;retrospectively=ย้อนหลัง;baseline=ค่าหรือข้อมูลตั้งต้น;significance tests=การทดสอบนัยสำคัญ;dimension=มิติ;procession=การเรียงต่อกัน;attribution=การระบุผู้กล่าวหรือแหล่ง;methodological=เกี่ยวกับวิธีศึกษา;reconstruction=การสร้างความเชื่อมโยงใหม่;resolve=ช่วยคลี่คลาย",
+    "g": [
+      [
+        "reported finding versus interpretation",
+        "ระบุเจ้าของข้อสรุป",
+        "Study A reports more contributions; I interpret this as one dimension of engagement."
+      ],
+      [
+        "without a comparable baseline",
+        "เก็บข้อจำกัดการเปรียบเทียบ",
+        "The journals were richer, but the study lacked a comparable baseline."
+      ],
+      [
+        "may reflect rather than establish",
+        "รักษาความไม่แน่นอน",
+        "The difference may reflect measurement choices rather than establish a contradiction."
+      ]
+    ],
+    "q": [
+      [
+        "How do the studies define engagement differently?",
+        "seminar contributions versus reflective journals",
+        "a"
+      ],
+      [
+        "How should a writer's proposed explanation be labelled?",
+        "as the writer's interpretation rather than attributed to the original researchers",
+        "a"
+      ],
+      [
+        "Does Study A assess contribution quality?",
+        "no",
+        "b"
+      ],
+      [
+        "What is missing for comparison in Study B?",
+        "a comparable baseline",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-11",
+    "aim": "จัดทำข้อความระดับผู้บริหารที่สั้นแต่ไม่ซ่อนความเสี่ยงหรือขอบเขตอำนาจ",
+    "a": "A senior briefing on a fictional archive migration must support a decision without burying uncertainty in an appendix. The technical team has completed file transfer, but integrity checks cover only a sample. Describing the migration as complete collapses a delivery milestone into an assurance claim. The briefing should identify the decision requested, the evidence available, the residual uncertainty and the authority responsible for accepting it. Concision is achieved by prioritising decision-relevant distinctions, not by removing every caveat. A recommendation can be firm about the next action while remaining provisional about the system's readiness, provided the conditions for reconsideration are explicit.",
+    "b": "Decision note: Transfer finished. Sample integrity checks passed. Full verification outstanding. Technical lead recommends retaining the old system until verification is complete. Only the programme board can authorise retirement. No evidence in this exercise quantifies the probability of undetected errors.",
+    "l1": "A: The executive wants a yes-or-no answer on retirement.\nB: Then recommend no retirement yet, and state the condition that would change the recommendation.\nA: Can we say the new system is unsafe?\nB: We can say full verification is outstanding. Do not substitute an unsupported risk estimate.",
+    "l2": "Lead with the action and its rationale. Identify what has been achieved, what remains unverified and who owns the decision. If a specialist term is essential, define it once. Escalate an unresolved decision to the proper authority; do not conceal it inside a reassuring adjective.",
+    "v": "integrity checks=การตรวจความครบถ้วนถูกต้อง;milestone=จุดสำเร็จระหว่างทาง;assurance claim=ข้ออ้างรับรองความมั่นใจ;residual uncertainty=ความไม่แน่นอนที่ยังเหลือ;concision=ความกระชับ;decision-relevant=เกี่ยวข้องต่อการตัดสินใจ;caveat=ข้อสงวน;provisional=ชั่วคราวและพร้อมทบทวน;reconsideration=การพิจารณาใหม่;verification=การตรวจยืนยัน;retirement=การเลิกใช้ระบบ;undetected=ที่ยังตรวจไม่พบ;rationale=เหตุผลรองรับ;escalate=ส่งเรื่องสู่ผู้มีอำนาจ;reassuring=ทำให้วางใจ",
+    "g": [
+      [
+        "milestone versus assurance",
+        "ไม่ให้ขั้นงานแทนการรับรอง",
+        "Transfer is complete; full verification is not."
+      ],
+      [
+        "until + decision condition",
+        "ระบุเงื่อนไขคงระบบเดิม",
+        "Retain the old system until verification is complete."
+      ],
+      [
+        "only + decision owner",
+        "ระบุผู้มีอำนาจ",
+        "Only the programme board can authorise retirement."
+      ]
+    ],
+    "q": [
+      [
+        "What does describing the migration as complete collapse?",
+        "a delivery milestone into an assurance claim",
+        "a"
+      ],
+      [
+        "Can a recommendation be firm while readiness remains provisional?",
+        "yes, if the conditions for reconsideration are explicit",
+        "a"
+      ],
+      [
+        "Who can authorise retirement of the old system?",
+        "the programme board",
+        "b"
+      ],
+      [
+        "Why should the briefing avoid saying the system is unsafe?",
+        "the evidence establishes outstanding verification, not an unsupported risk estimate",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-12",
+    "aim": "เจรจาเงื่อนไขหลายฝ่ายและตรวจว่าการเห็นชอบครอบคลุมอะไรจริง",
+    "a": "In a fictional venue negotiation, both sides say they can accept a later opening, but their assent rests on different conditions. The organiser assumes staffing costs will be covered; the venue assumes the organiser will supply staff. Apparent agreement conceals an unresolved allocation of responsibility. A skilled negotiator tests the reference of vague expressions such as that arrangement before treating assent as closure. They distinguish interests from positions, identify which terms can move together and record dependencies explicitly. Diplomatic language should protect the working relationship without making a conditional concession appear unconditional or allowing silence to be counted as consent.",
+    "b": "Provisional record: Opening may move to eight o'clock if staffing and costs are agreed. The organiser can supply two volunteers, subject to confirmation. The venue requires a named supervisor. Neither party has accepted the additional cost or authorised an announcement to participants.",
+    "l1": "A: We could live with that arrangement.\nB: Before I record agreement, do you mean the later time only, or the staffing proposal as well?\nA: The time only. Our staffing offer depends on two volunteers confirming.\nB: Then let us record the time as conditional and keep cost allocation open.",
+    "l2": "Summarise each party's commitment in terms they can correct. Ask about the condition most likely to be interpreted differently. Close with owners and next steps rather than a vague declaration of consensus. If authority is limited, state whose further approval is required before anything becomes binding in this exercise.",
+    "v": "assent=การเห็นชอบ;allocation=การจัดสรร;closure=การถือว่าสรุปแล้ว;interests=ความต้องการเบื้องหลัง;positions=จุดยืนที่เสนอ;dependencies=เงื่อนไขที่พึ่งกัน;conditional concession=การยอมให้แบบมีเงื่อนไข;consent=ความยินยอม;provisional=ยังไม่เป็นข้อยุติ;subject to confirmation=รอการยืนยัน;supervisor=ผู้ควบคุมดูแล;cost allocation=การแบ่งรับค่าใช้จ่าย;consensus=ฉันทามติ;authority=ขอบเขตอำนาจ;binding=มีผลผูกพันในสถานการณ์",
+    "g": [
+      [
+        "scope clarification",
+        "ถามขอบเขตการเห็นชอบ",
+        "Do you mean the time only, or staffing as well?"
+      ],
+      [
+        "subject to confirmation",
+        "คงสถานะยังไม่แน่นอน",
+        "Two volunteers are available subject to confirmation."
+      ],
+      [
+        "if and only when agreed",
+        "ผูกข้อสรุปกับเงื่อนไขจริง",
+        "The opening changes only when staffing and costs are agreed."
+      ]
+    ],
+    "q": [
+      [
+        "What conflicting assumptions underlie apparent agreement?",
+        "the organiser assumes staffing costs are covered; the venue assumes the organiser supplies staff",
+        "a"
+      ],
+      [
+        "Should silence be counted as consent?",
+        "no",
+        "a"
+      ],
+      [
+        "What does the venue require?",
+        "a named supervisor",
+        "b"
+      ],
+      [
+        "What part of the arrangement does the speaker initially accept?",
+        "the later time only",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-14",
+    "aim": "ปรับสารสำหรับผู้ฟังต่างกันพร้อมอธิบายสิ่งที่ตัดและสิ่งที่ต้องรักษา",
+    "a": "A specialist note describes a catalogue search tool as improving retrieval for the tested query set while leaving performance on unfamiliar queries unresolved. A public explanation does not need every technical detail, but saying the tool finds everything would reverse the note's central limitation. Audience adaptation requires deciding which distinctions carry the practical consequence. For a visitor, the useful message may be that an unsuccessful search does not prove the archive lacks the item. For a project board, the unresolved coverage affects whether to expand deployment. The same source thus supports different selections, but neither selection licenses a stronger claim than the source makes.",
+    "b": "Source facts: Twenty familiar queries were tested. Eighteen returned the expected catalogue entry. Unfamiliar queries were not assessed. Staff can help with unsuccessful searches. No comparison with the previous tool is supplied, and no claim is made about material absent from the catalogue.",
+    "l1": "A: For visitors, can I write that the search usually works?\nB: That generalises beyond the tested query set.\nA: What is both useful and faithful?\nB: Say that staff can help if a search fails, and avoid implying that no result means no item exists.",
+    "l2": "Produce two versions, then annotate your omissions. Explain why a technical distinction was retained, simplified or left out. Check whether the audience could make a materially different decision because of your wording. If so, restore the missing qualification even if the resulting sentence is less elegant.",
+    "v": "retrieval=การค้นคืนข้อมูล;query set=ชุดคำค้น;unresolved=ยังไม่คลี่คลาย;audience adaptation=การปรับตามผู้รับสาร;practical consequence=ผลต่อการใช้งานจริง;coverage=ขอบเขตที่ครอบคลุม;deployment=การนำไปใช้;licenses=อนุญาตให้สรุปได้;catalogue entry=ระเบียนรายการ;generalises=สรุปขยายวง;faithful=ตรงต่อสารต้นฉบับ;annotate=เขียนคำอธิบายกำกับ;omissions=สิ่งที่ละออก;materially=อย่างมีสาระสำคัญ;qualification=ข้อจำกัดกำกับ",
+    "g": [
+      [
+        "for the tested set",
+        "จำกัดขอบเขตผล",
+        "The tool returned expected entries for eighteen of the twenty tested queries."
+      ],
+      [
+        "does not prove absence",
+        "ไม่ให้ผลค้นแทนข้อเท็จจริงทั้งหมด",
+        "No search result does not prove that the item is absent."
+      ],
+      [
+        "different selections, same limits",
+        "ปรับสารโดยไม่เพิ่มข้ออ้าง",
+        "The visitor version omits test detail but retains the practical limitation."
+      ]
+    ],
+    "q": [
+      [
+        "What limitation must public wording preserve?",
+        "performance on unfamiliar queries remains unresolved",
+        "a"
+      ],
+      [
+        "What decision does unresolved coverage affect for the board?",
+        "whether to expand deployment",
+        "a"
+      ],
+      [
+        "How many tested queries returned the expected entry?",
+        "eighteen of twenty",
+        "b"
+      ],
+      [
+        "Why is the search usually works too broad?",
+        "it generalises beyond the tested query set",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-15",
+    "aim": "อธิบายว่าสถาปัตยกรรมข้อความจัดน้ำหนักเหตุผลและเสียงของผู้มีส่วนได้เสียอย่างไร",
+    "a": "A report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.",
+    "b": "Report inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents.",
+    "l1": "A: Every sentence is true, so how could the report mislead?\nB: Selection and placement can change the impression. The anecdote frames results that are more limited.\nA: Would adding a caution in the appendix solve it?\nB: Only if readers encounter and understand it where it matters to their judgement.",
+    "l2": "Trace the movement from opening frame to final recommendation. Identify whose voice is quoted directly, whose is compressed and whose is absent. Then distinguish the report's explicit claim from the inference encouraged by its architecture. Propose a revision that preserves legitimate purpose while improving the visibility of relevant limitations.",
+    "v": "aggregate results=ผลรวมจากหลายข้อมูล;interpretive priority=น้ำหนักนำการตีความ;anecdote=เรื่องเล่ารายกรณี;placement=ตำแหน่งจัดวาง;proportion=สัดส่วนพื้นที่;attribution=การระบุเจ้าของข้อความ;argumentative architecture=โครงสร้างจัดเหตุผล;genre=ประเภทงานสื่อสาร;evaluation=การประเมิน;non-response rate=อัตราไม่ตอบ;non-respondents=ผู้ไม่ตอบ;opening frame=กรอบนำตอนต้น;compressed=ย่อรวม;explicit claim=ข้ออ้างที่กล่าวชัด;visibility=ความเห็นได้ชัด",
+    "g": [
+      [
+        "not only … but how …",
+        "ขยายหน่วยวิเคราะห์",
+        "Ask not only whether sentences are true, but how placement shapes judgement."
+      ],
+      [
+        "cannot establish that none",
+        "ไม่ให้ข้อมูลที่ไม่พบแทนการไม่มี",
+        "The report cannot establish that no dissatisfied non-respondents existed."
+      ],
+      [
+        "without changing",
+        "แยกโครงสร้างจากข้อเท็จจริง",
+        "Moving the data changes emphasis without changing the figures."
+      ]
+    ],
+    "q": [
+      [
+        "What receives interpretive priority through the circular structure?",
+        "the satisfied participant's anecdote",
+        "a"
+      ],
+      [
+        "Does genre automatically excuse a misleading impression?",
+        "no",
+        "a"
+      ],
+      [
+        "What proportion of recorded responses was positive?",
+        "half; responses were split evenly between positive and neutral",
+        "b"
+      ],
+      [
+        "Why may a caution hidden in the appendix be insufficient?",
+        "readers may not encounter or understand it where it affects judgement",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "C2-16",
+    "aim": "จัดทำผลงานบูรณาการที่รักษาความขัดแย้ง หลักฐาน และการเปลี่ยนสารตามผู้รับ",
+    "a": "A fictional consortium must decide whether to expand an open learning service. The funder prioritises visible reach, educators question whether attendance captures learning, and community partners warn that a digital-only expansion could exclude some intended users. The sources contain both shared aims and incompatible assumptions about success. An integrated response must reconstruct these assumptions, compare feasible options and recommend a course of action with explicit decision conditions. It should also translate the recommendation for different audiences without presenting unresolved disagreement as consensus. Sophisticated performance is demonstrated through accurate selection, justified qualification and responsive interaction, not through density of vocabulary or an appearance of effortless certainty.",
+    "b": "Briefing pack: Funder—renewal requires an agreed evaluation plan, not a specific attendance target. Educators—learning evidence must include more than visits. Partners—retain a supported access route during any trial. Operations—current staffing supports two additional sessions weekly. No expansion budget or permanent timetable has been approved.",
+    "l1": "A: Can we announce agreement to expand?\nB: We have agreement to examine a trial, not authorisation for permanent expansion.\nA: What should the recommendation include?\nB: Two feasible options, the evidence each would generate, the access condition and the decision still required from the board.",
+    "l2": "Give a concise oral briefing, respond to a sceptical question and revise one point when a partner identifies a genuine omission. Then prepare a public explanation and an internal decision record. Preserve the same facts and conditions across genres, and make any change of interpretation visible rather than quietly rewriting the evidence.",
+    "v": "consortium=กลุ่มองค์กรร่วมงาน;visible reach=จำนวนหรือขอบเขตเข้าถึงที่เห็นได้;intended users=ผู้ใช้เป้าหมาย;incompatible assumptions=สมมติฐานที่เข้ากันไม่ได้;decision conditions=เงื่อนไขการตัดสินใจ;unresolved disagreement=ความเห็นต่างที่ยังไม่ยุติ;justified qualification=ข้อสงวนที่มีเหตุรองรับ;responsive interaction=ปฏิสัมพันธ์ที่ตอบประเด็น;renewal=การต่ออายุการสนับสนุน;evaluation plan=แผนประเมิน;supported access route=ช่องทางเข้าถึงที่มีผู้ช่วย;authorisation=การอนุมัติ;sceptical question=คำถามทักท้วงอย่างสงสัย;decision record=บันทึกการตัดสินใจ;genres=ประเภทงานสื่อสาร",
+    "g": [
+      [
+        "agreement to examine versus authorisation",
+        "แยกสถานะการตัดสินใจ",
+        "There is agreement to examine a trial, not authorisation to expand permanently."
+      ],
+      [
+        "provided that",
+        "รักษาเงื่อนไขการทดลอง",
+        "A trial is feasible provided that supported access is retained."
+      ],
+      [
+        "revision with attribution",
+        "แก้สารอย่างเปิดเผย",
+        "Following the partner's clarification, I have restored the access condition."
+      ]
+    ],
+    "q": [
+      [
+        "What does the funder prioritise in the opening text?",
+        "visible reach",
+        "a"
+      ],
+      [
+        "What should an integrated response preserve across audiences?",
+        "facts, conditions and unresolved disagreement without manufacturing consensus",
+        "a"
+      ],
+      [
+        "How many additional weekly sessions can current staffing support?",
+        "two",
+        "b"
+      ],
+      [
+        "What agreement has actually been reached?",
+        "agreement to examine a trial, not authorisation for permanent expansion",
+        "l1"
+      ]
+    ]
+  }
+]

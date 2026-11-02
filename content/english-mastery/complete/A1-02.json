@@ -1,0 +1,831 @@
+{
+  "stableId": "UNIT-A1-02-PILOT",
+  "unitId": "A1-02",
+  "level": "A1",
+  "version": "0.6.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "provenance": "Canonical v0.5 pilot: Pilot_A1-02_Greetings_Introductions_Full_v0.5.md",
+  "title": "Greetings & Introductions",
+  "lessons": [
+    {
+      "id": "A1-02-L01",
+      "title": "Hello. I’m…",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "**Model**\nA: Hello. I’m Mina. What’s your name?  \nB: Hi, Mina. I’m Ton. Nice to meet you.  \nA: Nice to meet you too.\n\n**Key language:** Hello / Hi / I’m… / My name is… / What’s your name? / Nice to meet you.\n\n**Thai note:** `I’m Ton.` หรือ `My name is Ton.` ใช้แนะนำชื่อ ไม่ใช้ `I name Ton.`\n\n### Grammar: be in introductions\n| Subject | be | Example |\n|---|---|---|\n| I | am / ’m | I’m Ton. |\n| you | are / ’re | You’re Mina. |\n| he | is / ’s | He’s Narin. |\n| she | is / ’s | She’s Lina. |\n\n### Practice"
+        }
+      ]
+    },
+    {
+      "id": "A1-02-L02",
+      "title": "Where are you from?",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "**Model**\nA: Where are you from?  \nB: I’m from Thailand. How about you?  \nA: I’m from Vietnam. Are you a student?  \nB: No, I’m not. I’m a teacher.\n\n### Reading object `TXT-A1-02-L02-001`\n- **Mina:** I’m Mina. I’m from Vietnam. I’m a student.\n- **Ton:** I’m Ton. I’m from Thailand. I’m a teacher.\n- **Lina:** I’m Lina. I’m from Laos. I’m a nurse."
+        }
+      ]
+    },
+    {
+      "id": "A1-02-L03",
+      "title": "Sorry, how do you spell that?",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "### Listening `AUD-A1-02-L03-001`\nA: What’s your name?  \nB: Narin.  \nA: Sorry. Please say that again.  \nB: Narin.  \nA: How do you spell that?  \nB: N-A-R-I-N.  \nA: Thank you.\n\n\n**Repair phrases:** Sorry, I don’t understand. / Please say that again. / How do you spell that?"
+        }
+      ]
+    },
+    {
+      "id": "A1-02-L04",
+      "title": "Meet my friend",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "### Listening `AUD-A1-02-L04-001`\n> Hi. I’m Ben. I’m from Singapore. I’m a student. My friend is May. She’s from Thailand. She’s a nurse.\n\n\n### Micro-mediation\nTell a friend **two correct facts about May**. Example: “Her name is May. She’s from Thailand.” Do not add facts not given.\n\n### Online interaction\nWrite 3–5 lines introducing yourself, then reply to one classmate with a simple greeting."
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "V05-Q-A1-02-001",
+      "version": "0.6.0",
+      "prompt": "Choose the natural greeting to a new classmate: A Goodbye B Hello",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "Hello"
+      ],
+      "expected": "Hello",
+      "explanation": "Expected response or review guidance: Hello",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-002",
+      "version": "0.6.0",
+      "prompt": "Complete: I ___ Mali.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "am"
+      ],
+      "expected": "am",
+      "explanation": "Expected response or review guidance: am",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-003",
+      "version": "0.6.0",
+      "prompt": "Complete: She ___ a nurse.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "is"
+      ],
+      "expected": "is",
+      "explanation": "Expected response or review guidance: is",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-004",
+      "version": "0.6.0",
+      "prompt": "Complete: You ___ from Thailand.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "are"
+      ],
+      "expected": "are",
+      "explanation": "Expected response or review guidance: are",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-005",
+      "version": "0.6.0",
+      "prompt": "Complete: What’s ___ name?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "your"
+      ],
+      "expected": "your",
+      "explanation": "Expected response or review guidance: your",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-006",
+      "version": "0.6.0",
+      "prompt": "Complete: I’m ___ Laos.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "from"
+      ],
+      "expected": "from",
+      "explanation": "Expected response or review guidance: from",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-007",
+      "version": "0.6.0",
+      "prompt": "Question for a person’s name?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "What’s your name?",
+      "explanation": "Expected response or review guidance: What’s your name?",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-008",
+      "version": "0.6.0",
+      "prompt": "Question for origin?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Where are you from?",
+      "explanation": "Expected response or review guidance: Where are you from?",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-009",
+      "version": "0.6.0",
+      "prompt": "Best reply to Nice to meet you.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Nice to meet you too.",
+      "explanation": "Expected response or review guidance: Nice to meet you too.",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-010",
+      "version": "0.6.0",
+      "prompt": "Ask for repetition.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Please say that again.",
+      "explanation": "Expected response or review guidance: Please say that again.",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-011",
+      "version": "0.6.0",
+      "prompt": "Ask for spelling.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "How do you spell that?",
+      "explanation": "Expected response or review guidance: How do you spell that?",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-012",
+      "version": "0.6.0",
+      "prompt": "If you do not understand, choose: A I don’t understand B I’m a teacher",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "I don’t understand.",
+      "explanation": "Expected response or review guidance: I don’t understand.",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-013",
+      "version": "0.6.0",
+      "prompt": "True/False: He’s a nurse can describe a man.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "True"
+      ],
+      "expected": "True",
+      "explanation": "Expected response or review guidance: True",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-014",
+      "version": "0.6.0",
+      "prompt": "True/False: She’s a teacher can describe a woman.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "True"
+      ],
+      "expected": "True",
+      "explanation": "Expected response or review guidance: True",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-015",
+      "version": "0.6.0",
+      "prompt": "Correct: I name Ben.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "I’m Ben. / My name is Ben.",
+      "explanation": "Expected response or review guidance: I’m Ben. / My name is Ben.",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-016",
+      "version": "0.6.0",
+      "prompt": "Complete: Are you a student? No, ___.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "I’m not",
+      "explanation": "Expected response or review guidance: I’m not",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-017",
+      "version": "0.6.0",
+      "prompt": "Complete: Are you a teacher? Yes, ___.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "I am",
+      "explanation": "Expected response or review guidance: I am",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-018",
+      "version": "0.6.0",
+      "prompt": "Choose exact spelling of Narin: A N-A-R-I-N B N-E-R-I-N",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "N-A-R-I-N",
+      "explanation": "Expected response or review guidance: N-A-R-I-N",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-019",
+      "version": "0.6.0",
+      "prompt": "Purpose of “Sorry, did you say nurse?”",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "confirmation",
+      "explanation": "Expected response or review guidance: confirmation",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-020",
+      "version": "0.6.0",
+      "prompt": "Relay: May / Thailand / nurse.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "May is from Thailand. She’s a nurse.",
+      "explanation": "Expected response or review guidance: May is from Thailand. She’s a nurse.",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-021",
+      "version": "0.6.0",
+      "prompt": "Which is a role? A Thailand B nurse",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "nurse"
+      ],
+      "expected": "nurse",
+      "explanation": "Expected response or review guidance: nurse",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-022",
+      "version": "0.6.0",
+      "prompt": "Which is a country? A Laos B teacher",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "Laos"
+      ],
+      "expected": "Laos",
+      "explanation": "Expected response or review guidance: Laos",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-023",
+      "version": "0.6.0",
+      "prompt": "Write one line introducing yourself.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open; use I’m/My name is appropriately",
+      "explanation": "Expected response or review guidance: open; use I’m/My name is appropriately",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A1-02-024",
+      "version": "0.6.0",
+      "prompt": "Ask one simple question back after an introduction.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open; e.g. Where are you from?",
+      "explanation": "Expected response or review guidance: open; e.g. Where are you from?",
+      "errorTags": [
+        "A1_INTRO_COPULA",
+        "A1_SPELLING_REPAIR"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    }
+  ],
+  "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+  "remediation": [
+    {
+      "errorTag": "A1_INTRO_COPULA",
+      "action": "Review am/is/are and re-introduce yourself."
+    },
+    {
+      "errorTag": "A1_SPELLING_REPAIR",
+      "action": "Practise a repair phrase with letter names."
+    }
+  ],
+  "derivation": {
+    "sourceVersion": "0.5",
+    "sourceFile": "Pilot_A1-02_Greetings_Introductions_Full_v0.5.md",
+    "sourceChecksum": "b1de845080616a981b4837584d5df0dcad5a6e32475fc87347a46005dfb66890",
+    "compilerVersion": "1.0.0",
+    "change": "Full source projection replacing abbreviated integration payload; not academic approval."
+  },
+  "vocabulary": [
+    {
+      "id": "V-A1-02-001",
+      "item": "name",
+      "type": "N",
+      "thai": "ชื่อ",
+      "example": "My name is Narin."
+    },
+    {
+      "id": "V-A1-02-002",
+      "item": "friend",
+      "type": "N",
+      "thai": "เพื่อน",
+      "example": "May is my friend."
+    },
+    {
+      "id": "V-A1-02-003",
+      "item": "student",
+      "type": "N",
+      "thai": "นักเรียน/นักศึกษา",
+      "example": "I’m a student."
+    },
+    {
+      "id": "V-A1-02-004",
+      "item": "teacher",
+      "type": "N",
+      "thai": "ครู",
+      "example": "He’s a teacher."
+    },
+    {
+      "id": "V-A1-02-005",
+      "item": "nurse",
+      "type": "N",
+      "thai": "พยาบาล",
+      "example": "She’s a nurse."
+    },
+    {
+      "id": "V-A1-02-006",
+      "item": "country",
+      "type": "N",
+      "thai": "ประเทศ",
+      "example": "What country are you from?"
+    },
+    {
+      "id": "V-A1-02-007",
+      "item": "hello",
+      "type": "PHRASE",
+      "thai": "สวัสดี",
+      "example": "Hello. I’m Mina."
+    },
+    {
+      "id": "V-A1-02-008",
+      "item": "hi",
+      "type": "PHRASE",
+      "thai": "สวัสดี",
+      "example": "Hi, Ton."
+    },
+    {
+      "id": "V-A1-02-009",
+      "item": "nice to meet you",
+      "type": "PHRASE",
+      "thai": "ยินดีที่ได้รู้จัก",
+      "example": "Nice to meet you."
+    },
+    {
+      "id": "V-A1-02-010",
+      "item": "thank you",
+      "type": "PHRASE",
+      "thai": "ขอบคุณ",
+      "example": "Thank you."
+    },
+    {
+      "id": "V-A1-02-011",
+      "item": "how about you?",
+      "type": "PHRASE",
+      "thai": "แล้วคุณล่ะ",
+      "example": "I’m from Thailand. How about you?"
+    },
+    {
+      "id": "V-A1-02-012",
+      "item": "I’m…",
+      "type": "FRAME",
+      "thai": "ฉัน/ผมคือ…",
+      "example": "I’m Pim."
+    },
+    {
+      "id": "V-A1-02-013",
+      "item": "My name is…",
+      "type": "FRAME",
+      "thai": "ชื่อของฉัน/ผมคือ…",
+      "example": "My name is Lee."
+    },
+    {
+      "id": "V-A1-02-014",
+      "item": "What’s your name?",
+      "type": "QUESTION",
+      "thai": "คุณชื่ออะไร",
+      "example": "What’s your name?"
+    },
+    {
+      "id": "V-A1-02-015",
+      "item": "Where are you from?",
+      "type": "QUESTION",
+      "thai": "คุณมาจากไหน",
+      "example": "Where are you from?"
+    },
+    {
+      "id": "V-A1-02-016",
+      "item": "I’m from…",
+      "type": "FRAME",
+      "thai": "ฉัน/ผมมาจาก…",
+      "example": "I’m from Laos."
+    },
+    {
+      "id": "V-A1-02-017",
+      "item": "Are you a…?",
+      "type": "QUESTION",
+      "thai": "คุณเป็น…หรือไม่",
+      "example": "Are you a student?"
+    },
+    {
+      "id": "V-A1-02-018",
+      "item": "Yes, I am.",
+      "type": "PHRASE",
+      "thai": "ใช่",
+      "example": "Yes, I am."
+    },
+    {
+      "id": "V-A1-02-019",
+      "item": "No, I’m not.",
+      "type": "PHRASE",
+      "thai": "ไม่ใช่",
+      "example": "No, I’m not."
+    },
+    {
+      "id": "V-A1-02-020",
+      "item": "Sorry.",
+      "type": "PHRASE",
+      "thai": "ขอโทษ/ขออภัย",
+      "example": "Sorry, I don’t understand."
+    },
+    {
+      "id": "V-A1-02-021",
+      "item": "I don’t understand.",
+      "type": "PHRASE",
+      "thai": "ฉัน/ผมไม่เข้าใจ",
+      "example": "I don’t understand."
+    },
+    {
+      "id": "V-A1-02-022",
+      "item": "Please say that again.",
+      "type": "PHRASE",
+      "thai": "กรุณาพูดอีกครั้ง",
+      "example": "Please say that again."
+    },
+    {
+      "id": "V-A1-02-023",
+      "item": "How do you spell that?",
+      "type": "QUESTION",
+      "thai": "สะกดอย่างไร",
+      "example": "How do you spell that?"
+    },
+    {
+      "id": "V-A1-02-024",
+      "item": "my",
+      "type": "DET",
+      "thai": "ของฉัน/ผม",
+      "example": "My name is Mali."
+    },
+    {
+      "id": "V-A1-02-025",
+      "item": "your",
+      "type": "DET",
+      "thai": "ของคุณ",
+      "example": "What’s your name?"
+    },
+    {
+      "id": "V-A1-02-026",
+      "item": "he",
+      "type": "PRON",
+      "thai": "เขา (ชาย)",
+      "example": "He’s a teacher."
+    },
+    {
+      "id": "V-A1-02-027",
+      "item": "she",
+      "type": "PRON",
+      "thai": "เขา (หญิง)",
+      "example": "She’s a nurse."
+    },
+    {
+      "id": "V-A1-02-028",
+      "item": "am",
+      "type": "BE",
+      "thai": "เป็น/คือ/อยู่กับ I",
+      "example": "I am a student."
+    },
+    {
+      "id": "V-A1-02-029",
+      "item": "is",
+      "type": "BE",
+      "thai": "เป็น/คือ/อยู่กับ he/she",
+      "example": "She is from Thailand."
+    },
+    {
+      "id": "V-A1-02-030",
+      "item": "are",
+      "type": "BE",
+      "thai": "เป็น/คือ/อยู่กับ you",
+      "example": "You are a student."
+    }
+  ],
+  "grammar": [
+    {
+      "id": "F-A1-02-01",
+      "form": "be: I am / I'm",
+      "use": "identify/self-introduce",
+      "example": "I’m Mali."
+    },
+    {
+      "id": "F-A1-02-02",
+      "form": "be: you are / you're",
+      "use": "identify interlocutor",
+      "example": "You’re Ken."
+    },
+    {
+      "id": "F-A1-02-03",
+      "form": "be: he/she is",
+      "use": "relay simple identity",
+      "example": "She’s a nurse."
+    },
+    {
+      "id": "F-A1-02-04",
+      "form": "Where are you from?",
+      "use": "ask origin",
+      "example": "Where are you from?"
+    },
+    {
+      "id": "F-A1-02-05",
+      "form": "repair questions",
+      "use": "request repetition/spelling",
+      "example": "Please say that again."
+    }
+  ],
+  "retrieval": [
+    {
+      "id": "RET-A1-02-01",
+      "prompt": "Say your name without notes."
+    },
+    {
+      "id": "RET-A1-02-02",
+      "prompt": "Ask someone’s name."
+    },
+    {
+      "id": "RET-A1-02-03",
+      "prompt": "Ask where someone is from."
+    },
+    {
+      "id": "RET-A1-02-04",
+      "prompt": "Say one role."
+    },
+    {
+      "id": "RET-A1-02-05",
+      "prompt": "Use a repair phrase."
+    },
+    {
+      "id": "RET-A1-02-06",
+      "prompt": "Spell a five-letter name."
+    },
+    {
+      "id": "RET-A1-02-07",
+      "prompt": "Relay two facts about a person."
+    },
+    {
+      "id": "RET-A1-02-08",
+      "prompt": "Write a 3-line introduction from memory."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-A1-02-1",
+      "version": "0.6.0",
+      "title": "Writing",
+      "skill": "WRITING",
+      "prompt": "**Writing:** produce the 3–5 line online introduction from Lesson 4.  \n**Speaking:** give a 15–30 second self-introduction and complete one supported greeting exchange.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-A1-02-2",
+      "version": "0.6.0",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "prompt": "**Writing:** produce the 3–5 line online introduction from Lesson 4.  \n**Speaking:** give a 15–30 second self-introduction and complete one supported greeting exchange.",
+      "responseType": "RECORDING",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-A1-02-3",
+      "version": "0.6.0",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "prompt": "Tell a friend **two correct facts about May**. Example: “Her name is May. She’s from Thailand.” Do not add facts not given.\n\n### Online interaction\nWrite 3–5 lines introducing yourself, then reply to one classmate with a simple greeting.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-A1-02-4",
+      "version": "0.6.0",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "prompt": "Write 3–5 lines introducing yourself, then reply to one classmate with a simple greeting.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    }
+  ],
+  "canDo": "1. greet and respond in a familiar situation;\n2. introduce name, country/origin and a simple role;\n3. ask and answer very simple personal questions;\n4. spell a name;\n5. use one repair phrase when communication breaks down;\n6. write a 3–5 line online introduction;\n7. relay two simple facts about another person.",
+  "supplementary": "# v0.4 Targeted Revision — A1 validity fixes\n## Letter discrimination set\nListen/select the intended letter in short names/codes:\n\n\n## Independent listening `AUD-A1-02-V04-002`\n> A: Hi. I’m Dara.  \n> B: Hello, Dara. I’m Lee. Are you a student?  \n> A: No, I’m not. I’m a nurse.  \n> B: Sorry, did you say “nurse”?  \n> A: Yes. Nurse.\n\n\n## Pronunciation / intelligibility checklist\n- [ ] name is understandable on first or second attempt;\n- [ ] spelling letters are separated enough to identify;\n- [ ] learner can stress the key word during repair;\n- [ ] communication succeeds even if accent differs from model.\n\n\n### Additional reading object `TXT-A1-02-V05-002`\n**New class message**\n\nHi! I’m Dao. I’m from Thailand. I’m a teacher. My friend is Ken. He’s from Japan. He’s a student.",
+  "rubric": {
+    "id": "EMH-PRODUCTIVE-RUBRIC-A1-0.5",
+    "level": "A1",
+    "dimensions": [
+      "Task completion",
+      "Basic accuracy",
+      "Intelligibility",
+      "Interaction/repair"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "**Dimensions:** Task completion, Basic accuracy, Intelligibility, Interaction/repair.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **A1-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "sourceText": "# English Mastery Hub — A1-02 Greetings & Introductions — Full Learner Unit v0.5\n\n**content_id:** `UNIT-A1-02-PILOT`  \n**version:** `0.5`  \n**status:** `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`  \n**level:** A1  \n**domain:** personal / educational  \n**support_mode:** FULL_SUPPORT → GUIDED_SUPPORT\n\n## Unit goal\nหลังจบบทนี้ ผู้เรียนควรสามารถทักทาย แนะนำตัว ถามข้อมูลพื้นฐาน สะกดชื่อ ขอให้อีกฝ่ายพูดซ้ำ และถ่ายทอดข้อมูลสั้น ๆ ของคนอื่นได้\n\n## Can-do outcomes\n1. greet and respond in a familiar situation;\n2. introduce name, country/origin and a simple role;\n3. ask and answer very simple personal questions;\n4. spell a name;\n5. use one repair phrase when communication breaks down;\n6. write a 3–5 line online introduction;\n7. relay two simple facts about another person.\n\n# Lesson 1 — Hello. I’m…\n**Model**\nA: Hello. I’m Mina. What’s your name?  \nB: Hi, Mina. I’m Ton. Nice to meet you.  \nA: Nice to meet you too.\n\n**Key language:** Hello / Hi / I’m… / My name is… / What’s your name? / Nice to meet you.\n\n**Thai note:** `I’m Ton.` หรือ `My name is Ton.` ใช้แนะนำชื่อ ไม่ใช้ `I name Ton.`\n\n### Grammar: be in introductions\n| Subject | be | Example |\n|---|---|---|\n| I | am / ’m | I’m Ton. |\n| you | are / ’re | You’re Mina. |\n| he | is / ’s | He’s Narin. |\n| she | is / ’s | She’s Lina. |\n\n### Practice\n1. Hello. ___ Pim. → **I’m**\n2. What’s ___ name? → **your**\n3. Nice to ___ you. → **meet**\n4. “Hi. My name is Arun.” Best reply? → **Nice to meet you.**\n\n# Lesson 2 — Where are you from?\n**Model**\nA: Where are you from?  \nB: I’m from Thailand. How about you?  \nA: I’m from Vietnam. Are you a student?  \nB: No, I’m not. I’m a teacher.\n\n### Reading object `TXT-A1-02-L02-001`\n- **Mina:** I’m Mina. I’m from Vietnam. I’m a student.\n- **Ton:** I’m Ton. I’m from Thailand. I’m a teacher.\n- **Lina:** I’m Lina. I’m from Laos. I’m a nurse.\n\nQuestions: Who is a teacher? **Ton** · Where is Lina from? **Laos** · Is Mina a nurse? **No** · Who is from Vietnam? **Mina**\n\n# Lesson 3 — Sorry, how do you spell that?\n### Listening `AUD-A1-02-L03-001`\nA: What’s your name?  \nB: Narin.  \nA: Sorry. Please say that again.  \nB: Narin.  \nA: How do you spell that?  \nB: N-A-R-I-N.  \nA: Thank you.\n\nTargets: name **Narin** · spelling **N-A-R-I-N** · spelling phrase **How do you spell that?** · repetition phrase **Please say that again.**\n\n**Repair phrases:** Sorry, I don’t understand. / Please say that again. / How do you spell that?\n\n# Lesson 4 — Meet my friend\n### Listening `AUD-A1-02-L04-001`\n> Hi. I’m Ben. I’m from Singapore. I’m a student. My friend is May. She’s from Thailand. She’s a nurse.\n\nQuestions: Ben from? **Singapore** · role? **student** · May from? **Thailand** · role? **nurse**\n\n### Micro-mediation\nTell a friend **two correct facts about May**. Example: “Her name is May. She’s from Thailand.” Do not add facts not given.\n\n### Online interaction\nWrite 3–5 lines introducing yourself, then reply to one classmate with a simple greeting.\n\n## Vocabulary & phrase bank\nPeople/roles: name, friend, student, teacher, nurse  \nFunctions: hello, hi, nice to meet you, thank you, how about you  \nRepair: I don’t understand, please say that again, how do you spell that  \nGrammar-linked: I, you, he, she, my, your, am, is, are, from\n\n## Guided Practice Bank\n1. I ___ a student. → **am**\n2. She ___ a nurse. → **is**\n3. ___ are you from? → **Where**\n4. I’m ___ Thailand. → **from**\n5. Are you a teacher? → **Yes, I am. / No, I’m not.**\n6. What’s ___ name? → **your**\n7. “Sorry, I don’t understand.” is used when → **communication is not clear**\n8. “How do you spell that?” asks for → **letters**\n9. Natural introduction: `I name Pim.` / `I’m Pim.` → **I’m Pim.**\n10. Relay `Lina / Laos / nurse` → **Lina is from Laos. She’s a nurse.**\n\n## Quick Review\nIntroduce: `I’m… / My name is…` · Origin: `I’m from…` · Ask: `What’s your name? / Where are you from?` · Repair: `Please say that again. / How do you spell that?`\n\n## Unit Mastery Check\nA Listening — identify name/origin/role.  \nB Reading — match two mini profiles to facts.  \nC Language — 8 contextual items.  \nD Writing — 3–5 line introduction.  \nE Speaking/Interaction — answer 3–4 questions + ask one back.  \nF Micro-mediation — relay two accurate facts.\n\n### Critical evidence\n- intelligible self-introduction;\n- name/origin facts accurate;\n- at least one repair strategy with support;\n- no invented information in mediation.\n\n## Remediation graph\n- `A1_INTRO_COPULA` → Lesson 1 → am/is/are drill → re-introduce self.\n- `A1_FROM_ORIGIN` → Lesson 2 → profile matching → origin exchange.\n- `A1_NAME_QUESTION` → question-order drill → mini dialogue.\n- `A1_SPELLING_REPAIR` → letter practice → spelling audio → role-play.\n- `A1_DETAIL_RELAY` → fact/not-fact sorting → relay again.\n- `A1_INTELLIGIBILITY` → model → chunk repetition → re-record.\n\n## Human Check\n- [ ] adult-neutral and natural\n- [ ] Thai support concise\n- [ ] no accidental A2 complexity\n- [ ] speech clear, not robotic\n- [ ] mediation genuinely simple\n\n## Validation record\nHuman Check: **PENDING** · Audio QC: **PENDING** · Learner Pilot: **PENDING** · No official CEFR certification claim.\n\n## Writing / Speaking Performance\n**Writing:** produce the 3–5 line online introduction from Lesson 4.  \n**Speaking:** give a 15–30 second self-introduction and complete one supported greeting exchange.\n\n# v0.4 Targeted Revision — A1 validity fixes\n## Letter discrimination set\nListen/select the intended letter in short names/codes:\n1. **B / V** in `Ben` → B\n2. **M / N** in `Mina` → M\n3. **P / B** in `Ploy` → P\n4. final **N / M** in `Narin` → N\n5. code `B-7-P` → choose the exact sequence.\n\nScoring target = intelligible discrimination, not accent imitation.\n\n## Independent listening `AUD-A1-02-V04-002`\n> A: Hi. I’m Dara.  \n> B: Hello, Dara. I’m Lee. Are you a student?  \n> A: No, I’m not. I’m a nurse.  \n> B: Sorry, did you say “nurse”?  \n> A: Yes. Nurse.\n\nQuestions:\n1. Dara is a student. → **False**\n2. Dara is a nurse. → **True**\n3. Why does Lee ask again? → **to check/confirm the word**\n4. Best repair phrase for an unclear name? A Nice to meet you. B How do you spell that? → **B**\n\n## Pronunciation / intelligibility checklist\n- [ ] name is understandable on first or second attempt;\n- [ ] spelling letters are separated enough to identify;\n- [ ] learner can stress the key word during repair;\n- [ ] communication succeeds even if accent differs from model.\n\n\n### Additional reading object `TXT-A1-02-V05-002`\n**New class message**\n\nHi! I’m Dao. I’m from Thailand. I’m a teacher. My friend is Ken. He’s from Japan. He’s a student.\n\nQuestions: Dao’s role? **teacher** · Ken’s country? **Japan** · Ken’s role? **student**.\n\n\n\n# v0.5 Content-Complete Pilot Contract\n\n## Mandatory metadata\n- `content_id`: `UNIT-A1-02-PILOT`\n- `version`: `0.5`\n- `status`: `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`\n- `level`: `A1`\n- `unit_id`: `A1-02`\n- `domain`: inherited from the unit brief\n- `core_status`: `CEFR_CORE_COMPETENCY`\n- `source_type`: `ORIGINAL_PROJECT_CONTENT` / explicitly labelled simulated training source where applicable\n- `copyright_status`: `ORIGINAL`\n- `constructs`: reception + production + interaction + mediation as applicable\n- `support_mode`: level-appropriate support\n- `academic_check_status`: `INTERNAL_PRE_HUMAN_PASSED`\n- `human_check_status`: `PENDING`\n- `rubric_version`: `EMH-PRODUCTIVE-RUBRIC-A1-0.5`\n- `remediation_tags`: unit-specific tags in the remediation graph\n\n## Pronunciation / prosody target\nClear name/letter production and repair; accent imitation is not required.\n\n\n## Structured vocabulary / phrase records\n**Planning target:** ≥30. **Included:** 30.\n\n| ID | Item/sense | Type | Thai gloss | Original example | Validation |\n|---|---|---|---|---|---|\n| V-A1-02-001 | name | N | ชื่อ | My name is Narin. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-002 | friend | N | เพื่อน | May is my friend. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-003 | student | N | นักเรียน/นักศึกษา | I’m a student. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-004 | teacher | N | ครู | He’s a teacher. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-005 | nurse | N | พยาบาล | She’s a nurse. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-006 | country | N | ประเทศ | What country are you from? | HUMAN/EVP CHECK PENDING |\n| V-A1-02-007 | hello | PHRASE | สวัสดี | Hello. I’m Mina. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-008 | hi | PHRASE | สวัสดี | Hi, Ton. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-009 | nice to meet you | PHRASE | ยินดีที่ได้รู้จัก | Nice to meet you. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-010 | thank you | PHRASE | ขอบคุณ | Thank you. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-011 | how about you? | PHRASE | แล้วคุณล่ะ | I’m from Thailand. How about you? | HUMAN/EVP CHECK PENDING |\n| V-A1-02-012 | I’m… | FRAME | ฉัน/ผมคือ… | I’m Pim. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-013 | My name is… | FRAME | ชื่อของฉัน/ผมคือ… | My name is Lee. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-014 | What’s your name? | QUESTION | คุณชื่ออะไร | What’s your name? | HUMAN/EVP CHECK PENDING |\n| V-A1-02-015 | Where are you from? | QUESTION | คุณมาจากไหน | Where are you from? | HUMAN/EVP CHECK PENDING |\n| V-A1-02-016 | I’m from… | FRAME | ฉัน/ผมมาจาก… | I’m from Laos. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-017 | Are you a…? | QUESTION | คุณเป็น…หรือไม่ | Are you a student? | HUMAN/EVP CHECK PENDING |\n| V-A1-02-018 | Yes, I am. | PHRASE | ใช่ | Yes, I am. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-019 | No, I’m not. | PHRASE | ไม่ใช่ | No, I’m not. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-020 | Sorry. | PHRASE | ขอโทษ/ขออภัย | Sorry, I don’t understand. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-021 | I don’t understand. | PHRASE | ฉัน/ผมไม่เข้าใจ | I don’t understand. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-022 | Please say that again. | PHRASE | กรุณาพูดอีกครั้ง | Please say that again. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-023 | How do you spell that? | QUESTION | สะกดอย่างไร | How do you spell that? | HUMAN/EVP CHECK PENDING |\n| V-A1-02-024 | my | DET | ของฉัน/ผม | My name is Mali. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-025 | your | DET | ของคุณ | What’s your name? | HUMAN/EVP CHECK PENDING |\n| V-A1-02-026 | he | PRON | เขา (ชาย) | He’s a teacher. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-027 | she | PRON | เขา (หญิง) | She’s a nurse. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-028 | am | BE | เป็น/คือ/อยู่กับ I | I am a student. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-029 | is | BE | เป็น/คือ/อยู่กับ he/she | She is from Thailand. | HUMAN/EVP CHECK PENDING |\n| V-A1-02-030 | are | BE | เป็น/คือ/อยู่กับ you | You are a student. | HUMAN/EVP CHECK PENDING |\n\n\n## Objective / controlled practice expansion\n**Planning target:** ≥24. **Included:** 24.\n\n| Item ID | Prompt | Key / expected | Remediation |\n|---|---|---|---|\n| V05-Q-A1-02-001 | Choose the natural greeting to a new classmate: A Goodbye B Hello | Hello | unit-linked remediation |\n| V05-Q-A1-02-002 | Complete: I ___ Mali. | am | unit-linked remediation |\n| V05-Q-A1-02-003 | Complete: She ___ a nurse. | is | unit-linked remediation |\n| V05-Q-A1-02-004 | Complete: You ___ from Thailand. | are | unit-linked remediation |\n| V05-Q-A1-02-005 | Complete: What’s ___ name? | your | unit-linked remediation |\n| V05-Q-A1-02-006 | Complete: I’m ___ Laos. | from | unit-linked remediation |\n| V05-Q-A1-02-007 | Question for a person’s name? | What’s your name? | unit-linked remediation |\n| V05-Q-A1-02-008 | Question for origin? | Where are you from? | unit-linked remediation |\n| V05-Q-A1-02-009 | Best reply to Nice to meet you. | Nice to meet you too. | unit-linked remediation |\n| V05-Q-A1-02-010 | Ask for repetition. | Please say that again. | unit-linked remediation |\n| V05-Q-A1-02-011 | Ask for spelling. | How do you spell that? | unit-linked remediation |\n| V05-Q-A1-02-012 | If you do not understand, choose: A I don’t understand B I’m a teacher | I don’t understand. | unit-linked remediation |\n| V05-Q-A1-02-013 | True/False: He’s a nurse can describe a man. | True | unit-linked remediation |\n| V05-Q-A1-02-014 | True/False: She’s a teacher can describe a woman. | True | unit-linked remediation |\n| V05-Q-A1-02-015 | Correct: I name Ben. | I’m Ben. / My name is Ben. | unit-linked remediation |\n| V05-Q-A1-02-016 | Complete: Are you a student? No, ___. | I’m not | unit-linked remediation |\n| V05-Q-A1-02-017 | Complete: Are you a teacher? Yes, ___. | I am | unit-linked remediation |\n| V05-Q-A1-02-018 | Choose exact spelling of Narin: A N-A-R-I-N B N-E-R-I-N | N-A-R-I-N | unit-linked remediation |\n| V05-Q-A1-02-019 | Purpose of “Sorry, did you say nurse?” | confirmation | unit-linked remediation |\n| V05-Q-A1-02-020 | Relay: May / Thailand / nurse. | May is from Thailand. She’s a nurse. | unit-linked remediation |\n| V05-Q-A1-02-021 | Which is a role? A Thailand B nurse | nurse | unit-linked remediation |\n| V05-Q-A1-02-022 | Which is a country? A Laos B teacher | Laos | unit-linked remediation |\n| V05-Q-A1-02-023 | Write one line introducing yourself. | open; use I’m/My name is appropriately | unit-linked remediation |\n| V05-Q-A1-02-024 | Ask one simple question back after an introduction. | open; e.g. Where are you from? | unit-linked remediation |\n\n## Retrieval / spaced-review set\n1. `RET-A1-02-01` — Say your name without notes.\n2. `RET-A1-02-02` — Ask someone’s name.\n3. `RET-A1-02-03` — Ask where someone is from.\n4. `RET-A1-02-04` — Say one role.\n5. `RET-A1-02-05` — Use a repair phrase.\n6. `RET-A1-02-06` — Spell a five-letter name.\n7. `RET-A1-02-07` — Relay two facts about a person.\n8. `RET-A1-02-08` — Write a 3-line introduction from memory.\n\n\n## Quick Review Sheet\n- Restate the unit can-do goal in your own words.\n- Retrieve the unit's highest-value forms, phrases and discourse moves without the model.\n- Recall one important reading/listening point and its supporting detail.\n- Produce one A1-appropriate response without copying a model.\n- Complete one interaction or mediation move without inventing information.\n- If an error tag appears, follow the linked remediation route before re-attempting.\n\n\n## Operational productive rubric — `EMH-PRODUCTIVE-RUBRIC-A1-0.5`\n**Dimensions:** Task completion, Basic accuracy, Intelligibility, Interaction/repair.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **A1-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.\n\n\n## Source / copyright / provenance record\n- Learner-facing prose/dialogue is `ORIGINAL_PROJECT_CONTENT`, except fictional study/survey/specialist material explicitly labelled `SIMULATED TRAINING SOURCE`.\n- Simulated sources are learning materials, not factual citations.\n- `copyright_status`: `ORIGINAL`.\n- CEFR use: construct alignment only; no official certification claim.\n- English Profile/EGP/EVP: validation methodology only; no wholesale database reproduction.\n- Real Human Review: **PENDING**.\n- Produced audio + pronunciation/prosody/technical QC: **PENDING**.\n- Learner pilot + calibration: **PENDING**.\n\n## Grammar / function feature-use records\n| Feature ID | Resource | Meaning/use | Example |\n|---|---|---|---|\n| F-A1-02-01 | be: I am / I'm | identify/self-introduce | I’m Mali. |\n| F-A1-02-02 | be: you are / you're | identify interlocutor | You’re Ken. |\n| F-A1-02-03 | be: he/she is | relay simple identity | She’s a nurse. |\n| F-A1-02-04 | Where are you from? | ask origin | Where are you from? |\n| F-A1-02-05 | repair questions | request repetition/spelling | Please say that again. |\n",
+  "sourceValidated": true,
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "contentValidated": false,
+  "checksum": "ac7f7c7e863b923f28c7b955e37f060e76302cff9f428c8b65ca05152e58a5bd"
+}

@@ -16,7 +16,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   // Check role if logged in
@@ -31,6 +31,11 @@ export default async function RootLayout({
   return (
     <html lang="th">
       <body className="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-100 selection:text-indigo-900 min-h-screen flex flex-col">
+        {process.env.EMH_ISOLATED_LOCAL === 'true' && process.env.NEXT_PUBLIC_SUPABASE_URL === 'http://127.0.0.1:55321' && (
+          <aside aria-label="Local testing environment" className="print:hidden bg-amber-100 text-amber-950 text-center text-sm px-4 py-2 border-b border-amber-300">
+            ระบบทดสอบในเครื่อง · ฐานข้อมูลแยกจากระบบหลัก · ใช้ข้อมูลจำลอง · ไม่มีค่า AI
+          </aside>
+        )}
         <Toaster
           position="top-center"
           toastOptions={{
@@ -49,8 +54,8 @@ export default async function RootLayout({
         />
 
         {/* HEADER: World-Class Clean Glassmorphism */}
-        <header className="print:hidden sticky top-0 z-50 w-full bg-white/85 backdrop-blur-xl border-b border-slate-200/80 shadow-xs transition-all">
-          <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <header className="print:hidden relative md:sticky top-0 z-50 w-full bg-white/85 backdrop-blur-xl border-b border-slate-200/80 shadow-xs transition-all">
+          <div className="mx-auto flex min-h-16 max-w-7xl flex-wrap items-center justify-between gap-y-3 px-4 py-3 sm:px-6 md:h-16 md:flex-nowrap md:py-0 lg:px-8">
             
             {/* BRAND */}
             <div className="flex items-center gap-8">
@@ -105,7 +110,8 @@ export default async function RootLayout({
             </div>
 
             {/* ACTION BUTTONS & USER */}
-            <div className="flex items-center gap-3">
+            <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-start sm:gap-3">
+              {user && process.env.EMH_ENABLED === 'true' && <Link href="/english" className="rounded-lg px-2 py-2 text-sm font-semibold text-indigo-800 border border-indigo-200"><span className="block">ฝึกภาษาอังกฤษ</span><span lang="en" className="block text-[10px]">English Mastery</span></Link>}
               {user ? (
                 <div className="flex items-center gap-2.5 sm:gap-3">
                   {/* Quick Action: New Plan V3 */}
@@ -183,7 +189,7 @@ export default async function RootLayout({
                 ระบบจัดการแผนการสอนสำหรับคุณครู
               </span>
             </div>
-            <p className="text-center text-xs font-medium text-slate-400 sm:text-right">
+            <p className="text-center text-xs font-medium text-slate-600 sm:text-right">
               ออกแบบแผนการสอนอัจฉริยะตามมาตรฐาน สพฐ. และ ว.PA<br className="sm:hidden" />
               <span className="hidden sm:inline"> • </span>Copyright © 2026 By Mr.Nattapat Prompru. All rights reserved.
             </p>

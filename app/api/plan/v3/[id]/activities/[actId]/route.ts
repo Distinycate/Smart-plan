@@ -6,21 +6,22 @@ import { deriveLessonWorkflowStatus } from '@/lib/smartPlanV3/rules/activityRule
 import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
 interface RouteContext {
-  params: { id: string; actId: string };
+  params: Promise<{ id: string; actId: string }>;
 }
 
 /**
  * PATCH /api/plan/v3/[id]/activities/[actId]
  * Updates a single activity node and its objective/evidence links.
  */
-export async function PATCH(req: NextRequest, { params }: RouteContext) {
+export async function PATCH(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, actId } = params;
     if (!isValidUuid(planId) || !isValidUuid(actId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนหรือกิจกรรมไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
@@ -109,14 +110,15 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
  * DELETE /api/plan/v3/[id]/activities/[actId]
  * Deletes a single activity node and downgrades status if needed.
  */
-export async function DELETE(req: NextRequest, { params }: RouteContext) {
+export async function DELETE(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, actId } = params;
     if (!isValidUuid(planId) || !isValidUuid(actId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนหรือกิจกรรมไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

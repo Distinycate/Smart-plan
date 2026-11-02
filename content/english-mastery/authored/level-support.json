@@ -1,0 +1,512 @@
+{
+  "A1": {
+    "words": "20–40",
+    "seconds": "30–45",
+    "strategy": "Read one short sentence at a time. Find names, numbers, places and times. Point to the words that answer a question. Ask for repetition instead of guessing.",
+    "thai": "ใช้ประโยคสั้นที่สื่อความหมายได้ ระวังคำกริยา be และการเรียงคำ ถ้าข้อมูลไม่มีให้ถาม ไม่แต่งเติม",
+    "pronunciation": "Keep the final sound of names and key words audible. Pause between ideas. Say numbers slowly and check them with a partner; intelligibility matters more than imitating an accent.",
+    "progression": "Exchange concrete personal and everyday information with support; isolated phrases may be sufficient where the task calls for them.",
+    "spiral": [
+      [
+        "please",
+        "กรุณา",
+        "Please speak slowly."
+      ],
+      [
+        "thank you",
+        "ขอบคุณ",
+        "Thank you for your help."
+      ],
+      [
+        "again",
+        "อีกครั้ง",
+        "Please say it again."
+      ],
+      [
+        "sorry",
+        "ขอโทษ",
+        "Sorry, I do not understand."
+      ],
+      [
+        "here",
+        "ที่นี่",
+        "Your book is here."
+      ],
+      [
+        "there",
+        "ที่นั่น",
+        "The room is there."
+      ],
+      [
+        "today",
+        "วันนี้",
+        "The class is today."
+      ],
+      [
+        "tomorrow",
+        "พรุ่งนี้",
+        "See you tomorrow."
+      ],
+      [
+        "yes",
+        "ใช่",
+        "Yes, that is right."
+      ],
+      [
+        "no",
+        "ไม่",
+        "No, this is not my bag."
+      ],
+      [
+        "and",
+        "และ",
+        "I have a pen and a book."
+      ],
+      [
+        "but",
+        "แต่",
+        "I like tea, but I do not like coffee."
+      ],
+      [
+        "with",
+        "กับ",
+        "I study with a friend."
+      ],
+      [
+        "help",
+        "ช่วยเหลือ",
+        "Can you help me?"
+      ],
+      [
+        "check",
+        "ตรวจสอบ",
+        "Please check the name."
+      ]
+    ]
+  },
+  "A2": {
+    "words": "60–90",
+    "seconds": "45–75",
+    "strategy": "Read for the purpose first, then check details. Mark what is confirmed and what is only a suggestion. Connect short ideas with because, but and then. Check whether your reply answers the actual request.",
+    "thai": "เชื่อมประโยคสั้นเป็นเรื่องที่ต่อเนื่อง แยกเหตุการณ์ที่ผ่านมา แผน และข้อมูลยืนยัน ระวังคำบอกเวลาและปริมาณ",
+    "pronunciation": "Group words into short meaning units. Stress the corrected word when repairing a misunderstanding. Use a pause before a new step; do not speak faster at the cost of clarity.",
+    "progression": "Handle routine exchanges and short connected descriptions, including simple repair when information is unclear.",
+    "spiral": [
+      [
+        "because",
+        "เพราะว่า",
+        "I stayed home because I was tired."
+      ],
+      [
+        "then",
+        "จากนั้น",
+        "Read the message, then reply."
+      ],
+      [
+        "before",
+        "ก่อน",
+        "Check the time before you leave."
+      ],
+      [
+        "after",
+        "หลังจาก",
+        "We can talk after class."
+      ],
+      [
+        "usually",
+        "โดยปกติ",
+        "I usually take the bus."
+      ],
+      [
+        "sometimes",
+        "บางครั้ง",
+        "Sometimes the room is busy."
+      ],
+      [
+        "perhaps",
+        "บางที",
+        "Perhaps we can meet later."
+      ],
+      [
+        "instead",
+        "แทน",
+        "Could we meet on Friday instead?"
+      ],
+      [
+        "already",
+        "แล้ว",
+        "I have already sent the message."
+      ],
+      [
+        "not yet",
+        "ยังไม่",
+        "The room is not ready yet."
+      ],
+      [
+        "enough",
+        "เพียงพอ",
+        "We have enough chairs."
+      ],
+      [
+        "together",
+        "ด้วยกัน",
+        "Let's check it together."
+      ],
+      [
+        "different",
+        "แตกต่าง",
+        "The two plans are different."
+      ],
+      [
+        "explain",
+        "อธิบาย",
+        "Could you explain that word?"
+      ],
+      [
+        "confirm",
+        "ยืนยัน",
+        "Please confirm the new time."
+      ]
+    ]
+  },
+  "B1": {
+    "words": "120–160",
+    "seconds": "90–120",
+    "strategy": "Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.",
+    "thai": "ให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก",
+    "pronunciation": "Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.",
+    "progression": "Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.",
+    "spiral": [
+      [
+        "however",
+        "อย่างไรก็ตาม",
+        "The plan is useful; however, it costs more."
+      ],
+      [
+        "although",
+        "แม้ว่า",
+        "Although the room is small, it is quiet."
+      ],
+      [
+        "therefore",
+        "ดังนั้น",
+        "The time changed; therefore, we sent an update."
+      ],
+      [
+        "for example",
+        "ตัวอย่างเช่น",
+        "For example, one member needs a quieter space."
+      ],
+      [
+        "in my view",
+        "ในมุมมองของฉัน",
+        "In my view, a short trial is reasonable."
+      ],
+      [
+        "according to",
+        "ตามข้อมูลจาก",
+        "According to the note, the room closes at five."
+      ],
+      [
+        "suggest",
+        "เสนอแนะ",
+        "I suggest checking the details first."
+      ],
+      [
+        "consider",
+        "พิจารณา",
+        "We should consider another explanation."
+      ],
+      [
+        "advantage",
+        "ข้อดี",
+        "One advantage is the shorter journey."
+      ],
+      [
+        "disadvantage",
+        "ข้อเสีย",
+        "The main disadvantage is the cost."
+      ],
+      [
+        "reason",
+        "เหตุผล",
+        "Give a reason for your choice."
+      ],
+      [
+        "result",
+        "ผลลัพธ์",
+        "The result was different from our plan."
+      ],
+      [
+        "experience",
+        "ประสบการณ์",
+        "Describe one experience that changed your view."
+      ],
+      [
+        "improve",
+        "ปรับปรุง",
+        "Feedback can help us improve the plan."
+      ],
+      [
+        "review",
+        "ทบทวน",
+        "We will review the arrangement next week."
+      ]
+    ]
+  },
+  "B2": {
+    "words": "180–240",
+    "seconds": "120–180",
+    "strategy": "Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.",
+    "thai": "แยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด",
+    "pronunciation": "Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.",
+    "progression": "Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.",
+    "spiral": [
+      [
+        "evidence",
+        "หลักฐาน",
+        "The evidence supports a limited conclusion."
+      ],
+      [
+        "claim",
+        "ข้ออ้าง",
+        "That claim needs more support."
+      ],
+      [
+        "assumption",
+        "ข้อสมมติ",
+        "The estimate depends on an assumption."
+      ],
+      [
+        "alternative",
+        "ทางเลือกหรือคำอธิบายอื่น",
+        "Consider an alternative explanation."
+      ],
+      [
+        "whereas",
+        "ในขณะที่ต่างกัน",
+        "A measures cost, whereas B measures access."
+      ],
+      [
+        "nevertheless",
+        "ถึงกระนั้น",
+        "The sample is small; nevertheless, it raises a useful question."
+      ],
+      [
+        "to some extent",
+        "ในระดับหนึ่ง",
+        "I agree to some extent."
+      ],
+      [
+        "provided that",
+        "โดยมีเงื่อนไขว่า",
+        "The proposal works provided that access is maintained."
+      ],
+      [
+        "tends to",
+        "มีแนวโน้มที่จะ",
+        "The report tends to emphasise benefits."
+      ],
+      [
+        "may indicate",
+        "อาจบ่งชี้",
+        "The change may indicate a problem."
+      ],
+      [
+        "trade-off",
+        "การได้อย่างเสียอย่าง",
+        "There is a trade-off between speed and detail."
+      ],
+      [
+        "limitation",
+        "ข้อจำกัด",
+        "Acknowledge the main limitation."
+      ],
+      [
+        "counterargument",
+        "ข้อโต้แย้งอีกด้าน",
+        "Address the strongest counterargument fairly."
+      ],
+      [
+        "consequence",
+        "ผลที่ตามมา",
+        "Consider an unintended consequence."
+      ],
+      [
+        "justify",
+        "ให้เหตุผลรองรับ",
+        "Justify the recommendation with relevant evidence."
+      ]
+    ]
+  },
+  "C1": {
+    "words": "240–320",
+    "seconds": "180–240",
+    "strategy": "Track stance, scope and evidential status across sources. Distinguish concession from endorsement and implication from explicit assertion. Synthesize by issue, retaining unresolved disagreement. Adapt density and register to the reader without changing commitments.",
+    "thai": "รักษาขอบเขตและระดับความมั่นใจของต้นฉบับ วิเคราะห์สิ่งที่กล่าวชัดกับสิ่งที่สื่อโดยนัย สังเคราะห์ตามประเด็นแทนเรียงย่อทีละแหล่ง",
+    "pronunciation": "Shape long turns into coherent rhetorical units. Use prominence and pauses to mark qualification, reformulation and source shifts. Intonation can suggest stance but is not conclusive evidence of intention by itself.",
+    "progression": "Handle extended, implicit and professionally situated discourse with flexible register, coherent synthesis and precise qualification.",
+    "spiral": [
+      [
+        "qualified",
+        "มีเงื่อนไขหรือข้อจำกัด",
+        "The report offers qualified support."
+      ],
+      [
+        "tentative",
+        "ยังไม่ยืนยัน",
+        "Treat the estimate as tentative."
+      ],
+      [
+        "plausible",
+        "เป็นไปได้อย่างมีเหตุผล",
+        "A plausible explanation is not yet a demonstrated cause."
+      ],
+      [
+        "nonetheless",
+        "ถึงกระนั้น",
+        "The evidence is limited; nonetheless, the concern warrants attention."
+      ],
+      [
+        "insofar as",
+        "เท่าที่หรือในขอบเขตที่",
+        "The comparison is useful insofar as the conditions match."
+      ],
+      [
+        "contingent on",
+        "ขึ้นอยู่กับเงื่อนไข",
+        "Approval is contingent on further consultation."
+      ],
+      [
+        "substantiate",
+        "ให้หลักฐานยืนยัน",
+        "The figures do not substantiate the stronger claim."
+      ],
+      [
+        "concede",
+        "ยอมรับบางประเด็น",
+        "The author concedes a practical limitation."
+      ],
+      [
+        "synthesis",
+        "การสังเคราะห์",
+        "The synthesis retains the disagreement between sources."
+      ],
+      [
+        "scope",
+        "ขอบเขต",
+        "Do not extend the claim beyond its stated scope."
+      ],
+      [
+        "stance",
+        "ท่าทีหรือจุดยืน",
+        "The wording signals a cautious stance."
+      ],
+      [
+        "implication",
+        "นัยที่ตามมา",
+        "Explain the implication without presenting it as a quotation."
+      ],
+      [
+        "cohesion",
+        "ความเชื่อมโยงในเนื้อความ",
+        "Reference words improve cohesion when their meaning is clear."
+      ],
+      [
+        "proportionate",
+        "ได้สัดส่วนกับหลักฐาน",
+        "A proportionate recommendation acknowledges uncertainty."
+      ],
+      [
+        "unresolved",
+        "ยังไม่มีข้อยุติ",
+        "The central disagreement remains unresolved."
+      ]
+    ]
+  },
+  "C2": {
+    "words": "320–420",
+    "seconds": "240–300",
+    "strategy": "Reconstruct the logic and rhetorical purpose of competing accounts. Test presuppositions, compression losses and shifts of agency. Preserve principled disagreement while producing a precise, audience-sensitive synthesis. Consider more than one defensible interpretation and explain why you prefer one.",
+    "thai": "ตรวจข้อสมมติที่ซ่อนอยู่ การลดทอนเมื่อย่อ การเปลี่ยนผู้รับผิดชอบและน้ำหนักถ้อยคำ ยอมรับหลายคำตีความที่มีหลักฐานโดยไม่สร้างฉันทามติเทียม",
+    "pronunciation": "Use prosody strategically to manage complex interaction, signal parenthetical qualification and distinguish reported from personal stance. Judge communicative effect and intelligibility, not resemblance to an idealised native accent.",
+    "progression": "Communicate fine distinctions, reconstruct dense or rhetorically complex material and mediate across purposes without erasing uncertainty or competing commitments.",
+    "spiral": [
+      [
+        "equivocation",
+        "การใช้คำคลุมเครือสลับความหมาย",
+        "The argument relies on equivocation between access and use."
+      ],
+      [
+        "presupposition",
+        "ข้อสมมติที่ถือไว้ก่อน",
+        "The question carries an untested presupposition."
+      ],
+      [
+        "corollary",
+        "ข้อสรุปที่ตามมา",
+        "That corollary follows only if the premise holds."
+      ],
+      [
+        "tenable",
+        "ป้องกันได้ด้วยเหตุผล",
+        "The interpretation is tenable but not uniquely compelled."
+      ],
+      [
+        "underdetermined",
+        "ข้อมูลยังชี้ขาดไม่ได้",
+        "The cause remains underdetermined by these observations."
+      ],
+      [
+        "conflate",
+        "ปะปนสิ่งต่างกัน",
+        "Do not conflate consent with absence of objection."
+      ],
+      [
+        "elide",
+        "ละจนความต่างหายไป",
+        "The summary elides an important condition."
+      ],
+      [
+        "attenuate",
+        "ลดน้ำหนักหรือความเข้ม",
+        "The hedge attenuates the commitment."
+      ],
+      [
+        "entail",
+        "จำเป็นต้องมีผลตามตรรกะ",
+        "An increase in attendance does not entail improved access."
+      ],
+      [
+        "incommensurable",
+        "ต่างเกณฑ์จนเทียบตรงไม่ได้",
+        "The two measures are not simply interchangeable; their units are incommensurable."
+      ],
+      [
+        "proviso",
+        "ข้อแม้",
+        "Retain the proviso when reporting the agreement."
+      ],
+      [
+        "counterfactual",
+        "สมมติการณ์ตรงข้ามสิ่งที่เกิด",
+        "The counterfactual comparison is not directly observed."
+      ],
+      [
+        "salience",
+        "ความเด่นที่ดึงความสนใจ",
+        "Placement changes the salience of the caveat."
+      ],
+      [
+        "reconcile",
+        "ประสานให้เข้ากัน",
+        "The mediator cannot reconcile incompatible commitments by deleting one."
+      ],
+      [
+        "epistemic",
+        "เกี่ยวกับสถานะความรู้",
+        "The modal marks epistemic caution, not reluctance alone."
+      ]
+    ]
+  }
+}

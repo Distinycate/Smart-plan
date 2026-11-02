@@ -4,7 +4,7 @@ import { V3Repository } from '@/lib/smartPlanV3/repository';
 import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
-type Ctx = { params: { id: string } };
+type Ctx = { params: Promise<{ id: string }> };
 
 /**
  * GET /api/plan/v3/[id]/curriculum-links
@@ -12,7 +12,7 @@ type Ctx = { params: { id: string } };
  */
 export async function GET(req: NextRequest, { params }: Ctx) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest, { params }: Ctx) {
  */
 export async function PUT(req: NextRequest, { params }: Ctx) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {

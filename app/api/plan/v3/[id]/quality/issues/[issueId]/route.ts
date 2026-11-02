@@ -10,10 +10,11 @@ import { V3Repository } from '@/lib/smartPlanV3/repository';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string; issueId: string } }
+  props: { params: Promise<{ id: string; issueId: string }> }
 ) {
+  const params = await props.params;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

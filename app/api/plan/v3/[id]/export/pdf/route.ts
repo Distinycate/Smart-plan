@@ -27,10 +27,8 @@ export const maxDuration = 60;
 
 
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const planId = params.id;
     const url = new URL(request.url);
@@ -79,7 +77,7 @@ export async function GET(
     }
 
     // 2. Real Plan Authentication & Authorization
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

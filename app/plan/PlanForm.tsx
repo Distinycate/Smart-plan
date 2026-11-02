@@ -1684,7 +1684,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                 </span>
               </h3>
               <p className="mt-1 text-sm text-amber-700">
-                ข้อมูลในแผนนี้ถูกสร้างโดย AI โปรดอ่านทบทวนเนื้อหา กิจกรรม และเกณฑ์การประเมินอีกครั้งเพื่อความถูกต้องและเหมาะสมกับบริบทชั้นเรียนของคุณครู ก่อนกดปุ่ม "บันทึกเสร็จสมบูรณ์"
+                ข้อมูลในแผนนี้ถูกสร้างโดย AI โปรดอ่านทบทวนเนื้อหา กิจกรรม และเกณฑ์การประเมินอีกครั้งเพื่อความถูกต้องและเหมาะสมกับบริบทชั้นเรียนของคุณครู ก่อนกดปุ่ม &quot;บันทึกเสร็จสมบูรณ์&quot;
               </p>
 
               {aiValidation && !aiValidation.isValid && (
@@ -2704,7 +2704,7 @@ export default function PlanForm({ planId, isAdmin = false }: PlanFormProps) {
                 <div className="flex flex-col items-center justify-center h-full text-slate-400 p-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
                   <div className="text-4xl mb-3">📭</div>
                   <p className="font-bold">ยังไม่มีข้อมูลในคลัง</p>
-                  <p className="text-sm">พิมพ์รายละเอียดที่กล่อง Rubric แล้วกด "บันทึกเก็บไว้" เพื่อเพิ่มเข้าคลังส่วนตัวของคุณครู</p>
+                  <p className="text-sm">พิมพ์รายละเอียดที่กล่อง Rubric แล้วกด &quot;บันทึกเก็บไว้&quot; เพื่อเพิ่มเข้าคลังส่วนตัวของคุณครู</p>
                 </div>
               ) : (
                 savedRubrics.filter(r => r.type === showRubricModal).map(r => (

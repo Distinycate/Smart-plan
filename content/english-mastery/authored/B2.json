@@ -1,0 +1,722 @@
+[
+  {
+    "id": "B2-02",
+    "aim": "อ่านงานวิชาการโดยแยกใจความหลัก บทบาทย่อหน้า และข้อจำกัด",
+    "a": "A fictional research summary examines how students use a study room. Its opening paragraph describes a practical problem: seats are often empty in the morning but scarce after lunch. The second paragraph explains a four-week observation method. The results section reports occupancy, while the discussion considers possible explanations. The authors suggest that timetable patterns may contribute to the imbalance, but they did not interview students. A reader who skips directly to the recommendation may miss that limitation. Reading strategically means locating the question, method and findings before deciding how strongly the conclusion is supported. A heading is a navigation aid, not a substitute for checking the argument beneath it.",
+    "b": "Abstract excerpt: Observers counted occupied seats at three fixed times on twenty weekdays. Afternoon occupancy was higher. The study did not record the purpose of visits or students who left because no seat was available. The authors propose further investigation before changing opening hours.",
+    "l1": "A: Can I read the abstract instead of the whole report?\nB: It helps you judge relevance, but it compresses the method and limitations.\nA: Where should I look next?\nB: Check how occupancy was measured and whether the recommendation follows from those measurements.",
+    "l2": "On a first pass, map the sections and identify the central question. On a second pass, trace one conclusion back to its evidence. Mark unfamiliar terms that affect meaning. You do not need to translate every word before understanding the structure.",
+    "v": "summary=บทสรุป;scarce=มีไม่พอ;observation=การสังเกต;occupancy=การใช้ที่นั่ง;discussion=ส่วนอภิปราย;timetable=ตารางเวลา;imbalance=ความไม่สมดุล;limitation=ข้อจำกัด;strategically=อย่างมีกลยุทธ์;findings=ข้อค้นพบ;heading=หัวข้อ;abstract=บทคัดย่อ;compresses=ย่อให้กระชับ;measurements=ผลการวัด;trace=ติดตามย้อน",
+    "g": [
+      [
+        "reporting verbs",
+        "บอกหน้าที่แหล่งข้อมูล",
+        "The results report occupancy; the discussion proposes explanations."
+      ],
+      [
+        "may contribute to",
+        "จำกัดข้ออ้างเชิงเหตุ",
+        "Timetables may contribute to the imbalance."
+      ],
+      [
+        "relative clauses",
+        "ขยายขอบเขตกลุ่ม",
+        "Students who left were not recorded."
+      ]
+    ],
+    "q": [
+      [
+        "How long did the observation last?",
+        "four weeks",
+        "a"
+      ],
+      [
+        "Did the researchers interview students?",
+        "no",
+        "a"
+      ],
+      [
+        "How many times per day were seats counted?",
+        "three",
+        "b"
+      ],
+      [
+        "What should the recommendation be traced back to?",
+        "the measurements and supporting evidence",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-03",
+    "aim": "ตรวจการวางกรอบข่าวและแยกข้อเท็จจริงจากน้ำเสียง",
+    "a": "Two fictional headlines describe the same council proposal. One says, 'Town Finally Reclaims Space from Cars'; the other says, 'Drivers Face Another Restriction.' The proposal would close one street to private cars on two Sunday mornings as a trial. Neither headline is a neutral list of details. Finally implies that change is overdue, while another suggests a continuing burden. The wording may guide readers towards different reactions before they learn the scope of the proposal. A critical response can identify this framing without assuming that either writer is dishonest. The next step is to compare the actual proposal, affected groups and unresolved practical questions.",
+    "b": "Proposal extract: Trial on the first two Sundays in June, 08:00–12:00. Emergency access retained. Delivery arrangements under consultation. No permanent closure has been approved. All names and policy details are invented for this lesson.",
+    "l1": "A: The headline says cars are being banned from town.\nB: The proposal is narrower: one street for two mornings.\nA: Does that mean there are no problems?\nB: No. Delivery arrangements still need discussion. Accurate scope does not remove legitimate concerns.",
+    "l2": "Notice loaded words, omitted conditions and implied histories. Then separate interpretation from textual evidence. Explain how a reasonable reader might respond differently to each headline, and identify which missing details would matter for evaluating the proposal.",
+    "v": "headlines=พาดหัว;council=สภาท้องถิ่น;proposal=ข้อเสนอ;reclaims=นำกลับคืน;restriction=ข้อจำกัด;private cars=รถยนต์ส่วนบุคคล;neutral=เป็นกลาง;overdue=ควรเกิดขึ้นนานแล้ว;burden=ภาระ;scope=ขอบเขต;framing=การวางกรอบ;affected=ได้รับผลกระทบ;retained=คงไว้;consultation=การหารือ;loaded words=คำที่มีนัยชี้นำ",
+    "g": [
+      [
+        "would + verb",
+        "ข้อเสนอที่ยังไม่ดำเนิน",
+        "The proposal would close one street."
+      ],
+      [
+        "imply / suggest",
+        "วิเคราะห์นัยโดยไม่กล่าวว่าเป็นข้อเท็จจริง",
+        "Finally implies that action is overdue."
+      ],
+      [
+        "neither … nor …",
+        "แยกสองทางเลือก",
+        "Neither headline nor comment replaces the proposal."
+      ]
+    ],
+    "q": [
+      [
+        "How many streets are included in the proposal?",
+        "one",
+        "a"
+      ],
+      [
+        "Which word suggests change is overdue?",
+        "finally",
+        "a"
+      ],
+      [
+        "Has a permanent closure been approved?",
+        "no",
+        "b"
+      ],
+      [
+        "Which arrangements still need discussion?",
+        "delivery arrangements",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-04",
+    "aim": "ใช้มุมมองและลำดับเวลาเพื่อสร้างเรื่องเล่าที่ตีความได้",
+    "a": "When I opened the sealed envelope, I expected a complaint. The previous evening, a visitor had left our gallery without saying goodbye, and I had assumed she disliked the exhibition. Inside was a handwritten note thanking the team for including quiet seating. She had left early to catch a train. Only then did I realise how confidently I had interpreted a brief silence. In telling the story later, I began with the envelope rather than the exhibition because it captured my uncertainty. The event itself was simple; the narrative interest came from the gap between what I believed and what the note eventually revealed.",
+    "b": "Another viewpoint: The visitor noticed that the organiser looked worried but did not know why. She wanted to thank the team in person, yet her train was leaving soon. She wrote a note at the station. This perspective explains her action without giving her access to the organiser's thoughts.",
+    "l1": "A: Why begin with the envelope?\nB: It lets the reader share my mistaken expectation.\nA: Would the story change from the visitor's viewpoint?\nB: Yes. She knows why she left, but she cannot know what I assumed unless I tell her.",
+    "l2": "Choose what your narrator can genuinely know. A change of viewpoint changes access to information, not just pronouns. Use earlier events to clarify the present scene. Avoid revealing another person's private thoughts unless the narrative form supports that access.",
+    "v": "sealed=ปิดผนึก;envelope=ซองจดหมาย;complaint=คำร้องเรียน;gallery=หอศิลป์;assumed=สันนิษฐาน;handwritten=เขียนด้วยมือ;including=รวมให้มี;silence=ความเงียบ;narrative=เรื่องเล่า;uncertainty=ความไม่แน่ใจ;revealed=เปิดเผย;viewpoint=มุมมอง;perspective=ทัศนะ;expectation=ความคาดหมาย;pronouns=คำสรรพนาม",
+    "g": [
+      [
+        "past perfect",
+        "ความคาดหมายที่เกิดก่อน",
+        "I had assumed she disliked it."
+      ],
+      [
+        "only then + inversion",
+        "เน้นจุดเปลี่ยน",
+        "Only then did I realise my mistake."
+      ],
+      [
+        "reported thought",
+        "จำกัดสิ่งที่ผู้เล่ารู้",
+        "She thought the organiser looked worried."
+      ]
+    ],
+    "q": [
+      [
+        "What did the narrator expect in the envelope?",
+        "a complaint",
+        "a"
+      ],
+      [
+        "Why had the visitor left early?",
+        "to catch a train",
+        "a"
+      ],
+      [
+        "Where did the visitor write the note?",
+        "at the station",
+        "b"
+      ],
+      [
+        "Does changing viewpoint only change pronouns?",
+        "no",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "B2-05",
+    "aim": "อภิปรายการเปลี่ยนแปลงทางสังคมโดยแยกผลต่อแต่ละกลุ่ม",
+    "a": "A fictional town is moving several public services online. Supporters argue that digital forms save travel time and allow applications outside office hours. A community group welcomes that flexibility but points out that some residents share devices, have limited connectivity or need assistance reading forms. The disagreement is not simply between progress and resistance. It concerns how access is defined and who bears the cost of adapting. A phased introduction with staffed alternatives may address some problems, although it requires resources. Evaluating the change means considering both convenience for confident users and the experience of people who might otherwise disappear from the usage statistics.",
+    "b": "Consultation summary: Forty people responded online; eight attended a drop-in session. Several online respondents wanted faster processing. Drop-in participants asked for clear instructions and a way to correct mistakes. These groups were self-selected and cannot automatically represent all residents.",
+    "l1": "A: Most online respondents supported the change.\nB: That is useful, but people unable to use the form may be missing.\nA: Should we reject the proposal?\nB: Not necessarily. We should improve the consultation and keep a supported route.",
+    "l2": "Identify benefits, burdens and missing voices. Distinguish criticism of implementation from rejection of the goal. When reporting consultation results, explain how people took part and who may have been excluded by the method.",
+    "v": "public services=บริการสาธารณะ;applications=คำขอหรือใบสมัคร;flexibility=ความยืดหยุ่น;connectivity=การเชื่อมต่อ;assistance=ความช่วยเหลือ;resistance=การต่อต้าน;adapting=การปรับตัว;phased=แบ่งเป็นระยะ;alternatives=ทางเลือก;resources=ทรัพยากร;usage statistics=สถิติการใช้;self-selected=เลือกเข้าร่วมเอง;implementation=การดำเนินการ;burdens=ภาระ;excluded=ถูกกันออก",
+    "g": [
+      [
+        "not simply … but …",
+        "รื้อคู่ตรงข้ามที่ง่ายเกินไป",
+        "The issue is not simply speed but equitable access."
+      ],
+      [
+        "may / might",
+        "ผลที่อาจเกิด",
+        "Some users might disappear from the statistics."
+      ],
+      [
+        "passive with agency",
+        "ระบุผู้ถูกกระทบ",
+        "Some residents may be excluded by the method."
+      ]
+    ],
+    "q": [
+      [
+        "What flexibility do online forms offer?",
+        "applications outside office hours",
+        "a"
+      ],
+      [
+        "What supported alternative is proposed?",
+        "staffed alternatives during a phased introduction",
+        "a"
+      ],
+      [
+        "How many attended the drop-in session?",
+        "eight",
+        "b"
+      ],
+      [
+        "Who may be missing from online responses?",
+        "people unable to use the form",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-06",
+    "aim": "ประเมินหลักฐานจากการทดลองและแยกความสัมพันธ์จากเหตุ",
+    "a": "A fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.",
+    "b": "Study note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.",
+    "l1": "A: The app group completed three more exercises on average.\nB: Yes, but the groups chose whether to use it.\nA: So the app had no effect?\nB: We cannot conclude that either. The design leaves the causal question open.",
+    "l2": "Report the observed result accurately before evaluating the design. Ask what else differs between the groups and what was not measured. Do not turn insufficient evidence of an effect into proof that there is no effect.",
+    "v": "reminder app=แอปเตือน;completion=การทำจนเสร็จ;volunteers=อาสาสมัคร;motivated=มีแรงจูงใจ;comparison=การเปรียบเทียบ;isolate=แยกผลเฉพาะ;observed=ที่สังเกตพบ;confounding factors=ปัจจัยกวน;design=แบบแผนการศึกษา;compensate=ชดเชย;random assignment=การสุ่มเข้ากลุ่ม;simulated=จำลอง;effectiveness=ประสิทธิผล;causal question=คำถามเรื่องเหตุและผล;insufficient=ไม่เพียงพอ",
+    "g": [
+      [
+        "may have + participle",
+        "อธิบายสาเหตุที่ยังไม่แน่",
+        "Users may have been more motivated."
+      ],
+      [
+        "does not establish",
+        "จำกัดข้อสรุป",
+        "The difference does not establish causation."
+      ],
+      [
+        "neither conclusion",
+        "หลีกเลี่ยงสรุปกลับด้าน",
+        "The study proves neither benefit nor absence of benefit."
+      ]
+    ],
+    "q": [
+      [
+        "How were participants assigned to groups?",
+        "they chose their own group",
+        "a"
+      ],
+      [
+        "What possible prior difference is mentioned?",
+        "motivation",
+        "a"
+      ],
+      [
+        "What was the app group's average?",
+        "eight exercises",
+        "b"
+      ],
+      [
+        "Does the design prove the app had no effect?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-07",
+    "aim": "สื่อสารปัญหางานพร้อมผลกระทบ ทางเลือก และผู้รับผิดชอบ",
+    "a": "A project team learns that a supplier will deliver display panels two days later than expected. The exhibition date is fixed, so the coordinator sends a concise update. She states what is confirmed, explains the effect on installation and offers two options: use temporary panels or reduce the display area. She asks the design lead to assess presentation quality and the venue manager to check access. She does not hide the delay behind vague language such as 'some challenges have arisen.' The message ends with a decision deadline and the person responsible for collecting replies. Clear professional communication makes action possible without assigning blame before the facts are known.",
+    "b": "Update extract: Supplier confirms delivery on Wednesday, not Monday. Installation access ends Thursday at 17:00. Please assess temporary panels by Tuesday noon. Noor will consolidate responses; the project lead will decide that afternoon. Costs remain provisional.",
+    "l1": "A: Should we tell the client everything is under control?\nB: We can say what we have confirmed and what options we are checking.\nA: Who makes the final decision?\nB: The project lead, after the design and access checks.\nA: I'll make the deadline explicit.",
+    "l2": "A useful update distinguishes facts, risks, actions and owners. State the decision needed and when it is needed. If an estimate is provisional, label it. Avoid promises that depend on approvals or information you do not yet have.",
+    "v": "supplier=ผู้จัดหา;display panels=แผงจัดแสดง;coordinator=ผู้ประสานงาน;concise=กระชับ;installation=การติดตั้ง;temporary=ชั่วคราว;assess=ประเมิน;venue=สถานที่จัดงาน;vague=คลุมเครือ;deadline=เส้นตาย;consolidate=รวบรวมเป็นชุด;provisional=ยังไม่ยืนยัน;explicit=ชัดแจ้ง;owners=ผู้รับผิดชอบงาน;approvals=การอนุมัติ",
+    "g": [
+      [
+        "future arrangements and deadlines",
+        "เชื่อมงานกับเวลา",
+        "The lead will decide on Tuesday afternoon."
+      ],
+      [
+        "active responsibility",
+        "ระบุเจ้าของงาน",
+        "Noor will consolidate responses."
+      ],
+      [
+        "provisional modality",
+        "ไม่รับรองข้อมูลที่ยังไม่แน่",
+        "Costs may change after assessment."
+      ]
+    ],
+    "q": [
+      [
+        "How late is the delivery?",
+        "two days",
+        "a"
+      ],
+      [
+        "What are the two proposed options?",
+        "temporary panels or a reduced display area",
+        "a"
+      ],
+      [
+        "When are assessments due?",
+        "Tuesday noon",
+        "b"
+      ],
+      [
+        "Who makes the final decision?",
+        "the project lead",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-08",
+    "aim": "เจรจาโดยแยกจุดยืน ผลประโยชน์ และเงื่อนไขยอมรับ",
+    "a": "Two groups want the same community hall on Saturday. The drama group asks for the afternoon because its performers work in the morning. The language group asks for quiet rooms and accessible transport for older participants. At first, both insist on the same time. A facilitator asks what each group actually needs. They discover that the language activity could start earlier if transport were arranged, while the drama group could shorten setup with access to storage on Friday. The resulting proposal depends on those conditions being confirmed. Calling it an agreement too early would conceal the work still needed to make it feasible.",
+    "b": "Draft arrangement: Language group 10:00–13:00, subject to transport confirmation. Drama group 14:00–18:00, subject to Friday storage access. Cleaning gap 13:00–14:00. Neither organiser has accepted responsibility for transport yet.",
+    "l1": "A: We can move earlier if transport is available.\nB: We can help ask about it, but we cannot promise a vehicle.\nA: Then let's mark transport as unresolved.\nB: Agreed. We should not announce the timetable as final today.",
+    "l2": "Ask what lies behind a position. Identify which conditions are essential and which are preferences. Summarise each party's commitment precisely. A polite conversation is not evidence that every operational condition has been accepted.",
+    "v": "performers=ผู้แสดง;participants=ผู้เข้าร่วม;insist=ยืนกราน;facilitator=ผู้ช่วยอำนวยการสนทนา;setup=การจัดเตรียม;storage=ที่เก็บของ;conditions=เงื่อนไข;confirmed=ยืนยันแล้ว;feasible=ทำได้จริง;subject to=ขึ้นอยู่กับ;responsibility=ความรับผิดชอบ;unresolved=ยังไม่ยุติ;position=จุดยืน;preferences=ความชอบ;commitment=ข้อผูกพัน",
+    "g": [
+      [
+        "conditional offers",
+        "ข้อเสนอที่มีเงื่อนไข",
+        "We could start earlier if transport were arranged."
+      ],
+      [
+        "subject to + noun",
+        "รักษาข้อแม้",
+        "The plan is subject to confirmation."
+      ],
+      [
+        "can ask / cannot promise",
+        "แยกความพยายามกับรับรองผล",
+        "We can ask, but we cannot promise a vehicle."
+      ]
+    ],
+    "q": [
+      [
+        "Why does the drama group prefer the afternoon?",
+        "performers work in the morning",
+        "a"
+      ],
+      [
+        "What could reduce setup time?",
+        "Friday access to storage",
+        "a"
+      ],
+      [
+        "When is the cleaning gap?",
+        "13:00–14:00",
+        "b"
+      ],
+      [
+        "Is transport already promised?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-09",
+    "aim": "ใช้คำแสดงความแน่ใจตามหลักฐานและรักษาทางเลือกอื่น",
+    "a": "The office lights are on, but nobody answers the door. One colleague says the manager must be inside. Another points out that the lights may be on a timer. A third notices a coat on the chair and suggests that someone might have stepped out briefly. Each observation supports possibilities, but none proves who is present. Later, the manager confirms that she is working elsewhere and left the coat yesterday. The episode shows why deduction should remain open to revision. Strong modal language can be appropriate when evidence is compelling, but familiar patterns alone do not make an inference certain.",
+    "b": "Evidence card: Lights on at 18:00. No answer to two knocks. Coat visible through window. No current message from the manager. Unknown—timer setting, coat owner and whether another staff member is inside.",
+    "l1": "A: She must be there; the lights are on.\nB: They could be on a timer.\nA: I hadn't considered that. Should I say she might be there?\nB: Yes, until we have stronger evidence. We should check rather than enter without permission.",
+    "l2": "Rank expressions such as might, probably and must according to the commitment they convey in context. Then ask whether the evidence warrants that commitment. When new information arrives, revise the conclusion explicitly rather than quietly pretending it was always your view.",
+    "v": "timer=เครื่องตั้งเวลา;coat=เสื้อคลุม;stepped out=ออกไปชั่วครู่;observation=ข้อสังเกต;possibilities=ความเป็นไปได้;proves=พิสูจน์;elsewhere=ที่อื่น;deduction=การอนุมาน;revision=การปรับข้อสรุป;compelling=หนักแน่นน่าเชื่อ;inference=ข้ออนุมาน;visible=มองเห็น;warrants=มีเหตุผลรองรับ;commitment=ระดับการยืนยัน;explicitly=อย่างชัดแจ้ง",
+    "g": [
+      [
+        "must / might / could",
+        "ระดับการอนุมาน",
+        "The lights could be on a timer."
+      ],
+      [
+        "may have + participle",
+        "อนุมานเหตุการณ์ก่อนหน้า",
+        "Someone may have stepped out."
+      ],
+      [
+        "cannot conclude",
+        "ระบุขีดจำกัดหลักฐาน",
+        "We cannot conclude who is inside."
+      ]
+    ],
+    "q": [
+      [
+        "What alternative explanation is offered for the lights?",
+        "a timer",
+        "a"
+      ],
+      [
+        "When did the manager leave the coat?",
+        "yesterday",
+        "a"
+      ],
+      [
+        "How many knocks received no answer?",
+        "two",
+        "b"
+      ],
+      [
+        "What should happen when new information arrives?",
+        "revise the conclusion explicitly",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "B2-10",
+    "aim": "อธิบายเหตุและผลหลายปัจจัยโดยไม่อ้างเกินข้อมูล",
+    "a": "A fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.",
+    "b": "Timeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count.",
+    "l1": "A: Completion fell after the worksheet changed.\nB: Yes, but sessions also fell from four to three.\nA: Could recording changes matter?\nB: They could. We should check the denominator and the records before blaming the format.",
+    "l2": "Construct a causal map with several plausible paths. Mark observed links separately from proposed ones. Check whether the measure itself changed. Your conclusion should say what the evidence supports and what further comparison would be needed.",
+    "v": "completed=ทำเสร็จ;blames=โทษ;worksheet=ใบงาน;examinations=การสอบ;schedule=ตาราง;recorded=บันทึก;factors=ปัจจัย;reconstructs=สร้างลำดับคืน;measurement=การวัด;barriers=อุปสรรค;evaluation=การประเมิน;provisional=ยังไม่ยืนยัน;adjusted=ปรับให้เทียบได้;denominator=ตัวหารหรือฐานการคำนวณ;causal map=แผนภาพเหตุและผล",
+    "g": [
+      [
+        "could affect / contribute",
+        "หลายเหตุที่เป็นไปได้",
+        "Several factors could affect the totals."
+      ],
+      [
+        "after versus because",
+        "เวลาไม่เท่ากับเหตุ",
+        "The change followed the new format; causation is uncertain."
+      ],
+      [
+        "not adjusted for",
+        "ข้อจำกัดการเทียบ",
+        "Totals are not adjusted for session count."
+      ]
+    ],
+    "q": [
+      [
+        "What did the organiser initially blame?",
+        "the new worksheet format",
+        "a"
+      ],
+      [
+        "What period coincided with the second month?",
+        "school examinations",
+        "a"
+      ],
+      [
+        "How many weekly sessions ran in month two?",
+        "three",
+        "b"
+      ],
+      [
+        "What mathematical basis should be checked?",
+        "the denominator",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-11",
+    "aim": "เลือกคำที่ใช้ร่วมกันเป็นธรรมชาติและเข้าใจการสร้างคำ",
+    "a": "An editor reviews a student's report and changes 'do a decision' to 'make a decision.' The problem is not that the reader cannot guess the meaning; the combination is unconventional in this context. Elsewhere, the student writes 'strong rain,' where 'heavy rain' is the usual phrase. The editor asks the student to record useful combinations rather than isolated translations. Word families also matter: a reliable source provides reliability, but adding a suffix mechanically can produce a word that does not fit. Learning phraseology involves meaning, grammatical pattern and register, not simply replacing every ordinary word with a longer one.",
+    "b": "Language notebook: make a decision; take responsibility; raise a concern; conduct a study; draw a conclusion; highly likely; deeply concerned. Record a complete sentence and the context in which the phrase is appropriate. A combination can vary across varieties and specialist fields.",
+    "l1": "A: Can I use any synonym with a noun?\nB: Not always. We usually say heavy rain in this context.\nA: Should I memorise the whole sentence?\nB: Notice the useful combination, then try it in another suitable sentence.",
+    "l2": "Compare a dictionary example with your intended meaning. Check the grammatical pattern and the audience. Keep a record of corrections, but do not label every unfamiliar expression wrong without considering dialect, genre or specialised usage.",
+    "v": "editor=บรรณาธิการ;report=รายงาน;combination=การใช้คำร่วมกัน;unconventional=ไม่เป็นธรรมเนียม;isolated=แยกเดี่ยว;translations=คำแปล;reliable=เชื่อถือได้;reliability=ความน่าเชื่อถือ;suffix=ปัจจัยท้ายคำ;mechanically=อย่างเป็นกลไก;phraseology=แบบแผนวลี;register=ระดับภาษา;synonym=คำพ้องความหมาย;dialect=ภาษาถิ่น;genre=ประเภทงานเขียน",
+    "g": [
+      [
+        "verb–noun collocation",
+        "จับคู่คำตามบริบท",
+        "We need to make a decision."
+      ],
+      [
+        "word families",
+        "เปลี่ยนชนิดคำให้ตรงหน้าที่",
+        "A reliable source increases reliability."
+      ],
+      [
+        "adverb–adjective collocation",
+        "เพิ่มน้ำหนักตามแบบแผน",
+        "The outcome is highly likely."
+      ]
+    ],
+    "q": [
+      [
+        "What replaces do a decision?",
+        "make a decision",
+        "a"
+      ],
+      [
+        "What is the usual phrase instead of strong rain here?",
+        "heavy rain",
+        "a"
+      ],
+      [
+        "Which verb combines with responsibility in the notebook?",
+        "take",
+        "b"
+      ],
+      [
+        "Should every unfamiliar expression automatically be labelled wrong?",
+        "no",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "B2-12",
+    "aim": "ถอดความโดยรักษาขอบเขต เหตุ เงื่อนไข และผู้กระทำ",
+    "a": "The original sentence reads, 'Some participants reported that the quieter room helped them concentrate during the trial.' A student's paraphrase says, 'Quiet rooms improve everyone's concentration.' Although shorter and more fluent, it changes the population, certainty and evidence type. Some becomes everyone; self-report becomes an established effect; a limited trial becomes a general rule. A better paraphrase keeps those boundaries: 'During the trial, a number of participants said they found it easier to concentrate in the quieter room.' Effective reformulation may change vocabulary and sentence structure substantially while preserving what the source actually commits to.",
+    "b": "Second source: The room change was introduced alongside smaller group sizes. The report does not isolate the effect of either change. Any summary linking quietness directly to improved performance should retain this limitation.",
+    "l1": "A: My version uses different words. Is that enough?\nB: No. Check whether you changed who, when or how certain the claim is.\nA: I changed some to everyone.\nB: That expands the claim. Restore the original scope before polishing the style.",
+    "l2": "Use a fidelity checklist: population, time, degree, agency, conditions and evidence type. Compare your paraphrase with the source after drafting. If your reader could draw a stronger conclusion from your version, revise it or clearly label your interpretation.",
+    "v": "original=ต้นฉบับ;participants=ผู้เข้าร่วม;concentrate=มีสมาธิ;paraphrase=การถอดความ;population=กลุ่มที่กล่าวถึง;certainty=ความแน่นอน;self-report=ข้อมูลที่ผู้เข้าร่วมรายงานเอง;established=ยืนยันแล้ว;boundaries=ขอบเขต;reformulation=การเรียบเรียงใหม่;commits to=ยืนยันไว้;alongside=ควบคู่กับ;isolate=แยกผลเฉพาะ;fidelity=ความตรงต่อสาร;agency=ผู้กระทำและความรับผิดชอบ",
+    "g": [
+      [
+        "reported that",
+        "รักษาชนิดหลักฐาน",
+        "Participants reported that it helped."
+      ],
+      [
+        "some / a number of",
+        "รักษาขอบเขตกลุ่ม",
+        "A number of participants found it helpful."
+      ],
+      [
+        "introduced alongside",
+        "ไม่แยกเหตุโดยไม่มีหลักฐาน",
+        "The room change was introduced alongside smaller groups."
+      ]
+    ],
+    "q": [
+      [
+        "Which word was wrongly changed to everyone?",
+        "some",
+        "a"
+      ],
+      [
+        "What type of evidence did the original sentence report?",
+        "participants' self-reports",
+        "a"
+      ],
+      [
+        "What other change occurred alongside the room change?",
+        "smaller group sizes",
+        "b"
+      ],
+      [
+        "What should be restored before polishing style?",
+        "the original scope",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-13",
+    "aim": "เขียนข้อโต้แย้งที่มีเหตุผลรองรับและตอบข้อโต้แย้งจริง",
+    "a": "A student essay argues that a college should provide a quiet common room. Its strongest paragraph connects a practical need to a feasible proposal: students who cannot study at home need a low-cost space between classes. The paragraph then acknowledges that space and staffing are limited. Instead of dismissing this concern, it proposes a trial during existing opening hours and explains how usage could be reviewed. A weaker paragraph merely repeats that quiet rooms are good. An effective argument develops the link between claim and evidence, considers a fair objection and reaches a conclusion proportionate to what has been established.",
+    "b": "Planning notes: Position—trial a quiet room, not a permanent commitment yet. Reason—some students lack suitable space. Constraint—limited rooms and staff. Missing evidence—demand at different times. Review—usage and unmet needs after four weeks. Do not invent survey results.",
+    "l1": "A: My counterargument says opponents don't care about students.\nB: Is that their actual point?\nA: They raised staffing costs.\nB: Address that concern fairly. You can support the proposal while explaining its limits and conditions.",
+    "l2": "Build each paragraph around a function: establish the need, evaluate the option, address a limitation or draw a conclusion. A linking phrase cannot repair a missing logical connection. Check that your conclusion does not promise more than your evidence supports.",
+    "v": "essay=เรียงความ;feasible=ทำได้จริง;proposal=ข้อเสนอ;acknowledges=ยอมรับ;staffing=การจัดกำลังคน;dismissing=ปัดทิ้ง;trial=การทดลอง;usage=การใช้งาน;develops=ขยายให้ชัด;objection=ข้อคัดค้าน;proportionate=ได้สัดส่วน;commitment=ข้อผูกพัน;unmet needs=ความต้องการที่ยังไม่ตอบสนอง;opponents=ผู้คัดค้าน;logical connection=ความเชื่อมโยงทางเหตุผล",
+    "g": [
+      [
+        "concession + response",
+        "ตอบข้อจำกัดอย่างเป็นธรรม",
+        "Although staffing is limited, a short trial may be feasible."
+      ],
+      [
+        "not … yet",
+        "จำกัดข้อเสนอ",
+        "This is not a permanent commitment yet."
+      ],
+      [
+        "claim–reason link",
+        "เชื่อมเหตุผลกับข้อเสนอ",
+        "A trial would help establish whether demand exists."
+      ]
+    ],
+    "q": [
+      [
+        "What facility does the essay propose?",
+        "a quiet common room",
+        "a"
+      ],
+      [
+        "During which hours would the trial operate?",
+        "existing opening hours",
+        "a"
+      ],
+      [
+        "When would usage be reviewed?",
+        "after four weeks",
+        "b"
+      ],
+      [
+        "What concern did the opponents actually raise?",
+        "staffing costs",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-14",
+    "aim": "จัดการพูดยาวและอภิปรายโดยเชื่อมคำตอบกับคำถามผู้ฟัง",
+    "a": "For a three-minute presentation, our team compares two ways to organise a local exhibition. We begin with the decision the audience must make, then explain our criteria: access, cost and preparation time. Each speaker covers one part, but we use shared terms so the audience can follow. We finish with a conditional recommendation and one unresolved question. During discussion, a listener challenges the cost estimate. Rather than repeat the prepared speech, we explain what the estimate includes and promise to check the missing transport cost. A presentation becomes an interaction when the speakers genuinely respond to what listeners need to know.",
+    "b": "Audience brief: Decide whether to approve a small trial. Ask how visitors will reach the venue, what costs are confirmed and who will review the outcome. The audience does not need every planning detail, but it does need enough information to judge the recommendation.",
+    "l1": "A: Does your estimate include transport?\nB: It includes room hire and materials, but not transport.\nA: Then can we rely on the total?\nB: Not as a final figure. We should label it provisional and check that cost before approval.",
+    "l2": "Signpost the structure without reading every heading aloud. Summarise a question before answering if it is complex. If you do not know, specify what you will check and who will report back. Do not treat a confident delivery as a substitute for a supported answer.",
+    "v": "presentation=การนำเสนอ;criteria=เกณฑ์;preparation=การเตรียม;shared terms=คำที่ใช้ตรงกัน;conditional=มีเงื่อนไข;unresolved=ยังไม่ยุติ;challenges=ตั้งคำถามท้าทาย;estimate=ประมาณการ;transport=การเดินทางหรือขนส่ง;approve=อนุมัติ;venue=สถานที่;outcome=ผลลัพธ์;room hire=ค่าเช่าสถานที่;provisional=ชั่วคราวยังไม่ยืนยัน;signpost=บอกโครงสร้างให้ติดตาม",
+    "g": [
+      [
+        "signposting clauses",
+        "นำทางผู้ฟัง",
+        "I will first explain our criteria, then compare the options."
+      ],
+      [
+        "includes / excludes",
+        "ชี้ขอบเขตประมาณการ",
+        "The estimate includes materials but excludes transport."
+      ],
+      [
+        "conditional recommendation",
+        "เสนอโดยรักษาข้อแม้",
+        "We recommend a trial provided that access is confirmed."
+      ]
+    ],
+    "q": [
+      [
+        "How long is the presentation?",
+        "three minutes",
+        "a"
+      ],
+      [
+        "Which missing cost is challenged?",
+        "transport",
+        "a"
+      ],
+      [
+        "What decision must the audience make?",
+        "whether to approve a small trial",
+        "b"
+      ],
+      [
+        "Is the stated total a final figure?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B2-15",
+    "aim": "ติดตามการแก้ไขคำพูดและแยกความหมายชัดแจ้งจากข้ออนุมาน",
+    "a": "In a fictional planning discussion, the coordinator says, 'We can probably open on Friday—assuming the inspection is finished.' A colleague later reports, 'Friday's opening is confirmed.' The summary loses both probability and condition. Another speaker says, 'I wouldn't call the schedule comfortable,' which suggests concern without directly announcing failure. Listeners need to track hedges, corrections and what each speaker is responding to. Intonation may help, but a single pause or stressed word cannot establish a person's private intention. A careful account separates explicit commitments from reasonable inferences and checks uncertainty when the next action depends on it.",
+    "b": "Meeting note: Opening target—Friday. Inspection—pending. Equipment delivery—Thursday, provisionally. Staffing—confirmed for Friday afternoon only. No decision has been recorded about opening earlier or staying late.",
+    "l1": "A: We can probably open on Friday, assuming inspection is complete.\nB: Is Friday confirmed, then?\nA: Not yet. It is our target.\nB: I'll note it as conditional and check again after inspection.\nA: Good. The afternoon staff are confirmed.",
+    "l2": "The schedule is, well, possible, but I wouldn't call it comfortable. If the delivery slips, we have very little room to recover. I am not saying we must cancel; I am saying we need a backup and a clear decision point.",
+    "v": "coordinator=ผู้ประสานงาน;inspection=การตรวจ;confirmed=ยืนยันแล้ว;probability=ความน่าจะเป็น;condition=เงื่อนไข;hedges=ถ้อยคำลดความแน่นอน;corrections=การแก้คำพูด;intonation=ทำนองเสียง;commitments=ข้อผูกพัน;inferences=ข้ออนุมาน;pending=ยังรอ;provisionally=โดยยังไม่ยืนยัน;staffing=การจัดคน;slips=ล่าช้ากว่ากำหนด;backup=แผนสำรอง",
+    "g": [
+      [
+        "probably / assuming",
+        "รักษาทั้งความน่าจะเป็นและข้อแม้",
+        "We can probably open, assuming inspection is complete."
+      ],
+      [
+        "understatement",
+        "ถ้อยคำอ่อนที่สื่อข้อกังวล",
+        "I wouldn't call it comfortable."
+      ],
+      [
+        "not … but …",
+        "แยกข้อเสนอจากความเข้าใจผิด",
+        "I am not saying cancel; I am saying prepare a backup."
+      ]
+    ],
+    "q": [
+      [
+        "What condition applies to Friday opening?",
+        "inspection must be complete",
+        "a"
+      ],
+      [
+        "What does the incorrect summary call Friday opening?",
+        "confirmed",
+        "a"
+      ],
+      [
+        "For which period is staffing confirmed?",
+        "Friday afternoon only",
+        "b"
+      ],
+      [
+        "Does the second speaker explicitly demand cancellation?",
+        "no",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "B2-16",
+    "aim": "สังเคราะห์ข้อเสนอจากหลายฝ่ายและรักษาข้อขัดแย้งที่ยังไม่จบ",
+    "a": "A fictional college is considering a shared project space. Students want evening access, staff want clear responsibility for equipment, and the facilities team needs time for cleaning. A survey suggests interest, but it mainly reached students already involved in clubs. Our group prepares a briefing that separates common ground from unresolved issues. Everyone supports useful access; they disagree about hours, supervision and costs. We recommend a limited pilot with transparent booking rules and a review of who is excluded. The briefing includes a decision table rather than claiming that consultation produced complete agreement. A workable synthesis can clarify disagreement and next steps without pretending to settle every value conflict.",
+    "b": "Facilities note: Room available until 20:00 on weekdays if a named supervisor is present. Cleaning requires a thirty-minute gap before closure. Student proposal: access until 21:00 and self-managed booking. Funding for supervision after 20:00 has not been identified.",
+    "l1": "A: Can we say all groups support evening access?\nB: Broadly, but their conditions differ.\nA: What is the key unresolved issue?\nB: Supervision and funding after eight, as well as time for cleaning.\nA: We'll state the shared goal and keep those conditions visible.",
+    "l2": "Your final briefing should distinguish source statements, your evaluation and your recommendation. Attribute conflicting requirements accurately. Give the decision-maker a feasible next step and identify the evidence or authority needed before the proposal can become a commitment.",
+    "v": "facilities=งานอาคารและสถานที่;supervision=การกำกับดูแล;survey=แบบสำรวจ;briefing=เอกสารชี้แจง;common ground=จุดร่วม;unresolved=ยังไม่ยุติ;transparent=โปร่งใส;excluded=ถูกกันออก;synthesis=การสังเคราะห์;value conflict=ความขัดแย้งด้านคุณค่า;closure=เวลาปิด;self-managed=จัดการด้วยตนเอง;funding=เงินสนับสนุน;attribute=ระบุว่าเป็นข้อมูลของใคร;authority=อำนาจตัดสินใจ",
+    "g": [
+      [
+        "attribution across sources",
+        "แยกความต้องการของแต่ละฝ่าย",
+        "Students request later access, while facilities require supervision."
+      ],
+      [
+        "provided that / if",
+        "เก็บเงื่อนไขการใช้",
+        "The room is available if a supervisor is present."
+      ],
+      [
+        "recommend rather than certify",
+        "แยกข้อเสนอจากคำยืนยัน",
+        "We recommend a pilot; we do not claim full agreement."
+      ]
+    ],
+    "q": [
+      [
+        "Which students were mainly reached by the survey?",
+        "students already involved in clubs",
+        "a"
+      ],
+      [
+        "What kind of pilot is recommended?",
+        "a limited pilot with transparent booking rules",
+        "a"
+      ],
+      [
+        "How long is the required cleaning gap?",
+        "thirty minutes",
+        "b"
+      ],
+      [
+        "What funding has not been identified?",
+        "supervision after 20:00",
+        "b"
+      ]
+    ]
+  }
+]

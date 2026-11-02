@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B2-06-COURSE",
+  "unitId": "B2-06",
+  "level": "B2",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B2-06; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Science, Technology & Evidence",
+  "canDo": "ประเมินหลักฐานจากการทดลองและแยกความสัมพันธ์จากเหตุ. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.",
+  "outcomes": [
+    "Use the language of science, technology & evidence to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B2-06-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Science, Technology & Evidence\nเป้าหมาย: ประเมินหลักฐานจากการทดลองและแยกความสัมพันธ์จากเหตุ\n\nUse the language of science, technology & evidence to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nA fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\n\nRead for purpose, then locate the people, events, conditions and limits. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nReading B\nStudy note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B2-06-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "may have + participle\nหน้าที่: อธิบายสาเหตุที่ยังไม่แน่\nModel: Users may have been more motivated.\nTry: change one detail while preserving the function. Check the result against the source.\n\ndoes not establish\nหน้าที่: จำกัดข้อสรุป\nModel: The difference does not establish causation.\nTry: change one detail while preserving the function. Check the result against the source.\n\nneither conclusion\nหน้าที่: หลีกเลี่ยงสรุปกลับด้าน\nModel: The study proves neither benefit nor absence of benefit.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nTarget vocabulary in context\nreminder app — แอปเตือน\nA fictional team tests whether a reminder app improves completion of training exercises.\n\ncompletion — การทำจนเสร็จ\nA fictional team tests whether a reminder app improves completion of training exercises.\n\nvolunteers — อาสาสมัคร\nVolunteers who choose the app complete more exercises than those who do not use it.\n\nmotivated — มีแรงจูงใจ\nHowever, users selected their own group, and those choosing the app may already have been more motivated.\n\ncomparison — การเปรียบเทียบ\nThe comparison is informative but does not isolate the app's effect.\n\nisolate — แยกผลเฉพาะ\nThe comparison is informative but does not isolate the app's effect.\n\nobserved — ที่สังเกตพบ\nA more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study.\n\nconfounding factors — ปัจจัยกวน\nA more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study.\n\ndesign — แบบแผนการศึกษา\nTechnical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\n\ncompensate — ชดเชย\nTechnical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\n\nrandom assignment — การสุ่มเข้ากลุ่ม\nNo random assignment.\n\nsimulated — จำลอง\nFigures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.\n\neffectiveness — ประสิทธิผล\nFigures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.\n\ncausal question — คำถามเรื่องเหตุและผล\nThe design leaves the causal question open.\n\ninsufficient — ไม่เพียงพอ\nDo not turn insufficient evidence of an effect into proof that there is no effect.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B2-06-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: The app group completed three more exercises on average.\nB: Yes, but the groups chose whether to use it.\nA: So the app had no effect?\nB: We cannot conclude that either. The design leaves the causal question open.\n\nListening script B\nReport the observed result accurately before evaluating the design. Ask what else differs between the groups and what was not measured. Do not turn insufficient evidence of an effect into proof that there is no effect.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B2-06-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nประเมินหลักฐานจากการทดลองและแยกความสัมพันธ์จากเหตุ\n\nPrepare a 180–240-word response and a 120–180-second spoken response using the unit inputs. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nmay have + participle: Users may have been more motivated.\ndoes not establish: The difference does not establish causation.\nneither conclusion: The study proves neither benefit nor absence of benefit.\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B2-06-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: แอปเตือน.\nA fictional team tests whether a ____ improves completion of training exercises.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "reminder app"
+      ],
+      "expected": "reminder app",
+      "explanation": "reminder app means แอปเตือน in this context. Full source sentence: A fictional team tests whether a reminder app improves completion of training exercises.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การทำจนเสร็จ.\nA fictional team tests whether a reminder app improves ____ of training exercises.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "completion"
+      ],
+      "expected": "completion",
+      "explanation": "completion means การทำจนเสร็จ in this context. Full source sentence: A fictional team tests whether a reminder app improves completion of training exercises.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: อาสาสมัคร.\n____ who choose the app complete more exercises than those who do not use it.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "volunteers"
+      ],
+      "expected": "volunteers",
+      "explanation": "volunteers means อาสาสมัคร in this context. Full source sentence: Volunteers who choose the app complete more exercises than those who do not use it.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: มีแรงจูงใจ.\nHowever, users selected their own group, and those choosing the app may already have been more ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "motivated"
+      ],
+      "expected": "motivated",
+      "explanation": "motivated means มีแรงจูงใจ in this context. Full source sentence: However, users selected their own group, and those choosing the app may already have been more motivated.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การเปรียบเทียบ.\nThe ____ is informative but does not isolate the app's effect.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "comparison"
+      ],
+      "expected": "comparison",
+      "explanation": "comparison means การเปรียบเทียบ in this context. Full source sentence: The comparison is informative but does not isolate the app's effect.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: แยกผลเฉพาะ.\nThe comparison is informative but does not ____ the app's effect.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "isolate"
+      ],
+      "expected": "isolate",
+      "explanation": "isolate means แยกผลเฉพาะ in this context. Full source sentence: The comparison is informative but does not isolate the app's effect.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ที่สังเกตพบ.\nA more careful report describes the ____ difference, discusses possible confounding factors and proposes a stronger study.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "observed"
+      ],
+      "expected": "observed",
+      "explanation": "observed means ที่สังเกตพบ in this context. Full source sentence: A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ปัจจัยกวน.\nA more careful report describes the observed difference, discusses possible ____ and proposes a stronger study.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "confounding factors"
+      ],
+      "expected": "confounding factors",
+      "explanation": "confounding factors means ปัจจัยกวน in this context. Full source sentence: A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: แบบแผนการศึกษา.\nTechnical vocabulary cannot compensate for a weak ____, and a cautious conclusion can be more useful than an impressive but unsupported claim.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "design"
+      ],
+      "expected": "design",
+      "explanation": "design means แบบแผนการศึกษา in this context. Full source sentence: Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ชดเชย.\nTechnical vocabulary cannot ____ for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "compensate"
+      ],
+      "expected": "compensate",
+      "explanation": "compensate means ชดเชย in this context. Full source sentence: Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การสุ่มเข้ากลุ่ม.\nNo ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "random assignment"
+      ],
+      "expected": "random assignment",
+      "explanation": "random assignment means การสุ่มเข้ากลุ่ม in this context. Full source sentence: No random assignment.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: จำลอง.\nFigures are ____; they demonstrate a reasoning problem, not the effectiveness of a real product.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "simulated"
+      ],
+      "expected": "simulated",
+      "explanation": "simulated means จำลอง in this context. Full source sentence: Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-06-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nA fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\n\nHow were participants assigned to groups? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "they chose their own group",
+      "explanation": "Reference answer: they chose their own group. Accept an accurate paraphrase that preserves scope. Check against B2-06-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-06-READ-A"
+    },
+    {
+      "stableId": "Q-B2-06-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nA fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\n\nWhat possible prior difference is mentioned? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "motivation",
+      "explanation": "Reference answer: motivation. Accept an accurate paraphrase that preserves scope. Check against B2-06-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-06-READ-A"
+    },
+    {
+      "stableId": "Q-B2-06-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nStudy note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.\n\nWhat was the app group's average? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "eight exercises",
+      "explanation": "Reference answer: eight exercises. Accept an accurate paraphrase that preserves scope. Check against B2-06-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-06-READ-B"
+    },
+    {
+      "stableId": "Q-B2-06-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script A — text-supported comprehension\nA: The app group completed three more exercises on average.\nB: Yes, but the groups chose whether to use it.\nA: So the app had no effect?\nB: We cannot conclude that either. The design leaves the causal question open.\n\nDoes the design prove the app had no effect? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "no",
+      "explanation": "Reference answer: no. Accept an accurate paraphrase that preserves scope. Check against B2-06-LISTEN-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-06-LISTEN-A"
+    },
+    {
+      "stableId": "Q-B2-06-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Use may have + participle to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: Users may have been more motivated.",
+      "expected": "Check the function อธิบายสาเหตุที่ยังไม่แน่; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function อธิบายสาเหตุที่ยังไม่แน่; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B2-06-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. The difference does not establish causation.\n2. The study proves neither benefit nor absence of benefit.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for จำกัดข้อสรุป versus หลีกเลี่ยงสรุปกลับด้าน. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for จำกัดข้อสรุป versus หลีกเลี่ยงสรุปกลับด้าน. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B2-06-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nStudy note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B2-06-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B2-06-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B2-06-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY",
+        "B2-06_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nA fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.",
+      "expected": "Provide a relevant supported detail from B2-06-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B2-06-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B2-06-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 180–240 words for a classmate who needs to understand science, technology & evidence. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nSources\nA fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\n\nStudy note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product."
+    },
+    {
+      "stableId": "TASK-B2-06-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 120–180-second spoken response about science, technology & evidence. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInput\nA fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\n\nA: The app group completed three more exercises on average.\nB: Yes, but the groups chose whether to use it.\nA: So the app had no effect?\nB: We cannot conclude that either. The design leaves the causal question open."
+    },
+    {
+      "stableId": "TASK-B2-06-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nA fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\n\nReading B\nStudy note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product."
+    },
+    {
+      "stableId": "TASK-B2-06-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-06_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about science, technology & evidence, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nStudy note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.\n\nA: The app group completed three more exercises on average.\nB: Yes, but the groups chose whether to use it.\nA: So the app had no effect?\nB: We cannot conclude that either. The design leaves the causal question open."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B2-06-001",
+      "item": "reminder app",
+      "thai": "แอปเตือน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A fictional team tests whether a reminder app improves completion of training exercises.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-002",
+      "item": "completion",
+      "thai": "การทำจนเสร็จ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A fictional team tests whether a reminder app improves completion of training exercises.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-003",
+      "item": "volunteers",
+      "thai": "อาสาสมัคร",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Volunteers who choose the app complete more exercises than those who do not use it.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-004",
+      "item": "motivated",
+      "thai": "มีแรงจูงใจ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "However, users selected their own group, and those choosing the app may already have been more motivated.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-005",
+      "item": "comparison",
+      "thai": "การเปรียบเทียบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The comparison is informative but does not isolate the app's effect.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-006",
+      "item": "isolate",
+      "thai": "แยกผลเฉพาะ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The comparison is informative but does not isolate the app's effect.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-007",
+      "item": "observed",
+      "thai": "ที่สังเกตพบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-008",
+      "item": "confounding factors",
+      "thai": "ปัจจัยกวน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-009",
+      "item": "design",
+      "thai": "แบบแผนการศึกษา",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-010",
+      "item": "compensate",
+      "thai": "ชดเชย",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-011",
+      "item": "random assignment",
+      "thai": "การสุ่มเข้ากลุ่ม",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "No random assignment.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-012",
+      "item": "simulated",
+      "thai": "จำลอง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-013",
+      "item": "effectiveness",
+      "thai": "ประสิทธิผล",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-014",
+      "item": "causal question",
+      "thai": "คำถามเรื่องเหตุและผล",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The design leaves the causal question open.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-015",
+      "item": "insufficient",
+      "thai": "ไม่เพียงพอ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Do not turn insufficient evidence of an effect into proof that there is no effect.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-06-REV-1",
+      "item": "evidence",
+      "thai": "หลักฐาน",
+      "example": "The evidence supports a limited conclusion.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-2",
+      "item": "claim",
+      "thai": "ข้ออ้าง",
+      "example": "That claim needs more support.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-3",
+      "item": "assumption",
+      "thai": "ข้อสมมติ",
+      "example": "The estimate depends on an assumption.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-4",
+      "item": "alternative",
+      "thai": "ทางเลือกหรือคำอธิบายอื่น",
+      "example": "Consider an alternative explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-5",
+      "item": "whereas",
+      "thai": "ในขณะที่ต่างกัน",
+      "example": "A measures cost, whereas B measures access.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-6",
+      "item": "nevertheless",
+      "thai": "ถึงกระนั้น",
+      "example": "The sample is small; nevertheless, it raises a useful question.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-7",
+      "item": "to some extent",
+      "thai": "ในระดับหนึ่ง",
+      "example": "I agree to some extent.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-8",
+      "item": "provided that",
+      "thai": "โดยมีเงื่อนไขว่า",
+      "example": "The proposal works provided that access is maintained.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-9",
+      "item": "tends to",
+      "thai": "มีแนวโน้มที่จะ",
+      "example": "The report tends to emphasise benefits.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-10",
+      "item": "may indicate",
+      "thai": "อาจบ่งชี้",
+      "example": "The change may indicate a problem.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-11",
+      "item": "trade-off",
+      "thai": "การได้อย่างเสียอย่าง",
+      "example": "There is a trade-off between speed and detail.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-12",
+      "item": "limitation",
+      "thai": "ข้อจำกัด",
+      "example": "Acknowledge the main limitation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-13",
+      "item": "counterargument",
+      "thai": "ข้อโต้แย้งอีกด้าน",
+      "example": "Address the strongest counterargument fairly.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-14",
+      "item": "consequence",
+      "thai": "ผลที่ตามมา",
+      "example": "Consider an unintended consequence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-06-REV-15",
+      "item": "justify",
+      "thai": "ให้เหตุผลรองรับ",
+      "example": "Justify the recommendation with relevant evidence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B2-06-1",
+      "form": "may have + participle",
+      "use": "อธิบายสาเหตุที่ยังไม่แน่",
+      "example": "Users may have been more motivated."
+    },
+    {
+      "id": "G-B2-06-2",
+      "form": "does not establish",
+      "use": "จำกัดข้อสรุป",
+      "example": "The difference does not establish causation."
+    },
+    {
+      "id": "G-B2-06-3",
+      "form": "neither conclusion",
+      "use": "หลีกเลี่ยงสรุปกลับด้าน",
+      "example": "The study proves neither benefit nor absence of benefit."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B2-06-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "A fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim."
+    },
+    {
+      "id": "B2-06-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Study note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product."
+    },
+    {
+      "id": "B2-06-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: The app group completed three more exercises on average.\nB: Yes, but the groups chose whether to use it.\nA: So the app had no effect?\nB: We cannot conclude that either. The design leaves the causal question open."
+    },
+    {
+      "id": "B2-06-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Report the observed result accurately before evaluating the design. Ask what else differs between the groups and what was not measured. Do not turn insufficient evidence of an effect into proof that there is no effect."
+    }
+  ],
+  "pronunciation": "Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B2-0.1",
+    "level": "B2",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B2: Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B2-06-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Science, Technology & Evidence; explain one source detail and use may have + participle in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-06-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Science, Technology & Evidence; explain one source detail and use does not establish in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-06-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Science, Technology & Evidence; explain one source detail and use neither conclusion in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-06-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Science, Technology & Evidence; explain one source detail and use may have + participle in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B2-06_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B2-06-015 and the mediation task."
+    },
+    {
+      "errorTag": "B2-06_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B2-06-001",
+      "Q-B2-06-002",
+      "Q-B2-06-003",
+      "Q-B2-06-004",
+      "Q-B2-06-005",
+      "Q-B2-06-006",
+      "Q-B2-06-007",
+      "Q-B2-06-008",
+      "Q-B2-06-009",
+      "Q-B2-06-010",
+      "Q-B2-06-011",
+      "Q-B2-06-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B2-06-013",
+      "Q-B2-06-014",
+      "Q-B2-06-015",
+      "Q-B2-06-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B2-06-1",
+      "TASK-B2-06-2",
+      "TASK-B2-06-3",
+      "TASK-B2-06-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B2.json",
+    "sourceUnitId": "B2-06",
+    "sourceChecksum": "e58f29ab1287948314d0d4963e5df530ced607bbbd91d9a0d7f7f199cf5b63f1"
+  },
+  "sourceText": "{\n  \"id\": \"B2-06\",\n  \"aim\": \"ประเมินหลักฐานจากการทดลองและแยกความสัมพันธ์จากเหตุ\",\n  \"a\": \"A fictional team tests whether a reminder app improves completion of training exercises. Volunteers who choose the app complete more exercises than those who do not use it. The team initially describes the app as the cause of the improvement. However, users selected their own group, and those choosing the app may already have been more motivated. The comparison is informative but does not isolate the app's effect. A more careful report describes the observed difference, discusses possible confounding factors and proposes a stronger study. Technical vocabulary cannot compensate for a weak design, and a cautious conclusion can be more useful than an impressive but unsupported claim.\",\n  \"b\": \"Study note: App group—30 volunteers, average 8 exercises. Non-app group—25 volunteers, average 5 exercises. No random assignment. Previous study habits not recorded. Figures are simulated; they demonstrate a reasoning problem, not the effectiveness of a real product.\",\n  \"l1\": \"A: The app group completed three more exercises on average.\\nB: Yes, but the groups chose whether to use it.\\nA: So the app had no effect?\\nB: We cannot conclude that either. The design leaves the causal question open.\",\n  \"l2\": \"Report the observed result accurately before evaluating the design. Ask what else differs between the groups and what was not measured. Do not turn insufficient evidence of an effect into proof that there is no effect.\",\n  \"v\": \"reminder app=แอปเตือน;completion=การทำจนเสร็จ;volunteers=อาสาสมัคร;motivated=มีแรงจูงใจ;comparison=การเปรียบเทียบ;isolate=แยกผลเฉพาะ;observed=ที่สังเกตพบ;confounding factors=ปัจจัยกวน;design=แบบแผนการศึกษา;compensate=ชดเชย;random assignment=การสุ่มเข้ากลุ่ม;simulated=จำลอง;effectiveness=ประสิทธิผล;causal question=คำถามเรื่องเหตุและผล;insufficient=ไม่เพียงพอ\",\n  \"g\": [\n    [\n      \"may have + participle\",\n      \"อธิบายสาเหตุที่ยังไม่แน่\",\n      \"Users may have been more motivated.\"\n    ],\n    [\n      \"does not establish\",\n      \"จำกัดข้อสรุป\",\n      \"The difference does not establish causation.\"\n    ],\n    [\n      \"neither conclusion\",\n      \"หลีกเลี่ยงสรุปกลับด้าน\",\n      \"The study proves neither benefit nor absence of benefit.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"How were participants assigned to groups?\",\n      \"they chose their own group\",\n      \"a\"\n    ],\n    [\n      \"What possible prior difference is mentioned?\",\n      \"motivation\",\n      \"a\"\n    ],\n    [\n      \"What was the app group's average?\",\n      \"eight exercises\",\n      \"b\"\n    ],\n    [\n      \"Does the design prove the app had no effect?\",\n      \"no\",\n      \"l1\"\n    ]\n  ]\n}\n",
+  "checksum": "283befdb76393b1a1c5fda54d59ac71f3114bdbaca07fa7af4a6030a10e5d967"
+}

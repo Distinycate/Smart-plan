@@ -1,0 +1,722 @@
+[
+  {
+    "id": "A2-01",
+    "aim": "ขอให้พูดซ้ำ อธิบายใหม่ และตรวจความเข้าใจ",
+    "a": "Nok joins a cooking class. The teacher asks everyone to bring a container. Nok knows the word bag, but container is new to her. She asks, 'Do you mean a box for the food?' The teacher says yes and shows a picture. Later, Nok hears fifteen instead of fifty. She repeats the number to check. Asking a clear question helps her follow the instructions without pretending to understand.",
+    "b": "Class message: Bring a clean container and a towel. The class begins at 15:00, not 15:50. Meet downstairs. If a word is unclear, ask for an example. Please do not guess the time.",
+    "l1": "A: Please bring a container.\nB: Sorry, what does container mean?\nA: A box to take your food home.\nB: Oh, I understand. Does it need a lid?\nA: Yes, please.\nB: So, a clean box with a lid.",
+    "l2": "The room has changed. We are downstairs today, beside the office. Did you hear downstairs? You can ask me to repeat the directions. We will begin at three, after everyone has arrived.",
+    "v": "joins=เข้าร่วม;cooking class=ชั้นเรียนทำอาหาร;container=ภาชนะ;picture=ภาพ;instead of=แทนที่จะเป็น;repeats=พูดซ้ำ;instructions=คำแนะนำ;pretending=แสร้งทำ;clean=สะอาด;towel=ผ้าเช็ด;downstairs=ชั้นล่าง;unclear=ไม่ชัดเจน;example=ตัวอย่าง;lid=ฝาปิด;directions=คำบอกทาง",
+    "g": [
+      [
+        "Do you mean …?",
+        "ตรวจความหมาย",
+        "Do you mean a box for the food?"
+      ],
+      [
+        "Could you …?",
+        "ขอความช่วยเหลือสุภาพ",
+        "Could you say that again?"
+      ],
+      [
+        "So, …",
+        "ทวนความเข้าใจ",
+        "So, a clean box with a lid."
+      ]
+    ],
+    "q": [
+      [
+        "Which word is new to Nok?",
+        "container",
+        "a"
+      ],
+      [
+        "What does Nok repeat to check?",
+        "the number",
+        "a"
+      ],
+      [
+        "What time does class begin?",
+        "15:00",
+        "b"
+      ],
+      [
+        "Does the box need a lid?",
+        "yes",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A2-02",
+    "aim": "บรรยายบุคลิกและพฤติกรรมโดยไม่ตัดสินจากรูปร่าง",
+    "a": "My neighbour Jin is quiet when he meets new people. In our reading group, he listens carefully and remembers small details. Last week, he helped a new member find a book. I think he is thoughtful. His sister is more talkative and enjoys telling funny stories. Both are friendly in different ways. A person's appearance does not tell us whether they are kind or honest.",
+    "b": "Group profiles: Ana enjoys organising events and usually arrives early. Rob prefers small groups and asks thoughtful questions. Neither profile tells us everything about the person. Describe a behaviour before choosing a personality word.",
+    "l1": "A: Is Jin unfriendly? He doesn't talk much.\nB: I don't think so. He helped me yesterday.\nA: Perhaps he is shy with new people.\nB: Yes. Give him time. He tells interesting stories when he feels comfortable.",
+    "l2": "For your description, give one example. Instead of only saying Ana is organised, explain that she makes a list before every event. Do not guess a person's character from their clothes, accent or face.",
+    "v": "neighbour=เพื่อนบ้าน;quiet=เงียบ;carefully=อย่างใส่ใจ;details=รายละเอียด;member=สมาชิก;thoughtful=ใส่ใจผู้อื่น;talkative=ช่างพูด;friendly=เป็นมิตร;appearance=รูปลักษณ์;honest=ซื่อสัตย์;organising=จัดระบบ;prefers=ชอบมากกว่า;behaviour=พฤติกรรม;shy=ขี้อาย;comfortable=สบายใจ",
+    "g": [
+      [
+        "adjective + evidence",
+        "บรรยายพร้อมเหตุผล",
+        "She is organised because she makes a list."
+      ],
+      [
+        "more + adjective",
+        "เปรียบเทียบ",
+        "His sister is more talkative."
+      ],
+      [
+        "usually / sometimes",
+        "หลีกเลี่ยงการเหมารวม",
+        "She usually arrives early."
+      ]
+    ],
+    "q": [
+      [
+        "What group does Jin attend?",
+        "a reading group",
+        "a"
+      ],
+      [
+        "Who is more talkative?",
+        "Jin's sister",
+        "a"
+      ],
+      [
+        "Who prefers small groups?",
+        "Rob",
+        "b"
+      ],
+      [
+        "What does Ana make before an event?",
+        "a list",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A2-04",
+    "aim": "แยกแผนที่ตั้งใจจากนัดหมายที่ยืนยันแล้ว",
+    "a": "On Friday, I am meeting a friend at the bus station at six. We have already bought tickets for a weekend visit. On Saturday, we are going to explore the old town. We may visit the museum if it rains. I want to take photos, but I haven't decided which camera to bring. Our return bus leaves on Sunday at four. I have written the confirmed times in my calendar.",
+    "b": "Message from Jo: Our table is booked for Saturday at 12:30. Please arrive ten minutes early. I am going to ask about a vegetarian option. The museum visit is only an idea; we have not booked it.",
+    "l1": "A: Are we meeting at five?\nB: At six. The tickets are for the seven-o'clock bus.\nA: Right. What are we doing on Saturday?\nB: We are going to explore the old town.\nA: And the museum?\nB: Maybe, if it rains.",
+    "l2": "Please check which plans are confirmed. The bus tickets and restaurant booking are confirmed. The museum is optional. Bring comfortable shoes. We can decide about indoor activities when we see the weather.",
+    "v": "meeting=นัดพบ;already=แล้ว;tickets=ตั๋ว;weekend=สุดสัปดาห์;explore=สำรวจ;museum=พิพิธภัณฑ์;rains=ฝนตก;decided=ตัดสินใจแล้ว;return=ขากลับ;confirmed=ยืนยันแล้ว;calendar=ปฏิทิน;booked=จองแล้ว;vegetarian=มังสวิรัติ;optional=เลือกได้;indoor=ในอาคาร",
+    "g": [
+      [
+        "present continuous for arrangements",
+        "นัดหมายที่จัดไว้",
+        "I am meeting a friend at six."
+      ],
+      [
+        "going to + verb",
+        "ความตั้งใจ",
+        "We are going to explore the old town."
+      ],
+      [
+        "may / maybe",
+        "แผนที่ยังไม่แน่",
+        "We may visit the museum."
+      ]
+    ],
+    "q": [
+      [
+        "Where is the Friday meeting?",
+        "at the bus station",
+        "a"
+      ],
+      [
+        "When does the return bus leave?",
+        "Sunday at four",
+        "a"
+      ],
+      [
+        "What time is the restaurant booking?",
+        "12:30",
+        "b"
+      ],
+      [
+        "Is the museum visit confirmed?",
+        "no",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A2-05",
+    "aim": "ตรวจการจองที่พักและถามบริการโดยใช้รายละเอียด",
+    "a": "Lina booked a twin room for two nights. When she arrived, the receptionist checked her name and booking number. Breakfast was included, but parking was not. Lina asked where she could leave her suitcase before check-in. The receptionist offered a luggage room. The room was ready at two. Lina checked the departure time so she would not confuse check-in with check-out.",
+    "b": "Fictional booking: Twin room, two guests, two nights. Check-in from 14:00. Check-out by 11:00. Breakfast 07:00–09:30. Parking costs extra. Please contact reception if your arrival time changes.",
+    "l1": "A: I have a booking under Lina Dee.\nB: For two nights?\nA: Yes. Is breakfast included?\nB: Yes, from seven until half past nine.\nA: Can I leave my suitcase here?\nB: Certainly, in the luggage room.",
+    "l2": "Welcome to the guesthouse. Breakfast is downstairs. Please return your key before eleven on your departure day. If you need a later check-out, ask reception first. It is not automatically included in your booking.",
+    "v": "twin room=ห้องเตียงเดี่ยวสองเตียง;receptionist=พนักงานต้อนรับ;booking number=หมายเลขการจอง;included=รวมอยู่แล้ว;parking=ที่จอดรถ;suitcase=กระเป๋าเดินทาง;check-in=การเข้าที่พัก;luggage room=ห้องฝากกระเป๋า;departure=การออกเดินทาง;check-out=การออกจากที่พัก;guests=ผู้เข้าพัก;extra=เพิ่มเติม;arrival=การมาถึง;guesthouse=ที่พักขนาดเล็ก;return=ส่งคืน",
+    "g": [
+      [
+        "Is … included?",
+        "ถามสิ่งที่รวมในราคา",
+        "Is breakfast included?"
+      ],
+      [
+        "Can I …?",
+        "ขอใช้บริการ",
+        "Can I leave my suitcase here?"
+      ],
+      [
+        "from / until / by",
+        "เริ่ม สิ้นสุด และเส้นตาย",
+        "Check out by eleven."
+      ]
+    ],
+    "q": [
+      [
+        "How many nights did Lina book?",
+        "two",
+        "a"
+      ],
+      [
+        "Which service was not included?",
+        "parking",
+        "a"
+      ],
+      [
+        "What is the latest standard check-out time?",
+        "11:00",
+        "b"
+      ],
+      [
+        "Where is breakfast?",
+        "downstairs",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A2-06",
+    "aim": "อธิบายปัญหาสินค้าและขอทางแก้อย่างสุภาพ",
+    "a": "I bought a desk lamp yesterday, but it did not work when I tried it at home. I brought the lamp and receipt back to the shop. I explained the problem without blaming the assistant. She checked the purchase date and tested the lamp. She offered a replacement. I asked whether a refund was possible under the shop's policy. We checked the written conditions before making a decision.",
+    "b": "Sample shop policy: Keep your receipt. Bring faulty items to the service desk for inspection. The available solution depends on the problem and applicable terms. This exercise does not describe consumer law or guarantee a refund.",
+    "l1": "A: How can I help?\nB: This lamp does not turn on. I bought it yesterday.\nA: Do you have the receipt?\nB: Yes. Could you check it, please?\nA: Of course. We can discuss the options after testing it.",
+    "l2": "The service desk is beside the entrance. Please explain what happened and show proof of purchase if you have it. An assistant will check the item. Ask about your options if the first solution does not meet your needs.",
+    "v": "desk lamp=โคมไฟตั้งโต๊ะ;receipt=ใบเสร็จ;explained=อธิบาย;blaming=กล่าวโทษ;assistant=พนักงานช่วยเหลือ;purchase date=วันที่ซื้อ;tested=ทดสอบ;replacement=สินค้าเปลี่ยนทดแทน;refund=เงินคืน;policy=นโยบาย;conditions=เงื่อนไข;faulty=ชำรุด;inspection=การตรวจสอบ;entrance=ทางเข้า;proof of purchase=หลักฐานการซื้อ",
+    "g": [
+      [
+        "past simple + present problem",
+        "ระบุเวลาซื้อกับอาการปัจจุบัน",
+        "I bought it yesterday. It does not work."
+      ],
+      [
+        "Could you …?",
+        "ขอให้ตรวจสอบ",
+        "Could you check it, please?"
+      ],
+      [
+        "whether",
+        "ถามทางเลือก",
+        "I asked whether a refund was possible."
+      ]
+    ],
+    "q": [
+      [
+        "What did the writer buy?",
+        "a desk lamp",
+        "a"
+      ],
+      [
+        "What solution did the assistant first offer?",
+        "a replacement",
+        "a"
+      ],
+      [
+        "Where should faulty items be taken?",
+        "the service desk",
+        "b"
+      ],
+      [
+        "Where is the service desk?",
+        "beside the entrance",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A2-07",
+    "aim": "อธิบายขั้นตอนทำอาหารและปรับคำสั่งให้ชัดเจน",
+    "a": "For our class salad, we wash the vegetables first. Then we cut the tomatoes and cucumber into small pieces. We put them in a bowl with cooked beans. Finally, we add a little oil and mix everything gently. We do not add nuts because one participant has asked us not to. We still check ingredient information rather than treating the recipe as an allergy guarantee.",
+    "b": "Restaurant note: Today's soup contains vegetables and beans. Bread is served separately. Tell staff about dietary needs before ordering. Ask how food is prepared if you need more information. Menu descriptions may not list every ingredient.",
+    "l1": "A: Do I add the oil first?\nB: No. Wash and cut the vegetables first.\nA: How much oil?\nB: A little. Then mix gently.\nA: Are we adding nuts?\nB: No, not in this class recipe.",
+    "l2": "Please work in pairs. One person reads the instructions while the other prepares the ingredients. Check each step before moving on. Ask the teacher for help with equipment. Do not use an unfamiliar tool without guidance.",
+    "v": "salad=สลัด;wash=ล้าง;cut=หั่น;tomatoes=มะเขือเทศ;cucumber=แตงกวา;pieces=ชิ้น;bowl=ชาม;beans=ถั่วเมล็ด;finally=สุดท้าย;oil=น้ำมัน;mix=ผสม;gently=เบา ๆ;nuts=ถั่วเปลือกแข็ง;separately=แยกต่างหาก;equipment=อุปกรณ์",
+    "g": [
+      [
+        "first / then / finally",
+        "เรียงขั้นตอน",
+        "First wash, then cut."
+      ],
+      [
+        "a little / a few",
+        "แยกนามนับไม่ได้กับนับได้",
+        "Add a little oil and a few beans."
+      ],
+      [
+        "How much / How many",
+        "ถามปริมาณ",
+        "How much oil do we need?"
+      ]
+    ],
+    "q": [
+      [
+        "What is the first preparation step?",
+        "wash the vegetables",
+        "a"
+      ],
+      [
+        "Which ingredient is not added?",
+        "nuts",
+        "a"
+      ],
+      [
+        "What is served separately?",
+        "bread",
+        "b"
+      ],
+      [
+        "How many people work together?",
+        "two",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A2-08",
+    "aim": "เล่าอาการเป็นลำดับและขอให้ผู้เชี่ยวชาญอธิบาย",
+    "a": "At a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.",
+    "b": "Question card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise.",
+    "l1": "A: When did the cough start?\nB: On Monday.\nA: Is it worse at a particular time?\nB: At night.\nA: Please explain that to the health professional.\nB: Could you help me write it down?",
+    "l2": "When you explain a problem, say when it started and what has changed. Tell the professional if you do not understand. Ask them to repeat the next step. Do not invent information to make your description sound complete.",
+    "v": "clinic=คลินิก;cough=อาการไอ;began=เริ่ม;worse=แย่ลง;at night=ตอนกลางคืน;cause=สาเหตุ;receptionist=พนักงานต้อนรับ;professional=ผู้เชี่ยวชาญ;questions=คำถาม;rest=การพัก;medicine=ยา;diagnosing=วินิจฉัย;particular=เฉพาะ;repeat=พูดซ้ำ;invent=แต่งขึ้น",
+    "g": [
+      [
+        "past simple + when",
+        "บอกเวลาเริ่ม",
+        "It started on Monday."
+      ],
+      [
+        "comparative adjective",
+        "บอกการเปลี่ยนแปลง",
+        "It is worse at night."
+      ],
+      [
+        "should in questions",
+        "ขอคำแนะนำจากผู้เชี่ยวชาญ",
+        "What should I do next?"
+      ]
+    ],
+    "q": [
+      [
+        "When did Pat's cough begin?",
+        "Monday",
+        "a"
+      ],
+      [
+        "When is the cough worse?",
+        "at night",
+        "a"
+      ],
+      [
+        "Which request asks for written instructions?",
+        "Please write the instructions down.",
+        "b"
+      ],
+      [
+        "Should a speaker invent missing information?",
+        "no",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A2-09",
+    "aim": "พูดถึงหน้าที่ สิ่งที่ต้องทำ และการขอเปลี่ยนงาน",
+    "a": "Mew works at a small library. She has to check returned books and put them on the correct shelf. She must not share visitors' personal details. On Wednesdays, she studies in the evening, so she needs to finish at five. This week, a colleague asks her to stay late. Mew explains her class time and offers to start earlier instead. They ask their supervisor to confirm the change.",
+    "b": "Team list: Mew checks returned books. Arun prepares the reading room. Lee updates the noticeboard. Everyone reports damaged equipment. If you cannot complete a task, tell the supervisor before the end of your shift.",
+    "l1": "A: Can you stay until six on Wednesday?\nB: I'm sorry, I have a class. I have to leave at five.\nA: Could you start earlier?\nB: Yes, at eight.\nA: Let's check with the supervisor first.",
+    "l2": "Please look at today's task list. You do not have to finish someone else's job without checking. Tell the supervisor if a task is unclear. Before leaving, report unfinished work so the next person knows what to do.",
+    "v": "returned books=หนังสือที่คืน;correct=ถูกต้อง;shelf=ชั้นวาง;share=เปิดเผยหรือแบ่งปัน;personal details=ข้อมูลส่วนตัว;colleague=เพื่อนร่วมงาน;stay late=อยู่ทำงานดึกขึ้น;earlier=ก่อนเวลาเดิม;supervisor=หัวหน้างาน;confirm=ยืนยัน;noticeboard=กระดานประกาศ;damaged=ชำรุด;shift=กะทำงาน;unclear=ไม่ชัด;unfinished=ยังไม่เสร็จ",
+    "g": [
+      [
+        "have to",
+        "หน้าที่จำเป็น",
+        "She has to check the books."
+      ],
+      [
+        "must not",
+        "ข้อห้าม",
+        "She must not share personal details."
+      ],
+      [
+        "do not have to",
+        "ไม่จำเป็น ไม่ใช่ข้อห้าม",
+        "You do not have to finish another person's job."
+      ]
+    ],
+    "q": [
+      [
+        "Where does Mew work?",
+        "at a library",
+        "a"
+      ],
+      [
+        "What time must Mew leave on Wednesday?",
+        "five",
+        "a"
+      ],
+      [
+        "Who updates the noticeboard?",
+        "Lee",
+        "b"
+      ],
+      [
+        "Who confirms the proposed change?",
+        "the supervisor",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A2-10",
+    "aim": "เปรียบเทียบตัวเลือกด้วยเกณฑ์เดียวกันและข้อจำกัดจริง",
+    "a": "We are choosing a room for a study group. Room A is cheaper and closer to the bus stop. However, it is smaller than Room B. Room B has more chairs and better lighting, but it costs more. We have ten people and a limited budget. We decide to check how many people Room A can hold before booking. The cheapest option is useful only if it meets our needs.",
+    "b": "Fictional room offers: A—eight chairs, 200 baht per hour, near the bus stop. B—twelve chairs, 300 baht per hour, ten minutes from the stop. Both have a whiteboard. Neither offer includes food.",
+    "l1": "A: Room A is cheaper. Should we book it?\nB: There are ten of us, but it has eight chairs.\nA: Can we borrow two chairs?\nB: We need to ask. Room B already has enough.\nA: Let's compare the total cost first.",
+    "l2": "Compare the same features for both rooms: size, cost and location. Do not compare one room's hourly price with another room's daily price. Check whether extra equipment changes the total.",
+    "v": "choosing=กำลังเลือก;cheaper=ถูกกว่า;closer=ใกล้กว่า;however=อย่างไรก็ตาม;smaller=เล็กกว่า;lighting=แสงสว่าง;limited budget=งบจำกัด;hold=รองรับ;booking=การจอง;option=ตัวเลือก;whiteboard=กระดานไวท์บอร์ด;borrow=ยืม;enough=เพียงพอ;hourly=ต่อชั่วโมง;daily=ต่อวัน",
+    "g": [
+      [
+        "comparative + than",
+        "เทียบเกณฑ์เดียวกัน",
+        "Room A is smaller than Room B."
+      ],
+      [
+        "more / better",
+        "รูปเปรียบเทียบ",
+        "B has more chairs and better lighting."
+      ],
+      [
+        "enough + noun",
+        "ความเพียงพอ",
+        "Room B has enough chairs."
+      ]
+    ],
+    "q": [
+      [
+        "How many people are in the group?",
+        "ten",
+        "a"
+      ],
+      [
+        "Which room is closer to the bus stop?",
+        "Room A",
+        "a"
+      ],
+      [
+        "How many chairs does Room B have?",
+        "twelve",
+        "b"
+      ],
+      [
+        "How many extra chairs would Room A need?",
+        "two",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A2-11",
+    "aim": "ชวน ตอบรับ ปฏิเสธ และเสนอทางเลือกอย่างใส่ใจ",
+    "a": "I invite Dao to a picnic on Sunday afternoon. She thanks me but says she is visiting her grandmother. She suggests Saturday instead. Our group can meet on Saturday, but the park may be wet after rain. We agree to check the weather and use the community room if necessary. I send a new message with the final day, time and place so nobody follows the old plan.",
+    "b": "Updated invitation: Saturday, 14:00, community room. Bring a snack if you want. Please reply by Thursday. You can say no without giving a private reason. Tell us if you need information about access to the room.",
+    "l1": "A: Would you like to join us on Sunday?\nB: Thanks, but I can't. How about Saturday?\nA: That works. Shall we meet at two?\nB: Yes. Where?\nA: I'll confirm the place in the group message.",
+    "l2": "The picnic plan has changed. We will meet indoors on Saturday at two. Please read the updated message rather than the first invitation. If you have already replied, just confirm that the new plan works for you.",
+    "v": "invite=เชิญ;picnic=ปิกนิก;visiting=ไปเยี่ยม;suggests=เสนอ;instead=แทน;wet=เปียก;agree=ตกลง;if necessary=หากจำเป็น;final=สุดท้ายที่ยืนยัน;updated=ปรับข้อมูลแล้ว;snack=อาหารว่าง;reply=ตอบกลับ;private reason=เหตุผลส่วนตัว;access=การเข้าถึง;indoors=ในอาคาร",
+    "g": [
+      [
+        "Would you like to …?",
+        "ชวนอย่างสุภาพ",
+        "Would you like to join us?"
+      ],
+      [
+        "How about …?",
+        "เสนอทางเลือก",
+        "How about Saturday?"
+      ],
+      [
+        "Shall we …?",
+        "เสนอทำร่วมกัน",
+        "Shall we meet at two?"
+      ]
+    ],
+    "q": [
+      [
+        "Why is Dao unavailable on Sunday?",
+        "she is visiting her grandmother",
+        "a"
+      ],
+      [
+        "Which day does Dao suggest?",
+        "Saturday",
+        "a"
+      ],
+      [
+        "When is the reply deadline?",
+        "Thursday",
+        "b"
+      ],
+      [
+        "Will the final meeting be indoors or outdoors?",
+        "indoors",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A2-12",
+    "aim": "ให้ขั้นตอนและแก้ปัญหาในชีวิตประจำวันโดยตรวจจุดติดขัด",
+    "a": "Our classroom printer has no paper. First, I check the paper tray. Then I ask the teacher which paper to use. I put a small stack in the tray and close it gently. A message on the screen says the cover is open. I check the cover before trying again. I do not touch wires or open unknown parts. If the problem continues, I ask the responsible person for help.",
+    "b": "Visitor instructions: Enter through the front door. Sign in at the desk. Go upstairs and turn right. Room 5 is beside the stairs. If the lift is needed, ask reception for the accessible route. Do not follow these fictional directions in a real building.",
+    "l1": "A: The printer still isn't working.\nB: What does the screen say?\nA: Cover open.\nB: Can you check the cover?\nA: It is closed now. Shall I try again?\nB: Yes. Ask the teacher if it still stops.",
+    "l2": "Please follow one step at a time. Check the result before repeating a step. If a machine behaves unexpectedly, stop and ask for help. Giving a clear description is more useful than saying only that it is broken.",
+    "v": "printer=เครื่องพิมพ์;paper tray=ถาดกระดาษ;stack=ปึก;gently=เบา ๆ;screen=หน้าจอ;cover=ฝาครอบ;wires=สายไฟ;continues=ดำเนินต่อ;responsible=รับผิดชอบ;sign in=ลงชื่อเข้า;upstairs=ชั้นบน;stairs=บันได;lift=ลิฟต์;accessible route=เส้นทางที่เข้าถึงได้;unexpectedly=โดยไม่คาดคิด",
+    "g": [
+      [
+        "sequencing imperatives",
+        "อธิบายทีละขั้น",
+        "First check the tray. Then ask the teacher."
+      ],
+      [
+        "if + present",
+        "เงื่อนไขการช่วยเหลือ",
+        "If it stops, ask for help."
+      ],
+      [
+        "still",
+        "ปัญหายังดำเนินอยู่",
+        "The printer still isn't working."
+      ]
+    ],
+    "q": [
+      [
+        "What is missing from the printer at first?",
+        "paper",
+        "a"
+      ],
+      [
+        "What message appears on the screen?",
+        "cover open",
+        "a"
+      ],
+      [
+        "Where is Room 5?",
+        "beside the stairs",
+        "b"
+      ],
+      [
+        "What should you check before repeating a step?",
+        "the result",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "A2-13",
+    "aim": "เล่าความชอบด้านสื่อพร้อมเหตุผลและแยกความเห็นจากข้อมูล",
+    "a": "I enjoy a short podcast about gardening. Each episode is about ten minutes long, so I listen on the bus. The host explains how people grow plants in small spaces. I like the friendly style, although some words are new to me. I write them down and listen again. My friend prefers films because she likes visual stories. We can enjoy different media without saying that one kind is best for everyone.",
+    "b": "Club reviews: Film Night—funny characters, clear subtitles, ninety minutes. Garden Podcast—short episodes, useful examples, no pictures. These are personal comments from fictional learners, not advertisements or research results.",
+    "l1": "A: What do you listen to on the bus?\nB: A gardening podcast.\nA: Why do you like it?\nB: The episodes are short and the examples are clear.\nA: Do you understand every word?\nB: No. I sometimes listen twice.",
+    "l2": "For your review, name the programme and describe one feature. Explain who might enjoy it. Use I think for your opinion. A programme you dislike may still be useful or enjoyable for another person.",
+    "v": "podcast=รายการเสียง;gardening=การทำสวน;episode=ตอน;host=ผู้ดำเนินรายการ;grow=ปลูก;plants=พืช;spaces=พื้นที่;style=รูปแบบการนำเสนอ;prefers=ชอบมากกว่า;visual=เกี่ยวกับภาพ;media=สื่อ;characters=ตัวละคร;subtitles=คำบรรยาย;advertisements=โฆษณา;opinion=ความเห็น",
+    "g": [
+      [
+        "because / so",
+        "เหตุและผล",
+        "Episodes are short, so I listen on the bus."
+      ],
+      [
+        "prefer + noun/-ing",
+        "บอกความชอบเปรียบเทียบ",
+        "She prefers films."
+      ],
+      [
+        "although",
+        "เพิ่มข้อจำกัด",
+        "I enjoy it although some words are new."
+      ]
+    ],
+    "q": [
+      [
+        "What is the podcast about?",
+        "gardening",
+        "a"
+      ],
+      [
+        "How long is each episode?",
+        "about ten minutes",
+        "a"
+      ],
+      [
+        "Which programme has no pictures?",
+        "Garden Podcast",
+        "b"
+      ],
+      [
+        "Does the listener understand every word?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A2-14",
+    "aim": "เล่าเรื่องต่อเนื่องและแยกเหตุการณ์หลักจากฉากหลัง",
+    "a": "Last Saturday, I was walking to the market when I saw a small dog near the gate. It had a blue collar but no owner nearby. I waited at a safe distance and asked a shopkeeper for help. A woman arrived a few minutes later and called the dog by name. The dog ran to her. She thanked us. I was late for shopping, but I was glad someone helped.",
+    "b": "Witness note: Time—about 10:00. Place—market gate. Animal—a small dog with a blue collar. What I saw—a woman called it and it went to her. What I do not know—how it left home or how long it was there.",
+    "l1": "A: Why were you late?\nB: I saw a dog near the market.\nA: What did you do?\nB: I asked a shopkeeper for help.\nA: Did the owner come?\nB: A woman came and the dog ran to her.",
+    "l2": "Start with when and where. Use then to connect events. Describe what you saw before adding how you felt. If you do not know why something happened, say that. A clear story does not need invented details.",
+    "v": "market=ตลาด;gate=ประตูทางเข้า;collar=ปลอกคอ;owner=เจ้าของ;nearby=ใกล้ ๆ;distance=ระยะห่าง;shopkeeper=คนขายของ;arrived=มาถึง;called=เรียก;thanked=ขอบคุณ;late=สาย;glad=ดีใจ;witness=ผู้เห็นเหตุการณ์;connect=เชื่อม;invented=แต่งขึ้น",
+    "g": [
+      [
+        "past continuous + when",
+        "ฉากหลังกับเหตุการณ์แทรก",
+        "I was walking when I saw a dog."
+      ],
+      [
+        "past simple sequence",
+        "เรียงเหตุการณ์",
+        "I waited and asked for help."
+      ],
+      [
+        "what I do not know",
+        "รักษาขอบเขตข้อมูล",
+        "I do not know how it left home."
+      ]
+    ],
+    "q": [
+      [
+        "Where was the dog?",
+        "near the market gate",
+        "a"
+      ],
+      [
+        "What colour was its collar?",
+        "blue",
+        "a"
+      ],
+      [
+        "About what time was the dog seen?",
+        "10:00",
+        "b"
+      ],
+      [
+        "Whom did the speaker ask for help?",
+        "a shopkeeper",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A2-15",
+    "aim": "เขียนอีเมลสั้นที่ระบุเรื่อง คำขอ และขั้นตอนถัดไป",
+    "a": "Subject: Missing workbook. Dear Ms Lee, I think I left my workbook in Room 4 after Tuesday's class. It has a yellow cover and my fictional class name on the first page. Has anyone found it? I can collect it on Thursday after three. Please let me know if that time is suitable. Thank you for your help. Best wishes, An.",
+    "b": "Reply: Hello An. We found a yellow workbook, but please check that it is yours. It is at reception. Thursday after three is fine. Bring your student card. We close at five. Best wishes, Ms Lee.",
+    "l1": "A: Did you get a reply about your workbook?\nB: Yes. There is one at reception.\nA: Is it definitely yours?\nB: I need to check.\nA: When are you collecting it?\nB: Thursday after three, before they close at five.",
+    "l2": "An online reply should answer the actual question. Do not send someone else's personal details in a group chat. If you cannot identify an item confidently, ask for a safe way to check ownership privately.",
+    "v": "subject=หัวเรื่อง;missing=หายไป;workbook=สมุดแบบฝึกหัด;cover=ปก;collect=ไปรับ;suitable=เหมาะสม;reply=คำตอบกลับ;reception=จุดต้อนรับ;student card=บัตรผู้เรียน;definitely=อย่างแน่นอน;identify=ระบุ;confidently=อย่างมั่นใจ;ownership=ความเป็นเจ้าของ;privately=เป็นส่วนตัว;group chat=ห้องสนทนากลุ่ม",
+    "g": [
+      [
+        "I think + clause",
+        "แสดงข้อมูลที่ยังไม่แน่",
+        "I think I left my workbook."
+      ],
+      [
+        "Has anyone …?",
+        "ถามเหตุการณ์ที่เกี่ยวกับปัจจุบัน",
+        "Has anyone found it?"
+      ],
+      [
+        "if + clause in a request",
+        "ตรวจความสะดวก",
+        "Please let me know if that time is suitable."
+      ]
+    ],
+    "q": [
+      [
+        "What colour is the workbook cover?",
+        "yellow",
+        "a"
+      ],
+      [
+        "Which room did An mention?",
+        "Room 4",
+        "a"
+      ],
+      [
+        "What should An bring?",
+        "a student card",
+        "b"
+      ],
+      [
+        "What time does reception close?",
+        "five",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "A2-16",
+    "aim": "ประสานงานกิจกรรมด้วยตาราง ข้อความ และการตรวจยืนยัน",
+    "a": "Our class is organising a small book exchange. People can bring one or two books they no longer need. The event is on Friday from four to six in the community room. We have arranged tables, but we still need signs. I am going to write the labels. A friend will welcome visitors. If too many books arrive, we will keep them on a spare table rather than block the entrance.",
+    "b": "Task update: Tables confirmed. Signs not ready. Welcome team—Kai and Lin. Bring books in good condition. Nobody has to bring a book to attend. Please check with the organiser before leaving boxes in the room.",
+    "l1": "A: Are the signs ready?\nB: Not yet. I'm writing them this afternoon.\nA: What can I do?\nB: Could you check the room at three?\nA: Yes. Is the entrance clear?\nB: It should be, but please check before visitors arrive.",
+    "l2": "Welcome to the book exchange. You can look around even if you did not bring a book. Ask the welcome team if you need help. Please keep the entrance clear and tell us if a sign is difficult to read.",
+    "v": "organising=จัดงาน;exchange=การแลกเปลี่ยน;no longer=ไม่อีกต่อไป;arranged=จัดเตรียมแล้ว;signs=ป้าย;labels=ป้ายกำกับ;visitors=ผู้มาเยี่ยม;spare=สำรอง;block=กีดขวาง;entrance=ทางเข้า;confirmed=ยืนยันแล้ว;condition=สภาพ;attend=เข้าร่วม;organiser=ผู้จัด;clear=โล่ง",
+    "g": [
+      [
+        "present perfect for readiness",
+        "งานที่พร้อมแล้ว",
+        "We have arranged the tables."
+      ],
+      [
+        "going to for assigned work",
+        "งานที่วางแผนทำ",
+        "I am going to write the labels."
+      ],
+      [
+        "if + present, will",
+        "แผนรับเงื่อนไข",
+        "If more books arrive, we will use the spare table."
+      ]
+    ],
+    "q": [
+      [
+        "On which day is the event?",
+        "Friday",
+        "a"
+      ],
+      [
+        "What still needs to be made?",
+        "signs",
+        "a"
+      ],
+      [
+        "Who is on the welcome team?",
+        "Kai and Lin",
+        "b"
+      ],
+      [
+        "Must visitors bring a book?",
+        "no",
+        "l2"
+      ]
+    ]
+  }
+]

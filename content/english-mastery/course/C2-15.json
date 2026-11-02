@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-C2-15-COURSE",
+  "unitId": "C2-15",
+  "level": "C2",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript C2-15; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Advanced Discourse & Rhetorical Analysis",
+  "canDo": "อธิบายว่าสถาปัตยกรรมข้อความจัดน้ำหนักเหตุผลและเสียงของผู้มีส่วนได้เสียอย่างไร. Communicate fine distinctions, reconstruct dense or rhetorically complex material and mediate across purposes without erasing uncertainty or competing commitments.",
+  "outcomes": [
+    "Use the language of advanced discourse & rhetorical analysis to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "C2-15-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Advanced Discourse & Rhetorical Analysis\nเป้าหมาย: อธิบายว่าสถาปัตยกรรมข้อความจัดน้ำหนักเหตุผลและเสียงของผู้มีส่วนได้เสียอย่างไร\n\nUse the language of advanced discourse & rhetorical analysis to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nA report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.\n\nRead for purpose, then locate the people, events, conditions and limits. Reconstruct the logic and rhetorical purpose of competing accounts. Test presuppositions, compression losses and shifts of agency. Preserve principled disagreement while producing a precise, audience-sensitive synthesis. Consider more than one defensible interpretation and explain why you prefer one.\n\nReading B\nReport inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "C2-15-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "not only … but how …\nหน้าที่: ขยายหน่วยวิเคราะห์\nModel: Ask not only whether sentences are true, but how placement shapes judgement.\nTry: change one detail while preserving the function. Check the result against the source.\n\ncannot establish that none\nหน้าที่: ไม่ให้ข้อมูลที่ไม่พบแทนการไม่มี\nModel: The report cannot establish that no dissatisfied non-respondents existed.\nTry: change one detail while preserving the function. Check the result against the source.\n\nwithout changing\nหน้าที่: แยกโครงสร้างจากข้อเท็จจริง\nModel: Moving the data changes emphasis without changing the figures.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nตรวจข้อสมมติที่ซ่อนอยู่ การลดทอนเมื่อย่อ การเปลี่ยนผู้รับผิดชอบและน้ำหนักถ้อยคำ ยอมรับหลายคำตีความที่มีหลักฐานโดยไม่สร้างฉันทามติเทียม\n\nTarget vocabulary in context\naggregate results — ผลรวมจากหลายข้อมูล\nA report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise.\n\ninterpretive priority — น้ำหนักนำการตีความ\nThis circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded.\n\nanecdote — เรื่องเล่ารายกรณี\nThis circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded.\n\nplacement — ตำแหน่งจัดวาง\nDiscourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.\n\nproportion — สัดส่วนพื้นที่\nDiscourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.\n\nattribution — การระบุเจ้าของข้อความ\nDiscourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.\n\nargumentative architecture — โครงสร้างจัดเหตุผล\nMoving the data forward would alter the argumentative architecture without changing any figure.\n\ngenre — ประเภทงานสื่อสาร\nA fair critique should also consider genre: an invitation and an evaluation report have different purposes.\n\nevaluation — การประเมิน\nA fair critique should also consider genre: an invitation and an evaluation report have different purposes.\n\nnon-response rate — อัตราไม่ตอบ\nAppendix—responses split evenly between positive and neutral; non-response rate unknown.\n\nnon-respondents — ผู้ไม่ตอบ\nNo negative responses were recorded, but the report cannot establish that none existed among non-respondents.\n\nopening frame — กรอบนำตอนต้น\nTrace the movement from opening frame to final recommendation.\n\ncompressed — ย่อรวม\nIdentify whose voice is quoted directly, whose is compressed and whose is absent.\n\nexplicit claim — ข้ออ้างที่กล่าวชัด\nThen distinguish the report's explicit claim from the inference encouraged by its architecture.\n\nvisibility — ความเห็นได้ชัด\nPropose a revision that preserves legitimate purpose while improving the visibility of relevant limitations.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "C2-15-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: Every sentence is true, so how could the report mislead?\nB: Selection and placement can change the impression. The anecdote frames results that are more limited.\nA: Would adding a caution in the appendix solve it?\nB: Only if readers encounter and understand it where it matters to their judgement.\n\nListening script B\nTrace the movement from opening frame to final recommendation. Identify whose voice is quoted directly, whose is compressed and whose is absent. Then distinguish the report's explicit claim from the inference encouraged by its architecture. Propose a revision that preserves legitimate purpose while improving the visibility of relevant limitations.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse prosody strategically to manage complex interaction, signal parenthetical qualification and distinguish reported from personal stance. Judge communicative effect and intelligibility, not resemblance to an idealised native accent.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "C2-15-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nอธิบายว่าสถาปัตยกรรมข้อความจัดน้ำหนักเหตุผลและเสียงของผู้มีส่วนได้เสียอย่างไร\n\nPrepare a 320–420-word response and a 240–300-second spoken response using the unit inputs. Communicate fine distinctions, reconstruct dense or rhetorically complex material and mediate across purposes without erasing uncertainty or competing commitments.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nnot only … but how …: Ask not only whether sentences are true, but how placement shapes judgement.\ncannot establish that none: The report cannot establish that no dissatisfied non-respondents existed.\nwithout changing: Moving the data changes emphasis without changing the figures.\nตรวจข้อสมมติที่ซ่อนอยู่ การลดทอนเมื่อย่อ การเปลี่ยนผู้รับผิดชอบและน้ำหนักถ้อยคำ ยอมรับหลายคำตีความที่มีหลักฐานโดยไม่สร้างฉันทามติเทียม\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-C2-15-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ผลรวมจากหลายข้อมูล.\nA report opens with a vivid account of one satisfied participant, postpones ____ until the appendix and ends by repeating the participant's praise.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "aggregate results"
+      ],
+      "expected": "aggregate results",
+      "explanation": "aggregate results means ผลรวมจากหลายข้อมูล in this context. Full source sentence: A report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: น้ำหนักนำการตีความ.\nThis circular structure gives the anecdote ____ even if the numerical findings are cautiously worded.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "interpretive priority"
+      ],
+      "expected": "interpretive priority",
+      "explanation": "interpretive priority means น้ำหนักนำการตีความ in this context. Full source sentence: This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เรื่องเล่ารายกรณี.\nThis circular structure gives the ____ interpretive priority even if the numerical findings are cautiously worded.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "anecdote"
+      ],
+      "expected": "anecdote",
+      "explanation": "anecdote means เรื่องเล่ารายกรณี in this context. Full source sentence: This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ตำแหน่งจัดวาง.\nDiscourse analysis asks not only whether individual sentences are accurate, but how ____, proportion and attribution shape the reader's overall judgement.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "placement"
+      ],
+      "expected": "placement",
+      "explanation": "placement means ตำแหน่งจัดวาง in this context. Full source sentence: Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: สัดส่วนพื้นที่.\nDiscourse analysis asks not only whether individual sentences are accurate, but how placement, ____ and attribution shape the reader's overall judgement.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "proportion"
+      ],
+      "expected": "proportion",
+      "explanation": "proportion means สัดส่วนพื้นที่ in this context. Full source sentence: Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การระบุเจ้าของข้อความ.\nDiscourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and ____ shape the reader's overall judgement.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "attribution"
+      ],
+      "expected": "attribution",
+      "explanation": "attribution means การระบุเจ้าของข้อความ in this context. Full source sentence: Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: โครงสร้างจัดเหตุผล.\nMoving the data forward would alter the ____ without changing any figure.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "argumentative architecture"
+      ],
+      "expected": "argumentative architecture",
+      "explanation": "argumentative architecture means โครงสร้างจัดเหตุผล in this context. Full source sentence: Moving the data forward would alter the argumentative architecture without changing any figure.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ประเภทงานสื่อสาร.\nA fair critique should also consider ____: an invitation and an evaluation report have different purposes.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "genre"
+      ],
+      "expected": "genre",
+      "explanation": "genre means ประเภทงานสื่อสาร in this context. Full source sentence: A fair critique should also consider genre: an invitation and an evaluation report have different purposes.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การประเมิน.\nA fair critique should also consider genre: an invitation and an ____ report have different purposes.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "evaluation"
+      ],
+      "expected": "evaluation",
+      "explanation": "evaluation means การประเมิน in this context. Full source sentence: A fair critique should also consider genre: an invitation and an evaluation report have different purposes.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: อัตราไม่ตอบ.\nAppendix—responses split evenly between positive and neutral; ____ unknown.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "non-response rate"
+      ],
+      "expected": "non-response rate",
+      "explanation": "non-response rate means อัตราไม่ตอบ in this context. Full source sentence: Appendix—responses split evenly between positive and neutral; non-response rate unknown.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ผู้ไม่ตอบ.\nNo negative responses were recorded, but the report cannot establish that none existed among ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "non-respondents"
+      ],
+      "expected": "non-respondents",
+      "explanation": "non-respondents means ผู้ไม่ตอบ in this context. Full source sentence: No negative responses were recorded, but the report cannot establish that none existed among non-respondents.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: กรอบนำตอนต้น.\nTrace the movement from ____ to final recommendation.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "opening frame"
+      ],
+      "expected": "opening frame",
+      "explanation": "opening frame means กรอบนำตอนต้น in this context. Full source sentence: Trace the movement from opening frame to final recommendation.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C2-15-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nA report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.\n\nWhat receives interpretive priority through the circular structure? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "the satisfied participant's anecdote",
+      "explanation": "Reference answer: the satisfied participant's anecdote. Accept an accurate paraphrase that preserves scope. Check against C2-15-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "C2-15-READ-A"
+    },
+    {
+      "stableId": "Q-C2-15-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nA report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.\n\nDoes genre automatically excuse a misleading impression? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "no",
+      "explanation": "Reference answer: no. Accept an accurate paraphrase that preserves scope. Check against C2-15-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "C2-15-READ-A"
+    },
+    {
+      "stableId": "Q-C2-15-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nReport inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents.\n\nWhat proportion of recorded responses was positive? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "half; responses were split evenly between positive and neutral",
+      "explanation": "Reference answer: half; responses were split evenly between positive and neutral. Accept an accurate paraphrase that preserves scope. Check against C2-15-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "C2-15-READ-B"
+    },
+    {
+      "stableId": "Q-C2-15-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script A — text-supported comprehension\nA: Every sentence is true, so how could the report mislead?\nB: Selection and placement can change the impression. The anecdote frames results that are more limited.\nA: Would adding a caution in the appendix solve it?\nB: Only if readers encounter and understand it where it matters to their judgement.\n\nWhy may a caution hidden in the appendix be insufficient? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "readers may not encounter or understand it where it affects judgement",
+      "explanation": "Reference answer: readers may not encounter or understand it where it affects judgement. Accept an accurate paraphrase that preserves scope. Check against C2-15-LISTEN-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "C2-15-LISTEN-A"
+    },
+    {
+      "stableId": "Q-C2-15-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Use not only … but how … to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: Ask not only whether sentences are true, but how placement shapes judgement.",
+      "expected": "Check the function ขยายหน่วยวิเคราะห์; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function ขยายหน่วยวิเคราะห์; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-C2-15-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. The report cannot establish that no dissatisfied non-respondents existed.\n2. Moving the data changes emphasis without changing the figures.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for ไม่ให้ข้อมูลที่ไม่พบแทนการไม่มี versus แยกโครงสร้างจากข้อเท็จจริง. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for ไม่ให้ข้อมูลที่ไม่พบแทนการไม่มี versus แยกโครงสร้างจากข้อเท็จจริง. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-C2-15-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nReport inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in C2-15-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in C2-15-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-C2-15-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY",
+        "C2-15_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nA report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.",
+      "expected": "Provide a relevant supported detail from C2-15-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from C2-15-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-C2-15-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-C2-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 320–420 words for a classmate who needs to understand advanced discourse & rhetorical analysis. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Reconstruct the logic and rhetorical purpose of competing accounts. Test presuppositions, compression losses and shifts of agency. Preserve principled disagreement while producing a precise, audience-sensitive synthesis. Consider more than one defensible interpretation and explain why you prefer one.\n\nSources\nA report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.\n\nReport inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents."
+    },
+    {
+      "stableId": "TASK-C2-15-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-C2-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 240–300-second spoken response about advanced discourse & rhetorical analysis. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use prosody strategically to manage complex interaction, signal parenthetical qualification and distinguish reported from personal stance. Judge communicative effect and intelligibility, not resemblance to an idealised native accent.\n\nInput\nA report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.\n\nA: Every sentence is true, so how could the report mislead?\nB: Selection and placement can change the impression. The anecdote frames results that are more limited.\nA: Would adding a caution in the appendix solve it?\nB: Only if readers encounter and understand it where it matters to their judgement."
+    },
+    {
+      "stableId": "TASK-C2-15-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-C2-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nA report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.\n\nReading B\nReport inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents."
+    },
+    {
+      "stableId": "TASK-C2-15-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "C2-15_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-C2-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about advanced discourse & rhetorical analysis, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nReport inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents.\n\nA: Every sentence is true, so how could the report mislead?\nB: Selection and placement can change the impression. The anecdote frames results that are more limited.\nA: Would adding a caution in the appendix solve it?\nB: Only if readers encounter and understand it where it matters to their judgement."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-C2-15-001",
+      "item": "aggregate results",
+      "thai": "ผลรวมจากหลายข้อมูล",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-002",
+      "item": "interpretive priority",
+      "thai": "น้ำหนักนำการตีความ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-003",
+      "item": "anecdote",
+      "thai": "เรื่องเล่ารายกรณี",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-004",
+      "item": "placement",
+      "thai": "ตำแหน่งจัดวาง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-005",
+      "item": "proportion",
+      "thai": "สัดส่วนพื้นที่",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-006",
+      "item": "attribution",
+      "thai": "การระบุเจ้าของข้อความ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-007",
+      "item": "argumentative architecture",
+      "thai": "โครงสร้างจัดเหตุผล",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Moving the data forward would alter the argumentative architecture without changing any figure.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-008",
+      "item": "genre",
+      "thai": "ประเภทงานสื่อสาร",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A fair critique should also consider genre: an invitation and an evaluation report have different purposes.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-009",
+      "item": "evaluation",
+      "thai": "การประเมิน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A fair critique should also consider genre: an invitation and an evaluation report have different purposes.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-010",
+      "item": "non-response rate",
+      "thai": "อัตราไม่ตอบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Appendix—responses split evenly between positive and neutral; non-response rate unknown.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-011",
+      "item": "non-respondents",
+      "thai": "ผู้ไม่ตอบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "No negative responses were recorded, but the report cannot establish that none existed among non-respondents.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-012",
+      "item": "opening frame",
+      "thai": "กรอบนำตอนต้น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Trace the movement from opening frame to final recommendation.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-013",
+      "item": "compressed",
+      "thai": "ย่อรวม",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Identify whose voice is quoted directly, whose is compressed and whose is absent.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-014",
+      "item": "explicit claim",
+      "thai": "ข้ออ้างที่กล่าวชัด",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Then distinguish the report's explicit claim from the inference encouraged by its architecture.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-015",
+      "item": "visibility",
+      "thai": "ความเห็นได้ชัด",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Propose a revision that preserves legitimate purpose while improving the visibility of relevant limitations.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C2-15-REV-1",
+      "item": "equivocation",
+      "thai": "การใช้คำคลุมเครือสลับความหมาย",
+      "example": "The argument relies on equivocation between access and use.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-2",
+      "item": "presupposition",
+      "thai": "ข้อสมมติที่ถือไว้ก่อน",
+      "example": "The question carries an untested presupposition.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-3",
+      "item": "corollary",
+      "thai": "ข้อสรุปที่ตามมา",
+      "example": "That corollary follows only if the premise holds.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-4",
+      "item": "tenable",
+      "thai": "ป้องกันได้ด้วยเหตุผล",
+      "example": "The interpretation is tenable but not uniquely compelled.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-5",
+      "item": "underdetermined",
+      "thai": "ข้อมูลยังชี้ขาดไม่ได้",
+      "example": "The cause remains underdetermined by these observations.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-6",
+      "item": "conflate",
+      "thai": "ปะปนสิ่งต่างกัน",
+      "example": "Do not conflate consent with absence of objection.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-7",
+      "item": "elide",
+      "thai": "ละจนความต่างหายไป",
+      "example": "The summary elides an important condition.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-8",
+      "item": "attenuate",
+      "thai": "ลดน้ำหนักหรือความเข้ม",
+      "example": "The hedge attenuates the commitment.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-9",
+      "item": "entail",
+      "thai": "จำเป็นต้องมีผลตามตรรกะ",
+      "example": "An increase in attendance does not entail improved access.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-10",
+      "item": "incommensurable",
+      "thai": "ต่างเกณฑ์จนเทียบตรงไม่ได้",
+      "example": "The two measures are not simply interchangeable; their units are incommensurable.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-11",
+      "item": "proviso",
+      "thai": "ข้อแม้",
+      "example": "Retain the proviso when reporting the agreement.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-12",
+      "item": "counterfactual",
+      "thai": "สมมติการณ์ตรงข้ามสิ่งที่เกิด",
+      "example": "The counterfactual comparison is not directly observed.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-13",
+      "item": "salience",
+      "thai": "ความเด่นที่ดึงความสนใจ",
+      "example": "Placement changes the salience of the caveat.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-14",
+      "item": "reconcile",
+      "thai": "ประสานให้เข้ากัน",
+      "example": "The mediator cannot reconcile incompatible commitments by deleting one.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C2-15-REV-15",
+      "item": "epistemic",
+      "thai": "เกี่ยวกับสถานะความรู้",
+      "example": "The modal marks epistemic caution, not reluctance alone.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-C2-15-1",
+      "form": "not only … but how …",
+      "use": "ขยายหน่วยวิเคราะห์",
+      "example": "Ask not only whether sentences are true, but how placement shapes judgement."
+    },
+    {
+      "id": "G-C2-15-2",
+      "form": "cannot establish that none",
+      "use": "ไม่ให้ข้อมูลที่ไม่พบแทนการไม่มี",
+      "example": "The report cannot establish that no dissatisfied non-respondents existed."
+    },
+    {
+      "id": "G-C2-15-3",
+      "form": "without changing",
+      "use": "แยกโครงสร้างจากข้อเท็จจริง",
+      "example": "Moving the data changes emphasis without changing the figures."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "C2-15-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "A report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation."
+    },
+    {
+      "id": "C2-15-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Report inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents."
+    },
+    {
+      "id": "C2-15-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: Every sentence is true, so how could the report mislead?\nB: Selection and placement can change the impression. The anecdote frames results that are more limited.\nA: Would adding a caution in the appendix solve it?\nB: Only if readers encounter and understand it where it matters to their judgement."
+    },
+    {
+      "id": "C2-15-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Trace the movement from opening frame to final recommendation. Identify whose voice is quoted directly, whose is compressed and whose is absent. Then distinguish the report's explicit claim from the inference encouraged by its architecture. Propose a revision that preserves legitimate purpose while improving the visibility of relevant limitations."
+    }
+  ],
+  "pronunciation": "Use prosody strategically to manage complex interaction, signal parenthetical qualification and distinguish reported from personal stance. Judge communicative effect and intelligibility, not resemblance to an idealised native accent.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-C2-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-C2-0.1",
+    "level": "C2",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target C2: Communicate fine distinctions, reconstruct dense or rhetorically complex material and mediate across purposes without erasing uncertainty or competing commitments.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-C2-15-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Advanced Discourse & Rhetorical Analysis; explain one source detail and use not only … but how … in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-C2-15-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Advanced Discourse & Rhetorical Analysis; explain one source detail and use cannot establish that none in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-C2-15-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Advanced Discourse & Rhetorical Analysis; explain one source detail and use without changing in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-C2-15-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Advanced Discourse & Rhetorical Analysis; explain one source detail and use not only … but how … in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "C2-15_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-C2-15-015 and the mediation task."
+    },
+    {
+      "errorTag": "C2-15_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-C2-15-001",
+      "Q-C2-15-002",
+      "Q-C2-15-003",
+      "Q-C2-15-004",
+      "Q-C2-15-005",
+      "Q-C2-15-006",
+      "Q-C2-15-007",
+      "Q-C2-15-008",
+      "Q-C2-15-009",
+      "Q-C2-15-010",
+      "Q-C2-15-011",
+      "Q-C2-15-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-C2-15-013",
+      "Q-C2-15-014",
+      "Q-C2-15-015",
+      "Q-C2-15-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-C2-15-1",
+      "TASK-C2-15-2",
+      "TASK-C2-15-3",
+      "TASK-C2-15-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "C2.json",
+    "sourceUnitId": "C2-15",
+    "sourceChecksum": "52c43499e21ef0d44f79c6a5d9d3cfd5b52173cefc247d14d331be32201acc8a"
+  },
+  "sourceText": "{\n  \"id\": \"C2-15\",\n  \"aim\": \"อธิบายว่าสถาปัตยกรรมข้อความจัดน้ำหนักเหตุผลและเสียงของผู้มีส่วนได้เสียอย่างไร\",\n  \"a\": \"A report opens with a vivid account of one satisfied participant, postpones aggregate results until the appendix and ends by repeating the participant's praise. This circular structure gives the anecdote interpretive priority even if the numerical findings are cautiously worded. Discourse analysis asks not only whether individual sentences are accurate, but how placement, proportion and attribution shape the reader's overall judgement. Moving the data forward would alter the argumentative architecture without changing any figure. A fair critique should also consider genre: an invitation and an evaluation report have different purposes. Genre explains a choice; it does not automatically excuse a misleading impression where readers reasonably expect evaluation.\",\n  \"b\": \"Report inventory: Opening story—one participant's positive account. Main section—three pages on delivery. Appendix—responses split evenly between positive and neutral; non-response rate unknown. Closing—opening praise repeated. No negative responses were recorded, but the report cannot establish that none existed among non-respondents.\",\n  \"l1\": \"A: Every sentence is true, so how could the report mislead?\\nB: Selection and placement can change the impression. The anecdote frames results that are more limited.\\nA: Would adding a caution in the appendix solve it?\\nB: Only if readers encounter and understand it where it matters to their judgement.\",\n  \"l2\": \"Trace the movement from opening frame to final recommendation. Identify whose voice is quoted directly, whose is compressed and whose is absent. Then distinguish the report's explicit claim from the inference encouraged by its architecture. Propose a revision that preserves legitimate purpose while improving the visibility of relevant limitations.\",\n  \"v\": \"aggregate results=ผลรวมจากหลายข้อมูล;interpretive priority=น้ำหนักนำการตีความ;anecdote=เรื่องเล่ารายกรณี;placement=ตำแหน่งจัดวาง;proportion=สัดส่วนพื้นที่;attribution=การระบุเจ้าของข้อความ;argumentative architecture=โครงสร้างจัดเหตุผล;genre=ประเภทงานสื่อสาร;evaluation=การประเมิน;non-response rate=อัตราไม่ตอบ;non-respondents=ผู้ไม่ตอบ;opening frame=กรอบนำตอนต้น;compressed=ย่อรวม;explicit claim=ข้ออ้างที่กล่าวชัด;visibility=ความเห็นได้ชัด\",\n  \"g\": [\n    [\n      \"not only … but how …\",\n      \"ขยายหน่วยวิเคราะห์\",\n      \"Ask not only whether sentences are true, but how placement shapes judgement.\"\n    ],\n    [\n      \"cannot establish that none\",\n      \"ไม่ให้ข้อมูลที่ไม่พบแทนการไม่มี\",\n      \"The report cannot establish that no dissatisfied non-respondents existed.\"\n    ],\n    [\n      \"without changing\",\n      \"แยกโครงสร้างจากข้อเท็จจริง\",\n      \"Moving the data changes emphasis without changing the figures.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"What receives interpretive priority through the circular structure?\",\n      \"the satisfied participant's anecdote\",\n      \"a\"\n    ],\n    [\n      \"Does genre automatically excuse a misleading impression?\",\n      \"no\",\n      \"a\"\n    ],\n    [\n      \"What proportion of recorded responses was positive?\",\n      \"half; responses were split evenly between positive and neutral\",\n      \"b\"\n    ],\n    [\n      \"Why may a caution hidden in the appendix be insufficient?\",\n      \"readers may not encounter or understand it where it affects judgement\",\n      \"l1\"\n    ]\n  ]\n}\n",
+  "checksum": "65501feb5ed58a9acfcdc47bef44fddcdecd402c93d6f5744ab1aa18ac8d6c85"
+}

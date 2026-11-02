@@ -5,18 +5,19 @@ import { isValidUuid } from '@/lib/smartPlanV3/schemas';
 import { isLessonLocked } from '@/lib/smartPlanV3/types';
 
 interface RouteContext {
-  params: { id: string; asmId: string };
+  params: Promise<{ id: string; asmId: string }>;
 }
 
 // GET /api/plan/v3/[id]/assessments/[asmId] - ดึง Assessment เดียว
-export async function GET(req: NextRequest, { params }: RouteContext) {
+export async function GET(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, asmId } = params;
     if (!isValidUuid(planId) || !isValidUuid(asmId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนหรือรหัสการประเมินไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ success: false, error: 'กรุณาเข้าสู่ระบบก่อนใช้งาน' }, { status: 401 });
@@ -41,14 +42,15 @@ export async function GET(req: NextRequest, { params }: RouteContext) {
 }
 
 // PATCH /api/plan/v3/[id]/assessments/[asmId] - อัปเดต Assessment และ/หรือ links
-export async function PATCH(req: NextRequest, { params }: RouteContext) {
+export async function PATCH(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, asmId } = params;
     if (!isValidUuid(planId) || !isValidUuid(asmId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนหรือรหัสการประเมินไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ success: false, error: 'กรุณาเข้าสู่ระบบก่อนใช้งาน' }, { status: 401 });
@@ -111,14 +113,15 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
 }
 
 // DELETE /api/plan/v3/[id]/assessments/[asmId] - ลบ Assessment
-export async function DELETE(req: NextRequest, { params }: RouteContext) {
+export async function DELETE(req: NextRequest, props: RouteContext) {
+  const params = await props.params;
   try {
     const { id: planId, asmId } = params;
     if (!isValidUuid(planId) || !isValidUuid(asmId)) {
       return NextResponse.json({ success: false, error: 'รหัสแผนการสอนหรือรหัสการประเมินไม่ถูกต้อง' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ success: false, error: 'กรุณาเข้าสู่ระบบก่อนใช้งาน' }, { status: 401 });

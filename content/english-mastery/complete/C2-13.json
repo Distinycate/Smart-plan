@@ -1,0 +1,909 @@
+{
+  "stableId": "UNIT-C2-13-PILOT",
+  "unitId": "C2-13",
+  "level": "C2",
+  "version": "0.6.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "provenance": "Canonical v0.5 pilot: Pilot_C2-13_High_Level_Mediation_Full_v0.5.md; sources are simulated training sources.",
+  "title": "High-Level Mediation",
+  "lessons": [
+    {
+      "id": "C2-13-L01",
+      "title": "Perspectives, interests and hidden tensions",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Scenario: automated writing feedback.\n\n**Teacher**\n> Immediate feedback could help students revise more often, but automated suggestions should not be treated as unquestionably correct. Students need to understand that feedback can be useful without being authoritative.\n\n**Administrator**\n> A scalable option is needed because teachers cannot provide detailed comments on every draft. If the system handles routine feedback, staff could focus on higher-value guidance.\n\n**Student representative**\n> Fast feedback is useful, but students should be able to see whether feedback came from a teacher or a system. They should also have a clear way to question feedback that does not make sense.\n\nTasks: common ground? **fast/useful feedback has potential** · teacher concern? **authority/reliability** · administrator priority? **scale/resources** · student priority? **transparency/challenge path** · unresolved issue? **system authority/accountability**"
+        }
+      ]
+    },
+    {
+      "id": "C2-13-L02",
+      "title": "Preserve nuance while reformulating",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Source: `The proposal is unlikely to eliminate the problem.`  \nDistorted: `The proposal will not work.`  \nFaithful: `The proposal may reduce the problem, but it is not expected to solve it completely.`\n\nPrecision network: reduce ≠ eliminate · evidence ≠ proof · concern ≠ objection · possible ≠ probable · efficient ≠ effective · consensus ≠ absence of disagreement."
+        }
+      ]
+    },
+    {
+      "id": "C2-13-L03",
+      "title": "Specialist ↔ public transformation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "### Simulated specialist source\n> The intervention produced a statistically detectable improvement in short-term recall, but effect sizes were heterogeneous and diminished at delayed follow-up. The findings therefore support a limited claim about immediate performance rather than a general claim about durable learning.\n\n### Public mediation\n> The intervention improved short-term memory on average, but the size of the benefit varied and became smaller when people were tested later. So the results suggest an immediate benefit, not clear proof of a lasting learning effect.\n\nPreserved: improvement, variation, smaller delayed effect, limited conclusion.  \nRemoved: specialist terminology not needed by the audience.  \nNot allowed: “The intervention improves learning.” — scope and certainty broadened."
+        }
+      ]
+    },
+    {
+      "id": "C2-13-L04",
+      "title": "Diplomatic intervention",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Director: We need a decision this week.  \nTeacher lead: I’m uncomfortable approving a system we cannot fully audit.  \nOperations lead: Waiting for perfect auditability means we may never scale feedback.  \nStudent representative: The immediate issue for us is knowing who is responsible when feedback is wrong.\n\nTask: separate positions/interests; identify shared goals; reframe loaded wording; propose a **decision process**, not forced consensus.\n\nPossible opening:\n> There seems to be agreement that faster feedback is valuable and that accountability matters. The disagreement is less about whether the system should be used at all than about what safeguards are needed before broader use. It may help to separate the decision about a limited pilot from the decision about full deployment."
+        }
+      ]
+    },
+    {
+      "id": "C2-13-L05",
+      "title": "Multi-source action briefing",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "### Source A — technical note (simulated)\nThe system performs reliably on routine grammar and clarity suggestions but is less consistent when interpreting intended tone, rhetorical strategy or specialised terminology.\n\n### Source B — staff note (simulated)\nTeachers report that automated comments are most useful when learners treat them as prompts for revision rather than final corrections.\n\n### Source C — student panel (simulated)\nStudents value speed but want visible source labels and a simple process for asking a teacher when feedback appears contradictory.\n\nPrepare:\nA. **250-word leadership briefing**  \nB. **120-word public explanation**  \nC. **2-minute mediation opening**\n\nAll three preserve the same factual core but change foregrounding, register and density."
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "V05-Q-C2-13-001",
+      "version": "0.6.0",
+      "prompt": "unlikely to eliminate ≠ will not work. What drift occurred?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "scope/meaning/force drift",
+      "explanation": "Expected response or review guidance: scope/meaning/force drift",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-002",
+      "version": "0.6.0",
+      "prompt": "Does consistency equal correctness?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-003",
+      "version": "0.6.0",
+      "prompt": "Does concern equal objection?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-004",
+      "version": "0.6.0",
+      "prompt": "Does efficient equal effective?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-005",
+      "version": "0.6.0",
+      "prompt": "Can consensus contain remaining disagreement?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "Yes"
+      ],
+      "expected": "Yes",
+      "explanation": "Expected response or review guidance: Yes",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-006",
+      "version": "0.6.0",
+      "prompt": "What is manufactured consensus?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "claiming agreement that evidence/participants do not support",
+      "explanation": "Expected response or review guidance: claiming agreement that evidence/participants do not support",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-007",
+      "version": "0.6.0",
+      "prompt": "Teacher lead’s priority in the meeting?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "academic judgement / interpretive-risk oversight",
+      "explanation": "Expected response or review guidance: academic judgement / interpretive-risk oversight",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-008",
+      "version": "0.6.0",
+      "prompt": "Operations lead’s priority?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "scalability/capacity",
+      "explanation": "Expected response or review guidance: scalability/capacity",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-009",
+      "version": "0.6.0",
+      "prompt": "Student representative’s priority?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "transparency/recourse",
+      "explanation": "Expected response or review guidance: transparency/recourse",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-010",
+      "version": "0.6.0",
+      "prompt": "What emerging agreement exists?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "possible limited pilot with transparent labels/selective escalation",
+      "explanation": "Expected response or review guidance: possible limited pilot with transparent labels/selective escalation",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-011",
+      "version": "0.6.0",
+      "prompt": "Is there consensus on full deployment?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-012",
+      "version": "0.6.0",
+      "prompt": "Why can both mediation openings pass?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "different defensible foregrounding while preserving unresolved issues",
+      "explanation": "Expected response or review guidance: different defensible foregrounding while preserving unresolved issues",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-013",
+      "version": "0.6.0",
+      "prompt": "Bad compression of routine-task benefit into improves writing causes what?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "scope/generalisation drift",
+      "explanation": "Expected response or review guidance: scope/generalisation drift",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-014",
+      "version": "0.6.0",
+      "prompt": "What must faithful compression preserve?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "benefit scope + limitation + recommendation force",
+      "explanation": "Expected response or review guidance: benefit scope + limitation + recommendation force",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-015",
+      "version": "0.6.0",
+      "prompt": "What is face-sensitive challenge?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "challenge issue while managing interpersonal impact",
+      "explanation": "Expected response or review guidance: challenge issue while managing interpersonal impact",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-016",
+      "version": "0.6.0",
+      "prompt": "What is a latent concern?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "underlying concern inferred from contextual evidence",
+      "explanation": "Expected response or review guidance: underlying concern inferred from contextual evidence",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-017",
+      "version": "0.6.0",
+      "prompt": "May a mediator choose a policy outcome as neutral fact?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-018",
+      "version": "0.6.0",
+      "prompt": "Can multiple interpretations be valid at C2?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Yes, if evidence-supported",
+      "explanation": "Expected response or review guidance: Yes, if evidence-supported",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-019",
+      "version": "0.6.0",
+      "prompt": "What must specialist→public transformation preserve?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "core meaning, scope, certainty, evaluative force",
+      "explanation": "Expected response or review guidance: core meaning, scope, certainty, evaluative force",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C2-13-020",
+      "version": "0.6.0",
+      "prompt": "Why is rare vocabulary not a C2 criterion?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "C2 is precision/flexibility under complexity, not rarity",
+      "explanation": "Expected response or review guidance: C2 is precision/flexibility under complexity, not rarity",
+      "errorTags": [
+        "C2_SEMANTIC_FIDELITY",
+        "C2_DIPLOMATIC_MEDIATION"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    }
+  ],
+  "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+  "remediation": [
+    {
+      "errorTag": "C2_SEMANTIC_FIDELITY",
+      "action": "Audit source and paraphrase for semantic drift."
+    },
+    {
+      "errorTag": "C2_DIPLOMATIC_MEDIATION",
+      "action": "Reframe loaded wording into a neutral process step."
+    }
+  ],
+  "derivation": {
+    "sourceVersion": "0.5",
+    "sourceFile": "Pilot_C2-13_High_Level_Mediation_Full_v0.5.md",
+    "sourceChecksum": "3e7ede608ca157b0d8dc1d4814e8d6c19fe3d32496499370ba6431df401f41aa",
+    "compilerVersion": "1.0.0",
+    "change": "Full source projection replacing abbreviated integration payload; not academic approval."
+  },
+  "vocabulary": [
+    {
+      "id": "V-C2-13-001",
+      "item": "nuance",
+      "type": "N",
+      "thai": "นัยละเอียด",
+      "example": "Preserve nuance under compression."
+    },
+    {
+      "id": "V-C2-13-002",
+      "item": "precision",
+      "type": "N",
+      "thai": "ความแม่นยำ",
+      "example": "C2 requires precision under complexity."
+    },
+    {
+      "id": "V-C2-13-003",
+      "item": "scope",
+      "type": "N",
+      "thai": "ขอบเขต",
+      "example": "Do not broaden the source scope."
+    },
+    {
+      "id": "V-C2-13-004",
+      "item": "certainty",
+      "type": "N",
+      "thai": "ระดับความแน่นอน",
+      "example": "Preserve certainty exactly."
+    },
+    {
+      "id": "V-C2-13-005",
+      "item": "undertone",
+      "type": "N",
+      "thai": "นัยแฝง",
+      "example": "The wording carries an undertone of concern."
+    },
+    {
+      "id": "V-C2-13-006",
+      "item": "face",
+      "type": "N",
+      "thai": "การรักษาหน้า/ภาพลักษณ์ทางสังคม",
+      "example": "The mediator protects face without avoiding the issue."
+    },
+    {
+      "id": "V-C2-13-007",
+      "item": "latent concern",
+      "type": "N",
+      "thai": "ข้อกังวลแฝง",
+      "example": "Identify the latent concern."
+    },
+    {
+      "id": "V-C2-13-008",
+      "item": "alignment",
+      "type": "N",
+      "thai": "แนวร่วม/ความสอดคล้อง",
+      "example": "Track shifts in speaker alignment."
+    },
+    {
+      "id": "V-C2-13-009",
+      "item": "consensus",
+      "type": "N",
+      "thai": "ฉันทามติ",
+      "example": "Do not invent consensus."
+    },
+    {
+      "id": "V-C2-13-010",
+      "item": "accountability",
+      "type": "N",
+      "thai": "ความรับผิดชอบตรวจสอบได้",
+      "example": "Accountability remains unresolved."
+    },
+    {
+      "id": "V-C2-13-011",
+      "item": "transparency",
+      "type": "N",
+      "thai": "ความโปร่งใส",
+      "example": "Students request transparency."
+    },
+    {
+      "id": "V-C2-13-012",
+      "item": "recourse",
+      "type": "N",
+      "thai": "ช่องทางขอทบทวน",
+      "example": "Users need recourse when feedback seems wrong."
+    },
+    {
+      "id": "V-C2-13-013",
+      "item": "scalability",
+      "type": "N",
+      "thai": "ความสามารถในการขยาย",
+      "example": "Operations prioritises scalability."
+    },
+    {
+      "id": "V-C2-13-014",
+      "item": "authority",
+      "type": "N",
+      "thai": "อำนาจ/ความน่าเชื่อถือในการตัดสิน",
+      "example": "The teacher questions the system’s authority."
+    },
+    {
+      "id": "V-C2-13-015",
+      "item": "auditability",
+      "type": "N",
+      "thai": "ความสามารถในการตรวจสอบย้อนหลัง",
+      "example": "Auditability is a concern."
+    },
+    {
+      "id": "V-C2-13-016",
+      "item": "reformulate",
+      "type": "V",
+      "thai": "เรียบเรียงใหม่",
+      "example": "Reformulate without changing force."
+    },
+    {
+      "id": "V-C2-13-017",
+      "item": "mediate",
+      "type": "V",
+      "thai": "ไกล่เกลี่ย/ถ่ายทอด",
+      "example": "Mediate without taking sides."
+    },
+    {
+      "id": "V-C2-13-018",
+      "item": "reframe",
+      "type": "V",
+      "thai": "วางกรอบใหม่",
+      "example": "Reframe the disagreement."
+    },
+    {
+      "id": "V-C2-13-019",
+      "item": "calibrate",
+      "type": "V",
+      "thai": "ปรับระดับอย่างแม่นยำ",
+      "example": "Calibrate certainty carefully."
+    },
+    {
+      "id": "V-C2-13-020",
+      "item": "preserve",
+      "type": "V",
+      "thai": "รักษา",
+      "example": "Preserve understatement."
+    },
+    {
+      "id": "V-C2-13-021",
+      "item": "surface",
+      "type": "V",
+      "thai": "ทำให้สิ่งแฝงปรากฏ",
+      "example": "Surface the underlying concern."
+    },
+    {
+      "id": "V-C2-13-022",
+      "item": "distinguish",
+      "type": "V",
+      "thai": "แยกความแตกต่าง",
+      "example": "Distinguish efficiency from effectiveness."
+    },
+    {
+      "id": "V-C2-13-023",
+      "item": "escalate",
+      "type": "V",
+      "thai": "ส่งต่อ/ยกระดับ",
+      "example": "Escalate high-risk feedback selectively."
+    },
+    {
+      "id": "V-C2-13-024",
+      "item": "compress",
+      "type": "V",
+      "thai": "ย่อ",
+      "example": "Compress without semantic loss."
+    },
+    {
+      "id": "V-C2-13-025",
+      "item": "expand",
+      "type": "V",
+      "thai": "ขยาย",
+      "example": "Expand an implicit relation when necessary."
+    },
+    {
+      "id": "V-C2-13-026",
+      "item": "without implying that",
+      "type": "FRAME",
+      "thai": "โดยไม่สื่อว่า",
+      "example": "Explain the benefit without implying that it always works."
+    },
+    {
+      "id": "V-C2-13-027",
+      "item": "this should not be taken to mean",
+      "type": "FRAME",
+      "thai": "ไม่ควรตีความว่านี่หมายถึง",
+      "example": "This should not be taken to mean the system is reliable in every case."
+    },
+    {
+      "id": "V-C2-13-028",
+      "item": "a central point of agreement",
+      "type": "FRAME",
+      "thai": "จุดร่วมสำคัญคือ",
+      "example": "A central point of agreement is transparency."
+    },
+    {
+      "id": "V-C2-13-029",
+      "item": "the disagreement concerns",
+      "type": "FRAME",
+      "thai": "ความเห็นต่างอยู่ที่",
+      "example": "The disagreement concerns the level of human oversight."
+    },
+    {
+      "id": "V-C2-13-030",
+      "item": "the evidence warrants caution",
+      "type": "FRAME",
+      "thai": "หลักฐานสมควรให้ระมัดระวัง",
+      "example": "The evidence warrants caution."
+    },
+    {
+      "id": "V-C2-13-031",
+      "item": "a more defensible formulation would be",
+      "type": "FRAME",
+      "thai": "รูปแบบที่ปกป้องได้มากกว่าคือ",
+      "example": "A more defensible formulation would be…"
+    },
+    {
+      "id": "V-C2-13-032",
+      "item": "the underlying concern appears to be",
+      "type": "FRAME",
+      "thai": "ข้อกังวลเบื้องหลังดูเหมือน",
+      "example": "The underlying concern appears to be accountability."
+    },
+    {
+      "id": "V-C2-13-033",
+      "item": "this can be reframed as",
+      "type": "FRAME",
+      "thai": "สามารถวางกรอบใหม่เป็น",
+      "example": "This can be reframed as a pilot-design question."
+    },
+    {
+      "id": "V-C2-13-034",
+      "item": "the available evidence does not warrant",
+      "type": "FRAME",
+      "thai": "หลักฐานที่มีไม่รองรับ",
+      "example": "The available evidence does not warrant full deployment."
+    },
+    {
+      "id": "V-C2-13-035",
+      "item": "the distinction is significant because",
+      "type": "FRAME",
+      "thai": "ความแตกต่างสำคัญเพราะ",
+      "example": "The distinction is significant because it changes responsibility."
+    },
+    {
+      "id": "V-C2-13-036",
+      "item": "not necessarily",
+      "type": "PHRASE",
+      "thai": "ไม่จำเป็นเสมอไป",
+      "example": "Consistency is not necessarily correctness."
+    },
+    {
+      "id": "V-C2-13-037",
+      "item": "strictly speaking",
+      "type": "PHRASE",
+      "thai": "กล่าวอย่างเคร่งครัด",
+      "example": "Strictly speaking, no full consensus exists."
+    },
+    {
+      "id": "V-C2-13-038",
+      "item": "more to the point",
+      "type": "PHRASE",
+      "thai": "ที่สำคัญกว่านั้น",
+      "example": "More to the point, the escalation route is unclear."
+    },
+    {
+      "id": "V-C2-13-039",
+      "item": "if anything",
+      "type": "PHRASE",
+      "thai": "หากจะมีอะไร",
+      "example": "If anything, the new evidence makes the claim more qualified."
+    },
+    {
+      "id": "V-C2-13-040",
+      "item": "semantic drift",
+      "type": "PHRASE",
+      "thai": "การเลื่อนความหมาย",
+      "example": "Check for semantic drift."
+    },
+    {
+      "id": "V-C2-13-041",
+      "item": "manufactured consensus",
+      "type": "PHRASE",
+      "thai": "ฉันทามติที่ถูกสร้างขึ้นทั้งที่ไม่มี",
+      "example": "Avoid manufactured consensus."
+    },
+    {
+      "id": "V-C2-13-042",
+      "item": "face-sensitive challenge",
+      "type": "PHRASE",
+      "thai": "การท้าทายที่คำนึงถึงหน้า",
+      "example": "Use a face-sensitive challenge."
+    },
+    {
+      "id": "V-C2-13-043",
+      "item": "precision under compression",
+      "type": "PHRASE",
+      "thai": "ความแม่นยำขณะย่อ",
+      "example": "Test precision under compression."
+    },
+    {
+      "id": "V-C2-13-044",
+      "item": "audience transformation",
+      "type": "PHRASE",
+      "thai": "การปรับสารตามผู้รับ",
+      "example": "Audience transformation must retain evaluative force."
+    },
+    {
+      "id": "V-C2-13-045",
+      "item": "multiple defensible readings",
+      "type": "PHRASE",
+      "thai": "การตีความได้หลายแบบที่มีเหตุผล",
+      "example": "Allow multiple defensible readings."
+    },
+    {
+      "id": "V-C2-13-046",
+      "item": "selective escalation",
+      "type": "PHRASE",
+      "thai": "การส่งต่อแบบเลือกเฉพาะกรณี",
+      "example": "The pilot uses selective escalation."
+    },
+    {
+      "id": "V-C2-13-047",
+      "item": "advisory feedback",
+      "type": "PHRASE",
+      "thai": "ข้อเสนอแนะเชิงแนะนำ",
+      "example": "Interpretive comments are advisory feedback."
+    },
+    {
+      "id": "V-C2-13-048",
+      "item": "direct correction",
+      "type": "PHRASE",
+      "thai": "การแก้โดยตรง",
+      "example": "Routine grammar may permit direct correction."
+    },
+    {
+      "id": "V-C2-13-049",
+      "item": "human oversight",
+      "type": "PHRASE",
+      "thai": "การกำกับโดยมนุษย์",
+      "example": "Human oversight is required for higher-risk cases."
+    },
+    {
+      "id": "V-C2-13-050",
+      "item": "reversible pilot",
+      "type": "PHRASE",
+      "thai": "การทดลองที่ย้อนกลับได้",
+      "example": "A reversible pilot can gather evidence safely."
+    }
+  ],
+  "grammar": [
+    {
+      "id": "F-C2-13-01",
+      "form": "without implying that",
+      "use": "preserve nuance",
+      "example": "Explain the benefit without implying universal reliability."
+    },
+    {
+      "id": "F-C2-13-02",
+      "form": "the underlying concern appears to be",
+      "use": "surface latent concern",
+      "example": "The underlying concern appears to be accountability."
+    },
+    {
+      "id": "F-C2-13-03",
+      "form": "this can be reframed as",
+      "use": "diplomatic reframing",
+      "example": "This can be reframed as a pilot-design question."
+    },
+    {
+      "id": "F-C2-13-04",
+      "form": "strictly speaking",
+      "use": "fine precision",
+      "example": "Strictly speaking, there is no full consensus."
+    },
+    {
+      "id": "F-C2-13-05",
+      "form": "face-sensitive mediation",
+      "use": "protect relationship while clarifying conflict",
+      "example": "There is agreement on the goal, but not yet on the safeguards."
+    }
+  ],
+  "retrieval": [
+    {
+      "id": "RET-C2-13-01",
+      "prompt": "Define semantic drift."
+    },
+    {
+      "id": "RET-C2-13-02",
+      "prompt": "Distinguish concern vs objection."
+    },
+    {
+      "id": "RET-C2-13-03",
+      "prompt": "State the unresolved disagreement."
+    },
+    {
+      "id": "RET-C2-13-04",
+      "prompt": "Give a face-sensitive challenge."
+    },
+    {
+      "id": "RET-C2-13-05",
+      "prompt": "Compress a claim without losing scope."
+    },
+    {
+      "id": "RET-C2-13-06",
+      "prompt": "Reframe one loaded position neutrally."
+    },
+    {
+      "id": "RET-C2-13-07",
+      "prompt": "State one latent concern with evidence."
+    },
+    {
+      "id": "RET-C2-13-08",
+      "prompt": "Explain why multiple defensible readings can pass."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-C2-13-1",
+      "version": "0.6.0",
+      "title": "Writing",
+      "skill": "WRITING",
+      "prompt": "**Writing:** produce the 250-word leadership briefing and 120-word public explanation.  \n**Speaking:** deliver the 2-minute mediation opening and respond to two adversarial follow-up questions without manufacturing consensus.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-C2-13-2",
+      "version": "0.6.0",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "prompt": "**Writing:** produce the 250-word leadership briefing and 120-word public explanation.  \n**Speaking:** deliver the 2-minute mediation opening and respond to two adversarial follow-up questions without manufacturing consensus.",
+      "responseType": "RECORDING",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-C2-13-3",
+      "version": "0.6.0",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "prompt": "You are mediating a meeting between senior management, teachers and student representatives. Prepare:\n1. a 180-word neutral map of agreement, unresolved disagreement and latent concerns;\n2. a 250-word decision-process recommendation that does **not** pretend consensus already exists;\n3. a 120-word public explanation that preserves the distinction between consistency, correctness and appropriate human oversight;\n4. a two-minute spoken intervention that acknowledges face concerns and proposes the next evidence-gathering step.\n\nExpert ambiguity note: several mediation strategies may be defensible. Scoring must reward fidelity, balance, audience effect and precision rather than one preferred policy outcome.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-C2-13-4",
+      "version": "0.6.0",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "prompt": "Summarise the disagreement; integrate ≥2 prior contributions; identify ambiguity; propose a process step; do not present your preference as neutral mediation.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    }
+  ],
+  "canDo": "Identify underlying interests/tensions; preserve fine semantic/pragmatic distinctions; adapt specialist content; mediate disagreement without manufacturing consensus; reconstruct reasoning; preserve material understatement/qualification.",
+  "supplementary": "## Extended mediation dossier for depth validation\n> **SIMULATED TRAINING SOURCES — not factual research citations.**\n\n### Source D — quality-assurance note (simulated)\nA review of automated feedback found that the system was highly consistent when identifying a limited set of surface-level issues, but substantially less predictable when comments depended on intended tone, rhetorical purpose or discipline-specific conventions. The reviewers did not conclude that such feedback was unusable. Instead, they recommended differentiating between low-risk suggestions that could be presented directly and higher-interpretation suggestions that should be framed as prompts for consideration. They also argued that users should be able to see why a suggestion was generated and should not be encouraged to assume that consistency is equivalent to correctness.\n\n### Source E — teacher working-group statement (simulated)\nTeachers supported faster feedback in principle but disagreed about what role it should play. Some wanted the system to handle routine corrections so that staff could focus on argument, organisation and individual guidance. Others worried that students might accept automated comments uncritically, particularly when the feedback sounded confident. The group’s strongest point of agreement was therefore not about the amount of automation, but about the need for transparent labelling, opportunities to question feedback and clear responsibility for final academic judgement.\n\n### Source F — student representative audio (simulated)\n> From a student perspective, speed matters, but confidence can be misleading. If a message appears instantly and sounds certain, people may assume it has been checked by a teacher even when it hasn’t. I don’t think the answer is to remove automated feedback. I think the system should make its role obvious: tell us when a comment is automated, show us when the system is uncertain, and give us a simple route to ask a person when the advice seems inconsistent with the task. That would make the feedback easier to trust precisely because it would be clearer about its limits.\n\n### High-level mediation task\nYou are mediating a meeting between senior management, teachers and student representatives. Prepare:\n1. a 180-word neutral map of agreement, unresolved disagreement and latent concerns;\n2. a 250-word decision-process recommendation that does **not** pretend consensus already exists;\n3. a 120-word public explanation that preserves the distinction between consistency, correctness and appropriate human oversight;\n4. a two-minute spoken intervention that acknowledges face concerns and proposes the next evidence-gathering step.\n\n\n# v0.4 Targeted Revision — C2 validity fixes\n## Extended multi-party spoken meeting `AUD-C2-13-V04-MEETING`\n> **Director:** We need something scalable this term. I’m not asking for perfect certainty; I’m asking whether the risk is manageable.  \n> **Teacher lead:** Manageable for whom? If a student receives confident but misleading feedback on an argument, the problem may not be obvious until the final submission. I’m not opposed to automation, but I do object to treating interpretive feedback as routine.  \n> **Operations lead:** I agree that interpretive feedback is different. What I’m resisting is a rule that sends every uncertain case back to a teacher. If we do that, we lose most of the capacity benefit.  \n> **Student representative:** From our side, the biggest issue is knowing what we’re looking at. If the system says “this is wrong” and sounds certain, students may assume a teacher checked it. If it says “consider whether…” and shows that it is automated, that feels very different.  \n> **Director:** So perhaps the distinction is not human versus automated, but direct correction versus advisory feedback?  \n> **Teacher lead:** That’s closer, although I’d still want a route for escalation when the advice affects interpretation rather than grammar.  \n> **Operations lead:** I can work with that if escalation is selective rather than automatic.  \n> **Student representative:** And if students can see why a comment has been flagged as uncertain.  \n> **Director:** Then we do not have consensus on full deployment, but we may have enough agreement to define a limited pilot with transparent labels and selective escalation.\n\nAnalysis tasks: track each participant’s initial position, one alignment change, one face-sensitive challenge, one understated reservation, and the exact scope of emerging agreement.\n\n## Two defensible mediation openings\n### Opening A — process-first\n> There appears to be agreement that automated feedback can be useful for routine issues, while interpretive feedback carries a different level of risk. The unresolved question is how selective human escalation can be without making the system either misleading or operationally pointless. A reasonable next step would be a limited pilot that separates direct corrections from advisory comments, labels automated feedback clearly and records which cases are escalated.\n\n### Opening B — stakeholder-first\n> The participants are protecting different but compatible priorities: teachers are concerned about academic judgement, operations about scalability, and students about transparency and recourse. Rather than deciding immediately between automation and human feedback, the group could test a narrower model in which routine comments are automated, higher-interpretation comments are explicitly advisory, and disputed cases can be referred to staff.\n\n\n## Compression-loss case\nOriginal:\n> The review found a small average improvement, concentrated in routine grammar tasks, with inconsistent performance on tone and rhetorical purpose; the authors therefore recommended limited use with clear escalation for interpretive feedback.\n\nBad compression:\n> The review found that automated feedback improved writing and recommended using it.\n\nLoss: task scope narrowed to “writing” generally; limitations removed; recommendation strengthened.\n\nFaithful compression:\n> The review found modest benefits for routine language feedback but inconsistent results for interpretation, so it recommended limited use with escalation safeguards.\n\n## Unfamiliar-but-accessible transfer domain\nScenario: a hospital is considering an automated appointment-message system. The system is reliable for routine reminders but sometimes misclassifies messages about unusual preparation requirements. Patients value speed; nurses worry about safety-critical ambiguity; administrators need scale.\n\nTask: mediate a pilot decision without requiring medical expertise. Preserve the distinction between routine communication and safety-critical exceptions, identify stakeholder priorities, and propose a transparent escalation route.",
+  "rubric": {
+    "id": "EMH-PRODUCTIVE-RUBRIC-C2-0.5",
+    "level": "C2",
+    "dimensions": [
+      "Semantic/pragmatic fidelity",
+      "Perspective/face management",
+      "Audience transformation",
+      "Precision/effect"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "**Dimensions:** Semantic/pragmatic fidelity, Perspective/face management, Audience transformation, Precision/effect.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **C2-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "sourceText": "# English Mastery Hub — C2-13 High-Level Mediation — Full Learner Unit v0.5\n\n**content_id:** `UNIT-C2-13-PILOT`  \n**version:** `0.5`  \n**status:** `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`  \n**level:** C2  \n**source_type:** `ORIGINAL_SIMULATED_TRAINING_SOURCES`\n\n> **SIMULATED TRAINING SOURCES — not real research citations.**\n\n## C2 doctrine\nC2 = **precision under complexity**, not rare vocabulary, native-speaker identity or cultural trivia.\n\n## Can-do outcomes\nIdentify underlying interests/tensions; preserve fine semantic/pragmatic distinctions; adapt specialist content; mediate disagreement without manufacturing consensus; reconstruct reasoning; preserve material understatement/qualification.\n\n# Lesson 1 — Perspectives, interests and hidden tensions\nScenario: automated writing feedback.\n\n**Teacher**\n> Immediate feedback could help students revise more often, but automated suggestions should not be treated as unquestionably correct. Students need to understand that feedback can be useful without being authoritative.\n\n**Administrator**\n> A scalable option is needed because teachers cannot provide detailed comments on every draft. If the system handles routine feedback, staff could focus on higher-value guidance.\n\n**Student representative**\n> Fast feedback is useful, but students should be able to see whether feedback came from a teacher or a system. They should also have a clear way to question feedback that does not make sense.\n\nTasks: common ground? **fast/useful feedback has potential** · teacher concern? **authority/reliability** · administrator priority? **scale/resources** · student priority? **transparency/challenge path** · unresolved issue? **system authority/accountability**\n\n# Lesson 2 — Preserve nuance while reformulating\nSource: `The proposal is unlikely to eliminate the problem.`  \nDistorted: `The proposal will not work.`  \nFaithful: `The proposal may reduce the problem, but it is not expected to solve it completely.`\n\nPrecision network: reduce ≠ eliminate · evidence ≠ proof · concern ≠ objection · possible ≠ probable · efficient ≠ effective · consensus ≠ absence of disagreement.\n\n# Lesson 3 — Specialist ↔ public transformation\n### Simulated specialist source\n> The intervention produced a statistically detectable improvement in short-term recall, but effect sizes were heterogeneous and diminished at delayed follow-up. The findings therefore support a limited claim about immediate performance rather than a general claim about durable learning.\n\n### Public mediation\n> The intervention improved short-term memory on average, but the size of the benefit varied and became smaller when people were tested later. So the results suggest an immediate benefit, not clear proof of a lasting learning effect.\n\nPreserved: improvement, variation, smaller delayed effect, limited conclusion.  \nRemoved: specialist terminology not needed by the audience.  \nNot allowed: “The intervention improves learning.” — scope and certainty broadened.\n\n# Lesson 4 — Diplomatic intervention\nDirector: We need a decision this week.  \nTeacher lead: I’m uncomfortable approving a system we cannot fully audit.  \nOperations lead: Waiting for perfect auditability means we may never scale feedback.  \nStudent representative: The immediate issue for us is knowing who is responsible when feedback is wrong.\n\nTask: separate positions/interests; identify shared goals; reframe loaded wording; propose a **decision process**, not forced consensus.\n\nPossible opening:\n> There seems to be agreement that faster feedback is valuable and that accountability matters. The disagreement is less about whether the system should be used at all than about what safeguards are needed before broader use. It may help to separate the decision about a limited pilot from the decision about full deployment.\n\n# Lesson 5 — Multi-source action briefing\n### Source A — technical note (simulated)\nThe system performs reliably on routine grammar and clarity suggestions but is less consistent when interpreting intended tone, rhetorical strategy or specialised terminology.\n\n### Source B — staff note (simulated)\nTeachers report that automated comments are most useful when learners treat them as prompts for revision rather than final corrections.\n\n### Source C — student panel (simulated)\nStudents value speed but want visible source labels and a simple process for asking a teacher when feedback appears contradictory.\n\nPrepare:\nA. **250-word leadership briefing**  \nB. **120-word public explanation**  \nC. **2-minute mediation opening**\n\nAll three preserve the same factual core but change foregrounding, register and density.\n\n## Semantic / pragmatic phraseology\nwithout implying that; this should not be taken to mean; a central point of agreement; the disagreement concerns; the evidence warrants caution; the distinction is significant because; a more defensible formulation would be; the underlying concern appears to be; this can be reframed as; the available evidence does not warrant\n\n## Guided Practice\n1. Identify certainty drift.\n2. Identify scope drift.\n3. Distinguish concern vs objection.\n4. Distinguish efficiency vs effectiveness.\n5. Detect manufactured consensus.\n6. Reframe loaded stakeholder wording.\n7. Select what can be omitted for public audience.\n8. Preserve understated criticism.\n9. Compare two defensible mediation openings.\n10. Explain why both may be rubric-valid.\n11. Infer latent concern from evidence.\n12. Write a neutral bridge between conflicting positions.\n\n## Online interaction\nSummarise the disagreement; integrate ≥2 prior contributions; identify ambiguity; propose a process step; do not present your preference as neutral mediation.\n\n## Unit Mastery Portfolio\n1. nuance-preserving reformulation;\n2. specialist→public transformation;\n3. leadership briefing;\n4. spoken disagreement mediation;\n5. online multi-perspective response;\n6. reflection on wording changes to certainty/stance.\n\n### Critical errors\n- uncertainty turned into fact;\n- scope changed;\n- material concern erased;\n- consensus invented;\n- advocacy presented as neutral mediation;\n- specialist content simplified until evaluative force disappears.\n\n## C2 discriminator from C1\nC1 synthesises complex viewpoints and adapts information effectively. C2 additionally shows fine certainty/scope calibration, face effects, understatement/implication, precision under compression/expansion and flexible reframing under conflict.\n\n## Remediation graph\n`C2_CERTAINTY_SCOPE` → strength/scope ladder → reformulations.  \n`C2_SEMANTIC_FIDELITY` → source/paraphrase audit → re-mediate.  \n`C2_PERSPECTIVE_BALANCE` → stakeholder map → neutral synthesis.  \n`C2_AUDIENCE_ADAPTATION` → specialist/public comparison → transform.  \n`C2_DIPLOMATIC_MEDIATION` → loaded→neutral reframing → new intervention.  \n`C2_AMBIGUITY_CONTROL` → defensible readings → open-rubric response.\n\n## Expert Human Check\n- [ ] complexity from nuance/reasoning\n- [ ] no obscure-vocabulary proxy\n- [ ] specialist excerpt understandable from context\n- [ ] multiple defensible answers treated fairly\n- [ ] no forced consensus\n- [ ] C1/C2 distinction meaningful\n\n## Validation record\nExpert Human Check: **PENDING** · Audio/Prosody QC: **PENDING** · Learner Pilot: **PENDING**.\n\n## Reading / Listening Performance\n**Reading:** integrate the three written stakeholder/action sources and preserve scope, stance and uncertainty.  \n**Listening:** treat the Lesson 4 meeting extract as an audio performance script; identify alignment, latent concern, face risk and the point at which a mediator should intervene.\n\n## Writing / Speaking Performance\n**Writing:** produce the 250-word leadership briefing and 120-word public explanation.  \n**Speaking:** deliver the 2-minute mediation opening and respond to two adversarial follow-up questions without manufacturing consensus.\n\n## Extended mediation dossier for depth validation\n> **SIMULATED TRAINING SOURCES — not factual research citations.**\n\n### Source D — quality-assurance note (simulated)\nA review of automated feedback found that the system was highly consistent when identifying a limited set of surface-level issues, but substantially less predictable when comments depended on intended tone, rhetorical purpose or discipline-specific conventions. The reviewers did not conclude that such feedback was unusable. Instead, they recommended differentiating between low-risk suggestions that could be presented directly and higher-interpretation suggestions that should be framed as prompts for consideration. They also argued that users should be able to see why a suggestion was generated and should not be encouraged to assume that consistency is equivalent to correctness.\n\n### Source E — teacher working-group statement (simulated)\nTeachers supported faster feedback in principle but disagreed about what role it should play. Some wanted the system to handle routine corrections so that staff could focus on argument, organisation and individual guidance. Others worried that students might accept automated comments uncritically, particularly when the feedback sounded confident. The group’s strongest point of agreement was therefore not about the amount of automation, but about the need for transparent labelling, opportunities to question feedback and clear responsibility for final academic judgement.\n\n### Source F — student representative audio (simulated)\n> From a student perspective, speed matters, but confidence can be misleading. If a message appears instantly and sounds certain, people may assume it has been checked by a teacher even when it hasn’t. I don’t think the answer is to remove automated feedback. I think the system should make its role obvious: tell us when a comment is automated, show us when the system is uncertain, and give us a simple route to ask a person when the advice seems inconsistent with the task. That would make the feedback easier to trust precisely because it would be clearer about its limits.\n\n### High-level mediation task\nYou are mediating a meeting between senior management, teachers and student representatives. Prepare:\n1. a 180-word neutral map of agreement, unresolved disagreement and latent concerns;\n2. a 250-word decision-process recommendation that does **not** pretend consensus already exists;\n3. a 120-word public explanation that preserves the distinction between consistency, correctness and appropriate human oversight;\n4. a two-minute spoken intervention that acknowledges face concerns and proposes the next evidence-gathering step.\n\nExpert ambiguity note: several mediation strategies may be defensible. Scoring must reward fidelity, balance, audience effect and precision rather than one preferred policy outcome.\n\n# v0.4 Targeted Revision — C2 validity fixes\n## Extended multi-party spoken meeting `AUD-C2-13-V04-MEETING`\n> **Director:** We need something scalable this term. I’m not asking for perfect certainty; I’m asking whether the risk is manageable.  \n> **Teacher lead:** Manageable for whom? If a student receives confident but misleading feedback on an argument, the problem may not be obvious until the final submission. I’m not opposed to automation, but I do object to treating interpretive feedback as routine.  \n> **Operations lead:** I agree that interpretive feedback is different. What I’m resisting is a rule that sends every uncertain case back to a teacher. If we do that, we lose most of the capacity benefit.  \n> **Student representative:** From our side, the biggest issue is knowing what we’re looking at. If the system says “this is wrong” and sounds certain, students may assume a teacher checked it. If it says “consider whether…” and shows that it is automated, that feels very different.  \n> **Director:** So perhaps the distinction is not human versus automated, but direct correction versus advisory feedback?  \n> **Teacher lead:** That’s closer, although I’d still want a route for escalation when the advice affects interpretation rather than grammar.  \n> **Operations lead:** I can work with that if escalation is selective rather than automatic.  \n> **Student representative:** And if students can see why a comment has been flagged as uncertain.  \n> **Director:** Then we do not have consensus on full deployment, but we may have enough agreement to define a limited pilot with transparent labels and selective escalation.\n\nAnalysis tasks: track each participant’s initial position, one alignment change, one face-sensitive challenge, one understated reservation, and the exact scope of emerging agreement.\n\n## Two defensible mediation openings\n### Opening A — process-first\n> There appears to be agreement that automated feedback can be useful for routine issues, while interpretive feedback carries a different level of risk. The unresolved question is how selective human escalation can be without making the system either misleading or operationally pointless. A reasonable next step would be a limited pilot that separates direct corrections from advisory comments, labels automated feedback clearly and records which cases are escalated.\n\n### Opening B — stakeholder-first\n> The participants are protecting different but compatible priorities: teachers are concerned about academic judgement, operations about scalability, and students about transparency and recourse. Rather than deciding immediately between automation and human feedback, the group could test a narrower model in which routine comments are automated, higher-interpretation comments are explicitly advisory, and disputed cases can be referred to staff.\n\n**Expert scoring note:** Both can pass. A foregrounds process architecture; B foregrounds stakeholder interests. Neither invents consensus, both preserve the unresolved issue, and both propose a reversible evidence-gathering step.\n\n## Compression-loss case\nOriginal:\n> The review found a small average improvement, concentrated in routine grammar tasks, with inconsistent performance on tone and rhetorical purpose; the authors therefore recommended limited use with clear escalation for interpretive feedback.\n\nBad compression:\n> The review found that automated feedback improved writing and recommended using it.\n\nLoss: task scope narrowed to “writing” generally; limitations removed; recommendation strengthened.\n\nFaithful compression:\n> The review found modest benefits for routine language feedback but inconsistent results for interpretation, so it recommended limited use with escalation safeguards.\n\n## Unfamiliar-but-accessible transfer domain\nScenario: a hospital is considering an automated appointment-message system. The system is reliable for routine reminders but sometimes misclassifies messages about unusual preparation requirements. Patients value speed; nurses worry about safety-critical ambiguity; administrators need scale.\n\nTask: mediate a pilot decision without requiring medical expertise. Preserve the distinction between routine communication and safety-critical exceptions, identify stakeholder priorities, and propose a transparent escalation route.\n\n\n\n# v0.5 Content-Complete Pilot Contract\n\n## Mandatory metadata\n- `content_id`: `UNIT-C2-13-PILOT`\n- `version`: `0.5`\n- `status`: `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`\n- `level`: `C2`\n- `unit_id`: `C2-13`\n- `domain`: inherited from the unit brief\n- `core_status`: `CEFR_CORE_COMPETENCY`\n- `source_type`: `ORIGINAL_PROJECT_CONTENT` / explicitly labelled simulated training source where applicable\n- `copyright_status`: `ORIGINAL`\n- `constructs`: reception + production + interaction + mediation as applicable\n- `support_mode`: level-appropriate support\n- `academic_check_status`: `INTERNAL_PRE_HUMAN_PASSED`\n- `human_check_status`: `PENDING`\n- `rubric_version`: `EMH-PRODUCTIVE-RUBRIC-C2-0.5`\n- `remediation_tags`: unit-specific tags in the remediation graph\n\n## Pronunciation / prosody target\nUse subtle but recoverable prosodic cues for face-sensitive challenge, reservation, alignment and reformulation.\n\n\n## Structured vocabulary / phrase records\n**Planning target:** ≥50. **Included:** 50.\n\n| ID | Item/sense | Type | Thai gloss | Original example | Validation |\n|---|---|---|---|---|---|\n| V-C2-13-001 | nuance | N | นัยละเอียด | Preserve nuance under compression. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-002 | precision | N | ความแม่นยำ | C2 requires precision under complexity. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-003 | scope | N | ขอบเขต | Do not broaden the source scope. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-004 | certainty | N | ระดับความแน่นอน | Preserve certainty exactly. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-005 | undertone | N | นัยแฝง | The wording carries an undertone of concern. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-006 | face | N | การรักษาหน้า/ภาพลักษณ์ทางสังคม | The mediator protects face without avoiding the issue. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-007 | latent concern | N | ข้อกังวลแฝง | Identify the latent concern. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-008 | alignment | N | แนวร่วม/ความสอดคล้อง | Track shifts in speaker alignment. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-009 | consensus | N | ฉันทามติ | Do not invent consensus. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-010 | accountability | N | ความรับผิดชอบตรวจสอบได้ | Accountability remains unresolved. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-011 | transparency | N | ความโปร่งใส | Students request transparency. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-012 | recourse | N | ช่องทางขอทบทวน | Users need recourse when feedback seems wrong. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-013 | scalability | N | ความสามารถในการขยาย | Operations prioritises scalability. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-014 | authority | N | อำนาจ/ความน่าเชื่อถือในการตัดสิน | The teacher questions the system’s authority. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-015 | auditability | N | ความสามารถในการตรวจสอบย้อนหลัง | Auditability is a concern. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-016 | reformulate | V | เรียบเรียงใหม่ | Reformulate without changing force. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-017 | mediate | V | ไกล่เกลี่ย/ถ่ายทอด | Mediate without taking sides. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-018 | reframe | V | วางกรอบใหม่ | Reframe the disagreement. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-019 | calibrate | V | ปรับระดับอย่างแม่นยำ | Calibrate certainty carefully. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-020 | preserve | V | รักษา | Preserve understatement. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-021 | surface | V | ทำให้สิ่งแฝงปรากฏ | Surface the underlying concern. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-022 | distinguish | V | แยกความแตกต่าง | Distinguish efficiency from effectiveness. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-023 | escalate | V | ส่งต่อ/ยกระดับ | Escalate high-risk feedback selectively. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-024 | compress | V | ย่อ | Compress without semantic loss. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-025 | expand | V | ขยาย | Expand an implicit relation when necessary. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-026 | without implying that | FRAME | โดยไม่สื่อว่า | Explain the benefit without implying that it always works. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-027 | this should not be taken to mean | FRAME | ไม่ควรตีความว่านี่หมายถึง | This should not be taken to mean the system is reliable in every case. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-028 | a central point of agreement | FRAME | จุดร่วมสำคัญคือ | A central point of agreement is transparency. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-029 | the disagreement concerns | FRAME | ความเห็นต่างอยู่ที่ | The disagreement concerns the level of human oversight. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-030 | the evidence warrants caution | FRAME | หลักฐานสมควรให้ระมัดระวัง | The evidence warrants caution. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-031 | a more defensible formulation would be | FRAME | รูปแบบที่ปกป้องได้มากกว่าคือ | A more defensible formulation would be… | HUMAN/EVP CHECK PENDING |\n| V-C2-13-032 | the underlying concern appears to be | FRAME | ข้อกังวลเบื้องหลังดูเหมือน | The underlying concern appears to be accountability. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-033 | this can be reframed as | FRAME | สามารถวางกรอบใหม่เป็น | This can be reframed as a pilot-design question. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-034 | the available evidence does not warrant | FRAME | หลักฐานที่มีไม่รองรับ | The available evidence does not warrant full deployment. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-035 | the distinction is significant because | FRAME | ความแตกต่างสำคัญเพราะ | The distinction is significant because it changes responsibility. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-036 | not necessarily | PHRASE | ไม่จำเป็นเสมอไป | Consistency is not necessarily correctness. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-037 | strictly speaking | PHRASE | กล่าวอย่างเคร่งครัด | Strictly speaking, no full consensus exists. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-038 | more to the point | PHRASE | ที่สำคัญกว่านั้น | More to the point, the escalation route is unclear. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-039 | if anything | PHRASE | หากจะมีอะไร | If anything, the new evidence makes the claim more qualified. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-040 | semantic drift | PHRASE | การเลื่อนความหมาย | Check for semantic drift. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-041 | manufactured consensus | PHRASE | ฉันทามติที่ถูกสร้างขึ้นทั้งที่ไม่มี | Avoid manufactured consensus. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-042 | face-sensitive challenge | PHRASE | การท้าทายที่คำนึงถึงหน้า | Use a face-sensitive challenge. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-043 | precision under compression | PHRASE | ความแม่นยำขณะย่อ | Test precision under compression. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-044 | audience transformation | PHRASE | การปรับสารตามผู้รับ | Audience transformation must retain evaluative force. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-045 | multiple defensible readings | PHRASE | การตีความได้หลายแบบที่มีเหตุผล | Allow multiple defensible readings. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-046 | selective escalation | PHRASE | การส่งต่อแบบเลือกเฉพาะกรณี | The pilot uses selective escalation. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-047 | advisory feedback | PHRASE | ข้อเสนอแนะเชิงแนะนำ | Interpretive comments are advisory feedback. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-048 | direct correction | PHRASE | การแก้โดยตรง | Routine grammar may permit direct correction. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-049 | human oversight | PHRASE | การกำกับโดยมนุษย์ | Human oversight is required for higher-risk cases. | HUMAN/EVP CHECK PENDING |\n| V-C2-13-050 | reversible pilot | PHRASE | การทดลองที่ย้อนกลับได้ | A reversible pilot can gather evidence safely. | HUMAN/EVP CHECK PENDING |\n\n\n## Objective / controlled practice expansion\n**Planning target:** ≥20. **Included:** 20.\n\n| Item ID | Prompt | Key / expected | Remediation |\n|---|---|---|---|\n| V05-Q-C2-13-001 | unlikely to eliminate ≠ will not work. What drift occurred? | scope/meaning/force drift | unit-linked remediation |\n| V05-Q-C2-13-002 | Does consistency equal correctness? | No | unit-linked remediation |\n| V05-Q-C2-13-003 | Does concern equal objection? | No | unit-linked remediation |\n| V05-Q-C2-13-004 | Does efficient equal effective? | No | unit-linked remediation |\n| V05-Q-C2-13-005 | Can consensus contain remaining disagreement? | Yes | unit-linked remediation |\n| V05-Q-C2-13-006 | What is manufactured consensus? | claiming agreement that evidence/participants do not support | unit-linked remediation |\n| V05-Q-C2-13-007 | Teacher lead’s priority in the meeting? | academic judgement / interpretive-risk oversight | unit-linked remediation |\n| V05-Q-C2-13-008 | Operations lead’s priority? | scalability/capacity | unit-linked remediation |\n| V05-Q-C2-13-009 | Student representative’s priority? | transparency/recourse | unit-linked remediation |\n| V05-Q-C2-13-010 | What emerging agreement exists? | possible limited pilot with transparent labels/selective escalation | unit-linked remediation |\n| V05-Q-C2-13-011 | Is there consensus on full deployment? | No | unit-linked remediation |\n| V05-Q-C2-13-012 | Why can both mediation openings pass? | different defensible foregrounding while preserving unresolved issues | unit-linked remediation |\n| V05-Q-C2-13-013 | Bad compression of routine-task benefit into improves writing causes what? | scope/generalisation drift | unit-linked remediation |\n| V05-Q-C2-13-014 | What must faithful compression preserve? | benefit scope + limitation + recommendation force | unit-linked remediation |\n| V05-Q-C2-13-015 | What is face-sensitive challenge? | challenge issue while managing interpersonal impact | unit-linked remediation |\n| V05-Q-C2-13-016 | What is a latent concern? | underlying concern inferred from contextual evidence | unit-linked remediation |\n| V05-Q-C2-13-017 | May a mediator choose a policy outcome as neutral fact? | No | unit-linked remediation |\n| V05-Q-C2-13-018 | Can multiple interpretations be valid at C2? | Yes, if evidence-supported | unit-linked remediation |\n| V05-Q-C2-13-019 | What must specialist→public transformation preserve? | core meaning, scope, certainty, evaluative force | unit-linked remediation |\n| V05-Q-C2-13-020 | Why is rare vocabulary not a C2 criterion? | C2 is precision/flexibility under complexity, not rarity | unit-linked remediation |\n\n## Retrieval / spaced-review set\n1. `RET-C2-13-01` — Define semantic drift.\n2. `RET-C2-13-02` — Distinguish concern vs objection.\n3. `RET-C2-13-03` — State the unresolved disagreement.\n4. `RET-C2-13-04` — Give a face-sensitive challenge.\n5. `RET-C2-13-05` — Compress a claim without losing scope.\n6. `RET-C2-13-06` — Reframe one loaded position neutrally.\n7. `RET-C2-13-07` — State one latent concern with evidence.\n8. `RET-C2-13-08` — Explain why multiple defensible readings can pass.\n\n\n## Quick Review Sheet\n- Restate the unit can-do goal in your own words.\n- Retrieve the unit's highest-value forms, phrases and discourse moves without the model.\n- Recall one important reading/listening point and its supporting detail.\n- Produce one C2-appropriate response without copying a model.\n- Complete one interaction or mediation move without inventing information.\n- If an error tag appears, follow the linked remediation route before re-attempting.\n\n\n## Operational productive rubric — `EMH-PRODUCTIVE-RUBRIC-C2-0.5`\n**Dimensions:** Semantic/pragmatic fidelity, Perspective/face management, Audience transformation, Precision/effect.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **C2-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.\n\n\n## Source / copyright / provenance record\n- Learner-facing prose/dialogue is `ORIGINAL_PROJECT_CONTENT`, except fictional study/survey/specialist material explicitly labelled `SIMULATED TRAINING SOURCE`.\n- Simulated sources are learning materials, not factual citations.\n- `copyright_status`: `ORIGINAL`.\n- CEFR use: construct alignment only; no official certification claim.\n- English Profile/EGP/EVP: validation methodology only; no wholesale database reproduction.\n- Real Human Review: **PENDING**.\n- Produced audio + pronunciation/prosody/technical QC: **PENDING**.\n- Learner pilot + calibration: **PENDING**.\n\n\n## v0.5 Registered source objects\n- `TXT-C2-13-V05-001` = Source D — Quality-assurance note (simulated)\n- `TXT-C2-13-V05-002` = Source E — Teacher working-group statement (simulated)\n- `AUD-C2-13-V05-001` = Source F — Student representative audio script (simulated; audio production pending)\n- `AUD-C2-13-V05-002` = `AUD-C2-13-V04-MEETING` extended multi-party meeting script (audio production pending)\n\n## Grammar / function feature-use records\n| Feature ID | Resource | Meaning/use | Example |\n|---|---|---|---|\n| F-C2-13-01 | without implying that | preserve nuance | Explain the benefit without implying universal reliability. |\n| F-C2-13-02 | the underlying concern appears to be | surface latent concern | The underlying concern appears to be accountability. |\n| F-C2-13-03 | this can be reframed as | diplomatic reframing | This can be reframed as a pilot-design question. |\n| F-C2-13-04 | strictly speaking | fine precision | Strictly speaking, there is no full consensus. |\n| F-C2-13-05 | face-sensitive mediation | protect relationship while clarifying conflict | There is agreement on the goal, but not yet on the safeguards. |\n",
+  "sourceValidated": true,
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "contentValidated": false,
+  "checksum": "b0dc609675b11d2cb2fc9477857459d6aaf3443433b9583c38b91544265ed444"
+}

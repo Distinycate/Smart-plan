@@ -11,11 +11,12 @@ import { V3Repository } from '@/lib/smartPlanV3/repository';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string; evidenceId: string } }
+  props: { params: Promise<{ id: string; evidenceId: string }> }
 ) {
+  const params = await props.params;
   try {
     const { id: planId, evidenceId } = params;
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -81,11 +82,12 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; evidenceId: string } }
+  props: { params: Promise<{ id: string; evidenceId: string }> }
 ) {
+  const params = await props.params;
   try {
     const { id: planId, evidenceId } = params;
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

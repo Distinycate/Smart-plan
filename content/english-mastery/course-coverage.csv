@@ -1,0 +1,97 @@
+unit,level,title,version,lessons,practice,tasks,vocabulary,state
+A1-01,A1,"Sounds, Alphabet & Spelling",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-02,A1,"Greetings & Introductions",0.6.0,4,24,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-03,A1,"Personal Information",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-04,A1,"Family & People",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-05,A1,"Numbers, Dates & Time",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-06,A1,"Home & Location",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-07,A1,"Daily Routines",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-08,A1,"Likes, Dislikes & Abilities",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-09,A1,"Food & Drink",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-10,A1,"Shopping & Prices",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-11,A1,"Places & Basic Directions",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-12,A1,"Travel & Transport",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-13,A1,"Work, School & Free Time",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-14,A1,"Health & Everyday Needs",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-15,A1,"Short Messages & Social Interaction",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A1-16,A1,"Integrated A1 Communication",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-01,A2,"Everyday Conversations & Repair",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-02,A2,"Describing People & Personality",0.1.1,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-03,A2,"Past Events & Experiences",0.6.0,5,24,4,36,PRE_HUMAN_CONTENT_COMPLETE
+A2-04,A2,"Plans, Intentions & Arrangements",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-05,A2,"Travel, Holidays & Accommodation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-06,A2,"Shopping, Services & Simple Problems",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-07,A2,"Food, Cooking & Restaurants",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-08,A2,"Health, Symptoms & Advice",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-09,A2,"Work, Study & Daily Responsibilities",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-10,A2,"Comparing People, Places & Things",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-11,A2,"Invitations & Social Arrangements",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-12,A2,"Directions, Instructions & Everyday Problems",0.1.1,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-13,A2,"Media, Entertainment & Hobbies",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-14,A2,"Events, Stories & Connected Description",0.1.1,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-15,A2,"Messages, Emails, Notes & Online Interaction",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+A2-16,A2,"Integrated A2 Communication & Readiness",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-01,B1,"Experiences & Life Events",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-02,B1,"Education & Learning",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-03,B1,"Work, Careers & Responsibilities",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-04,B1,"Travel Problems & Solutions",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-05,B1,"Relationships & Social Life",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-06,B1,"Health & Lifestyle Choices",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-07,B1,"Technology in Everyday Life",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-08,B1,"Environment & Community",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-09,B1,"Opinions & Justifications",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-10,B1,"Storytelling & Narrative Structure",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-11,B1,"News, Media & Current Topics",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-12,B1,"Problem Solving & Decision Making",0.6.0,5,28,4,40,PRE_HUMAN_CONTENT_COMPLETE
+B1-13,B1,"Formal & Informal Communication",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-14,B1,"Advantages, Disadvantages & Choices",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-15,B1,"Reviews, Reports & Connected Writing",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B1-16,B1,"Integrated B1 Communication",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-01,B2,"Complex Opinions & Arguments",0.6.0,5,30,4,48,PRE_HUMAN_CONTENT_COMPLETE
+B2-02,B2,"Extended & Academic Reading Strategies",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-03,B2,"Media & Critical Interpretation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-04,B2,"Advanced Narrative & Storytelling",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-05,B2,"Social Change & Global Issues",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-06,B2,"Science, Technology & Evidence",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-07,B2,"Workplace & Professional Communication",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-08,B2,"Negotiation & Decision Making",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-09,B2,"Certainty, Probability & Deduction",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-10,B2,"Cause, Effect & Evaluation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-11,B2,"Collocation, Word Formation & Phraseology",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-12,B2,"Paraphrase & Reformulation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-13,B2,"Essay Writing & Argumentation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-14,B2,"Discussion, Presentation & Long Turn",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-15,B2,"Complex Listening & Inference",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+B2-16,B2,"Integrated B2 Communication & Mediation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-01,C1,"Advanced Sentence Architecture",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-02,C1,"Nuanced Meaning & Precision",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-03,C1,"Sophisticated Collocation & Phraseology",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-04,C1,"Idiomatic, Colloquial & Figurative Language",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-05,C1,"Register, Style & Tone",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-06,C1,"Advanced Inference in Reading",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-07,C1,"Evaluating Arguments",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-08,C1,"Synthesising Multiple Sources",0.6.0,5,24,4,50,PRE_HUMAN_CONTENT_COMPLETE
+C1-09,C1,"Natural-Speed Listening & Implication",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-10,C1,"Academic & Professional Writing",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-11,C1,"Reports, Proposals, Reviews & Recommendations",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-12,C1,"Persuasion, Diplomacy & Critical Discussion",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-13,C1,"Extended Speaking & Interaction",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-14,C1,"Paraphrase, Reformulation & Summarisation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-15,C1,"Advanced Discourse & Cohesion",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C1-16,C1,"Integrated C1 Communication & Mediation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-01,C2,"Fine-Grained Precision & Semantic Choice",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-02,C2,"Advanced Phraseology & Lexical Networks",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-03,C2,"Connotation, Stance & Implied Meaning",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-04,C2,"Figurative, Literary & Allusive Language",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-05,C2,"Complex Argument & Assumption Analysis",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-06,C2,"Cross-Source Synthesis & Reconstruction",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-07,C2,"Rhetoric & Persuasive Strategy",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-08,C2,"Register, Voice & Stylistic Transformation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-09,C2,"Fast, Dense & Implicit Listening",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-10,C2,"Critical Academic Synthesis Writing",0.1.1,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-11,C2,"Specialist & Senior Professional Communication",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-12,C2,"Sophisticated Interaction & Negotiation",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-13,C2,"High-Level Mediation",0.6.0,5,20,4,50,PRE_HUMAN_CONTENT_COMPLETE
+C2-14,C2,"Reformulation Across Audience & Purpose",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-15,C2,"Advanced Discourse & Rhetorical Analysis",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE
+C2-16,C2,"Integrated C2 Performance",0.1.0,4,20,4,30,PRE_HUMAN_CONTENT_COMPLETE

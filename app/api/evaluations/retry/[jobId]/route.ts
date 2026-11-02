@@ -5,12 +5,10 @@ import { getOwnedJob, qualityPlatformAdmin } from '@/lib/lesson-plan/jobs/server
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { jobId: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ jobId: string }> }) {
+  const params = await props.params;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({

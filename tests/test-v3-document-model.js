@@ -301,12 +301,7 @@ test('Test A — BASIC DOCUMENT: English ม.1 Jobs 60 min ordered correctly', (
   assert.strictEqual(sectionIds[1], 'SEC_CURRICULUM');
   assert.strictEqual(sectionIds[2], 'SEC_KEY_CONCEPT');
   assert.strictEqual(sectionIds[3], 'SEC_OBJECTIVES');
-  assert.strictEqual(sectionIds[4], 'SEC_CONTENTS');
-  assert.strictEqual(sectionIds[5], 'SEC_EVIDENCE');
-  assert.strictEqual(sectionIds[6], 'SEC_ACTIVITIES');
-  assert.strictEqual(sectionIds[7], 'SEC_MEDIA');
-  assert.strictEqual(sectionIds[8], 'SEC_ASSESSMENT');
-  assert.strictEqual(sectionIds[9], 'SEC_POST_TEACHING');
+  assert.deepStrictEqual(sectionIds.slice(4), ['SEC_COMPETENCIES','SEC_CHARACTERISTICS','SEC_CONTENTS','SEC_EVIDENCE','SEC_ACTIVITIES','SEC_MEDIA','SEC_ASSESSMENT','SEC_RUBRICS','SEC_POST_TEACHING']);
 });
 
 test('Test B — CURRICULUM: Standard + indicators appear from snapshot', () => {
@@ -316,8 +311,9 @@ test('Test B — CURRICULUM: Standard + indicators appear from snapshot', () => 
 
   assert(currSection);
   assert.strictEqual(currSection.type, 'bulletList');
-  assert(currSection.items.some(i => i.text.includes('ต 1.2 ม.1/1')));
-  assert(currSection.items.some(i => i.text.includes('สนทนาแลกเปลี่ยนข้อมูล')));
+  const curriculumText = currSection.items.flatMap(i => [i.text, ...(i.subItems || [])]).join('\n');
+  assert(curriculumText.includes('ต 1.2 ม.1/1'));
+  assert(curriculumText.includes('สนทนาแลกเปลี่ยนข้อมูล'));
 });
 
 test('Test C — OBJECTIVES: Order preserved without UUID / enum leak', () => {
@@ -326,7 +322,9 @@ test('Test C — OBJECTIVES: Order preserved without UUID / enum leak', () => {
   const objSection = doc.sections.find(s => s.id === 'SEC_OBJECTIVES');
 
   assert(objSection);
-  assert.strictEqual(objSection.items.length, 2);
+  assert.deepStrictEqual(objSection.items.map(i => i.id), ['OBJ_K','OBJ_P','OBJ_A']);
+  assert(objSection.items[0].subItems[0].includes(g.objectives[0].statement));
+  assert(objSection.items[1].subItems[0].includes(g.objectives[1].statement));
   assert.strictEqual(objSection.items[0].bullet, '1.');
   assert(!objSection.items[0].text.includes('obj-1'));
   assert(!objSection.items[0].text.includes('[K]'));

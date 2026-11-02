@@ -2,7 +2,7 @@ import PlanForm from '../PlanForm';
 import { createClient } from '@/utils/supabase/server';
 
 export default async function NewPlanPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   let isAdmin = false;
   if (user) {

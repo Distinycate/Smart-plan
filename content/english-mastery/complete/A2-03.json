@@ -1,0 +1,893 @@
+{
+  "stableId": "UNIT-A2-03-PILOT",
+  "unitId": "A2-03",
+  "level": "A2",
+  "version": "0.6.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "provenance": "Canonical v0.5 pilot: Pilot_A2-03_Past_Events_Full_v0.5.md",
+  "title": "Past Events & Experiences",
+  "lessons": [
+    {
+      "id": "A2-03-L01",
+      "title": "A finished event",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Yesterday I visited my aunt. We had lunch at her house. After lunch, we watched a film. I went home at six o’clock.\n\n\nUse Past Simple with closed finished time: yesterday, last Saturday, two days ago."
+        }
+      ]
+    },
+    {
+      "id": "A2-03-L02",
+      "title": "Negative past",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "`subject + didn’t + base verb`\n\nI didn’t go out. / We didn’t take a taxi. / She didn’t buy anything."
+        }
+      ]
+    },
+    {
+      "id": "A2-03-L03",
+      "title": "Questions",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Where did you go? / Who did you go with? / What did you do? / What time did you arrive? / Did you like it?\n\nRule: `did` carries past marking; main verb returns to base form."
+        }
+      ]
+    },
+    {
+      "id": "A2-03-L04",
+      "title": "Sequence and reaction",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Sequencers: first, then, after that, later, finally  \nReaction: It was fun / interesting / tiring. I was surprised. I really enjoyed it.\n\n### Reading `TXT-A2-03-L04-001` — A rainy day in Khon Kaen\nLast Sunday, Mali went to Khon Kaen with two friends. First, they visited a small market near the station. Mali bought a bag and her friends bought snacks. Then they walked to a café because it started to rain. They stayed there for about an hour and talked about their school days. After that, the rain stopped, so they went to a park. They took some photos, but they didn’t stay long because the ground was very wet. Finally, they took the bus home at six. Mali was tired, but she really enjoyed the day."
+        }
+      ]
+    },
+    {
+      "id": "A2-03-L05",
+      "title": "Listen and relay",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "### Listening `AUD-A2-03-L05-001`\nLast Saturday, Pim went to a night market with her sister. They arrived at seven. First, they looked at clothes and small gifts. Pim bought a T-shirt, but her sister didn’t buy anything. Then they ate noodles and had fruit juice. At about nine, it started to rain heavily. They didn’t have an umbrella, so they took a taxi home. Pim was tired, but she enjoyed the evening because she found a nice shirt and spent time with her sister.\n\n\n### Mediation\nSend a short message with where/when, two important events and one reaction."
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "V05-Q-A2-03-001",
+      "version": "0.6.0",
+      "prompt": "Past of go",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "went"
+      ],
+      "expected": "went",
+      "explanation": "Expected response or review guidance: went",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-002",
+      "version": "0.6.0",
+      "prompt": "Past of buy",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "bought"
+      ],
+      "expected": "bought",
+      "explanation": "Expected response or review guidance: bought",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-003",
+      "version": "0.6.0",
+      "prompt": "Past of eat",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "ate"
+      ],
+      "expected": "ate",
+      "explanation": "Expected response or review guidance: ate",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-004",
+      "version": "0.6.0",
+      "prompt": "Past of take",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "took"
+      ],
+      "expected": "took",
+      "explanation": "Expected response or review guidance: took",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-005",
+      "version": "0.6.0",
+      "prompt": "Past of have",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "had"
+      ],
+      "expected": "had",
+      "explanation": "Expected response or review guidance: had",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-006",
+      "version": "0.6.0",
+      "prompt": "Past of meet",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "met"
+      ],
+      "expected": "met",
+      "explanation": "Expected response or review guidance: met",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-007",
+      "version": "0.6.0",
+      "prompt": "Past of see",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "saw"
+      ],
+      "expected": "saw",
+      "explanation": "Expected response or review guidance: saw",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-008",
+      "version": "0.6.0",
+      "prompt": "Complete: We ___ the market yesterday. (visit)",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "visited"
+      ],
+      "expected": "visited",
+      "explanation": "Expected response or review guidance: visited",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-009",
+      "version": "0.6.0",
+      "prompt": "Correct: I didn’t went out.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "I didn’t go out.",
+      "explanation": "Expected response or review guidance: I didn’t go out.",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-010",
+      "version": "0.6.0",
+      "prompt": "Complete: She didn’t ___ anything. (buy)",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "buy"
+      ],
+      "expected": "buy",
+      "explanation": "Expected response or review guidance: buy",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-011",
+      "version": "0.6.0",
+      "prompt": "Complete: They didn’t ___ late. (arrive)",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "arrive"
+      ],
+      "expected": "arrive",
+      "explanation": "Expected response or review guidance: arrive",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-012",
+      "version": "0.6.0",
+      "prompt": "Correct: Where did you went?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Where did you go?",
+      "explanation": "Expected response or review guidance: Where did you go?",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-013",
+      "version": "0.6.0",
+      "prompt": "Make a question for At seven.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "What time did you arrive?",
+      "explanation": "Expected response or review guidance: What time did you arrive?",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-014",
+      "version": "0.6.0",
+      "prompt": "Make a question for With my sister.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Who did you go with?",
+      "explanation": "Expected response or review guidance: Who did you go with?",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-015",
+      "version": "0.6.0",
+      "prompt": "Choose finished-time marker: A last Sunday B every Sunday",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "last Sunday",
+      "explanation": "Expected response or review guidance: last Sunday",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-016",
+      "version": "0.6.0",
+      "prompt": "Order: after that / first / finally",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "first → after that → finally",
+      "explanation": "Expected response or review guidance: first → after that → finally",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-017",
+      "version": "0.6.0",
+      "prompt": "Complete: It rained, ___ we took a taxi.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "so"
+      ],
+      "expected": "so",
+      "explanation": "Expected response or review guidance: so",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-018",
+      "version": "0.6.0",
+      "prompt": "Complete: I was tired, ___ I enjoyed the trip.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "but"
+      ],
+      "expected": "but",
+      "explanation": "Expected response or review guidance: but",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-019",
+      "version": "0.6.0",
+      "prompt": "Choose reaction: The trip was ___. A fun B yesterday",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "fun"
+      ],
+      "expected": "fun",
+      "explanation": "Expected response or review guidance: fun",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-020",
+      "version": "0.6.0",
+      "prompt": "True/False: did + base verb is used in Past Simple questions.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "True"
+      ],
+      "expected": "True",
+      "explanation": "Expected response or review guidance: True",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-021",
+      "version": "0.6.0",
+      "prompt": "True/False: didn’t + past form is correct.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "False"
+      ],
+      "expected": "False",
+      "explanation": "Expected response or review guidance: False",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-022",
+      "version": "0.6.0",
+      "prompt": "Relay: market / T-shirt / rain / taxi",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open; preserve key facts",
+      "explanation": "Expected response or review guidance: open; preserve key facts",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-023",
+      "version": "0.6.0",
+      "prompt": "Write 2 linked past sentences with then.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-A2-03-024",
+      "version": "0.6.0",
+      "prompt": "Tell one finished event with a clear past-time reference.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "A2_PAST_NEGATIVE",
+        "A2_SEQUENCE"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    }
+  ],
+  "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+  "remediation": [
+    {
+      "errorTag": "A2_PAST_NEGATIVE",
+      "action": "Contrast didn’t + base verb and rewrite sentences."
+    },
+    {
+      "errorTag": "A2_SEQUENCE",
+      "action": "Order event cards and retell."
+    }
+  ],
+  "derivation": {
+    "sourceVersion": "0.5",
+    "sourceFile": "Pilot_A2-03_Past_Events_Full_v0.5.md",
+    "sourceChecksum": "cb58e2ca524c070ebbf1279699b295b8d31f0d5725d82502a817238137efed17",
+    "compilerVersion": "1.0.0",
+    "change": "Full source projection replacing abbreviated integration payload; not academic approval."
+  },
+  "vocabulary": [
+    {
+      "id": "V-A2-03-001",
+      "item": "yesterday",
+      "type": "ADV",
+      "thai": "เมื่อวาน",
+      "example": "I visited my aunt yesterday."
+    },
+    {
+      "id": "V-A2-03-002",
+      "item": "last night",
+      "type": "TIME",
+      "thai": "เมื่อคืน",
+      "example": "We stayed home last night."
+    },
+    {
+      "id": "V-A2-03-003",
+      "item": "last week",
+      "type": "TIME",
+      "thai": "สัปดาห์ที่แล้ว",
+      "example": "I travelled last week."
+    },
+    {
+      "id": "V-A2-03-004",
+      "item": "ago",
+      "type": "ADV",
+      "thai": "ที่แล้ว",
+      "example": "I saw her two days ago."
+    },
+    {
+      "id": "V-A2-03-005",
+      "item": "visit",
+      "type": "V",
+      "thai": "ไปเยี่ยม",
+      "example": "We visited the market."
+    },
+    {
+      "id": "V-A2-03-006",
+      "item": "arrive",
+      "type": "V",
+      "thai": "มาถึง",
+      "example": "They arrived at seven."
+    },
+    {
+      "id": "V-A2-03-007",
+      "item": "leave",
+      "type": "V",
+      "thai": "ออกจาก",
+      "example": "We left at six."
+    },
+    {
+      "id": "V-A2-03-008",
+      "item": "buy/bought",
+      "type": "V",
+      "thai": "ซื้อ",
+      "example": "Pim bought a T-shirt."
+    },
+    {
+      "id": "V-A2-03-009",
+      "item": "eat/ate",
+      "type": "V",
+      "thai": "กิน",
+      "example": "We ate noodles."
+    },
+    {
+      "id": "V-A2-03-010",
+      "item": "take/took",
+      "type": "V",
+      "thai": "เอา/โดยสาร",
+      "example": "They took a taxi."
+    },
+    {
+      "id": "V-A2-03-011",
+      "item": "go/went",
+      "type": "V",
+      "thai": "ไป",
+      "example": "Mali went to Khon Kaen."
+    },
+    {
+      "id": "V-A2-03-012",
+      "item": "have/had",
+      "type": "V",
+      "thai": "มี/รับประทาน",
+      "example": "We had lunch."
+    },
+    {
+      "id": "V-A2-03-013",
+      "item": "see/saw",
+      "type": "V",
+      "thai": "เห็น",
+      "example": "I saw my friend."
+    },
+    {
+      "id": "V-A2-03-014",
+      "item": "meet/met",
+      "type": "V",
+      "thai": "พบ",
+      "example": "We met at the station."
+    },
+    {
+      "id": "V-A2-03-015",
+      "item": "start/started",
+      "type": "V",
+      "thai": "เริ่ม",
+      "example": "It started to rain."
+    },
+    {
+      "id": "V-A2-03-016",
+      "item": "finish/finished",
+      "type": "V",
+      "thai": "เสร็จ",
+      "example": "The film finished at nine."
+    },
+    {
+      "id": "V-A2-03-017",
+      "item": "first",
+      "type": "SEQ",
+      "thai": "อันดับแรก",
+      "example": "First, we visited the market."
+    },
+    {
+      "id": "V-A2-03-018",
+      "item": "then",
+      "type": "SEQ",
+      "thai": "จากนั้น",
+      "example": "Then, we ate."
+    },
+    {
+      "id": "V-A2-03-019",
+      "item": "after that",
+      "type": "SEQ",
+      "thai": "หลังจากนั้น",
+      "example": "After that, we went home."
+    },
+    {
+      "id": "V-A2-03-020",
+      "item": "later",
+      "type": "SEQ",
+      "thai": "ต่อมา",
+      "example": "Later, it rained."
+    },
+    {
+      "id": "V-A2-03-021",
+      "item": "finally",
+      "type": "SEQ",
+      "thai": "สุดท้าย",
+      "example": "Finally, we took the bus home."
+    },
+    {
+      "id": "V-A2-03-022",
+      "item": "fun",
+      "type": "ADJ",
+      "thai": "สนุก",
+      "example": "The trip was fun."
+    },
+    {
+      "id": "V-A2-03-023",
+      "item": "interesting",
+      "type": "ADJ",
+      "thai": "น่าสนใจ",
+      "example": "The museum was interesting."
+    },
+    {
+      "id": "V-A2-03-024",
+      "item": "tiring",
+      "type": "ADJ",
+      "thai": "เหนื่อย",
+      "example": "The day was tiring."
+    },
+    {
+      "id": "V-A2-03-025",
+      "item": "surprised",
+      "type": "ADJ",
+      "thai": "ประหลาดใจ",
+      "example": "I was surprised."
+    },
+    {
+      "id": "V-A2-03-026",
+      "item": "enjoy",
+      "type": "V",
+      "thai": "เพลิดเพลิน/ชอบ",
+      "example": "I enjoyed the evening."
+    },
+    {
+      "id": "V-A2-03-027",
+      "item": "did",
+      "type": "AUX",
+      "thai": "กริยาช่วยอดีต",
+      "example": "Where did you go?"
+    },
+    {
+      "id": "V-A2-03-028",
+      "item": "didn’t",
+      "type": "AUX",
+      "thai": "ไม่ได้",
+      "example": "I didn’t buy anything."
+    },
+    {
+      "id": "V-A2-03-029",
+      "item": "What did you do?",
+      "type": "QUESTION",
+      "thai": "คุณทำอะไร",
+      "example": "What did you do?"
+    },
+    {
+      "id": "V-A2-03-030",
+      "item": "Where did you go?",
+      "type": "QUESTION",
+      "thai": "คุณไปไหน",
+      "example": "Where did you go?"
+    },
+    {
+      "id": "V-A2-03-031",
+      "item": "Who did you go with?",
+      "type": "QUESTION",
+      "thai": "คุณไปกับใคร",
+      "example": "Who did you go with?"
+    },
+    {
+      "id": "V-A2-03-032",
+      "item": "What time did you arrive?",
+      "type": "QUESTION",
+      "thai": "คุณมาถึงกี่โมง",
+      "example": "What time did you arrive?"
+    },
+    {
+      "id": "V-A2-03-033",
+      "item": "because",
+      "type": "LINK",
+      "thai": "เพราะ",
+      "example": "We left because it rained."
+    },
+    {
+      "id": "V-A2-03-034",
+      "item": "so",
+      "type": "LINK",
+      "thai": "ดังนั้น",
+      "example": "It rained, so we took a taxi."
+    },
+    {
+      "id": "V-A2-03-035",
+      "item": "but",
+      "type": "LINK",
+      "thai": "แต่",
+      "example": "I was tired, but I enjoyed it."
+    },
+    {
+      "id": "V-A2-03-036",
+      "item": "finished event",
+      "type": "CONCEPT",
+      "thai": "เหตุการณ์ที่จบแล้ว",
+      "example": "Use Past Simple for a finished event."
+    }
+  ],
+  "grammar": [
+    {
+      "id": "F-A2-03-01",
+      "form": "Past Simple affirmative",
+      "use": "finished event",
+      "example": "We visited the market."
+    },
+    {
+      "id": "F-A2-03-02",
+      "form": "didn’t + base",
+      "use": "past negative",
+      "example": "She didn’t buy anything."
+    },
+    {
+      "id": "F-A2-03-03",
+      "form": "did + subject + base",
+      "use": "past question",
+      "example": "Where did you go?"
+    },
+    {
+      "id": "F-A2-03-04",
+      "form": "sequencers",
+      "use": "order events",
+      "example": "First…, then…, finally…"
+    },
+    {
+      "id": "F-A2-03-05",
+      "form": "because/so/but",
+      "use": "simple relation",
+      "example": "It rained, so we left."
+    }
+  ],
+  "retrieval": [
+    {
+      "id": "RET-A2-03-01",
+      "prompt": "Give 5 irregular past forms."
+    },
+    {
+      "id": "RET-A2-03-02",
+      "prompt": "Make one didn’t + base sentence."
+    },
+    {
+      "id": "RET-A2-03-03",
+      "prompt": "Ask one did-question."
+    },
+    {
+      "id": "RET-A2-03-04",
+      "prompt": "Use first/then/finally in order."
+    },
+    {
+      "id": "RET-A2-03-05",
+      "prompt": "Give one past reaction."
+    },
+    {
+      "id": "RET-A2-03-06",
+      "prompt": "Retell the market story in 4 facts."
+    },
+    {
+      "id": "RET-A2-03-07",
+      "prompt": "Relay two facts without adding information."
+    },
+    {
+      "id": "RET-A2-03-08",
+      "prompt": "Write 3 connected past sentences from memory."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-A2-03-1",
+      "version": "0.6.0",
+      "title": "Writing",
+      "skill": "WRITING",
+      "prompt": "Write **50–70 words** about a finished event: when/where, 3 events, 2 sequencers, one reaction.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-A2-03-2",
+      "version": "0.6.0",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "prompt": "45–60 seconds: tell a finished event; answer two follow-up questions.",
+      "responseType": "RECORDING",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-A2-03-3",
+      "version": "0.6.0",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "prompt": "Send a short message with where/when, two important events and one reaction.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-A2-03-4",
+      "version": "0.6.0",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "prompt": "Post “My weekend” in 5–7 sentences. Ask one simple past question on another post.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    }
+  ],
+  "canDo": "Describe a short completed event; ask/answer past questions; use affirmative/negative Past Simple; sequence events; add a reaction; relay key facts.",
+  "supplementary": "# v0.4 Targeted Revision — A2 validity fixes\n## Irregular retrieval set\n\nDelayed retrieval: cover the answers and produce all ten forms; then use five in new finished-past sentences.\n\n## Listening where a negative changes the answer `AUD-A2-03-V04-002`\n> On Sunday, Arun planned to visit a museum with his cousin. They arrived at eleven, but the museum was closed for a special event. They **didn’t go inside**. Instead, they walked to a riverside market. Arun **didn’t buy any clothes**, but he bought lunch for both of them. They stayed until four and then took a bus home.\n\n\n## Second reading `TXT-A2-03-V04-002`\nTwo weeks ago, Nida joined a one-day cooking class. She arrived early because she didn’t know the area well. First, the group prepared vegetables and learned how to make a simple curry. Nida forgot one ingredient, so her partner shared some with her. After lunch, they made a dessert. Nida didn’t like the dessert very much, but she enjoyed the class because the teacher was friendly and the instructions were easy to follow. She went home with two recipes and tried one again the next day.\n\nTasks: identify sequence, one negative fact, one problem/solution and Nida’s mixed reaction.\n\n## Writing feedback criteria\nA2 writing feedback checks:\n1. finished-time anchoring;\n2. understandable chronology;\n3. Past Simple control, especially `did/didn’t + base`;\n4. simple connections/sequencers;\n5. overall meaning remains clear even with minor errors.",
+  "rubric": {
+    "id": "EMH-PRODUCTIVE-RUBRIC-A2-0.5",
+    "level": "A2",
+    "dimensions": [
+      "Task completion",
+      "Past-time control",
+      "Connectedness",
+      "Comprehensibility"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "**Dimensions:** Task completion, Past-time control, Connectedness, Comprehensibility.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **A2-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "sourceText": "# English Mastery Hub — A2-03 Past Events & Experiences — Full Learner Unit v0.5\n\n**content_id:** `UNIT-A2-03-PILOT`  \n**version:** `0.5`  \n**status:** `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`  \n**level:** A2\n\n## Unit boundary\nCore target = **finished past events with Past Simple**. Present Perfect is not required.\n\n## Can-do outcomes\nDescribe a short completed event; ask/answer past questions; use affirmative/negative Past Simple; sequence events; add a reaction; relay key facts.\n\n# Lesson 1 — A finished event\nYesterday I visited my aunt. We had lunch at her house. After lunch, we watched a film. I went home at six o’clock.\n\nRegular: visit→visited, watch→watched, start→started  \nIrregular: go→went, have→had, see→saw, buy→bought, eat→ate, take→took, meet→met\n\nUse Past Simple with closed finished time: yesterday, last Saturday, two days ago.\n\n# Lesson 2 — Negative past\n`subject + didn’t + base verb`\n\nI didn’t go out. / We didn’t take a taxi. / She didn’t buy anything.  \n❌ I didn’t went. → ✅ I didn’t go.\n\nPractice: I didn’t ___ the film. → **see** · They didn’t ___ late. → **arrive** · “She didn’t bought food.” → **She didn’t buy food.**\n\n# Lesson 3 — Questions\nWhere did you go? / Who did you go with? / What did you do? / What time did you arrive? / Did you like it?\n\nRule: `did` carries past marking; main verb returns to base form.\n\n# Lesson 4 — Sequence and reaction\nSequencers: first, then, after that, later, finally  \nReaction: It was fun / interesting / tiring. I was surprised. I really enjoyed it.\n\n### Reading `TXT-A2-03-L04-001` — A rainy day in Khon Kaen\nLast Sunday, Mali went to Khon Kaen with two friends. First, they visited a small market near the station. Mali bought a bag and her friends bought snacks. Then they walked to a café because it started to rain. They stayed there for about an hour and talked about their school days. After that, the rain stopped, so they went to a park. They took some photos, but they didn’t stay long because the ground was very wet. Finally, they took the bus home at six. Mali was tired, but she really enjoyed the day.\n\nQuestions: Where? **Khon Kaen** · After market? **rain/café** · Stay long at park? **No** · Why? **wet ground** · Final feeling? **tired but positive**\n\n# Lesson 5 — Listen and relay\n### Listening `AUD-A2-03-L05-001`\nLast Saturday, Pim went to a night market with her sister. They arrived at seven. First, they looked at clothes and small gifts. Pim bought a T-shirt, but her sister didn’t buy anything. Then they ate noodles and had fruit juice. At about nine, it started to rain heavily. They didn’t have an umbrella, so they took a taxi home. Pim was tired, but she enjoyed the evening because she found a nice shirt and spent time with her sister.\n\nTargets: companion **sister** · purchase **T-shirt** · sister **didn’t buy anything** · taxi reason **rain/no umbrella** · reaction **tired but enjoyed it**\n\n### Mediation\nSend a short message with where/when, two important events and one reaction.\n\n## Vocabulary / phrase bank\nTime: yesterday, last night, last week, ago  \nVerbs: visit, arrive, leave, buy/bought, eat/ate, take/took, go/went, have/had, see/saw, meet/met  \nSequence: first, then, after that, later, finally  \nReaction: fun, interesting, tiring, surprised, enjoy\n\n## Guided Practice Bank\n1. go → **went**\n2. buy → **bought**\n3. didn’t went → **didn’t go**\n4. Where did you went? → **Where did you go?**\n5. Order: finally / first / then → **first → then → finally**\n6. It started to rain, ___ we took a taxi. → **so**\n7. I was tired, but I ___ the trip. → **enjoyed**\n8. Negative of “She bought a bag.” → **She didn’t buy a bag.**\n9. Question for “At seven.” → **What time did you arrive?**\n10. Relay only supported facts.\n\n## Writing\nWrite **50–70 words** about a finished event: when/where, 3 events, 2 sequencers, one reaction.\n\n## Speaking\n45–60 seconds: tell a finished event; answer two follow-up questions.\n\n## Online interaction\nPost “My weekend” in 5–7 sentences. Ask one simple past question on another post.\n\n## Unit Mastery\nReading chronology · Listening details · affirmative/question/negative Past Simple · writing · speaking · mediation.\n\n### Critical evidence\n- finished-time reference clear;\n- `did/didn’t + base` generally controlled;\n- chronology understandable;\n- relay adds no unsupported information.\n\n## Remediation graph\n`A2_PAST_AFFIRMATIVE` → verb sort → retrieval → rewrite.  \n`A2_PAST_NEGATIVE` → didn’t+base contrast → corrections.  \n`A2_DID_BASE` → question transformations → interview.  \n`A2_SEQUENCE` → order cards → retell.  \n`A2_PAST_REACTION` → reaction matching → add reaction.  \n`A2_EVENT_RELAY` → fact selection → 3-fact relay.\n\n## Human Check\n- [ ] Present Perfect not required\n- [ ] negative/questions sufficiently practised\n- [ ] output remains A2, not B1 narrative\n- [ ] reaction language natural\n- [ ] mediation realistic\n\n## Validation record\nHuman Check: **PENDING** · Audio QC: **PENDING** · Learner Pilot: **PENDING**.\n\n# v0.4 Targeted Revision — A2 validity fixes\n## Irregular retrieval set\nbase → past: go→went; come→came; buy→bought; take→took; see→saw; meet→met; have→had; eat→ate; leave→left; get→got.\n\nDelayed retrieval: cover the answers and produce all ten forms; then use five in new finished-past sentences.\n\n## Listening where a negative changes the answer `AUD-A2-03-V04-002`\n> On Sunday, Arun planned to visit a museum with his cousin. They arrived at eleven, but the museum was closed for a special event. They **didn’t go inside**. Instead, they walked to a riverside market. Arun **didn’t buy any clothes**, but he bought lunch for both of them. They stayed until four and then took a bus home.\n\nQuestions:\n1. Did they visit the museum exhibits? → **No**\n2. Did Arun buy clothes? → **No**\n3. What did he buy? → **lunch**\n4. Where did they spend most of the day? → **riverside market**\n\n## Second reading `TXT-A2-03-V04-002`\nTwo weeks ago, Nida joined a one-day cooking class. She arrived early because she didn’t know the area well. First, the group prepared vegetables and learned how to make a simple curry. Nida forgot one ingredient, so her partner shared some with her. After lunch, they made a dessert. Nida didn’t like the dessert very much, but she enjoyed the class because the teacher was friendly and the instructions were easy to follow. She went home with two recipes and tried one again the next day.\n\nTasks: identify sequence, one negative fact, one problem/solution and Nida’s mixed reaction.\n\n## Writing feedback criteria\nA2 writing feedback checks:\n1. finished-time anchoring;\n2. understandable chronology;\n3. Past Simple control, especially `did/didn’t + base`;\n4. simple connections/sequencers;\n5. overall meaning remains clear even with minor errors.\n\n\n\n# v0.5 Content-Complete Pilot Contract\n\n## Mandatory metadata\n- `content_id`: `UNIT-A2-03-PILOT`\n- `version`: `0.5`\n- `status`: `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`\n- `level`: `A2`\n- `unit_id`: `A2-03`\n- `domain`: inherited from the unit brief\n- `core_status`: `CEFR_CORE_COMPETENCY`\n- `source_type`: `ORIGINAL_PROJECT_CONTENT` / explicitly labelled simulated training source where applicable\n- `copyright_status`: `ORIGINAL`\n- `constructs`: reception + production + interaction + mediation as applicable\n- `support_mode`: level-appropriate support\n- `academic_check_status`: `INTERNAL_PRE_HUMAN_PASSED`\n- `human_check_status`: `PENDING`\n- `rubric_version`: `EMH-PRODUCTIVE-RUBRIC-A2-0.5`\n- `remediation_tags`: unit-specific tags in the remediation graph\n\n## Pronunciation / prosody target\nIntelligible narration of past events with clear time/sequencing chunks.\n\n\n## Structured vocabulary / phrase records\n**Planning target:** ≥36. **Included:** 36.\n\n| ID | Item/sense | Type | Thai gloss | Original example | Validation |\n|---|---|---|---|---|---|\n| V-A2-03-001 | yesterday | ADV | เมื่อวาน | I visited my aunt yesterday. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-002 | last night | TIME | เมื่อคืน | We stayed home last night. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-003 | last week | TIME | สัปดาห์ที่แล้ว | I travelled last week. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-004 | ago | ADV | ที่แล้ว | I saw her two days ago. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-005 | visit | V | ไปเยี่ยม | We visited the market. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-006 | arrive | V | มาถึง | They arrived at seven. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-007 | leave | V | ออกจาก | We left at six. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-008 | buy/bought | V | ซื้อ | Pim bought a T-shirt. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-009 | eat/ate | V | กิน | We ate noodles. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-010 | take/took | V | เอา/โดยสาร | They took a taxi. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-011 | go/went | V | ไป | Mali went to Khon Kaen. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-012 | have/had | V | มี/รับประทาน | We had lunch. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-013 | see/saw | V | เห็น | I saw my friend. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-014 | meet/met | V | พบ | We met at the station. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-015 | start/started | V | เริ่ม | It started to rain. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-016 | finish/finished | V | เสร็จ | The film finished at nine. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-017 | first | SEQ | อันดับแรก | First, we visited the market. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-018 | then | SEQ | จากนั้น | Then, we ate. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-019 | after that | SEQ | หลังจากนั้น | After that, we went home. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-020 | later | SEQ | ต่อมา | Later, it rained. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-021 | finally | SEQ | สุดท้าย | Finally, we took the bus home. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-022 | fun | ADJ | สนุก | The trip was fun. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-023 | interesting | ADJ | น่าสนใจ | The museum was interesting. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-024 | tiring | ADJ | เหนื่อย | The day was tiring. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-025 | surprised | ADJ | ประหลาดใจ | I was surprised. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-026 | enjoy | V | เพลิดเพลิน/ชอบ | I enjoyed the evening. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-027 | did | AUX | กริยาช่วยอดีต | Where did you go? | HUMAN/EVP CHECK PENDING |\n| V-A2-03-028 | didn’t | AUX | ไม่ได้ | I didn’t buy anything. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-029 | What did you do? | QUESTION | คุณทำอะไร | What did you do? | HUMAN/EVP CHECK PENDING |\n| V-A2-03-030 | Where did you go? | QUESTION | คุณไปไหน | Where did you go? | HUMAN/EVP CHECK PENDING |\n| V-A2-03-031 | Who did you go with? | QUESTION | คุณไปกับใคร | Who did you go with? | HUMAN/EVP CHECK PENDING |\n| V-A2-03-032 | What time did you arrive? | QUESTION | คุณมาถึงกี่โมง | What time did you arrive? | HUMAN/EVP CHECK PENDING |\n| V-A2-03-033 | because | LINK | เพราะ | We left because it rained. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-034 | so | LINK | ดังนั้น | It rained, so we took a taxi. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-035 | but | LINK | แต่ | I was tired, but I enjoyed it. | HUMAN/EVP CHECK PENDING |\n| V-A2-03-036 | finished event | CONCEPT | เหตุการณ์ที่จบแล้ว | Use Past Simple for a finished event. | HUMAN/EVP CHECK PENDING |\n\n\n## Objective / controlled practice expansion\n**Planning target:** ≥24. **Included:** 24.\n\n| Item ID | Prompt | Key / expected | Remediation |\n|---|---|---|---|\n| V05-Q-A2-03-001 | Past of go | went | unit-linked remediation |\n| V05-Q-A2-03-002 | Past of buy | bought | unit-linked remediation |\n| V05-Q-A2-03-003 | Past of eat | ate | unit-linked remediation |\n| V05-Q-A2-03-004 | Past of take | took | unit-linked remediation |\n| V05-Q-A2-03-005 | Past of have | had | unit-linked remediation |\n| V05-Q-A2-03-006 | Past of meet | met | unit-linked remediation |\n| V05-Q-A2-03-007 | Past of see | saw | unit-linked remediation |\n| V05-Q-A2-03-008 | Complete: We ___ the market yesterday. (visit) | visited | unit-linked remediation |\n| V05-Q-A2-03-009 | Correct: I didn’t went out. | I didn’t go out. | unit-linked remediation |\n| V05-Q-A2-03-010 | Complete: She didn’t ___ anything. (buy) | buy | unit-linked remediation |\n| V05-Q-A2-03-011 | Complete: They didn’t ___ late. (arrive) | arrive | unit-linked remediation |\n| V05-Q-A2-03-012 | Correct: Where did you went? | Where did you go? | unit-linked remediation |\n| V05-Q-A2-03-013 | Make a question for At seven. | What time did you arrive? | unit-linked remediation |\n| V05-Q-A2-03-014 | Make a question for With my sister. | Who did you go with? | unit-linked remediation |\n| V05-Q-A2-03-015 | Choose finished-time marker: A last Sunday B every Sunday | last Sunday | unit-linked remediation |\n| V05-Q-A2-03-016 | Order: after that / first / finally | first → after that → finally | unit-linked remediation |\n| V05-Q-A2-03-017 | Complete: It rained, ___ we took a taxi. | so | unit-linked remediation |\n| V05-Q-A2-03-018 | Complete: I was tired, ___ I enjoyed the trip. | but | unit-linked remediation |\n| V05-Q-A2-03-019 | Choose reaction: The trip was ___. A fun B yesterday | fun | unit-linked remediation |\n| V05-Q-A2-03-020 | True/False: did + base verb is used in Past Simple questions. | True | unit-linked remediation |\n| V05-Q-A2-03-021 | True/False: didn’t + past form is correct. | False | unit-linked remediation |\n| V05-Q-A2-03-022 | Relay: market / T-shirt / rain / taxi | open; preserve key facts | unit-linked remediation |\n| V05-Q-A2-03-023 | Write 2 linked past sentences with then. | open | unit-linked remediation |\n| V05-Q-A2-03-024 | Tell one finished event with a clear past-time reference. | open | unit-linked remediation |\n\n## Retrieval / spaced-review set\n1. `RET-A2-03-01` — Give 5 irregular past forms.\n2. `RET-A2-03-02` — Make one didn’t + base sentence.\n3. `RET-A2-03-03` — Ask one did-question.\n4. `RET-A2-03-04` — Use first/then/finally in order.\n5. `RET-A2-03-05` — Give one past reaction.\n6. `RET-A2-03-06` — Retell the market story in 4 facts.\n7. `RET-A2-03-07` — Relay two facts without adding information.\n8. `RET-A2-03-08` — Write 3 connected past sentences from memory.\n\n\n## Quick Review Sheet\n- Restate the unit can-do goal in your own words.\n- Retrieve the unit's highest-value forms, phrases and discourse moves without the model.\n- Recall one important reading/listening point and its supporting detail.\n- Produce one A2-appropriate response without copying a model.\n- Complete one interaction or mediation move without inventing information.\n- If an error tag appears, follow the linked remediation route before re-attempting.\n\n\n## Operational productive rubric — `EMH-PRODUCTIVE-RUBRIC-A2-0.5`\n**Dimensions:** Task completion, Past-time control, Connectedness, Comprehensibility.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **A2-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.\n\n\n## Source / copyright / provenance record\n- Learner-facing prose/dialogue is `ORIGINAL_PROJECT_CONTENT`, except fictional study/survey/specialist material explicitly labelled `SIMULATED TRAINING SOURCE`.\n- Simulated sources are learning materials, not factual citations.\n- `copyright_status`: `ORIGINAL`.\n- CEFR use: construct alignment only; no official certification claim.\n- English Profile/EGP/EVP: validation methodology only; no wholesale database reproduction.\n- Real Human Review: **PENDING**.\n- Produced audio + pronunciation/prosody/technical QC: **PENDING**.\n- Learner pilot + calibration: **PENDING**.\n\n## Grammar / function feature-use records\n| Feature ID | Resource | Meaning/use | Example |\n|---|---|---|---|\n| F-A2-03-01 | Past Simple affirmative | finished event | We visited the market. |\n| F-A2-03-02 | didn’t + base | past negative | She didn’t buy anything. |\n| F-A2-03-03 | did + subject + base | past question | Where did you go? |\n| F-A2-03-04 | sequencers | order events | First…, then…, finally… |\n| F-A2-03-05 | because/so/but | simple relation | It rained, so we left. |\n",
+  "sourceValidated": true,
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "contentValidated": false,
+  "checksum": "f6713cd61fd5b9c1210aa3947745fbba5509b828dc13664a92bbc93ed5c8d49d"
+}

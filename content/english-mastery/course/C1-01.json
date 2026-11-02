@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-C1-01-COURSE",
+  "unitId": "C1-01",
+  "level": "C1",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript C1-01; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Advanced Sentence Architecture",
+  "canDo": "ใช้ประโยคซับซ้อนเพื่อจัดลำดับข้อมูลโดยไม่ทำความหมายคลุมเครือ. Handle extended, implicit and professionally situated discourse with flexible register, coherent synthesis and precise qualification.",
+  "outcomes": [
+    "Use the language of advanced sentence architecture to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "C1-01-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Advanced Sentence Architecture\nเป้าหมาย: ใช้ประโยคซับซ้อนเพื่อจัดลำดับข้อมูลโดยไม่ทำความหมายคลุมเครือ\n\nUse the language of advanced sentence architecture to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\n\nRead for purpose, then locate the people, events, conditions and limits. Track stance, scope and evidential status across sources. Distinguish concession from endorsement and implication from explicit assertion. Synthesize by issue, retaining unresolved disagreement. Adapt density and register to the reader without changing commitments.\n\nReading B\nEditing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "C1-01-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "conditional inversion\nหน้าที่: สมมติสิ่งที่ไม่ได้เกิด\nModel: Had the condition been omitted, the meaning would have changed.\nTry: change one detail while preserving the function. Check the result against the source.\n\nfronted condition\nหน้าที่: เลือกข้อมูลนำหน้า\nModel: Provided that access is clarified, the pilot may proceed.\nTry: change one detail while preserving the function. Check the result against the source.\n\nparticiple clause with clear actor\nหน้าที่: หลีกเลี่ยงส่วนขยายลอย\nModel: Having reviewed the plan, the committee approved it.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nรักษาขอบเขตและระดับความมั่นใจของต้นฉบับ วิเคราะห์สิ่งที่กล่าวชัดกับสิ่งที่สื่อโดยนัย สังเคราะห์ตามประเด็นแทนเรียงย่อทีละแหล่ง\n\nTarget vocabulary in context\nprovided that — โดยมีเงื่อนไขว่า\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened.\n\nregistration — การลงทะเบียน\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened.\n\nomitted — ละออก\nHad the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.\n\nminutes — รายงานการประชุม\nHad the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.\n\nunconditional — ไม่มีเงื่อนไข\nHad the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.\n\nforeground — ทำให้เด่นก่อน\nThe sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work.\n\nunresolved — ยังไม่ยุติ\nThe sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work.\n\nsyntax — วากยสัมพันธ์\nComplex syntax is therefore a tool for organising relationships, not a display of length.\n\nsubordinate clause — อนุประโยค\nA subordinate clause should make time, concession or dependency easier to follow.\n\nconcession — การยอมรับข้อโต้แย้ง\nA subordinate clause should make time, concession or dependency easier to follow.\n\ndependency — ความขึ้นต่อกัน\nA subordinate clause should make time, concession or dependency easier to follow.\n\nqualifications — ข้อจำกัดประกอบ\nWhen several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\n\nagency — ผู้กระทำและความรับผิดชอบ\nRevision should clarify agency without inventing who actually performed the review.\n\nreduced clause — อนุประโยคลดรูป\nCheck what every pronoun and reduced clause refers to.\n\nlogical links — ความเชื่อมโยงทางตรรกะ\nIf the reader must hold too many unresolved details at once, divide the sentence while preserving the logical links.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "C1-01-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: Could I begin with the condition instead?\nB: Yes: Provided that access is clarified, the committee approves the pilot.\nA: Does that change the decision?\nB: It need not, but it changes the emphasis. Check tense and whether the condition has already been met.\n\nListening script B\nIn a long sentence, identify the main clause and each dependent relationship. Check what every pronoun and reduced clause refers to. If the reader must hold too many unresolved details at once, divide the sentence while preserving the logical links.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nShape long turns into coherent rhetorical units. Use prominence and pauses to mark qualification, reformulation and source shifts. Intonation can suggest stance but is not conclusive evidence of intention by itself.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "C1-01-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nใช้ประโยคซับซ้อนเพื่อจัดลำดับข้อมูลโดยไม่ทำความหมายคลุมเครือ\n\nPrepare a 240–320-word response and a 180–240-second spoken response using the unit inputs. Handle extended, implicit and professionally situated discourse with flexible register, coherent synthesis and precise qualification.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nconditional inversion: Had the condition been omitted, the meaning would have changed.\nfronted condition: Provided that access is clarified, the pilot may proceed.\nparticiple clause with clear actor: Having reviewed the plan, the committee approved it.\nรักษาขอบเขตและระดับความมั่นใจของต้นฉบับ วิเคราะห์สิ่งที่กล่าวชัดกับสิ่งที่สื่อโดยนัย สังเคราะห์ตามประเด็นแทนเรียงย่อทีละแหล่ง\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-C1-01-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: โดยมีเงื่อนไขว่า.\nThe committee approved the pilot, ____ access arrangements were clarified before registration opened.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "provided that"
+      ],
+      "expected": "provided that",
+      "explanation": "provided that means โดยมีเงื่อนไขว่า in this context. Full source sentence: The committee approved the pilot, provided that access arrangements were clarified before registration opened.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การลงทะเบียน.\nThe committee approved the pilot, provided that access arrangements were clarified before ____ opened.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "registration"
+      ],
+      "expected": "registration",
+      "explanation": "registration means การลงทะเบียน in this context. Full source sentence: The committee approved the pilot, provided that access arrangements were clarified before registration opened.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ละออก.\nHad the condition been ____ from the minutes, readers might reasonably have assumed that approval was unconditional.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "omitted"
+      ],
+      "expected": "omitted",
+      "explanation": "omitted means ละออก in this context. Full source sentence: Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: รายงานการประชุม.\nHad the condition been omitted from the ____, readers might reasonably have assumed that approval was unconditional.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "minutes"
+      ],
+      "expected": "minutes",
+      "explanation": "minutes means รายงานการประชุม in this context. Full source sentence: Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ไม่มีเงื่อนไข.\nHad the condition been omitted from the minutes, readers might reasonably have assumed that approval was ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "unconditional"
+      ],
+      "expected": "unconditional",
+      "explanation": "unconditional means ไม่มีเงื่อนไข in this context. Full source sentence: Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ทำให้เด่นก่อน.\nThe sentence places the main decision first and its limiting condition afterwards; reversing that order would ____ the unresolved work.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "foreground"
+      ],
+      "expected": "foreground",
+      "explanation": "foreground means ทำให้เด่นก่อน in this context. Full source sentence: The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ยังไม่ยุติ.\nThe sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the ____ work.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "unresolved"
+      ],
+      "expected": "unresolved",
+      "explanation": "unresolved means ยังไม่ยุติ in this context. Full source sentence: The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: วากยสัมพันธ์.\nComplex ____ is therefore a tool for organising relationships, not a display of length.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "syntax"
+      ],
+      "expected": "syntax",
+      "explanation": "syntax means วากยสัมพันธ์ in this context. Full source sentence: Complex syntax is therefore a tool for organising relationships, not a display of length.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: อนุประโยค.\nA ____ should make time, concession or dependency easier to follow.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "subordinate clause"
+      ],
+      "expected": "subordinate clause",
+      "explanation": "subordinate clause means อนุประโยค in this context. Full source sentence: A subordinate clause should make time, concession or dependency easier to follow.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การยอมรับข้อโต้แย้ง.\nA subordinate clause should make time, ____ or dependency easier to follow.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "concession"
+      ],
+      "expected": "concession",
+      "explanation": "concession means การยอมรับข้อโต้แย้ง in this context. Full source sentence: A subordinate clause should make time, concession or dependency easier to follow.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ความขึ้นต่อกัน.\nA subordinate clause should make time, concession or ____ easier to follow.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "dependency"
+      ],
+      "expected": "dependency",
+      "explanation": "dependency means ความขึ้นต่อกัน in this context. Full source sentence: A subordinate clause should make time, concession or dependency easier to follow.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อจำกัดประกอบ.\nWhen several ____ accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "qualifications"
+      ],
+      "expected": "qualifications",
+      "explanation": "qualifications means ข้อจำกัดประกอบ in this context. Full source sentence: When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-C1-01-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\n\nWhat condition accompanied approval? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "access arrangements had to be clarified before registration opened",
+      "explanation": "Reference answer: access arrangements had to be clarified before registration opened. Accept an accurate paraphrase that preserves scope. Check against C1-01-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "C1-01-READ-A"
+    },
+    {
+      "stableId": "Q-C1-01-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\n\nWhat would omission of the condition suggest? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "unconditional approval",
+      "explanation": "Reference answer: unconditional approval. Accept an accurate paraphrase that preserves scope. Check against C1-01-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "C1-01-READ-A"
+    },
+    {
+      "stableId": "Q-C1-01-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nEditing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review.\n\nWhich version explicitly names the reviewer? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Version B",
+      "explanation": "Reference answer: Version B. Accept an accurate paraphrase that preserves scope. Check against C1-01-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "C1-01-READ-B"
+    },
+    {
+      "stableId": "Q-C1-01-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script B — text-supported comprehension\nIn a long sentence, identify the main clause and each dependent relationship. Check what every pronoun and reduced clause refers to. If the reader must hold too many unresolved details at once, divide the sentence while preserving the logical links.\n\nWhat should be preserved when dividing a sentence? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "the logical links",
+      "explanation": "Reference answer: the logical links. Accept an accurate paraphrase that preserves scope. Check against C1-01-LISTEN-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "C1-01-LISTEN-B"
+    },
+    {
+      "stableId": "Q-C1-01-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Use conditional inversion to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: Had the condition been omitted, the meaning would have changed.",
+      "expected": "Check the function สมมติสิ่งที่ไม่ได้เกิด; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function สมมติสิ่งที่ไม่ได้เกิด; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-C1-01-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. Provided that access is clarified, the pilot may proceed.\n2. Having reviewed the plan, the committee approved it.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for เลือกข้อมูลนำหน้า versus หลีกเลี่ยงส่วนขยายลอย. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for เลือกข้อมูลนำหน้า versus หลีกเลี่ยงส่วนขยายลอย. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-C1-01-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nEditing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in C1-01-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in C1-01-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-C1-01-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY",
+        "C1-01_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.",
+      "expected": "Provide a relevant supported detail from C1-01-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from C1-01-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-C1-01-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-C1-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 240–320 words for a classmate who needs to understand advanced sentence architecture. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Track stance, scope and evidential status across sources. Distinguish concession from endorsement and implication from explicit assertion. Synthesize by issue, retaining unresolved disagreement. Adapt density and register to the reader without changing commitments.\n\nSources\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\n\nEditing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review."
+    },
+    {
+      "stableId": "TASK-C1-01-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-C1-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 180–240-second spoken response about advanced sentence architecture. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Shape long turns into coherent rhetorical units. Use prominence and pauses to mark qualification, reformulation and source shifts. Intonation can suggest stance but is not conclusive evidence of intention by itself.\n\nInput\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\n\nA: Could I begin with the condition instead?\nB: Yes: Provided that access is clarified, the committee approves the pilot.\nA: Does that change the decision?\nB: It need not, but it changes the emphasis. Check tense and whether the condition has already been met."
+    },
+    {
+      "stableId": "TASK-C1-01-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-C1-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nThe committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\n\nReading B\nEditing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review."
+    },
+    {
+      "stableId": "TASK-C1-01-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "C1-01_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-C1-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about advanced sentence architecture, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nEditing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review.\n\nA: Could I begin with the condition instead?\nB: Yes: Provided that access is clarified, the committee approves the pilot.\nA: Does that change the decision?\nB: It need not, but it changes the emphasis. Check tense and whether the condition has already been met."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-C1-01-001",
+      "item": "provided that",
+      "thai": "โดยมีเงื่อนไขว่า",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The committee approved the pilot, provided that access arrangements were clarified before registration opened.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-002",
+      "item": "registration",
+      "thai": "การลงทะเบียน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The committee approved the pilot, provided that access arrangements were clarified before registration opened.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-003",
+      "item": "omitted",
+      "thai": "ละออก",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-004",
+      "item": "minutes",
+      "thai": "รายงานการประชุม",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-005",
+      "item": "unconditional",
+      "thai": "ไม่มีเงื่อนไข",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-006",
+      "item": "foreground",
+      "thai": "ทำให้เด่นก่อน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-007",
+      "item": "unresolved",
+      "thai": "ยังไม่ยุติ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-008",
+      "item": "syntax",
+      "thai": "วากยสัมพันธ์",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Complex syntax is therefore a tool for organising relationships, not a display of length.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-009",
+      "item": "subordinate clause",
+      "thai": "อนุประโยค",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A subordinate clause should make time, concession or dependency easier to follow.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-010",
+      "item": "concession",
+      "thai": "การยอมรับข้อโต้แย้ง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A subordinate clause should make time, concession or dependency easier to follow.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-011",
+      "item": "dependency",
+      "thai": "ความขึ้นต่อกัน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A subordinate clause should make time, concession or dependency easier to follow.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-012",
+      "item": "qualifications",
+      "thai": "ข้อจำกัดประกอบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-013",
+      "item": "agency",
+      "thai": "ผู้กระทำและความรับผิดชอบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Revision should clarify agency without inventing who actually performed the review.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-014",
+      "item": "reduced clause",
+      "thai": "อนุประโยคลดรูป",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Check what every pronoun and reduced clause refers to.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-015",
+      "item": "logical links",
+      "thai": "ความเชื่อมโยงทางตรรกะ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "If the reader must hold too many unresolved details at once, divide the sentence while preserving the logical links.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-C1-01-REV-1",
+      "item": "qualified",
+      "thai": "มีเงื่อนไขหรือข้อจำกัด",
+      "example": "The report offers qualified support.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-2",
+      "item": "tentative",
+      "thai": "ยังไม่ยืนยัน",
+      "example": "Treat the estimate as tentative.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-3",
+      "item": "plausible",
+      "thai": "เป็นไปได้อย่างมีเหตุผล",
+      "example": "A plausible explanation is not yet a demonstrated cause.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-4",
+      "item": "nonetheless",
+      "thai": "ถึงกระนั้น",
+      "example": "The evidence is limited; nonetheless, the concern warrants attention.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-5",
+      "item": "insofar as",
+      "thai": "เท่าที่หรือในขอบเขตที่",
+      "example": "The comparison is useful insofar as the conditions match.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-6",
+      "item": "contingent on",
+      "thai": "ขึ้นอยู่กับเงื่อนไข",
+      "example": "Approval is contingent on further consultation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-7",
+      "item": "substantiate",
+      "thai": "ให้หลักฐานยืนยัน",
+      "example": "The figures do not substantiate the stronger claim.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-8",
+      "item": "concede",
+      "thai": "ยอมรับบางประเด็น",
+      "example": "The author concedes a practical limitation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-9",
+      "item": "synthesis",
+      "thai": "การสังเคราะห์",
+      "example": "The synthesis retains the disagreement between sources.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-10",
+      "item": "scope",
+      "thai": "ขอบเขต",
+      "example": "Do not extend the claim beyond its stated scope.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-11",
+      "item": "stance",
+      "thai": "ท่าทีหรือจุดยืน",
+      "example": "The wording signals a cautious stance.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-12",
+      "item": "implication",
+      "thai": "นัยที่ตามมา",
+      "example": "Explain the implication without presenting it as a quotation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-13",
+      "item": "cohesion",
+      "thai": "ความเชื่อมโยงในเนื้อความ",
+      "example": "Reference words improve cohesion when their meaning is clear.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-14",
+      "item": "proportionate",
+      "thai": "ได้สัดส่วนกับหลักฐาน",
+      "example": "A proportionate recommendation acknowledges uncertainty.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-C1-01-REV-15",
+      "item": "Could you give an example?",
+      "thai": "ช่วยยกตัวอย่างได้ไหม",
+      "example": "Could you give an example from the text?",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-C1-01-1",
+      "form": "conditional inversion",
+      "use": "สมมติสิ่งที่ไม่ได้เกิด",
+      "example": "Had the condition been omitted, the meaning would have changed."
+    },
+    {
+      "id": "G-C1-01-2",
+      "form": "fronted condition",
+      "use": "เลือกข้อมูลนำหน้า",
+      "example": "Provided that access is clarified, the pilot may proceed."
+    },
+    {
+      "id": "G-C1-01-3",
+      "form": "participle clause with clear actor",
+      "use": "หลีกเลี่ยงส่วนขยายลอย",
+      "example": "Having reviewed the plan, the committee approved it."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "C1-01-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "The committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause."
+    },
+    {
+      "id": "C1-01-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Editing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review."
+    },
+    {
+      "id": "C1-01-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: Could I begin with the condition instead?\nB: Yes: Provided that access is clarified, the committee approves the pilot.\nA: Does that change the decision?\nB: It need not, but it changes the emphasis. Check tense and whether the condition has already been met."
+    },
+    {
+      "id": "C1-01-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "In a long sentence, identify the main clause and each dependent relationship. Check what every pronoun and reduced clause refers to. If the reader must hold too many unresolved details at once, divide the sentence while preserving the logical links."
+    }
+  ],
+  "pronunciation": "Shape long turns into coherent rhetorical units. Use prominence and pauses to mark qualification, reformulation and source shifts. Intonation can suggest stance but is not conclusive evidence of intention by itself.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-C1-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-C1-0.1",
+    "level": "C1",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target C1: Handle extended, implicit and professionally situated discourse with flexible register, coherent synthesis and precise qualification.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-C1-01-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Advanced Sentence Architecture; explain one source detail and use conditional inversion in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-C1-01-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Advanced Sentence Architecture; explain one source detail and use fronted condition in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-C1-01-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Advanced Sentence Architecture; explain one source detail and use participle clause with clear actor in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-C1-01-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Advanced Sentence Architecture; explain one source detail and use conditional inversion in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "C1-01_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-C1-01-015 and the mediation task."
+    },
+    {
+      "errorTag": "C1-01_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-C1-01-001",
+      "Q-C1-01-002",
+      "Q-C1-01-003",
+      "Q-C1-01-004",
+      "Q-C1-01-005",
+      "Q-C1-01-006",
+      "Q-C1-01-007",
+      "Q-C1-01-008",
+      "Q-C1-01-009",
+      "Q-C1-01-010",
+      "Q-C1-01-011",
+      "Q-C1-01-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-C1-01-013",
+      "Q-C1-01-014",
+      "Q-C1-01-015",
+      "Q-C1-01-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-C1-01-1",
+      "TASK-C1-01-2",
+      "TASK-C1-01-3",
+      "TASK-C1-01-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "C1.json",
+    "sourceUnitId": "C1-01",
+    "sourceChecksum": "1763d9aaad6b798b5d63cfc8945540011f67e7c9b84b1b97e5fe426c686e5c44"
+  },
+  "sourceText": "{\n  \"id\": \"C1-01\",\n  \"aim\": \"ใช้ประโยคซับซ้อนเพื่อจัดลำดับข้อมูลโดยไม่ทำความหมายคลุมเครือ\",\n  \"a\": \"The committee approved the pilot, provided that access arrangements were clarified before registration opened. Had the condition been omitted from the minutes, readers might reasonably have assumed that approval was unconditional. The sentence places the main decision first and its limiting condition afterwards; reversing that order would foreground the unresolved work. Although both versions can be accurate, they guide attention differently. Complex syntax is therefore a tool for organising relationships, not a display of length. A subordinate clause should make time, concession or dependency easier to follow. When several qualifications accumulate, dividing the sentence may preserve precision more effectively than adding another clause.\",\n  \"b\": \"Editing comparison: A—Having reviewed the access plan, the pilot was approved. B—Having reviewed the access plan, the committee approved the pilot. Version A leaves the understood reviewer awkwardly attached to the pilot. Version B names the actor. Revision should clarify agency without inventing who actually performed the review.\",\n  \"l1\": \"A: Could I begin with the condition instead?\\nB: Yes: Provided that access is clarified, the committee approves the pilot.\\nA: Does that change the decision?\\nB: It need not, but it changes the emphasis. Check tense and whether the condition has already been met.\",\n  \"l2\": \"In a long sentence, identify the main clause and each dependent relationship. Check what every pronoun and reduced clause refers to. If the reader must hold too many unresolved details at once, divide the sentence while preserving the logical links.\",\n  \"v\": \"provided that=โดยมีเงื่อนไขว่า;registration=การลงทะเบียน;omitted=ละออก;minutes=รายงานการประชุม;unconditional=ไม่มีเงื่อนไข;foreground=ทำให้เด่นก่อน;unresolved=ยังไม่ยุติ;syntax=วากยสัมพันธ์;subordinate clause=อนุประโยค;concession=การยอมรับข้อโต้แย้ง;dependency=ความขึ้นต่อกัน;qualifications=ข้อจำกัดประกอบ;agency=ผู้กระทำและความรับผิดชอบ;reduced clause=อนุประโยคลดรูป;logical links=ความเชื่อมโยงทางตรรกะ\",\n  \"g\": [\n    [\n      \"conditional inversion\",\n      \"สมมติสิ่งที่ไม่ได้เกิด\",\n      \"Had the condition been omitted, the meaning would have changed.\"\n    ],\n    [\n      \"fronted condition\",\n      \"เลือกข้อมูลนำหน้า\",\n      \"Provided that access is clarified, the pilot may proceed.\"\n    ],\n    [\n      \"participle clause with clear actor\",\n      \"หลีกเลี่ยงส่วนขยายลอย\",\n      \"Having reviewed the plan, the committee approved it.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"What condition accompanied approval?\",\n      \"access arrangements had to be clarified before registration opened\",\n      \"a\"\n    ],\n    [\n      \"What would omission of the condition suggest?\",\n      \"unconditional approval\",\n      \"a\"\n    ],\n    [\n      \"Which version explicitly names the reviewer?\",\n      \"Version B\",\n      \"b\"\n    ],\n    [\n      \"What should be preserved when dividing a sentence?\",\n      \"the logical links\",\n      \"l2\"\n    ]\n  ]\n}\n",
+  "checksum": "667d878068943dd2cba3980fd8fcc908cae6ee497b7e070e3b576f5a9d8d6bf0"
+}

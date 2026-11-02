@@ -14,7 +14,7 @@ const quotes = [
 ]
 
 export default async function ProfilePage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
@@ -71,7 +71,7 @@ export default async function ProfilePage() {
           <div className="relative z-10 px-8 py-5 bg-white/80 border-t border-white backdrop-blur-md">
             <div className="flex items-start sm:items-center gap-4 max-w-3xl mx-auto justify-center">
               <Heart className="h-6 w-6 text-pink-400 shrink-0 animate-pulse" />
-              <p className="text-pink-900 font-semibold italic text-sm sm:text-base text-center">"{randomQuote}"</p>
+              <p className="text-pink-900 font-semibold italic text-sm sm:text-base text-center">&quot;{randomQuote}&quot;</p>
             </div>
           </div>
         </div>
@@ -150,7 +150,7 @@ export default async function ProfilePage() {
                 <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 font-black shadow-inner">1</div>
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 mb-2">เริ่มสร้างแผนการสอนใหม่</h3>
-                  <p className="font-medium leading-relaxed">กดปุ่ม "เข้าสู่ระบบสร้างแผน" ด้านล่าง เพื่อเข้าสู่หน้าหลัก ในหน้ากิจกรรมต่างๆ คุณครูสามารถกดปุ่ม "✨ AI ช่วยเขียน" เพื่อให้ระบบช่วยออกแบบกิจกรรมการเรียนรู้แบบ Active Learning ได้อัตโนมัติ</p>
+                  <p className="font-medium leading-relaxed">กดปุ่ม &quot;เข้าสู่ระบบสร้างแผน&quot; ด้านล่าง เพื่อเข้าสู่หน้าหลัก ในหน้ากิจกรรมต่างๆ คุณครูสามารถกดปุ่ม &quot;✨ AI ช่วยเขียน&quot; เพื่อให้ระบบช่วยออกแบบกิจกรรมการเรียนรู้แบบ Active Learning ได้อัตโนมัติ</p>
                 </div>
               </div>
 
@@ -158,7 +158,7 @@ export default async function ProfilePage() {
                 <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 font-black shadow-inner">2</div>
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 mb-2">ประเมินและพัฒนาแผนเดิม</h3>
-                  <p className="font-medium leading-relaxed">มีแผนเดิมอยู่แล้ว? ไปที่เมนู "ประเมินและพัฒนาแผน" เพื่ออัปโหลดไฟล์ Word (.docx) ให้ AI วิเคราะห์หาจุดเด่นและให้ข้อเสนอแนะเชิงลึก เพื่อนำไปปรับให้สอดคล้องกับเกณฑ์วิทยฐานะ PA</p>
+                  <p className="font-medium leading-relaxed">มีแผนเดิมอยู่แล้ว? ไปที่เมนู &quot;ประเมินและพัฒนาแผน&quot; เพื่ออัปโหลดไฟล์ Word (.docx) ให้ AI วิเคราะห์หาจุดเด่นและให้ข้อเสนอแนะเชิงลึก เพื่อนำไปปรับให้สอดคล้องกับเกณฑ์วิทยฐานะ PA</p>
                 </div>
               </div>
 

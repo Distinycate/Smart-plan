@@ -12,12 +12,10 @@ import { buildLessonAlignmentGraph, computeLessonHash } from '@/lib/smartPlanV3/
 import { runStructuralQualityRules } from '@/lib/smartPlanV3/quality/qualityRules';
 import { deriveDocumentReadiness } from '@/lib/smartPlanV3/quality/qualityEngine';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

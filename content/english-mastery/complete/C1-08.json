@@ -1,0 +1,967 @@
+{
+  "stableId": "UNIT-C1-08-PILOT",
+  "unitId": "C1-08",
+  "level": "C1",
+  "version": "0.6.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "provenance": "Canonical v0.5 pilot: Pilot_C1-08_Synthesising_Sources_Full_v0.5.md; sources are simulated training sources.",
+  "title": "Synthesising Multiple Sources",
+  "lessons": [
+    {
+      "id": "C1-08-L01",
+      "title": "Select what matters",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Capture: central claim · relevant support · limitation · relation to other sources · audience relevance.\n\n### Source A — Staff flexibility survey (simulated)\nA medium-sized organisation introduced flexible start and finish times for six months. Staff surveys reported improved satisfaction, especially among employees with family responsibilities. Managers observed fewer late arrivals. Some teams, however, found cross-department meetings harder to schedule. Productivity was not measured. The survey therefore supports claims about reported satisfaction and some attendance patterns, but not claims that flexibility increased productivity.\n\n### Source B — Coordination analysis (simulated)\nAutonomy can support job satisfaction, but coordination costs may rise when teams depend heavily on synchronous collaboration. Flexible schedules tend to work better when organisations define shared availability windows, communication expectations and decision responsibilities. The analysis does not argue that one timetable is suitable for all teams; rather, it suggests that flexibility and coordination mechanisms need to be designed together.\n\n### Source C — Manager interview (simulated spoken source)\n> Flexibility itself isn’t the problem. The difficulty comes when everyone assumes they can choose completely different hours without telling the team. Once we introduced two common collaboration periods each day, most of the complaints disappeared. People still had freedom outside those periods, so we didn’t need to return to fixed schedules.\n\nTasks: claim supported by ≥2 sources? **flexibility works better with coordination rules/common availability** · A-only limitation? **productivity not measured** · C relation to B? **practical mechanism/example** · unsupported claim? **flexibility definitely raises productivity**"
+        }
+      ]
+    },
+    {
+      "id": "C1-08-L02",
+      "title": "Paraphrase without semantic drift",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Original: “Productivity was not measured.”  \nBad: “Productivity did not improve.”  \n\nOriginal: “Flexible schedules tend to work better when…”  \nBad: “Flexible schedules only work when…”  \n\nFidelity test: factual meaning? certainty? logical relation? source ownership?"
+        }
+      ]
+    },
+    {
+      "id": "C1-08-L03",
+      "title": "Compare and merge",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Avoid: `Source A says… Source B says… Source C says…`\n\n\n| Theme | A | B | C |\n|---|---|---|---|\n| satisfaction/autonomy | higher reported satisfaction | autonomy may support satisfaction | not central |\n| coordination | meetings harder | coordination costs may rise | complaints when hours uncoordinated |\n| response | not tested | shared windows/norms | two common periods helped |"
+        }
+      ]
+    },
+    {
+      "id": "C1-08-L04",
+      "title": "Evaluate limitations",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "C1 does not require formal research-method expertise. Notice limitations relevant to meaning:\n- A cannot support productivity claims;\n- C is one manager’s account and illustrates a mechanism rather than universal proof;\n- the sources broadly converge on coordination but differ in source type/evidential strength."
+        }
+      ]
+    },
+    {
+      "id": "C1-08-L05",
+      "title": "Synthesis for audience",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "### Analytical synthesis\n\n### Director briefing\nWrite **80–100 words** prioritising decision relevance.\n\n### General-audience oral mediation\n60 seconds: explain broad agreement, one limitation and one implication."
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "V05-Q-C1-08-001",
+      "version": "0.6.0",
+      "prompt": "Productivity was not measured ≠ productivity did not improve. What error is this?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "semantic/certainty inference drift",
+      "explanation": "Expected response or review guidance: semantic/certainty inference drift",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-002",
+      "version": "0.6.0",
+      "prompt": "tend to work better ≠ only work when. What changed?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "certainty/scope",
+      "explanation": "Expected response or review guidance: certainty/scope",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-003",
+      "version": "0.6.0",
+      "prompt": "Which source reports higher satisfaction?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Source A",
+      "explanation": "Expected response or review guidance: Source A",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-004",
+      "version": "0.6.0",
+      "prompt": "Which source proposes shared availability windows?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Source B",
+      "explanation": "Expected response or review guidance: Source B",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-005",
+      "version": "0.6.0",
+      "prompt": "Which source gives a practical collaboration-period example?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Source C",
+      "explanation": "Expected response or review guidance: Source C",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-006",
+      "version": "0.6.0",
+      "prompt": "Can A support a productivity claim?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-007",
+      "version": "0.6.0",
+      "prompt": "How does C relate to B?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "illustrates/corroborates a practical mechanism",
+      "explanation": "Expected response or review guidance: illustrates/corroborates a practical mechanism",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-008",
+      "version": "0.6.0",
+      "prompt": "Name one limitation of C.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "single manager account / not universal proof",
+      "explanation": "Expected response or review guidance: single manager account / not universal proof",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-009",
+      "version": "0.6.0",
+      "prompt": "What is patchwriting?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "minimal transformation/stitching of source wording",
+      "explanation": "Expected response or review guidance: minimal transformation/stitching of source wording",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-010",
+      "version": "0.6.0",
+      "prompt": "Preferred synthesis organisation?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "by theme/issue, not source order",
+      "explanation": "Expected response or review guidance: by theme/issue, not source order",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-011",
+      "version": "0.6.0",
+      "prompt": "What must paraphrase preserve?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "meaning + certainty + logical relation + source ownership",
+      "explanation": "Expected response or review guidance: meaning + certainty + logical relation + source ownership",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-012",
+      "version": "0.6.0",
+      "prompt": "What is source misattribution?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "assigning a claim to the wrong source",
+      "explanation": "Expected response or review guidance: assigning a claim to the wrong source",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-013",
+      "version": "0.6.0",
+      "prompt": "What is convergence?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "sources align on a point",
+      "explanation": "Expected response or review guidance: sources align on a point",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-014",
+      "version": "0.6.0",
+      "prompt": "What is divergence?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "sources differ on a point",
+      "explanation": "Expected response or review guidance: sources differ on a point",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-015",
+      "version": "0.6.0",
+      "prompt": "Can apparently conflicting sources be reconciled by scope?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Yes, when supported",
+      "explanation": "Expected response or review guidance: Yes, when supported",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-016",
+      "version": "0.6.0",
+      "prompt": "What must a director briefing foreground?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "decision-relevant information",
+      "explanation": "Expected response or review guidance: decision-relevant information",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-017",
+      "version": "0.6.0",
+      "prompt": "Should audience transformation change truth?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-018",
+      "version": "0.6.0",
+      "prompt": "Can a general-audience version remove a material caveat?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-019",
+      "version": "0.6.0",
+      "prompt": "Build one thematic heading from Sources A–F.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-020",
+      "version": "0.6.0",
+      "prompt": "Write one integrated sentence using Taken together….",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-021",
+      "version": "0.6.0",
+      "prompt": "Compress a limitation without losing uncertainty.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-022",
+      "version": "0.6.0",
+      "prompt": "Correct an unsupported synthesis claim.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-023",
+      "version": "0.6.0",
+      "prompt": "State one cross-source relation explicitly.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-C1-08-024",
+      "version": "0.6.0",
+      "prompt": "Explain why synthesis is more than summary.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "integration/comparison/evaluation into a new organised account",
+      "explanation": "Expected response or review guidance: integration/comparison/evaluation into a new organised account",
+      "errorTags": [
+        "C1_SOURCE_RELATION",
+        "C1_PARAPHRASE_FIDELITY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    }
+  ],
+  "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+  "remediation": [
+    {
+      "errorTag": "C1_SOURCE_RELATION",
+      "action": "Complete a source-relation matrix."
+    },
+    {
+      "errorTag": "C1_PARAPHRASE_FIDELITY",
+      "action": "Compare certainty and scope before rewriting."
+    }
+  ],
+  "derivation": {
+    "sourceVersion": "0.5",
+    "sourceFile": "Pilot_C1-08_Synthesising_Sources_Full_v0.5.md",
+    "sourceChecksum": "39e00b6259fcdfbc70bd6a8dc2f58def378562fec567b7ba502bbef9d410e154",
+    "compilerVersion": "1.0.0",
+    "change": "Full source projection replacing abbreviated integration payload; not academic approval."
+  },
+  "vocabulary": [
+    {
+      "id": "V-C1-08-001",
+      "item": "synthesis",
+      "type": "N",
+      "thai": "การสังเคราะห์",
+      "example": "The synthesis integrates sources by theme."
+    },
+    {
+      "id": "V-C1-08-002",
+      "item": "source",
+      "type": "N",
+      "thai": "แหล่งข้อมูล",
+      "example": "Each source has a different role."
+    },
+    {
+      "id": "V-C1-08-003",
+      "item": "claim",
+      "type": "N",
+      "thai": "ข้ออ้าง",
+      "example": "Identify the central claim."
+    },
+    {
+      "id": "V-C1-08-004",
+      "item": "limitation",
+      "type": "N",
+      "thai": "ข้อจำกัด",
+      "example": "Preserve each material limitation."
+    },
+    {
+      "id": "V-C1-08-005",
+      "item": "attribution",
+      "type": "N",
+      "thai": "การระบุแหล่ง",
+      "example": "Clear attribution prevents source confusion."
+    },
+    {
+      "id": "V-C1-08-006",
+      "item": "stance",
+      "type": "N",
+      "thai": "จุดยืน",
+      "example": "Do not flatten source stance."
+    },
+    {
+      "id": "V-C1-08-007",
+      "item": "certainty",
+      "type": "N",
+      "thai": "ระดับความแน่นอน",
+      "example": "Preserve certainty in paraphrase."
+    },
+    {
+      "id": "V-C1-08-008",
+      "item": "scope",
+      "type": "N",
+      "thai": "ขอบเขต",
+      "example": "Keep the original scope."
+    },
+    {
+      "id": "V-C1-08-009",
+      "item": "convergence",
+      "type": "N",
+      "thai": "ความสอดคล้อง",
+      "example": "The sources show partial convergence."
+    },
+    {
+      "id": "V-C1-08-010",
+      "item": "divergence",
+      "type": "N",
+      "thai": "ความแตกต่าง",
+      "example": "Their main divergence concerns implementation."
+    },
+    {
+      "id": "V-C1-08-011",
+      "item": "complementarity",
+      "type": "N",
+      "thai": "การเสริมกัน",
+      "example": "Source C adds practical complementarity."
+    },
+    {
+      "id": "V-C1-08-012",
+      "item": "corroboration",
+      "type": "N",
+      "thai": "การสนับสนุนข้ามแหล่ง",
+      "example": "The interview offers limited corroboration."
+    },
+    {
+      "id": "V-C1-08-013",
+      "item": "contradiction",
+      "type": "N",
+      "thai": "ความขัดแย้ง",
+      "example": "Check whether it is a real contradiction."
+    },
+    {
+      "id": "V-C1-08-014",
+      "item": "reconciliation",
+      "type": "N",
+      "thai": "การประสานความขัดแย้ง",
+      "example": "Scope can allow reconciliation."
+    },
+    {
+      "id": "V-C1-08-015",
+      "item": "patchwriting",
+      "type": "N",
+      "thai": "การปะติดถ้อยคำจากแหล่ง",
+      "example": "Patchwriting is not synthesis."
+    },
+    {
+      "id": "V-C1-08-016",
+      "item": "paraphrase",
+      "type": "V",
+      "thai": "ถอดความ",
+      "example": "Paraphrase without semantic drift."
+    },
+    {
+      "id": "V-C1-08-017",
+      "item": "attribute",
+      "type": "V",
+      "thai": "ระบุแหล่ง",
+      "example": "Attribute the claim correctly."
+    },
+    {
+      "id": "V-C1-08-018",
+      "item": "integrate",
+      "type": "V",
+      "thai": "บูรณาการ",
+      "example": "Integrate ideas by theme."
+    },
+    {
+      "id": "V-C1-08-019",
+      "item": "reconcile",
+      "type": "V",
+      "thai": "ประสาน",
+      "example": "Reconcile apparently conflicting findings."
+    },
+    {
+      "id": "V-C1-08-020",
+      "item": "corroborate",
+      "type": "V",
+      "thai": "สนับสนุนข้ามแหล่ง",
+      "example": "Source C partly corroborates Source B."
+    },
+    {
+      "id": "V-C1-08-021",
+      "item": "contradict",
+      "type": "V",
+      "thai": "ขัดแย้ง",
+      "example": "The sources do not directly contradict each other."
+    },
+    {
+      "id": "V-C1-08-022",
+      "item": "foreground",
+      "type": "V",
+      "thai": "เน้นให้เด่น",
+      "example": "Foreground the decision-relevant point."
+    },
+    {
+      "id": "V-C1-08-023",
+      "item": "qualify",
+      "type": "V",
+      "thai": "จำกัดความแรง",
+      "example": "Qualify the synthesis appropriately."
+    },
+    {
+      "id": "V-C1-08-024",
+      "item": "compress",
+      "type": "V",
+      "thai": "ย่อ",
+      "example": "Compress without losing the caveat."
+    },
+    {
+      "id": "V-C1-08-025",
+      "item": "expand",
+      "type": "V",
+      "thai": "ขยาย",
+      "example": "Expand implicit relations for a general audience."
+    },
+    {
+      "id": "V-C1-08-026",
+      "item": "taken together",
+      "type": "PHRASE",
+      "thai": "เมื่อพิจารณาร่วมกัน",
+      "example": "Taken together, the sources suggest that…"
+    },
+    {
+      "id": "V-C1-08-027",
+      "item": "the evidence is broadly consistent with",
+      "type": "FRAME",
+      "thai": "หลักฐานโดยรวมสอดคล้องกับ",
+      "example": "The evidence is broadly consistent with a coordination explanation."
+    },
+    {
+      "id": "V-C1-08-028",
+      "item": "should be interpreted cautiously",
+      "type": "FRAME",
+      "thai": "ควรตีความอย่างระมัดระวัง",
+      "example": "The survey should be interpreted cautiously."
+    },
+    {
+      "id": "V-C1-08-029",
+      "item": "the sources differ primarily in",
+      "type": "FRAME",
+      "thai": "แหล่งต่างกันหลัก ๆ ใน",
+      "example": "The sources differ primarily in scope."
+    },
+    {
+      "id": "V-C1-08-030",
+      "item": "the available evidence does not establish",
+      "type": "FRAME",
+      "thai": "หลักฐานที่มีไม่สามารถยืนยัน",
+      "example": "The available evidence does not establish causation."
+    },
+    {
+      "id": "V-C1-08-031",
+      "item": "a possible explanation is",
+      "type": "FRAME",
+      "thai": "คำอธิบายที่เป็นไปได้คือ",
+      "example": "A possible explanation is team structure."
+    },
+    {
+      "id": "V-C1-08-032",
+      "item": "be consistent with",
+      "type": "COLLOC",
+      "thai": "สอดคล้องกับ",
+      "example": "The account is consistent with Source B."
+    },
+    {
+      "id": "V-C1-08-033",
+      "item": "account for",
+      "type": "PHRASAL",
+      "thai": "อธิบายความแตกต่าง",
+      "example": "Implementation may account for the variation."
+    },
+    {
+      "id": "V-C1-08-034",
+      "item": "source ownership",
+      "type": "PHRASE",
+      "thai": "ความเป็นเจ้าของข้ออ้างของแหล่ง",
+      "example": "Preserve source ownership."
+    },
+    {
+      "id": "V-C1-08-035",
+      "item": "semantic drift",
+      "type": "PHRASE",
+      "thai": "การเลื่อนความหมาย",
+      "example": "Avoid semantic drift."
+    },
+    {
+      "id": "V-C1-08-036",
+      "item": "certainty drift",
+      "type": "PHRASE",
+      "thai": "การเปลี่ยนระดับความแน่นอน",
+      "example": "Detect certainty drift."
+    },
+    {
+      "id": "V-C1-08-037",
+      "item": "scope drift",
+      "type": "PHRASE",
+      "thai": "การเปลี่ยนขอบเขต",
+      "example": "Detect scope drift."
+    },
+    {
+      "id": "V-C1-08-038",
+      "item": "thematic architecture",
+      "type": "PHRASE",
+      "thai": "โครงสร้างตามประเด็น",
+      "example": "Use thematic architecture rather than source order."
+    },
+    {
+      "id": "V-C1-08-039",
+      "item": "audience transformation",
+      "type": "PHRASE",
+      "thai": "การปรับสารตามผู้รับ",
+      "example": "Audience transformation changes selection, not truth."
+    },
+    {
+      "id": "V-C1-08-040",
+      "item": "source relationship",
+      "type": "PHRASE",
+      "thai": "ความสัมพันธ์ระหว่างแหล่ง",
+      "example": "State the source relationship explicitly."
+    },
+    {
+      "id": "V-C1-08-041",
+      "item": "evidential strength",
+      "type": "PHRASE",
+      "thai": "ความแข็งแรงของหลักฐาน",
+      "example": "Sources differ in evidential strength."
+    },
+    {
+      "id": "V-C1-08-042",
+      "item": "unsupported synthesis",
+      "type": "PHRASE",
+      "thai": "บทสังเคราะห์ที่ไม่มีหลักรองรับ",
+      "example": "Reject unsupported synthesis."
+    },
+    {
+      "id": "V-C1-08-043",
+      "item": "material caveat",
+      "type": "PHRASE",
+      "thai": "ข้อควรระวังที่มีผลต่อความหมาย",
+      "example": "Retain the material caveat."
+    },
+    {
+      "id": "V-C1-08-044",
+      "item": "decision relevance",
+      "type": "PHRASE",
+      "thai": "ความเกี่ยวข้องต่อการตัดสินใจ",
+      "example": "A director briefing foregrounds decision relevance."
+    },
+    {
+      "id": "V-C1-08-045",
+      "item": "non-specialist audience",
+      "type": "PHRASE",
+      "thai": "ผู้รับสารที่ไม่ใช่ผู้เชี่ยวชาญ",
+      "example": "Reformulate for a non-specialist audience."
+    },
+    {
+      "id": "V-C1-08-046",
+      "item": "integrated account",
+      "type": "PHRASE",
+      "thai": "ภาพรวมที่บูรณาการ",
+      "example": "Build an integrated account."
+    },
+    {
+      "id": "V-C1-08-047",
+      "item": "cross-source relation",
+      "type": "PHRASE",
+      "thai": "ความสัมพันธ์ข้ามแหล่ง",
+      "example": "Explain the cross-source relation."
+    },
+    {
+      "id": "V-C1-08-048",
+      "item": "source fidelity",
+      "type": "PHRASE",
+      "thai": "ความซื่อตรงต่อแหล่ง",
+      "example": "Source fidelity is a scoring criterion."
+    },
+    {
+      "id": "V-C1-08-049",
+      "item": "selective detail",
+      "type": "PHRASE",
+      "thai": "รายละเอียดที่เลือกอย่างมีเหตุผล",
+      "example": "Use selective detail for the audience."
+    },
+    {
+      "id": "V-C1-08-050",
+      "item": "qualified implication",
+      "type": "PHRASE",
+      "thai": "นัยที่มีการจำกัดความ",
+      "example": "State a qualified implication."
+    }
+  ],
+  "grammar": [
+    {
+      "id": "F-C1-08-01",
+      "form": "reported stance verbs",
+      "use": "attribute source position",
+      "example": "Source A reports…, Source B suggests…"
+    },
+    {
+      "id": "F-C1-08-02",
+      "form": "Taken together",
+      "use": "integrate sources",
+      "example": "Taken together, the sources suggest…"
+    },
+    {
+      "id": "F-C1-08-03",
+      "form": "whereas / while",
+      "use": "contrast source claims",
+      "example": "A foregrounds satisfaction, whereas B foregrounds coordination."
+    },
+    {
+      "id": "F-C1-08-04",
+      "form": "caution frames",
+      "use": "preserve qualification",
+      "example": "The evidence should be interpreted cautiously."
+    },
+    {
+      "id": "F-C1-08-05",
+      "form": "audience reformulation",
+      "use": "change density, not truth",
+      "example": "For a director, foreground the implementation condition."
+    }
+  ],
+  "retrieval": [
+    {
+      "id": "RET-C1-08-01",
+      "prompt": "Name four fidelity checks."
+    },
+    {
+      "id": "RET-C1-08-02",
+      "prompt": "Explain convergence vs divergence."
+    },
+    {
+      "id": "RET-C1-08-03",
+      "prompt": "Give one source limitation."
+    },
+    {
+      "id": "RET-C1-08-04",
+      "prompt": "Build one thematic synthesis heading."
+    },
+    {
+      "id": "RET-C1-08-05",
+      "prompt": "Paraphrase a cautious claim without strengthening it."
+    },
+    {
+      "id": "RET-C1-08-06",
+      "prompt": "State one source relation."
+    },
+    {
+      "id": "RET-C1-08-07",
+      "prompt": "Compress for a director without losing caveat."
+    },
+    {
+      "id": "RET-C1-08-08",
+      "prompt": "Explain synthesis vs source-by-source summary."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-C1-08-1",
+      "version": "0.6.0",
+      "title": "Writing",
+      "skill": "WRITING",
+      "prompt": "Produce a **180–220 word integrated synthesis** of the source dossier organised by theme, with accurate attribution, one material limitation and a proportionate implication.\n\n### Speaking\nDeliver a **90-second oral briefing** for a non-specialist colleague. Preserve source certainty and explain one cross-source relationship without reading a script verbatim.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-C1-08-2",
+      "version": "0.6.0",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "prompt": "Deliver a **90-second oral briefing** for a non-specialist colleague. Preserve source certainty and explain one cross-source relationship without reading a script verbatim.",
+      "responseType": "RECORDING",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-C1-08-3",
+      "version": "0.6.0",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "prompt": "60 seconds: explain broad agreement, one limitation and one implication.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-C1-08-4",
+      "version": "0.6.0",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "prompt": "Post a 100–130 word synthesis; respond to one colleague by acknowledging a valid point, correcting one overstatement if needed and adding one source-supported implication.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    }
+  ],
+  "canDo": "Identify significant claims; distinguish overlap/difference/complementarity; paraphrase without stance drift; synthesise by theme; adapt output to audience; mediate complex information for non-specialists.",
+  "supplementary": "## Extended synthesis dossier for depth validation\n> **SIMULATED TRAINING SOURCES — not factual research citations.**\n\n### Source D — internal implementation review (simulated)\nAfter nine months of flexible scheduling, the organisation reported that staff satisfaction remained higher than before the change, while the number of late arrivals stayed lower. The review nevertheless found considerable variation between teams. Units with predictable individual workloads adapted quickly, whereas teams that relied on frequent cross-department decisions reported delays when colleagues’ working hours overlapped less. The review concluded that the policy itself was neither clearly successful nor unsuccessful in isolation. Outcomes appeared to depend on whether managers established shared availability periods, response-time expectations and clear ownership of time-sensitive decisions. The document also noted that the review did not compare the organisation with a similar company using fixed hours, so it could not determine how much of the change was caused by the scheduling policy alone.\n\n### Source E — employee forum contribution (simulated)\n> The flexibility has made my working day much easier, but the first few months were confusing because “flexible” meant something different in every team. Once our department agreed that everyone would be reachable between ten and three, the system became much easier to manage. I would not want to return to fixed hours, although I can understand why teams with constant customer contact might need tighter rules than ours.\n\n### Source F — audio policy commentary (simulated)\n> The interesting point is that flexibility and coordination are sometimes treated as opposites, when in practice they can support each other. A flexible policy without shared rules may create uncertainty; very rigid rules may remove the benefits that employees value. The more useful question is which elements need to be common and which can remain individual. From the evidence we have here, shared collaboration windows seem promising, but the sources are not strong enough to establish one universal model. They tell us more about conditions for implementation than about a single best timetable.\n\nDepth task: synthesise Sources A–F under three themes—benefits, coordination risks, and implementation conditions. Identify where later sources strengthen, qualify or merely illustrate earlier claims. Produce one 220–260 word synthesis and one 90-word director briefing without treating any simulated source as real-world evidence.\n\n# v0.4 Targeted Revision — C1 validity fixes\n## Genuine reconciliation problem\n### Source G — customer-support operations note (simulated)\nA customer-support unit trialled flexible hours but later returned to a narrower schedule. The manager reported that customer demand was concentrated between 9 a.m. and 5 p.m. and that allowing wide individual variation made shift coverage harder. The note does not reject flexible scheduling generally; it argues that roles requiring continuous real-time coverage need tighter shared hours than project-based roles.\n\n**Reconciliation task:** Source G appears less positive than Sources B–F. Explain why this is better treated as a **scope/domain difference** than a simple contradiction.\n\n\n## Annotated synthesis quality ladder\n### 1. Source listing — below target\n> Source A says satisfaction improved. Source B says coordination matters. Source C says shared periods helped.\n\n\n### 2. Patchwriting — below target\n> Flexibility can support job satisfaction, but coordination costs can increase, and shared availability windows can improve outcomes.\n\n\n### 3. Acceptable C1 synthesis\n> Taken together, the sources suggest that flexible scheduling can improve employee experience, but its effectiveness depends heavily on the coordination demands of the role. Survey and review evidence points to higher satisfaction and fewer late arrivals, while several sources also report scheduling difficulties when teams require frequent synchronous contact. The manager interview and operations note help explain the apparent tension: shared availability can reduce coordination problems, but roles requiring continuous customer coverage may need narrower flexibility than project-based teams. The available material therefore supports conditional implementation rather than one universal timetable.\n\n### 4. Overclaim — unacceptable\n> The sources prove that flexible hours increase productivity as long as teams use common collaboration periods.\n\n\n**4 Strong C1:** selects significant evidence, integrates by theme, preserves stance/limits, reconciles differences, attributes accurately.  \n**3 Generally C1:** meaningful synthesis with mostly accurate source use, but some relation/qualification is simplified.  \n**2 Developing:** mostly source-by-source summary or occasional semantic/attribution drift.  \n**1 Limited:** fragmented copying, major misattribution or unsupported synthesis.  \n**0:** no assessable source-based response.\n\n## Misattribution diagnostics",
+  "rubric": {
+    "id": "EMH-PRODUCTIVE-RUBRIC-C1-0.5",
+    "level": "C1",
+    "dimensions": [
+      "Synthesis architecture",
+      "Source/stance fidelity",
+      "Audience/register",
+      "Language precision"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "**Dimensions:** Synthesis architecture, Source/stance fidelity, Audience/register, Language precision.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **C1-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "sourceText": "# English Mastery Hub — C1-08 Synthesising Multiple Sources — Full Learner Unit v0.5\n\n**content_id:** `UNIT-C1-08-PILOT`  \n**version:** `0.5`  \n**status:** `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`  \n**level:** C1  \n**source_type:** `ORIGINAL_SIMULATED_TRAINING_SOURCES`\n\n> **SIMULATED TRAINING SOURCES — created for language-learning practice; not factual research citations.**\n\n## Can-do outcomes\nIdentify significant claims; distinguish overlap/difference/complementarity; paraphrase without stance drift; synthesise by theme; adapt output to audience; mediate complex information for non-specialists.\n\n# Lesson 1 — Select what matters\nCapture: central claim · relevant support · limitation · relation to other sources · audience relevance.\n\n### Source A — Staff flexibility survey (simulated)\nA medium-sized organisation introduced flexible start and finish times for six months. Staff surveys reported improved satisfaction, especially among employees with family responsibilities. Managers observed fewer late arrivals. Some teams, however, found cross-department meetings harder to schedule. Productivity was not measured. The survey therefore supports claims about reported satisfaction and some attendance patterns, but not claims that flexibility increased productivity.\n\n### Source B — Coordination analysis (simulated)\nAutonomy can support job satisfaction, but coordination costs may rise when teams depend heavily on synchronous collaboration. Flexible schedules tend to work better when organisations define shared availability windows, communication expectations and decision responsibilities. The analysis does not argue that one timetable is suitable for all teams; rather, it suggests that flexibility and coordination mechanisms need to be designed together.\n\n### Source C — Manager interview (simulated spoken source)\n> Flexibility itself isn’t the problem. The difficulty comes when everyone assumes they can choose completely different hours without telling the team. Once we introduced two common collaboration periods each day, most of the complaints disappeared. People still had freedom outside those periods, so we didn’t need to return to fixed schedules.\n\nTasks: claim supported by ≥2 sources? **flexibility works better with coordination rules/common availability** · A-only limitation? **productivity not measured** · C relation to B? **practical mechanism/example** · unsupported claim? **flexibility definitely raises productivity**\n\n# Lesson 2 — Paraphrase without semantic drift\nOriginal: “Productivity was not measured.”  \nBad: “Productivity did not improve.”  \nWhy wrong: absence of measurement ≠ negative result.\n\nOriginal: “Flexible schedules tend to work better when…”  \nBad: “Flexible schedules only work when…”  \nWhy wrong: `tend to` became absolute.\n\nFidelity test: factual meaning? certainty? logical relation? source ownership?\n\n# Lesson 3 — Compare and merge\nAvoid: `Source A says… Source B says… Source C says…`\n\nPrefer thematic architecture: shared theme → difference → explanation/limitation → implication.\n\n| Theme | A | B | C |\n|---|---|---|---|\n| satisfaction/autonomy | higher reported satisfaction | autonomy may support satisfaction | not central |\n| coordination | meetings harder | coordination costs may rise | complaints when hours uncoordinated |\n| response | not tested | shared windows/norms | two common periods helped |\n\n# Lesson 4 — Evaluate limitations\nC1 does not require formal research-method expertise. Notice limitations relevant to meaning:\n- A cannot support productivity claims;\n- C is one manager’s account and illustrates a mechanism rather than universal proof;\n- the sources broadly converge on coordination but differ in source type/evidential strength.\n\n# Lesson 5 — Synthesis for audience\n### Analytical synthesis\nWrite **180–220 words** for colleagues using: overall synthesis → common theme → difference/limitation → practical implication.\n\n### Director briefing\nWrite **80–100 words** prioritising decision relevance.\n\n### General-audience oral mediation\n60 seconds: explain broad agreement, one limitation and one implication.\n\n## Phraseology\nThe evidence is broadly consistent with; should be interpreted cautiously; the sources differ primarily in; a possible explanation is; taken together, the sources suggest; the available evidence does not establish; be consistent with; account for; corroborate; contradict; converge.\n\n## Guided Practice\n1. Separate claim from limitation.\n2. Detect certainty drift in 5 paraphrases.\n3. Attribute claims correctly.\n4. Complete source-relation matrix.\n5. Identify unsupported synthesis.\n6. Rewrite source-order paragraph thematically.\n7. Compress 120 words to 60 without losing limitation.\n8. Expand a director briefing for colleagues.\n9. Explain compatible-but-not-identical claims.\n10. Mediate one conclusion for a non-specialist.\n\n## Online/professional interaction\nPost a 100–130 word synthesis; respond to one colleague by acknowledging a valid point, correcting one overstatement if needed and adding one source-supported implication.\n\n## Unit Mastery\nInput: 2 written + 1 spoken simulated source.  \nOutput: integrated synthesis · oral briefing · audience transformation · fidelity check.\n\n### Critical evidence\n- integration by idea;\n- no misattribution;\n- uncertainty preserved;\n- no invented evidence;\n- audience affects selection/register meaningfully.\n\n## Remediation graph\n`C1_SOURCE_SELECTION` → relevance sort → notes redo.  \n`C1_PARAPHRASE_FIDELITY` → certainty/scope comparison → rewrite.  \n`C1_SOURCE_RELATION` → matrix → explanation.  \n`C1_SYNTHESIS_ARCHITECTURE` → source-order → thematic rewrite.  \n`C1_AUDIENCE_TRANSFORMATION` → audience comparison → re-produce.  \n`C1_UNSUPPORTED_CLAIM` → evidence/no-evidence tagging → corrected synthesis.\n\n## Human Check\n- [ ] simulated labels visible\n- [ ] all questions answerable\n- [ ] synthesis distinct from summary\n- [ ] source relation language accurate\n- [ ] C1/C2 boundary clear\n- [ ] specialist knowledge not required\n\n## Validation record\nHuman Check: **PENDING** · Audio/Prosody QC: **PENDING** · Learner Pilot: **PENDING**.\n\n## Extended synthesis dossier for depth validation\n> **SIMULATED TRAINING SOURCES — not factual research citations.**\n\n### Source D — internal implementation review (simulated)\nAfter nine months of flexible scheduling, the organisation reported that staff satisfaction remained higher than before the change, while the number of late arrivals stayed lower. The review nevertheless found considerable variation between teams. Units with predictable individual workloads adapted quickly, whereas teams that relied on frequent cross-department decisions reported delays when colleagues’ working hours overlapped less. The review concluded that the policy itself was neither clearly successful nor unsuccessful in isolation. Outcomes appeared to depend on whether managers established shared availability periods, response-time expectations and clear ownership of time-sensitive decisions. The document also noted that the review did not compare the organisation with a similar company using fixed hours, so it could not determine how much of the change was caused by the scheduling policy alone.\n\n### Source E — employee forum contribution (simulated)\n> The flexibility has made my working day much easier, but the first few months were confusing because “flexible” meant something different in every team. Once our department agreed that everyone would be reachable between ten and three, the system became much easier to manage. I would not want to return to fixed hours, although I can understand why teams with constant customer contact might need tighter rules than ours.\n\n### Source F — audio policy commentary (simulated)\n> The interesting point is that flexibility and coordination are sometimes treated as opposites, when in practice they can support each other. A flexible policy without shared rules may create uncertainty; very rigid rules may remove the benefits that employees value. The more useful question is which elements need to be common and which can remain individual. From the evidence we have here, shared collaboration windows seem promising, but the sources are not strong enough to establish one universal model. They tell us more about conditions for implementation than about a single best timetable.\n\nDepth task: synthesise Sources A–F under three themes—benefits, coordination risks, and implementation conditions. Identify where later sources strengthen, qualify or merely illustrate earlier claims. Produce one 220–260 word synthesis and one 90-word director briefing without treating any simulated source as real-world evidence.\n\n# v0.4 Targeted Revision — C1 validity fixes\n## Genuine reconciliation problem\n### Source G — customer-support operations note (simulated)\nA customer-support unit trialled flexible hours but later returned to a narrower schedule. The manager reported that customer demand was concentrated between 9 a.m. and 5 p.m. and that allowing wide individual variation made shift coverage harder. The note does not reject flexible scheduling generally; it argues that roles requiring continuous real-time coverage need tighter shared hours than project-based roles.\n\n**Reconciliation task:** Source G appears less positive than Sources B–F. Explain why this is better treated as a **scope/domain difference** than a simple contradiction.\n\nExpected reasoning: several earlier sources already imply that flexibility works differently depending on coordination/role demands; G narrows the conditions rather than disproving the broader pattern.\n\n## Annotated synthesis quality ladder\n### 1. Source listing — below target\n> Source A says satisfaction improved. Source B says coordination matters. Source C says shared periods helped.\n\nProblem: correct fragments but no integration by idea.\n\n### 2. Patchwriting — below target\n> Flexibility can support job satisfaction, but coordination costs can increase, and shared availability windows can improve outcomes.\n\nProblem: compresses source wording with weak attribution and no source relationship.\n\n### 3. Acceptable C1 synthesis\n> Taken together, the sources suggest that flexible scheduling can improve employee experience, but its effectiveness depends heavily on the coordination demands of the role. Survey and review evidence points to higher satisfaction and fewer late arrivals, while several sources also report scheduling difficulties when teams require frequent synchronous contact. The manager interview and operations note help explain the apparent tension: shared availability can reduce coordination problems, but roles requiring continuous customer coverage may need narrower flexibility than project-based teams. The available material therefore supports conditional implementation rather than one universal timetable.\n\n### 4. Overclaim — unacceptable\n> The sources prove that flexible hours increase productivity as long as teams use common collaboration periods.\n\nProblems: productivity was not measured in key source; `prove` overstates; universal condition invented.\n\n## Source-use scoring anchors\n**4 Strong C1:** selects significant evidence, integrates by theme, preserves stance/limits, reconciles differences, attributes accurately.  \n**3 Generally C1:** meaningful synthesis with mostly accurate source use, but some relation/qualification is simplified.  \n**2 Developing:** mostly source-by-source summary or occasional semantic/attribution drift.  \n**1 Limited:** fragmented copying, major misattribution or unsupported synthesis.  \n**0:** no assessable source-based response.\n\n## Misattribution diagnostics\n1. “Source A found productivity improved.” → **incorrect: productivity not measured**\n2. “Source G rejects flexible work.” → **too strong: it limits flexibility for continuous-coverage roles**\n3. “Sources C and E illustrate how shared availability can reduce coordination problems.” → **defensible**\n\n\n\n# v0.5 Content-Complete Pilot Contract\n\n## Mandatory metadata\n- `content_id`: `UNIT-C1-08-PILOT`\n- `version`: `0.5`\n- `status`: `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`\n- `level`: `C1`\n- `unit_id`: `C1-08`\n- `domain`: inherited from the unit brief\n- `core_status`: `CEFR_CORE_COMPETENCY`\n- `source_type`: `ORIGINAL_PROJECT_CONTENT` / explicitly labelled simulated training source where applicable\n- `copyright_status`: `ORIGINAL`\n- `constructs`: reception + production + interaction + mediation as applicable\n- `support_mode`: level-appropriate support\n- `academic_check_status`: `INTERNAL_PRE_HUMAN_PASSED`\n- `human_check_status`: `PENDING`\n- `rubric_version`: `EMH-PRODUCTIVE-RUBRIC-C1-0.5`\n- `remediation_tags`: unit-specific tags in the remediation graph\n\n## Pronunciation / prosody target\nUse prosody to support source attribution, contrast, qualification and audience-oriented briefing.\n\n\n## Structured vocabulary / phrase records\n**Planning target:** ≥50. **Included:** 50.\n\n| ID | Item/sense | Type | Thai gloss | Original example | Validation |\n|---|---|---|---|---|---|\n| V-C1-08-001 | synthesis | N | การสังเคราะห์ | The synthesis integrates sources by theme. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-002 | source | N | แหล่งข้อมูล | Each source has a different role. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-003 | claim | N | ข้ออ้าง | Identify the central claim. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-004 | limitation | N | ข้อจำกัด | Preserve each material limitation. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-005 | attribution | N | การระบุแหล่ง | Clear attribution prevents source confusion. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-006 | stance | N | จุดยืน | Do not flatten source stance. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-007 | certainty | N | ระดับความแน่นอน | Preserve certainty in paraphrase. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-008 | scope | N | ขอบเขต | Keep the original scope. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-009 | convergence | N | ความสอดคล้อง | The sources show partial convergence. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-010 | divergence | N | ความแตกต่าง | Their main divergence concerns implementation. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-011 | complementarity | N | การเสริมกัน | Source C adds practical complementarity. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-012 | corroboration | N | การสนับสนุนข้ามแหล่ง | The interview offers limited corroboration. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-013 | contradiction | N | ความขัดแย้ง | Check whether it is a real contradiction. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-014 | reconciliation | N | การประสานความขัดแย้ง | Scope can allow reconciliation. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-015 | patchwriting | N | การปะติดถ้อยคำจากแหล่ง | Patchwriting is not synthesis. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-016 | paraphrase | V | ถอดความ | Paraphrase without semantic drift. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-017 | attribute | V | ระบุแหล่ง | Attribute the claim correctly. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-018 | integrate | V | บูรณาการ | Integrate ideas by theme. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-019 | reconcile | V | ประสาน | Reconcile apparently conflicting findings. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-020 | corroborate | V | สนับสนุนข้ามแหล่ง | Source C partly corroborates Source B. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-021 | contradict | V | ขัดแย้ง | The sources do not directly contradict each other. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-022 | foreground | V | เน้นให้เด่น | Foreground the decision-relevant point. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-023 | qualify | V | จำกัดความแรง | Qualify the synthesis appropriately. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-024 | compress | V | ย่อ | Compress without losing the caveat. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-025 | expand | V | ขยาย | Expand implicit relations for a general audience. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-026 | taken together | PHRASE | เมื่อพิจารณาร่วมกัน | Taken together, the sources suggest that… | HUMAN/EVP CHECK PENDING |\n| V-C1-08-027 | the evidence is broadly consistent with | FRAME | หลักฐานโดยรวมสอดคล้องกับ | The evidence is broadly consistent with a coordination explanation. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-028 | should be interpreted cautiously | FRAME | ควรตีความอย่างระมัดระวัง | The survey should be interpreted cautiously. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-029 | the sources differ primarily in | FRAME | แหล่งต่างกันหลัก ๆ ใน | The sources differ primarily in scope. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-030 | the available evidence does not establish | FRAME | หลักฐานที่มีไม่สามารถยืนยัน | The available evidence does not establish causation. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-031 | a possible explanation is | FRAME | คำอธิบายที่เป็นไปได้คือ | A possible explanation is team structure. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-032 | be consistent with | COLLOC | สอดคล้องกับ | The account is consistent with Source B. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-033 | account for | PHRASAL | อธิบายความแตกต่าง | Implementation may account for the variation. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-034 | source ownership | PHRASE | ความเป็นเจ้าของข้ออ้างของแหล่ง | Preserve source ownership. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-035 | semantic drift | PHRASE | การเลื่อนความหมาย | Avoid semantic drift. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-036 | certainty drift | PHRASE | การเปลี่ยนระดับความแน่นอน | Detect certainty drift. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-037 | scope drift | PHRASE | การเปลี่ยนขอบเขต | Detect scope drift. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-038 | thematic architecture | PHRASE | โครงสร้างตามประเด็น | Use thematic architecture rather than source order. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-039 | audience transformation | PHRASE | การปรับสารตามผู้รับ | Audience transformation changes selection, not truth. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-040 | source relationship | PHRASE | ความสัมพันธ์ระหว่างแหล่ง | State the source relationship explicitly. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-041 | evidential strength | PHRASE | ความแข็งแรงของหลักฐาน | Sources differ in evidential strength. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-042 | unsupported synthesis | PHRASE | บทสังเคราะห์ที่ไม่มีหลักรองรับ | Reject unsupported synthesis. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-043 | material caveat | PHRASE | ข้อควรระวังที่มีผลต่อความหมาย | Retain the material caveat. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-044 | decision relevance | PHRASE | ความเกี่ยวข้องต่อการตัดสินใจ | A director briefing foregrounds decision relevance. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-045 | non-specialist audience | PHRASE | ผู้รับสารที่ไม่ใช่ผู้เชี่ยวชาญ | Reformulate for a non-specialist audience. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-046 | integrated account | PHRASE | ภาพรวมที่บูรณาการ | Build an integrated account. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-047 | cross-source relation | PHRASE | ความสัมพันธ์ข้ามแหล่ง | Explain the cross-source relation. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-048 | source fidelity | PHRASE | ความซื่อตรงต่อแหล่ง | Source fidelity is a scoring criterion. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-049 | selective detail | PHRASE | รายละเอียดที่เลือกอย่างมีเหตุผล | Use selective detail for the audience. | HUMAN/EVP CHECK PENDING |\n| V-C1-08-050 | qualified implication | PHRASE | นัยที่มีการจำกัดความ | State a qualified implication. | HUMAN/EVP CHECK PENDING |\n\n\n## Objective / controlled practice expansion\n**Planning target:** ≥24. **Included:** 24.\n\n| Item ID | Prompt | Key / expected | Remediation |\n|---|---|---|---|\n| V05-Q-C1-08-001 | Productivity was not measured ≠ productivity did not improve. What error is this? | semantic/certainty inference drift | unit-linked remediation |\n| V05-Q-C1-08-002 | tend to work better ≠ only work when. What changed? | certainty/scope | unit-linked remediation |\n| V05-Q-C1-08-003 | Which source reports higher satisfaction? | Source A | unit-linked remediation |\n| V05-Q-C1-08-004 | Which source proposes shared availability windows? | Source B | unit-linked remediation |\n| V05-Q-C1-08-005 | Which source gives a practical collaboration-period example? | Source C | unit-linked remediation |\n| V05-Q-C1-08-006 | Can A support a productivity claim? | No | unit-linked remediation |\n| V05-Q-C1-08-007 | How does C relate to B? | illustrates/corroborates a practical mechanism | unit-linked remediation |\n| V05-Q-C1-08-008 | Name one limitation of C. | single manager account / not universal proof | unit-linked remediation |\n| V05-Q-C1-08-009 | What is patchwriting? | minimal transformation/stitching of source wording | unit-linked remediation |\n| V05-Q-C1-08-010 | Preferred synthesis organisation? | by theme/issue, not source order | unit-linked remediation |\n| V05-Q-C1-08-011 | What must paraphrase preserve? | meaning + certainty + logical relation + source ownership | unit-linked remediation |\n| V05-Q-C1-08-012 | What is source misattribution? | assigning a claim to the wrong source | unit-linked remediation |\n| V05-Q-C1-08-013 | What is convergence? | sources align on a point | unit-linked remediation |\n| V05-Q-C1-08-014 | What is divergence? | sources differ on a point | unit-linked remediation |\n| V05-Q-C1-08-015 | Can apparently conflicting sources be reconciled by scope? | Yes, when supported | unit-linked remediation |\n| V05-Q-C1-08-016 | What must a director briefing foreground? | decision-relevant information | unit-linked remediation |\n| V05-Q-C1-08-017 | Should audience transformation change truth? | No | unit-linked remediation |\n| V05-Q-C1-08-018 | Can a general-audience version remove a material caveat? | No | unit-linked remediation |\n| V05-Q-C1-08-019 | Build one thematic heading from Sources A–F. | open | unit-linked remediation |\n| V05-Q-C1-08-020 | Write one integrated sentence using Taken together…. | open | unit-linked remediation |\n| V05-Q-C1-08-021 | Compress a limitation without losing uncertainty. | open | unit-linked remediation |\n| V05-Q-C1-08-022 | Correct an unsupported synthesis claim. | open | unit-linked remediation |\n| V05-Q-C1-08-023 | State one cross-source relation explicitly. | open | unit-linked remediation |\n| V05-Q-C1-08-024 | Explain why synthesis is more than summary. | integration/comparison/evaluation into a new organised account | unit-linked remediation |\n\n## Retrieval / spaced-review set\n1. `RET-C1-08-01` — Name four fidelity checks.\n2. `RET-C1-08-02` — Explain convergence vs divergence.\n3. `RET-C1-08-03` — Give one source limitation.\n4. `RET-C1-08-04` — Build one thematic synthesis heading.\n5. `RET-C1-08-05` — Paraphrase a cautious claim without strengthening it.\n6. `RET-C1-08-06` — State one source relation.\n7. `RET-C1-08-07` — Compress for a director without losing caveat.\n8. `RET-C1-08-08` — Explain synthesis vs source-by-source summary.\n\n\n## Quick Review Sheet\n- Restate the unit can-do goal in your own words.\n- Retrieve the unit's highest-value forms, phrases and discourse moves without the model.\n- Recall one important reading/listening point and its supporting detail.\n- Produce one C1-appropriate response without copying a model.\n- Complete one interaction or mediation move without inventing information.\n- If an error tag appears, follow the linked remediation route before re-attempting.\n\n\n## Operational productive rubric — `EMH-PRODUCTIVE-RUBRIC-C1-0.5`\n**Dimensions:** Synthesis architecture, Source/stance fidelity, Audience/register, Language precision.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **C1-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.\n\n\n## Source / copyright / provenance record\n- Learner-facing prose/dialogue is `ORIGINAL_PROJECT_CONTENT`, except fictional study/survey/specialist material explicitly labelled `SIMULATED TRAINING SOURCE`.\n- Simulated sources are learning materials, not factual citations.\n- `copyright_status`: `ORIGINAL`.\n- CEFR use: construct alignment only; no official certification claim.\n- English Profile/EGP/EVP: validation methodology only; no wholesale database reproduction.\n- Real Human Review: **PENDING**.\n- Produced audio + pronunciation/prosody/technical QC: **PENDING**.\n- Learner pilot + calibration: **PENDING**.\n\n\n## v0.5 Registered source objects\n- `TXT-C1-08-V05-001` = Source A — Staff flexibility survey (simulated)\n- `TXT-C1-08-V05-002` = Source B — Coordination analysis (simulated)\n- `TXT-C1-08-V05-003` = Source D — Internal implementation review (simulated)\n- `AUD-C1-08-V05-001` = Source C — Manager interview script (simulated spoken source; audio production pending)\n- `AUD-C1-08-V05-002` = Source F — Policy commentary script (simulated audio source; audio production pending)\n\n## Grammar / function feature-use records\n| Feature ID | Resource | Meaning/use | Example |\n|---|---|---|---|\n| F-C1-08-01 | reported stance verbs | attribute source position | Source A reports…, Source B suggests… |\n| F-C1-08-02 | Taken together | integrate sources | Taken together, the sources suggest… |\n| F-C1-08-03 | whereas / while | contrast source claims | A foregrounds satisfaction, whereas B foregrounds coordination. |\n| F-C1-08-04 | caution frames | preserve qualification | The evidence should be interpreted cautiously. |\n| F-C1-08-05 | audience reformulation | change density, not truth | For a director, foreground the implementation condition. |\n\n\n## Explicit productive performance tasks\n### Writing\nProduce a **180–220 word integrated synthesis** of the source dossier organised by theme, with accurate attribution, one material limitation and a proportionate implication.\n\n### Speaking\nDeliver a **90-second oral briefing** for a non-specialist colleague. Preserve source certainty and explain one cross-source relationship without reading a script verbatim.\n",
+  "sourceValidated": true,
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "contentValidated": false,
+  "checksum": "2737ccd01b3a49a9b3b7915bf3c7e968467604408592fc7826a38df31dc637e0"
+}

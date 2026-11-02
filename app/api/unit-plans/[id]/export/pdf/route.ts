@@ -3,7 +3,8 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { loadUnitPlanExportData } from '@/lib/unitPlanExportData';
 import { newEntityId, unitError, unitSuccess } from '@/lib/unitPlanApi';
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const result = await loadUnitPlanExportData(params.id);
   if ('error' in result) return unitError('E_UNIT_NOT_FOUND', 'ไม่พบแผนระดับหน่วย', result.status || 500);
 

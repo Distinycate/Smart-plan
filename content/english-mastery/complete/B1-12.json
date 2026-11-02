@@ -1,0 +1,979 @@
+{
+  "stableId": "UNIT-B1-12-PILOT",
+  "unitId": "B1-12",
+  "level": "B1",
+  "version": "0.6.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "provenance": "Canonical v0.5 pilot: Pilot_B1-12_Problem_Solving_Full_v0.5.md",
+  "title": "Problem Solving & Decision Making",
+  "lessons": [
+    {
+      "id": "B1-12-L01",
+      "title": "Define the problem and criteria",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "A group of **32 people** plans a one-day educational trip. The original bus booking was cancelled.\n\nConstraints:\n- decision by 5 p.m.;\n- maximum transport budget **17,500 THB**;\n- everyone arrives before 10 a.m.;\n- group prefers to travel together;\n- return transport after 5 p.m. must exist.\n\n| Option | Cost | Time | Capacity / constraint |\n|---|---:|---:|---|\n| Bus | 450 THB/person | 2h30 | 18 seats only |\n| Train | 520 THB/person | 2h10 | 40 seats; transfer needed |\n| Minivan | 390 THB/person | 2h00 | two vehicles, **16 seats each**; quoted total covers all 32 passengers; limited luggage |\n\nReading tasks: infeasible alone? **Bus** · train total? **16,640 THB** · minivan passenger total? **12,480 THB** · non-price criteria? **capacity/time/togetherness/return/transfer/luggage**"
+        }
+      ]
+    },
+    {
+      "id": "B1-12-L02",
+      "title": "Suggest and compare",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "We could… / Why don’t we…? / Another option is… / It would be cheaper/faster/easier… / The advantage is… / The problem with that option is… / We need to check…\n\nModel: The minivans are cheaper and a little faster. However, the group has to use two vehicles, and luggage space may be limited. The train is more expensive, but everyone can travel together.\n\nTask: compare train and minivan using **three** criteria without deciding yet."
+        }
+      ]
+    },
+    {
+      "id": "B1-12-L03",
+      "title": "Clarify and disagree",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Do you mean…? / Could you explain that? / I see your point, but… / I’m not sure that will work because… / What if we…?\n\n### Listening `AUD-B1-12-L03-001`\nI prefer the train because everyone can travel together. It is more expensive than the minivans, and we still need to check the return timetable. The station transfer could also be difficult for some people. Before we decide, I think we should confirm the late return service."
+        }
+      ]
+    },
+    {
+      "id": "B1-12-L04",
+      "title": "Reach a provisional decision",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "1. eliminate infeasible option;\n2. compare at least two feasible plans;\n3. state one uncertainty;\n4. choose provisional plan;\n5. assign next action.\n\nGroup A prioritises price. Group B prioritises travelling together. Group C prioritises simplest logistics. There is **no hidden correct answer**."
+        }
+      ]
+    },
+    {
+      "id": "B1-12-L05",
+      "title": "Transfer scenario",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Community workshop, group size **38**, budget **10,000 THB**.\n\n| Venue | Cost | Capacity | Location | Limitation |\n|---|---:|---:|---|---|\n| A | 8,000 | 45 | city centre | no parking |\n| B | 6,500 | 35 | near bus station | too small for 38 |\n| C | 9,500 | 60 | outside town | transport needed |\n\nSome participants do not drive. Compare, clarify, decide, state next step."
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "V05-Q-B1-12-001",
+      "version": "0.6.0",
+      "prompt": "Which is a hard constraint: budget maximum or preference to travel together?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "budget maximum",
+      "explanation": "Expected response or review guidance: budget maximum",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-002",
+      "version": "0.6.0",
+      "prompt": "Which option cannot carry 32 people alone?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "bus"
+      ],
+      "expected": "bus",
+      "explanation": "Expected response or review guidance: bus",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-003",
+      "version": "0.6.0",
+      "prompt": "Train cost for 32 at 520 each?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "16,640 THB",
+      "explanation": "Expected response or review guidance: 16,640 THB",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-004",
+      "version": "0.6.0",
+      "prompt": "If minivan capacity is 16 each, how many are needed for 32?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "2"
+      ],
+      "expected": "2",
+      "explanation": "Expected response or review guidance: 2",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-005",
+      "version": "0.6.0",
+      "prompt": "Name one non-price criterion.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "time/capacity/transfer/togetherness/return availability",
+      "explanation": "Expected response or review guidance: time/capacity/transfer/togetherness/return availability",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-006",
+      "version": "0.6.0",
+      "prompt": "Complete: We ___ take the train.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "could"
+      ],
+      "expected": "could",
+      "explanation": "Expected response or review guidance: could",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-007",
+      "version": "0.6.0",
+      "prompt": "Complete: Another ___ is the minivan.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "option"
+      ],
+      "expected": "option",
+      "explanation": "Expected response or review guidance: option",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-008",
+      "version": "0.6.0",
+      "prompt": "Complete: The advantage ___ the train is capacity.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "of"
+      ],
+      "expected": "of",
+      "explanation": "Expected response or review guidance: of",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-009",
+      "version": "0.6.0",
+      "prompt": "Polite clarification: Do you ___ the late return train?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "mean"
+      ],
+      "expected": "mean",
+      "explanation": "Expected response or review guidance: mean",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-010",
+      "version": "0.6.0",
+      "prompt": "Complete: I see your point, ___ the transfer may be difficult.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "but"
+      ],
+      "expected": "but",
+      "explanation": "Expected response or review guidance: but",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-011",
+      "version": "0.6.0",
+      "prompt": "Choose cooperative disagreement: A That’s stupid B I’m not sure that will work because…",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "B"
+      ],
+      "expected": "B",
+      "explanation": "Expected response or review guidance: B",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-012",
+      "version": "0.6.0",
+      "prompt": "What should happen before a final decision if return service is unknown?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "confirm/check it",
+      "explanation": "Expected response or review guidance: confirm/check it",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-013",
+      "version": "0.6.0",
+      "prompt": "What is a provisional decision?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "a temporary decision pending unresolved information",
+      "explanation": "Expected response or review guidance: a temporary decision pending unresolved information",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-014",
+      "version": "0.6.0",
+      "prompt": "Which venue is impossible for 38 if capacity is 35?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Venue B",
+      "explanation": "Expected response or review guidance: Venue B",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-015",
+      "version": "0.6.0",
+      "prompt": "If a group prioritises travelling together, which factor matters most?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "capacity/shared travel",
+      "explanation": "Expected response or review guidance: capacity/shared travel",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-016",
+      "version": "0.6.0",
+      "prompt": "If a group prioritises lowest stated passenger cost, which option is strongest?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "minivan"
+      ],
+      "expected": "minivan",
+      "explanation": "Expected response or review guidance: minivan",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-017",
+      "version": "0.6.0",
+      "prompt": "Does cheaper automatically mean best?",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "No"
+      ],
+      "expected": "No",
+      "explanation": "Expected response or review guidance: No",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-018",
+      "version": "0.6.0",
+      "prompt": "Why not?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "other criteria/constraints matter",
+      "explanation": "Expected response or review guidance: other criteria/constraints matter",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-019",
+      "version": "0.6.0",
+      "prompt": "Write one suggestion using Why don’t we…?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-020",
+      "version": "0.6.0",
+      "prompt": "Write one concern using The problem with that option is…",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-021",
+      "version": "0.6.0",
+      "prompt": "Ask for clarification using Could you explain…?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-022",
+      "version": "0.6.0",
+      "prompt": "State one uncertainty in the train plan.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "late return / transfer",
+      "explanation": "Expected response or review guidance: late return / transfer",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-023",
+      "version": "0.6.0",
+      "prompt": "State one next action.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "confirm return service / check transfer",
+      "explanation": "Expected response or review guidance: confirm return service / check transfer",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-024",
+      "version": "0.6.0",
+      "prompt": "Relay a decision without inventing certainty.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "open",
+      "explanation": "Expected response or review guidance: open",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-025",
+      "version": "0.6.0",
+      "prompt": "Distinguish constraint vs preference: arrive before 10 a.m.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "constraint"
+      ],
+      "expected": "constraint",
+      "explanation": "Expected response or review guidance: constraint",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-026",
+      "version": "0.6.0",
+      "prompt": "Distinguish constraint vs preference: group prefers to travel together.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "preference"
+      ],
+      "expected": "preference",
+      "explanation": "Expected response or review guidance: preference",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "LANGUAGE_RESOURCE",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-027",
+      "version": "0.6.0",
+      "prompt": "What makes a decision well justified?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "comparison against relevant criteria + reasons",
+      "explanation": "Expected response or review guidance: comparison against relevant criteria + reasons",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    },
+    {
+      "stableId": "V05-Q-B1-12-028",
+      "version": "0.6.0",
+      "prompt": "What should scoring reward?",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "communication/reasoning, not preferred transport choice",
+      "explanation": "Expected response or review guidance: communication/reasoning, not preferred transport choice",
+      "errorTags": [
+        "B1_COMPARE_CRITERIA",
+        "B1_MEDIATION_ACCURACY"
+      ],
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "skill": "WRITING",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE"
+    }
+  ],
+  "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+  "remediation": [
+    {
+      "errorTag": "B1_COMPARE_CRITERIA",
+      "action": "Complete a comparison table before deciding."
+    },
+    {
+      "errorTag": "B1_MEDIATION_ACCURACY",
+      "action": "Sort fact and interpretation before relaying the decision."
+    }
+  ],
+  "derivation": {
+    "sourceVersion": "0.5",
+    "sourceFile": "Pilot_B1-12_Problem_Solving_Full_v0.5.md",
+    "sourceChecksum": "285e7a32e8eed4584b9307c12da38460e0ee972a20d4f2ba29ab6403d0c07392",
+    "compilerVersion": "1.0.0",
+    "change": "Full source projection replacing abbreviated integration payload; not academic approval."
+  },
+  "vocabulary": [
+    {
+      "id": "V-B1-12-001",
+      "item": "problem",
+      "type": "N",
+      "thai": "ปัญหา",
+      "example": "The problem is that the bus was cancelled."
+    },
+    {
+      "id": "V-B1-12-002",
+      "item": "constraint",
+      "type": "N",
+      "thai": "ข้อจำกัด",
+      "example": "Budget is a hard constraint."
+    },
+    {
+      "id": "V-B1-12-003",
+      "item": "preference",
+      "type": "N",
+      "thai": "ความชอบ/สิ่งที่อยากได้",
+      "example": "Travelling together is a preference."
+    },
+    {
+      "id": "V-B1-12-004",
+      "item": "option",
+      "type": "N",
+      "thai": "ตัวเลือก",
+      "example": "We have three options."
+    },
+    {
+      "id": "V-B1-12-005",
+      "item": "criterion",
+      "type": "N",
+      "thai": "เกณฑ์",
+      "example": "Cost is one criterion."
+    },
+    {
+      "id": "V-B1-12-006",
+      "item": "budget",
+      "type": "N",
+      "thai": "งบประมาณ",
+      "example": "The plan must stay within budget."
+    },
+    {
+      "id": "V-B1-12-007",
+      "item": "capacity",
+      "type": "N",
+      "thai": "ความจุ",
+      "example": "The bus has limited capacity."
+    },
+    {
+      "id": "V-B1-12-008",
+      "item": "availability",
+      "type": "N",
+      "thai": "ความพร้อม/มีให้ใช้",
+      "example": "We need to check availability."
+    },
+    {
+      "id": "V-B1-12-009",
+      "item": "deadline",
+      "type": "N",
+      "thai": "กำหนดเวลา",
+      "example": "We must meet the deadline."
+    },
+    {
+      "id": "V-B1-12-010",
+      "item": "transfer",
+      "type": "N",
+      "thai": "การต่อรถ/ย้าย",
+      "example": "The train needs a station transfer."
+    },
+    {
+      "id": "V-B1-12-011",
+      "item": "luggage",
+      "type": "N",
+      "thai": "สัมภาระ",
+      "example": "The minivan has limited luggage space."
+    },
+    {
+      "id": "V-B1-12-012",
+      "item": "advantage",
+      "type": "N",
+      "thai": "ข้อดี",
+      "example": "The main advantage is lower cost."
+    },
+    {
+      "id": "V-B1-12-013",
+      "item": "disadvantage",
+      "type": "N",
+      "thai": "ข้อเสีย",
+      "example": "One disadvantage is the transfer."
+    },
+    {
+      "id": "V-B1-12-014",
+      "item": "uncertainty",
+      "type": "N",
+      "thai": "สิ่งที่ยังไม่แน่ชัด",
+      "example": "The return service is an uncertainty."
+    },
+    {
+      "id": "V-B1-12-015",
+      "item": "recommendation",
+      "type": "N",
+      "thai": "ข้อเสนอแนะ",
+      "example": "Our recommendation is provisional."
+    },
+    {
+      "id": "V-B1-12-016",
+      "item": "suggest",
+      "type": "V",
+      "thai": "เสนอ",
+      "example": "I suggest the train."
+    },
+    {
+      "id": "V-B1-12-017",
+      "item": "compare",
+      "type": "V",
+      "thai": "เปรียบเทียบ",
+      "example": "Compare the two feasible options."
+    },
+    {
+      "id": "V-B1-12-018",
+      "item": "clarify",
+      "type": "V",
+      "thai": "ทำให้ชัด",
+      "example": "Could you clarify the timetable?"
+    },
+    {
+      "id": "V-B1-12-019",
+      "item": "confirm",
+      "type": "V",
+      "thai": "ยืนยัน",
+      "example": "We need to confirm the return service."
+    },
+    {
+      "id": "V-B1-12-020",
+      "item": "decide",
+      "type": "V",
+      "thai": "ตัดสินใจ",
+      "example": "We need to decide by five."
+    },
+    {
+      "id": "V-B1-12-021",
+      "item": "eliminate",
+      "type": "V",
+      "thai": "ตัดออก",
+      "example": "Eliminate the infeasible option."
+    },
+    {
+      "id": "V-B1-12-022",
+      "item": "justify",
+      "type": "V",
+      "thai": "ให้เหตุผลรองรับ",
+      "example": "Justify your recommendation."
+    },
+    {
+      "id": "V-B1-12-023",
+      "item": "arrange",
+      "type": "V",
+      "thai": "จัดเตรียม",
+      "example": "We need to arrange transport."
+    },
+    {
+      "id": "V-B1-12-024",
+      "item": "prioritise",
+      "type": "V",
+      "thai": "จัดลำดับความสำคัญ",
+      "example": "Some groups prioritise cost."
+    },
+    {
+      "id": "V-B1-12-025",
+      "item": "check",
+      "type": "V",
+      "thai": "ตรวจสอบ",
+      "example": "Check the late train."
+    },
+    {
+      "id": "V-B1-12-026",
+      "item": "We could…",
+      "type": "FRAME",
+      "thai": "เราอาจ…",
+      "example": "We could take the train."
+    },
+    {
+      "id": "V-B1-12-027",
+      "item": "Why don’t we…?",
+      "type": "FRAME",
+      "thai": "ทำไมเราไม่…",
+      "example": "Why don’t we use two minivans?"
+    },
+    {
+      "id": "V-B1-12-028",
+      "item": "Another option is…",
+      "type": "FRAME",
+      "thai": "อีกตัวเลือกคือ…",
+      "example": "Another option is the train."
+    },
+    {
+      "id": "V-B1-12-029",
+      "item": "The advantage is…",
+      "type": "FRAME",
+      "thai": "ข้อดีคือ…",
+      "example": "The advantage is the capacity."
+    },
+    {
+      "id": "V-B1-12-030",
+      "item": "The problem with that option is…",
+      "type": "FRAME",
+      "thai": "ปัญหาของตัวเลือกนั้นคือ…",
+      "example": "The problem with that option is the transfer."
+    },
+    {
+      "id": "V-B1-12-031",
+      "item": "I see your point, but…",
+      "type": "FRAME",
+      "thai": "เข้าใจประเด็น แต่…",
+      "example": "I see your point, but the bus is too small."
+    },
+    {
+      "id": "V-B1-12-032",
+      "item": "Do you mean…?",
+      "type": "QUESTION",
+      "thai": "คุณหมายถึง…หรือ",
+      "example": "Do you mean the return train?"
+    },
+    {
+      "id": "V-B1-12-033",
+      "item": "Could you explain that?",
+      "type": "QUESTION",
+      "thai": "ช่วยอธิบายได้ไหม",
+      "example": "Could you explain that?"
+    },
+    {
+      "id": "V-B1-12-034",
+      "item": "What if we…?",
+      "type": "FRAME",
+      "thai": "ถ้าเราลอง…ล่ะ",
+      "example": "What if we compare the total cost?"
+    },
+    {
+      "id": "V-B1-12-035",
+      "item": "I’m not sure that will work because…",
+      "type": "FRAME",
+      "thai": "ไม่แน่ใจว่าจะได้ผลเพราะ…",
+      "example": "I’m not sure that will work because the capacity is too low."
+    },
+    {
+      "id": "V-B1-12-036",
+      "item": "within budget",
+      "type": "PHRASE",
+      "thai": "อยู่ในงบ",
+      "example": "The train is within budget."
+    },
+    {
+      "id": "V-B1-12-037",
+      "item": "meet a deadline",
+      "type": "COLLOC",
+      "thai": "ทันกำหนด",
+      "example": "We must meet the deadline."
+    },
+    {
+      "id": "V-B1-12-038",
+      "item": "check availability",
+      "type": "COLLOC",
+      "thai": "ตรวจสอบความพร้อม",
+      "example": "Check availability before deciding."
+    },
+    {
+      "id": "V-B1-12-039",
+      "item": "make a decision",
+      "type": "COLLOC",
+      "thai": "ตัดสินใจ",
+      "example": "We need to make a decision."
+    },
+    {
+      "id": "V-B1-12-040",
+      "item": "provisional decision",
+      "type": "COLLOC",
+      "thai": "การตัดสินใจชั่วคราว",
+      "example": "This is a provisional decision."
+    }
+  ],
+  "grammar": [
+    {
+      "id": "F-B1-12-01",
+      "form": "could / Why don’t we",
+      "use": "make suggestions",
+      "example": "We could take the train."
+    },
+    {
+      "id": "F-B1-12-02",
+      "form": "comparatives",
+      "use": "compare options",
+      "example": "The train is more expensive."
+    },
+    {
+      "id": "F-B1-12-03",
+      "form": "Do you mean / Could you explain",
+      "use": "clarify",
+      "example": "Do you mean the late train?"
+    },
+    {
+      "id": "F-B1-12-04",
+      "form": "I see your point, but",
+      "use": "cooperative disagreement",
+      "example": "I see your point, but…"
+    },
+    {
+      "id": "F-B1-12-05",
+      "form": "provisional decision frame",
+      "use": "state decision + uncertainty",
+      "example": "We prefer X, but we still need to check Y."
+    }
+  ],
+  "retrieval": [
+    {
+      "id": "RET-B1-12-01",
+      "prompt": "State the problem in one sentence."
+    },
+    {
+      "id": "RET-B1-12-02",
+      "prompt": "Name two constraints."
+    },
+    {
+      "id": "RET-B1-12-03",
+      "prompt": "Suggest two options."
+    },
+    {
+      "id": "RET-B1-12-04",
+      "prompt": "Compare two criteria."
+    },
+    {
+      "id": "RET-B1-12-05",
+      "prompt": "Ask one clarification question."
+    },
+    {
+      "id": "RET-B1-12-06",
+      "prompt": "Disagree politely once."
+    },
+    {
+      "id": "RET-B1-12-07",
+      "prompt": "State a provisional decision + uncertainty."
+    },
+    {
+      "id": "RET-B1-12-08",
+      "prompt": "Relay the next action."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B1-12-1",
+      "version": "0.6.0",
+      "title": "Writing",
+      "skill": "WRITING",
+      "prompt": "Write **100–130 words** recommending a provisional option: problem, 2 criteria, comparison, recommendation, unresolved check, next action.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-B1-12-2",
+      "version": "0.6.0",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "prompt": "4–6 minute collaboration: make suggestion, compare options, clarify, agree/disagree politely, help reach outcome.",
+      "responseType": "RECORDING",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-B1-12-3",
+      "version": "0.6.0",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "prompt": "Update an organiser: original problem, provisional choice, main reason, unresolved issue, next action.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    },
+    {
+      "stableId": "TASK-B1-12-4",
+      "version": "0.6.0",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "prompt": "Acknowledge one point, identify one concern, propose one modification.",
+      "responseType": "OPEN_RESPONSE",
+      "rubricVersion": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": []
+    }
+  ],
+  "canDo": "Explain a familiar problem; identify criteria; suggest alternatives; compare options; clarify; disagree cooperatively; reach a provisional decision; relay the plan.",
+  "supplementary": "## Extended reception validation object\n### Reading `TXT-B1-12-EXT-001` — The return-time problem\nThe group has almost agreed to take the train, but one question is still open. The outward train arrives early enough, and the total ticket cost is within budget. However, the organiser discovers that the direct return train leaves at 4:40 p.m., twenty minutes before the planned activity ends. A later train is available at 6:15, but it requires one change and arrives home much later. Some participants are happy to leave the activity early, while others think the group should keep the full programme and use the later train. A third possibility is to use the train in the morning and hire two minivans for the return journey, but the return price has not been confirmed. The group now needs to decide which information matters most and what must be checked before payment is made.\n\nTasks: identify the new problem; compare two realistic responses; state what information is still missing; explain which criterion your group would prioritise and why.\n\n### Listening `AUD-B1-12-EXT-001`\n> I think we are close to a decision, but I don’t want us to pay until we check the return journey. Leaving at 4:40 would be easy, but it means cutting the programme short. The 6:15 train lets us finish everything, although the change may be difficult with a large group. I’d like someone to call the minivan company as well. If the return price is reasonable, we could take the train there and the vans home. Then we can compare all three plans before five o’clock.\n\n\n# v0.4 Targeted Revision — B1 validity fixes\n## Hard constraints vs preferences\n**Hard constraints:** 32 seats; total ≤17,500 THB; outward arrival before 10 a.m.; a usable return plan must be confirmed before payment.  \n**Preferences:** travel together where possible; simpler transfer; more luggage space.\n\nThe late-return timetable is intentionally the **one required information gap** in the first decision cycle. Learners must recognise that payment should not be made until it is checked.\n\n**4 Strong B1:** compares ≥2 feasible plans with reasons, responds to others, clarifies uncertainty, helps reach provisional outcome.  \n**3 Generally B1:** contributes relevant options/reasons and responds, but development or clarification is uneven.  \n**2 Developing:** gives a preference/reason but interaction is limited or misses an important constraint.  \n**1 Limited:** isolated suggestions with little connection to criteria.  \n**0:** no assessable contribution/off task.\n\nDecision quality and interaction quality are recorded separately; choosing the assessor’s preferred option is never a criterion.\n\n## Conflicting stakeholder input `TXT-B1-12-V04-STAKEHOLDERS`\nThe teacher wants the group to arrive together because attendance must be checked before the first activity. Two students prefer the minivans because they are cheaper and faster. Another student is worried about limited luggage space because the group needs presentation materials. The organiser is mainly concerned about confirming a safe return after 5 p.m. Nobody disagrees about the budget, but they give different priorities to convenience, cost, luggage and return certainty.\n\nTask: identify each stakeholder priority and propose a question that would help the group decide.\n\n\n### Additional reading object `TXT-B1-12-V05-002` — Return-service update\nThe train company confirms that the last return train leaves at 18:20 and arrives at 20:35. The group must reach the station by 18:05. A local shuttle can take 32 passengers from the activity site to the station, but it must be booked before noon.",
+  "rubric": {
+    "id": "EMH-PRODUCTIVE-RUBRIC-B1-0.5",
+    "level": "B1",
+    "dimensions": [
+      "Task achievement",
+      "Reasoning/criteria use",
+      "Interaction",
+      "Language control"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "**Dimensions:** Task achievement, Reasoning/criteria use, Interaction, Language control.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **B1-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "sourceText": "# English Mastery Hub — B1-12 Problem Solving & Decision Making — Full Learner Unit v0.5\n\n**content_id:** `UNIT-B1-12-PILOT`  \n**version:** `0.5`  \n**status:** `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`  \n**level:** B1\n\n## Can-do outcomes\nExplain a familiar problem; identify criteria; suggest alternatives; compare options; clarify; disagree cooperatively; reach a provisional decision; relay the plan.\n\n# Lesson 1 — Define the problem and criteria\nA group of **32 people** plans a one-day educational trip. The original bus booking was cancelled.\n\nConstraints:\n- decision by 5 p.m.;\n- maximum transport budget **17,500 THB**;\n- everyone arrives before 10 a.m.;\n- group prefers to travel together;\n- return transport after 5 p.m. must exist.\n\n| Option | Cost | Time | Capacity / constraint |\n|---|---:|---:|---|\n| Bus | 450 THB/person | 2h30 | 18 seats only |\n| Train | 520 THB/person | 2h10 | 40 seats; transfer needed |\n| Minivan | 390 THB/person | 2h00 | two vehicles, **16 seats each**; quoted total covers all 32 passengers; limited luggage |\n\nReading tasks: infeasible alone? **Bus** · train total? **16,640 THB** · minivan passenger total? **12,480 THB** · non-price criteria? **capacity/time/togetherness/return/transfer/luggage**\n\n# Lesson 2 — Suggest and compare\nWe could… / Why don’t we…? / Another option is… / It would be cheaper/faster/easier… / The advantage is… / The problem with that option is… / We need to check…\n\nModel: The minivans are cheaper and a little faster. However, the group has to use two vehicles, and luggage space may be limited. The train is more expensive, but everyone can travel together.\n\nTask: compare train and minivan using **three** criteria without deciding yet.\n\n# Lesson 3 — Clarify and disagree\nDo you mean…? / Could you explain that? / I see your point, but… / I’m not sure that will work because… / What if we…?\n\n### Listening `AUD-B1-12-L03-001`\nI prefer the train because everyone can travel together. It is more expensive than the minivans, and we still need to check the return timetable. The station transfer could also be difficult for some people. Before we decide, I think we should confirm the late return service.\n\nTargets: preference **train** · benefit **together** · concerns **cost/transfer** · unresolved **return service** · action **confirm timetable**\n\n# Lesson 4 — Reach a provisional decision\n1. eliminate infeasible option;\n2. compare at least two feasible plans;\n3. state one uncertainty;\n4. choose provisional plan;\n5. assign next action.\n\nGroup A prioritises price. Group B prioritises travelling together. Group C prioritises simplest logistics. There is **no hidden correct answer**.\n\n# Lesson 5 — Transfer scenario\nCommunity workshop, group size **38**, budget **10,000 THB**.\n\n| Venue | Cost | Capacity | Location | Limitation |\n|---|---:|---:|---|---|\n| A | 8,000 | 45 | city centre | no parking |\n| B | 6,500 | 35 | near bus station | too small for 38 |\n| C | 9,500 | 60 | outside town | transport needed |\n\nSome participants do not drive. Compare, clarify, decide, state next step.\n\n## Phraseology\nmake a decision; solve a problem; compare options; meet a deadline; check availability; make arrangements; within budget; travel together; another option; the main reason; the problem with; I see your point\n\n## Guided Practice\n1. The problem ___ that the bus was cancelled. → **is**\n2. We ___ take the train. → **could**\n3. Train is ___ expensive than minivan. → **more**\n4. Do you ___ the return train? → **mean**\n5. I see your point, ___… → **but**\n6. Infeasible whole-group option? → **bus**\n7. Feasible by capacity? → **train/minivan**\n8. Train uncertainty? → **return timetable/transfer**\n9. “Best” answer without reasons gets full marks? → **No**\n10. Can mediation invent agreement? → **No**\n\n## Writing\nWrite **100–130 words** recommending a provisional option: problem, 2 criteria, comparison, recommendation, unresolved check, next action.\n\n## Speaking / interaction\n4–6 minute collaboration: make suggestion, compare options, clarify, agree/disagree politely, help reach outcome.\n\n## Mediation\nUpdate an organiser: original problem, provisional choice, main reason, unresolved issue, next action.\n\n## Online interaction\nAcknowledge one point, identify one concern, propose one modification.\n\n## Unit Mastery\nReading constraints · Listening stance/reason/concern · language · collaborative speaking · recommendation writing · outcome relay.\n\n### Critical evidence\n- contributes to decision;\n- gives at least one reason;\n- recognises a constraint;\n- relay does not invent consensus or omit a critical unresolved issue.\n\n## Remediation graph\n`B1_DEFINE_PROBLEM` → constraint sorting → 3-sentence statement.  \n`B1_SUGGEST_OPTIONS` → frames → 3 alternatives.  \n`B1_COMPARE_CRITERIA` → comparison table → oral comparison.  \n`B1_POLITE_DISAGREEMENT` → direct→cooperative rewrite.  \n`B1_DECISION_NEXT_STEP` → outcome template → transfer scenario.  \n`B1_MEDIATION_ACCURACY` → fact/interpretation sorting → relay again.\n\n## Human Check\n- [ ] figures realistic\n- [ ] multiple defensible solutions\n- [ ] no hidden preference in scoring\n- [ ] B1 rather than B2 debate language\n- [ ] transfer scenario works\n\n## Validation record\nHuman Check: **PENDING** · Audio QC: **PENDING** · Learner Pilot: **PENDING**.\n\n## Extended reception validation object\n### Reading `TXT-B1-12-EXT-001` — The return-time problem\nThe group has almost agreed to take the train, but one question is still open. The outward train arrives early enough, and the total ticket cost is within budget. However, the organiser discovers that the direct return train leaves at 4:40 p.m., twenty minutes before the planned activity ends. A later train is available at 6:15, but it requires one change and arrives home much later. Some participants are happy to leave the activity early, while others think the group should keep the full programme and use the later train. A third possibility is to use the train in the morning and hire two minivans for the return journey, but the return price has not been confirmed. The group now needs to decide which information matters most and what must be checked before payment is made.\n\nTasks: identify the new problem; compare two realistic responses; state what information is still missing; explain which criterion your group would prioritise and why.\n\n### Listening `AUD-B1-12-EXT-001`\n> I think we are close to a decision, but I don’t want us to pay until we check the return journey. Leaving at 4:40 would be easy, but it means cutting the programme short. The 6:15 train lets us finish everything, although the change may be difficult with a large group. I’d like someone to call the minivan company as well. If the return price is reasonable, we could take the train there and the vans home. Then we can compare all three plans before five o’clock.\n\nListening targets: preferred process, advantages/disadvantages, missing information, proposed next action.\n\n# v0.4 Targeted Revision — B1 validity fixes\n## Hard constraints vs preferences\n**Hard constraints:** 32 seats; total ≤17,500 THB; outward arrival before 10 a.m.; a usable return plan must be confirmed before payment.  \n**Preferences:** travel together where possible; simpler transfer; more luggage space.\n\nThe late-return timetable is intentionally the **one required information gap** in the first decision cycle. Learners must recognise that payment should not be made until it is checked.\n\n## Interaction scoring anchors\n**4 Strong B1:** compares ≥2 feasible plans with reasons, responds to others, clarifies uncertainty, helps reach provisional outcome.  \n**3 Generally B1:** contributes relevant options/reasons and responds, but development or clarification is uneven.  \n**2 Developing:** gives a preference/reason but interaction is limited or misses an important constraint.  \n**1 Limited:** isolated suggestions with little connection to criteria.  \n**0:** no assessable contribution/off task.\n\nDecision quality and interaction quality are recorded separately; choosing the assessor’s preferred option is never a criterion.\n\n## Conflicting stakeholder input `TXT-B1-12-V04-STAKEHOLDERS`\nThe teacher wants the group to arrive together because attendance must be checked before the first activity. Two students prefer the minivans because they are cheaper and faster. Another student is worried about limited luggage space because the group needs presentation materials. The organiser is mainly concerned about confirming a safe return after 5 p.m. Nobody disagrees about the budget, but they give different priorities to convenience, cost, luggage and return certainty.\n\nTask: identify each stakeholder priority and propose a question that would help the group decide.\n\n\n### Additional reading object `TXT-B1-12-V05-002` — Return-service update\nThe train company confirms that the last return train leaves at 18:20 and arrives at 20:35. The group must reach the station by 18:05. A local shuttle can take 32 passengers from the activity site to the station, but it must be booked before noon.\n\nQuestions: latest safe arrival at station? **18:05** · new action required? **book shuttle before noon** · does this remove every train uncertainty? **No; transfer logistics still need planning.**\n\n\n\n# v0.5 Content-Complete Pilot Contract\n\n## Mandatory metadata\n- `content_id`: `UNIT-B1-12-PILOT`\n- `version`: `0.5`\n- `status`: `PRE_HUMAN_CONTENT_COMPLETE / HUMAN_CHECK_REQUIRED`\n- `level`: `B1`\n- `unit_id`: `B1-12`\n- `domain`: inherited from the unit brief\n- `core_status`: `CEFR_CORE_COMPETENCY`\n- `source_type`: `ORIGINAL_PROJECT_CONTENT` / explicitly labelled simulated training source where applicable\n- `copyright_status`: `ORIGINAL`\n- `constructs`: reception + production + interaction + mediation as applicable\n- `support_mode`: level-appropriate support\n- `academic_check_status`: `INTERNAL_PRE_HUMAN_PASSED`\n- `human_check_status`: `PENDING`\n- `rubric_version`: `EMH-PRODUCTIVE-RUBRIC-B1-0.5`\n- `remediation_tags`: unit-specific tags in the remediation graph\n\n## Pronunciation / prosody target\nIntelligible collaborative speech; stress key criteria/contrast and use pausing to support turn-taking.\n\n\n## Structured vocabulary / phrase records\n**Planning target:** ≥40. **Included:** 40.\n\n| ID | Item/sense | Type | Thai gloss | Original example | Validation |\n|---|---|---|---|---|---|\n| V-B1-12-001 | problem | N | ปัญหา | The problem is that the bus was cancelled. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-002 | constraint | N | ข้อจำกัด | Budget is a hard constraint. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-003 | preference | N | ความชอบ/สิ่งที่อยากได้ | Travelling together is a preference. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-004 | option | N | ตัวเลือก | We have three options. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-005 | criterion | N | เกณฑ์ | Cost is one criterion. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-006 | budget | N | งบประมาณ | The plan must stay within budget. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-007 | capacity | N | ความจุ | The bus has limited capacity. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-008 | availability | N | ความพร้อม/มีให้ใช้ | We need to check availability. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-009 | deadline | N | กำหนดเวลา | We must meet the deadline. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-010 | transfer | N | การต่อรถ/ย้าย | The train needs a station transfer. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-011 | luggage | N | สัมภาระ | The minivan has limited luggage space. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-012 | advantage | N | ข้อดี | The main advantage is lower cost. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-013 | disadvantage | N | ข้อเสีย | One disadvantage is the transfer. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-014 | uncertainty | N | สิ่งที่ยังไม่แน่ชัด | The return service is an uncertainty. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-015 | recommendation | N | ข้อเสนอแนะ | Our recommendation is provisional. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-016 | suggest | V | เสนอ | I suggest the train. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-017 | compare | V | เปรียบเทียบ | Compare the two feasible options. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-018 | clarify | V | ทำให้ชัด | Could you clarify the timetable? | HUMAN/EVP CHECK PENDING |\n| V-B1-12-019 | confirm | V | ยืนยัน | We need to confirm the return service. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-020 | decide | V | ตัดสินใจ | We need to decide by five. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-021 | eliminate | V | ตัดออก | Eliminate the infeasible option. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-022 | justify | V | ให้เหตุผลรองรับ | Justify your recommendation. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-023 | arrange | V | จัดเตรียม | We need to arrange transport. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-024 | prioritise | V | จัดลำดับความสำคัญ | Some groups prioritise cost. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-025 | check | V | ตรวจสอบ | Check the late train. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-026 | We could… | FRAME | เราอาจ… | We could take the train. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-027 | Why don’t we…? | FRAME | ทำไมเราไม่… | Why don’t we use two minivans? | HUMAN/EVP CHECK PENDING |\n| V-B1-12-028 | Another option is… | FRAME | อีกตัวเลือกคือ… | Another option is the train. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-029 | The advantage is… | FRAME | ข้อดีคือ… | The advantage is the capacity. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-030 | The problem with that option is… | FRAME | ปัญหาของตัวเลือกนั้นคือ… | The problem with that option is the transfer. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-031 | I see your point, but… | FRAME | เข้าใจประเด็น แต่… | I see your point, but the bus is too small. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-032 | Do you mean…? | QUESTION | คุณหมายถึง…หรือ | Do you mean the return train? | HUMAN/EVP CHECK PENDING |\n| V-B1-12-033 | Could you explain that? | QUESTION | ช่วยอธิบายได้ไหม | Could you explain that? | HUMAN/EVP CHECK PENDING |\n| V-B1-12-034 | What if we…? | FRAME | ถ้าเราลอง…ล่ะ | What if we compare the total cost? | HUMAN/EVP CHECK PENDING |\n| V-B1-12-035 | I’m not sure that will work because… | FRAME | ไม่แน่ใจว่าจะได้ผลเพราะ… | I’m not sure that will work because the capacity is too low. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-036 | within budget | PHRASE | อยู่ในงบ | The train is within budget. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-037 | meet a deadline | COLLOC | ทันกำหนด | We must meet the deadline. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-038 | check availability | COLLOC | ตรวจสอบความพร้อม | Check availability before deciding. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-039 | make a decision | COLLOC | ตัดสินใจ | We need to make a decision. | HUMAN/EVP CHECK PENDING |\n| V-B1-12-040 | provisional decision | COLLOC | การตัดสินใจชั่วคราว | This is a provisional decision. | HUMAN/EVP CHECK PENDING |\n\n\n## Objective / controlled practice expansion\n**Planning target:** ≥28. **Included:** 28.\n\n| Item ID | Prompt | Key / expected | Remediation |\n|---|---|---|---|\n| V05-Q-B1-12-001 | Which is a hard constraint: budget maximum or preference to travel together? | budget maximum | unit-linked remediation |\n| V05-Q-B1-12-002 | Which option cannot carry 32 people alone? | bus | unit-linked remediation |\n| V05-Q-B1-12-003 | Train cost for 32 at 520 each? | 16,640 THB | unit-linked remediation |\n| V05-Q-B1-12-004 | If minivan capacity is 16 each, how many are needed for 32? | 2 | unit-linked remediation |\n| V05-Q-B1-12-005 | Name one non-price criterion. | time/capacity/transfer/togetherness/return availability | unit-linked remediation |\n| V05-Q-B1-12-006 | Complete: We ___ take the train. | could | unit-linked remediation |\n| V05-Q-B1-12-007 | Complete: Another ___ is the minivan. | option | unit-linked remediation |\n| V05-Q-B1-12-008 | Complete: The advantage ___ the train is capacity. | of | unit-linked remediation |\n| V05-Q-B1-12-009 | Polite clarification: Do you ___ the late return train? | mean | unit-linked remediation |\n| V05-Q-B1-12-010 | Complete: I see your point, ___ the transfer may be difficult. | but | unit-linked remediation |\n| V05-Q-B1-12-011 | Choose cooperative disagreement: A That’s stupid B I’m not sure that will work because… | B | unit-linked remediation |\n| V05-Q-B1-12-012 | What should happen before a final decision if return service is unknown? | confirm/check it | unit-linked remediation |\n| V05-Q-B1-12-013 | What is a provisional decision? | a temporary decision pending unresolved information | unit-linked remediation |\n| V05-Q-B1-12-014 | Which venue is impossible for 38 if capacity is 35? | Venue B | unit-linked remediation |\n| V05-Q-B1-12-015 | If a group prioritises travelling together, which factor matters most? | capacity/shared travel | unit-linked remediation |\n| V05-Q-B1-12-016 | If a group prioritises lowest stated passenger cost, which option is strongest? | minivan | unit-linked remediation |\n| V05-Q-B1-12-017 | Does cheaper automatically mean best? | No | unit-linked remediation |\n| V05-Q-B1-12-018 | Why not? | other criteria/constraints matter | unit-linked remediation |\n| V05-Q-B1-12-019 | Write one suggestion using Why don’t we…? | open | unit-linked remediation |\n| V05-Q-B1-12-020 | Write one concern using The problem with that option is… | open | unit-linked remediation |\n| V05-Q-B1-12-021 | Ask for clarification using Could you explain…? | open | unit-linked remediation |\n| V05-Q-B1-12-022 | State one uncertainty in the train plan. | late return / transfer | unit-linked remediation |\n| V05-Q-B1-12-023 | State one next action. | confirm return service / check transfer | unit-linked remediation |\n| V05-Q-B1-12-024 | Relay a decision without inventing certainty. | open | unit-linked remediation |\n| V05-Q-B1-12-025 | Distinguish constraint vs preference: arrive before 10 a.m. | constraint | unit-linked remediation |\n| V05-Q-B1-12-026 | Distinguish constraint vs preference: group prefers to travel together. | preference | unit-linked remediation |\n| V05-Q-B1-12-027 | What makes a decision well justified? | comparison against relevant criteria + reasons | unit-linked remediation |\n| V05-Q-B1-12-028 | What should scoring reward? | communication/reasoning, not preferred transport choice | unit-linked remediation |\n\n## Retrieval / spaced-review set\n1. `RET-B1-12-01` — State the problem in one sentence.\n2. `RET-B1-12-02` — Name two constraints.\n3. `RET-B1-12-03` — Suggest two options.\n4. `RET-B1-12-04` — Compare two criteria.\n5. `RET-B1-12-05` — Ask one clarification question.\n6. `RET-B1-12-06` — Disagree politely once.\n7. `RET-B1-12-07` — State a provisional decision + uncertainty.\n8. `RET-B1-12-08` — Relay the next action.\n\n\n## Quick Review Sheet\n- Restate the unit can-do goal in your own words.\n- Retrieve the unit's highest-value forms, phrases and discourse moves without the model.\n- Recall one important reading/listening point and its supporting detail.\n- Produce one B1-appropriate response without copying a model.\n- Complete one interaction or mediation move without inventing information.\n- If an error tag appears, follow the linked remediation route before re-attempting.\n\n\n## Operational productive rubric — `EMH-PRODUCTIVE-RUBRIC-B1-0.5`\n**Dimensions:** Task achievement, Reasoning/criteria use, Interaction, Language control.\n\n| Score | Global anchor |\n|---|---|\n| 4 | Strong for target level; fully achieves the task with effective, level-appropriate control. |\n| 3 | Generally achieves target; minor lapses do not prevent successful communication. |\n| 2 | Partially achieves target; important support or revision is still needed. |\n| 1 | Limited evidence; substantially incomplete, unclear or below target. |\n| 0 | No assessable response / off task. |\n\n### Level-specific interpretation\nA score of 3/4 is judged against **B1-appropriate** independence, complexity and communicative success. The same score does not imply identical language complexity across levels. Material semantic/factual distortion in mediation can cap the fidelity/task-achievement dimension.\n\n\n## Source / copyright / provenance record\n- Learner-facing prose/dialogue is `ORIGINAL_PROJECT_CONTENT`, except fictional study/survey/specialist material explicitly labelled `SIMULATED TRAINING SOURCE`.\n- Simulated sources are learning materials, not factual citations.\n- `copyright_status`: `ORIGINAL`.\n- CEFR use: construct alignment only; no official certification claim.\n- English Profile/EGP/EVP: validation methodology only; no wholesale database reproduction.\n- Real Human Review: **PENDING**.\n- Produced audio + pronunciation/prosody/technical QC: **PENDING**.\n- Learner pilot + calibration: **PENDING**.\n\n## Grammar / function feature-use records\n| Feature ID | Resource | Meaning/use | Example |\n|---|---|---|---|\n| F-B1-12-01 | could / Why don’t we | make suggestions | We could take the train. |\n| F-B1-12-02 | comparatives | compare options | The train is more expensive. |\n| F-B1-12-03 | Do you mean / Could you explain | clarify | Do you mean the late train? |\n| F-B1-12-04 | I see your point, but | cooperative disagreement | I see your point, but… |\n| F-B1-12-05 | provisional decision frame | state decision + uncertainty | We prefer X, but we still need to check Y. |\n",
+  "sourceValidated": true,
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "contentValidated": false,
+  "checksum": "a2fbb7e9d6cb79be8ad939d548f739c1bc8afcd7c6721160ac9c39562f78e580"
+}

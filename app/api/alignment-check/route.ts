@@ -16,7 +16,7 @@ const parseIds = (value: unknown) =>
 export async function POST(req: NextRequest) {
   try {
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return unitError('E_PERMISSION_DENIED', 'กรุณาเข้าสู่ระบบ', 401);
 

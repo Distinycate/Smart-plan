@@ -8,14 +8,12 @@ import { logApiError } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { jobId: string } }
-) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ jobId: string }> }) {
+  const params = await props.params;
   const context = 'api/evaluations/result';
   let step = 'auth';
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
       return fail('AUTH_REQUIRED', 'กรุณาเข้าสู่ระบบก่อนดูผลประเมิน', { step });

@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B2-10-COURSE",
+  "unitId": "B2-10",
+  "level": "B2",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B2-10; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Cause, Effect & Evaluation",
+  "canDo": "อธิบายเหตุและผลหลายปัจจัยโดยไม่อ้างเกินข้อมูล. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.",
+  "outcomes": [
+    "Use the language of cause, effect & evaluation to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B2-10-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Cause, Effect & Evaluation\nเป้าหมาย: อธิบายเหตุและผลหลายปัจจัยโดยไม่อ้างเกินข้อมูล\n\nUse the language of cause, effect & evaluation to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nA fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.\n\nRead for purpose, then locate the people, events, conditions and limits. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nReading B\nTimeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B2-10-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "could affect / contribute\nหน้าที่: หลายเหตุที่เป็นไปได้\nModel: Several factors could affect the totals.\nTry: change one detail while preserving the function. Check the result against the source.\n\nafter versus because\nหน้าที่: เวลาไม่เท่ากับเหตุ\nModel: The change followed the new format; causation is uncertain.\nTry: change one detail while preserving the function. Check the result against the source.\n\nnot adjusted for\nหน้าที่: ข้อจำกัดการเทียบ\nModel: Totals are not adjusted for session count.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nTarget vocabulary in context\ncompleted — ทำเสร็จ\nA fictional reading programme reports fewer completed activities in its second month.\n\nblames — โทษ\nThe organiser initially blames the new worksheet format.\n\nworksheet — ใบงาน\nThe organiser initially blames the new worksheet format.\n\nexaminations — การสอบ\nHowever, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.\n\nschedule — ตาราง\nHowever, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.\n\nrecorded — บันทึก\nHowever, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.\n\nfactors — ปัจจัย\nAny of these factors could affect the numbers.\n\nreconstructs — สร้างลำดับคืน\nThe team reconstructs the timeline and separates possible direct effects from changes in measurement.\n\nmeasurement — การวัด\nThe team reconstructs the timeline and separates possible direct effects from changes in measurement.\n\nbarriers — อุปสรรค\nIt proposes checking a sample of records and asking participants about practical barriers.\n\nevaluation — การประเมิน\nA useful evaluation identifies what can be investigated and which conclusions must remain provisional.\n\nprovisional — ยังไม่ยืนยัน\nA useful evaluation identifies what can be investigated and which conclusions must remain provisional.\n\nadjusted — ปรับให้เทียบได้\nRaw totals are not adjusted for session count.\n\ndenominator — ตัวหารหรือฐานการคำนวณ\nWe should check the denominator and the records before blaming the format.\n\ncausal map — แผนภาพเหตุและผล\nConstruct a causal map with several plausible paths.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B2-10-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: Completion fell after the worksheet changed.\nB: Yes, but sessions also fell from four to three.\nA: Could recording changes matter?\nB: They could. We should check the denominator and the records before blaming the format.\n\nListening script B\nConstruct a causal map with several plausible paths. Mark observed links separately from proposed ones. Check whether the measure itself changed. Your conclusion should say what the evidence supports and what further comparison would be needed.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B2-10-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nอธิบายเหตุและผลหลายปัจจัยโดยไม่อ้างเกินข้อมูล\n\nPrepare a 180–240-word response and a 120–180-second spoken response using the unit inputs. Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\ncould affect / contribute: Several factors could affect the totals.\nafter versus because: The change followed the new format; causation is uncertain.\nnot adjusted for: Totals are not adjusted for session count.\nแยกข้ออ้าง เหตุผล ตัวอย่าง และหลักฐาน ใช้ถ้อยคำที่มีน้ำหนักพอดีกับข้อมูล โต้แย้งประเด็นจริงของอีกฝ่ายและยอมรับข้อจำกัด\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B2-10-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ทำเสร็จ.\nA fictional reading programme reports fewer ____ activities in its second month.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "completed"
+      ],
+      "expected": "completed",
+      "explanation": "completed means ทำเสร็จ in this context. Full source sentence: A fictional reading programme reports fewer completed activities in its second month.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: โทษ.\nThe organiser initially ____ the new worksheet format.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "blames"
+      ],
+      "expected": "blames",
+      "explanation": "blames means โทษ in this context. Full source sentence: The organiser initially blames the new worksheet format.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ใบงาน.\nThe organiser initially blames the new ____ format.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "worksheet"
+      ],
+      "expected": "worksheet",
+      "explanation": "worksheet means ใบงาน in this context. Full source sentence: The organiser initially blames the new worksheet format.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การสอบ.\nHowever, the second month also included school ____, a shorter opening schedule and a change in how completion was recorded.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "examinations"
+      ],
+      "expected": "examinations",
+      "explanation": "examinations means การสอบ in this context. Full source sentence: However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ตาราง.\nHowever, the second month also included school examinations, a shorter opening ____ and a change in how completion was recorded.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "schedule"
+      ],
+      "expected": "schedule",
+      "explanation": "schedule means ตาราง in this context. Full source sentence: However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: บันทึก.\nHowever, the second month also included school examinations, a shorter opening schedule and a change in how completion was ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "recorded"
+      ],
+      "expected": "recorded",
+      "explanation": "recorded means บันทึก in this context. Full source sentence: However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ปัจจัย.\nAny of these ____ could affect the numbers.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "factors"
+      ],
+      "expected": "factors",
+      "explanation": "factors means ปัจจัย in this context. Full source sentence: Any of these factors could affect the numbers.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: สร้างลำดับคืน.\nThe team ____ the timeline and separates possible direct effects from changes in measurement.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "reconstructs"
+      ],
+      "expected": "reconstructs",
+      "explanation": "reconstructs means สร้างลำดับคืน in this context. Full source sentence: The team reconstructs the timeline and separates possible direct effects from changes in measurement.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การวัด.\nThe team reconstructs the timeline and separates possible direct effects from changes in ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "measurement"
+      ],
+      "expected": "measurement",
+      "explanation": "measurement means การวัด in this context. Full source sentence: The team reconstructs the timeline and separates possible direct effects from changes in measurement.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: อุปสรรค.\nIt proposes checking a sample of records and asking participants about practical ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "barriers"
+      ],
+      "expected": "barriers",
+      "explanation": "barriers means อุปสรรค in this context. Full source sentence: It proposes checking a sample of records and asking participants about practical barriers.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การประเมิน.\nA useful ____ identifies what can be investigated and which conclusions must remain provisional.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "evaluation"
+      ],
+      "expected": "evaluation",
+      "explanation": "evaluation means การประเมิน in this context. Full source sentence: A useful evaluation identifies what can be investigated and which conclusions must remain provisional.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ยังไม่ยืนยัน.\nA useful evaluation identifies what can be investigated and which conclusions must remain ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "provisional"
+      ],
+      "expected": "provisional",
+      "explanation": "provisional means ยังไม่ยืนยัน in this context. Full source sentence: A useful evaluation identifies what can be investigated and which conclusions must remain provisional.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B2-10-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nA fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.\n\nWhat did the organiser initially blame? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "the new worksheet format",
+      "explanation": "Reference answer: the new worksheet format. Accept an accurate paraphrase that preserves scope. Check against B2-10-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-10-READ-A"
+    },
+    {
+      "stableId": "Q-B2-10-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nA fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.\n\nWhat period coincided with the second month? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "school examinations",
+      "explanation": "Reference answer: school examinations. Accept an accurate paraphrase that preserves scope. Check against B2-10-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-10-READ-A"
+    },
+    {
+      "stableId": "Q-B2-10-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nTimeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count.\n\nHow many weekly sessions ran in month two? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "three",
+      "explanation": "Reference answer: three. Accept an accurate paraphrase that preserves scope. Check against B2-10-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-10-READ-B"
+    },
+    {
+      "stableId": "Q-B2-10-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script A — text-supported comprehension\nA: Completion fell after the worksheet changed.\nB: Yes, but sessions also fell from four to three.\nA: Could recording changes matter?\nB: They could. We should check the denominator and the records before blaming the format.\n\nWhat mathematical basis should be checked? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "the denominator",
+      "explanation": "Reference answer: the denominator. Accept an accurate paraphrase that preserves scope. Check against B2-10-LISTEN-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B2-10-LISTEN-A"
+    },
+    {
+      "stableId": "Q-B2-10-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Use could affect / contribute to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: Several factors could affect the totals.",
+      "expected": "Check the function หลายเหตุที่เป็นไปได้; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function หลายเหตุที่เป็นไปได้; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B2-10-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. The change followed the new format; causation is uncertain.\n2. Totals are not adjusted for session count.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for เวลาไม่เท่ากับเหตุ versus ข้อจำกัดการเทียบ. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for เวลาไม่เท่ากับเหตุ versus ข้อจำกัดการเทียบ. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B2-10-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nTimeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B2-10-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B2-10-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B2-10-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY",
+        "B2-10_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nA fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.",
+      "expected": "Provide a relevant supported detail from B2-10-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B2-10-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B2-10-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 180–240 words for a classmate who needs to understand cause, effect & evaluation. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Map claim, supporting evidence, alternative explanation and limitation. Compare sources on the same question. Build a proportionate conclusion and address a fair counterargument. Explain why your evidence supports a claim rather than merely repeating it.\n\nSources\nA fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.\n\nTimeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count."
+    },
+    {
+      "stableId": "TASK-B2-10-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 120–180-second spoken response about cause, effect & evaluation. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.\n\nInput\nA fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.\n\nA: Completion fell after the worksheet changed.\nB: Yes, but sessions also fell from four to three.\nA: Could recording changes matter?\nB: They could. We should check the denominator and the records before blaming the format."
+    },
+    {
+      "stableId": "TASK-B2-10-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nA fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.\n\nReading B\nTimeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count."
+    },
+    {
+      "stableId": "TASK-B2-10-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B2-10_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B2-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about cause, effect & evaluation, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nTimeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count.\n\nA: Completion fell after the worksheet changed.\nB: Yes, but sessions also fell from four to three.\nA: Could recording changes matter?\nB: They could. We should check the denominator and the records before blaming the format."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B2-10-001",
+      "item": "completed",
+      "thai": "ทำเสร็จ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A fictional reading programme reports fewer completed activities in its second month.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-002",
+      "item": "blames",
+      "thai": "โทษ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The organiser initially blames the new worksheet format.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-003",
+      "item": "worksheet",
+      "thai": "ใบงาน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The organiser initially blames the new worksheet format.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-004",
+      "item": "examinations",
+      "thai": "การสอบ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-005",
+      "item": "schedule",
+      "thai": "ตาราง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-006",
+      "item": "recorded",
+      "thai": "บันทึก",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-007",
+      "item": "factors",
+      "thai": "ปัจจัย",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Any of these factors could affect the numbers.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-008",
+      "item": "reconstructs",
+      "thai": "สร้างลำดับคืน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The team reconstructs the timeline and separates possible direct effects from changes in measurement.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-009",
+      "item": "measurement",
+      "thai": "การวัด",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The team reconstructs the timeline and separates possible direct effects from changes in measurement.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-010",
+      "item": "barriers",
+      "thai": "อุปสรรค",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "It proposes checking a sample of records and asking participants about practical barriers.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-011",
+      "item": "evaluation",
+      "thai": "การประเมิน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A useful evaluation identifies what can be investigated and which conclusions must remain provisional.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-012",
+      "item": "provisional",
+      "thai": "ยังไม่ยืนยัน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A useful evaluation identifies what can be investigated and which conclusions must remain provisional.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-013",
+      "item": "adjusted",
+      "thai": "ปรับให้เทียบได้",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Raw totals are not adjusted for session count.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-014",
+      "item": "denominator",
+      "thai": "ตัวหารหรือฐานการคำนวณ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "We should check the denominator and the records before blaming the format.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-015",
+      "item": "causal map",
+      "thai": "แผนภาพเหตุและผล",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Construct a causal map with several plausible paths.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B2-10-REV-1",
+      "item": "evidence",
+      "thai": "หลักฐาน",
+      "example": "The evidence supports a limited conclusion.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-2",
+      "item": "claim",
+      "thai": "ข้ออ้าง",
+      "example": "That claim needs more support.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-3",
+      "item": "assumption",
+      "thai": "ข้อสมมติ",
+      "example": "The estimate depends on an assumption.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-4",
+      "item": "alternative",
+      "thai": "ทางเลือกหรือคำอธิบายอื่น",
+      "example": "Consider an alternative explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-5",
+      "item": "whereas",
+      "thai": "ในขณะที่ต่างกัน",
+      "example": "A measures cost, whereas B measures access.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-6",
+      "item": "nevertheless",
+      "thai": "ถึงกระนั้น",
+      "example": "The sample is small; nevertheless, it raises a useful question.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-7",
+      "item": "to some extent",
+      "thai": "ในระดับหนึ่ง",
+      "example": "I agree to some extent.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-8",
+      "item": "provided that",
+      "thai": "โดยมีเงื่อนไขว่า",
+      "example": "The proposal works provided that access is maintained.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-9",
+      "item": "tends to",
+      "thai": "มีแนวโน้มที่จะ",
+      "example": "The report tends to emphasise benefits.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-10",
+      "item": "may indicate",
+      "thai": "อาจบ่งชี้",
+      "example": "The change may indicate a problem.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-11",
+      "item": "trade-off",
+      "thai": "การได้อย่างเสียอย่าง",
+      "example": "There is a trade-off between speed and detail.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-12",
+      "item": "limitation",
+      "thai": "ข้อจำกัด",
+      "example": "Acknowledge the main limitation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-13",
+      "item": "counterargument",
+      "thai": "ข้อโต้แย้งอีกด้าน",
+      "example": "Address the strongest counterargument fairly.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-14",
+      "item": "consequence",
+      "thai": "ผลที่ตามมา",
+      "example": "Consider an unintended consequence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B2-10-REV-15",
+      "item": "justify",
+      "thai": "ให้เหตุผลรองรับ",
+      "example": "Justify the recommendation with relevant evidence.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B2-10-1",
+      "form": "could affect / contribute",
+      "use": "หลายเหตุที่เป็นไปได้",
+      "example": "Several factors could affect the totals."
+    },
+    {
+      "id": "G-B2-10-2",
+      "form": "after versus because",
+      "use": "เวลาไม่เท่ากับเหตุ",
+      "example": "The change followed the new format; causation is uncertain."
+    },
+    {
+      "id": "G-B2-10-3",
+      "form": "not adjusted for",
+      "use": "ข้อจำกัดการเทียบ",
+      "example": "Totals are not adjusted for session count."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B2-10-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "A fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional."
+    },
+    {
+      "id": "B2-10-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Timeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count."
+    },
+    {
+      "id": "B2-10-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: Completion fell after the worksheet changed.\nB: Yes, but sessions also fell from four to three.\nA: Could recording changes matter?\nB: They could. We should check the denominator and the records before blaming the format."
+    },
+    {
+      "id": "B2-10-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Construct a causal map with several plausible paths. Mark observed links separately from proposed ones. Check whether the measure itself changed. Your conclusion should say what the evidence supports and what further comparison would be needed."
+    }
+  ],
+  "pronunciation": "Use prominence to distinguish your position from a reported view. Pause at changes of argument. Signal concession and contrast with phrasing, without relying on exaggerated stress to make weak evidence sound stronger.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B2-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B2-0.1",
+    "level": "B2",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B2: Develop sustained positions, evaluate competing practical options and relay complex information with clear qualification.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B2-10-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Cause, Effect & Evaluation; explain one source detail and use could affect / contribute in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-10-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Cause, Effect & Evaluation; explain one source detail and use after versus because in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-10-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Cause, Effect & Evaluation; explain one source detail and use not adjusted for in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B2-10-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Cause, Effect & Evaluation; explain one source detail and use could affect / contribute in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B2-10_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B2-10-015 and the mediation task."
+    },
+    {
+      "errorTag": "B2-10_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B2-10-001",
+      "Q-B2-10-002",
+      "Q-B2-10-003",
+      "Q-B2-10-004",
+      "Q-B2-10-005",
+      "Q-B2-10-006",
+      "Q-B2-10-007",
+      "Q-B2-10-008",
+      "Q-B2-10-009",
+      "Q-B2-10-010",
+      "Q-B2-10-011",
+      "Q-B2-10-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B2-10-013",
+      "Q-B2-10-014",
+      "Q-B2-10-015",
+      "Q-B2-10-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B2-10-1",
+      "TASK-B2-10-2",
+      "TASK-B2-10-3",
+      "TASK-B2-10-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B2.json",
+    "sourceUnitId": "B2-10",
+    "sourceChecksum": "2e334174c0ac56dbae549f8b794c354079b692317ec6a64f78aec8c9ec29dc5c"
+  },
+  "sourceText": "{\n  \"id\": \"B2-10\",\n  \"aim\": \"อธิบายเหตุและผลหลายปัจจัยโดยไม่อ้างเกินข้อมูล\",\n  \"a\": \"A fictional reading programme reports fewer completed activities in its second month. The organiser initially blames the new worksheet format. However, the second month also included school examinations, a shorter opening schedule and a change in how completion was recorded. Any of these factors could affect the numbers. The team reconstructs the timeline and separates possible direct effects from changes in measurement. It proposes checking a sample of records and asking participants about practical barriers. Explaining a result is not the same as finding one convenient cause. A useful evaluation identifies what can be investigated and which conclusions must remain provisional.\",\n  \"b\": \"Timeline: Month 1—four sessions weekly, paper records. Month 2—three sessions weekly, digital records, examination period. Worksheet format changed at the same time. No participant interviews have been completed. Raw totals are not adjusted for session count.\",\n  \"l1\": \"A: Completion fell after the worksheet changed.\\nB: Yes, but sessions also fell from four to three.\\nA: Could recording changes matter?\\nB: They could. We should check the denominator and the records before blaming the format.\",\n  \"l2\": \"Construct a causal map with several plausible paths. Mark observed links separately from proposed ones. Check whether the measure itself changed. Your conclusion should say what the evidence supports and what further comparison would be needed.\",\n  \"v\": \"completed=ทำเสร็จ;blames=โทษ;worksheet=ใบงาน;examinations=การสอบ;schedule=ตาราง;recorded=บันทึก;factors=ปัจจัย;reconstructs=สร้างลำดับคืน;measurement=การวัด;barriers=อุปสรรค;evaluation=การประเมิน;provisional=ยังไม่ยืนยัน;adjusted=ปรับให้เทียบได้;denominator=ตัวหารหรือฐานการคำนวณ;causal map=แผนภาพเหตุและผล\",\n  \"g\": [\n    [\n      \"could affect / contribute\",\n      \"หลายเหตุที่เป็นไปได้\",\n      \"Several factors could affect the totals.\"\n    ],\n    [\n      \"after versus because\",\n      \"เวลาไม่เท่ากับเหตุ\",\n      \"The change followed the new format; causation is uncertain.\"\n    ],\n    [\n      \"not adjusted for\",\n      \"ข้อจำกัดการเทียบ\",\n      \"Totals are not adjusted for session count.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"What did the organiser initially blame?\",\n      \"the new worksheet format\",\n      \"a\"\n    ],\n    [\n      \"What period coincided with the second month?\",\n      \"school examinations\",\n      \"a\"\n    ],\n    [\n      \"How many weekly sessions ran in month two?\",\n      \"three\",\n      \"b\"\n    ],\n    [\n      \"What mathematical basis should be checked?\",\n      \"the denominator\",\n      \"l1\"\n    ]\n  ]\n}\n",
+  "checksum": "8d512d0abe6d6b5ea1d6d1d9d9cc381c19efa0376d5e3fc367e5591a04adbad1"
+}

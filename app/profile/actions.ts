@@ -10,7 +10,7 @@ export async function submitFeedback(prevState: any, formData: FormData): Promis
     return { success: false, error: 'กรุณากรอกข้อความก่อนส่งครับ' }
   }
 
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {

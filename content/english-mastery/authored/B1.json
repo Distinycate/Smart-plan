@@ -1,0 +1,722 @@
+[
+  {
+    "id": "B1-01",
+    "aim": "เชื่อมประสบการณ์กับเวลาที่ชัดเจนและผลต่อปัจจุบัน",
+    "a": "I have tried several activities since I moved to this town, but joining a repair club has changed my weekends most. I joined last March because my old radio had stopped working. At first, I was nervous about asking questions. A volunteer showed me how to describe the problem before touching any parts. I have attended five sessions so far. I cannot repair a radio independently yet, but I now understand why patience and careful observation matter. The club asks beginners to leave electrical work to trained people. Learning something new does not mean becoming an expert immediately.",
+    "b": "Experience log: March—first repair-club visit. April—helped organise tools. May—explained a problem to a volunteer without reading notes. Current goal—learn the names of basic tools. The log records progress, not a professional qualification.",
+    "l1": "A: Have you ever joined a practical club?\nB: Yes, I joined a repair club in March.\nA: What have you learned?\nB: How to describe a fault clearly.\nA: Can you repair things alone now?\nB: Not yet. I still need someone experienced beside me.",
+    "l2": "Choose one experience and explain what changed. Use a finished time when you describe a particular event. Use the present perfect when you connect experience with now. Do not list achievements without explaining what you actually learned.",
+    "v": "several=หลาย;repair club=ชมรมซ่อมของ;nervous=ประหม่า;volunteer=อาสาสมัคร;describe=บรรยาย;attended=เข้าร่วม;sessions=ครั้งของกิจกรรม;independently=ด้วยตนเอง;patience=ความอดทน;observation=การสังเกต;trained=ผ่านการฝึก;expert=ผู้เชี่ยวชาญ;progress=ความก้าวหน้า;qualification=คุณวุฒิ;achievements=ความสำเร็จ",
+    "g": [
+      [
+        "present perfect + since/so far",
+        "ประสบการณ์ที่เชื่อมปัจจุบัน",
+        "I have attended five sessions so far."
+      ],
+      [
+        "past simple + finished time",
+        "เหตุการณ์ในเวลาจบแล้ว",
+        "I joined last March."
+      ],
+      [
+        "not yet",
+        "ความก้าวหน้าที่ยังไม่ครบ",
+        "I cannot work independently yet."
+      ]
+    ],
+    "q": [
+      [
+        "Why did the writer first join the club?",
+        "the old radio had stopped working",
+        "a"
+      ],
+      [
+        "How many sessions has the writer attended?",
+        "five",
+        "a"
+      ],
+      [
+        "What is the current goal?",
+        "learn the names of basic tools",
+        "b"
+      ],
+      [
+        "Can the speaker repair things alone?",
+        "not yet",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-02",
+    "aim": "วางแผนเรียนและอธิบายว่ากลยุทธ์ใดช่วยงานใด",
+    "a": "Ploy used to highlight almost every sentence in her textbook. Her pages looked colourful, but she could not explain the ideas without looking. She changed her routine. After reading a short section, she closed the book and wrote three points from memory. Then she checked what she had missed. Once a week, she explained an idea to a classmate and asked for questions. This approach helped her notice gaps in her understanding. It did not make every topic easy, and she still asked her teacher for help with difficult sections. Her plan combined practice, feedback and time to rest.",
+    "b": "Study plan: Monday—read one section and recall three points. Wednesday—answer practice questions without notes. Friday—review errors with a partner. Sunday—check which ideas still need help. Change the plan if the workload is unrealistic.",
+    "l1": "A: How do you know you understand a topic?\nB: I try to explain it without my notes.\nA: What if you forget something?\nB: I check the text, then try again later.\nA: Do you study for hours at once?\nB: No. Short sessions fit my week better.",
+    "l2": "Your strategy should match the task. Remembering a term and writing an argument require different practice. Keep a small error log. At the end of the week, choose one recurring problem and ask for specific feedback rather than simply studying longer.",
+    "v": "highlight=เน้นข้อความ;textbook=ตำรา;routine=กิจวัตร;section=ส่วน;memory=ความจำ;missed=ตกหล่น;classmate=เพื่อนร่วมชั้น;gaps=ช่องว่าง;understanding=ความเข้าใจ;feedback=ข้อมูลย้อนกลับ;recall=นึกคืน;workload=ปริมาณงาน;unrealistic=ไม่สอดคล้องความเป็นจริง;recurring=เกิดซ้ำ;specific=เฉพาะเจาะจง",
+    "g": [
+      [
+        "used to + verb",
+        "นิสัยเดิม",
+        "She used to highlight every sentence."
+      ],
+      [
+        "after + -ing",
+        "เชื่อมลำดับการเรียน",
+        "After reading, she closed the book."
+      ],
+      [
+        "if + present",
+        "ปรับแผนตามเงื่อนไข",
+        "Change the plan if the workload is unrealistic."
+      ]
+    ],
+    "q": [
+      [
+        "What did Ploy write after closing the book?",
+        "three points from memory",
+        "a"
+      ],
+      [
+        "Whom did she explain ideas to?",
+        "a classmate",
+        "a"
+      ],
+      [
+        "What happens on Friday?",
+        "review errors with a partner",
+        "b"
+      ],
+      [
+        "What kind of feedback should learners ask for?",
+        "specific feedback",
+        "l2"
+      ]
+    ]
+  },
+  {
+    "id": "B1-03",
+    "aim": "อธิบายประสบการณ์งานและต่อรองหน้าที่อย่างมีหลักฐาน",
+    "a": "A community centre is looking for a part-time event assistant. The job involves preparing rooms, answering visitors' questions and checking equipment lists. Noor has not held this exact job before, but she has helped organise a school exhibition. In her application, she describes how she divided tasks, checked a schedule and contacted a teacher when a problem was beyond her role. She does not claim to be an expert in every task. During the interview, she asks about training and who supervises new staff. Clear examples show what she can contribute and what support she needs.",
+    "b": "Job notice: Event assistant, two afternoons a week. Essential—reliable attendance and clear communication. Training provided for booking software. Applicants should describe relevant experience. Do not send unrelated personal documents with the first enquiry.",
+    "l1": "A: Tell me about a time you helped a team.\nB: I organised labels for an exhibition and checked the schedule.\nA: What happened when a visitor had a difficult question?\nB: I contacted the teacher responsible. I did not guess the answer.",
+    "l2": "Prepare one example using situation, action and result. Explain your own contribution without taking credit for the whole team's work. Ask what training is available. An interview is also a chance to understand the role before accepting it.",
+    "v": "part-time=ไม่เต็มเวลา;involves=เกี่ยวข้องกับ;equipment=อุปกรณ์;exhibition=นิทรรศการ;application=ใบสมัคร;divided=แบ่ง;schedule=กำหนดการ;role=บทบาท;interview=การสัมภาษณ์;supervises=กำกับดูแล;contribute=มีส่วนช่วย;reliable=เชื่อถือได้;relevant=เกี่ยวข้อง;enquiry=การสอบถาม;contribution=ส่วนที่ตนทำ",
+    "g": [
+      [
+        "involve + -ing",
+        "อธิบายหน้าที่",
+        "The job involves preparing rooms."
+      ],
+      [
+        "present perfect / past simple",
+        "ประสบการณ์กับตัวอย่าง",
+        "She has organised events. She helped last year."
+      ],
+      [
+        "indirect questions",
+        "ถามอย่างสุภาพ",
+        "Could you explain who supervises new staff?"
+      ]
+    ],
+    "q": [
+      [
+        "What position is advertised?",
+        "part-time event assistant",
+        "a"
+      ],
+      [
+        "What event has Noor helped organise?",
+        "a school exhibition",
+        "a"
+      ],
+      [
+        "What software training is provided?",
+        "booking software",
+        "b"
+      ],
+      [
+        "Who answered the difficult visitor question?",
+        "the teacher responsible",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-04",
+    "aim": "อธิบายปัญหาเดินทาง เปรียบเทียบทางเลือก และยืนยันแผนใหม่",
+    "a": "Our bus to Hill City was cancelled because a road was closed. We needed to arrive before four for a family event. The information desk offered two options: a later bus arriving at five, or a train arriving at three thirty with one change. The train cost more, and my uncle needed help carrying his bag. We asked about the transfer time and assistance before choosing. The staff confirmed that there were twenty minutes between trains. We phoned the family with the revised arrival time. A fast option is not automatically the best option if the connection is difficult.",
+    "b": "Fictional travel update: Later bus—arrival 17:00, direct. Train—arrival 15:30, one change, twenty-minute transfer. Availability and assistance must be confirmed. The original bus ticket does not automatically cover the train fare.",
+    "l1": "A: Our bus has been cancelled. What can we do?\nB: There is a later bus or a train with one change.\nA: We need to arrive before four. How long is the transfer?\nB: Twenty minutes. Let me check assistance before you decide.",
+    "l2": "When a journey changes, check more than the arrival time. Ask about total cost, connections and access needs. Repeat the confirmed plan back to the staff member. Tell anyone waiting for you that your original plan has changed.",
+    "v": "cancelled=ยกเลิก;road=ถนน;closed=ปิด;options=ตัวเลือก;arriving=มาถึง;change=การเปลี่ยนรถ;carrying=ถือ;transfer=การต่อรถ;assistance=ความช่วยเหลือ;confirmed=ยืนยัน;revised=ปรับใหม่;connection=การเชื่อมต่อ;availability=ความพร้อมให้บริการ;fare=ค่าโดยสาร;access needs=ความต้องการด้านการเข้าถึง",
+    "g": [
+      [
+        "past passive",
+        "เหตุการณ์ที่กระทบเรา",
+        "Our bus was cancelled."
+      ],
+      [
+        "need to / before",
+        "ข้อจำกัดเวลา",
+        "We need to arrive before four."
+      ],
+      [
+        "comparative with qualification",
+        "เปรียบเทียบอย่างมีเงื่อนไข",
+        "The train is faster, but the connection may be difficult."
+      ]
+    ],
+    "q": [
+      [
+        "Why was the bus cancelled?",
+        "a road was closed",
+        "a"
+      ],
+      [
+        "What is the family's arrival deadline?",
+        "before four",
+        "a"
+      ],
+      [
+        "How long is the train transfer?",
+        "twenty minutes",
+        "b"
+      ],
+      [
+        "What will staff check before the travellers decide?",
+        "assistance",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-05",
+    "aim": "อธิบายความขัดแย้งเล็กน้อยและหาทางออกร่วมกัน",
+    "a": "My flatmate and I disagreed about noise in the evening. I thought he knew that I had an early shift, but I had never explained my new timetable. Instead of accusing him of being inconsiderate, I described the problem: I could hear music after ten and was finding it difficult to sleep. He explained that he practised guitar after work. We agreed on quiet hours and discussed using headphones for suitable practice. We also chose a time to review the arrangement. The conversation worked because we talked about behaviour and needs rather than deciding that one person was simply wrong.",
+    "b": "Shared agreement: Quiet hours from 22:00 to 07:00. Discuss exceptions in advance. Review the arrangement after one week. Either person can raise a concern. Agreement does not mean that both people had the same preference.",
+    "l1": "A: Could we talk about the music after ten? I have an early shift.\nB: I didn't realise your hours had changed. When could I practise?\nA: Earlier in the evening would help.\nB: Let's try that for a week and check again.",
+    "l2": "Use an example that the other person can recognise. Explain its effect on you, then invite their view. Avoid always and never unless they are accurate. A useful agreement says what will happen and when you will review it.",
+    "v": "flatmate=เพื่อนร่วมที่พัก;disagreed=ไม่เห็นด้วย;shift=กะทำงาน;timetable=ตารางเวลา;accusing=กล่าวหา;inconsiderate=ไม่คำนึงถึงผู้อื่น;practised=ฝึก;headphones=หูฟัง;arrangement=ข้อตกลง;behaviour=พฤติกรรม;exceptions=ข้อยกเว้น;in advance=ล่วงหน้า;concern=ข้อกังวล;preference=ความชอบ;recognise=รับรู้ได้",
+    "g": [
+      [
+        "I-statements",
+        "บอกผลต่อเราแทนกล่าวหา",
+        "I find it difficult to sleep."
+      ],
+      [
+        "could / would",
+        "ขอและเสนออย่างสุภาพ",
+        "Earlier practice would help."
+      ],
+      [
+        "past perfect in explanation",
+        "ข้อมูลที่เกิดก่อนปัญหา",
+        "I had never explained my timetable."
+      ]
+    ],
+    "q": [
+      [
+        "What was disturbing the writer?",
+        "music after ten",
+        "a"
+      ],
+      [
+        "What instrument did the flatmate practise?",
+        "guitar",
+        "a"
+      ],
+      [
+        "When will the arrangement be reviewed?",
+        "after one week",
+        "b"
+      ],
+      [
+        "Had the flatmate realised the working hours changed?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-06",
+    "aim": "อภิปรายทางเลือกในชีวิตประจำวันโดยไม่เสนอคำวินิจฉัย",
+    "a": "Our class compared ways to make busy weeks feel more manageable. One learner planned a regular lunch break; another wanted to reduce late-night screen time. I decided to walk with a friend when our schedules allowed. We agreed that a routine should fit a person's circumstances and access needs. A suggestion that helps one person may not suit another. We recorded what we tried and how it felt, without treating our small diary as medical evidence. When someone mentioned persistent symptoms, we encouraged them to ask a qualified professional rather than accept advice from a class discussion.",
+    "b": "Personal planning sheet: Choose one realistic change. Record when you try it and any difficulties. Review the plan after a week. Do not compare health conditions or set targets for other people. This is reflective language practice, not treatment guidance.",
+    "l1": "A: What change are you considering?\nB: A regular lunch break. I often work through it.\nA: What might make that difficult?\nB: Our busiest period is at noon. I need to discuss the timing with my team.",
+    "l2": "When discussing lifestyle choices, use language that leaves room for different needs. Say might help rather than will cure. Explain practical barriers and ask respectful questions. A classmate does not have to share private health information.",
+    "v": "manageable=จัดการได้;regular=สม่ำเสมอ;reduce=ลด;schedules=ตารางเวลา;circumstances=สถานการณ์แวดล้อม;access needs=ความต้องการด้านการเข้าถึง;suggestion=ข้อเสนอ;suit=เหมาะกับ;diary=บันทึกประจำวัน;evidence=หลักฐาน;persistent=ต่อเนื่องไม่หาย;qualified=มีคุณสมบัติ;realistic=ทำได้จริง;barriers=อุปสรรค;respectful=ให้เกียรติ",
+    "g": [
+      [
+        "might / may",
+        "ความเป็นไปได้",
+        "A short break might help."
+      ],
+      [
+        "rather than",
+        "ระบุทางเลือก",
+        "Ask a professional rather than guess."
+      ],
+      [
+        "when / if",
+        "เงื่อนไขของแผน",
+        "I walk when our schedules allow."
+      ]
+    ],
+    "q": [
+      [
+        "What did the writer decide to try?",
+        "walking with a friend",
+        "a"
+      ],
+      [
+        "Is the small diary medical evidence?",
+        "no",
+        "a"
+      ],
+      [
+        "When should the plan be reviewed?",
+        "after a week",
+        "b"
+      ],
+      [
+        "What is the team member's busiest period?",
+        "noon",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-07",
+    "aim": "อธิบายปัญหาเทคโนโลยีและตัดสินใจเรื่องข้อมูลส่วนตัว",
+    "a": "I downloaded a calendar app to organise a study group. During setup, it asked for access to my contacts and photos. I understood why it needed dates, but I was unsure why it needed all my photos. I checked the settings and asked whether the group could use a simpler shared timetable. We chose an option that required less information. Later, a reminder failed because notifications were turned off. We described the problem, checked the setting and tested a new reminder. Convenience matters, but it is useful to understand what information an app requests and which features you actually need.",
+    "b": "Support note: Problem—reminder did not appear. Check—notification setting. Test—create a sample event five minutes ahead. Do not send your password or private contact list when asking the group for help.",
+    "l1": "A: The reminder didn't appear.\nB: Are notifications enabled?\nA: No, they are off.\nB: Try changing that setting and creating a test event.\nA: Should I send you my password?\nB: No. Describe the screen without sharing private information.",
+    "l2": "A useful support message includes the task, what happened and what you already tried. Remove personal information from a screenshot before sharing it. If you are unsure about a permission request, check the explanation rather than accepting it automatically.",
+    "v": "downloaded=ดาวน์โหลด;calendar=ปฏิทิน;setup=การตั้งค่าเริ่มต้น;access=การเข้าถึง;contacts=รายชื่อผู้ติดต่อ;settings=การตั้งค่า;shared=ใช้ร่วมกัน;reminder=การเตือน;notifications=การแจ้งเตือน;convenience=ความสะดวก;features=คุณสมบัติ;enabled=เปิดใช้งาน;screenshot=ภาพหน้าจอ;permission=สิทธิ์อนุญาต;automatically=โดยอัตโนมัติ",
+    "g": [
+      [
+        "asked for / required",
+        "บอกสิ่งที่ระบบร้องขอ",
+        "The app asked for access to photos."
+      ],
+      [
+        "passive state",
+        "อธิบายการตั้งค่า",
+        "Notifications were turned off."
+      ],
+      [
+        "what + clause",
+        "รายงานปัญหา",
+        "Explain what happened and what you tried."
+      ]
+    ],
+    "q": [
+      [
+        "What type of app did the writer download?",
+        "a calendar app",
+        "a"
+      ],
+      [
+        "Why did the reminder fail?",
+        "notifications were turned off",
+        "a"
+      ],
+      [
+        "How far ahead should the test event be?",
+        "five minutes",
+        "b"
+      ],
+      [
+        "Should the user send a password?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-08",
+    "aim": "เสนอการเปลี่ยนแปลงในชุมชนโดยใช้ข้อมูลที่จำกัดอย่างรับผิดชอบ",
+    "a": "Residents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.",
+    "b": "Trial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan.",
+    "l1": "A: Does the count prove visitors don't care?\nB: No. It only shows where we found litter.\nA: What should we try?\nB: Clear signs and one extra bin, then another count.\nA: Let's keep the counting method the same.",
+    "l2": "Describe the observation before suggesting a cause. Compare like with like: the same area, time and method. If the number changes, consider other explanations such as event size or weather. Present the trial as a proposal, not a guaranteed solution.",
+    "v": "residents=คนในพื้นที่;litter=ขยะที่ทิ้งเรี่ยราด;bins=ถังขยะ;signs=ป้าย;volunteer=อาสาสมัคร;visible=ที่มองเห็น;entrance=ทางเข้า;proposed=เสนอ;trial=การทดลอง;method=วิธีการ;observation=ข้อสังเกต;represent=เป็นตัวแทน;expanding=ขยาย;cause=สาเหตุ;guaranteed=รับประกัน",
+    "g": [
+      [
+        "noticed / found / could not tell",
+        "แยกสิ่งที่เห็นกับสิ่งที่ไม่รู้",
+        "They found litter but could not tell who left it."
+      ],
+      [
+        "propose + noun/-ing",
+        "เสนอการทดลอง",
+        "We propose adding a bin."
+      ],
+      [
+        "could / might",
+        "ลดความแน่นอนของข้อสรุป",
+        "Other factors might explain the change."
+      ]
+    ],
+    "q": [
+      [
+        "Where was more litter found?",
+        "beside the entrance",
+        "a"
+      ],
+      [
+        "How long is the proposed trial?",
+        "two weeks",
+        "a"
+      ],
+      [
+        "On how many mornings will the new count happen?",
+        "six",
+        "b"
+      ],
+      [
+        "Does the count prove that visitors do not care?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-09",
+    "aim": "ให้ความเห็นพร้อมเหตุผลและรับฟังข้อโต้แย้งที่ต่างกัน",
+    "a": "Our library is considering opening later on Fridays. I support a short trial because people who work during the day may find it easier to visit. However, a volunteer points out that extra hours require staff and money. That is a reasonable concern. I suggest starting with one Friday a month and checking attendance. I would change my view if the service cost too much or very few people used it. Having an opinion does not mean ignoring evidence that could challenge it. A useful discussion explains the reasons behind different priorities rather than repeating the same claim more loudly.",
+    "b": "Two comments: A—Later opening would help me after work. B—I support access, but I want to know how staff will be paid. The comments are not complete opposites: both value the library, but emphasise different conditions.",
+    "l1": "A: I think later opening is worth trying.\nB: I agree about access, but what about staffing?\nA: Could we begin with one evening a month?\nB: That sounds more manageable. We would still need a budget and a review date.",
+    "l2": "State your position, give a reason and acknowledge one limitation. Respond to the other person's actual point. You can agree with the goal while questioning the method. Explain what information would make you reconsider.",
+    "v": "considering=กำลังพิจารณา;support=สนับสนุน;trial=การทดลอง;volunteer=อาสาสมัคร;require=จำเป็นต้องมี;reasonable=สมเหตุสมผล;concern=ข้อกังวล;attendance=จำนวนผู้เข้าร่วม;evidence=หลักฐาน;challenge=ท้าทายข้ออ้าง;priorities=ลำดับความสำคัญ;emphasise=เน้น;staffing=การจัดกำลังคน;limitation=ข้อจำกัด;reconsider=พิจารณาใหม่",
+    "g": [
+      [
+        "I support … because …",
+        "แสดงจุดยืนพร้อมเหตุผล",
+        "I support a trial because it may improve access."
+      ],
+      [
+        "However / although",
+        "ยอมรับข้อจำกัด",
+        "However, extra hours need staff."
+      ],
+      [
+        "would … if …",
+        "บอกเงื่อนไขเปลี่ยนความเห็น",
+        "I would reconsider if few people used it."
+      ]
+    ],
+    "q": [
+      [
+        "Which day might have later opening?",
+        "Friday",
+        "a"
+      ],
+      [
+        "What initial frequency does the writer suggest?",
+        "one Friday a month",
+        "a"
+      ],
+      [
+        "What does commenter B want to know?",
+        "how staff will be paid",
+        "b"
+      ],
+      [
+        "What two planning items are still needed?",
+        "a budget and a review date",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-10",
+    "aim": "สร้างเรื่องเล่าที่มีฉาก ปัญหา การเปลี่ยนแปลง และผลลัพธ์",
+    "a": "By the time I reached the exhibition hall, the lights were already on and visitors were waiting outside. I had promised to bring the labels, but my folder was missing. For a moment, I imagined the whole event failing because of me. Then I remembered leaving the folder beside the printer. While a friend checked the office, I wrote temporary labels from our digital list. Ten minutes later, she returned with the folder. The visitors never knew about the problem. Afterwards, we made a packing checklist. The experience was embarrassing, but it taught me to prepare a backup rather than depend on memory.",
+    "b": "Alternative ending: The folder was not in the office. The team used temporary labels for the entire event and corrected two spelling errors after a visitor noticed them. Both endings are fictional. Choose one; do not combine incompatible details.",
+    "l1": "A: What were you doing when you noticed the folder was missing?\nB: I was unpacking the display materials.\nA: Had you checked the bag before leaving?\nB: No. I thought everything was there.\nA: What did you do next?\nB: I made temporary labels.",
+    "l2": "A story needs more than a list of events. Show what the person expected, what went wrong and how they responded. Use time expressions to guide the reader. Keep the ending consistent with the version you chose.",
+    "v": "exhibition hall=ห้องนิทรรศการ;labels=ป้ายกำกับ;folder=แฟ้ม;imagined=จินตนาการ;temporary=ชั่วคราว;digital list=รายการดิจิทัล;afterwards=ภายหลัง;checklist=รายการตรวจ;embarrassing=น่าอาย;backup=สิ่งสำรอง;alternative=ทางเลือก;incompatible=ขัดกัน;unpacking=นำของออกจากกระเป๋า;expected=คาดไว้;consistent=สอดคล้อง",
+    "g": [
+      [
+        "past perfect",
+        "เหตุการณ์ก่อนอีกเหตุการณ์",
+        "I had promised to bring the labels."
+      ],
+      [
+        "past continuous",
+        "ฉากที่กำลังดำเนิน",
+        "Visitors were waiting outside."
+      ],
+      [
+        "by the time / afterwards",
+        "เชื่อมช่วงเวลา",
+        "By the time I arrived, the lights were on."
+      ]
+    ],
+    "q": [
+      [
+        "What had the narrator promised to bring?",
+        "the labels",
+        "a"
+      ],
+      [
+        "Where was the folder in the first ending?",
+        "beside the printer",
+        "a"
+      ],
+      [
+        "How many spelling errors appear in the alternative ending?",
+        "two",
+        "b"
+      ],
+      [
+        "What was the narrator unpacking?",
+        "the display materials",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-11",
+    "aim": "แยกพาดหัว รายงาน ข้ออ้าง และข้อมูลที่ยังไม่รู้",
+    "a": "A fictional local-news headline says, 'New Park Café Brings More Visitors.' The article reports that a volunteer counted 120 visitors on one sunny Saturday after the café opened. A previous count recorded 80 visitors on a rainy weekday. The headline suggests a cause, but the two counts were taken in different conditions. The article also quotes a café owner who is pleased with the result. That view is relevant but not independent evidence of the cause. Before sharing the story as proof, a reader should ask about comparable days, counting methods and other changes in the park.",
+    "b": "Editorial note: These numbers and people are invented for critical-reading practice. No real café is being evaluated. Distinguish what was counted from what the headline implies. A missing detail is a reason to ask, not permission to invent it.",
+    "l1": "A: The café caused a fifty-percent increase, right?\nB: The counts rose from eighty to one hundred and twenty, but the days were different.\nA: So the percentage is correct?\nB: Yes, for those counts. The causal conclusion is not established.",
+    "l2": "When you report a news item, identify the source and date if available. Separate a quotation from a verified fact. If conditions differ, avoid treating a comparison as a controlled test. Say what further information you would need.",
+    "v": "headline=พาดหัว;reports=รายงาน;volunteer=อาสาสมัคร;counted=นับ;previous=ก่อนหน้า;conditions=เงื่อนไข;quotes=อ้างคำพูด;relevant=เกี่ยวข้อง;independent=เป็นอิสระ;evidence=หลักฐาน;comparable=เปรียบเทียบกันได้;implies=สื่อเป็นนัย;percentage=ร้อยละ;causal=เกี่ยวกับเหตุและผล;established=ยืนยันได้แล้ว",
+    "g": [
+      [
+        "reports / suggests / proves",
+        "แยกระดับข้ออ้าง",
+        "The article reports a count but does not prove a cause."
+      ],
+      [
+        "reported speech",
+        "ถ่ายทอดคำพูด",
+        "The owner said she was pleased."
+      ],
+      [
+        "before + -ing",
+        "ขั้นตรวจข้อมูล",
+        "Before sharing, check the comparison."
+      ]
+    ],
+    "q": [
+      [
+        "How many visitors were counted after the café opened?",
+        "120",
+        "a"
+      ],
+      [
+        "What was the weather during the previous count?",
+        "rainy",
+        "a"
+      ],
+      [
+        "Are the people and figures real?",
+        "no",
+        "b"
+      ],
+      [
+        "Is the causal conclusion established?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-13",
+    "aim": "ปรับระดับความเป็นทางการโดยคงคำขอและข้อเท็จจริง",
+    "a": "I need to change the date of a meeting. To a close friend, I might write, 'Sorry, can we move Friday's chat to Monday?' To a new project partner, I would give more context: 'I am writing to ask whether we could reschedule our meeting. I am unavailable on Friday afternoon. Would Monday at ten be convenient?' The facts are the same, but the relationship and purpose affect the language. Formal does not have to mean complicated. A clear subject line, a polite request and a proposed next step are more useful than long sentences that hide the point.",
+    "b": "Reply from a project partner: Thank you for letting me know. Monday at ten is not possible, but I am available at eleven. Please confirm whether that works for you. Kind regards, Alex. The meeting is not confirmed until the other person replies.",
+    "l1": "A: Can I write 'Hey' to a person I've never met?\nB: It depends on the setting, but a neutral greeting is safer for this enquiry.\nA: Should I use longer words?\nB: Use clear words. Politeness and clarity matter more than length.",
+    "l2": "Rewrite the same request for two audiences. Keep dates, times and responsibilities unchanged. Compare the greeting, request form and closing. Explain why you changed each feature instead of assuming one style is always better.",
+    "v": "reschedule=เปลี่ยนกำหนดนัด;unavailable=ไม่ว่าง;convenient=สะดวก;relationship=ความสัมพันธ์;purpose=จุดประสงค์;formal=เป็นทางการ;complicated=ซับซ้อน;subject line=บรรทัดหัวเรื่อง;proposed=เสนอ;confirm=ยืนยัน;neutral=เป็นกลาง;enquiry=การสอบถาม;clarity=ความชัดเจน;audiences=กลุ่มผู้อ่าน;responsibilities=หน้าที่รับผิดชอบ",
+    "g": [
+      [
+        "Could we / Would …?",
+        "คำขอที่เป็นกลางและสุภาพ",
+        "Would Monday be convenient?"
+      ],
+      [
+        "whether + clause",
+        "คำถามอ้อม",
+        "Please confirm whether that works."
+      ],
+      [
+        "same facts, different register",
+        "เปลี่ยนภาษาไม่เปลี่ยนความหมาย",
+        "Can we move it? / Could we reschedule it?"
+      ]
+    ],
+    "q": [
+      [
+        "Which day is the original meeting?",
+        "Friday",
+        "a"
+      ],
+      [
+        "What time does the writer initially propose for Monday?",
+        "ten",
+        "a"
+      ],
+      [
+        "What alternative time does Alex offer?",
+        "eleven",
+        "b"
+      ],
+      [
+        "Do longer words automatically make a request better?",
+        "no",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-14",
+    "aim": "เปรียบเทียบข้อดีข้อเสียตามความต้องการของผู้ตัดสินใจ",
+    "a": "Our study group can meet online or use a room near the college. Online meetings save travel time and allow a member who lives far away to join. However, two members have unreliable internet connections. The room offers a quieter shared space, but it costs money and closes at seven. We decide to use the room for monthly planning and keep short online check-ins optional. This mixed plan does not remove every difficulty. We will review whether members can actually participate, rather than choosing the option that sounds most modern or convenient to the organiser alone.",
+    "b": "Decision notes: Main goal—everyone can participate. Constraints—room closes at 19:00; two people have unstable internet. Options—online, in person, mixed. Review after four weeks. Record whose needs remain unmet.",
+    "l1": "A: Online is easier for me.\nB: I agree about travel, but my connection often drops.\nA: Would a mixed plan help?\nB: Possibly, if important decisions are not made only in the optional calls.\nA: Let's write that condition into the plan.",
+    "l2": "An advantage is useful only in relation to a goal. Cost, travel and participation may matter differently to different people. Explain your criteria before choosing. Then identify one drawback that remains and how you will check its effect.",
+    "v": "online=ออนไลน์;save=ประหยัด;travel time=เวลาเดินทาง;unreliable=ไม่เสถียร;connections=การเชื่อมต่อ;shared space=พื้นที่ร่วม;monthly=รายเดือน;optional=ไม่บังคับ;mixed=ผสม;participate=เข้าร่วม;constraints=ข้อจำกัด;unmet=ยังไม่ได้รับการตอบสนอง;criteria=เกณฑ์;drawback=ข้อเสีย;condition=เงื่อนไข",
+    "g": [
+      [
+        "whereas / however",
+        "เทียบข้อแตกต่าง",
+        "The room is quiet, whereas online access varies."
+      ],
+      [
+        "would + verb",
+        "ประเมินทางเลือก",
+        "A mixed plan would reduce some travel."
+      ],
+      [
+        "if / provided that",
+        "ระบุเงื่อนไขยอมรับ",
+        "It may work if decisions remain accessible."
+      ]
+    ],
+    "q": [
+      [
+        "How many members have unreliable internet?",
+        "two",
+        "a"
+      ],
+      [
+        "What time does the room close?",
+        "seven",
+        "a"
+      ],
+      [
+        "When will the plan be reviewed?",
+        "after four weeks",
+        "b"
+      ],
+      [
+        "What should not happen only in optional calls?",
+        "important decisions",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-15",
+    "aim": "เขียนรีวิวหรือรายงานที่มีเกณฑ์ ตัวอย่าง และข้อเสนอแนะ",
+    "a": "I visited a fictional community exhibition with my class. The entrance signs were clear, and the volunteers explained where to begin. The displays included short labels and useful pictures. However, two labels were too high for some visitors to read comfortably. The room became noisy when a large group arrived. I would recommend the exhibition to people interested in local stories, but I would suggest a quieter visiting time for anyone who needs it. My review describes one visit. It cannot tell readers what every visit will be like or replace a full accessibility assessment.",
+    "b": "Report extract: Observation—two labels above comfortable reading height. Effect—some visitors asked others to read them. Recommendation—provide copies at a lower height and test them with users. Keep the observation separate from the proposed solution.",
+    "l1": "A: You said the exhibition was good. What worked well?\nB: The signs and short labels.\nA: What would you improve?\nB: The height of two labels and information about quiet times.\nA: That is more useful than a general rating.",
+    "l2": "Organise a review around purpose, examples and recommendation. A report may use headings such as findings and next steps. Avoid promising that everyone will have the same experience. Say what your judgement is based on.",
+    "v": "exhibition=นิทรรศการ;entrance signs=ป้ายทางเข้า;displays=ส่วนจัดแสดง;labels=ป้ายคำอธิบาย;comfortably=อย่างสะดวก;noisy=เสียงดัง;recommend=แนะนำ;assessment=การประเมิน;observation=ข้อสังเกต;effect=ผล;recommendation=ข้อเสนอแนะ;solution=ทางแก้;rating=คะแนนประเมิน;findings=ข้อค้นพบ;judgement=การตัดสินประเมิน",
+    "g": [
+      [
+        "would recommend / suggest",
+        "เสนอแนะมีเงื่อนไข",
+        "I would suggest a quieter time."
+      ],
+      [
+        "too + adjective + to",
+        "บอกอุปสรรค",
+        "The labels were too high to read comfortably."
+      ],
+      [
+        "based on",
+        "ระบุฐานของข้อสรุป",
+        "This review is based on one visit."
+      ]
+    ],
+    "q": [
+      [
+        "How many labels were too high?",
+        "two",
+        "a"
+      ],
+      [
+        "What caused the room to become noisy?",
+        "a large group arrived",
+        "a"
+      ],
+      [
+        "Where should copies of the labels be provided?",
+        "at a lower height",
+        "b"
+      ],
+      [
+        "What is more useful than a general rating?",
+        "specific examples of what worked and what to improve",
+        "l1"
+      ]
+    ]
+  },
+  {
+    "id": "B1-16",
+    "aim": "รวมข้อมูลหลายชิ้นเพื่อวางแผน ชี้แจง และประเมินกิจกรรม",
+    "a": "Our group has been asked to plan a neighbourhood reading afternoon. The library can provide books, but the community room is available only from two to five. We expect about twenty visitors, including people who prefer a quiet space. We propose a shared welcome, two small reading groups and an optional discussion. One volunteer will record practical problems without collecting visitors' private details. After the event, we will compare the plan with what happened and write a short report. Success will mean that people could join meaningfully, not simply that we completed every activity on the schedule.",
+    "b": "Partner email: We can lend thirty books. Please collect them on Friday and return them on Monday. Some books have large print. Tell us the topics you need by Wednesday. We cannot provide transport, so arrange collection before confirming your plan.",
+    "l1": "A: Can the library deliver the books?\nB: No. We need to collect them.\nA: Who can do that on Friday?\nB: I can, if someone helps carry the boxes.\nA: Let's confirm that before we send the final invitation.",
+    "l2": "Your final briefing should connect the sources. Explain the room schedule, book collection and participants' needs. Mark unresolved details clearly. In the review, describe what happened and what you would change next time, using examples rather than invented success claims.",
+    "v": "neighbourhood=ละแวกชุมชน;provide=จัดหา;available=พร้อมให้ใช้;expect=คาดว่าจะมี;quiet space=พื้นที่เงียบ;propose=เสนอ;optional=ไม่บังคับ;practical=ในทางปฏิบัติ;meaningfully=อย่างมีความหมาย;schedule=กำหนดการ;lend=ให้ยืม;large print=ตัวพิมพ์ใหญ่;transport=การขนส่ง;briefing=การชี้แจง;unresolved=ยังไม่ตกลง",
+    "g": [
+      [
+        "have been asked to",
+        "อธิบายงานที่ได้รับ",
+        "We have been asked to plan an event."
+      ],
+      [
+        "if + condition",
+        "ยืนยันทรัพยากร",
+        "I can collect the books if someone helps."
+      ],
+      [
+        "will / would",
+        "แผนกับข้อเสนอในอนาคต",
+        "We will review what we would change next time."
+      ]
+    ],
+    "q": [
+      [
+        "When is the room available?",
+        "from two to five",
+        "a"
+      ],
+      [
+        "About how many visitors are expected?",
+        "twenty",
+        "a"
+      ],
+      [
+        "When must the books be returned?",
+        "Monday",
+        "b"
+      ],
+      [
+        "Does the library provide transport?",
+        "no",
+        "l1"
+      ]
+    ]
+  }
+]

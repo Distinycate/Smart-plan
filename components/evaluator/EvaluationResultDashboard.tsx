@@ -254,7 +254,7 @@ function MentorSummary({ aggregate, issues }: { aggregate?: AggregateScore; issu
             </div>
           )}
           <p style={{ fontSize: 12, color: '#64748b', marginTop: 10 }}>
-            💡 แนะนำให้ใช้ "Auto Fix Critical" ก่อน แล้วกด Recheck เพื่อดูผลที่ปรับปรุงแล้ว
+            💡 แนะนำให้ใช้ &quot;Auto Fix Critical&quot; ก่อน แล้วกด Recheck เพื่อดูผลที่ปรับปรุงแล้ว
           </p>
         </>
       )}

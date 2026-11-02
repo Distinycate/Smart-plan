@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-A2-08-COURSE",
+  "unitId": "A2-08",
+  "level": "A2",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript A2-08; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Health, Symptoms & Advice",
+  "canDo": "เล่าอาการเป็นลำดับและขอให้ผู้เชี่ยวชาญอธิบาย. Handle routine exchanges and short connected descriptions, including simple repair when information is unclear.",
+  "outcomes": [
+    "Use the language of health, symptoms & advice to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "A2-08-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Health, Symptoms & Advice\nเป้าหมาย: เล่าอาการเป็นลำดับและขอให้ผู้เชี่ยวชาญอธิบาย\n\nUse the language of health, symptoms & advice to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nAt a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.\n\nRead for purpose, then locate the people, events, conditions and limits. Read for the purpose first, then check details. Mark what is confirmed and what is only a suggestion. Connect short ideas with because, but and then. Check whether your reply answers the actual request.\n\nReading B\nQuestion card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "A2-08-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "past simple + when\nหน้าที่: บอกเวลาเริ่ม\nModel: It started on Monday.\nTry: change one detail while preserving the function. Check the result against the source.\n\ncomparative adjective\nหน้าที่: บอกการเปลี่ยนแปลง\nModel: It is worse at night.\nTry: change one detail while preserving the function. Check the result against the source.\n\nshould in questions\nหน้าที่: ขอคำแนะนำจากผู้เชี่ยวชาญ\nModel: What should I do next?\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nเชื่อมประโยคสั้นเป็นเรื่องที่ต่อเนื่อง แยกเหตุการณ์ที่ผ่านมา แผน และข้อมูลยืนยัน ระวังคำบอกเวลาและปริมาณ\n\nTarget vocabulary in context\nclinic — คลินิก\nAt a fictional clinic, Pat explains that a cough began on Monday.\n\ncough — อาการไอ\nAt a fictional clinic, Pat explains that a cough began on Monday.\n\nbegan — เริ่ม\nAt a fictional clinic, Pat explains that a cough began on Monday.\n\nworse — แย่ลง\nIt is worse at night.\n\nat night — ตอนกลางคืน\nIt is worse at night.\n\ncause — สาเหตุ\nPat feels tired but does not know the cause.\n\nreceptionist — พนักงานต้อนรับ\nThe receptionist asks Pat to wait for a health professional.\n\nprofessional — ผู้เชี่ยวชาญ\nThe receptionist asks Pat to wait for a health professional.\n\nquestions — คำถาม\nPat writes down questions about rest and daily activities.\n\nrest — การพัก\nPat writes down questions about rest and daily activities.\n\nmedicine — ยา\nPat does not take a classmate's medicine.\n\ndiagnosing — วินิจฉัย\nThis lesson practises describing a situation, not diagnosing or recommending treatment.\n\nparticular — เฉพาะ\nA: Is it worse at a particular time?\n\nrepeat — พูดซ้ำ\nAsk them to repeat the next step.\n\ninvent — แต่งขึ้น\nDo not invent information to make your description sound complete.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "A2-08-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: When did the cough start?\nB: On Monday.\nA: Is it worse at a particular time?\nB: At night.\nA: Please explain that to the health professional.\nB: Could you help me write it down?\n\nListening script B\nWhen you explain a problem, say when it started and what has changed. Tell the professional if you do not understand. Ask them to repeat the next step. Do not invent information to make your description sound complete.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nGroup words into short meaning units. Stress the corrected word when repairing a misunderstanding. Use a pause before a new step; do not speak faster at the cost of clarity.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "A2-08-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nเล่าอาการเป็นลำดับและขอให้ผู้เชี่ยวชาญอธิบาย\n\nPrepare a 60–90-word response and a 45–75-second spoken response using the unit inputs. Handle routine exchanges and short connected descriptions, including simple repair when information is unclear.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\npast simple + when: It started on Monday.\ncomparative adjective: It is worse at night.\nshould in questions: What should I do next?\nเชื่อมประโยคสั้นเป็นเรื่องที่ต่อเนื่อง แยกเหตุการณ์ที่ผ่านมา แผน และข้อมูลยืนยัน ระวังคำบอกเวลาและปริมาณ\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-A2-08-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: คลินิก.\nAt a fictional ____, Pat explains that a cough began on Monday.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "clinic"
+      ],
+      "expected": "clinic",
+      "explanation": "clinic means คลินิก in this context. Full source sentence: At a fictional clinic, Pat explains that a cough began on Monday.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: อาการไอ.\nAt a fictional clinic, Pat explains that a ____ began on Monday.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "cough"
+      ],
+      "expected": "cough",
+      "explanation": "cough means อาการไอ in this context. Full source sentence: At a fictional clinic, Pat explains that a cough began on Monday.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เริ่ม.\nAt a fictional clinic, Pat explains that a cough ____ on Monday.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "began"
+      ],
+      "expected": "began",
+      "explanation": "began means เริ่ม in this context. Full source sentence: At a fictional clinic, Pat explains that a cough began on Monday.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: แย่ลง.\nIt is ____ at night.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "worse"
+      ],
+      "expected": "worse",
+      "explanation": "worse means แย่ลง in this context. Full source sentence: It is worse at night.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ตอนกลางคืน.\nIt is worse ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "at night"
+      ],
+      "expected": "at night",
+      "explanation": "at night means ตอนกลางคืน in this context. Full source sentence: It is worse at night.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: สาเหตุ.\nPat feels tired but does not know the ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "cause"
+      ],
+      "expected": "cause",
+      "explanation": "cause means สาเหตุ in this context. Full source sentence: Pat feels tired but does not know the cause.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: พนักงานต้อนรับ.\nThe ____ asks Pat to wait for a health professional.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "receptionist"
+      ],
+      "expected": "receptionist",
+      "explanation": "receptionist means พนักงานต้อนรับ in this context. Full source sentence: The receptionist asks Pat to wait for a health professional.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ผู้เชี่ยวชาญ.\nThe receptionist asks Pat to wait for a health ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "professional"
+      ],
+      "expected": "professional",
+      "explanation": "professional means ผู้เชี่ยวชาญ in this context. Full source sentence: The receptionist asks Pat to wait for a health professional.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: คำถาม.\nPat writes down ____ about rest and daily activities.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "questions"
+      ],
+      "expected": "questions",
+      "explanation": "questions means คำถาม in this context. Full source sentence: Pat writes down questions about rest and daily activities.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การพัก.\nPat writes down questions about ____ and daily activities.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "rest"
+      ],
+      "expected": "rest",
+      "explanation": "rest means การพัก in this context. Full source sentence: Pat writes down questions about rest and daily activities.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ยา.\nPat does not take a classmate's ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "medicine"
+      ],
+      "expected": "medicine",
+      "explanation": "medicine means ยา in this context. Full source sentence: Pat does not take a classmate's medicine.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: วินิจฉัย.\nThis lesson practises describing a situation, not ____ or recommending treatment.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "diagnosing"
+      ],
+      "expected": "diagnosing",
+      "explanation": "diagnosing means วินิจฉัย in this context. Full source sentence: This lesson practises describing a situation, not diagnosing or recommending treatment.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-A2-08-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nAt a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.\n\nWhen did Pat's cough begin? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Monday",
+      "explanation": "Reference answer: Monday. Accept an accurate paraphrase that preserves scope. Check against A2-08-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "A2-08-READ-A"
+    },
+    {
+      "stableId": "Q-A2-08-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nAt a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.\n\nWhen is the cough worse? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "at night",
+      "explanation": "Reference answer: at night. Accept an accurate paraphrase that preserves scope. Check against A2-08-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "A2-08-READ-A"
+    },
+    {
+      "stableId": "Q-A2-08-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nQuestion card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise.\n\nWhich request asks for written instructions? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "Please write the instructions down.",
+      "explanation": "Reference answer: Please write the instructions down.. Accept an accurate paraphrase that preserves scope. Check against A2-08-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "A2-08-READ-B"
+    },
+    {
+      "stableId": "Q-A2-08-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script B — text-supported comprehension\nWhen you explain a problem, say when it started and what has changed. Tell the professional if you do not understand. Ask them to repeat the next step. Do not invent information to make your description sound complete.\n\nShould a speaker invent missing information? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "no",
+      "explanation": "Reference answer: no. Accept an accurate paraphrase that preserves scope. Check against A2-08-LISTEN-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "A2-08-LISTEN-B"
+    },
+    {
+      "stableId": "Q-A2-08-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Use past simple + when to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: It started on Monday.",
+      "expected": "Check the function บอกเวลาเริ่ม; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function บอกเวลาเริ่ม; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-A2-08-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. It is worse at night.\n2. What should I do next?\nWrite one appropriate reply or continuation.",
+      "expected": "Look for บอกการเปลี่ยนแปลง versus ขอคำแนะนำจากผู้เชี่ยวชาญ. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for บอกการเปลี่ยนแปลง versus ขอคำแนะนำจากผู้เชี่ยวชาญ. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-A2-08-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nQuestion card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in A2-08-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in A2-08-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-A2-08-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY",
+        "A2-08_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nAt a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.",
+      "expected": "Provide a relevant supported detail from A2-08-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from A2-08-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-A2-08-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-A2-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 60–90 words for a classmate who needs to understand health, symptoms & advice. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Read for the purpose first, then check details. Mark what is confirmed and what is only a suggestion. Connect short ideas with because, but and then. Check whether your reply answers the actual request.\n\nSources\nAt a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.\n\nQuestion card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise."
+    },
+    {
+      "stableId": "TASK-A2-08-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-A2-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 45–75-second spoken response about health, symptoms & advice. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Group words into short meaning units. Stress the corrected word when repairing a misunderstanding. Use a pause before a new step; do not speak faster at the cost of clarity.\n\nInput\nAt a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.\n\nA: When did the cough start?\nB: On Monday.\nA: Is it worse at a particular time?\nB: At night.\nA: Please explain that to the health professional.\nB: Could you help me write it down?"
+    },
+    {
+      "stableId": "TASK-A2-08-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-A2-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nAt a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.\n\nReading B\nQuestion card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise."
+    },
+    {
+      "stableId": "TASK-A2-08-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "A2-08_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-A2-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about health, symptoms & advice, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nQuestion card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise.\n\nA: When did the cough start?\nB: On Monday.\nA: Is it worse at a particular time?\nB: At night.\nA: Please explain that to the health professional.\nB: Could you help me write it down?"
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-A2-08-001",
+      "item": "clinic",
+      "thai": "คลินิก",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "At a fictional clinic, Pat explains that a cough began on Monday.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-002",
+      "item": "cough",
+      "thai": "อาการไอ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "At a fictional clinic, Pat explains that a cough began on Monday.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-003",
+      "item": "began",
+      "thai": "เริ่ม",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "At a fictional clinic, Pat explains that a cough began on Monday.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-004",
+      "item": "worse",
+      "thai": "แย่ลง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "It is worse at night.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-005",
+      "item": "at night",
+      "thai": "ตอนกลางคืน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "It is worse at night.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-006",
+      "item": "cause",
+      "thai": "สาเหตุ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Pat feels tired but does not know the cause.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-007",
+      "item": "receptionist",
+      "thai": "พนักงานต้อนรับ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The receptionist asks Pat to wait for a health professional.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-008",
+      "item": "professional",
+      "thai": "ผู้เชี่ยวชาญ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The receptionist asks Pat to wait for a health professional.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-009",
+      "item": "questions",
+      "thai": "คำถาม",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Pat writes down questions about rest and daily activities.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-010",
+      "item": "rest",
+      "thai": "การพัก",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Pat writes down questions about rest and daily activities.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-011",
+      "item": "medicine",
+      "thai": "ยา",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Pat does not take a classmate's medicine.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-012",
+      "item": "diagnosing",
+      "thai": "วินิจฉัย",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "This lesson practises describing a situation, not diagnosing or recommending treatment.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-013",
+      "item": "particular",
+      "thai": "เฉพาะ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A: Is it worse at a particular time?",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-014",
+      "item": "repeat",
+      "thai": "พูดซ้ำ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Ask them to repeat the next step.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-015",
+      "item": "invent",
+      "thai": "แต่งขึ้น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Do not invent information to make your description sound complete.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-A2-08-REV-1",
+      "item": "because",
+      "thai": "เพราะว่า",
+      "example": "I stayed home because I was tired.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-2",
+      "item": "then",
+      "thai": "จากนั้น",
+      "example": "Read the message, then reply.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-3",
+      "item": "before",
+      "thai": "ก่อน",
+      "example": "Check the time before you leave.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-4",
+      "item": "after",
+      "thai": "หลังจาก",
+      "example": "We can talk after class.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-5",
+      "item": "usually",
+      "thai": "โดยปกติ",
+      "example": "I usually take the bus.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-6",
+      "item": "sometimes",
+      "thai": "บางครั้ง",
+      "example": "Sometimes the room is busy.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-7",
+      "item": "perhaps",
+      "thai": "บางที",
+      "example": "Perhaps we can meet later.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-8",
+      "item": "instead",
+      "thai": "แทน",
+      "example": "Could we meet on Friday instead?",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-9",
+      "item": "already",
+      "thai": "แล้ว",
+      "example": "I have already sent the message.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-10",
+      "item": "not yet",
+      "thai": "ยังไม่",
+      "example": "The room is not ready yet.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-11",
+      "item": "enough",
+      "thai": "เพียงพอ",
+      "example": "We have enough chairs.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-12",
+      "item": "together",
+      "thai": "ด้วยกัน",
+      "example": "Let's check it together.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-13",
+      "item": "different",
+      "thai": "แตกต่าง",
+      "example": "The two plans are different.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-14",
+      "item": "explain",
+      "thai": "อธิบาย",
+      "example": "Could you explain that word?",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-A2-08-REV-15",
+      "item": "confirm",
+      "thai": "ยืนยัน",
+      "example": "Please confirm the new time.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-A2-08-1",
+      "form": "past simple + when",
+      "use": "บอกเวลาเริ่ม",
+      "example": "It started on Monday."
+    },
+    {
+      "id": "G-A2-08-2",
+      "form": "comparative adjective",
+      "use": "บอกการเปลี่ยนแปลง",
+      "example": "It is worse at night."
+    },
+    {
+      "id": "G-A2-08-3",
+      "form": "should in questions",
+      "use": "ขอคำแนะนำจากผู้เชี่ยวชาญ",
+      "example": "What should I do next?"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "A2-08-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "At a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment."
+    },
+    {
+      "id": "A2-08-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Question card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise."
+    },
+    {
+      "id": "A2-08-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: When did the cough start?\nB: On Monday.\nA: Is it worse at a particular time?\nB: At night.\nA: Please explain that to the health professional.\nB: Could you help me write it down?"
+    },
+    {
+      "id": "A2-08-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "When you explain a problem, say when it started and what has changed. Tell the professional if you do not understand. Ask them to repeat the next step. Do not invent information to make your description sound complete."
+    }
+  ],
+  "pronunciation": "Group words into short meaning units. Stress the corrected word when repairing a misunderstanding. Use a pause before a new step; do not speak faster at the cost of clarity.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-A2-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-A2-0.1",
+    "level": "A2",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target A2: Handle routine exchanges and short connected descriptions, including simple repair when information is unclear.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-A2-08-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Health, Symptoms & Advice; explain one source detail and use past simple + when in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-A2-08-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Health, Symptoms & Advice; explain one source detail and use comparative adjective in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-A2-08-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Health, Symptoms & Advice; explain one source detail and use should in questions in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-A2-08-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Health, Symptoms & Advice; explain one source detail and use past simple + when in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "A2-08_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-A2-08-015 and the mediation task."
+    },
+    {
+      "errorTag": "A2-08_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-A2-08-001",
+      "Q-A2-08-002",
+      "Q-A2-08-003",
+      "Q-A2-08-004",
+      "Q-A2-08-005",
+      "Q-A2-08-006",
+      "Q-A2-08-007",
+      "Q-A2-08-008",
+      "Q-A2-08-009",
+      "Q-A2-08-010",
+      "Q-A2-08-011",
+      "Q-A2-08-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-A2-08-013",
+      "Q-A2-08-014",
+      "Q-A2-08-015",
+      "Q-A2-08-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-A2-08-1",
+      "TASK-A2-08-2",
+      "TASK-A2-08-3",
+      "TASK-A2-08-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "A2.json",
+    "sourceUnitId": "A2-08",
+    "sourceChecksum": "38a2f88e9a2525b4d6e68c5467821ab30e073604a77adb98b502f54bb86f76bd"
+  },
+  "sourceText": "{\n  \"id\": \"A2-08\",\n  \"aim\": \"เล่าอาการเป็นลำดับและขอให้ผู้เชี่ยวชาญอธิบาย\",\n  \"a\": \"At a fictional clinic, Pat explains that a cough began on Monday. It is worse at night. Pat feels tired but does not know the cause. The receptionist asks Pat to wait for a health professional. Pat writes down questions about rest and daily activities. Pat does not take a classmate's medicine. This lesson practises describing a situation, not diagnosing or recommending treatment.\",\n  \"b\": \"Question card: When did it start? Has anything changed? What should I do next? Could you explain that word? Please write the instructions down. For real health decisions, consult a qualified professional rather than this exercise.\",\n  \"l1\": \"A: When did the cough start?\\nB: On Monday.\\nA: Is it worse at a particular time?\\nB: At night.\\nA: Please explain that to the health professional.\\nB: Could you help me write it down?\",\n  \"l2\": \"When you explain a problem, say when it started and what has changed. Tell the professional if you do not understand. Ask them to repeat the next step. Do not invent information to make your description sound complete.\",\n  \"v\": \"clinic=คลินิก;cough=อาการไอ;began=เริ่ม;worse=แย่ลง;at night=ตอนกลางคืน;cause=สาเหตุ;receptionist=พนักงานต้อนรับ;professional=ผู้เชี่ยวชาญ;questions=คำถาม;rest=การพัก;medicine=ยา;diagnosing=วินิจฉัย;particular=เฉพาะ;repeat=พูดซ้ำ;invent=แต่งขึ้น\",\n  \"g\": [\n    [\n      \"past simple + when\",\n      \"บอกเวลาเริ่ม\",\n      \"It started on Monday.\"\n    ],\n    [\n      \"comparative adjective\",\n      \"บอกการเปลี่ยนแปลง\",\n      \"It is worse at night.\"\n    ],\n    [\n      \"should in questions\",\n      \"ขอคำแนะนำจากผู้เชี่ยวชาญ\",\n      \"What should I do next?\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"When did Pat's cough begin?\",\n      \"Monday\",\n      \"a\"\n    ],\n    [\n      \"When is the cough worse?\",\n      \"at night\",\n      \"a\"\n    ],\n    [\n      \"Which request asks for written instructions?\",\n      \"Please write the instructions down.\",\n      \"b\"\n    ],\n    [\n      \"Should a speaker invent missing information?\",\n      \"no\",\n      \"l2\"\n    ]\n  ]\n}\n",
+  "checksum": "ebfcf2b8486ae0eeedab074badb29ad530e1975d5923c2242f53899663bf2161"
+}

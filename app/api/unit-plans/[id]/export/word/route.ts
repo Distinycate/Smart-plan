@@ -16,7 +16,8 @@ const paragraphs = (value: unknown) => String(value || '')
   .map(line => `<p>${escapeHtml(line)}</p>`)
   .join('') || '<p>-</p>';
 
-export async function GET(_req: Request, { params }: { params: { id: string } }) {
+export async function GET(_req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const result = await loadUnitPlanExportData(params.id);
   if ('error' in result) return new Response('Unit plan not found or unauthorized', { status: result.status });
 

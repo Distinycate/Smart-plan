@@ -1,0 +1,889 @@
+{
+  "stableId": "UNIT-B1-08-COURSE",
+  "unitId": "B1-08",
+  "level": "B1",
+  "version": "0.1.0",
+  "state": "PRE_HUMAN_CONTENT_COMPLETE",
+  "humanCheckRequired": true,
+  "sourceType": "ORIGINAL",
+  "authoringMethod": "AI_ASSISTED_ORIGINAL_DRAFT",
+  "provenance": "Original course manuscript B1-08; fictional classroom inputs; CEFR-informed targets require human validation.",
+  "title": "Environment & Community",
+  "canDo": "เสนอการเปลี่ยนแปลงในชุมชนโดยใช้ข้อมูลที่จำกัดอย่างรับผิดชอบ. Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.",
+  "outcomes": [
+    "Use the language of environment & community to complete the unit's practical or interpretive task.",
+    "Identify and relay the essential information in the two readings without adding unsupported facts.",
+    "Respond to the two listening scripts with appropriate clarification and source-sensitive wording."
+  ],
+  "lessons": [
+    {
+      "id": "B1-08-L01",
+      "title": "Understand the situation",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Environment & Community\nเป้าหมาย: เสนอการเปลี่ยนแปลงในชุมชนโดยใช้ข้อมูลที่จำกัดอย่างรับผิดชอบ\n\nUse the language of environment & community to complete the unit's practical or interpretive task.\nIdentify and relay the essential information in the two readings without adding unsupported facts.\nRespond to the two listening scripts with appropriate clarification and source-sensitive wording.\n\nReading A\nResidents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\n\nRead for purpose, then locate the people, events, conditions and limits. Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.\n\nReading B\nTrial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan.\n\nCompare the two inputs: what is shared, what is additional, and what is not known? Use only details actually supplied. All characters, organisations, figures and events in these inputs are fictional classroom materials."
+        }
+      ]
+    },
+    {
+      "id": "B1-08-L02",
+      "title": "Build precise language",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "noticed / found / could not tell\nหน้าที่: แยกสิ่งที่เห็นกับสิ่งที่ไม่รู้\nModel: They found litter but could not tell who left it.\nTry: change one detail while preserving the function. Check the result against the source.\n\npropose + noun/-ing\nหน้าที่: เสนอการทดลอง\nModel: We propose adding a bin.\nTry: change one detail while preserving the function. Check the result against the source.\n\ncould / might\nหน้าที่: ลดความแน่นอนของข้อสรุป\nModel: Other factors might explain the change.\nTry: change one detail while preserving the function. Check the result against the source.\n\nThai learner guidance\nให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก\n\nTarget vocabulary in context\nresidents — คนในพื้นที่\nResidents noticed litter near the community garden after weekend events.\n\nlitter — ขยะที่ทิ้งเรี่ยราด\nResidents noticed litter near the community garden after weekend events.\n\nbins — ถังขยะ\nSome wanted more bins; others thought the problem was unclear signs.\n\nsigns — ป้าย\nSome wanted more bins; others thought the problem was unclear signs.\n\nvolunteer — อาสาสมัคร\nA volunteer group counted visible litter in two areas on three mornings.\n\nvisible — ที่มองเห็น\nA volunteer group counted visible litter in two areas on three mornings.\n\nentrance — ทางเข้า\nThey found more items beside the entrance, but they could not tell who had left them.\n\nproposed — เสนอ\nThe group proposed a two-week trial with clearer signs and one extra bin.\n\ntrial — การทดลอง\nThe group proposed a two-week trial with clearer signs and one extra bin.\n\nmethod — วิธีการ\nThey planned to count again using the same method.\n\nobservation — ข้อสังเกต\nTheir small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\n\nrepresent — เป็นตัวแทน\nTheir small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\n\nexpanding — ขยาย\nReview the result before expanding the plan.\n\ncause — สาเหตุ\nDescribe the observation before suggesting a cause.\n\nguaranteed — รับประกัน\nPresent the trial as a proposal, not a guaranteed solution.\n\nGuided practice: cover the word bank, reconstruct five target expressions, and explain their meaning in these particular contexts. Then use two in a new example. The same word may have a different sense elsewhere."
+        }
+      ]
+    },
+    {
+      "id": "B1-08-L03",
+      "title": "Listen, clarify and interact",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Listening script A — authored script; recorded audio and human audio QC are pending. Reading the transcript is text-based preparation, not evidence of independent listening ability.\n\nA: Does the count prove visitors don't care?\nB: No. It only shows where we found litter.\nA: What should we try?\nB: Clear signs and one extra bin, then another count.\nA: Let's keep the counting method the same.\n\nListening script B\nDescribe the observation before suggesting a cause. Compare like with like: the same area, time and method. If the number changes, consider other explanations such as event size or weather. Present the trial as a proposal, not a guaranteed solution.\n\nFirst pass: identify purpose and main message. Second pass: note essential details and any corrections. Check against the script only after the listening attempt when approved audio becomes available. For now, practise with a teacher or partner reading the script.\n\nPronunciation and prosody\nUse thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.\n\nInteraction rehearsal: take both roles. Ask one clarification question, answer it using the source, and check that the other person has understood. Do not equate quietness, accent or hesitation with lack of ability."
+        }
+      ]
+    },
+    {
+      "id": "B1-08-L04",
+      "title": "Apply, mediate and review",
+      "blocks": [
+        {
+          "type": "TEXT",
+          "text": "Unit transfer task\nเสนอการเปลี่ยนแปลงในชุมชนโดยใช้ข้อมูลที่จำกัดอย่างรับผิดชอบ\n\nPrepare a 120–160-word response and a 90–120-second spoken response using the unit inputs. Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.\n\nPlanning sequence\n1. Identify audience and purpose.\n2. Select source details that the audience needs.\n3. Mark any uncertainty, unconfirmed arrangement or missing information.\n4. Choose two language features from Lesson 2.\n5. Produce the response, then check meaning before surface accuracy.\n\nMediation: explain the essential information to a Thai-speaking classmate who has not read the sources. Preserve dates, quantities, conditions, agency and uncertainty. Say what cannot be concluded.\n\nOnline interaction: respond to a request for clarification, then add a follow-up checking question. Acknowledge corrections and revise your message where needed.\n\nQuick review\nnoticed / found / could not tell: They found litter but could not tell who left it.\npropose + noun/-ing: We propose adding a bin.\ncould / might: Other factors might explain the change.\nให้เหตุผลพร้อมตัวอย่างที่เกี่ยวข้อง รักษาลำดับเวลา แยกสิ่งที่รู้จากการคาดเดา และอธิบายข้อจำกัดของทางเลือก\n\nSelf-check: Did I meet the purpose? Which source supports each factual detail? Did I make a suggestion sound confirmed? Can the other person act or understand appropriately? Which error should I revisit tomorrow?"
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "stableId": "Q-B1-08-001",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: คนในพื้นที่.\n____ noticed litter near the community garden after weekend events.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "residents"
+      ],
+      "expected": "residents",
+      "explanation": "residents means คนในพื้นที่ in this context. Full source sentence: Residents noticed litter near the community garden after weekend events.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-002",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ขยะที่ทิ้งเรี่ยราด.\nResidents noticed ____ near the community garden after weekend events.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "litter"
+      ],
+      "expected": "litter",
+      "explanation": "litter means ขยะที่ทิ้งเรี่ยราด in this context. Full source sentence: Residents noticed litter near the community garden after weekend events.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-003",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ถังขยะ.\nSome wanted more ____; others thought the problem was unclear signs.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "bins"
+      ],
+      "expected": "bins",
+      "explanation": "bins means ถังขยะ in this context. Full source sentence: Some wanted more bins; others thought the problem was unclear signs.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-004",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ป้าย.\nSome wanted more bins; others thought the problem was unclear ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "signs"
+      ],
+      "expected": "signs",
+      "explanation": "signs means ป้าย in this context. Full source sentence: Some wanted more bins; others thought the problem was unclear signs.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-005",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: อาสาสมัคร.\nA ____ group counted visible litter in two areas on three mornings.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "volunteer"
+      ],
+      "expected": "volunteer",
+      "explanation": "volunteer means อาสาสมัคร in this context. Full source sentence: A volunteer group counted visible litter in two areas on three mornings.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-006",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ที่มองเห็น.\nA volunteer group counted ____ litter in two areas on three mornings.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "visible"
+      ],
+      "expected": "visible",
+      "explanation": "visible means ที่มองเห็น in this context. Full source sentence: A volunteer group counted visible litter in two areas on three mornings.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-007",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ทางเข้า.\nThey found more items beside the ____, but they could not tell who had left them.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "entrance"
+      ],
+      "expected": "entrance",
+      "explanation": "entrance means ทางเข้า in this context. Full source sentence: They found more items beside the entrance, but they could not tell who had left them.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-008",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เสนอ.\nThe group ____ a two-week trial with clearer signs and one extra bin.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "proposed"
+      ],
+      "expected": "proposed",
+      "explanation": "proposed means เสนอ in this context. Full source sentence: The group proposed a two-week trial with clearer signs and one extra bin.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-009",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: การทดลอง.\nThe group proposed a two-week ____ with clearer signs and one extra bin.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "trial"
+      ],
+      "expected": "trial",
+      "explanation": "trial means การทดลอง in this context. Full source sentence: The group proposed a two-week trial with clearer signs and one extra bin.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-010",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: วิธีการ.\nThey planned to count again using the same ____.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "method"
+      ],
+      "expected": "method",
+      "explanation": "method means วิธีการ in this context. Full source sentence: They planned to count again using the same method.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-011",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: ข้อสังเกต.\nTheir small ____ could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "observation"
+      ],
+      "expected": "observation",
+      "explanation": "observation means ข้อสังเกต in this context. Full source sentence: Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-012",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Language retrieval. Complete the exact expression from the unit input. Meaning in this context: เป็นตัวแทน.\nTheir small observation could guide a local trial, but it could not prove why people behaved as they did or ____ every part of the town.\nWrite only the missing expression.",
+      "responseType": "SHORT_ANSWER",
+      "acceptedAnswers": [
+        "represent"
+      ],
+      "expected": "represent",
+      "explanation": "represent means เป็นตัวแทน in this context. Full source sentence: Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.",
+      "skill": "LANGUAGE_RESOURCE",
+      "construct": "CONTEXTUAL_LEXICAL_RETRIEVAL"
+    },
+    {
+      "stableId": "Q-B1-08-013",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nResidents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\n\nWhere was more litter found? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "beside the entrance",
+      "explanation": "Reference answer: beside the entrance. Accept an accurate paraphrase that preserves scope. Check against B1-08-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-08-READ-A"
+    },
+    {
+      "stableId": "Q-B1-08-014",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Reading A — text-supported comprehension\nResidents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\n\nHow long is the proposed trial? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "two weeks",
+      "explanation": "Reference answer: two weeks. Accept an accurate paraphrase that preserves scope. Check against B1-08-READ-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-08-READ-A"
+    },
+    {
+      "stableId": "Q-B1-08-015",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B — text-supported comprehension\nTrial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan.\n\nOn how many mornings will the new count happen? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "six",
+      "explanation": "Reference answer: six. Accept an accurate paraphrase that preserves scope. Check against B1-08-READ-B; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-08-READ-B"
+    },
+    {
+      "stableId": "Q-B1-08-016",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Listening script A — text-supported comprehension\nA: Does the count prove visitors don't care?\nB: No. It only shows where we found litter.\nA: What should we try?\nB: Clear signs and one extra bin, then another count.\nA: Let's keep the counting method the same.\n\nDoes the count prove that visitors do not care? Give the relevant detail; do not add information.",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "expected": "no",
+      "explanation": "Reference answer: no. Accept an accurate paraphrase that preserves scope. Check against B1-08-LISTEN-A; do not require identical wording.",
+      "skill": "READING",
+      "construct": "SOURCE_DETAIL",
+      "sourceId": "B1-08-LISTEN-A"
+    },
+    {
+      "stableId": "Q-B1-08-017",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Use noticed / found / could not tell to express one accurate unit detail. Then change the detail and explain what changed.\nModel for the form: They found litter but could not tell who left it.",
+      "expected": "Check the function แยกสิ่งที่เห็นกับสิ่งที่ไม่รู้; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example.",
+      "skill": "WRITING",
+      "construct": "FORM_MEANING_USE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Check the function แยกสิ่งที่เห็นกับสิ่งที่ไม่รู้; the learner's original detail must be supported by the input, and the changed example must be labelled as a new example."
+    },
+    {
+      "stableId": "Q-B1-08-018",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Compare these two language models and explain the different purpose of each.\n1. We propose adding a bin.\n2. Other factors might explain the change.\nWrite one appropriate reply or continuation.",
+      "expected": "Look for เสนอการทดลอง versus ลดความแน่นอนของข้อสรุป. Accept a context-appropriate continuation, not only one fixed answer.",
+      "skill": "WRITING",
+      "construct": "PRAGMATIC_CHOICE",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Look for เสนอการทดลอง versus ลดความแน่นอนของข้อสรุป. Accept a context-appropriate continuation, not only one fixed answer."
+    },
+    {
+      "stableId": "Q-B1-08-019",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "Reading B\nTrial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan.\n\nA classmate has not read this. Relay the essential message in Thai or clear English, and name one detail you should not invent.",
+      "expected": "Preserve the essential information and conditions in B1-08-READ-B. Identify genuinely absent information rather than asserting an unsupported negative.",
+      "skill": "MEDIATION",
+      "construct": "FIDELITY_AND_SELECTION",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Preserve the essential information and conditions in B1-08-READ-B. Identify genuinely absent information rather than asserting an unsupported negative."
+    },
+    {
+      "stableId": "Q-B1-08-020",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY",
+        "B1-08_LANGUAGE_USE"
+      ],
+      "prompt": "A partner writes: \"I am not sure I understood the main point. Could you help?\"\nUse this unit input to reply with one important detail and one checking question:\nResidents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.",
+      "expected": "Provide a relevant supported detail from B1-08-READ-A; respond to the partner and use an understandable checking question.",
+      "skill": "ONLINE_INTERACTION",
+      "construct": "RESPONSIVE_REPAIR",
+      "responseType": "OPEN_RESPONSE",
+      "acceptedAnswers": [],
+      "explanation": "Provide a relevant supported detail from B1-08-READ-A; respond to the partner and use an understandable checking question."
+    }
+  ],
+  "tasks": [
+    {
+      "stableId": "TASK-B1-08-1",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Writing",
+      "skill": "WRITING",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "Write 120–160 words for a classmate who needs to understand environment & community. Explain the relevant situation, include at least two accurate source details, and provide a suitable next step or interpretation. Identify the purpose, relevant constraints and sequence. Distinguish an observation from an explanation. Plan a connected response with reasons, an example and a clear next step. State what remains uncertain.\n\nSources\nResidents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\n\nTrial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan."
+    },
+    {
+      "stableId": "TASK-B1-08-2",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Speaking",
+      "skill": "SPEAKING",
+      "responseType": "RECORDING",
+      "prompt": "Prepare a 90–120-second spoken response about environment & community. Explain the situation and two source details, then respond to a partner asking, \"Which part is certain, and what should I check?\" If practising alone, leave a pause and answer that question. Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.\n\nInput\nResidents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\n\nA: Does the count prove visitors don't care?\nB: No. It only shows where we found litter.\nA: What should we try?\nB: Clear signs and one extra bin, then another count.\nA: Let's keep the counting method the same."
+    },
+    {
+      "stableId": "TASK-B1-08-3",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Mediation",
+      "skill": "MEDIATION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "A Thai-speaking classmate needs the information from these two sources but has not read them. Relay what they need in clear Thai or English. Keep important quantities, conditions and uncertainty; distinguish advice or interpretation from source facts. Do not manufacture agreement between sources.\n\nReading A\nResidents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\n\nReading B\nTrial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan."
+    },
+    {
+      "stableId": "TASK-B1-08-4",
+      "version": "0.1.0",
+      "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+      "poolState": "PRE_HUMAN_CONTENT_COMPLETE",
+      "acceptedAnswers": [],
+      "errorTags": [
+        "B1-08_SOURCE_FIDELITY"
+      ],
+      "expected": "Assess the response against the supplied sources and EMH-COURSE-RUBRIC-B1-0.1. More than one response may be defensible.",
+      "title": "Online interaction",
+      "skill": "ONLINE_INTERACTION",
+      "responseType": "OPEN_RESPONSE",
+      "prompt": "In a class discussion about environment & community, a partner asks: \"Can you explain the important point and what I should do or understand next?\" Write your reply, then a follow-up message asking them to confirm or clarify one detail. Adapt the tone to a peer and correct a misunderstanding respectfully.\n\nShared context\nTrial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan.\n\nA: Does the count prove visitors don't care?\nB: No. It only shows where we found litter.\nA: What should we try?\nB: Clear signs and one extra bin, then another count.\nA: Let's keep the counting method the same."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "V-B1-08-001",
+      "item": "residents",
+      "thai": "คนในพื้นที่",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Residents noticed litter near the community garden after weekend events.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-002",
+      "item": "litter",
+      "thai": "ขยะที่ทิ้งเรี่ยราด",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Residents noticed litter near the community garden after weekend events.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-003",
+      "item": "bins",
+      "thai": "ถังขยะ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Some wanted more bins; others thought the problem was unclear signs.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-004",
+      "item": "signs",
+      "thai": "ป้าย",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Some wanted more bins; others thought the problem was unclear signs.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-005",
+      "item": "volunteer",
+      "thai": "อาสาสมัคร",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A volunteer group counted visible litter in two areas on three mornings.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-006",
+      "item": "visible",
+      "thai": "ที่มองเห็น",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "A volunteer group counted visible litter in two areas on three mornings.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-007",
+      "item": "entrance",
+      "thai": "ทางเข้า",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "They found more items beside the entrance, but they could not tell who had left them.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-008",
+      "item": "proposed",
+      "thai": "เสนอ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The group proposed a two-week trial with clearer signs and one extra bin.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-009",
+      "item": "trial",
+      "thai": "การทดลอง",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "The group proposed a two-week trial with clearer signs and one extra bin.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-010",
+      "item": "method",
+      "thai": "วิธีการ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "They planned to count again using the same method.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-011",
+      "item": "observation",
+      "thai": "ข้อสังเกต",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-012",
+      "item": "represent",
+      "thai": "เป็นตัวแทน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-013",
+      "item": "expanding",
+      "thai": "ขยาย",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Review the result before expanding the plan.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-014",
+      "item": "cause",
+      "thai": "สาเหตุ",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Describe the observation before suggesting a cause.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-015",
+      "item": "guaranteed",
+      "thai": "รับประกัน",
+      "type": "TARGET_SENSE_OR_PHRASE",
+      "example": "Present the trial as a proposal, not a guaranteed solution.",
+      "learningRole": "UNIT_TARGET"
+    },
+    {
+      "id": "V-B1-08-REV-1",
+      "item": "however",
+      "thai": "อย่างไรก็ตาม",
+      "example": "The plan is useful; however, it costs more.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-2",
+      "item": "although",
+      "thai": "แม้ว่า",
+      "example": "Although the room is small, it is quiet.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-3",
+      "item": "therefore",
+      "thai": "ดังนั้น",
+      "example": "The time changed; therefore, we sent an update.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-4",
+      "item": "for example",
+      "thai": "ตัวอย่างเช่น",
+      "example": "For example, one member needs a quieter space.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-5",
+      "item": "in my view",
+      "thai": "ในมุมมองของฉัน",
+      "example": "In my view, a short trial is reasonable.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-6",
+      "item": "according to",
+      "thai": "ตามข้อมูลจาก",
+      "example": "According to the note, the room closes at five.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-7",
+      "item": "suggest",
+      "thai": "เสนอแนะ",
+      "example": "I suggest checking the details first.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-8",
+      "item": "consider",
+      "thai": "พิจารณา",
+      "example": "We should consider another explanation.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-9",
+      "item": "advantage",
+      "thai": "ข้อดี",
+      "example": "One advantage is the shorter journey.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-10",
+      "item": "disadvantage",
+      "thai": "ข้อเสีย",
+      "example": "The main disadvantage is the cost.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-11",
+      "item": "reason",
+      "thai": "เหตุผล",
+      "example": "Give a reason for your choice.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-12",
+      "item": "result",
+      "thai": "ผลลัพธ์",
+      "example": "The result was different from our plan.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-13",
+      "item": "experience",
+      "thai": "ประสบการณ์",
+      "example": "Describe one experience that changed your view.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-14",
+      "item": "improve",
+      "thai": "ปรับปรุง",
+      "example": "Feedback can help us improve the plan.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    },
+    {
+      "id": "V-B1-08-REV-15",
+      "item": "review",
+      "thai": "ทบทวน",
+      "example": "We will review the arrangement next week.",
+      "type": "SPIRAL_REVIEW",
+      "learningRole": "CUMULATIVE_REVIEW"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "G-B1-08-1",
+      "form": "noticed / found / could not tell",
+      "use": "แยกสิ่งที่เห็นกับสิ่งที่ไม่รู้",
+      "example": "They found litter but could not tell who left it."
+    },
+    {
+      "id": "G-B1-08-2",
+      "form": "propose + noun/-ing",
+      "use": "เสนอการทดลอง",
+      "example": "We propose adding a bin."
+    },
+    {
+      "id": "G-B1-08-3",
+      "form": "could / might",
+      "use": "ลดความแน่นอนของข้อสรุป",
+      "example": "Other factors might explain the change."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "B1-08-READ-A",
+      "kind": "READING",
+      "label": "Reading A",
+      "text": "Residents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town."
+    },
+    {
+      "id": "B1-08-READ-B",
+      "kind": "READING",
+      "label": "Reading B",
+      "text": "Trial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan."
+    },
+    {
+      "id": "B1-08-LISTEN-A",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script A",
+      "text": "A: Does the count prove visitors don't care?\nB: No. It only shows where we found litter.\nA: What should we try?\nB: Clear signs and one extra bin, then another count.\nA: Let's keep the counting method the same."
+    },
+    {
+      "id": "B1-08-LISTEN-B",
+      "kind": "LISTENING_SCRIPT",
+      "label": "Listening script B",
+      "text": "Describe the observation before suggesting a cause. Compare like with like: the same area, time and method. If the number changes, consider other explanations such as event size or weather. Present the trial as a proposal, not a guaranteed solution."
+    }
+  ],
+  "pronunciation": "Use thought groups to make a connected account easy to follow. Stress contrasts and important dates. Repair a sentence calmly when needed; a useful repair is stronger than continuing with a misleading claim.",
+  "rubricVersion": "EMH-COURSE-RUBRIC-B1-0.1",
+  "rubric": {
+    "id": "EMH-COURSE-RUBRIC-B1-0.1",
+    "level": "B1",
+    "dimensions": [
+      "Task achievement and relevance",
+      "Source fidelity and qualification",
+      "Organisation and coherence",
+      "Language use and interaction"
+    ],
+    "scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "descriptors": "Target B1: Produce connected accounts and reasons on familiar matters; explain practical problems and preserve essential information when relaying it.\n4 — Fully achieves the specified purpose with precise relevant detail, coherent organisation and effective control at this target level.\n3 — Achieves the main purpose; minor omissions or language lapses do not materially distort meaning.\n2 — Partially achieves the purpose; important detail, organisation or language needs revision.\n1 — Limited assessable evidence; major gaps or distortion impede the task.\n0 — No assessable response or wholly unrelated response.\nRate each dimension separately. For mediation, invented facts, erased conditions or reversed agency prevent a high fidelity score. Do not penalise an accent or a defensible alternative phrasing. Scores describe this task only, not certified CEFR attainment.",
+    "status": "PRE_HUMAN_CONTENT_COMPLETE"
+  },
+  "retrieval": [
+    {
+      "id": "RET-B1-08-1",
+      "suggestedDay": 1,
+      "prompt": "Without notes: recall 2 target expressions from Environment & Community; explain one source detail and use noticed / found / could not tell in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-08-2",
+      "suggestedDay": 3,
+      "prompt": "Without notes: recall 3 target expressions from Environment & Community; explain one source detail and use propose + noun/-ing in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-08-3",
+      "suggestedDay": 7,
+      "prompt": "Without notes: recall 4 target expressions from Environment & Community; explain one source detail and use could / might in a new example. Check meaning after attempting recall."
+    },
+    {
+      "id": "RET-B1-08-4",
+      "suggestedDay": 21,
+      "prompt": "Without notes: recall 5 target expressions from Environment & Community; explain one source detail and use noticed / found / could not tell in a new example. Check meaning after attempting recall."
+    }
+  ],
+  "remediation": [
+    {
+      "errorTag": "B1-08_SOURCE_FIDELITY",
+      "action": "Return to Readings A/B; underline the evidence for your statement, restore any lost condition, and say explicitly what remains unknown. Retry Q-B1-08-015 and the mediation task."
+    },
+    {
+      "errorTag": "B1-08_LANGUAGE_USE",
+      "action": "Revisit the three Lesson 2 models. Identify the intended function, correct the form, and produce a new example. Retrieve the missed expression again after one day."
+    }
+  ],
+  "masteryCheck": {
+    "status": "DRAFT_UNCALIBRATED",
+    "objectiveItemIds": [
+      "Q-B1-08-001",
+      "Q-B1-08-002",
+      "Q-B1-08-003",
+      "Q-B1-08-004",
+      "Q-B1-08-005",
+      "Q-B1-08-006",
+      "Q-B1-08-007",
+      "Q-B1-08-008",
+      "Q-B1-08-009",
+      "Q-B1-08-010",
+      "Q-B1-08-011",
+      "Q-B1-08-012"
+    ],
+    "comprehensionItemIds": [
+      "Q-B1-08-013",
+      "Q-B1-08-014",
+      "Q-B1-08-015",
+      "Q-B1-08-016"
+    ],
+    "productiveTaskIds": [
+      "TASK-B1-08-1",
+      "TASK-B1-08-2",
+      "TASK-B1-08-3",
+      "TASK-B1-08-4"
+    ],
+    "decision": "Record evidence by construct; no pass mark or CEFR certification without human standard setting."
+  },
+  "reviewLog": {
+    "academic": "PENDING",
+    "language": "PENDING",
+    "thai": "PENDING",
+    "construct": "PENDING",
+    "level": "PENDING",
+    "fairness": "PENDING",
+    "copyright": "PENDING",
+    "audio": "PENDING",
+    "learnerPilot": "NOT_RUN",
+    "reviewers": []
+  },
+  "copyright": {
+    "owner": "Original project manuscript",
+    "externalTextCopied": false,
+    "reference": "https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors",
+    "referenceUse": "Framework orientation only; these are original teaching targets, not quoted descriptors."
+  },
+  "audioStatus": "PRODUCTION_AND_QC_PENDING",
+  "derivation": {
+    "sourceFile": "B1.json",
+    "sourceUnitId": "B1-08",
+    "sourceChecksum": "8af9238d7508aacbe93bbb5a3d63b1b4965872d89945beaced7b05e4645a6328"
+  },
+  "sourceText": "{\n  \"id\": \"B1-08\",\n  \"aim\": \"เสนอการเปลี่ยนแปลงในชุมชนโดยใช้ข้อมูลที่จำกัดอย่างรับผิดชอบ\",\n  \"a\": \"Residents noticed litter near the community garden after weekend events. Some wanted more bins; others thought the problem was unclear signs. A volunteer group counted visible litter in two areas on three mornings. They found more items beside the entrance, but they could not tell who had left them. The group proposed a two-week trial with clearer signs and one extra bin. They planned to count again using the same method. Their small observation could guide a local trial, but it could not prove why people behaved as they did or represent every part of the town.\",\n  \"b\": \"Trial plan: Put one extra bin near the garden entrance. Add signs at both exits. Count visible litter at the same time on six mornings. Record event size and weather. Review the result before expanding the plan.\",\n  \"l1\": \"A: Does the count prove visitors don't care?\\nB: No. It only shows where we found litter.\\nA: What should we try?\\nB: Clear signs and one extra bin, then another count.\\nA: Let's keep the counting method the same.\",\n  \"l2\": \"Describe the observation before suggesting a cause. Compare like with like: the same area, time and method. If the number changes, consider other explanations such as event size or weather. Present the trial as a proposal, not a guaranteed solution.\",\n  \"v\": \"residents=คนในพื้นที่;litter=ขยะที่ทิ้งเรี่ยราด;bins=ถังขยะ;signs=ป้าย;volunteer=อาสาสมัคร;visible=ที่มองเห็น;entrance=ทางเข้า;proposed=เสนอ;trial=การทดลอง;method=วิธีการ;observation=ข้อสังเกต;represent=เป็นตัวแทน;expanding=ขยาย;cause=สาเหตุ;guaranteed=รับประกัน\",\n  \"g\": [\n    [\n      \"noticed / found / could not tell\",\n      \"แยกสิ่งที่เห็นกับสิ่งที่ไม่รู้\",\n      \"They found litter but could not tell who left it.\"\n    ],\n    [\n      \"propose + noun/-ing\",\n      \"เสนอการทดลอง\",\n      \"We propose adding a bin.\"\n    ],\n    [\n      \"could / might\",\n      \"ลดความแน่นอนของข้อสรุป\",\n      \"Other factors might explain the change.\"\n    ]\n  ],\n  \"q\": [\n    [\n      \"Where was more litter found?\",\n      \"beside the entrance\",\n      \"a\"\n    ],\n    [\n      \"How long is the proposed trial?\",\n      \"two weeks\",\n      \"a\"\n    ],\n    [\n      \"On how many mornings will the new count happen?\",\n      \"six\",\n      \"b\"\n    ],\n    [\n      \"Does the count prove that visitors do not care?\",\n      \"no\",\n      \"l1\"\n    ]\n  ]\n}\n",
+  "checksum": "6d04f10ef64943d18b7b7bdf4130a5a3089f9f027ea84e8042889e8ac53d6a15"
+}
